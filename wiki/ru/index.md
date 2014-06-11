@@ -48,10 +48,6 @@ Id int(11) AI PK, Language varchar(45), Title varchar(45), Name varchar(45)
 ####core_UserParams
 Id int(11) AI PK, UserGuidvarchar(36), UsedLangsvarchar(1024)
 
-    local web server.** For example, you can run Python's built-in server:
-
-    python -m SimpleHTTPServer 8888 &
-
 or for Python 3+
 
 ##IIS
@@ -60,9 +56,9 @@ or for Python 3+
 3.	конфигурируем IIS
 4.	в web.config приложения находим конфигурацию строки подключения к БД
 
-```js
-<add name="MySqlWrioCore" connectionString="Data Source=xx.xx.xx.xx; Port=3306; Database=db_name; uid=xxxxxx; pwd=xxxxxxxxxxx;" providerName="MySql.Data.MySqlClient" />
-```
+
+    <add name="MySqlWrioCore" connectionString="Data Source=xx.xx.xx.xx; Port=3306; Database=db_name; uid=xxxxxx; pwd=xxxxxxxxxxx;" providerName="MySql.Data.MySqlClient" />
+
 изменяем нужные параметры.
 
 
