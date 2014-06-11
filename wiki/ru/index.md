@@ -118,7 +118,6 @@ Lang varchar(45)
 
 ####TwitterTokens
 ```bash
-Id int(11
 Id int(11) AI PK
 UserGuidvarchar(36)
 OauthTokenvarchar(128)
