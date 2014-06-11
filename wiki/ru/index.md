@@ -57,7 +57,7 @@ or for Python 3+
 4.	в web.config приложения находим конфигурацию строки подключения к БД
 
 ```bash
-    <add name="MySqlWrioCore" connectionString="Data Source=xx.xx.xx.xx; Port=3306; Database=db_name; uid=xxxxxx; pwd=xxxxxxxxxxx;" providerName="MySql.Data.MySqlClient" />
+<add name="MySqlWrioCore" connectionString="Data Source=xx.xx.xx.xx; Port=3306; Database=db_name; uid=xxxxxx; pwd=xxxxxxxxxxx;" providerName="MySql.Data.MySqlClient" />
 ```
 
 
