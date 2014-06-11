@@ -55,7 +55,7 @@ PostIdint(11)
 Tag varchar(45)
 ```
 
-####"core_Apps"
+####core_Apps
 ```bash
 Id int(11) AI PK
 Added datetime
