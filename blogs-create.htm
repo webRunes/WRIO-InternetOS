@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official webRunes WRIO OS node">
+    <meta name="author" content="webRunes">
+
+    <title>webRunes</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/webrunes.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container-liquid">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu" role="navigation">
+                    <div class="navbar-header tooltip-demo">
+                        <ul class="nav menu pull-right">
+                            <li data-toggle="tooltip" data-placement="bottom" title="Call IA"><a href="#" class="btn-link btn-sm active call-ia"><span class="glyphicon glyphicon-comment"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Logout"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Full screen"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Open/close menu"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Show/hide the sidebar"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
+                        </ul>
+                        <a href="webrunes-contact.htm" class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Contact us">&nbsp;</a>
+                    </div>
+                    <div class="navbar-collapse in">
+                        <ul class="nav navbar-nav" id="nav-accordion">
+                            <li class="panel"><a href="#element1" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse">WRIO</a>
+                                <div class="collapse" id="element1">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Alexey Anshakov</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">News name</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel"><a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
+                                <div class="collapse" id="element2">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Blogs</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Science</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Best photos</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Animals</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel active"><a href="#element3" class="collapse" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
+                                <div class="in" id="element3">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">My best post</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Great blogs review</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="new panel"><a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
+                                <div class="collapse" id="element4"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content col-xs-12 col-sm-5 col-md-7">
+                <div class="margin">
+                    <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
+                        <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
+                            <div class="in" id="profile-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="col-xs-12 col-md-6 col-lg-5">
+                                            <img src="img/profile1.jpg" class="pull-left">
+                                            <ul class="details">
+                                                <li>Name: Alexey Anshakov</li>
+                                                <li>Registered: 22 Jun 2013</li>
+                                                <li>Rating: 244</li>
+                                                <li>Followers: 1,634</li>
+                                                <li>Posts: 1,634</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 col-lg-7">
+                                            <div class="media-body">
+                                                Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="breadcrumb">
+                        <li class="active">Create</li>
+                    </ul>
+                    <div class="callout">
+                        <h5>Помните,</h5>
+                        <p>вы в любой момент можете <a href="#">вызвать IA</a>, если не знаете что делать дальше и вам нужна помощь или подсказка</p>
+                    </div>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group has-error">
+                            <label for="id-URL" class="col-sm-4 col-md-3 control-label">URL or code</label>
+                            <div class="col-sm-8 col-md-9">
+                                <input type="url" class="form-control step0" id="id-URL">
+                                <div class="help-block">Field is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                                <a href="blogs-create-details.htm" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Submit</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!--                    <ul class="info nav nav-pills nav-stacked" id="help-accordion">
+                        <li class="panel"><a href="#help-element" data-parent="#help-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Need help?</a>
+                            <div class="in" id="help-element">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">How to publish a post from a social network</a></li>
+                                    <li><a href="#">How to publish a video post</a></li>
+                                    <li><a href="#">How to publish a photo post</a></li>
+                                    <li><a href="#">How to publish a link post</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>-->
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                <div class="sidebar-margin">
+                    <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
+                        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Hub</a>
+                            <div class="in" id="ticket-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="col-xs-12">
+                                            <img src="img/no-photo.png" class="pull-left">
+                                            <ul class="details">
+                                                <li>Name: Blogs</li>
+                                                <li>Created: 22 Jun 2013</li>
+                                                <li>Unread: 48</li>
+                                                <li>Rating: 244 · 3 level</li>
+                                                <li>Subscribers: 1 634</li>
+                                                <li>Access: Free · Read &amp; Write</li>
+                                                <li>Language: English</li>
+                                                <li>Owner: Public</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="media-body">
+                                                Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="margin-bottom">
+                        <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-pencil"></span>Create</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-ok-sign"></span>Subscribe</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked" id="sidebar-accordion">
+                        <li class="panel"><a href="#sidebar-element1" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Cover</a>
+                            <div class="in" id="sidebar-element1">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="blogs-about.htm">About</a></li>
+                                    <li><a href="#">Authors</a></li>
+                                    <li><a href="#">Editors</a></li>
+                                    <li><a href="#"><span class="label label-success pull-right">Class A</span>Terms</a></li>
+                                    <li><a href="#"><span class="label label-danger pull-right">Class E</span>Privacy</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="panel"><a href="#sidebar-element2" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Shares</a>
+                            <div class="collapse" id="sidebar-element2">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">Buy</a></li>
+                                    <li><a href="#">Sell</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="blogs-feed.htm">Feed</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/offcanvas.js"></script>
+
+    <script src="js/bootstrap-tour.min.js"></script>
+    <script src="js/conversations/conversation-author-contact.js"></script>
+</body>
+</html>
