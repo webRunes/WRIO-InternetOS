@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official webRunes WRIO OS node">
+    <meta name="author" content="webRunes">
+
+    <title>webRunes</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/webrunes.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container-liquid">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu" role="navigation">
+                    <div class="navbar-header">
+                        <ul class="nav menu pull-right">
+                            <li><a href="webrunes-contact.htm" class="btn-link btn-sm"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
+                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
+                        </ul>
+                        <a href="#" class="navbar-brand">&nbsp;</a>
+                    </div>
+                    <div class="navbar-collapse in">
+                        <ul class="nav navbar-nav" id="nav-accordion">
+                            <li class="panel active"><a href="#element1" class="collapse" data-parent="#nav-accordion" data-toggle="collapse">WRIO</a>
+                                <div class="in" id="element1">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Alexey Anshakov</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">News name</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel"><a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
+                                <div class="collapse" id="element2">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Blogs</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Science</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Best photos</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Animals</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel"><a href="#element3" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
+                                <div class="collapse" id="element3">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="blogs-post.htm">in. Part 1: Vision of the Internet Future</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">My best post</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Great blogs review</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="new panel"><a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
+                                <div class="collapse" id="element4"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content col-xs-12 col-sm-5 col-md-7">
+                <div class="margin">
+                    <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
+                        <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
+                            <div class="in" id="profile-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="col-xs-12 col-md-6 col-lg-5">
+                                            <img src="img/profile1.jpg" class="pull-left">
+                                            <ul class="details">
+                                                <li>Name: Alexey Anshakov</li>
+                                                <li>Registered: 22 Jun 2013</li>
+                                                <li>Rating: 244</li>
+                                                <li>Followers: 1,634</li>
+                                                <li>Posts: 1,634</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 col-lg-7">
+                                            <div class="media-body">
+                                                Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="breadcrumb">
+                        <li class="active">Language</li>
+                    </ul>
+                    <article class="post">
+                        <h1>Choose languages</h1>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                Выберите все языки на которых вы хотите читать и создавать посты. Установка влияет на языковой выбор при создании поста. 
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7">
+                                <div class="callout">
+                                    <h6>Notification</h6>
+                                    <p>Вы можете создавать посты на любых языках и распространять ссылки на них самостоятельно среди друзей, в соцсетях и любыми другими методами, однако наша система пока не будет отображать их в feeds и рекомендовать другим пользователям. Она научится работать с другими языками позже</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <form class="form-horizontal" role="form">
+                        <ul class="nav nav-pills nav-stacked tooltip-demo col-xs-6 col-md-6 col-lg-5">
+                            <li><a href="#" id="so_SO" data-toggle="tooltip" data-placement="right" title="Somali">Af-Soomaali</a></li>
+                            <li><a href="#" id="af_ZA" data-toggle="tooltip" data-placement="right" title="Afrikaans">Afrikaans</a></li>
+                            <li><a href="#" id="ay_BO" data-toggle="tooltip" data-placement="right" title="Aymara">Aymar aru</a></li>
+                            <li><a href="#" id="az_AZ" data-toggle="tooltip" data-placement="right" title="Azerbaijani">Azərbaycan dili</a></li>
+                            <li><a href="#" id="id_ID" data-toggle="tooltip" data-placement="right" title="Indonesian">Bahasa Indonesia</a></li>
+                            <li><a href="#" id="ms_MY" data-toggle="tooltip" data-placement="right" title="Malay">Bahasa Melayu</a></li>
+                            <li><a href="#" id="jv_ID" data-toggle="tooltip" data-placement="right" title="Javanese">Basa Jawa</a></li>
+                            <li><a href="#" id="cx_PH" data-toggle="tooltip" data-placement="right" title="Cebuano">Bisaya</a></li>
+                            <li><a href="#" id="bs_BA" data-toggle="tooltip" data-placement="right" title="Bosnian">Bosanski</a></li>
+                            <li><a href="#" id="ca_ES" data-toggle="tooltip" data-placement="right" title="Catalan">Català</a></li>
+                            <li><a href="#" id="cs_CZ" data-toggle="tooltip" data-placement="right" title="Czech">Čeština</a></li>
+                            <li><a href="#" id="ck_US" data-toggle="tooltip" data-placement="right" title="Cherokee">Cherokee</a></li>
+                            <li><a href="#" id="cy_GB" data-toggle="tooltip" data-placement="right" title="Welsh">Cymraeg</a></li>
+                            <li><a href="#" id="da_DK" data-toggle="tooltip" data-placement="right" title="Danish">Dansk</a></li>
+                            <li><a href="#" id="se_NO" data-toggle="tooltip" data-placement="right" title="Northern Sámi">Davvisámegiella</a></li>
+                            <li><a href="#" id="de_DE" data-toggle="tooltip" data-placement="right" title="German">Deutsch</a></li>
+                            <li><a href="#" id="et_EE" data-toggle="tooltip" data-placement="right" title="Estonian">Eesti</a></li>
+                            <li><a href="#" id="en_IN" data-toggle="tooltip" data-placement="right" title="English (India)">English (India)</a></li>
+                            <li><a href="#" id="en_GB" data-toggle="tooltip" data-placement="right" title="English (UK)">English (UK)</a></li>
+                            <li class="active"><a href="#" id="en_US" data-toggle="tooltip" data-placement="right" title="English (US)"><span class="glyphicon glyphicon-ok pull-right" data-toggle="tooltip" data-placement="right" title="available"></span>English (US)</a></li>
+                            <li><a href="#" id="es_LA" data-toggle="tooltip" data-placement="right" title="Spanish">Español</a></li>
+                            <li><a href="#" id="es_CL" data-toggle="tooltip" data-placement="right" title="Spanish (Chile)">Español (Chile)</a></li>
+                            <li><a href="#" id="es_CO" data-toggle="tooltip" data-placement="right" title="Spanish (Colombia)">Español (Colombia)</a></li>
+                            <li><a href="#" id="es_ES" data-toggle="tooltip" data-placement="right" title="Spanish (Spain)">Español (España)</a></li>
+                            <li><a href="#" id="es_MX" data-toggle="tooltip" data-placement="right" title="Spanish (Mexico)">Español (México)</a></li>
+                            <li><a href="#" id="es_VE" data-toggle="tooltip" data-placement="right" title="Spanish (Venezuela)">Español (Venezuela)</a></li>
+                            <li><a href="#" id="eo_EO" data-toggle="tooltip" data-placement="right" title="Esperanto">Esperanto</a></li>
+                            <li><a href="#" id="eu_ES" data-toggle="tooltip" data-placement="right" title="Basque">Euskara</a></li>
+                            <li><a href="#" id="tl_PH" data-toggle="tooltip" data-placement="right" title="Filipino">Filipino</a></li>
+                            <li><a href="#" id="fo_FO" data-toggle="tooltip" data-placement="right" title="Faroese">Føroyskt</a></li>
+                            <li><a href="#" id="fr_CA" data-toggle="tooltip" data-placement="right" title="French (Canada)">Français (Canada)</a></li>
+                            <li class="active"><a href="#" id="fr_FR" data-toggle="tooltip" data-placement="right" title="French (France)"><span class="glyphicon glyphicon-ok pull-right" data-toggle="tooltip" data-placement="right" title="available"></span>Français (France)</a></li>
+                            <li><a href="#" id="fy_NL" data-toggle="tooltip" data-placement="right" title="Frisian">Frysk</a></li>
+                            <li><a href="#" id="ga_IE" data-toggle="tooltip" data-placement="right" title="Irish">Gaeilge</a></li>
+                            <li><a href="#" id="gl_ES" data-toggle="tooltip" data-placement="right" title="Galician">Galego</a></li>
+                            <li><a href="#" id="gn_PY" data-toggle="tooltip" data-placement="right" title="Guarani">Guarani</a></li>
+                            <li><a href="#" id="hr_HR" data-toggle="tooltip" data-placement="right" title="Croatian">Hrvatski</a></li>
+                            <li><a href="#" id="xh_ZA" data-toggle="tooltip" data-placement="right" title="Xhosa">isiXhosa</a></li>
+                            <li><a href="#" id="zu_ZA" data-toggle="tooltip" data-placement="right" title="Zulu">isiZulu</a></li>
+                            <li><a href="#" id="is_IS" data-toggle="tooltip" data-placement="right" title="Icelandic">Íslenska</a></li>
+                            <li><a href="#" id="it_IT" data-toggle="tooltip" data-placement="right" title="Italian">Italiano</a></li>
+                            <li><a href="#" id="sw_KE" data-toggle="tooltip" data-placement="right" title="Swahili">Kiswahili</a></li>
+                            <li><a href="#" id="ku_TR" data-toggle="tooltip" data-placement="right" title="Kurdish">Kurdî</a></li>
+                            <li><a href="#" id="lv_LV" data-toggle="tooltip" data-placement="right" title="Latvian">Latviešu</a></li>
+                            <li><a href="#" id="lt_LT" data-toggle="tooltip" data-placement="right" title="Lithuanian">Lietuvių</a></li>
+                            <li><a href="#" id="li_NL" data-toggle="tooltip" data-placement="right" title="Limburgish">Limburgs</a></li>
+                            <li><a href="#" id="la_VA" data-toggle="tooltip" data-placement="right" title="Latin">lingua latina</a></li>
+                            <li><a href="#" id="hu_HU" data-toggle="tooltip" data-placement="right" title="Hungarian">Magyar</a></li>
+                            <li><a href="#" id="mg_MG" data-toggle="tooltip" data-placement="right" title="Malagasy">Malagasy</a></li>
+                            <li><a href="#" id="mt_MT" data-toggle="tooltip" data-placement="right" title="Maltese">Malti</a></li>
+                            <li><a href="#" id="nl_NL" data-toggle="tooltip" data-placement="right" title="Dutch">Nederlands</a></li>
+                            <li><a href="#" id="nl_BE" data-toggle="tooltip" data-placement="right" title="Dutch (België)">Nederlands (België)</a></li>
+                            <li><a href="#" id="nb_NO" data-toggle="tooltip" data-placement="right" title="Norwegian (bokmal)">Norsk (bokmål)</a></li>
+                            <li><a href="#" id="nn_NO" data-toggle="tooltip" data-placement="right" title="Norwegian (nynorsk)">Norsk (nynorsk)</a></li>
+                            <li><a href="#" id="uz_UZ" data-toggle="tooltip" data-placement="right" title="Uzbek">O'zbek</a></li>
+                            <li><a href="#" id="pl_PL" data-toggle="tooltip" data-placement="right" title="Polish">Polski</a></li>
+                            <li><a href="#" id="pt_BR" data-toggle="tooltip" data-placement="right" title="Portuguese (Brazil)">Português (Brasil)</a></li>
+                            <li><a href="#" id="pt_PT" data-toggle="tooltip" data-placement="right" title="Portuguese (Portugal)">Português (Portugal)</a></li>
+                            <li><a href="#" id="qu_PE" data-toggle="tooltip" data-placement="right" title="Quechua">Qhichwa</a></li>
+                            <li><a href="#" id="ro_RO" data-toggle="tooltip" data-placement="right" title="Romanian">Română</a></li>
+                            <li><a href="#" id="rm_CH" data-toggle="tooltip" data-placement="right" title="Romansh">Rumantsch</a></li>
+                            <li><a href="#" id="sq_AL" data-toggle="tooltip" data-placement="right" title="Albanian">Shqip</a></li>
+                            <li><a href="#" id="sk_SK" data-toggle="tooltip" data-placement="right" title="Slovak">Slovenčina</a></li>
+                            <li><a href="#" id="sl_SI" data-toggle="tooltip" data-placement="right" title="Slovenian">Slovenščina</a></li>
+                            <li><a href="#" id="fi_FI" data-toggle="tooltip" data-placement="right" title="Finnish">Suomi</a></li>
+                            <li><a href="#" id="sv_SE" data-toggle="tooltip" data-placement="right" title="Swedish">Svenska</a></li>
+                            <li><a href="#" id="vi_VN" data-toggle="tooltip" data-placement="right" title="Vietnamese">Tiếng Việt</a></li>
+                            <li><a href="#" id="tr_TR" data-toggle="tooltip" data-placement="right" title="Turkish">Türkçe</a></li>
+                            <li><a href="#" id="el_GR" data-toggle="tooltip" data-placement="right" title="Greek">Ελληνικά</a></li>
+                            <li><a href="#" id="gx_GR" data-toggle="tooltip" data-placement="right" title="Classical Greek">Ἑλληνική ἀρχαία</a></li>
+                            <li><a href="#" id="be_BY" data-toggle="tooltip" data-placement="right" title="Belarusian">Беларуская</a></li>
+                            <li><a href="#" id="bg_BG" data-toggle="tooltip" data-placement="right" title="Bulgarian">Български</a></li>
+                            <li><a href="#" id="kk_KZ" data-toggle="tooltip" data-placement="right" title="Kazakh">Қазақша</a></li>
+                            <li><a href="#" id="mk_MK" data-toggle="tooltip" data-placement="right" title="Macedonian">Македонски</a></li>
+                            <li><a href="#" id="mn_MN" data-toggle="tooltip" data-placement="right" title="Mongolian">Монгол</a></li>
+                            <li class="active"><a href="#" id="ru_RU" data-toggle="tooltip" data-placement="right" title="Russian"><span class="glyphicon glyphicon-ok pull-right" data-toggle="tooltip" data-placement="right" title="available"></span>Русский</a></li>
+                            <li><a href="#" id="sr_RS" data-toggle="tooltip" data-placement="right" title="Serbian">Српски</a></li>
+                            <li><a href="#" id="tt_RU" data-toggle="tooltip" data-placement="right" title="Tatar">Татарча</a></li>
+                            <li><a href="#" id="tg_TJ" data-toggle="tooltip" data-placement="right" title="Tajik">тоҷикӣ</a></li>
+                            <li><a href="#" id="uk_UA" data-toggle="tooltip" data-placement="right" title="Ukrainian">Українська</a></li>
+                            <li><a href="#" id="ka_GE" data-toggle="tooltip" data-placement="right" title="Georgian">ქართული</a></li>
+                            <li><a href="#" id="hy_AM" data-toggle="tooltip" data-placement="right" title="Armenian">Հայերեն</a></li>
+                            <li><a href="#" id="yi_DE" data-toggle="tooltip" data-placement="right" title="Yiddish">ייִדיש</a></li>
+                            <li><a href="#" id="he_IL" data-toggle="tooltip" data-placement="right" title="Hebrew">עברית</a></li>
+                            <li><a href="#" id="ur_PK" data-toggle="tooltip" data-placement="right" title="Urdu">اردو</a></li>
+                            <li><a href="#" id="ar_AR" data-toggle="tooltip" data-placement="right" title="Arabic">العربية</a></li>
+                            <li><a href="#" id="ps_AF" data-toggle="tooltip" data-placement="right" title="Pashto">پښتو</a></li>
+                            <li><a href="#" id="fa_IR" data-toggle="tooltip" data-placement="right" title="Persian">فارسی</a></li>
+                            <li><a href="#" id="sy_SY" data-toggle="tooltip" data-placement="right" title="Syriac">ܐܪܡܝܐ</a></li>
+                            <li><a href="#" id="ne_NP" data-toggle="tooltip" data-placement="right" title="Nepali">नेपाली</a></li>
+                            <li><a href="#" id="mr_IN" data-toggle="tooltip" data-placement="right" title="Marathi">मराठी</a></li>
+                            <li><a href="#" id="sa_IN" data-toggle="tooltip" data-placement="right" title="Sanskrit">संस्कृतम्</a></li>
+                            <li><a href="#" id="hi_IN" data-toggle="tooltip" data-placement="right" title="Hindi">हिन्दी</a></li>
+                            <li><a href="#" id="bn_IN" data-toggle="tooltip" data-placement="right" title="Bengali">বাংলা</a></li>
+                            <li><a href="#" id="pa_IN" data-toggle="tooltip" data-placement="right" title="Punjabi">ਪੰਜਾਬੀ</a></li>
+                            <li><a href="#" id="gu_IN" data-toggle="tooltip" data-placement="right" title="Gujarati">ગુજરાતી</a></li>
+                            <li><a href="#" id="or_IN" data-toggle="tooltip" data-placement="right" title="Oriya">ଓଡ଼ିଆ</a></li>
+                            <li><a href="#" id="ta_IN" data-toggle="tooltip" data-placement="right" title="Tamil">தமிழ்</a></li>
+                            <li><a href="#" id="te_IN" data-toggle="tooltip" data-placement="right" title="Telugu">తెలుగు</a></li>
+                            <li><a href="#" id="kn_IN" data-toggle="tooltip" data-placement="right" title="Kannada">ಕನ್ನಡ</a></li>
+                            <li><a href="#" id="ml_IN" data-toggle="tooltip" data-placement="right" title="Malayalam">മലയാളം</a></li>
+                            <li><a href="#" id="si_LK" data-toggle="tooltip" data-placement="right" title="Sinhala">සිංහල</a></li>
+                            <li><a href="#" id="th_TH" data-toggle="tooltip" data-placement="right" title="Thai">ภาษาไทย</a></li>
+                            <li><a href="#" id="my_MM" data-toggle="tooltip" data-placement="right" title="Burmese">မြန်မာဘာသာ</a></li>
+                            <li><a href="#" id="km_KH" data-toggle="tooltip" data-placement="right" title="Khmer">ភាសាខ្មែរ</a></li>
+                            <li><a href="#" id="ko_KR" data-toggle="tooltip" data-placement="right" title="Korean">한국어</a></li>
+                            <li><a href="#" id="zh_TW" data-toggle="tooltip" data-placement="right" title="Traditional Chinese (Taiwan)">中文(台灣)</a></li>
+                            <li><a href="#" id="zh_CN" data-toggle="tooltip" data-placement="right" title="Simplified Chinese (China)">中文(简体)</a></li>
+                            <li><a href="#" id="zh_HK" data-toggle="tooltip" data-placement="right" title="Traditional Chinese (Hong Kong)">中文(香港)</a></li>
+                            <li><a href="#" id="ja_JP" data-toggle="tooltip" data-placement="right" title="Japanese">日本語</a></li>
+                        </ul>
+                        <div class="form-group col-xs-12">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                <div class="sidebar-margin">
+                    <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
+                        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>App</a>
+                            <div class="in" id="ticket-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="col-xs-12">
+                                            <img src="img/wrio-preview.jpg" class="pull-left">
+                                            <ul class="details">
+                                                <li>Name: WRIO</li>
+                                                <li>Created: 22 Jun 2013</li>
+                                                <li>Rating: 244</li>
+                                                <li>Users: 1,634</li>
+                                                <li>Access: Free &middot; Open source</li>
+                                                <li>Owner: webRunes</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="media-body">
+                                                Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="margin-bottom tooltip-demo">
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
+                        <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus"></span>Added</button>
+                        <button type="button" class="btn btn-default btn-block disabled" data-toggle="tooltip" data-placement="left" title="Not yet available"><span class="glyphicon glyphicon-download"></span>Download source</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked" id="sidebar-accordion">
+                        <li class="panel"><a href="#sidebar-element1" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Cover</a>
+                            <div class="collapse" id="sidebar-element1">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#"><span class="pull-right">3</span>News</a></li>
+                                    <li><a href="wrio-about.htm">About</a></li>
+                                    <li><a href="wrio-terms.htm"><span class="label label-success pull-right">Class A</span>Terms</a></li>
+                                    <li><a href="wrio-privacy.htm"><span class="label label-success pull-right">Class A</span>Privacy</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="panel"><a href="#sidebar-element2" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Content</a>
+                            <div class="collapse" id="sidebar-element2">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">History</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="panel"><a href="#sidebar-element3" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Manage</a>
+                            <div class="in" id="sidebar-element3">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">Profiles</a></li>
+                                    <li class="active"><a href="#">Languages</a></li>
+                                    <li><a href="#">Apps</a></li>
+                                    <li><a href="#">Hubs</a></li>
+                                    <li><a href="#">Posts</a></li>
+                                    <li><a href="#">Videos</a></li>
+                                    <li><a href="#">Audios</a></li>
+                                    <li><a href="#">Books</a></li>
+                                    <li><a href="#">Places</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Followers</a></li>
+                    </ul>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="#">Alexey Anshakov</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/offcanvas.js"></script>
+</body>
+</html>

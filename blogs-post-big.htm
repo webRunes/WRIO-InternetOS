@@ -1,0 +1,532 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official webRunes WRIO OS node">
+    <meta name="author" content="webRunes">
+
+    <title>webRunes</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/webrunes.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .details li {
+            float: left;
+            margin: 0 8px;
+        }
+
+            .details li h3 {
+                margin: 8px 0 0;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container-liquid">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu" role="navigation">
+                    <div class="navbar-header tooltip-demo">
+                        <ul class="nav menu pull-right">
+                            <li data-toggle="tooltip" data-placement="bottom" title="Call IA"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-comment"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Logout"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Full screen"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Open/close menu"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Show/hide the sidebar"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
+                        </ul>
+                        <a href="webrunes-contact.htm" class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Contact us">&nbsp;</a>
+                    </div>
+                    <div class="navbar-collapse in">
+                        <ul class="nav navbar-nav" id="nav-accordion">
+                            <li class="panel"><a href="#element1" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">19 135<span class="currency">WRG</span></span>webGold</a>
+                                <div class="collapse" id="element1">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Help post</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel"><a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
+                                <div class="collapse" id="element2">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Blogs</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Science</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Best photos</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Animals</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="panel"><a href="#element3" class="collapse" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
+                                <div class="in" id="element3">
+                                    <ul class="nav nav-pills nav-stacked sub">
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">My best post</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Great blogs review</a></li>
+                                        <li class="active"><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="blogs-post.htm">in. Part 1: Vision of the Internet Future</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="new panel">
+                                <a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
+                                <div class="collapse" id="element4"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content col-xs-12 col-sm-5 col-md-7">
+                <div class="margin">
+                    <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
+                        <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
+                            <div class="in" id="profile-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="col-xs-12 col-md-6 col-lg-5">
+                                            <img src="img/profile1.jpg" class="pull-left">
+                                            <ul class="details">
+                                                <li>
+                                                    <h3>244</h3>
+                                                    <br />
+                                                    Rating</li>
+                                                <li>
+                                                    <h3>1,634</h3>
+                                                    <br />
+                                                    Followers</li>
+                                                <li>
+                                                    <h3>84</h3>
+                                                    <br />
+                                                    Posts</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 col-lg-7">
+                                            <div class="media-body">
+                                                Alexey Anshakov &middot; 22 Jun 2013<br />
+                                                Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="breadcrumb controls tooltip-demo">
+                        <li data-toggle="tooltip" data-placement="top" title="Read time"><span class="glyphicon glyphicon-time"></span><time datetime="2014-03-30">4-5 minutes</time></li>
+                        <li data-toggle="tooltip" data-placement="top" title="Last modified"><span class="glyphicon glyphicon-calendar"></span><time datetime="2014-03-30">30 May, 2014</time></li>
+                    </ul>
+                    <ul class="breadcrumb">
+                        <li class="active">Read</li>
+                    </ul>
+                    <div class="loading">
+                        <img src="img/loading.gif">
+                        Loading...
+                    </div>
+                    <div class="post">
+                        <div class="callout">
+                            <h5>Are you the author?</h5>
+                            <p>Please <a href="#">login</a> with @twitter_acc to confirm and get donations</p>
+                        </div>
+                        <h1>in. Part 1: Vision of the Internet Future</h1>
+                        <h6>domainname.com/original_post</h6>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                Disclaimer: We start a series of stories describing various issues and problems
+                                    that are related for the most part to the Internet, and our vision of possible ways
+                                    to solve them. Those will often be followed by previews of projects mentioned in
+                                    the stories. Keep in mind: some of them might change, some will remain just our
+                                    fantasy; at this moment we are a small team, but with a great desire to change this
+                                    world for the better or at least a little bit.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                Victor came home in an excellent mood – he scored another rarity for his collection
+                                    of the past. Gently taking a small slim and transparent plastic box with a logo
+                                    of a long gone company out of the package he curiously turned it over in his hands.
+                                    Full of excitement he opened it and took it to a brightly let window area to have
+                                    a better look at its contents. The disc had “CD-R 650 MB” written on it. He released
+                                    the disc from the case with a slight click. Victor turned it and saw barely visible
+                                    multi-color sun reflections across the room created by the mirror backside of the
+                                    disc.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                - You got it!
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                Victor’s younger brother rushed into the room as a whirlwind.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                - Give it to me! Let me see it!
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                He snatched the a bright item out of his brother’s hands while paying no attention
+                                    to Victor’s discontent with such an arrogant handling of the rarity. He then brought
+                                    the disc closer to his eyes.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                - Hum… Is it only 650 Mb? Well, they didn’t really save on physical space in the
+                                    past, if they wrote all of their data on such large size media with such small capacity.
+                                    Just imagine what how many of these will be required to record at least one holographic
+                                    movie!
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                His brother chuckled, however didn’t start to lecture once again about the past
+                                    formats and how much space they took. Instead he sat at the table-screen, entered
+                                    a password on its surface and opened his private “in” page. Few would use such this
+                                    term, it was a unified entry point for everyone and as such it was meaningless to
+                                    anybody’s identify. It was generally called “network”. Victor did read that not
+                                    so long ago the network was divided into separate fragments called “web sites” and
+                                    one needed to know their addresses to access them. They could be found through special
+                                    services called search engines, a rather popular feature at that time. He even knew
+                                    the name of one of it but it was odd and always skipped his memory. At some time
+                                    later new projects appeared.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                Their authors approached the problem from the other side and interchanged the core
+                                    of the things – now information was looking for the user not the other way around.
+                                    Victor was young and has just started to work in web development, he did however
+                                    has heard from his more experienced workmates that earlier instead of developing
+                                    logic and functionality of projects and filling them with data, people had to think
+                                    about such things like separate design and UI for each (!) site. He always felt
+                                    sorry for users who had to understand every time what and where was located and
+                                    at the same time they had to be content with what the owner of the resource felt
+                                    like adding. Or on another hand the user had to endure unnecessary elements of the
+                                    forced UI. At the same time developers had to face an insidious beast whose name
+                                    was cross-browser compatibility! Victor did not fully understand what the problem
+                                    was, but the expressions of those telling the story gave him an idea about the immensity
+                                    of the issue. Then phrases like “so that it would be displayed smoothly on the whole,
+                                    $#@!, zoo of devices!“ brought to his imagination terrible monsters that the web-developers
+                                    fought against like knights in glittering armor. Victor liked reading about knights.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                <img src="http://wr.webrunes.com/webRunes_files/tumblr_inline_mg5afa5tke1rugrdk.jpg" />
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7">
+                                <div class="callout">
+                                    <h5>Info</h5>
+                                    <p>Здесь может идти описание картинки, ссылка откуда взята, автор и пр. информация</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                While he did not know what “caching” meant he knew that in those days the connection
+                                    was slow and at the same time one had to download a lot of junk needed to correctly
+                                    display each separate web-site and besides much of that mess was duplicated many
+                                    times! However, he tried to be not naive and did not believe every single word he
+                                    was told: it often seemed to him that seniors simply pulled his leg and laughed
+                                    behind his back. He listened to the stories about attacks referred to with dreadful
+                                    words DDoS, or XSS, SQL with a lot of interest. For some reason he imagined virtual
+                                    ancient pirate like battles. It was probably because the word “pirates” was also
+                                    mentioned from time to time. But later he still had to ask more detailed questions
+                                    about the subject. And even if this was true many such attacks couldn’t happen today
+                                    as the system simply receives data textually (pure data) and sends is in a such
+                                    manner as well. So by default this data cannot harm neither client nor server. Furthermore,
+                                    this approach enables instant sending of small kilobyte pages since the client or
+                                    server receives only useful data without any HTML, JS and CSS junk.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                He also knew that earlier web pages were detached from the global processing. This
+                                    task was to a very limited extent solved by the search engines he thought of earlier.
+                                    He imagined them as the giants with clay feet. Victor liked looking for colorful
+                                    analogies. Millions bowed down to them every day to get an answer regarding the
+                                    network location of the required information and pity on you if you don’t know how
+                                    to ask correctly! Also he heard some blood curdling stories about spam and non-relevant
+                                    ads all over the place. The rumor has it that it was practically on every site.
+                                    Victor found it rather useful that now the network offered custom ads at the appropriate
+                                    moment based on his preferences and requirements but he couldn’t understand what
+                                    good it was to show the same canned ads to everyone. Authors of articles, books,
+                                    music, and video, manufacturers of various products – all of them had to participate
+                                    in the insane rush for consumers. And then these consumers also had to look for
+                                    the necessary information and products. An incredible amount of money was spent
+                                    for ads and that increased the prices not to mention that these ads were almost
+                                    never objective and simply deceived consumers or at best emiftished the goods.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7">
+                                <div class="callout warning">
+                                    <h5>Misspelling</h5>
+                                    <p>There is misspelling in <a href="#">emgiftished</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                The story was that at that time the pieces of network called websites were not able
+                                    to distinguish users and knew nothing about their interests. Once again Victor felt
+                                    sorry for the users. He pictured them as unfortunate small creatures wandering in
+                                    a huge labyrinth, trying to force their way to the required information through
+                                    the wilderness of ads and spam that grew in abundance as enormous trees and tried
+                                    to catch users with their nasty branches. And even if someone managed to avoid them,
+                                    it was too early to rejoice: one had to mind further steps as not to be trapped
+                                    by fraudulent websites that were spread all over the network. The Trust Level concept
+                                    was not used at that time as a universal tool that got rid of fakes and spam once
+                                    and for all.
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></div>
+                        </div>
+                        <div class="paragraph">
+                            <p class="col-xs-12 col-md-6 col-lg-5">
+                                However social networks were the craftiest! Many users didn’t even suspect or simply
+                                    didn’t listen to people warning about the risk of providing personal data to such
+                                    resources. Victor just shook his head in amazement and disbelief when he heard stories
+                                    about such networks. Now every user had an individual reliable Vault-server that
+                                    securely safeguarded the owner’s data. The theft of personal data is severely punished
+                                    but to think that someone was to give it to others on their own?? No, apparently
+                                    these were just tall tales or at least greatly exaggerated stories like many other
+                                    things told him by his senior colleagues about the Internet past. The only thing
+                                    that he didn’t doubt was that all user data was saved not on Vault-servers but locally
+                                    or on discs like the one he held in this hands – a piece of the past sparkling in
+                                    the sun rays!
+                            </p>
+                            <div class="col-xs-12 col-md-6 col-lg-7">
+                                <div class="callout">
+                                    <h5>Offer</h5>
+                                    <p>Like the post? But the author is invited by nobody. <a href="#">Invite the author!</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="active">Author</li>
+                        </ul>
+                        <div class="tickets">
+                            <div class="media thumbnail">
+                                <div class="col-xs-12 col-md-6 col-lg-5">
+                                    <img src="img/profile1.jpg" class="pull-left">
+                                    <ul class="details">
+                                        <li>Name: Alexey Anshakov</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-7">
+                                    <div class="media-body">
+                                        <div id="author-carousel" class="carousel slide" data-interval="false" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <div class="item active">
+                                                    Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                                    <ul class="actions">
+                                                        <li>User isn't registered on webRunes</li>
+                                                        <li><a href="#author-carousel" data-slide="next"><span class="glyphicon glyphicon-send"></span>Send Invite</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="item">
+                                                    Для того, чтобы отправить приглашение автору в Facebook сперва необходимо <a href="#author-carousel" data-slide="next">привязать свой Facebook account</a>.
+                                                </div>
+                                                <div class="item">
+                                                    <div class="form-group">
+                                                        <h4>Invitation text</h4>
+                                                        <textarea rows="6" class="form-control">Dear username!
+Мне понравился ваш пост опубликованный по адресу http://webrunes.com/post_url пользователем User Name. По какой-то причине он не пригласил вас на webRunes и я хочу исправить это. Ниже вы найдете ссылку-приглашение (URL приглашения).</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <a href="#author-carousel" data-slide="next" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok pull-left"></span>Submit</a>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <strong>Thank you!</strong> Приглашение было отправлено.
+                                                    <a href="#author-carousel" data-slide="next" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok pull-left"></span>Ok!</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="active">Shared by</li>
+                        </ul>
+                        <div class="tickets">
+                            <div class="media thumbnail">
+                                <div class="col-xs-12 col-md-6 col-lg-5">
+                                    <img src="img/no-photo.png" class="pull-left">
+                                    <ul class="details">
+                                        <li>
+                                            <h3>244</h3>
+                                            <br />
+                                            Rating</li>
+                                        <li>
+                                            <h3>1,634</h3>
+                                            <br />
+                                            Followers</li>
+                                        <li>
+                                            <h3>84</h3>
+                                            <br />
+                                            Posts</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-7">
+                                    <div class="media-body">
+                                        User name &middot; 22 Jun 2013<br />
+                                        Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                        <ul class="actions">
+                                            <li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li>
+                                            <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>Send message</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="active">Add comment</li>
+                        </ul>
+                        <div class="alert alert-warning">Comments disabled. <a href="#">Enable</a></div>
+                        <form class="margin-bottom" role="form">
+                            <div class="form-group">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    You've donated 10 WRG. The author received 82%, which amounts to 8.2 WRG or 0.19 USD. Thank you!<br />
+                                    More information on donations and percentage you can find <a href="#">here</a>
+                                </div>
+                                <ul class="leaders">
+                                    <li><span>Current balance&nbsp;</span>
+                                        <span>&nbsp;19 135<small class="currency">WRG</small><sup class="currency">76.54<span class="currency">USD</span>&middot<a href="webgold-add_funds.htm">Add funds</a></sup></span></li>
+                                </ul>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="form-group col-xs-12 col-md-4 col-lg-2">
+                                    <label class="col-sm-2 control-label" for="inputAmount">Donation</label>
+                                </div>
+                                <div class="form-group col-xs-12 col-md-4 col-lg-3 has-error">
+                                    <div class="input-group input-group-sm tooltip-demo">
+                                        <span class="input-group-addon">WRG</span>
+                                        <input type="number" class="form-control" id="inputAmount" value="0" min="0">
+                                        <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="The author will receive 82%, which amounts to 8.2 WRG or 0.19 USD. The bigger the donated amount, the bigger the received percentage up to 95%">82%</span>
+                                    </div>
+                                    <div class="help-block">Insufficient funds. <a href="webgold-add_funds.htm">Add funds</a></div>
+                                </div>
+                                <div class="form-group col-xs-12 col-md-4 col-lg-7 has-error">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon twitter-limit">72</span>
+                                        <input id="IDtweet_title" name="tweet_title" class="form-control" maxlength="72" placeholder="Title, hashtags or mentions. Max 72 characters" type="text">
+                                    </div>
+                                    <div class="help-block">Max 72 characters</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-12 has-error">
+                                <textarea rows="3" class="form-control" placeholder="Let us know your thoughts! Max 672 characters"></textarea>
+                                <div class="help-block">Max 672 characters</div>
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <div class="btn-group tooltip-demo">
+                                    <button type="button" class="btn btn-default active"><span class="glyphicon glyphicon-pencil"></span>Text</button>
+                                    <button type="button" class="btn btn-default disabled" data-toggle="tooltip" data-placement="right" title="Coming soon"><span class="glyphicon glyphicon-camera"></span>Photo</button>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="pull-right">
+                                        <label class="comment-limit">672</label>
+                                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <ul class="breadcrumb twitter">
+                            <li class="active">Comments</li>
+                            <li class="pull-right"><a href="#" class="lin"><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
+                        </ul>
+                        <a class="twitter-timeline" href="https://twitter.com/search?q=http%3A%2F%2Fdev.wr.io%2Fpost%2F41a1b6fc-0471-4efe-8f55-5fd19f12d790" data-widget-id="445513112859336704" data-show-replies="true" data-chrome="noheader nofooter noborders noscrollbar transparent">Tweets about "http://dev.wr.io/post/41a1b6fc-0471-4efe-8f55-5fd19f12d790"</a>
+                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas tooltip-demo" id="sidebar" role="navigation">
+                <div class="sidebar-margin">
+                    <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
+                        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Post</a>
+                            <div class="in" id="ticket-element">
+                                <div class="tickets">
+                                    <div class="media thumbnail">
+                                        <div class="pull-left">
+                                            <img src="img/no-photo.png">
+                                        </div>
+                                        <ul class="details">
+                                            <li>
+                                                <h3>244</h3>
+                                                <br />
+                                                Rating</li>
+                                            <li>
+                                                <h3>1,634</h3>
+                                                <br />
+                                                Followers</li>
+                                            <li>
+                                                <h3>84</h3>
+                                                <br />
+                                                Posts</li>
+                                        </ul>
+                                        <div class="media-body">
+                                            <p>Part 1: Vision of the Internet Future &middot; 22 Jun 2013</p>
+                                            Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="margin-bottom">
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-pencil"></span>Edit</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-send"></span>Invite the author</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
+                        <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus"></span>Added</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#">Read</a></li>
+                        <li><a href="#">Author</a></li>
+                        <li><a href="#">Shared by</a></li>
+                        <li><a href="#"><span class="pull-right">1</span>Reviews</a></li>
+                        <li><a href="#"><span class="pull-right">3</span>Tags</a></li>
+                        <li><a href="#"><span class="pull-right">2</span>Rewards</a></li>
+                        <li><a href="#">Translators</a></li>
+                        <li><a href="#"><span class="pull-right">34</span>Comments</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/offcanvas.js"></script>
+
+</body>
+</html>
