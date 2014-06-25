@@ -1,0 +1,21 @@
+﻿    <li class="panel">
+        <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class="">
+            <span class="glyphicon glyphicon-chevron-down pull-right">
+            </span>Logged as {{profile.NickName}}</a>
+        <div class="in" id="profile-element">
+            <div class="tickets">
+                <div class="media thumbnail">
+                    <div class="col-xs-12 col-md-6 col-lg-5">
+                        <img ng-src="{{profile.Avatar}}" class="pull-left" />
+                        <ul class="details">
+                            <li>Name: {{profile.NickName}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-7">
+                        <div class="media-body">{{profile.Description}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+

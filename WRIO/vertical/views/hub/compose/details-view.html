@@ -1,0 +1,63 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li ng-click="back()"><a href="#">Create</a></li>
+        <li class="active">Details</li>
+    </ul>
+    <div ng-show="msg['load']" class="loading"><img src="/vertical/img/loading.gif"> Please wait...</div>
+    <form class="form-horizontal" role="form">
+        <div ng-show="isSpecified" class="alert alert-info">Используйте "Not specified" только для тех материалов, где для понимания не требуется знание какого-то конкретного языка: музыка, фотографии, видеоролики без слов и тому подобное</div>
+        <div class="callout">
+            <h5>Notification</h5>
+            <p>Вы можете создавать посты на любых языках и распространять ссылки на них самостоятельно среди друзей, в соцсетях и любыми другими методами, однако наша система пока не будет отображать их в feeds и рекомендовать другим пользователям. Она научится работать с другими языками позже</p>
+        </div>
+        <div class="form-group">
+            <drop-down dropdown="dropdownLanguage"></drop-down>
+        </div>
+        <div class="form-group" ng-class="checkHasError('title')">
+            <label for="id-Title" class="col-sm-4 col-md-3 control-label">Title</label>
+            <div class="col-sm-8 col-md-9">
+                <input ng-model="compose.Title" ng-change="change('title')" type="text" class="form-control" id="id-Title" maxlength="129" placeholder="Untitled">
+                <div ng-show="isErrTitle" class="help-block">Max 128 characters</div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="checkHasError('description')">
+            <label for="id-Description" class="col-sm-4 col-md-3 control-label">Description</label>
+            <div class="col-sm-8 col-md-9">
+                <textarea ng-model="compose.Description" ng-change="change('description')" class="form-control" rows="3" maxlength="513" placeholder="No description"></textarea>
+                <div ng-show="isErrDesc" class="help-block">Max 512 characters</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <drop-down dropdown="dropdownContact"></drop-down>
+            <div ng-show="isContactShow" ng-class="checkHasError('contact')" class="col-xs-6 col-sm-4 col-md-5">
+                <input ng-change="change('contact')" ng-model="model.authorAccount" type="text" class="form-control" id="id-Contact" placeholder="{{model.placeHolder}}">
+                <div ng-show="isErrContact" ng-bind="model.placeError" class="help-block"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id-Preview" class="col-sm-4 col-md-3 control-label">Preview</label>
+            <div class="col-sm-8 col-md-9">
+                <div class="checkbox text">
+                    <label ng-bind-html="model.Preview | unsafeHtml"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <a href="#" ng-click="back()" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
+            <div class="pull-right">
+                <button ng-click="remove()" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                <a ng-click="publish()" href="#" class="btn btn-success"><span class="glyphicon glyphicon-open"></span>Publish</a>
+            </div>
+        </div>
+    </form>
+    <ul class="info nav nav-pills nav-stacked" id="help-accordion">
+        <li class="panel"><a href="#help-element" data-parent="#help-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Need help?</a>
+            <div class="in" id="help-element">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">About author's contacts</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

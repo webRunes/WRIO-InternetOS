@@ -1,0 +1,45 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li class="active">Contact</li>
+    </ul>
+    <div ng-show="isSendMsg" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <strong>You message has been sent.</strong> We will be in contact shortly. Thank you
+    </div>
+    <div class="callout">
+        <h5>How can we help you?</h5>
+        <p>If you want to point out specify a mistake, provide feedback or get in touch for any other issue, please, use the feedback form</p>
+    </div>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="id-Name" class="col-sm-4 col-md-3 control-label">Your name</label>
+            <div class="col-xs-6 col-sm-4 col-md-4">
+                <input ng-model="email.first" type="text" class="form-control" id="id-First" maxlength="32" placeholder="First">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-5">
+                <input ng-model="email.last" type="text" class="form-control" id="id-Last" maxlength="32" placeholder="Last">
+            </div>
+        </div>
+        <div ng-class="checkEmailCls()" class="form-group">
+            <label for="id-Email" class="col-sm-4 col-md-3 control-label">Your email</label>
+            <div class="col-sm-8 col-md-9">
+                <input ng-change="onChange('email')" ng-model="email.email" type="text" class="form-control" id="id-Email" placeholder="Primary email">
+                <div ng-show="isErrorEmail" class="help-block">E-mail is required</div>
+            </div>
+        </div>
+        <div ng-class="checkMessageCls()" class="form-group">
+            <label for="id-Description" class="col-sm-4 col-md-3 control-label">Message</label>
+            <div class="col-sm-8 col-md-9">
+                <textarea ng-change="onChange('message')" ng-model="email.message" class="form-control" rows="8" maxlength="4096" placeholder="Max 4096 characters"></textarea>
+                <div ng-show="isErrorMessage" class="help-block">Message is required. Max 4096 characters</div>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <div class="pull-right">
+                <button ng-click="onCancel()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                <button ng-click="onSubmit()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
