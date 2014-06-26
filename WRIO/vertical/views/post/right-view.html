@@ -1,0 +1,63 @@
+﻿<div class="sidebar-margin">
+    <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
+        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Post</a>
+            <div class="in" id="ticket-element">
+                <div class="tickets">
+                    <div class="media thumbnail">
+                        <div class="pull-left">
+                            <img ng-src="{{ticket.Picture}}">
+                        </div>
+                        <ul class="details">
+                            <li>Title: {{ticket.Title}}</li>
+                            <li>Published: {{ticket.Added}}</li>
+                            <li>Read time: 4-5 minutes</li>
+                            <li>Rating: {{ticket.Rating}}</li>
+                            <li>Earned: 0</li>
+                            <li>Views: 0</li>
+                            <li>Shares: 0</li>
+                            <li>Comments: 0</li>
+                            <li>Bookmarked: 0</li>
+                        </ul>
+                        <div class="media-body" ng-bind="ticket.Description">
+                        </div>
+                        <br />
+                        <div class="pull-left">
+                            <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-minus"></span></button>
+                        </div>
+                        <ul class="donation tooltip-demo">
+                            <li><span class="pull-right">1<span class="currency">WRG</span></span>Donation:</li>
+                            <li><span class="pull-right">244 +1.1</span>Rating: <span data-toggle="tooltip" title="Ваш коэфициент умножает баллы"><span class="glyphicon glyphicon-info-sign"></span></span></li>
+                            <li><span class="pull-right">78.1 + 0.1%</span>Donation Percent:</li>
+                            <li><span class="pull-right">+1</span>Your Exp: <span data-toggle="tooltip" title="Чем больше вы даете донейта, тем более полезным оказался для вас материал"><span class="glyphicon glyphicon-info-sign"></span></span></li>
+                        </ul>
+                        <br />
+                        <div class="media-body tooltip-demo">
+                            <a href="#" class="btn"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-star"></span>Donate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="margin-bottom" post-control>
+        <button ng-show="checkShowEdit()" ng-click="edit()" type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-pencil"></span>Edit</button>
+
+        <button ng-show="checkShowInvite()" ng-click="invite()" type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-send"></span>Invite the author</button>
+
+        <button ng-show="checkShowEnableComm()" ng-click="enableComment()" type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-comment"></span>Enable comments</button>
+        <button ng-click="share()" type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
+        <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-bookmark"></span>Bookmarked</button>
+    </div>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#">Read</a></li>
+        <li><a href="#"><span class="pull-right">3</span>Tags</a></li>
+        <li><a href="#"><span class="pull-right">2</span>Rewards</a></li>
+        <li><a href="#">Translators</a></li>
+        <li><a href="#"><span class="pull-right">34</span>Comments</a></li>
+    </ul>
+    <script src="/vertical/js/offcanvas.js"></script>
+</div>

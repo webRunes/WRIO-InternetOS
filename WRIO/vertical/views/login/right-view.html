@@ -1,0 +1,99 @@
+﻿<div class="sidebar-margin">
+    <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
+        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Guest account</a>
+            <div class="in" id="ticket-element">
+                <div class="tickets">
+                    <div class="media thumbnail">
+                        <div class="col-xs-12">
+                            <div class="media-body">
+                                Если вы не желаете тратить время на регистрацию, то воспользуйтесь гостевым аккаунтом. Вы сможете добавить регистрационные данные в любой момент позже.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="margin-bottom">
+        <button ng-click="guestLogin()" class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-flash"></span>Login with guest account</button>
+    </div>
+    <hr />
+    <div id="sign_in-carousel" class="carousel slide" data-interval="false" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <form class="form-signin" role="form">
+                    <ul class="breadcrumb">
+                        <li class="active">Sign in</li>
+                        <li><a href="#sign_in-carousel" data-slide="next">Create an account</a></li>
+                    </ul>
+                    <div class="alert alert-success" ng-show="isMsg['emailSentSuccessfully']">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Email has been sent successfully
+                    </div>
+                    <div class="alert alert-danger" ng-show="isMsg['incorrectData']">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>The email or password you entered is incorrect
+                    </div>
+                    <div class="form-group">
+                        <input ng-model="signInModel.email" type="email" class="form-control" id="id-Email" placeholder="Email" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input ng-model="signInModel.password" type="password" class="form-control" id="id-Password" placeholder="Password" required>
+                    </div>
+                    <a href="#sign_in-carousel" class="pull-right" data-slide="prev">Forgot password?</a>
+                    <label class="checkbox">
+                        <input ng-model="signInModel.remember" type="checkbox" value="remember-me">
+                        Remember me
+                    </label>
+                    <button ng-click="login()" class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user"></span>Sign In</button>
+                </form>
+            </div>
+            <div class="item">
+                <form class="form-signin" role="form">
+                    <ul class="breadcrumb">
+                        <li><a href="#sign_in-carousel" data-slide="prev">Sign in</a></li>
+                        <li class="active">Create an account</li>
+                    </ul>
+                    <div class="alert alert-warning" ng-show="isMsg['isEmailRegistred']">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Email already registered. <a href="#sign_in-carousel" data-slide="prev">Sign in with it</a>
+                    </div>
+                    <div class="form-group">
+                        <input ng-model="signInModel.email" type="email" class="form-control" id="Email" placeholder="Email" required autofocus>
+                    </div>
+                    <div class="form-group" ng-hide="isMsg['isPasswordIncorrect']">
+                        <input type="password" class="form-control" ng-model="signInModel.password" id="Password" placeholder="Password" required>
+                        <div class="help-block">1-32 chars. Only Latin characters, numbers and special symbols are allowed</div>
+                    </div>
+                    <div class="form-group has-error" ng-show="isMsg['isPasswordIncorrect']">
+                        <input type="password" class="form-control" ng-model="signInModel.password" id="Password1" placeholder="Password" required>
+                        <div class="help-block">1-32 Latin characters, numbers and special symbols</div>
+                    </div>
+
+                    <label class="checkbox">
+                        <input type="checkbox" value="remember-me" ng-model="signInModel.remember">
+                        Remember me
+                    </label>
+                    <button ng-click="registredUser()" class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-plus"></span>Create account</button>
+                </form>
+            </div>
+            <div class="item">
+                <form class="form-signin" role="form">
+                    <ul class="breadcrumb">
+                        <li class="active">Forgot password</li>
+                        <li><a href="#sign_in-carousel" data-slide="next">Sign in</a></li> 
+                    </ul>
+                    <div class="alert alert-danger" ng-show="isMsg['emailNotExist']">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>This email address isn't associated with any account
+                    </div>
+                    <div class="alert alert-success" ng-show="isMsg['emailSentSuccessfully']">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Email has been sent successfully
+                    </div>
+                    <div class="form-group">
+                        <input ng-model="signInModel.email" type="email" class="form-control" id="Email" placeholder="Email" required autofocus>
+                    </div>
+                    <button ng-click="forgotPassword()" class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-ok"></span>Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <script src="/vertical/js/offcanvas.js"></script>

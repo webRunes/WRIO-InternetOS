@@ -1,0 +1,174 @@
+/* bootstrap */
+
+    html {
+  font-family: sans-serif;
+  font-size:14px;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.progress {
+  height: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  background-color: #428bca;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: width 0.6s ease;
+          transition: width 0.6s ease;
+}
+
+.progress-striped .progress-bar {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+
+.progress.active .progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+          animation: progress-bar-stripes 2s linear infinite;
+}
+/* end bootstrap */
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background: url('../img/loading_bg.png');
+    text-align: center;
+    min-height: 260px;
+    min-width: 260px;
+}
+
+h1 {
+    font-family: BebasNeue,sans-serif;
+    color: #eee;
+    font-size: 32px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px #000;
+    -webkit-font-smoothing: antialiased;
+}
+
+p {
+    color: #eee;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.outer {
+    height: 100%;
+    width: 100%;
+    display: table;
+    vertical-align: middle;
+}
+
+    .outer p{
+        color: #eee;
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+.container {
+    position: relative;
+    vertical-align: middle;
+    display: table-cell;
+    height: 260px;
+}
+
+.inner {
+    margin: 128px auto 0;
+    width: 140px;
+    height: 260px;
+}
+
+.progress {
+    height: 6px;
+    margin: 20px 0;
+}
+
+.progress-bar {
+    background-color: #0088cc !important;
+    width: 100% !important;
+}
+
+.alert {
+    position: absolute;
+    top: 142px;
+    padding: 0;
+    left: 50%;
+    width: 320px;
+    margin-left: -160px;
+}
+
+.warning {
+    color: #eee;
+    margin: 24px 0;
+    width: 100%;
+}
+
+@font-face {
+    font-family: 'BebasNeue';
+    src: url('../fonts/bebasneue.eot');
+    src: url('../fonts/bebasneue.eot?#iefix') format('embedded-opentype'), url('../fonts/bebasneue.woff') format('woff'), url('../fonts/bebasneue.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a{color:#20aaef}
+    a:hover{color:#0088cc}
+.inner-info{margin:0 auto;width:480px;height:240px}
+.warning{color:#eee;margin:24px 0;width:100%}
+    .warning a{display:inline-block;margin:12px 8px;text-decoration:none}
+    
+.popover[class*=tour-].orphan{margin:12px;position:absolute;top:0 !important;left:0 !important}
