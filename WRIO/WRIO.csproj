@@ -209,7 +209,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\img\wiki\" />
     <Folder Include="vertical\Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -272,50 +271,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\webrunes.css" />
-    <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-57-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-72-precomposed.png" />
-    <Content Include="Content\ico\favicon.ico" />
-    <Content Include="Content\img\1.png" />
-    <Content Include="Content\img\2.png" />
-    <Content Include="Content\img\3.png" />
-    <Content Include="Content\img\bg.jpg" />
-    <Content Include="Content\img\bg.png" />
-    <Content Include="Content\img\browser_chrome.png" />
-    <Content Include="Content\img\browser_firefox.png" />
-    <Content Include="Content\img\browser_ie.png" />
-    <Content Include="Content\img\facebook.png" />
-    <Content Include="Content\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\img\glyphicons-halflings.png" />
-    <Content Include="Content\img\google.png" />
-    <Content Include="Content\img\grid_bg.png" />
-    <Content Include="Content\img\invitation.jpg" />
-    <Content Include="Content\img\loading_bg.png" />
-    <Content Include="Content\img\logo.png" />
-    <Content Include="Content\img\logo_webrunes.png" />
-    <Content Include="Content\img\logo_wrio.png" />
-    <Content Include="Content\img\no-photo.png" />
-    <Content Include="Content\img\profile1.jpg" />
-    <Content Include="Content\img\twitter.png" />
-    <Content Include="Content\img\webrunes.png" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="loading.htm" />
     <Content Include="no_jscript.htm" />
     <Content Include="pictures\bef47bf1-86cb-40f6-b78a-e58e4083ee0c.png" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
     <Content Include="vertical\app.js" />
     <Content Include="vertical\controllers\AddFundsController.js" />
     <Content Include="vertical\controllers\AppController.js" />
@@ -553,13 +513,11 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="vertical\fonts\bebasneue.eot" />
     <Content Include="vertical\fonts\bebasneue.ttf" />
     <Content Include="vertical\fonts\bebasneue.woff" />
@@ -589,11 +547,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
