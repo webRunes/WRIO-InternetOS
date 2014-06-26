@@ -172,3 +172,8 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Config protection
+WRIO\Web.config
+WRIO\Web.Debug.config
+WRIO\Web.Release.config
