@@ -1,0 +1,551 @@
+﻿@model WRIO.Models.RegistrationModel
+
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/js/ajax.js"></script>
+    @if (Model.IsConfirmationPasswordInCorrect)
+    {
+            <script>
+                $(document).ready(function () {
+                    OpenTab("#tab11");
+                    var _parent = $('a[href$="#tab11"]').parent();
+                    _parent.removeClass("hide");
+                    $("#passwordRequired").removeClass("hide");
+                    $("#confirmPasswordToDelete").addClass("error");
+                });
+            </script>
+    }
+@if(Model.OpenFirstTab)
+{
+    <script>
+        $(document).ready(function () {
+            OpenTab("#tab1");
+            var _parent = $('a[href$="#tab1"]').parent();
+            _parent.removeClass("hide");
+            //$("#passwordRequired").removeClass("hide");
+            $("#userInfo").addClass("hide");
+        });
+    </script>
+}
+
+    <script>
+        //TranslationParams.AttributeName = "translation-key";
+        //TranslationParams.ToSend = "/profile/translation";
+        //TranslationParams.ElementType = { "input": "value" };
+        
+        //$(document).ready(function () {
+        //    translate = new Translation();
+        //    translate.Translate();
+        //});
+        
+        function OpenRegTab() {
+            OpenTab('#tab2');
+            $("#alertWelDone_tab2").removeClass('hide');
+            $("#alertWorning_tab2").addClass('hide');
+        }
+
+        function Logout() {
+            //tab11
+            OpenTab("#tab2");
+            var _parent = $('a[href$="#tab2"]').parent();
+            _parent.removeClass("hide");
+            $("#alertWelDone_tab2").addClass('hide');
+            $("#alertWorning_tab2").removeClass('hide');
+        }
+        
+        function OpenConfirmationTab() {
+            OpenTab("#tab11");
+            var _parent = $('a[href$="#tab11"]').parent();
+            _parent.removeClass("hide");
+        }
+
+
+        $("li").click(function (event) {
+            var nodeName = event.target.nodeName;
+            //var tabId = $(event.target).attr('href');
+            if (nodeName == "A") {
+                OpenTab($(event.target).attr('href'));
+            }
+        });
+        
+        function Close(obj) {
+            $(obj).parent().addClass('hide');
+        }
+
+        function CloseTab(obj, tabHref) {
+            $(obj).parent().parent().addClass("hide");
+            OpenTab(tabHref);
+        }
+
+        function OpenTab(tabHref) {
+            $("li.c_tab.active").removeClass("active");
+            $("div.tab-pane.active").removeClass("active");
+            var _parent = $('a[href$="' + tabHref + '"]').parent();
+            _parent.removeClass("hide");
+            _parent.addClass("active");
+            $(tabHref).addClass("active");
+        }
+
+        function CloseRegInfoTabAndOpenNew(id) {
+            var userInfoTab = $('#userInfo');
+            userInfoTab.removeClass('active');
+            userInfoTab.addClass("hide");
+            OpenTab(id);
+        }
+
+        function CheckPassword(curObj)
+        {
+            var password = $(curObj).val();
+            var result = Ajax("profile", "CheckPassword", { "iscorrect": password });
+            
+            result.done(function(data) {
+                var isValid = data["iscorrect"];
+                if (!isValid) {
+                    $("[wr]").removeClass('hide');
+                }
+            });
+        }
+        function OpenBreadcrumb(tabToClose, tabToOpen) {
+            $('a[href$="' + tabToClose + '"]').parent().addClass("hide");
+            OpenTab(tabToOpen);
+        }
+    </script>
+}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="webrunes.htm"></a>
+            <div class="nav-collapse">
+                <ul id="catalog" class="nav">
+                    @*<li class="active">
+                        <a href="#">
+                            <i class="icon-tasks icon-white"></i>
+                        </a>
+                    </li>*@
+                    <li>                        
+                        <a href="#">Default</a>            
+                    </li>
+                   @* <li>                        
+                        <a href="#" translation-key="b423b6a9-997c-4e95-a492-e4b9228169e5"></a>            
+                    </li>
+                    <li>
+                        <a href="#" translation-key="13baf3cc-eeb1-4947-a890-9bccf91e697b"></a>            
+                    </li>*@
+                </ul>
+                <script id="catalog-template" type="text/x-handlebars-template">
+                    <li class="active">
+                             <a href="#">
+                                 <i class="icon-tasks icon-white"></i>
+                             </a>
+                         </li>
+                    {{#each catalog}}
+                    <li>                        
+                      <a href="#" nav-item-type="{{$type}}"  onclick="{{$event}}">{{$name}}</a>            
+                    </li>
+                    {{/each}}
+                    
+                
+                </script>
+            </div>
+            <div class="nav-collapse">
+              <ul class="nav pull-right">
+                <li>
+                  @*<a href="#">$5.78</a>*@
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="container">
+            <header>
+                <div class="subnav">
+                    <ul id="projectlink" class="nav nav-pills">
+                        <li class="active">
+                            <a href="#">Accounts</a>
+                        </li>
+                        <li><a href="/reader">Reader</a></li>
+                        <li><a href="/storage">Storage</a></li>
+                        <li><a href="/wallet">Wallet</a></li>
+                    </ul>
+                </div>
+            </header>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3 leftmenu">
+                        <div id="ProfileCarousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="profile-ticket">
+                                        <div class="media thumbnail">
+                                            @if (Model != null)
+                                            {
+                                                <span class="pull-left" onclick="OpenTab('#tab2');">
+                                                    @if (string.IsNullOrEmpty(Model.Avatar))
+                                                    {
+                                                        <img class="media-object" src="../../content/img/no-photo.png"/>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="media-object" src="@Model.Avatar"/>
+                                                    }
+                                                </span>
+                                                <div class="media-body" onclick="OpenTab('#tab2');">
+                                                    
+                                                        @if (string.IsNullOrEmpty(Model.NickName))
+                                                        {
+                                                            <h4>Guest</h4>
+                                                                
+                                                        }
+                                                        else
+                                                        {
+                                                             <h4>@Model.NickName</h4>
+                                                        }
+                                                    @if (string.IsNullOrEmpty(Model.Description))
+                                                    {
+                                                        <h5>Guest profile</h5>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h5>@Model.Description</h5>
+                                                    }
+                                                    @if(Model.IsTempUser)
+                                                    {
+                                                        <button class="btn btn-mini" type="button"  onclick="Logout();">Logout</button>
+                                                    }else
+                                                    {
+                                                     <form method="post" action="/profile/logout_">
+                                                        <button class="btn btn-mini" type="submit" name="Logout">Logout</button>
+                                                    </form>
+                                                    }
+                                               </div>
+                                            }     
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-toolbar with_margin">
+                            <button type="button" class="btn btn-large btn-block" onclick="OpenTab('#tab3');">Add account</button>
+                        </div>
+                        <ul class="nav" id="structurelink">
+                        </ul>
+                    </div>
+
+                    <div class="span6 center-container">
+                        <div class="row-fluid">
+                            <ul class="nav nav-tabs">
+                                <li class="c_tab">
+                                    <a href="#tab1" data-toggle="tab">
+                                        <i class="icon-th-large" onclick="OpenTab('#tab1');"></i>
+                                    </a>
+                                </li>
+                                <li id="userInfo" class="c_tab active">
+                                    @if (Model != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(Model.NickName))
+                                        {
+                                            <a href="#tab2" data-toggle="tab">
+                                                @Model.NickName&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#tab2" data-toggle="tab">
+                                                Anonymous&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i>
+                                            </a>
+                                        }
+                                    }
+                                </li>
+                                <li class="c_tab hide">
+                                    <a href="#tab3" >
+                                        Add account&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i>
+                                    </a>
+                                </li>
+                                <li class="c_tab hide"><a href="#tab5" >Choose language&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                <li class="c_tab hide"><a href="#tab7" >Support&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                <li class="c_tab hide"><a href="#tab9" >Terms&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                <li class="c_tab hide"><a href="#tab10" >Privacy&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                @if (string.IsNullOrEmpty(Model.NickName))
+                                {
+                                    <li class="c_tab hide"><a href="#tab11" >Anonimous&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                }
+                                else
+                                {
+                                    <li class="c_tab hide"><a href="#tab11" >@Model.NickName&nbsp;<i class="icon-remove" onclick="CloseTab(this,'#tab1');"></i></a></li>
+                                }
+                                
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="tab1">
+                                     @if (Model != null)
+                                     {
+                                    <ul class="breadcrumb">
+                                        <li class="active">Browse</li>
+                                    </ul>
+                                    <div class="tickets large"  onclick="OpenRegTab();">
+                                <div class="media thumbnail" >
+                                   @* <div class="pull-right">
+                                        <div class="btn-group">
+                                            <button href="dashboard_account.htm" class="btn">
+                                                <i class="icon-edit"></i>&nbsp;Edit
+                                            </button>
+                                        </div>
+                                    </div>*@
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object" src="../../content/img/no-photo.png"/>
+                                    </a>
+                                    <div class="media-body">
+                                        
+                                        <h4>@Model.NickName</h4>
+                                        <h5>@Model.Description</h5>
+                                        <h6>Registered @Model.RegistrationDate.ToString()</h6>
+                                    </div>
+                                </div>
+                            </div>
+                                     }
+                                </div>
+                                <div class="tab-pane active" id="tab2">
+                                    <ul class="breadcrumb">
+                                        <li class="active">Edit<span class="divider">/</span></li>
+                                        <li><button class="btn-link"  onclick="OpenBreadcrumb('#tab2','#tab11');">Delete</button></li>
+                                    </ul>
+                                    <div id="alertWelDone_tab2" class="alert alert-success">
+                                        <strong>Well done!</strong> Данный компьютер зарегистрирован. Пожалуйста, введите адрес почты и пароль в течении 30 дней, если хотите сохранить за собой учетную запись и авторизироваться с других устройств.
+                                    </div>
+                                    <div id="alertWorning_tab2" class="alert hide">
+                                        <strong>Warning!</strong> Вы залогинены под Guest account. Если хотите сохранить за собой аккаунт и использовать его в дальнейшем, пожалуйста, зарегистрируйте его и введите свой адрес электронной почты и желаемый пароль
+                                    </div>   
+                                      
+                                    <form class="form-horizontal" method="post" action="/profile/RegistrateUser_">
+                                        <div class="control-group">
+                                            <label class="control-label" for="name">Name</label>
+                                            <div class="controls">
+                                                @if (string.IsNullOrEmpty(Model.NickName))
+                                                {
+                                                    <input type="text" name="NickName" id="name" value="Anonymous"/> 
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" name="NickName" id="name" value="@Model.NickName"/> 
+                                                }
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="control-group hide">
+                                            <label class="control-label" for="email">Photo</label>
+                                            <div class="controls">
+                                                <input type="file" name="FileToUpload" id="fileToUpload" onchange="fileSelected();"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="email">Email</label>
+                                            <div class="controls">
+                                                
+                                                @if (!Model.IsEmailCorrect)
+                                                {
+                                                    <input type="text" name="Email" id="email"/>
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" name="Email" id="email" value="@Model.Email"/>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="password">Password</label>
+                                            <div class="controls">
+                                                <input type="password" name="Password" id="password"  onchange="CheckPassword(this);"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group hide" wr="oldpassword">
+                                            <label class="control-label" for="oldpassword">Old password</label>
+                                            <div class="controls">
+                                                <input type="password" name="Old_Password" id="oldPassword"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="description">Description</label>
+                                            <div class="controls">
+                                                
+                                                @if (string.IsNullOrEmpty(Model.Description))
+                                                {
+                                                    <textarea name="Description" id="description" style="resize:vertical">Main profile</textarea>
+                                                }
+                                                else
+                                                {
+                                                    <textarea name="Description" id="description"  style="resize:vertical">@Model.Description</textarea>
+                                                }                                                
+                                                 
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <a class="btn btn-danger" name="DeleteUser" onclick="CloseRegInfoTabAndOpenNew('#tab11');">
+                                                    <i class="icon-remove icon-white"></i>&nbsp;Delete account
+                                                </a>
+                                                <button class="btn btn-success" type="submit" name="RegistrateUser">
+                                                    <i class="icon-ok icon-white"></i>&nbsp;Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="tab3">
+                                    <ul class="breadcrumb">
+                                        <li class="active">Add account</li>
+                                    </ul>
+                                    <p>
+                                        <h4>Coming Soon !!!</h4>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab5">
+                                <ul class="breadcrumb">
+                                    <li class="active">Browse</li>
+                                </ul>
+                                <ul class="thumbnails small">
+                                    <li class="span4">
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li class="active"><a href="#">English (US)</a></li>
+                                            <li><a href="#">Русский</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <a href="#" class="btn"><i class="icon-ban-circle"></i>&nbsp;Cancel</a>
+                                        <a href="#" class="btn btn-success"><i class="icon-ok icon-white"></i>&nbsp;Submit</a>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="tab-pane" id="tab7">
+                                <ul class="breadcrumb">
+                                    <li class="active">Support</li>
+                                </ul>
+                                <p>
+                                    <h4>Coming Soon !!!</h4>
+                                </p>
+                            </div>
+                                <div class="tab-pane" id="tab9">
+                                    <ul class="breadcrumb">
+                                        <li class="active">Terms</li>
+                                    </ul>
+                                    <p>
+                                        <h4>Coming Soon !!!</h4>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab10">
+                                    <ul class="breadcrumb">
+                                        <li class="active">Privacy</li>
+                                    </ul>
+                                    <p>
+                                        <h4>Coming Soon !!!</h4>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab11">
+                                    <ul class="breadcrumb">
+                                        <li><button class="btn-link"  onclick="OpenBreadcrumb('#tab11','#tab2');">Edit</button><span class="divider">/</span></li>
+                                        <li class="active">Delete</li>
+                                    </ul>
+                                    @if (!string.IsNullOrEmpty(Model.Email))
+                                    {
+                                        if (Model.Email.IndexOf('@') != -1)
+                                        {
+                                            <div id="passwordRequired" class="alert alert-error hide">
+                                                 <button type="button" class="close" data-dismiss="alert" onclick="Close(this);">×</button>
+                                                 Password is incorrect
+                                            </div>
+                                        }
+                                    }
+                                     
+                                <form class="form-horizontal" method="post" action="/profile/deleteAccount_">
+                                    <div class="alert">
+                                        <strong>Warning!</strong> Мы честны с нашими пользователями и полностью удаляем регистрационные данные - вы не сможете восстановить свою учетную запись, она будет удалена навсегда!
+                                    </div>   
+                                    @if (!string.IsNullOrEmpty(Model.Email) && Model.Email.IndexOf('@') != -1)
+                                    {
+                                        <div id="confirmPasswordToDelete" class="control-group">
+                                            <label class="control-label" for="password">Password</label>
+                                            <div class="controls">
+                                                <input type="hidden" name="Email" value="@Model.Email"/>
+                                                <input type="password" name="password" id="password">
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="control-group">
+                                        <label class="control-label" for="description">Last word</label>
+                                        <div class="controls">
+                                            <textarea name="description" id="description" style="resize: vertical"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <a href="/profile/accounts" class="btn">Cancel</a>
+                                            <button class="btn btn-danger" type="submit" name="DeleteUser"><b>:-(</b>&nbsp;Say goodbye</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3 widget">
+                        <div class="accordion">
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#contacts" data-toggle="collapse" class="accordion-toggle" data-original-title="">
+                                        <i class="icon-comment icon-white"></i>&nbsp;<span class="divider-vertical"></span>Contacts <i class="icon-chevron-down icon-white pull-right"></i>
+                                    </a>
+                                </div>
+                                <div class="accordion-body in collapse" id="contacts">
+                                    <div id="collapse-group" class="accordion">
+                                        <div class="box accordion-group">
+                                            <div class="box-title" data-toggle="collapse" data-target="#ia" data-parent="#collapse-group">
+                                                <span class="ico">
+                                                    <i class="icon-user"></i>
+                                                </span>IA - Individual Assistant
+                                            </div>
+                                            <div id="ia" class="box-content in collapse">
+                                                Привет, я - IA и я рада вас приветствовать! Если вы зашли к нам впервые, то я буду счастлива познакомиться и рассказать о себе и проекте. Если у вас уже есть учетная запись, то после логина мы сможем продолжить на чем остановились в прошлый раз.
+                                            </div>
+                                        </div>
+                                        <div class="box accordion-group">
+                                            <div class="box-title" data-toggle="collapse" data-target="#history" data-parent="#collapse-group">
+                                                <span class="ico">
+                                                    <i class="icon-eye-open"></i>
+                                                </span>History
+                                            </div>
+                                            <div id="history" class="box-content collapse">
+                                                <i>Empty</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      <footer class="footer">
+        <div class="container">
+            <ul class="footer-links">
+                @*<li><button class="btn-link" onclick="OpenTab('#tab7');">Support</button></li>
+                <li class="muted">·</li>
+                <li><button class="btn-link" onclick="OpenTab('#tab9');">Terms</button></li>
+                <li class="muted">·</li>
+                <li><button class="btn-link" onclick="OpenTab('#tab10');">Privacy</button></li>
+                <li class="muted pull-right">·</li>
+                        <li><a href="/Dashboard/Home">content</a></li>*@
+                <li class="pull-right copyright">© 2013 webRunes</li>
+                <li class="muted pull-right">·</li>
+                @*<li class="pull-right"><button class="btn-link" onclick="OpenTab('#tab5');">English (US)</button></li>*@
+            </ul>
+        </div>
+    </footer>
+        </div>
+        @*<script src="../../js/min.js"></script>*@

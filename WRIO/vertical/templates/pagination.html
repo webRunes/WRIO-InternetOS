@@ -1,0 +1,10 @@
+﻿<ul class="pagination" ng-show="showPagination()">
+    <li><a ng-click="selectPrevPage(0)" href="#">&laquo;</a></li>
+    <li><a ng-click="selectPrevPage(1)" href="#">&lsaquo;</a></li>
+    <li ng-repeat="item in pages" ng-class="activePageLink(item)">
+        <a href="#" ng-click="selectPage(item)">{{item}}</a>
+    </li>
+    <li><a ng-click="selectForwardPage(1)" href="#">&rsaquo;</a></li>
+    <li><a ng-click="selectForwardPage(0)" href="#">&raquo;</a></li>
+</ul>
+<p class="total-pages" ng-show="showPagination()">Total pages: <span ng-bind="total"></span></p>

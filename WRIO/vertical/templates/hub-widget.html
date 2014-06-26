@@ -1,0 +1,23 @@
+﻿<li class="panel">
+    <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class="">
+        <span class="glyphicon glyphicon-chevron-down pull-right"></span>Hub</a>
+    <div class="in" id="ticket-element">
+        <div class="tickets">
+            <div class="media thumbnail">
+                <div class="col-xs-12">
+                    <img ng-src="{{hub.Picture}}" class="pull-left" />
+                    <ul class="details">
+                        <li>Name: {{hub.Title}}</li>
+                        <li>Published: {{hub.Added}}</li>
+                        <li>Access: <a href="#">Public</a></li>
+                        <li>Price: <a href="#">{{hub.Price}}</a></li>
+                        <li>{{hub.OwnerType}}: <a href="#">{{hub.OwnerTitle}}</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12">
+                    <div class="media-body">{{hub.Description}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,59 @@
+﻿<form class="margin-bottom" role="form">
+    <div class="form-group">
+        <div ng-show="isMsg['donated']" class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{donatedText}}
+        </div>
+        <div ng-show="isMsg['addFunds']" class="alert alert-danger">
+            Insufficient funds. <a ng-click="addFunds()" href="#">Add funds</a>
+        </div>
+        <ul class="leaders">
+            <li><span>Current balance&nbsp;</span>
+                <span>&nbsp;{{currUserWrg}}<small class="currency">WRG</small><sup class="currency">{{currUserUsd}}<span class="currency">USD</span>&middot<a ng-click="addFunds()" href="#">Add funds</a></sup></span></li>
+        </ul>
+    </div>
+    <div class="form-group col-xs-12 col-md-6">
+        <table class="table-wallet">
+            <tbody>
+            <tr>
+                <td>
+                    <label for="inputAmount">Donation</label></td>
+                <td>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">WRG</span>
+                        <input ng-model="wrg" ng-change="changeWrg()" type="number" class="form-control" id="inputAmount" value="0" required="required">
+                    </div>
+                </td>
+                <td>
+                    <label class="currency">{{usd}} USD</label></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group col-xs-12 col-md-6">
+        <div class="input-group input-group-sm">
+            <span ng-bind="twitterLimit" class="input-group-addon twitter-limit"></span>
+            <input ng-disabled="checkDisabledTxt()" ng-model="title" ng-change="titleChange()" id="IDtweet_title" name="tweet_title" class="form-control" maxlength="72" placeholder="Title, hashtags or mentions. Max 72 characters" type="text">
+        </div>
+        <div ng-show="checkLenTitle()" class="help-block">Max 72 characters</div>
+    </div>
+    <div class="form-group col-xs-12">
+        <textarea ng-disabled="checkDisabledTxt()" ng-model="description" ng-change="descriptionChange()" rows="3" class="form-control" placeholder="Let us know your thoughts!"></textarea>
+        <div ng-show="checkLenDesc()" class="help-block">Max 672 characters</div>
+    </div>
+        <div class="form-group col-xs-12">
+            <div ng-show="false" class="btn-group tooltip-demo">
+                <button type="button" class="btn btn-default active"><span class="glyphicon glyphicon-pencil"></span>Text</button>
+                <button type="button" class="btn btn-default disabled" data-toggle="tooltip" data-placement="right" title="Coming soon"><span class="glyphicon glyphicon-camera"></span>Photo</button>
+            </div>
+            <div class="pull-right">
+                <div class="pull-right">
+                    <label ng-bind="descLimit" ng-show="isTwitter" class="comment-limit"></label><button ng-disabled="checkDisabledSendBtn()" ng-show="isTwitter" ng-click="sendComment()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Submit</button>
+                    <button ng-disabled="checkDisabledLoginBtn()" ng-hide="isTwitter" ng-click="twitterLogin()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Twitter Login</button>
+                </div>
+            </div>
+        </div>
+</form>
+<ul class="breadcrumb twitter">
+    <li class="active">Comments</li>
+</ul>
