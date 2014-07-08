@@ -15,6 +15,7 @@ namespace WRIO.api
         // POST api/paypalwithdraw
         public WithdrawModel Post([FromBody]WithdrawModel model)
         {
+            /*
             double amountDouble = Converter.ParseToDouble(model.Amount);
             var currentUserId = Profile.CurrentUser.Id;
             if (amountDouble > 100)
@@ -78,11 +79,13 @@ namespace WRIO.api
             //Send email
             var emailText = new StringBuilder();
             emailText.AppendFormat("User ID : {0} </br>", accountEntity.UserId);
-            emailText.AppendFormat("Email : {0} </br>", email);
+            emailText.AppendFormat("E-mail : {0} </br>", email);
             emailText.AppendFormat("Amount : {0} </br>", model.Amount);
             var emailWorker = new EmailWorker();
             emailWorker.SendEmail(email, "PayPal Withdraw", emailText.ToString());
             return model;
+             * */
+            return null;
         }
     }
 }

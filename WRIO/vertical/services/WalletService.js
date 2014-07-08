@@ -21,4 +21,9 @@
             if (callBack) callBack(model);
         });
     };
+    this.paymentHistory = function (callBack) {
+        $http.post('/api/PaymentHistory').success(function (model) {
+            if (callBack) callBack(model);
+        });
+    };
 }]);

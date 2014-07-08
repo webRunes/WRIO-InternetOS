@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Web.Mvc;
 using Core.Domain;
+using Login.Business.Model;
 using WRIO.Extensions;
 
 namespace WRIO.Controllers

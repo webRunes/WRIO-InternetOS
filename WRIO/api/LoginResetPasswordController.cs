@@ -13,7 +13,7 @@ namespace WRIO.api
             {
                 //Profile.
                 var worker = new EmailWorker();
-                worker.SendEmail(value.Email, "Reset password", "Your password has been changed");
+                worker.SendEmail(value.Email, "Reset password", "You pasword has bin changed");
                 return true;
             }
             return false;

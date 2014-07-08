@@ -111,6 +111,9 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="PayPalCoreSDK">
+      <HintPath>..\Dlls\PayPalCoreSDK.dll</HintPath>
+    </Reference>
     <Reference Include="PayPalMerchantSDK, Version=2.7.109.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dlls\PayPalMerchantSDK.dll</HintPath>
@@ -209,6 +212,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\img\wiki\" />
+    <Folder Include="fonts\" />
+    <Folder Include="Scripts\" />
     <Folder Include="vertical\Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -221,7 +227,7 @@
     <Compile Include="api\CoreUserAppItemsController.cs" />
     <Compile Include="api\CoreUserAppsController.cs" />
     <Compile Include="api\CoreUserParamsController.cs" />
-    <Compile Include="api\LastTransaction.cs" />
+    <Compile Include="api\LastTransactionController.cs" />
     <Compile Include="api\LoginController.cs" />
     <Compile Include="api\LoginResetPasswordController.cs" />
     <Compile Include="api\LoginSignInController.cs" />
@@ -232,8 +238,8 @@
     <Compile Include="api\ProfileGuestloginController.cs" />
     <Compile Include="api\ProfileRegistrationController.cs" />
     <Compile Include="api\SignOutController.cs" />
+    <Compile Include="api\PaymentHistoryController.cs" />
     <Compile Include="api\UserProfileController.cs" />
-    <Compile Include="api\WalletsController.cs" />
     <Compile Include="api\WrioLangController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -265,17 +271,47 @@
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\SignInModel.cs" />
     <Compile Include="Models\TryToLoginModel.cs" />
-    <Compile Include="Models\WalletModel.cs" />
     <Compile Include="Models\WithdrawModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\webrunes.css" />
+    <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-57-precomposed.png" />
+    <Content Include="Content\ico\apple-touch-icon-72-precomposed.png" />
+    <Content Include="Content\ico\favicon.ico" />
+    <Content Include="Content\img\1.png" />
+    <Content Include="Content\img\2.png" />
+    <Content Include="Content\img\3.png" />
+    <Content Include="Content\img\bg.jpg" />
+    <Content Include="Content\img\bg.png" />
+    <Content Include="Content\img\browser_chrome.png" />
+    <Content Include="Content\img\browser_firefox.png" />
+    <Content Include="Content\img\browser_ie.png" />
+    <Content Include="Content\img\facebook.png" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\img\google.png" />
+    <Content Include="Content\img\grid_bg.png" />
+    <Content Include="Content\img\invitation.jpg" />
+    <Content Include="Content\img\loading_bg.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo_webrunes.png" />
+    <Content Include="Content\img\logo_wrio.png" />
+    <Content Include="Content\img\no-photo.png" />
+    <Content Include="Content\img\profile1.jpg" />
+    <Content Include="Content\img\twitter.png" />
+    <Content Include="Content\img\webrunes.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="loading.htm" />
     <Content Include="no_jscript.htm" />
     <Content Include="pictures\bef47bf1-86cb-40f6-b78a-e58e4083ee0c.png" />
+    <None Include="Properties\PublishProfiles\Webrunes.pubxml" />
     <Content Include="vertical\app.js" />
     <Content Include="vertical\controllers\AddFundsController.js" />
     <Content Include="vertical\controllers\AppController.js" />
@@ -498,6 +534,9 @@
     <Content Include="vertical\views\profileedit\center-view.html" />
     <Content Include="vertical\views\profileedit\left-view.html" />
     <Content Include="vertical\views\profileedit\right-view.html" />
+    <Content Include="vertical\views\transactions\center-view.html" />
+    <Content Include="vertical\views\transactions\left-view.html" />
+    <Content Include="vertical\views\transactions\right-view.html" />
     <Content Include="vertical\views\wallet\center-view.html" />
     <Content Include="vertical\views\wallet\left-view.html" />
     <Content Include="vertical\views\wallet\right-view.html" />
@@ -544,10 +583,12 @@
     <Content Include="Views\Profile\Accounts.cshtml" />
     <Content Include="Views\Profile\Login.cshtml" />
     <Content Include="Views\Profile\Registration.cshtml" />
+    <None Include="Properties\PublishProfiles\Wrio.pubxml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

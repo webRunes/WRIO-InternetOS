@@ -1,90 +1,28 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Web.Mvc;
+using Login.Business.Model;
 using Login.Repository.Entity;
 using WRIO.Extensions;
 using WRIO.Models;
 using WRIO.Models.Login;
 
-
-
 namespace WRIO.Controllers
 {
     public class ProfileController : CustomControllerBase
     {
-        protected int LoginCount
-        {
-            get { return (int) Session["loginCount"]; }
-            set { Session["loginCount"] = value; }
-        }
-
-        public ActionResult Login()
-        {
-            if (Profile.IsAuthenticated)
-            {
-                return this.Redirect("~/app/plus/");
-            }
-
-            var rPassword = Session["resetpassword"];
-            if (rPassword != null)
-            {
-                Session.Remove("resetpassword");
-                return View("Login", (rPassword as UserLoginModel));
-            }
-            var sModel = Session["signup"];
-            if (sModel != null)
-            {
-                Session.Remove("resetpassword");
-                var signUpModel = sModel as UserLoginModel;
-                signUpModel.IsSignUpTab = true;
-                return View("Login", signUpModel);
-            }
-            var tryToLogin = Session["trytologin"] as UserLoginModel;
-            if (tryToLogin != null)
-            {
-                Session.Remove("trytologin");
-                return View("Login", tryToLogin);
-            }
-            //return this.Redirect("~/login/");
-            return View("Login", new UserLoginModel(Profile.AccountCollection));
-        }
-
-        [HttpGet]
-        public ActionResult ResetPassword(string re_password)
-        {
-            var dataArr = re_password.Split('_');
-            var model = new UserLoginModel(Profile);
-            model.Email = dataArr[0];
-            //if (ResetPasswordConfirmation.IsValidConfirmationQuery(dataArr[0], dataArr[1]))
-            //{
-            //    model.ResetPassword = true;
-            //    Session["resetpassword"] = model;
-            //}
-            return RedirectToAction("Login");
-        }
-
         [HttpPost]
-        public ActionResult Login(UserLoginModel model)
+        public ActionResult Login(LoginModel model)
         {
-            if (null == model)
-            {
-                return RedirectToAction("Login");
-            }
             if (model.IsValidEmail && model.IsValidPassword)
             {
-                var userEntity = Profile.UserService.Login(model.Email, model.Password, model.IsStaySignedIn);
+                var userEntity = Profile.UserService.Login(model.Login, model.Password, model.IsChecked);
                 if (userEntity == null)
                 {
                     model.Password = string.Empty;
-                }
-                if (Profile.IsAuthenticated)
-                {
-                    return RedirectToAction("Registration");
+                    return this.Redirect("~/login/error");
                 }
             }
-            model.IsEmailRequired = !model.IsValidEmail;
-            model.IsPasswordRequired = model.IsValidPassword;
-            return View("Login", model);
+            return this.Redirect("~/app/plus");
         }
 
         [HttpParamAction]
@@ -134,6 +72,10 @@ namespace WRIO.Controllers
                     Session["regModel"] = null;
                     return View("Registration", model as RegistrationModel);
                 }
+
+                //var modelCollection = Profile.GetProfileCollection();
+                //var profileCollectionModel = new ProfileCollectionModel() { ProfileCollection = modelCollection };
+                //return View("Accounts", profileCollectionModel);
             }
             return RedirectToAction("Login", new UserLoginModel(Profile));
 
@@ -143,6 +85,12 @@ namespace WRIO.Controllers
         [HttpParamAction]
         public JsonResult SendToResetPassword(string email)
         {
+            //if (Profile.UserService.IsEmailExist(email))
+            //{
+            //    var rPassword = new ResetPasswordConfirmation(email);
+            //    rPassword.Send("profile", "resetPassword");
+            //    return Json(new {iscorrect = true});
+            //}
             return Json(new {iscorrect = false});
         }
 
@@ -294,6 +242,20 @@ namespace WRIO.Controllers
         public ActionResult Accounts()
         {
             if (!Profile.IsAuthenticated) return RedirectToAction("Login", new UserLoginModel(Profile));
+            // var modelCollection = Profile.GetProfileCollection();
+            //var curUser = Profile.CurrentUser;
+            //var model = new ProfileModel();
+            //model.Avatar = curUser.Avatar;
+            //model.Date = curUser.RegistrationDate.ToString();
+            //model.Description = curUser.Description;
+            //model.Name = curUser.NickName;
+            //model.IsCurrent = !string.IsNullOrEmpty(curUser.PasswordHash);
+            //if (modelCollection.Count == 0)
+            //{
+            //    Profile.UserService.SignOut();
+            //    return View("Login");
+            //}
+            //var profileCollectionModel = new ProfileCollectionModel() { ProfileCollection = modelCollection };
             RegistrationModel model = new RegistrationModel(Profile.CurrentUser) {OpenFirstTab = true};
             return View("Registration", model);
         }
@@ -310,7 +272,6 @@ namespace WRIO.Controllers
             }
             return Json(new {iscorrect = true});
         }
-
        
         [HttpPost]
         public JsonResult SetGsRate(double rate)

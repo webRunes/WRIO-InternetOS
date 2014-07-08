@@ -22,5 +22,12 @@ namespace WRIO.Extensions
         {
             get { return _profile ?? (_profile = new Login.Services.Profile(HttpContext.ApplicationInstance.Context)); }
         }
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public JsonResult Translation(string[] keys)
+        //{
+        //    var service = new TagLangService();
+        //    return Json(service.Translate(keys, Profile.CurrentCulture));
+        //}
     }
 }

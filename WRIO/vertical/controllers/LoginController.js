@@ -30,7 +30,14 @@
         });
     };
     isAuthenticated();
-    
+
+    var init = function () {
+        if ($state.params.error == "error") {
+           $scope.isMsg['incorrectData'] = true;
+        } 
+    };
+    init();
+
     $scope.login = function () {
         $scope.isMsg['incorrectData'] = false;
         $scope.isMsg['emailSentSuccessfully'] = false;
@@ -84,8 +91,6 @@
                 }
             }
         });
-
-
     };
     
     $scope.forgotPassword = function () {

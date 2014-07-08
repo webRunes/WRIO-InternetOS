@@ -17,6 +17,11 @@ namespace WRIO
                     "~/vertical/js/angular/angular-sanitize.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/application")
+                // .Include("~/Scripts/angular-fix.js")
+                // .IncludeDirectory("~/js/models", "*.js")
+                // .IncludeDirectory("~/js/controllers", "*.js")
+                // .IncludeDirectory("~/js/directives", "*.js")
+                // .IncludeDirectory("~/js/services", "*.js")
                 .Include("~/vertical/app.js")
                 .IncludeDirectory("~/vertical/services", "*.js")
                 .IncludeDirectory("~/vertical/filters", "*.js")

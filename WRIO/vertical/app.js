@@ -3,8 +3,8 @@
 var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
         $urlRouterProvider.when('/app', '/app/plus');
-        //$urlRouterProvider.when('/hub', 'hub.feed');
-
+       // $urlRouterProvider.when('/hub', 'hub.feed');
+       // $urlRouterProvider.otherwise("/login");
         $urlRouterProvider.otherwise("/app/plus");
 
         $stateProvider
@@ -334,6 +334,25 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                 },
                 permission: 'All'
             })
+            .state('loginerror', {
+                url: "/login/{error}",
+                views: {
+                    '@': {
+                        templateUrl: '/vertical/views/index.html',
+                        controller: 'LoginCtrl',
+                        scope: {}
+                    },
+                    'leftview@loginerror': {
+                        templateUrl: '/vertical/views/login/left-view.html'
+                    },
+                    'centerview@loginerror': {
+                        templateUrl: '/vertical/views/login/center-view.html'
+                    },
+                    'rightview@loginerror': {
+                        templateUrl: '/vertical/views/login/right-view.html'
+                    }
+                }
+            })
             .state('login', {
                 url: "/login",
                 views: {
@@ -354,7 +373,7 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                 }
             })
             .state('withdraw', {
-                url: "/withdraw",
+                url: "/webgold/withdraw",
                 views: {
                     '@': {
                         templateUrl: '/vertical/views/index.html',
@@ -374,7 +393,7 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                 permission: 'All'
             })
                 .state('payPalResponse', {
-                    url: "/addfunds/{isSuccess}",
+                    url: "/webgold/addfunds/{msgType}",
                     views: {
                         '@': {
                             templateUrl: '/vertical/views/index.html',
@@ -394,7 +413,7 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                     permission: 'All'
                 })
              .state('addfunds', {
-                 url: "/addfunds",
+                 url: "/webgold/addfunds",
                  views: {
                      '@': {
                          templateUrl: '/vertical/views/index.html',
@@ -412,7 +431,27 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                      }
                  },
                  permission: 'All'
-             });
+             })
+        .state('transactions', {
+            url: "/webgold/transactions",
+            views: {
+                '@': {
+                    templateUrl: '/vertical/views/index.html',
+                    controller: 'WalletCtrl',
+                    scope: {}
+                },
+                'leftview@transactions': {
+                    templateUrl: '/vertical/views/transactions/left-view.html'
+                },
+                'centerview@transactions': {
+                    templateUrl: '/vertical/views/transactions/center-view.html'
+                },
+                'rightview@transactions': {
+                    templateUrl: '/vertical/views/transactions/right-view.html'
+                }
+            },
+            permission: 'All'
+        });
 
         $httpProvider.interceptors.push('requestInterceptor');
         $locationProvider.html5Mode(true);

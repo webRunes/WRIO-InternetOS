@@ -42,7 +42,7 @@ little bit.
                         </div>
                         <div class="alert alert-success" ng-show="isMsg['done']">
                             <button type="button" class="close" data-dismiss="alert" ng-click="closeAlertMsg()">×</button>
-                            Done. You sold {{withdrawModel.Gs}} WRG
+                            Done. You sold {{withdrawModel.Wrg}} WRG
                         </div>
                         <div class="alert alert-danger" ng-show="isMsg['error']">
                             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -50,9 +50,9 @@ little bit.
                         </div>
                         <ul class="leaders">
                             <li><span>Current balance&nbsp;</span>
-                                <span>&nbsp;{{balanceModel.Gs}}<small class="currency">WRG</small><sup class="currency">{{balanceModel.Usd}} USD</sup></span></li>
+                                <span>&nbsp;{{balanceModel.WrgStr}}<small class="currency">WRG</small><sup class="currency">{{balanceModel.UsdStr}} USD</sup></span></li>
                             <li><span>Exchange rate&nbsp;</span>
-                                <span>&nbsp;10 000<small class="currency">WRG</small>=&nbsp;{{balanceModel.Currency}}<small class="currency">USD</small></span></li>
+                                <span>&nbsp;10 000<small class="currency">WRG</small>=&nbsp;{{balanceModel.CurrencyStr}}<small class="currency">USD</small></span></li>
                         </ul>
                     </div>
                     <div class="form-horizontal form-group col-xs-12">
@@ -62,7 +62,7 @@ little bit.
                         <div class="col-xs-12 col-md-4 col-lg-3 has-error">
                             <div class="input-group input-group-sm tooltip-demo">
                                 <span class="input-group-addon">WRG</span>
-                                <input class="form-control" id="amountWRG" value="0" min="0" type="number" ng-model="withdrawModel.Gs" ng-change="changeUsd()">
+                                <input class="form-control" id="amountWRG" value="0" min="0" type="number" ng-model="withdrawModel.Wrg" ng-change="changeUsd()">
                             </div>
                             <div class="help-block">Max 99 999 WRG per day</div>
                         </div>

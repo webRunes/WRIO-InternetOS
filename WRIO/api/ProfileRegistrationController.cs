@@ -26,6 +26,22 @@ namespace WRIO.api
                 }
                 else
                 {
+                    //var loginModel = new UserLoginModel(Profile);
+                    //loginModel.Email = model.Email;
+                    //if (!model.IsEmailCorrect)
+                    //{
+                    //    loginModel.SignUpEmailIsIncorrect = true;
+                    //}
+                    //if (!model.IsPasswordCorrect)
+                    //{
+                    //    loginModel.SignUpPasswordIsIncorrect = true;
+                    //}
+                    //if (emailExist)
+                    //{
+                    //    loginModel.IsEmailExist = true;
+                    //}
+                    //Session["signup"] = loginModel;
+                    //return RedirectToAction("Login");
                     return false;
                 }
             }

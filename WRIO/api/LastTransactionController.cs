@@ -2,9 +2,9 @@
 using webGold.Services;
 using WRIO.Extensions;
 
-namespace Web.api
+namespace WRIO.api
 {
-    public class LastTransaction : CustomApiController
+    public class LastTransactionController : CustomApiController
     {
         public AccountBalanceModel Post()
         {

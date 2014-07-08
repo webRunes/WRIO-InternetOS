@@ -36,12 +36,14 @@ namespace WRIO
                 url: "titter/{action}/{id}",
                 defaults: new { controller = "Titter", action = "Login", id = UrlParameter.Optional }
             );
-
+          
             routes.MapRoute(
                 name: "Default",
                 url: "{*path}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+           
         } 
     }
 }

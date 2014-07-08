@@ -32,9 +32,8 @@ namespace WRIO.Controllers
         public ActionResult TransactionList()
         {
             if (!IsLogin()) return View("AdminMain");
-           // var transactionList = PaymentService.GetTransactionCollection();
 
-            return View("TransactionList"/*, transactionList*/);
+            return View("TransactionList");
         }
         private bool IsLogin()
         {

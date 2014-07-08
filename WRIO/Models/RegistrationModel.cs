@@ -10,8 +10,8 @@ namespace WRIO.Models
     {
         public RegistrationModel()
         {
-            NickName = "Anonymous";
-            Description = "No description yet.";
+            NickName = "Anonimous";
+            Description = "Main profile";
             IsTempUser = true;
         }
 

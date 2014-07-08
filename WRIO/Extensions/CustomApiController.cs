@@ -21,6 +21,13 @@ namespace WRIO.Extensions
         {
             get { return _profile ?? (_profile = new Login.Services.Profile(HttpContext.ApplicationInstance.Context)); }
         }
+
+        //[System.Web.Mvc.AcceptVerbs(HttpVerbs.Post)]
+        //public IDictionary<string,string> Translation(string[] keys)
+        //{
+        //    var service = new TagLangService();
+        //    return service.Translate(keys, Profile.CurrentCulture);
+        //}
     }
 
     public interface ICustomApiController
