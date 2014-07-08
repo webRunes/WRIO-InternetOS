@@ -5,14 +5,6 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WRIO", "WRIO\WRIO.csproj", "{0DFF27E6-4F32-4449-A1F4-DD4A51329E89}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webGold", "webGold", "{C2077A60-B98B-4240-B2F4-4D668F784CA5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webGold.Business", "..\webGold\webGold.Business\webGold.Business.csproj", "{9C0D8001-A369-4EAF-9E3C-18EF988B6081}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webGold.Repository", "..\webGold\webGold.Repository\webGold.Repository.csproj", "{7A22BE74-59DF-44FF-8DDD-F6315625A0D7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webGold.Services", "..\webGold\webGold.Services\webGold.Services.csproj", "{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,25 +15,8 @@ Global
 		{0DFF27E6-4F32-4449-A1F4-DD4A51329E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DFF27E6-4F32-4449-A1F4-DD4A51329E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DFF27E6-4F32-4449-A1F4-DD4A51329E89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C0D8001-A369-4EAF-9E3C-18EF988B6081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C0D8001-A369-4EAF-9E3C-18EF988B6081}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C0D8001-A369-4EAF-9E3C-18EF988B6081}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C0D8001-A369-4EAF-9E3C-18EF988B6081}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A22BE74-59DF-44FF-8DDD-F6315625A0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A22BE74-59DF-44FF-8DDD-F6315625A0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A22BE74-59DF-44FF-8DDD-F6315625A0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A22BE74-59DF-44FF-8DDD-F6315625A0D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9C0D8001-A369-4EAF-9E3C-18EF988B6081} = {C2077A60-B98B-4240-B2F4-4D668F784CA5}
-		{7A22BE74-59DF-44FF-8DDD-F6315625A0D7} = {C2077A60-B98B-4240-B2F4-4D668F784CA5}
-		{FF0EAB4C-C66D-44FA-AAFA-08DF14D403EA} = {C2077A60-B98B-4240-B2F4-4D668F784CA5}
 	EndGlobalSection
 EndGlobal
