@@ -1,4 +1,4 @@
-WRIO - Internet OS
+WRIO <sup>Internet OS</sup>
 =
 WRIO - webRunes Input/Output.
 
