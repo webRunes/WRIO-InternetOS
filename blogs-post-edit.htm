@@ -31,27 +31,28 @@
         <div class="row row-offcanvas row-offcanvas-right">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu" role="navigation">
-                    <div class="navbar-header">
+                    <div class="navbar-header tooltip-demo">
                         <ul class="nav menu pull-right">
-                            <li><a href="webrunes-contact.htm" class="btn-link btn-sm"><span class="glyphicon glyphicon-envelope"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Call IA"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-comment"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Logout"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Full screen"><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Open/close menu"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="Show/hide the sidebar"><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
                         </ul>
-                        <a href="#" class="navbar-brand">&nbsp;</a>
+                        <a href="webrunes-contact.htm" class="navbar-brand" data-toggle="tooltip" data-placement="right" title="Contact us">&nbsp;</a>
                     </div>
                     <div class="navbar-collapse in">
                         <ul class="nav navbar-nav" id="nav-accordion">
-                            <li class="panel"><a href="#element1" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse">WRIO</a>
+                            <li class="panel">
+                                <a href="#element1" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">19 135<span class="currency">WRG</span></span>webGold</a>
                                 <div class="collapse" id="element1">
                                     <ul class="nav nav-pills nav-stacked sub">
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Alexey Anshakov</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">News name</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Help post</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="panel"><a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
+                            <li class="panel">
+                                <a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
                                 <div class="collapse" id="element2">
                                     <ul class="nav nav-pills nav-stacked sub">
                                         <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Blogs</a></li>
@@ -61,16 +62,18 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="panel"><a href="#element3" class="collapse" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
+                            <li class="panel">
+                                <a href="#element3" class="collapse" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
                                 <div class="in" id="element3">
                                     <ul class="nav nav-pills nav-stacked sub">
-                                        <li class="active"><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="blogs-post.htm">in. Part 1: Vision of the Internet Future</a></li>
                                         <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">My best post</a></li>
                                         <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Great blogs review</a></li>
+                                        <li class="active"><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="blogs-post.htm">in. Part 1: Vision of the Internet Future</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="new panel"><a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
+                            <li class="new panel">
+                                <a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
                                 <div class="collapse" id="element4"></div>
                             </li>
                         </ul>
@@ -81,7 +84,8 @@
             <div class="content col-xs-12 col-sm-5 col-md-7">
                 <div class="margin">
                     <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
-                        <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
+                        <li class="panel">
+                            <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
                             <div class="in" id="profile-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
@@ -106,6 +110,7 @@
                         </li>
                     </ul>
                     <ul class="breadcrumb">
+                        <li><a href="blogs-post.htm">Read</a></li>
                         <li class="active">Edit</li>
                     </ul>
                     <form class="form-horizontal" role="form">
@@ -150,7 +155,8 @@
             <div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                 <div class="sidebar-margin">
                     <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
-                        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Post</a>
+                        <li class="panel">
+                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Post</a>
                             <div class="in" id="ticket-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
@@ -181,6 +187,7 @@
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-send"></span>Invite the author</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-bookmark"></span>Bookmark</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
                     </div>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="#">Read</a></li>

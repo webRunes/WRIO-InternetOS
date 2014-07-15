@@ -79,6 +79,10 @@ html,body,h1,h2,h3,h4,h5,h6{font-family:Arial, "Helvetica Neue", Helvetica, sans
 .hidden{display:none}
 .label-warning{background-color:#F60}
 .currency{font-size:10px;margin:0 4px;color:#aaa}
+/*.hub{outline:1px solid #fae4c5;float:right;background-color:#fae4c5;position:relative}*/
+/*.hub .icon{color:#f0ad4e;float:right;text-shadow:0 0 8px #fff;position:absolute;top:2px;left:104px;z-index:1}*/
+/*.hub img{position:relative;border:1px solid #fff;outline:2px solid #f0ad4e}*/
+.providers label{margin-left:8px}
 
 @font-face{
     font-family:'BebasNeue';

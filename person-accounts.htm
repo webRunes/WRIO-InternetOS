@@ -27,50 +27,52 @@
 </head>
 
 <body>
-    <div class="container-liquid">
+    <div class="container-liquid tooltip-demo">
         <div class="row row-offcanvas row-offcanvas-right">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu" role="navigation">
                     <div class="navbar-header">
                         <ul class="nav menu pull-right">
-                            <li><a href="webrunes-contact.htm" class="btn-link btn-sm"><span class="glyphicon glyphicon-envelope"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
-                            <li><a href="#" class="btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
+                            <li><a href="webrunes-contact.htm" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                            <li><a href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-lock"></span></a></li>
+                            <li><a href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-fullscreen"></span></a></li>
+                            <li><a href="#" class="btn btn-link btn-sm visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-align-justify"></span></a></li>
+                            <li><a href="#" class="btn btn-link btn-sm visible-xs" data-toggle="offcanvas"><span class="glyphicon glyphicon-transfer"></span></a></li>
                         </ul>
                         <a href="#" class="navbar-brand">&nbsp;</a>
                     </div>
                     <div class="navbar-collapse in">
                         <ul class="nav navbar-nav" id="nav-accordion">
-                            <li class="panel active"><a href="#element1" class="collapse" data-parent="#nav-accordion" data-toggle="collapse">WRIO</a>
-                                <div class="in" id="element1">
+                            <li class="panel">
+                                <a href="#element1" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty pull-right">19 135<span class="currency">WRG</span></span>webGold</a>
+                                <div class="collapse" id="element1">
                                     <ul class="nav nav-pills nav-stacked sub">
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Alexey Anshakov</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">News name</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Help post</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="panel"><a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">42</span>Reader</a>
+                            <li class="panel">
+                                <a href="#element2" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty pull-right">42</span>Reader</a>
                                 <div class="collapse" id="element2">
                                     <ul class="nav nav-pills nav-stacked sub">
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Blogs</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Science</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Best photos</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Animals</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Blogs</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Science</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Best photos</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Animals</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="panel"><a href="#element3" class="collapsed" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty btn-xs pull-right">324</span>Blogs</a>
-                                <div class="collapse" id="element3">
+                            <li class="panel active">
+                                <a href="#element3" class="collapse" data-parent="#nav-accordion" data-toggle="collapse"><span class="qty pull-right">1</span>Alexey Anshakov</a>
+                                <div class="in" id="element3">
                                     <ul class="nav nav-pills nav-stacked sub">
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="blogs-post.htm">in. Part 1: Vision of the Internet Future</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">My best post</a></li>
-                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove btn-xs"></span></a><a href="#">Great blogs review</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">My best post</a></li>
+                                        <li><a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a><a href="#">Great blogs review</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="new panel"><a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
+                            <li class="new panel">
+                                <a href="#element4" data-parent="#nav-accordion" data-toggle="collapse" class="collapsed"><span class="glyphicon glyphicon-plus"></span></a>
                                 <div class="collapse" id="element4"></div>
                             </li>
                         </ul>
@@ -81,7 +83,8 @@
             <div class="content col-xs-12 col-sm-5 col-md-7">
                 <div class="margin">
                     <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
-                        <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
+                        <li class="panel">
+                            <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
                             <div class="in" id="profile-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
@@ -129,47 +132,44 @@
                                         <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
                                     </ul>
                                 </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="media thumbnail">
-                        <div class="col-xs-12 col-md-6 col-lg-5">
-                            <img src="img/no-photo.png" class="pull-left">
-                            <ul class="details">
-                                <li>Name: Alexey Anshakov</li>
-                                <li>Account: Facebook</li>
-                                <li>Created: 22 Jun 2013</li>
-                                <li>Friends: 0</li>
-                                <li>Likes: 0</li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-md-6 col-lg-7">
-                            <div class="media-body">
-                                Профайл Facebook.
+                        <div class="media thumbnail">
+                            <div class="col-xs-12 col-md-6 col-lg-5">
+                                <img src="img/no-photo.png" class="pull-left">
+                                <ul class="details">
+                                    <li>Name: Alexey Anshakov</li>
+                                    <li>Account: Facebook</li>
+                                    <li>Created: 22 Jun 2013</li>
+                                    <li>Friends: 0</li>
+                                    <li>Likes: 0</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-12 col-md-6 col-lg-7">
+                                <a href="#" class="pull-right" data-toggle="tooltip" data-placement="left" title="Remove"><span class="glyphicon glyphicon-remove"></span></a>
+                                <div class="media-body">
+                                    Профайл Facebook.
                                     <ul class="actions">
                                         <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
                                         <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
                                     </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="media thumbnail">
-                        <div class="col-xs-12 col-md-6 col-lg-5">
-                            <img src="img/no-photo.png" class="pull-left">
-                        </div>
-                        <div class="col-xs-12 col-md-6 col-lg-7">
-                            <div class="media-body">
-                                Нажмите чтобы добавить профайл стороннего проекта
+                        <div class="form-group col-xs-12">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-link-profile"><span class="glyphicon glyphicon-link"></span>Link a new profile</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-            
+
             <div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                 <div class="sidebar-margin">
                     <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
-                        <li class="panel"><a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>App</a>
+                        <li class="panel">
+                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>App</a>
                             <div class="in" id="ticket-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
@@ -194,14 +194,14 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="margin-bottom tooltip-demo">
+                    <div class="margin-bottom">
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
                         <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus"></span>Added</button>
-                        <button type="button" class="btn btn-default btn-block disabled" data-toggle="tooltip" data-placement="left" title="Not yet available"><span class="glyphicon glyphicon-download"></span>Download source</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
                     </div>
                     <ul class="nav nav-pills nav-stacked" id="sidebar-accordion">
-                        <li class="panel"><a href="#sidebar-element1" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Cover</a>
+                        <li class="panel">
+                            <a href="#sidebar-element1" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Cover</a>
                             <div class="collapse" id="sidebar-element1">
                                 <ul class="nav nav-pills nav-stacked">
                                     <li><a href="#"><span class="pull-right">3</span>News</a></li>
@@ -211,28 +211,29 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="panel"><a href="#sidebar-element2" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Content</a>
+                        <li class="panel">
+                            <a href="#sidebar-element2" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Content</a>
                             <div class="collapse" id="sidebar-element2">
                                 <ul class="nav nav-pills nav-stacked">
                                     <li><a href="#">History</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="panel"><a href="#sidebar-element3" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Manage</a>
+                        <li class="panel">
+                            <a href="#sidebar-element3" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Manage</a>
                             <div class="in" id="sidebar-element3">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="#">Accounts</a></li>
                                     <li><a href="#">Apps</a></li>
                                     <li><a href="#">Hubs</a></li>
-                                    <li><a href="#">Posts</a></li>
-                                    <li><a href="#">Videos</a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="left" title="Shared. Only a few can view this page"><span class="glyphicon glyphicon-share-alt pull-right"></span>Posts</a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="left" title="Private. Only you can view this page"><span class="glyphicon glyphicon-lock pull-right"></span>Videos</a></li>
                                     <li><a href="#">Audios</a></li>
                                     <li><a href="#">Books</a></li>
                                     <li><a href="#">Places</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="#">Team</a></li>
+                        <li class="active"><a href="#">Accounts</a></li>
                         <li><a href="#">Followers</a></li>
                     </ul>
                     <ul class="nav nav-pills nav-stacked">
@@ -241,11 +242,61 @@
                 </div>
             </div>
 
+        </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-link-profile" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Link a new profile</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills nav-stacked providers">
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/github/logo" title="">
+                                <label>GitHub</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/google/logo" title="">
+                                <label>Google</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/facebook/logo" title="">
+                                <label>Facebook</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/twitter/logo" title="">
+                                <label>Twitter</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/youtube/logo" title="">
+                                <label>Youtube</label>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
     <script src="js/offcanvas.js"></script>
 </body>
 </html>
