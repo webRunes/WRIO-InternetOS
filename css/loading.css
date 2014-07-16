@@ -1,7 +1,6 @@
 /* bootstrap */
 
 html {
-  background-color:#222;
   font-family: sans-serif;
   font-size:14px;
   -webkit-text-size-adjust: 100%;
@@ -84,7 +83,7 @@ html, body {
 }
 
 body {
-    background: url('../img/loading_bg.png');
+    background: #222 url('../img/loading_bg.png');
     text-align: center;
     min-height: 260px;
     min-width: 260px;
