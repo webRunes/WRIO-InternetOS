@@ -199,7 +199,7 @@
                     </ul>
                     <div class="margin-bottom">
                         <button class="btn btn-success btn-block step0" type="submit"><span class="glyphicon glyphicon-flash"></span>Login with guest account</button>
-                        <button class="btn btn-info btn-block" type="submit"><span class="glyphicon glyphicon-thumbs-up"></span>Login with social account</button>
+                        <button class="btn btn-info btn-block" type="submit" data-toggle="modal" data-target="#modal-with-profile"><span class="glyphicon glyphicon-thumbs-up"></span>Login with social account</button>
                     </div>
                     <hr />
                     <div id="sign_in-carousel" class="carousel slide" data-interval="false" data-ride="carousel">
@@ -271,17 +271,63 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <!--<script src="js/application.js"></script>
-    <script src="js/offcanvas.js"></script>-->
-<!--    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>-->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-with-profile" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Login with social account</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills nav-stacked providers">
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/github/logo" title="">
+                                <label>GitHub</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/google/logo" title="">
+                                <label>Google</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/facebook/logo" title="">
+                                <label>Facebook</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/twitter/logo" title="">
+                                <label>Twitter</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="https://oauth.io/api/providers/youtube/logo" title="">
+                                <label>Youtube</label>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="js/bootstrap-tour.min.js"></script>
     <script src="js/conversations/conversation-registration.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/offcanvas.js"></script>
 </body>
 </html>
