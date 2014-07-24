@@ -109,35 +109,79 @@
                         </li>
                     </ul>
                     <ul class="breadcrumb">
-                        <li><a href="wrio-account-edit.htm">Edit</a></li>
-                        <li class="active">Delete account</li>
+                        <li class="active">Alexey Anshakov</li>
                     </ul>
-                    <div class="callout danger">
-                        <h5>Warning!</h5>
-                        <p>Мы честны с нашими пользователями и полностью удаляем регистрационные данные - вы не сможете восстановить свою учетную запись, она будет удалена навсегда!</p>
+                    <div class="callout">
+                        <h5>Public profile</h5>
+                        <p>Имя и описание публичного профайла доступны для просмотра всем желающим. Если вы не хотите публиковать посты под собственным именем, то можете создать <a href="#">Alias account</a></p>
+                    </div>
+                    <div class="callout warning">
+                        <h5>Upgrade guest account for free (30 days left)</h5>
+                        <p>Ваша учетная запись сохранена на этом компьютере. Пожалуйста, введите адрес почты и пароль в течении 30 дней, если хотите сохранить ее за собой и иметь возможность пользоваться аккаунтом с других устройств</p>
                     </div>
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label for="id-Password" class="col-sm-4 col-md-3 control-label">Password</label>
-                            <div class="col-sm-8 col-md-9 has-error">
-                                <input type="password" class="form-control" id="id-Password">
-                                <div class="help-block">Wrong password</div>
+                            <label for="id-Photo" class="col-xs-12 col-sm-4 col-md-3 control-label">Photo</label>
+                            <div class="col-xs-6 col-sm-4 col-md-7">
+                                <input type="url" id="id-Photo" class="form-control" placeholder="Enter URL or upload a picture from computer">
+                            </div>
+                            <div class="col-xs-6 col-sm-4 col-md-2">
+                                <button type="submit" class="btn btn-primary full-width">Browse</button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="id-Last_word" class="col-sm-4 col-md-3 control-label">Last word</label>
+                            <label for="id-First" class="col-sm-4 col-md-3 control-label">Your name</label>
+                            <div class="col-xs-6 col-sm-4 col-md-4">
+                                <input type="text" class="form-control" id="id-First" maxlength="32" placeholder="First" value="I'm">
+                            </div>
+                            <div class="col-xs-6 col-sm-4 col-md-5">
+                                <input type="text" class="form-control" id="id-Last" maxlength="32" placeholder="Last" value="Anonymous">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id-Email" class="col-sm-4 col-md-3 control-label">Your email</label>
+                            <div class="col-xs-6 col-sm-4 col-md-4">
+                                <input type="email" class="form-control" id="id-Email" placeholder="Primary email">
+                            </div>
+                            <div class="col-xs-6 col-sm-4 col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Allow users to contact me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id-Password" class="col-sm-4 col-md-3 control-label">Password</label>
+                            <div class="col-sm-8 col-md-9">
+                                <input type="password" class="form-control" id="id-Password" maxlength="32" placeholder="1-32 Latin characters, numbers and special symbols">
+                                <div class="help-block">1-32 Latin characters, numbers and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id-Description" class="col-sm-4 col-md-3 control-label">Description</label>
                             <div class="col-sm-8 col-md-9 has-error">
-                                <textarea class="form-control" maxlength="2048" rows="6" id="id-Last_word" placeholder="Please give us a brief feedback why you are leaving us"></textarea>
-                                <div class="help-block">Max 2048 characters</div>
+                                <textarea class="form-control" rows="6" maxlength="512" id="id-Description" placeholder="Enter a brief description about yourself. Max 512 characters"></textarea>
+                                <div class="help-block">Max 512 characters</div>
                             </div>
                         </div>
                         <div class="form-group col-xs-12">
-                            <a href="person-profile.htm" class="btn btn-default pull-left"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
                             <div class="pull-right">
-                                <a href="sign_in.htm" class="btn btn-danger"><b>:-(</b> Say goodbye</a>
+                                <a href="person-account-delete.htm" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Delete account</a>
+                                <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-open"></span>Update</a>
                             </div>
                         </div>
                     </form>
+                    <ul class="info nav nav-pills nav-stacked" id="help-accordion">
+                        <li class="panel">
+                            <a href="#help-element" data-parent="#help-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Need help?</a>
+                            <div class="in" id="help-element">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">About public and alias profiles</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -145,18 +189,19 @@
                 <div class="sidebar-margin">
                     <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
                         <li class="panel">
-                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Profile</a>
+                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>App</a>
                             <div class="in" id="ticket-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
                                         <div class="col-xs-12">
-                                            <img src="img/profile1.jpg" class="pull-left">
+                                            <img src="img/no-photo.png" class="pull-left">
                                             <ul class="details">
-                                                <li>Name: Alexey Anshakov</li>
-                                                <li>Registered: 22 Jun 2013</li>
+                                                <li>Name: WRIO</li>
+                                                <li>Created: 22 Jun 2013</li>
                                                 <li>Rating: 244</li>
-                                                <li>Followers: 1,634</li>
-                                                <li>Posts: 1,634</li>
+                                                <li>Users: 1,634</li>
+                                                <li>Price: Free &middot; Full</li>
+                                                <li>Owner: webRunes</li>
                                             </ul>
                                         </div>
                                         <div class="col-xs-12">
@@ -171,10 +216,10 @@
                     </ul>
                     <div class="margin-bottom">
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-star"></span>Buy premium</button>
-                        <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-cog"></span>Settings</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-envelope"></span>Send message</button>
-                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-bookmark"></span>Follow</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
                     </div>
                     <ul class="nav nav-pills nav-stacked" id="sidebar-accordion">
                         <li class="panel">
@@ -186,12 +231,21 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="panel \">
+                            <a href="#sidebar-element2" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Profiles</a>
+                            <div class="in" id="sidebar-element2">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="active"><a href="#">Alexey Anshakov</a></li>
+                                    <li><a href="#"><span class="label label-primary pull-right">Private</span>Anonymous</a></li>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a href="#"><span class="pull-right">2</span>Offers</a></li>
                         <li><a href="#"><span class="pull-right">2</span>Rewards</a></li>
                     </ul>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Photos</a></li>
-                        <li><a href="#">Videos</a></li>
+                        <li><a href="#">Photo</a></li>
+                        <li><a href="#">Video</a></li>
                         <li><a href="#">Followers</a></li>
                     </ul>
                 </div>
