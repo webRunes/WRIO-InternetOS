@@ -52,14 +52,7 @@ html,body,h1,h2,h3,h4,h5,h6{font-family:Arial, "Helvetica Neue", Helvetica, sans
         .controls .glyphicon{margin-right:5px}
 .panel>a>.glyphicon{margin-top:2px}
 .margin-bottom{margin-bottom:8px}
-.callout{background-color:#ecf3fa;border-left:3px solid #d0e2f2;margin:4px 0 12px;padding:8px 16px}
-    .callout h5{color:#428bca}
-    .callout h6{color:#b6c7d6}
         .form-horizontal .callout{margin:0}
-.danger{background-color:#fbf5f5;border-color:#eedbdb}
-    .danger h5,.danger a{color:#a94442}
-.warning{background-color:#fcf8f2;border-color:#fbead3}
-    .warning h5,.warning a{color:#f0ad4e}
 .glyphicon-new-window{font-size:90%;margin-left:4px}
 .popover{z-index:1040}
 .loading{color:#aaa;margin:12px}
@@ -77,12 +70,33 @@ article{text-align:justify}
     article h1{font-size:180%}
     article h2{font-size:140%}
     article img{width:100%}
-    article section{display:inline-block;margin-bottom:20px;width:100%}
-        article section .col-xs-12{padding-top:10px}
-        article section p{padding:0}
-        article section .glyphicon-pencil{display:none}
+    article section{display:inline-block;width:100%}
+        article .col-xs-12{padding-top:10px;padding-bottom:10px}
+        article .paragraph{display:inline-block;width:100%}
+            article .paragraph p{margin:0}
+                article .paragraph .glyphicon-pencil{visibility:hidden}
+                        article .paragraph:hover .glyphicon-pencil{visibility:visible}
+        article .contents{padding:24px 12px}
+                article .contents ol li a{display:block;padding:2px 0;width:100%}
     article .thumbnail{padding:0}
-/* end */
+/* END article */
+
+/* callout */
+.callout{background-color:#ecf3fa;border-left:3px solid #d0e2f2;margin:4px 0 12px;padding:8px 16px}
+    .callout h5{color:#428bca;margin:10px 0}
+    .callout h6{color:#b6c7d6;margin:10px 0}
+figcaption.callout{margin:4px 0}
+.figure-details{background-color:#f8f8f8;border-color:#e3e3e3}
+    .figure-details h5,.figure-details a{color:#757575}
+.danger{background-color:#fbf5f5;border-color:#eedbdb}
+    .danger h5,.danger a{color:#a94442}
+.warning{background-color:#fcf8f2;border-color:#fbead3}
+    .warning h5,.warning a{color:#f0ad4e}
+/* END callout */
+
+/* menu */
+menu{padding:0;margin:0 0 8px}
+/* END menu */
 
 @font-face{
     font-family:'BebasNeue';
@@ -144,19 +158,12 @@ ul.leaders span + span{float:right;background:white}
 	.thumbnail:hover{background-color:#f9f9f9;border-color:whiteSmoke;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.055);cursor:pointer}
     .thumbnail header.col-xs-12{padding-bottom:0}
         .thumbnail header.col-xs-12 h2{margin-top:0}
-.thumbnail .media-body{color:#222;text-align:justify}
-    .thumbnail .media-body h4{font-size:14px;margin:0;padding:0;line-height:normal}
-	    .thumbnail .media-body h4 a:hover{text-decoration:none}
-        .thumbnail .media-body h4 span{font-size:12px;font-weight:normal;margin:0 6px}
-        .thumbnail .media-body h6{font-size:11px;margin:2px 0;padding: 0;line-height:normal}
-    .thumbnail .media-body ul{margin:0}
-	    .thumbnail .media-body li{display:inline}
-        .tooltip-inner{padding:8px 12px}
-    .thumbnail .media-body .label{margin-left:4px}
+    .tooltip-inner{padding:8px 12px}
 .thumbnail .details,.thumbnail .donation{color:#aaa;line-height:normal;-webkit-transition:all 0.25s ease-out;-moz-transition:all 0.25s ease-out;transition:all 0.25s ease-out}
+        .thumbnail .details li,.thumbnail .donation li{list-style:none}
     .thumbnail .donation .btn .glyphicon{margin:0 0 3px 0}
     .thumbnail:hover{color:#666;-webkit-transition:all 0.25s ease-out;-moz-transition:all 0.25s ease-out;transition:all 0.25s ease-out}
-    .thumbnail .details{padding:0}
+    .thumbnail .details{padding:0;display:table;margin-top:4px;min-width:120px}
     .thumbnail>.pull-right{margin-left:0} /* reset bootstrap to fix ticket view */
     .thumbnail p{margin:0}
     .thumbnail .actions{margin:4px 0;padding:0}
@@ -164,10 +171,9 @@ ul.leaders span + span{float:right;background:white}
             .thumbnail .actions li{margin-top:8px;padding:0;display:inline-block}
                 .thumbnail .actions li a{color:#aaa;-webkit-transition:color .25s linear;transition:color .25s linear}
                     .thumbnail:hover .actions li a{color:#428bca;-webkit-transition:color .25s linear;transition:color .25s linear}
-    .thumbnail .details{display:table;margin-top:4px;min-width:120px}
     .thumbnail .col-xs-12>img{margin:4px 8px 4px 0}
-        .thumbnail .details li,.thumbnail .donation li{list-style:none}
 .thumbnail img{width:120px;height:80px}
+.thumbnail h2 sup,.info .panel a sup{color:#aaa;font-size:10px;margin-left:4px}
 /* END thumbnail */
 
 .btn,.nav>li>a,.dropdown-menu>li>a{font-size:12px;padding:8px 16px}
@@ -194,7 +200,7 @@ ul.leaders span + span{float:right;background:white}
 .for_paginator{margin:2px}
 
 .sidebar-offcanvas{overflow:hidden}
-.sidebar-offcanvas .thumbnail.media,.sidebar-offcanvas .thumbnail.media:hover{background-color:#f8f8f8}
+.sidebar-offcanvas .thumbnail.media,.sidebar-offcanvas .thumbnail.media:hover,article .contents{background-color:#f8f8f8}
 .sidebar-offcanvas .thumbnail{padding:0}
     .sidebar-offcanvas .thumbnail:hover{background-color:transparent;border-color:transparent;cursor:default;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0)}
 
