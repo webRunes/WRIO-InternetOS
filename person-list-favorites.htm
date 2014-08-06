@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <div class="container-liquid">
+    <div class="container-liquid tooltip-demo">
         <div class="row row-offcanvas row-offcanvas-right">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
@@ -109,35 +109,58 @@
                         </li>
                     </ul>
                     <ul class="breadcrumb">
-                        <li><a href="wrio-account-edit.htm">Edit</a></li>
-                        <li class="active">Delete account</li>
+                        <li class="active">Accounts</li>
                     </ul>
-                    <div class="callout danger">
-                        <h5>Warning!</h5>
-                        <p>Мы честны с нашими пользователями и полностью удаляем регистрационные данные - вы не сможете восстановить свою учетную запись, она будет удалена навсегда!</p>
-                    </div>
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="id-Password" class="col-sm-4 col-md-3 control-label">Password</label>
-                            <div class="col-sm-8 col-md-9 has-error">
-                                <input type="password" class="form-control" id="id-Password">
-                                <div class="help-block">Wrong password</div>
+                    <main>
+                        <article>
+                            <div class="media thumbnail">
+                                <header class="col-xs-12">
+                                    <h2>Post name 1<sup>Post</sup></h2>
+                                </header>
+                                <div class="col-xs-12 col-md-6 pull-right">
+                                    <img src="img/no-photo-200x200.png" class="pull-left">
+                                    <ul class="details">
+                                        <li>Created: 22 Jun 2013</li>
+                                        <li>Rating: 244</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                    </p>
+                                    <ul class="actions">
+                                        <li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
+                                    </ul>
+                                    <p></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="id-Last_word" class="col-sm-4 col-md-3 control-label">Last word</label>
-                            <div class="col-sm-8 col-md-9 has-error">
-                                <textarea class="form-control" maxlength="2048" rows="6" id="id-Last_word" placeholder="Please give us a brief feedback why you are leaving us"></textarea>
-                                <div class="help-block">Max 2048 characters</div>
+                        </article>
+                        <article>
+                            <div class="media thumbnail">
+                                <header class="col-xs-12">
+                                    <h2>Post name 2<sup>Post</sup></h2>
+                                </header>
+                                <div class="col-xs-12 col-md-6 pull-right">
+                                    <img src="img/no-photo-200x200.png" class="pull-left">
+                                    <ul class="details">
+                                        <li>Created: 22 Jun 2013</li>
+                                        <li>Rating: 244</li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <p>
+                                        Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+                                    </p>
+                                    <ul class="actions">
+                                        <li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
+                                    </ul>
+                                    <p></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-xs-12">
-                            <a href="person-profile.htm" class="btn btn-default pull-left"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
-                            <div class="pull-right">
-                                <a href="sign_in.htm" class="btn btn-danger"><b>:-(</b> Say goodbye</a>
-                            </div>
-                        </div>
-                    </form>
+                        </article>
+                    </main>
                 </div>
             </div>
 
@@ -145,18 +168,19 @@
                 <div class="sidebar-margin">
                     <ul class="info nav nav-pills nav-stacked" id="ticket-accordion">
                         <li class="panel">
-                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Profile</a>
+                            <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>App</a>
                             <div class="in" id="ticket-element">
                                 <div class="tickets">
                                     <div class="media thumbnail">
                                         <div class="col-xs-12">
-                                            <img src="img/profile1-200x200.jpg" class="pull-left">
+                                            <img src="img/wrio-preview.jpg" class="pull-left">
                                             <ul class="details">
-                                                <li>Name: Alexey Anshakov</li>
-                                                <li>Registered: 22 Jun 2013</li>
+                                                <li>Name: WRIO</li>
+                                                <li>Created: 22 Jun 2013</li>
                                                 <li>Rating: 244</li>
-                                                <li>Followers: 1,634</li>
-                                                <li>Posts: 1,634</li>
+                                                <li>Users: 1,634</li>
+                                                <li>Access: Free &middot; Open source</li>
+                                                <li>Owner: webRunes</li>
                                             </ul>
                                         </div>
                                         <div class="col-xs-12">
@@ -170,38 +194,60 @@
                         </li>
                     </ul>
                     <div class="margin-bottom">
-                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-star"></span>Buy premium</button>
-                        <button type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-cog"></span>Settings</button>
-                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-envelope"></span>Send message</button>
                         <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-share"></span>Share</button>
-                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-bookmark"></span>Follow</button>
+                        <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus"></span>Added</button>
+                        <button type="button" class="btn btn-default btn-block"><span class="glyphicon glyphicon-remove"></span>Close</button>
                     </div>
                     <ul class="nav nav-pills nav-stacked" id="sidebar-accordion">
                         <li class="panel">
                             <a href="#sidebar-element1" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Cover</a>
                             <div class="collapse" id="sidebar-element1">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Timeline</a></li>
+                                    <li><a href="#"><span class="pull-right">3</span>News</a></li>
+                                    <li><a href="wrio-about.htm">About</a></li>
+                                    <li><a href="wrio-terms.htm"><span class="label label-success pull-right">Class A</span>Terms</a></li>
+                                    <li><a href="wrio-privacy.htm"><span class="label label-success pull-right">Class A</span>Privacy</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="#"><span class="pull-right">2</span>Offers</a></li>
-                        <li><a href="#"><span class="pull-right">2</span>Rewards</a></li>
+                        <li class="panel">
+                            <a href="#sidebar-element2" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Content</a>
+                            <div class="collapse" id="sidebar-element2">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">History</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="panel">
+                            <a href="#sidebar-element3" class="collapsed" data-parent="#sidebar-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Accounts</a>
+                            <div class="in" id="sidebar-element3">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#"><span class="pull-right" style="color:#ccc">Private</span>Emails</a></li>
+                                    <li><a href="#"><span class="pull-right" style="color:#ccc">Private</span>Services</a></li>
+                                    <li><a href="#">Social networks</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Followers</a></li>
                     </ul>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="#">Photos</a></li>
-                        <li><a href="#">Videos</a></li>
-                        <li><a href="#">Followers</a></li>
+                        <li class="active"><a href="#">Favorites</a></li>
+                        <li><a href="#">Apps</a></li>
+                        <li><a href="#">Hubs</a></li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Shared. Only a few can view this page"><span class="label label-default pull-right">Shared</span>Posts</a></li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Private. Only you can view this page"><span class="label label-default pull-right">Private</span>Video</a></li>
+                        <li><a href="#">Audio</a></li>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Places</a></li>
                     </ul>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/application.js"></script>
     <script src="js/offcanvas.js"></script>
 </body>
 </html>

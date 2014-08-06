@@ -70,15 +70,17 @@ article{text-align:justify}
     article h1{font-size:180%}
     article h2{font-size:140%}
     article img{width:100%}
+    article header p{color:#999}
     article section{display:inline-block;width:100%}
         article .col-xs-12{padding-top:10px;padding-bottom:10px}
         article .paragraph{display:inline-block;width:100%}
             article .paragraph p{margin:0}
-                article .paragraph .glyphicon-pencil{visibility:hidden}
-                        article .paragraph:hover .glyphicon-pencil{visibility:visible}
+                article .paragraph .glyphicon-comment{visibility:hidden}
+                        article .paragraph:hover .glyphicon-comment{visibility:visible}
         article .contents{padding:24px 12px}
                 article .contents ol li a{display:block;padding:2px 0;width:100%}
     article .thumbnail{padding:0}
+    article .media.thumbnail{margin-top:8px}
 /* END article */
 
 /* callout */
@@ -171,7 +173,7 @@ ul.leaders span + span{float:right;background:white}
             .thumbnail .actions li{margin-top:8px;padding:0;display:inline-block}
                 .thumbnail .actions li a{color:#aaa;-webkit-transition:color .25s linear;transition:color .25s linear}
                     .thumbnail:hover .actions li a{color:#428bca;-webkit-transition:color .25s linear;transition:color .25s linear}
-    .thumbnail .col-xs-12>img{margin:4px 8px 4px 0}
+    .thumbnail .col-xs-12 img{margin:4px 8px 4px 0}
 .thumbnail img{width:120px;height:80px}
 .thumbnail h2 sup,.info .panel a sup{color:#aaa;font-size:10px;margin-left:4px}
 /* END thumbnail */
