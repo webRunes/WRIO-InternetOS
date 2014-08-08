@@ -1,4 +1,9 @@
-<script type="application/ld+json">
+<html>
+  <head>
+    <title>Share demo: Basic page</title>
+    <link rel="canonical" href="http://www.example.com" />
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+    </script><script type="application/ld+json">
 {
   "@context" : "http://schema.org",
   "@type" : "Article",
@@ -12,10 +17,8 @@
   "articleBody" : "related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment"
 }
 </script>
-<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
+  </head>
+  <body>
+    <g:plus action="share"></g:plus>
+  </body>
+</html>
