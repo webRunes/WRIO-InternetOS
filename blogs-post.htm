@@ -385,11 +385,11 @@
                                 <ul class="breadcrumb">
                                     <li class="active">Author</li>
                                 </ul>
-                                <div class="media thumbnail">
+                                <article itemscope itemtype="http://schema.org/Person" class="media thumbnail">
                                     <div class="col-xs-12 col-md-6 col-lg-5">
-                                        <img src="img/profile1-200x200.jpg" class="pull-left">
+                                        <img itemprop="image" src="img/profile1-200x200.jpg" class="pull-left">
                                         <ul class="details">
-                                            <li>Name: Alexey Anshakov</li>
+                                            <li>Name: <span itemprop="name"><span itemprop="givenName">Alexey</span> <span itemprop="familyName">Anshakov</span></span></li>
                                         </ul>
                                     </div>
                                     <div class="col-xs-12 col-md-6 col-lg-7">
@@ -426,17 +426,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </article>
                                 <ul class="breadcrumb">
                                     <li class="active">Author</li>
                                 </ul>
-                                <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="media thumbnail">
+                                <article itemprop="author" itemscope itemtype="http://schema.org/Person" class="media thumbnail">
                                     <div class="col-xs-12 col-md-6 pull-right">
                                         <img itemprop="image" src="img/profile1-200x200.jpg" class="pull-left">
                                         <ul class="details">
                                             <li>Name: <span itemprop="name"><span itemprop="givenName">Alexey</span> <span itemprop="familyName">Anshakov</span></span></li>
-                                            <li>Registered: 22 Jun 2013</li>
-                                            <li>Followers: 1,634 times</li>
+                                            <li>Registered: <time datetime="2013-01-22">22 January 2013</time></li>
+                                            <li>Rating: 244</li>
+                                            <li>Posts: 1,634</li>
+                                            <li>Followers: 1,634</li>
                                             <li>Hub: <a href="http://alexey-anshakov.webrunes.com" itemprop="url">http://alexey-anshakov.webrunes.com</a></li>
                                             <li>Profile: <a href="http://webrunes.com/person/alexey-anshakov" itemprop="sameAs" rel="author">http://webrunes.com/person/alexey-anshakov</a></li>
                                         </ul>
@@ -451,7 +453,7 @@
                                             <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>Send message</a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </article>
                                 <ul class="breadcrumb">
                                     <li class="active">License</li>
                                 </ul>
@@ -473,27 +475,30 @@
                                 <ul class="breadcrumb">
                                     <li class="active">Shared by</li>
                                 </ul>
-                                <div class="media thumbnail">
-                                    <div class="col-xs-12 col-md-6 col-lg-5">
-                                        <img src="img/no-photo-200x200.png" class="pull-left">
+                                <article itemprop="author" itemscope itemtype="http://schema.org/Person" class="media thumbnail">
+                                    <div class="col-xs-12 col-md-6 pull-right">
+                                        <img itemprop="image" src="img/profile1-200x200.jpg" class="pull-left">
                                         <ul class="details">
-                                            <li>Name: User name</li>
-                                            <li>Registered: 22 Jun 2013</li>
+                                            <li>Name: <span itemprop="name"><span itemprop="givenName">User</span> <span itemprop="familyName">Name</span></span></li>
+                                            <li>Registered: <time datetime="2013-01-22">22 January 2013</time></li>
                                             <li>Rating: 244</li>
-                                            <li>Added: 1,634</li>
                                             <li>Posts: 1,634</li>
+                                            <li>Followers: 1,634</li>
+                                            <li>Hub: <a href="http://alexey-anshakov.webrunes.com" itemprop="url">http://alexey-anshakov.webrunes.com</a></li>
+                                            <li>Profile: <a href="http://webrunes.com/person/alexey-anshakov" itemprop="sameAs" rel="author">http://webrunes.com/person/alexey-anshakov</a></li>
                                         </ul>
                                     </div>
-                                    <div class="col-xs-12 col-md-6 col-lg-7">
-                                        <div class="media-body">
-                                            Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
-                                            <ul class="actions">
-                                                <li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li>
-                                                <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>Send message</a></li>
-                                            </ul>
-                                        </div>
+                                    <div class="col-xs-12 col-md-6">
+                                        <p>
+                                            <span itemprop="description">Описание пользователя. Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.</span>
+                                        </p>
+                                        <ul class="actions">
+                                            <li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li>
+                                            <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
+                                            <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>Send message</a></li>
+                                        </ul>
                                     </div>
-                                </div>
+                                </article>
                             </footer>
                             <ul class="breadcrumb">
                                 <li class="active">Add comment</li>
