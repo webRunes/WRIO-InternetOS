@@ -155,7 +155,7 @@ ul.leaders span + span{float:right;background:white}
 .align-center{text-align:center}
 
 /* thumbnail */
-.thumbnail{border-color:transparent;-webkit-box-shadow:0 1px 3px transparent;-moz-box-shadow:0 1px 3px transparent;box-shadow:0 1px 3px transparent}
+.thumbnail{border-color:transparent;text-align:justify;-webkit-box-shadow:0 1px 3px transparent;-moz-box-shadow:0 1px 3px transparent;box-shadow:0 1px 3px transparent}
     .thumbnail .col-xs-12{padding:10px 15px}
 	.thumbnail:hover{background-color:#f9f9f9;border-color:whiteSmoke;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.055);cursor:pointer}
     .thumbnail header.col-xs-12{padding-bottom:0}
