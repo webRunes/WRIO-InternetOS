@@ -76,6 +76,9 @@ $tf/
 # Guidance Automation Toolkit
 *.gpState
 
+# Web Storm, other java IDE's
+.idea
+
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
