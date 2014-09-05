@@ -6,9 +6,12 @@ html,body,h1,h2,h3,h4,h5,h6{font-family:Arial, "Helvetica Neue", Helvetica, sans
 .nav>li>a.pull-right{z-index:99}/* fix bug for "x" in menu */
 .navbar-header{width:100%}
     .navbar-brand{background:url('../img/logo.png') center center no-repeat;margin:8px 20px;height:20px;width:138px}
+    .navbar-header .active{-webkit-box-shadow:none;box-shadow:none}
+    .navbar-header .btn .label-warning,.navbar-header:hover .btn .label-warning{background-color:#F60}
 .navbar-footer{position:absolute;bottom:0}
     .navbar-footer a{color:#666;font-size:10px;font-weight:bold;margin:4px 8px;height:24px;line-height:24px;text-transform:uppercase}
         .navbar-footer a:hover{color:#fff;text-decoration:none}
+
 .main .navbar-nav{clear:both;margin:0;width:100%}
     .main .nav a{-webkit-transition:color 0.2s ease-in-out;-moz-transition:color 0.2s ease-in-out;-ms-transition:color 0.2s ease-in-out;-o-transition:color 0.2s ease-in-out;transition:color 0.2s ease-in-out}
     .main .navbar-collapse{padding:0}
@@ -57,7 +60,6 @@ html,body,h1,h2,h3,h4,h5,h6{font-family:Arial, "Helvetica Neue", Helvetica, sans
 .popover{z-index:1040}
 .loading{color:#aaa;margin:12px}
 .hidden{display:none}
-.label-warning{background-color:#F60}
 .currency{font-size:10px;margin:0 4px;color:#aaa}
 /*.hub{outline:1px solid #fae4c5;float:right;background-color:#fae4c5;position:relative}*/
 /*.hub .icon{color:#f0ad4e;float:right;text-shadow:0 0 8px #fff;position:absolute;top:2px;left:104px;z-index:1}*/
