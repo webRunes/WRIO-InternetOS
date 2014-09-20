@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.Web.Mvc;
 using Core.Domain;
-using Login.Business.Model;
 using WRIO.Extensions;
 
 namespace WRIO.Controllers
@@ -13,8 +11,7 @@ namespace WRIO.Controllers
 
         public HomeController()
         {
-            var conn = ConfigurationManager.ConnectionStrings["MySqlWrioCore"].ConnectionString;
-            service = new MySqlCoreService(conn);
+            service = new MySqlCoreService(Connection);
         }
 
         //
@@ -42,7 +39,7 @@ namespace WRIO.Controllers
                     image = ticket.Picture;
                 }
             }
-            var user = Profile.IsAuthenticated ? Profile.CurrentUser.Id : "";
+            var user = Profile.IsAuthenticated ? Profile.GetUserAccountGuid() : "";
 
             ViewBag.postId = postId;
             ViewBag.title = title;

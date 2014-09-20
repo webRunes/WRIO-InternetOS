@@ -1,12 +1,13 @@
-﻿using System.Web;
+﻿using System.Configuration;
+using System.Web;
 using System.Web.Http;
-using Login.Services;
+using UserAccount;
 
 namespace WRIO.Extensions
 {
-    public class CustomApiController : ApiController , ICustomApiController
+    public class CustomApiController : ApiController
     {
-        public new HttpContextBase HttpContext
+        public HttpContextBase HttpContext
         {
             get
             {
@@ -16,21 +17,23 @@ namespace WRIO.Extensions
             }
         }
 
-        private Login.Services.Profile _profile;
-        public new Login.Services.Profile Profile
+        private string connection;
+        protected string Connection
         {
-            get { return _profile ?? (_profile = new Login.Services.Profile(HttpContext.ApplicationInstance.Context)); }
+            get
+            {
+                if (string.IsNullOrEmpty(connection))
+                {
+                    connection = ConfigurationManager.ConnectionStrings["MySqlWrioCore"].ConnectionString;
+                }
+                return connection;
+            }
         }
 
-        //[System.Web.Mvc.AcceptVerbs(HttpVerbs.Post)]
-        //public IDictionary<string,string> Translation(string[] keys)
-        //{
-        //    var service = new TagLangService();
-        //    return service.Translate(keys, Profile.CurrentCulture);
-        //}
-    }
-
-    public interface ICustomApiController
-    {
+        private IProfile _profile;
+        public IProfile Profile
+        {
+            get { return _profile ?? (_profile = new Profile(HttpContext.ApplicationInstance.Context, Connection)); }
+        }
     }
 }

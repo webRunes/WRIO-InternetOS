@@ -36,7 +36,7 @@ aps.service('profileSrv',['$http', '$rootScope', '$q', '$window',function($http,
         return userId;
     };
     this.getUserName = function () {
-        return profile?profile.NickName:'';
+        return profile?profile.Nick:'';
     };
     this.checkUser = function () {
         var def = $q.defer();
@@ -54,6 +54,10 @@ aps.service('profileSrv',['$http', '$rootScope', '$q', '$window',function($http,
         }
 
         return def.promise;
+    };
+    this.ClearCurrentUser=function(){
+        profile='';
+        userId='';
     };
 
     var init=function(){

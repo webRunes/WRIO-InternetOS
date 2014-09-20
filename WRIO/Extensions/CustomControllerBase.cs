@@ -1,13 +1,13 @@
-﻿using System.Web;
+﻿using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
-using Login.Services;
-using TagLang.Business;
+using UserAccount;
 
 namespace WRIO.Extensions
 {
     public class CustomControllerBase : Controller
     {
-        public new HttpContextBase HttpContext
+        public HttpContextBase HttpContext
         {
             get
             {
@@ -17,17 +17,23 @@ namespace WRIO.Extensions
             }
         }
 
-        private Login.Services.Profile _profile;
-        public new Login.Services.Profile Profile
+        private string connection;
+        protected string Connection
         {
-            get { return _profile ?? (_profile = new Login.Services.Profile(HttpContext.ApplicationInstance.Context)); }
+            get
+            {
+                if (string.IsNullOrEmpty(connection))
+                {
+                    connection = ConfigurationManager.ConnectionStrings["MySqlWrioCore"].ConnectionString;
+                }
+                return connection;
+            }
         }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public JsonResult Translation(string[] keys)
-        //{
-        //    var service = new TagLangService();
-        //    return Json(service.Translate(keys, Profile.CurrentCulture));
-        //}
+        private IProfile profile;
+        public new IProfile Profile
+        {
+            get { return profile ?? (profile = new Profile(HttpContext.ApplicationInstance.Context, Connection)); }
+        }
     }
 }

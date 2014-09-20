@@ -1,32 +1,22 @@
 ﻿using System;
 using System.Net.Mail;
-using Login.Repository;
-using Login.Repository.ModelInterfaces;
 
 
 namespace WRIO.Models
 {
-    public class RegistrationModel : IRegistrationModel
+    public class RegistrationModel
     {
         public RegistrationModel()
         {
-            NickName = "Anonimous";
-            Description = "Main profile";
-            IsTempUser = true;
-        }
-
-
-        public RegistrationModel(IUserAccount entity)
-        {
-            NickName = entity.NickName;
-            Email = entity.Email;
-            Description = entity.Description;
-            Avatar = entity.Avatar;
-            RegistrationDate = entity.RegistrationDate;
-            if(string.IsNullOrEmpty(entity.PasswordHash))
-            {
-                IsTempUser = true;
-            }
+            //NickName = entity.NickName;
+            //Email = entity.Email;
+            //Description = entity.Description;
+            //Avatar = entity.Avatar;
+            //RegistrationDate = entity.RegistrationDate;
+            //if(string.IsNullOrEmpty(entity.PasswordHash))
+            //{
+            //    IsTempUser = true;
+            //}
         }
 
        

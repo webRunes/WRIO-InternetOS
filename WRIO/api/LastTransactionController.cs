@@ -6,9 +6,9 @@ namespace WRIO.api
 {
     public class LastTransactionController : CustomApiController
     {
-        public AccountBalanceModel Post()
-        {
-            return PayPalService.GetLastTransaction(Profile.CurrentUser.Id);
-        }
+        //public AccountBalanceModel Post()
+        //{
+        //    return PayPalService.GetLastTransaction(Profile.CurrentUser.UserAccountGuid);
+        //}
     }
 }

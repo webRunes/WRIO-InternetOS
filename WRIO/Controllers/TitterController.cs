@@ -38,9 +38,9 @@ namespace WRIO.Controllers
             {
                 var titter = new TitterService(cunsomerKey, cunsomerSecret);
                 var token = titter.GetOauthToken(oauth_verifier, oauth_token);
-                if (token != null && Profile.IsAuthenticated && !string.IsNullOrEmpty(Profile.CurrentUser.Id))
+                if (token != null && Profile.IsAuthenticated && !string.IsNullOrEmpty(Profile.GetUserAccountGuid()))
                 {
-                    token.UserGuid = Profile.CurrentUser.Id;
+                    token.UserGuid = Profile.GetUserAccountGuid();
                     service.SaveUserTwitterToken(TwitterToken.ConvertToken(token));
                 }
             }

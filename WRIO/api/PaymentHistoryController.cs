@@ -7,9 +7,9 @@ namespace WRIO.api
 {
     public class PaymentHistoryController : CustomApiController
     {
-        public IList<PaymentHistoryModel> Post()
-        {
-            return AccountBalanceService.PaymentHistoryCollection(Profile.CurrentUser.Id);
-        } 
+        //public IList<PaymentHistoryModel> Post()
+        //{
+        //    return AccountBalanceService.PaymentHistoryCollection(Profile.CurrentUser.UserAccountGuid);
+        //} 
     }
 }

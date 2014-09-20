@@ -26,9 +26,9 @@ namespace WRIO
             );
 
             routes.MapRoute(
-                name: "Profile",
-                url: "Profile/{action}/{id}",
-                defaults: new { controller = "Profile", action = "Login", id = UrlParameter.Optional }
+                name: "LoginService",
+                url: "LoginService/{action}/{id}",
+                defaults: new { controller = "LoginService", action = "Login", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
