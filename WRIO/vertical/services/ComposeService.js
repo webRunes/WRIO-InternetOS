@@ -2,8 +2,8 @@
 
 var aps = aps || {};
 
-aps.service('composeService', ['$http', '$rootScope', 'profileSrv', 'PostsService',
-    function($http, $rootScope, profileSrv, PostsService) {
+aps.service('composeService', ['$http', '$rootScope', 'profileSrv', 'PostsService','iframelySvc',
+    function($http, $rootScope, profileSrv, PostsService, iframly) {
         this.getComposes = function(callBack) {
             if (!loaded) {
                 $http.get('/api/CoreCompose/' + profileSrv.getUserId()).success(function(data) {
@@ -55,6 +55,14 @@ aps.service('composeService', ['$http', '$rootScope', 'profileSrv', 'PostsServic
             }else{
                 composes[ind].URL=url;
 
+//                iframly.getPostData(url,function(data){
+//                    if(!data){
+//                        if(callBack) callBack(data);
+//                    }else{
+//                        var tt=data;
+//                    }
+//
+//                });
                 CalculatePostData(ind, function(data) {
                     if (!data){
                         callBack(data);

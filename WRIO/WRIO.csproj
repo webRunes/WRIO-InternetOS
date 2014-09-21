@@ -100,15 +100,6 @@
     <Reference Include="log4net">
       <HintPath>..\Dlls\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Login.Business">
-      <HintPath>..\Dlls\Login.Business.dll</HintPath>
-    </Reference>
-    <Reference Include="Login.Repository">
-      <HintPath>..\Dlls\Login.Repository.dll</HintPath>
-    </Reference>
-    <Reference Include="Login.Services">
-      <HintPath>..\Dlls\Login.Services.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PayPalCoreSDK">
@@ -193,6 +184,9 @@
     <Reference Include="Titter">
       <HintPath>..\Dlls\Titter.dll</HintPath>
     </Reference>
+    <Reference Include="UserAccount">
+      <HintPath>..\Dlls\UserAccount.dll</HintPath>
+    </Reference>
     <Reference Include="webGold.Business">
       <HintPath>..\Dlls\webGold.Business.dll</HintPath>
     </Reference>
@@ -212,9 +206,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\img\wiki\" />
-    <Folder Include="fonts\" />
-    <Folder Include="Scripts\" />
     <Folder Include="vertical\Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -228,16 +219,8 @@
     <Compile Include="api\CoreUserAppsController.cs" />
     <Compile Include="api\CoreUserParamsController.cs" />
     <Compile Include="api\LastTransactionController.cs" />
-    <Compile Include="api\LoginController.cs" />
-    <Compile Include="api\LoginResetPasswordController.cs" />
-    <Compile Include="api\LoginSignInController.cs" />
-    <Compile Include="api\PasswordController.cs" />
     <Compile Include="api\PayPalController.cs" />
     <Compile Include="api\PayPalWithdrawController.cs" />
-    <Compile Include="api\ProfileCheckEmailController.cs" />
-    <Compile Include="api\ProfileGuestloginController.cs" />
-    <Compile Include="api\ProfileRegistrationController.cs" />
-    <Compile Include="api\SignOutController.cs" />
     <Compile Include="api\PaymentHistoryController.cs" />
     <Compile Include="api\UserProfileController.cs" />
     <Compile Include="api\WrioLangController.cs" />
@@ -250,7 +233,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\LoginServiceController.cs" />
     <Compile Include="Controllers\TitterController.cs" />
     <Compile Include="Extensions\CustomApiController.cs" />
     <Compile Include="Extensions\CustomControllerBase.cs" />
@@ -263,7 +246,6 @@
     <Compile Include="Models\AddFundsModel.cs" />
     <Compile Include="Models\Admin\TransactionCollectionModel.cs" />
     <Compile Include="Models\DeleteAccountModel.cs" />
-    <Compile Include="Models\Login\UserLoginModel.cs" />
     <Compile Include="Models\PayPalResultModel.cs" />
     <Compile Include="Models\ProfileCollectionModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
@@ -276,36 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\webrunes.css" />
-    <Content Include="Content\ico\apple-touch-icon-114-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-144-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-57-precomposed.png" />
-    <Content Include="Content\ico\apple-touch-icon-72-precomposed.png" />
-    <Content Include="Content\ico\favicon.ico" />
-    <Content Include="Content\img\1.png" />
-    <Content Include="Content\img\2.png" />
-    <Content Include="Content\img\3.png" />
-    <Content Include="Content\img\bg.jpg" />
-    <Content Include="Content\img\bg.png" />
-    <Content Include="Content\img\browser_chrome.png" />
-    <Content Include="Content\img\browser_firefox.png" />
-    <Content Include="Content\img\browser_ie.png" />
-    <Content Include="Content\img\facebook.png" />
-    <Content Include="Content\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\img\glyphicons-halflings.png" />
-    <Content Include="Content\img\google.png" />
-    <Content Include="Content\img\grid_bg.png" />
-    <Content Include="Content\img\invitation.jpg" />
-    <Content Include="Content\img\loading_bg.png" />
-    <Content Include="Content\img\logo.png" />
-    <Content Include="Content\img\logo_webrunes.png" />
-    <Content Include="Content\img\logo_wrio.png" />
-    <Content Include="Content\img\no-photo.png" />
-    <Content Include="Content\img\profile1.jpg" />
-    <Content Include="Content\img\twitter.png" />
-    <Content Include="Content\img\webrunes.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="loading.htm" />
@@ -326,6 +278,7 @@
     <Content Include="vertical\controllers\InvitationController.js" />
     <Content Include="vertical\controllers\InviteController.js" />
     <Content Include="vertical\controllers\LoginController.js" />
+    <Content Include="vertical\controllers\LoginInController.js" />
     <Content Include="vertical\controllers\PlusController.js" />
     <Content Include="vertical\controllers\PostController.js" />
     <Content Include="vertical\controllers\ProfileController.js" />
@@ -396,6 +349,7 @@
     <Content Include="vertical\img\plus-slide1.jpg" />
     <Content Include="vertical\img\profile-ia.png" />
     <Content Include="vertical\img\profile1.jpg" />
+    <Content Include="vertical\img\sign_in-cover.jpg" />
     <Content Include="vertical\img\sign_in-cover1.jpg" />
     <Content Include="vertical\img\sign_in-cover2.jpg" />
     <Content Include="vertical\img\sign_in-cover3.jpg" />
@@ -475,7 +429,9 @@
     <Content Include="vertical\services\ComposeService.js" />
     <Content Include="vertical\services\EmailService.js" />
     <Content Include="vertical\services\FacebookService.js" />
+    <Content Include="vertical\services\IframelyServices.js" />
     <Content Include="vertical\services\LanguageService.js" />
+    <Content Include="vertical\services\LoginInService.js" />
     <Content Include="vertical\services\LoginService.js" />
     <Content Include="vertical\services\PaginationService.js" />
     <Content Include="vertical\services\PostsService.js" />
@@ -518,6 +474,9 @@
     <Content Include="vertical\views\login\center-view.html" />
     <Content Include="vertical\views\login\left-view.html" />
     <Content Include="vertical\views\login\right-view.html" />
+    <Content Include="vertical\views\login_in\center-view.html" />
+    <Content Include="vertical\views\login_in\left-view.html" />
+    <Content Include="vertical\views\login_in\right-view.html" />
     <Content Include="vertical\views\plus\center-view.html" />
     <Content Include="vertical\views\plus\right-view.html" />
     <Content Include="vertical\views\post\center-view.html" />
@@ -588,7 +547,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -605,10 +563,10 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1323</DevelopmentServerPort>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>54040</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1323/</IISUrl>
+          <IISUrl>http://localhost:54040/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

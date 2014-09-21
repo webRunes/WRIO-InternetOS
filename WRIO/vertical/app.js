@@ -88,47 +88,6 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                 },
                 permission: 'All'
             })
-            .state('profileedit', {
-                url: "/profileedit",
-                views: {
-                    '@': {
-                        templateUrl: '/vertical/views/index.html',
-                        controller: 'ProfileCtrl',
-                        scope: {}
-                    },
-                    'leftview@profileedit': {
-                        templateUrl: '/vertical/views/profileedit/left-view.html'
-                    },
-                    'centerview@profileedit': {
-                        templateUrl: '/vertical/views/profileedit/center-view.html'
-                    },
-                    'rightview@profileedit': {
-                        templateUrl: '/vertical/views/profileedit/right-view.html'
-                    }
-                }
-                ,
-                permission: 'All'
-            })
-            .state('profiledelete', {
-                 url: "/profiledelete",
-                 views: {
-                     '@': {
-                         templateUrl: '/vertical/views/index.html',
-                         controller: 'ProfileCtrl',
-                         scope: {}
-                     },
-                     'leftview@profiledelete': {
-                         templateUrl: '/vertical/views/profiledelete/left-view.html'
-                     },
-                     'centerview@profiledelete': {
-                         templateUrl: '/vertical/views/profiledelete/center-view.html'
-                     },
-                     'rightview@profiledelete': {
-                         templateUrl: '/vertical/views/profiledelete/right-view.html'
-                     }
-                 },
-                permission: 'All'
-             })
             .state('hub', {
                 url: "/hub/{hubTag}",
                 abstract: true,
@@ -334,124 +293,184 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
                 },
                 permission: 'All'
             })
-            .state('loginerror', {
-                url: "/login/{error}",
-                views: {
-                    '@': {
-                        templateUrl: '/vertical/views/index.html',
-                        controller: 'LoginCtrl',
-                        scope: {}
-                    },
-                    'leftview@loginerror': {
-                        templateUrl: '/vertical/views/login/left-view.html'
-                    },
-                    'centerview@loginerror': {
-                        templateUrl: '/vertical/views/login/center-view.html'
-                    },
-                    'rightview@loginerror': {
-                        templateUrl: '/vertical/views/login/right-view.html'
-                    }
-                }
-            })
             .state('login', {
                 url: "/login",
                 views: {
                     '@': {
                         templateUrl: '/vertical/views/index.html',
-                        controller: 'LoginCtrl',
+                        controller: 'LoginInCtrl',
                         scope: {}
                     },
                     'leftview@login': {
-                        templateUrl: '/vertical/views/login/left-view.html'
+                        templateUrl: '/vertical/views/login_in/left-view.html'
                     },
                     'centerview@login': {
-                        templateUrl: '/vertical/views/login/center-view.html'
+                        templateUrl: '/vertical/views/login_in/center-view.html'
                     },
                     'rightview@login': {
-                        templateUrl: '/vertical/views/login/right-view.html'
+                        templateUrl: '/vertical/views/login_in/right-view.html'
                     }
                 }
-            })
-            .state('withdraw', {
-                url: "/webgold/withdraw",
-                views: {
-                    '@': {
-                        templateUrl: '/vertical/views/index.html',
-                        controller: 'WalletCtrl',
-                        scope: { }
-                    },
-                    'leftview@withdraw': {
-                        templateUrl: '/vertical/views/withdraw/left-view.html'
-                    },
-                    'centerview@withdraw': {
-                        templateUrl: '/vertical/views/withdraw/center-view.html'
-                    },
-                    'rightview@withdraw': {
-                        templateUrl: '/vertical/views/withdraw/right-view.html'
-                    }
-                },
-                permission: 'All'
-            })
-                .state('payPalResponse', {
-                    url: "/webgold/addfunds/{msgType}",
-                    views: {
-                        '@': {
-                            templateUrl: '/vertical/views/index.html',
-                            controller: 'WalletCtrl',
-                            scope: {}
-                        },
-                        'leftview@payPalResponse': {
-                            templateUrl: '/vertical/views/addfunds/left-view.html'
-                        },
-                        'centerview@payPalResponse': {
-                            templateUrl: '/vertical/views/addfunds/center-view.html'
-                        },
-                        'rightview@payPalResponse': {
-                            templateUrl: '/vertical/views/addfunds/right-view.html'
-                        }
-                    },
-                    permission: 'All'
-                })
-             .state('addfunds', {
-                 url: "/webgold/addfunds",
-                 views: {
-                     '@': {
-                         templateUrl: '/vertical/views/index.html',
-                         controller: 'WalletCtrl',
-                         scope: {}
-                     },
-                     'leftview@addfunds': {
-                         templateUrl: '/vertical/views/addfunds/left-view.html'
-                     },
-                     'centerview@addfunds': {
-                         templateUrl: '/vertical/views/addfunds/center-view.html'
-                     },
-                     'rightview@addfunds': {
-                         templateUrl: '/vertical/views/addfunds/right-view.html'
-                     }
-                 },
-                 permission: 'All'
-             })
-        .state('transactions', {
-            url: "/webgold/transactions",
-            views: {
-                '@': {
-                    templateUrl: '/vertical/views/index.html',
-                    controller: 'WalletCtrl',
-                    scope: {}
-                },
-                'leftview@transactions': {
-                    templateUrl: '/vertical/views/transactions/left-view.html'
-                },
-                'centerview@transactions': {
-                    templateUrl: '/vertical/views/transactions/center-view.html'
-                },
-                'rightview@transactions': {
-                    templateUrl: '/vertical/views/transactions/right-view.html'
-                }
-            },
-            permission: 'All'
-        });
+            });
+//            .state('profileedit', {
+//                url: "/profileedit",
+//                views: {
+//                    '@': {
+//                        templateUrl: '/vertical/views/index.html',
+//                        controller: 'ProfileCtrl',
+//                        scope: {}
+//                    },
+//                    'leftview@profileedit': {
+//                        templateUrl: '/vertical/views/profileedit/left-view.html'
+//                    },
+//                    'centerview@profileedit': {
+//                        templateUrl: '/vertical/views/profileedit/center-view.html'
+//                    },
+//                    'rightview@profileedit': {
+//                        templateUrl: '/vertical/views/profileedit/right-view.html'
+//                    }
+//                }
+//                ,
+//                permission: 'All'
+//            })
+//            .state('profiledelete', {
+//                 url: "/profiledelete",
+//                 views: {
+//                     '@': {
+//                         templateUrl: '/vertical/views/index.html',
+//                         controller: 'ProfileCtrl',
+//                         scope: {}
+//                     },
+//                     'leftview@profiledelete': {
+//                         templateUrl: '/vertical/views/profiledelete/left-view.html'
+//                     },
+//                     'centerview@profiledelete': {
+//                         templateUrl: '/vertical/views/profiledelete/center-view.html'
+//                     },
+//                     'rightview@profiledelete': {
+//                         templateUrl: '/vertical/views/profiledelete/right-view.html'
+//                     }
+//                 },
+//                permission: 'All'
+//             })
+//            .state('loginerror', {
+//                url: "/login/{error}",
+//                views: {
+//                    '@': {
+//                        templateUrl: '/vertical/views/index.html',
+//                        controller: 'LoginCtrl',
+//                        scope: {}
+//                    },
+//                    'leftview@loginerror': {
+//                        templateUrl: '/vertical/views/login/left-view.html'
+//                    },
+//                    'centerview@loginerror': {
+//                        templateUrl: '/vertical/views/login/center-view.html'
+//                    },
+//                    'rightview@loginerror': {
+//                        templateUrl: '/vertical/views/login/right-view.html'
+//                    }
+//                }
+//            })
+//            .state('login', {
+//                url: "/login",
+//                views: {
+//                    '@': {
+//                        templateUrl: '/vertical/views/index.html',
+//                        controller: 'LoginCtrl',
+//                        scope: {}
+//                    },
+//                    'leftview@login': {
+//                        templateUrl: '/vertical/views/login/left-view.html'
+//                    },
+//                    'centerview@login': {
+//                        templateUrl: '/vertical/views/login/center-view.html'
+//                    },
+//                    'rightview@login': {
+//                        templateUrl: '/vertical/views/login/right-view.html'
+//                    }
+//                }
+//            })
+//            .state('withdraw', {
+//                url: "/webgold/withdraw",
+//                views: {
+//                    '@': {
+//                        templateUrl: '/vertical/views/index.html',
+//                        controller: 'WalletCtrl',
+//                        scope: { }
+//                    },
+//                    'leftview@withdraw': {
+//                        templateUrl: '/vertical/views/withdraw/left-view.html'
+//                    },
+//                    'centerview@withdraw': {
+//                        templateUrl: '/vertical/views/withdraw/center-view.html'
+//                    },
+//                    'rightview@withdraw': {
+//                        templateUrl: '/vertical/views/withdraw/right-view.html'
+//                    }
+//                },
+//                permission: 'All'
+//            })
+//            .state('payPalResponse', {
+//                    url: "/webgold/addfunds/{msgType}",
+//                    views: {
+//                        '@': {
+//                            templateUrl: '/vertical/views/index.html',
+//                            controller: 'WalletCtrl',
+//                            scope: {}
+//                        },
+//                        'leftview@payPalResponse': {
+//                            templateUrl: '/vertical/views/addfunds/left-view.html'
+//                        },
+//                        'centerview@payPalResponse': {
+//                            templateUrl: '/vertical/views/addfunds/center-view.html'
+//                        },
+//                        'rightview@payPalResponse': {
+//                            templateUrl: '/vertical/views/addfunds/right-view.html'
+//                        }
+//                    },
+//                    permission: 'All'
+//                })
+//            .state('addfunds', {
+//                 url: "/webgold/addfunds",
+//                 views: {
+//                     '@': {
+//                         templateUrl: '/vertical/views/index.html',
+//                         controller: 'WalletCtrl',
+//                         scope: {}
+//                     },
+//                     'leftview@addfunds': {
+//                         templateUrl: '/vertical/views/addfunds/left-view.html'
+//                     },
+//                     'centerview@addfunds': {
+//                         templateUrl: '/vertical/views/addfunds/center-view.html'
+//                     },
+//                     'rightview@addfunds': {
+//                         templateUrl: '/vertical/views/addfunds/right-view.html'
+//                     }
+//                 },
+//                 permission: 'All'
+//             })
+//            .state('transactions', {
+//            url: "/webgold/transactions",
+//            views: {
+//                '@': {
+//                    templateUrl: '/vertical/views/index.html',
+//                    controller: 'WalletCtrl',
+//                    scope: {}
+//                },
+//                'leftview@transactions': {
+//                    templateUrl: '/vertical/views/transactions/left-view.html'
+//                },
+//                'centerview@transactions': {
+//                    templateUrl: '/vertical/views/transactions/center-view.html'
+//                },
+//                'rightview@transactions': {
+//                    templateUrl: '/vertical/views/transactions/right-view.html'
+//                }
+//            },
+//            permission: 'All'
+//        });
 
         $httpProvider.interceptors.push('requestInterceptor');
         $locationProvider.html5Mode(true);
@@ -470,19 +489,19 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
             }
         };
     }])
-    .controller('ApsCtrl', ['$scope','$state','profileSrv','loginService','userAppSrv',
-        function($scope,$state,profileSrv,loginService,userAppSrv) {
+    .controller('ApsCtrl', ['$scope','$state','profileSrv','LoginInService','userAppSrv',
+        function($scope,$state,profileSrv,LoginInService,userAppSrv) {
         $('#id-loading-page').hide().remove();
 
         $scope.$on('$stateChangeStart', function (scope, next, current) {
             var permission = next.permission;
 
-            if (permission && profileSrv.checkUser() == null) {
+            if (permission && profileSrv.checkUser()==null) {
                 window.location.assign('/login');
             }
         });
         $scope.signout = function () {
-            loginService.signout(function (isSignout) {
+            LoginInService.signout(function (isSignout) {
                 if (isSignout) {
                     $state.go('login');
                 }
@@ -504,4 +523,6 @@ var aps = angular.module('aps', ['ui.router', 'ngSanitize'])
 
 
         };
+
+
     }]);

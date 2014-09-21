@@ -47,19 +47,6 @@ aps.controller('ContactCtrl', ['$scope','$state', 'emailSvc','userAppSrv',"profi
             userAppSrv.clearEmail();
             $scope.email.message='';
             $scope.isSendMsg=true;
-//            userAppSrv.getApps(function(apps){
-//                var ind=userAppSrv.getAppByTag(apps,'webrunes');
-//                if(ind+1){
-//                    var model = paginationService.getCountModelByAppTag('webrunes');
-//                    userAppSrv.setHubState('webrunes','hub.feed',model.currPage);
-//                    $state.go('hub.feed', { hubTag: 'webrunes', numPage: model.currPage });
-//                }else{
-//                    userAppSrv.removeTempAppTab('webRunes');
-//                    userAppSrv.setCurrApp('plus');
-//                    userAppSrv.setCurrTab('');
-//                    $state.go('plus');
-//                }
-//            });
         }
     };
     var checkFields=function(){
@@ -81,9 +68,11 @@ aps.controller('ContactCtrl', ['$scope','$state', 'emailSvc','userAppSrv',"profi
         var contact=userAppSrv.getContact();
         if(!contact.first || !contact.email){
             profileSrv.getProfile(function(profile){
-                if(!contact.first) contact.first=profile.NickName;
-                if(!contact.email) contact.email=profile.Email;
-                $scope.email=contact;
+                if(profile){
+                    if(!contact.first) contact.first=profile.Nick;
+                    if(!contact.email) contact.email=profile.Email;
+                    $scope.email=contact;
+                }
             });
         }else $scope.email=contact;
     };

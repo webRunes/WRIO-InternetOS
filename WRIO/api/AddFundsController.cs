@@ -8,10 +8,10 @@ namespace WRIO.api
 {
     public class AddFundsController : CustomApiController
     {
-        public PayPalResponseResultModel Post([FromBody]AddFundsModel model)
-        {
-            var profile = Profile.CurrentUser;
-            return PayPalService.SendRequest(HttpContext, model.Amount, profile.Id,profile.Email);
-        }
+        //public PayPalResponseResultModel Post([FromBody]AddFundsModel model)
+        //{
+        //    var profile = Profile.CurrentUser;
+        //    return PayPalService.SendRequest(HttpContext, model.Amount, profile.UserAccountGuid,profile.Email);
+        //}
     }
 }
