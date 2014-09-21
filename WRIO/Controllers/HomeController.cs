@@ -39,7 +39,7 @@ namespace WRIO.Controllers
                     image = ticket.Picture;
                 }
             }
-            var user = Profile.IsAuthenticated ? Profile.GetUserAccountGuid() : "";
+            var user = Profile.IsAuthenticated ? Profile.GetUserAccountId() : "";
 
             ViewBag.postId = postId;
             ViewBag.title = title;

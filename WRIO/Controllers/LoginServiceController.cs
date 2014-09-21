@@ -13,14 +13,16 @@ namespace WRIO.Controllers
             if (Profile.IsAuthenticated)
                 throw new Exception("User isAuthenticated");
 
-            return Json(new { UserId = Profile.LoginBySocialNT(token) }, JsonRequestBehavior.AllowGet);
+            var id = Profile.LoginBySocialNT(token);
+
+            return Json(new { UserId = id }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public bool LogOut(Guid id)
         {
             if (!Profile.IsAuthenticated)
-                throw new Exception("User is not Authenticated");
+                return false;
             return Profile.LogOut(id);
         }
     }

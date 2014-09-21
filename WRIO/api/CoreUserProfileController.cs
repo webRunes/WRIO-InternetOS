@@ -9,7 +9,7 @@ namespace WRIO.api
         // GET api/userprofile/5
         public UserPublicProfile Get(Guid id)
         {
-            if (Profile.IsAuthenticated && Profile.GetUserAccountGuid().Equals(id.ToString()))
+            if (Profile.IsAuthenticated && Profile.GetUserAccountId().Equals(id.ToString()))
             {
                 return Profile.GetUserPublicProfile();
             }
