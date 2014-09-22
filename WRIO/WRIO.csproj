@@ -138,7 +138,8 @@
     <Reference Include="Titter">
       <HintPath>..\Lib\Titter.dll</HintPath>
     </Reference>
-    <Reference Include="UserAccount">
+    <Reference Include="UserAccount, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\UserAccount.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">

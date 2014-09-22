@@ -9,11 +9,11 @@ aps.service('profileSrv',['$http', '$rootScope', '$q', '$window',function($http,
 
     this.getProfile = function (callBack) {
         if (userId) {
-            if (profile != null) {
+            if (profile) {
                 if (callBack) callBack(profile);
             } else {
                 $http.get('/api/CoreUserProfile/' + userId).success(function (data) {
-                    if (!data) $window.location.assign('/login');
+                    if (!data || data == 'null') $window.location.assign('/login');
                     if (!data.Avatar) data.Avatar = '/app/img/no-photo.png';
                     profile = data;
                     if (callBack) callBack(profile);
@@ -44,8 +44,10 @@ aps.service('profileSrv',['$http', '$rootScope', '$q', '$window',function($http,
             def.resolve(profile);
         }else{
             $http.get('/api/CoreUserProfile/' + userId).success(function (data) {
-                if (data && !data.Avatar) data.Avatar = '/app/img/no-photo.png';
-                profile = data;
+                if(data && data != 'null'){
+                    if (!data.Avatar) data.Avatar = '/app/img/no-photo.png';
+                    profile = data;
+                }
 
                 def.resolve(profile);
             }).error(function () {

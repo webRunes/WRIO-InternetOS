@@ -13,7 +13,7 @@ namespace WRIO.Extensions
             {
                 var context =
                     new HttpContextWrapper(System.Web.HttpContext.Current);
-                return context;
+                return  context;
             }
         }
 

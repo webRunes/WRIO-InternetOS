@@ -21,8 +21,6 @@ namespace WRIO.Controllers
         [HttpPost]
         public bool LogOut(Guid id)
         {
-            if (!Profile.IsAuthenticated)
-                return false;
             return Profile.LogOut(id);
         }
     }
