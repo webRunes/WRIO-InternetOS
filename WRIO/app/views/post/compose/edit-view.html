@@ -1,0 +1,33 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li class="active">Edit</li>
+    </ul>
+    <div ng-show="msg['load']" class="loading"><img src="/app/img/loading.gif"> Loading...</div>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <drop-down dropdown="dropdownLanguage"></drop-down>
+        </div>
+        <div class="form-group">
+            <label for="id-Title" class="col-sm-4 col-md-3 control-label">Title</label>
+            <div class="col-sm-8 col-md-9">
+                <input ng-model="ticket.Title" ng-change="change('title')" type="text" class="form-control" id="id-Title"/>
+                <div ng-show="isErrTitle" class="help-block">Max 128 characters</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id-Description" class="col-sm-4 col-md-3 control-label">Description</label>
+            <div class="col-sm-8 col-md-9">
+                <textarea ng-model="ticket.Description" ng-change="change('description')" class="form-control" rows="6" id="id-Description"></textarea>
+                <div ng-show="isErrDesc" class="help-block">Max 512 characters</div>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <div class="pull-right">
+                <button ng-click="remove()" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                <a ng-click="update()" href="#" class="btn btn-success"><span class="glyphicon glyphicon-open"></span>Update</a>
+            </div>
+        </div>
+    </form>
+</div>
