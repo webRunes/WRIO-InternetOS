@@ -1,0 +1,31 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <div class="btn-group-sm pull-right for_paginator">
+        <button ng-class="checkActiveBtn(5)" ng-click="selectCurrCount(5)" type="button" class="btn btn-default">5</button>
+        <button ng-class="checkActiveBtn(10)" ng-click="selectCurrCount(10)" type="button" class="btn btn-default">10</button>
+        <button ng-class="checkActiveBtn(25)" ng-click="selectCurrCount(25)" type="button" class="btn btn-default">25</button>
+    </div>
+    <ul class="breadcrumb">
+        <li class="active">Browse</li>
+    </ul>
+    <div ng-show="isMsg['load']" class="loading"><img src="/app/img/loading.gif"> Loading...</div>
+
+
+    <div class="tickets">
+        <div class="media thumbnail" ng-repeat="item in apps" ng-click="selectApp(item.Id)" app-ticket></div>
+    </div>
+
+    <div class="text-center" ng-show="checkShowPagination()">
+        <ul class="pagination text-center">
+            <li><a ng-click="selectPrevPage(0)" href="#">&laquo;</a></li>
+            <li ng-repeat="item in pageLinks" ng-class="checkActivePageLinks(item)"><a href="#" ng-click="selectPage(item)">{{item}}</a></li>
+            <li><a ng-click="selectForwardPage(0)" href="#">&raquo;</a></li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
