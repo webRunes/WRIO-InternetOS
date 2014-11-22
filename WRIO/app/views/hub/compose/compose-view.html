@@ -1,0 +1,42 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li class="active">Compose</li>
+    </ul>
+    <div ng-show="msg['url-data']" class="loading"><img src="/app/img/loading.gif"> Please wait...</div>
+    <div class="callout">
+        <h4>Quick tip</h4>
+        <p>Facebook & Google: <span class="glyphicon glyphicon-chevron-down btn-xs"></span> <span class="glyphicon glyphicon-arrow-right btn-xs"></span> <b>Embed post</b>,</p>
+        <p>Twitter: <b>More <span class="glyphicon glyphicon-arrow-right btn-xs"></span> Embed Tweet,</b>
+        <p>Youtube & Vimeo: <b>Share <span class="glyphicon glyphicon-arrow-right btn-xs"></span> Embed</b>,</p>
+        <p>to get the code, then copy it and paste to URL field.</p>
+        <p>Если хотите узнать больше, то выберите интересующий пункт в разделе "Need help?"</p>
+    </div>
+    <form class="form-horizontal" role="form">
+        <div class="form-group" ng-class="getHasError()">
+            <label for="id-URL" class="col-sm-4 col-md-3 control-label">URL or code</label>
+            <div class="col-sm-8 col-md-9" id="tour-create_social_post-step_one">
+                <input ng-model="model.urlCode" ng-change="changeUrlCode()" type="text" class="form-control" id="id-URL"/>
+                <div ng-show="msg['url']" class="help-block">Field is required</div>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <div class="pull-right">
+                <button ng-click="remove()" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                <a href="#" ng-click="preview()" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>Submit</a>
+            </div>
+        </div>
+    </form>
+    <ul class="info nav nav-pills nav-stacked" id="help-accordion">
+        <li class="panel"><a href="#help-element" data-parent="#help-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Need help?</a>
+            <div class="in" id="help-element">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">How to publish a social network post</a></li>
+                    <li><a href="#">How to publish a video post</a></li>
+                    <li><a href="#">How to publish a photo post</a></li>
+                    <li><a href="#">How to publish a link post</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
