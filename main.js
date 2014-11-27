@@ -33,9 +33,6 @@
     var plus = document.createElement('link');
     plus.rel = 'import';
     plus.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/template.html';
-    plus.onload = function(){
-        document.getElementById('nav-accordion').innerHTML = plus.import.querySelector('body').innerHTML;
-    };
     document.head.appendChild(plus);
 
     //import navbar header
@@ -47,12 +44,15 @@
     };
     document.head.appendChild(navbar_header);
 
+    //-------------------
+    var urlList = "http://webrunes.github.io/webRunes-WRIO-Hub/1WJyH1k7-list.html";
+    //-------------------
     //root container
     document.write('<div class="container-liquid">' +
         '<div class="row row-offcanvas row-offcanvas-right">' +
             '<div class="col-xs-12 col-sm-3 col-md-2"><div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">'+
                 '<div class="navbar-header" id="navbar-header1"></div>' +
-                '<div class="navbar-collapse in"><ul class="nav navbar-nav" id="nav-accordion"></ul></div>' +
+                '<div class="navbar-collapse in"><plus-widget url=' + urlList + '></plus-widget></div>' +
             '</div></div>' +
             '<div class="content col-xs-12 col-sm-5 col-md-7"><div class="margin">' +
                 '<ul class="info nav nav-pills nav-stacked" id="profile-accordion"></ul>' +
