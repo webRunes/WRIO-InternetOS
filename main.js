@@ -24,9 +24,6 @@
     var login = document.createElement('link');
     login.rel = 'import';
     login.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/Widget/template.html';
-    login.onload = function(){
-        document.getElementById('profile-accordion').innerHTML = login.import.querySelector('body').innerHTML;
-    };
     document.head.appendChild(login);
 
     //import plus
@@ -35,14 +32,17 @@
     plus.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/template.html';
     document.head.appendChild(plus);
 
-    //import navbar header
+    //import menu header
     var navbar_header = document.createElement('link');
     navbar_header.rel = 'import';
     navbar_header.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/template.html';
-    navbar_header.onload = function(){
-        document.getElementById('navbar-header1').innerHTML = navbar_header.import.querySelector('body').innerHTML;
-    };
     document.head.appendChild(navbar_header);
+
+    //import article
+    var article = document.createElement('link');
+    article.rel = 'import';
+    article.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/article.html';
+    document.head.appendChild(article);
 
     //-------------------
     var urlList = "http://webrunes.github.io/webRunes-WRIO-Hub/1WJyH1k7-list.html";
@@ -51,11 +51,11 @@
     document.write('<div class="container-liquid">' +
         '<div class="row row-offcanvas row-offcanvas-right">' +
             '<div class="col-xs-12 col-sm-3 col-md-2"><div class="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">'+
-                '<div class="navbar-header" id="navbar-header1"></div>' +
+                '<div class="navbar-header"><menu-header-widget></menu-header-widget></div>' +
                 '<div class="navbar-collapse in"><plus-widget url=' + urlList + '></plus-widget></div>' +
             '</div></div>' +
             '<div class="content col-xs-12 col-sm-5 col-md-7"><div class="margin">' +
-                '<ul class="info nav nav-pills nav-stacked" id="profile-accordion"></ul>' +
+                '<profile-widget></profile-widget><article-widget></article-widget>' +
             '</div></div>' +
             '<div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">' +
             '</div>' +
