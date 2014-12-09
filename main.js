@@ -20,7 +20,7 @@
     script.src = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js';
     document.head.appendChild(script);
 
-    //import login. Just for test
+    //import login
     var login = document.createElement('link');
     login.rel = 'import';
     login.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/Widget/template.html';
