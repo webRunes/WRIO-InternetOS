@@ -1,0 +1,39 @@
+{
+	"name": "WRIO-InternetOS",
+	"description": "https://github.com/webRunes/WRIO-InternetOS/",
+	"private": true,
+	"repository": "https://github.com/webRunes/WRIO-InternetOS.git",
+	"main": "lib/wrio.js",
+	"engines": {
+		"node": ">= v0.8.0"
+	},
+	"devDependencies": {
+		"express": "4.9.4",
+		"media-typer": "*",
+		"qs": "*",
+		"etag": "*",
+		"on-finished": "*",
+		"proxy-addr": "*",
+		"ms": "*",
+		"depd": "*",
+		"destroy": "*",
+		"finalhandler": "*",
+		"utils-merge": "*",
+		"debug": "*",
+		"body-parser": "*",
+		"when": "~3.1.0",
+		"http": "~0.0",
+		"mysql": "~2.5",
+		"jade": "1.7",
+		"xmlbuilder": "*",
+		"xml2js": "*",
+		"nconf": "*",
+		"aws-sdk-apis": "*",
+		"supervisor": "*"
+	},
+	"dependencies": {
+	},
+	"scripts": {
+		
+	}
+}
