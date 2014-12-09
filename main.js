@@ -26,7 +26,7 @@
     login.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/Widget/template.html';
     document.head.appendChild(login);
 
-    //import plus
+    //import plus. Test
     var plus = document.createElement('link');
     plus.rel = 'import';
     plus.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/template.html';
