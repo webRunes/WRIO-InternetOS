@@ -7,3 +7,18 @@ node_js:
 
 install : npm install
 script  : npm start
+
+deploy:
+  provider: s3
+  access_key_id: 
+    secure: XBJwN6SWbzk8xubkhbLiq0R/ZbSpWBTLx1PVeyFcaBeXpLvczMBt4gz5vx3CkaRBLW5OZD/+UFCTMMpzKdbHlM6mjd8b+0Z1OQ0xlsF1MWzTJo/tgjgMOnhfSpiyCw8HZXsCj0ggzlZ0bRe+yg8fiEnp0YE2DIOMAxKYpFQEkmA=
+  secret_access_key: 
+    secure: M0D0QXwIGhgYgwucTvU2U2k3FUF04er842VfVSDExOpIk96fd3YXxSmWFAov6G9WLWgUfatBwiyU5W7ixERYlDfHuxSaD3WNG1ceOAG36SVHG94fQC6wUMgXZWPZOCkE0cv77a0nGx1UX0LxVOBq/ItpCGOm4cjs/VOB2/OIkQM=
+  bucket: wrio
+  upload-dir: WRIO-InternetOS
+  acl: public_read
+  skip_cleanup: true
+  on:
+    all_branches: true
+    
+    
