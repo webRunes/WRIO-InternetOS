@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
+
 #WRIO <sup>Internet OS</sup>
 WRIO - webRunes Input/Output.
 Official node based on [WRIO] (https://wr.io) is [webrunes.com] (https://webrunes.com)
