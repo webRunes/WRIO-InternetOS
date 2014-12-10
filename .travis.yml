@@ -11,9 +11,9 @@ script  : npm start
 deploy:
   provider: s3
   access_key_id: 
-    secure: XBJwN6SWbzk8xubkhbLiq0R/ZbSpWBTLx1PVeyFcaBeXpLvczMBt4gz5vx3CkaRBLW5OZD/+UFCTMMpzKdbHlM6mjd8b+0Z1OQ0xlsF1MWzTJo/tgjgMOnhfSpiyCw8HZXsCj0ggzlZ0bRe+yg8fiEnp0YE2DIOMAxKYpFQEkmA=
+    secure: PfRbnam9KEVy+l9KwXf9gBc4lNUjhd9lw3BRb8eWP8kUZsEvDkAZU3+tpCcC9aOixDD1n7au1j5nIxSApDKXdX1PfTkDgQRYzDorx8vjk/vbB+oyy4fIx6Pnmc/5mNjY9r3TImYi5pUwTqzcJ+hiNtlbMHlDANMzmbuvvoiEZ84=
   secret_access_key: 
-    secure: M0D0QXwIGhgYgwucTvU2U2k3FUF04er842VfVSDExOpIk96fd3YXxSmWFAov6G9WLWgUfatBwiyU5W7ixERYlDfHuxSaD3WNG1ceOAG36SVHG94fQC6wUMgXZWPZOCkE0cv77a0nGx1UX0LxVOBq/ItpCGOm4cjs/VOB2/OIkQM=
+    secure: KZVb2QAc86f8TBDXp4O2DIlcdh1FfT8iF6OeNs2EhRZlyL/xfhYf0k00y4tGDyZJ/wK5VZ56jfq1q3hX+HFI3fPa0dvfEem7QtSCfPUa/bbxpz+nVRnNC6atZQbhvmHsEvcL8tY9rwdfhxZSwSo4aQmiYRE7Cc/6ZTBLTce4WZs=
   bucket: wrio
   upload-dir: WRIO-InternetOS
   acl: public_read
