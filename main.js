@@ -32,6 +32,18 @@
     plus.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/template.html';
     document.head.appendChild(plus);
 
+    //import titter
+    var titter = document.createElement('link');
+    titter.rel = 'import';
+    titter.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Titter-WRIO-App/Widget/template.html';
+    document.head.appendChild(titter);
+
+    //import titter
+    var menu = document.createElement('link');
+    menu.rel = 'import';
+    menu.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/webRunes-WRIO-Hub/Widget/template.html';
+    document.head.appendChild(menu);
+
     //import menu header
     //var navbar_header = document.createElement('link');
     //navbar_header.rel = 'import';
@@ -55,9 +67,10 @@
                 '<div class="navbar-collapse in"><plus-widget url=' + urlList + '></plus-widget></div>' +
             '</div></div>' +
             '<div class="content col-xs-12 col-sm-5 col-md-7"><div class="margin">' +
-                '<login-widget></login-widget><article-widget></article-widget>' +
+                '<login-widget></login-widget><article-widget></article-widget><titter-widget></titter-widget>' +
             '</div></div>' +
             '<div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">' +
+            '<menu-widget></menu-widget>' +
             '</div>' +
         '</div></div>');
 })();
