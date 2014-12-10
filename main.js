@@ -38,7 +38,7 @@
     titter.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Titter-WRIO-App/Widget/template.html';
     document.head.appendChild(titter);
 
-    //import titter
+    //import menu
     var menu = document.createElement('link');
     menu.rel = 'import';
     menu.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/webRunes-WRIO-Hub/Widget/template.html';
