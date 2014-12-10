@@ -20,13 +20,13 @@
     script.src = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js';
     document.head.appendChild(script);
 
-    //import login
+    //import Login
     var login = document.createElement('link');
     login.rel = 'import';
     login.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/Widget/template.html';
     document.head.appendChild(login);
 
-    //import plus. Test
+    //import Plus
     var plus = document.createElement('link');
     plus.rel = 'import';
     plus.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/template.html';
@@ -38,7 +38,7 @@
     //navbar_header.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/template.html';
     //document.head.appendChild(navbar_header);
 
-    //import article
+    //import Article
     var article = document.createElement('link');
     article.rel = 'import';
     article.href = 'http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/Widget/article.html';
