@@ -58,6 +58,7 @@
 
     //-------------------
     var urlList = "http://webrunes.github.io/webRunes-WRIO-Hub/1WJyH1k7-list.html";
+    var urlMenu = "http://webrunes.github.io/webRunes-WRIO-Hub/1WJyH1k7.html";
     //-------------------
     //root container
     document.write('<div class="container-liquid">' +
@@ -70,7 +71,7 @@
                 '<login-widget></login-widget><article-widget></article-widget><titter-widget></titter-widget>' +
             '</div></div>' +
             '<div class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">' +
-            '<menu-widget></menu-widget>' +
+            '<menu-widget url=' + urlMenu + '></menu-widget>' +
             '</div>' +
         '</div></div>');
 })();
