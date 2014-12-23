@@ -64,7 +64,7 @@ var webrunes = webrunes || {};
         //import menu
         var menu = document.createElement('link');
         menu.rel = 'import';
-        menu.href = importUrl + '/webRunes-WRIO-Hub/Widget/template.html';
+        menu.href = importUrl + '/Plus-WRIO-App/Widget/menu.html';
         document.head.appendChild(menu);
 
         //import Article
@@ -129,6 +129,10 @@ var webrunes = webrunes || {};
         var titterwidget = document.createElement('titter-widget');
         el.appendChild(titterwidget);
     };
+    var addMenu = function(el){
+        var menuwidget = document.createElement('menu-widget');
+        el.appendChild(menuwidget);
+    };
 
     //init
     var init = function(){
@@ -144,30 +148,8 @@ var webrunes = webrunes || {};
         addArticle(boxC);
         //titter
         //addTitter(boxC);
+        //menu
+        addMenu(boxR);
     };
     init();
 })();
-
-//right Menu
-//(function(){
-//    'use strict';
-//
-//    var $titleMenu = document.createElement('h3');
-//    $titleMenu.innerText = 'Menu';
-//    var $menu = document.createElement('div');
-//    $menu.appendChild($titleMenu);
-//
-//    var $ol = document.createElement('ol');
-//    var parts = webrunes.jsonlds[1].hasPart;
-//    for(var i = 0; i < parts.length; i++){
-//        var $li = document.createElement('li');
-//        var $a = document.createElement('a');
-//        $a.href = '#' + parts[i].name;
-//        $a.innerText = parts[i].name;
-//        $li.appendChild($a);
-//        $ol.appendChild($li);
-//    }
-//
-//    $menu.appendChild($ol);
-//    document.getElementById('sidebar').appendChild($menu);
-//})();
