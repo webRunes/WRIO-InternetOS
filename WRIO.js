@@ -46,31 +46,31 @@ var webrunes = webrunes || {};
         //import Login
         var login = document.createElement('link');
         login.rel = 'import';
-        login.href = importUrl + '/Login-WRIO-App/Widget/template.html';
+        login.href = importUrl + '/Login-WRIO-App/widget/login.html';
         document.head.appendChild(login);
 
         //import Plus
         var plus = document.createElement('link');
         plus.rel = 'import';
-        plus.href = importUrl + '/Plus-WRIO-App/Widget/template.html';
+        plus.href = importUrl + '/Plus-WRIO-App/widget/plus.html';
         document.head.appendChild(plus);
 
         //import titter
         var titter = document.createElement('link');
         titter.rel = 'import';
-        titter.href = importUrl + '/Titter-WRIO-App/Widget/template.html';
+        titter.href = importUrl + '/Titter-WRIO-App/widget/titter.html';
         document.head.appendChild(titter);
 
-        //import menu
+        //import Menu
         var menu = document.createElement('link');
         menu.rel = 'import';
-        menu.href = importUrl + '/Plus-WRIO-App/Widget/menu.html';
+        menu.href = importUrl + '/Default-WRIO-Theme/widget/menu.html';
         document.head.appendChild(menu);
 
         //import Article
         var article = document.createElement('link');
         article.rel = 'import';
-        article.href = importUrl + '/Plus-WRIO-App/Widget/article.html';
+        article.href = importUrl + '/Default-WRIO-Theme/widget/article.html';
         document.head.appendChild(article);
     };
     //add DOM
