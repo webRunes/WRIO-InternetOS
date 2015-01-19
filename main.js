@@ -110,11 +110,14 @@ var webrunes = webrunes || {};
         boxR = document.createElement('div');
         boxR.className = 'sidebar-margin';
         rightbox.appendChild(boxR);
+
+        var script = document.createElement('script');
+        script.src = cssUrl + theme + '/js/offcanvas.js';
+        document.body.appendChild(script);
     };
     //add dom elements
     var addPlus = function(el){
         var pluswidget = document.createElement('plus-widget');
-        //pluswidget.setAttribute('url', plusUrl);
         el.appendChild(pluswidget);
     };
     var addLogin = function(el){
@@ -143,11 +146,11 @@ var webrunes = webrunes || {};
         //plus
         addPlus(boxL);
         //login
-        //addLogin(boxC);
+        addLogin(boxC);
         //article
         addArticle(boxC);
         //titter
-        //addTitter(boxC);
+        addTitter(boxC);
         //menu
         addMenu(boxR);
     };
