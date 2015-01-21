@@ -4,13 +4,6 @@ var webrunes = webrunes || {};
 (function(){
     'use strict';
 
-    //json-ld
-    var lds = document.getElementsByTagName("script");
-    webrunes.jsonlds = [];
-    for(var i = 0; i < lds.length - 1; i++){
-        webrunes.jsonlds.push(JSON.parse(lds[i].innerHTML));
-    }
-
     //properties
     var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com';
     var cssUrl = 'http://webrunes.github.io';
@@ -72,6 +65,24 @@ var webrunes = webrunes || {};
         article.rel = 'import';
         article.href = importUrl + '/Default-WRIO-Theme/widget/article.htm';
         document.head.appendChild(article);
+
+        //import Cover
+        var cover = document.createElement('link');
+        cover.rel = 'import';
+        cover.href = importUrl + '/Default-WRIO-Theme/widget/cover.htm';
+        document.head.appendChild(cover);
+
+        //import Person
+        var person = document.createElement('link');
+        person.rel = 'import';
+        person.href = importUrl + '/Default-WRIO-Theme/widget/person.htm';
+        document.head.appendChild(person);
+
+        //import ItemList
+        var itemList = document.createElement('link');
+        itemList.rel = 'import';
+        itemList.href = importUrl + '/Default-WRIO-Theme/widget/itemList.htm';
+        document.head.appendChild(itemList);
     };
     //add DOM
     var createDom = function(){
@@ -124,10 +135,6 @@ var webrunes = webrunes || {};
         var loginwidget = document.createElement('login-widget');
         el.appendChild(loginwidget);
     };
-    var addArticle = function(el){
-        var articlewidget = document.createElement('article-widget');
-        el.appendChild(articlewidget);
-    };
     var addTitter = function(el){
         var titterwidget = document.createElement('titter-widget');
         el.appendChild(titterwidget);
@@ -136,9 +143,36 @@ var webrunes = webrunes || {};
         var menuwidget = document.createElement('menu-widget');
         el.appendChild(menuwidget);
     };
+    var addArticle = function(el){
+        var articlewidget = document.createElement('article-widget');
+        el.appendChild(articlewidget);
+    };
+    var addCover = function(el){
+        var coverwidget = document.createElement('cover-widget');
+        el.appendChild(coverwidget);
+    };
+    var addPerson = function(el){
+        var personwidget = document.createElement('person-widget');
+        el.appendChild(personwidget);
+    };
+    var addItemList = function(el){
+        var itemListwidget = document.createElement('itemlist-widget');
+        el.appendChild(itemListwidget);
+    };
+
+    var getCurrentJsonLd = function(){
+        //get current json-ld
+        var lds = document.getElementsByTagName("script");
+        webrunes.jsonlds = [];
+        for(var i = 0; i < lds.length - 1; i++){
+            webrunes.jsonlds.push(JSON.parse(lds[i].innerHTML));
+        }
+    };
 
     //init
     var init = function(){
+        //get current json-ld
+        getCurrentJsonLd();
         addBootstrapLink();
         addImportLink();
         createDom();
@@ -153,6 +187,12 @@ var webrunes = webrunes || {};
         addTitter(boxC);
         //menu
         addMenu(boxR);
+        //cover
+        addCover(boxC);
+        //person
+        addPerson(boxC);
+        //item list
+        addItemList(boxR);
     };
     init();
 })();
