@@ -122,9 +122,9 @@ var webrunes = webrunes || {};
         boxR.className = 'sidebar-margin';
         rightbox.appendChild(boxR);
 
-        var script = document.createElement('script');
-        script.src = cssUrl + theme + '/js/offcanvas.js';
-        document.body.appendChild(script);
+//        var script = document.createElement('script');
+//        script.src = cssUrl + theme + '/js/offcanvas.js';
+//        document.body.appendChild(script);
     };
     //add dom elements
     var addPlus = function(el){
@@ -163,9 +163,12 @@ var webrunes = webrunes || {};
     var getCurrentJsonLd = function(){
         //get current json-ld
         var lds = document.getElementsByTagName("script");
-        webrunes.jsonlds = [];
+        webrunes.jsonlds = {};
         for(var i = 0; i < lds.length - 1; i++){
-            webrunes.jsonlds.push(JSON.parse(lds[i].innerHTML));
+            var jsonld = JSON.parse(lds[i].innerHTML);
+            if(jsonld['@type']){
+                webrunes.jsonlds[jsonld['@type']] = jsonld;
+            }
         }
     };
 
@@ -181,18 +184,34 @@ var webrunes = webrunes || {};
         addPlus(boxL);
         //login
         addLogin(boxC);
-        //article
-        addArticle(boxC);
+
+        if(webrunes.jsonlds['Article']){
+            //article
+            addArticle(boxC);
+        }else if(webrunes.jsonlds['Person']){
+            //person
+            addPerson(boxC);
+        }else if(webrunes.jsonlds['Cover']){
+            //cover
+            addCover(boxC);
+        }
+
+
         //titter
         addTitter(boxC);
-        //menu
-        addMenu(boxR);
-        //cover
-        addCover(boxC);
-        //person
-        addPerson(boxC);
-        //item list
-        addItemList(boxR);
+
+
+
+        if(webrunes.jsonlds['ItemList']){
+            //item list
+            addItemList(boxR);
+        }
+
+        if(webrunes.jsonlds['Article'] || webrunes.jsonlds['Person']){
+            //menu
+            addMenu(boxR);
+        }
+
     };
     init();
 })();
