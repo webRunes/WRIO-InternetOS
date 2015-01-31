@@ -39,7 +39,7 @@ var webrunes = webrunes || {};
         //import Login
         var login = document.createElement('link');
         login.rel = 'import';
-        login.href = importUrl + '/Login-WRIO-App/widget/login.htm';
+        login.href = importUrl + '/Login-WRIO-App/Widget/login.html';
         document.head.appendChild(login);
 
         //import Plus
