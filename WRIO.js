@@ -8,10 +8,10 @@ var webrunes = webrunes || {};
     var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com';
     var cssUrl = 'http://webrunes.github.io';
     var theme = '/Default-WRIO-Theme';
-    webrunes.plusUrl = "http://webrunes.github.io/webRunes-WRIO-Hub/1WJyH1k7-list.htm";
+    webrunes.plusUrl = "";
 
     //DOM elements
-    var boxHeadL, boxL, boxC, boxR;
+    var boxHeadL, boxL, boxC, boxR, boxRitem;
 
     //add css, ico, js
     var addBootstrapLink = function(){
@@ -93,10 +93,21 @@ var webrunes = webrunes || {};
         var childroot = document.createElement('div');
         childroot.className  = 'row row-offcanvas row-offcanvas-right';
         container.appendChild(childroot);
-        //leftbox container -------------------------------------------
+        //leftbox container
+        createDomLeft(childroot);
+        //centerbox container
+        createDomCenter(childroot);
+        //rightbox container
+        createDomRight(childroot);
+
+//        var script = document.createElement('script');
+//        script.src = cssUrl + theme + '/js/offcanvas.js';
+//        document.body.appendChild(script);
+    };
+    var createDomLeft = function(el){
         var leftbox = document.createElement('div');
         leftbox.className  = 'col-xs-12 col-sm-3 col-md-2';
-        childroot.appendChild(leftbox);
+        el.appendChild(leftbox);
         var navbar = document.createElement('div');
         navbar.className  = 'navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu';
         leftbox.appendChild(navbar);
@@ -106,56 +117,58 @@ var webrunes = webrunes || {};
         boxL = document.createElement('div');
         boxL.className  = 'navbar-collapse in';
         navbar.appendChild(boxL);
-        //centerbox container ------------------------------------------
+    };
+    var createDomCenter = function(el){
         var centerbox = document.createElement('div');
         centerbox.className  = 'content col-xs-12 col-sm-5 col-md-7';
-        childroot.appendChild(centerbox);
+        el.appendChild(centerbox);
         boxC = document.createElement('div');
         boxC.className  = 'margin';
         centerbox.appendChild(boxC);
-        //rightbox container -------------------------------------------
+    };
+    var createDomRight = function(el){
         var rightbox = document.createElement('div');
         rightbox.className  = 'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas';
         rightbox.id = 'sidebar';
-        childroot.appendChild(rightbox);
+        el.appendChild(rightbox);
         boxR = document.createElement('div');
         boxR.className = 'sidebar-margin';
         rightbox.appendChild(boxR);
 
-//        var script = document.createElement('script');
-//        script.src = cssUrl + theme + '/js/offcanvas.js';
-//        document.body.appendChild(script);
+        boxRitem = document.createElement('ul');
+        boxRitem.className = 'nav nav-pills nav-stacked';
+        boxR.appendChild(boxRitem);
     };
     //add dom elements
-    var addPlus = function(el){
+    var addPlusElement = function(el){
         var pluswidget = document.createElement('plus-widget');
         el.appendChild(pluswidget);
     };
-    var addLogin = function(el){
+    var addLoginElement = function(el){
         var loginwidget = document.createElement('login-widget');
         el.appendChild(loginwidget);
     };
-    var addTitter = function(el){
+    var addTitterElement = function(el){
         var titterwidget = document.createElement('titter-widget');
         el.appendChild(titterwidget);
     };
-    var addMenu = function(el){
+    var addMenuElement = function(el){
         var menuwidget = document.createElement('menu-widget');
         el.appendChild(menuwidget);
     };
-    var addArticle = function(el){
+    var addArticleElement = function(el){
         var articlewidget = document.createElement('article-widget');
         el.appendChild(articlewidget);
     };
-    var addCover = function(el){
+    var addCoverElement = function(el){
         var coverwidget = document.createElement('cover-widget');
         el.appendChild(coverwidget);
     };
-    var addPerson = function(el){
+    var addPersonElement = function(el){
         var personwidget = document.createElement('person-widget');
         el.appendChild(personwidget);
     };
-    var addItemList = function(el){
+    var addItemListElement = function(el){
         var itemListwidget = document.createElement('itemlist-widget');
         el.appendChild(itemListwidget);
     };
@@ -164,12 +177,22 @@ var webrunes = webrunes || {};
         //get current json-ld
         var lds = document.getElementsByTagName("script");
         webrunes.jsonlds = {};
+        webrunes.boxs = [];
         for(var i = 0; i < lds.length - 1; i++){
             var jsonld = JSON.parse(lds[i].innerHTML);
+            webrunes.boxs.push(jsonld);
             if(jsonld['@type']){
                 webrunes.jsonlds[jsonld['@type']] = jsonld;
             }
         }
+    };
+    var addItemListToMenu = function(model){
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = model.url ? model.url : '#' + model.name;
+        a.innerText = model.name;
+        li.appendChild(a);
+        boxRitem.appendChild(li);
     };
 
     //init
@@ -180,36 +203,41 @@ var webrunes = webrunes || {};
         addImportLink();
         createDom();
 
+        //left container
         //plus
-        addPlus(boxL);
-        //login
-        addLogin(boxC);
+        addPlusElement(boxL);
 
+        //center Container
+        //login
+        addLoginElement(boxC);
         if(webrunes.jsonlds['Article']){
             //article
-            addArticle(boxC);
+            addArticleElement(boxC);
         }else if(webrunes.jsonlds['Person']){
             //person
-            addPerson(boxC);
+            addPersonElement(boxC);
         }else if(webrunes.jsonlds['Cover']){
             //cover
-            addCover(boxC);
+            addCoverElement(boxC);
         }
-
-
         //titter
-        addTitter(boxC);
+        addTitterElement(boxC);
 
-
-
-        if(webrunes.jsonlds['ItemList']){
-            //item list
-            addItemList(boxR);
+        //right container
+        //item list
+        for(var i = 0; i < webrunes.boxs.length; i++){
+            if(webrunes.boxs[i]['@type'] == 'ItemList'){
+                addItemListToMenu(webrunes.boxs[i]);
+            }
         }
-
+        //menu
         if(webrunes.jsonlds['Article'] || webrunes.jsonlds['Person']){
-            //menu
-            addMenu(boxR);
+            var jsonld = webrunes.jsonlds['Article'] || webrunes.jsonlds['Person'];
+            if(jsonld.hasPart){
+                for(i = 0; i < jsonld.hasPart.length; i++){
+                    addItemListToMenu(jsonld.hasPart[i]);
+                }
+            }
         }
 
     };
