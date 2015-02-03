@@ -229,13 +229,11 @@ var webrunes = webrunes || {};
             if(webrunes.boxs[i]['@type'] == 'ItemList'){
                 addItemListToMenu(webrunes.boxs[i]);
             }
-        }
-        //menu
-        if(webrunes.jsonlds['Article'] || webrunes.jsonlds['Person']){
-            var jsonld = webrunes.jsonlds['Article'] || webrunes.jsonlds['Person'];
-            if(jsonld.hasPart){
-                for(i = 0; i < jsonld.hasPart.length; i++){
-                    addItemListToMenu(jsonld.hasPart[i]);
+            if(webrunes.boxs[i]['@type'] == 'Article' || webrunes.boxs[i]['@type'] == 'Person'){
+                if(webrunes.boxs[i].hasPart){
+                    for(var j = 0; j < webrunes.boxs[i].hasPart.length; j++){
+                        addItemListToMenu(webrunes.boxs[i].hasPart[j]);
+                    }
                 }
             }
         }
