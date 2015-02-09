@@ -181,13 +181,20 @@ var webrunes = webrunes || {};
         for(var i = 0; i < lds.length - 1; i++){
             var jsonld = JSON.parse(lds[i].innerHTML);
             webrunes.boxs.push(jsonld);
-            if(jsonld['@type']){
+            var jstype = jsonld['@type'];
+            if(jstype == 'ItemList'){
+                if(jsonld.itemListElement) webrunes.jsonlds[jsonld['@type']] = jsonld;
+            }else{
                 webrunes.jsonlds[jsonld['@type']] = jsonld;
             }
         }
     };
-    var addItemListToMenu = function(model){
+    var addItemListToMenu = function(model, el){
         var li = document.createElement('li');
+        if(el == 'article') li.onclick = function(){
+            document.getElementsByTagName(el)[0].style.display = 'none';
+	        document.getElementById('itemlist-container-id').style.display = 'block';
+        };
         var a = document.createElement('a');
         a.href = model.url ? model.url : '#' + model.name;
         a.innerText = model.name;
@@ -213,26 +220,34 @@ var webrunes = webrunes || {};
         if(webrunes.jsonlds['Article']){
             //article
             addArticleElement(boxC);
-        }else if(webrunes.jsonlds['Person']){
+        }
+        if(webrunes.jsonlds['Person']){
             //person
             addPersonElement(boxC);
-        }else if(webrunes.jsonlds['Cover']){
+        }
+        if(webrunes.jsonlds['Cover']){
             //cover
             addCoverElement(boxC);
         }
+
+        if(webrunes.jsonlds['ItemList']) addItemListElement(boxC);
         //titter
         addTitterElement(boxC);
 
         //right container
         //item list
         for(var i = 0; i < webrunes.boxs.length; i++){
+            var hideWidget = '';
             if(webrunes.boxs[i]['@type'] == 'ItemList'){
-                addItemListToMenu(webrunes.boxs[i]);
+                if(webrunes.boxs[i].itemListElement && webrunes.boxs[i].itemListElement.length){
+                    hideWidget = 'article';
+                }
+                addItemListToMenu(webrunes.boxs[i], hideWidget);
             }
             if(webrunes.boxs[i]['@type'] == 'Article' || webrunes.boxs[i]['@type'] == 'Person'){
                 if(webrunes.boxs[i].hasPart){
                     for(var j = 0; j < webrunes.boxs[i].hasPart.length; j++){
-                        addItemListToMenu(webrunes.boxs[i].hasPart[j]);
+                        addItemListToMenu(webrunes.boxs[i].hasPart[j], hideWidget);
                     }
                 }
             }
