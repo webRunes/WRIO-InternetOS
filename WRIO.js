@@ -189,12 +189,44 @@ var webrunes = webrunes || {};
             }
         }
     };
+	var createMenu = function(){
+		for(var i = 0; i < webrunes.boxs.length; i++){
+			var hideWidget = '';
+			if(webrunes.boxs[i]['@type'] == 'ItemList'){
+				if(webrunes.boxs[i].itemListElement && webrunes.boxs[i].itemListElement.length){
+					hideWidget = 'article';
+				}
+				addItemListToMenu(webrunes.boxs[i], hideWidget);
+			}
+			if(webrunes.boxs[i]['@type'] == 'Article' || webrunes.boxs[i]['@type'] == 'Person'){
+				if(webrunes.boxs[i].hasPart){
+					hideWidget = 'article-menu';
+					for(var j = 0; j < webrunes.boxs[i].hasPart.length; j++){
+						addItemListToMenu(webrunes.boxs[i].hasPart[j], hideWidget);
+					}
+				}
+			}
+		}
+	};
     var addItemListToMenu = function(model, el){
         var li = document.createElement('li');
-        if(el == 'article') li.onclick = function(){
-            document.getElementsByTagName(el)[0].style.display = 'none';
-	        document.getElementById('itemlist-container-id').style.display = 'block';
-        };
+
+        if(el == 'article') {
+	        li.onclick = function () {
+		        var $article = document.getElementById('article-article-id');
+		        var $itemlist = document.getElementById('itemlist-container-id');
+	            if($article) $article.style.display = 'none';
+	            if($itemlist) $itemlist.style.display = 'block';
+	            return false;
+	        }
+        } else if(el == 'article-menu'){
+	        li.onclick = function (){
+		        var $article = document.getElementById('article-article-id');
+		        var $itemlist = document.getElementById('itemlist-container-id');
+		        if($article) $article.style.display = 'block';
+		        if($itemlist) $itemlist.style.display = 'none';
+	        }
+        }
         var a = document.createElement('a');
         a.href = model.url ? model.url : '#' + model.name;
         a.innerText = model.name;
@@ -235,24 +267,7 @@ var webrunes = webrunes || {};
         addTitterElement(boxC);
 
         //right container
-        //item list
-        for(var i = 0; i < webrunes.boxs.length; i++){
-            var hideWidget = '';
-            if(webrunes.boxs[i]['@type'] == 'ItemList'){
-                if(webrunes.boxs[i].itemListElement && webrunes.boxs[i].itemListElement.length){
-                    hideWidget = 'article';
-                }
-                addItemListToMenu(webrunes.boxs[i], hideWidget);
-            }
-            if(webrunes.boxs[i]['@type'] == 'Article' || webrunes.boxs[i]['@type'] == 'Person'){
-                if(webrunes.boxs[i].hasPart){
-                    for(var j = 0; j < webrunes.boxs[i].hasPart.length; j++){
-                        addItemListToMenu(webrunes.boxs[i].hasPart[j], hideWidget);
-                    }
-                }
-            }
-        }
-
+	    createMenu();
     };
     init();
 })();
