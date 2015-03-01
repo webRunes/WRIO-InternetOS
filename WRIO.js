@@ -1,6 +1,4 @@
-
-var webrunes = webrunes || {};
-
+var wrio = {};
 (function(){
     'use strict';
 
@@ -8,7 +6,9 @@ var webrunes = webrunes || {};
     var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com';
     var cssUrl = 'http://webrunes.github.io';
     var theme = '/Default-WRIO-Theme';
-    webrunes.plusUrl = "";
+    wrio.plusUrl = "";
+    wrio.page = '';
+    wrio.hash = '';
 
     //DOM elements
     var boxHeadL, boxL, boxC, boxR, boxRitem;
@@ -152,10 +152,6 @@ var webrunes = webrunes || {};
         var titterwidget = document.createElement('titter-widget');
         el.appendChild(titterwidget);
     };
-    var addMenuElement = function(el){
-        var menuwidget = document.createElement('menu-widget');
-        el.appendChild(menuwidget);
-    };
     var addArticleElement = function(el){
         var articlewidget = document.createElement('article-widget');
         el.appendChild(articlewidget);
@@ -172,102 +168,166 @@ var webrunes = webrunes || {};
         var itemListwidget = document.createElement('itemlist-widget');
         el.appendChild(itemListwidget);
     };
+    var getCurrentWidget = function(){
+        var hash = window.location.hash;
+        if(hash){
+            wrio.hash = window.location.hash.replace('#', '');
+        }
+    };
+    var prepareJsonLd = function(){
+        wrio.jsons = [];
+        var scripts = document.getElementsByTagName("script");
+        for(var i = 0; i < scripts.length - 1; i++){
+	        try{
+		        var model = JSON.parse(scripts[i].innerHTML);
+                wrio.jsons.push(model);
 
-    var getCurrentJsonLd = function(){
-        //get current json-ld
-        var lds = document.getElementsByTagName("script");
-        webrunes.jsonlds = {};
-        webrunes.boxs = [];
-        for(var i = 0; i < lds.length - 1; i++){
-            var jsonld = JSON.parse(lds[i].innerHTML);
-            webrunes.boxs.push(jsonld);
-            var jstype = jsonld['@type'];
-            if(jstype == 'ItemList'){
-                if(jsonld.itemListElement) webrunes.jsonlds[jsonld['@type']] = jsonld;
+	        }catch(err){
+		        Console.log(err);
+	        }
+        }
+    };
+    var prepareWidgetModels = function(){
+        wrio.widgetmodels = {};
+        for(var i = 0; i < wrio.jsons.length; i++){
+            var widgetType = wrio.jsons[i]['@type'];
+            if(widgetType != 'ItemList'){
+                wrio.widgetmodels[widgetType] = wrio.jsons[i];
+                addMenulinks(widgetType, wrio.jsons[i]);
             }else{
-                webrunes.jsonlds[jsonld['@type']] = jsonld;
+                var items = wrio.jsons[i].itemListElement;
+                widgetType = 'ItemListList';
+                if(items.length && items[0]['@type'] != 'ItemList'){
+                    if(items[0]['@type'] != 'ImageObject')
+                    {
+                        widgetType = 'ItemList';
+                    }else{
+                        widgetType = 'Cover';
+                    }
+                    wrio.widgetmodels[widgetType] = wrio.jsons[i];
+                }
+                addMenulinks(widgetType, wrio.jsons[i]);
+            }
+            checkCurrentPage();
+        }
+    };
+    var checkCurrentPage = function(){
+        if(!wrio.page){
+            if(wrio.widgetmodels.Article) wrio.page = 'Article';
+            else if(wrio.widgetmodels.Person) wrio.page = 'Person';
+        }
+    };
+	var addMenulinks = function(name, model){
+        if(name == 'Article') addArticleLink(model);
+        else if(name == 'Person') addPersonalLink(model);
+        else if(name == 'ItemListList') addCoverLink(model);
+        else if(name == 'ItemList') addItemListLink(model);
+	};
+    var addArticleLink = function(model){
+        if(model.name) addItemListToMenu('#' + model.name, model.name, 'Article');
+        if(model.hasPart){
+            for(var i = 0; i < model.hasPart.length; i++){
+                addItemListToMenu('#' + model.hasPart[i].name, model.hasPart[i].name, 'Article');
+                if(wrio.hash == model.hasPart[i].name) wrio.page = 'Article';
             }
         }
     };
-	var createMenu = function(){
-		for(var i = 0; i < webrunes.boxs.length; i++){
-			var hideWidget = '';
-			if(webrunes.boxs[i]['@type'] == 'ItemList'){
-				if(webrunes.boxs[i].itemListElement && webrunes.boxs[i].itemListElement.length){
-					hideWidget = 'article';
-				}
-				addItemListToMenu(webrunes.boxs[i], hideWidget);
-			}
-			if(webrunes.boxs[i]['@type'] == 'Article' || webrunes.boxs[i]['@type'] == 'Person'){
-				if(webrunes.boxs[i].hasPart){
-					hideWidget = 'article-menu';
-					for(var j = 0; j < webrunes.boxs[i].hasPart.length; j++){
-						addItemListToMenu(webrunes.boxs[i].hasPart[j], hideWidget);
-					}
-				}
-			}
-		}
-	};
-    var addItemListToMenu = function(model, el){
+    var addPersonalLink = function(model){
+        if(model.name) addItemListToMenu('#' + model.name, model.name, 'Person');
+        if(model.hasPart){
+            for(var i = 0; i < model.hasPart.length; i++){
+                addItemListToMenu('#' + model.hasPart[i].name, model.hasPart[i].name, 'Person');
+                if(wrio.hash == model.hasPart[i].name) wrio.page = 'Person';
+            }
+        }
+    };
+    var addCoverLink = function(model){
+        if(model.itemListElement){
+            for(var i = 0; i < model.itemListElement.length; i++){
+                addItemListToMenu('#' + model.itemListElement[i].name, model.itemListElement[i].name, 'ItemListList');
+                if(wrio.hash == 'Cover') wrio.page = 'Cover';
+            }
+        }
+    };
+    var addItemListLink = function(model){
+        addItemListToMenu('#' + model.name, model.name, 'ItemList');
+        if(wrio.hash == model.name) wrio.page = 'ItemList';
+    };
+    var addItemListToMenu = function(url, name, own){
         var li = document.createElement('li');
 
-        if(el == 'article') {
+        if(own == 'ItemList') {
 	        li.onclick = function () {
 		        var $article = document.getElementById('article-article-id');
+		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
+		        var $cover = document.getElementById('cover-container-id');
 	            if($article) $article.style.display = 'none';
+		        if($person) $person.style.display = 'none';
 	            if($itemlist) $itemlist.style.display = 'block';
-	            return false;
+		        if($cover) $cover.style.display = 'none';
 	        }
-        } else if(el == 'article-menu'){
+        } else if(own == 'Article'){
 	        li.onclick = function (){
 		        var $article = document.getElementById('article-article-id');
+		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
+		        var $cover = document.getElementById('cover-container-id');
 		        if($article) $article.style.display = 'block';
+		        if($person) $person.style.display = 'none';
 		        if($itemlist) $itemlist.style.display = 'none';
+		        if($cover) $cover.style.display = 'none';
+	        }
+        } else if(own == 'Person'){
+	        li.onclick = function (){
+		        var $article = document.getElementById('article-article-id');
+		        var $person = document.getElementById('article-person-id');
+		        var $itemlist = document.getElementById('itemlist-container-id');
+		        var $cover = document.getElementById('cover-container-id');
+		        if($article) $article.style.display = 'none';
+		        if($person) $person.style.display = 'block';
+		        if($itemlist) $itemlist.style.display = 'none';
+		        if($cover) $cover.style.display = 'none';
+	        }
+        } else if(own == 'ItemListList'){
+	        li.onclick = function (){
+		        var $article = document.getElementById('article-article-id');
+		        var $person = document.getElementById('article-person-id');
+		        var $itemlist = document.getElementById('itemlist-container-id');
+		        var $cover = document.getElementById('cover-container-id');
+		        if($article) $article.style.display = 'none';
+		        if($person) $person.style.display = 'none';
+		        if($itemlist) $itemlist.style.display = 'none';
+		        if($cover) $cover.style.display = 'block';
 	        }
         }
         var a = document.createElement('a');
-        a.href = model.url ? model.url : '#' + model.name;
-        a.innerText = model.name;
+        a.href = url;
+        a.innerText = name;
         li.appendChild(a);
         boxRitem.appendChild(li);
     };
 
     //init
     var init = function(){
-        //get current json-ld
-        getCurrentJsonLd();
+        getCurrentWidget();
+        prepareJsonLd();
         addBootstrapLink();
         addImportLink();
         createDom();
+        prepareWidgetModels();
 
-        //left container
         //plus
-        addPlusElement(boxL);
+        if(wrio.widgetmodels.Plus) addPlusElement(boxL);
 
         //center Container
-        //login
         addLoginElement(boxC);
-        if(webrunes.jsonlds['Article']){
-            //article
-            addArticleElement(boxC);
-        }
-        if(webrunes.jsonlds['Person']){
-            //person
-            addPersonElement(boxC);
-        }
-        if(webrunes.jsonlds['Cover']){
-            //cover
-            addCoverElement(boxC);
-        }
-
-        if(webrunes.jsonlds['ItemList']) addItemListElement(boxC);
-        //titter
+        if(wrio.widgetmodels.Article) addArticleElement(boxC);
+        if(wrio.widgetmodels.Person) addPersonElement(boxC);
+        if(wrio.widgetmodels.Cover) addCoverElement(boxC);
+        if(wrio.widgetmodels.ItemList) addItemListElement(boxC);
         addTitterElement(boxC);
 
-        //right container
-	    createMenu();
     };
     init();
 })();
