@@ -6,7 +6,8 @@ var wrio = {};
     var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com';
     var cssUrl = 'http://webrunes.github.io';
     var theme = '/Default-WRIO-Theme';
-    wrio.plusUrl = "";
+    wrio.plusUrl = '';
+    wrio.coverUrl = '';
     wrio.page = '';
     wrio.hash = '';
 
@@ -55,10 +56,10 @@ var wrio = {};
         document.head.appendChild(titter);
 
         //import Menu
-        var menu = document.createElement('link');
-        menu.rel = 'import';
-        menu.href = importUrl + '/Default-WRIO-Theme/widget/menu.htm';
-        document.head.appendChild(menu);
+        //var menu = document.createElement('link');
+        //menu.rel = 'import';
+        //menu.href = importUrl + '/Default-WRIO-Theme/widget/menu.htm';
+        //document.head.appendChild(menu);
 
         //import Article
         var article = document.createElement('link');
@@ -139,6 +140,15 @@ var wrio = {};
         boxRitem.className = 'nav nav-pills nav-stacked';
         boxR.appendChild(boxRitem);
     };
+    var addCoverWidget = function(el){
+        //import Cover
+        //var cover = document.createElement('link');
+        //cover.rel = 'import';
+        //cover.href = importUrl + '/Default-WRIO-Theme/widget/cover.htm';
+        //document.head.appendChild(cover);
+        //
+        //addCoverElement(el);
+    };
     //add dom elements
     var addPlusElement = function(el){
         var pluswidget = document.createElement('plus-widget');
@@ -196,17 +206,18 @@ var wrio = {};
                 addMenulinks(widgetType, wrio.jsons[i]);
             }else{
                 var items = wrio.jsons[i].itemListElement;
-                widgetType = 'ItemListList';
-                if(items.length && items[0]['@type'] != 'ItemList'){
-                    if(items[0]['@type'] != 'ImageObject')
-                    {
-                        widgetType = 'ItemList';
-                    }else{
-                        widgetType = 'Cover';
+                if(items){
+                    for(var j = 0; j < items.length; j++){
+                        var index = items[j].url.indexOf('?cover');
+                        if(index > 0) {
+                            addMenulinks('Cover', items[j]);
+                        }else{
+                            wrio.widgetmodels['ItemList'] = wrio.jsons[i];
+                            addMenulinks('ItemList', items[j]);
+                            break;
+                        }
                     }
-                    wrio.widgetmodels[widgetType] = wrio.jsons[i];
                 }
-                addMenulinks(widgetType, wrio.jsons[i]);
             }
             checkCurrentPage();
         }
@@ -220,7 +231,7 @@ var wrio = {};
 	var addMenulinks = function(name, model){
         if(name == 'Article') addArticleLink(model);
         else if(name == 'Person') addPersonalLink(model);
-        else if(name == 'ItemListList') addCoverLink(model);
+        else if(name == 'Cover') addCoverLink(model);
         else if(name == 'ItemList') addItemListLink(model);
 	};
     var addArticleLink = function(model){
@@ -242,12 +253,8 @@ var wrio = {};
         }
     };
     var addCoverLink = function(model){
-        if(model.itemListElement){
-            for(var i = 0; i < model.itemListElement.length; i++){
-                addItemListToMenu('#' + model.itemListElement[i].name, model.itemListElement[i].name, 'ItemListList');
-                if(wrio.hash == 'Cover') wrio.page = 'Cover';
-            }
-        }
+        addItemListToMenu('#' + model.name, model.name, 'Cover');
+        if(wrio.hash == 'Cover') wrio.page = 'Cover';
     };
     var addItemListLink = function(model){
         addItemListToMenu('#' + model.name, model.name, 'ItemList');
@@ -262,6 +269,8 @@ var wrio = {};
 		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
 		        var $cover = document.getElementById('cover-container-id');
+                var $titter = document.getElementById('titter-id');
+                if($titter) $titter.style.display = 'none';
 	            if($article) $article.style.display = 'none';
 		        if($person) $person.style.display = 'none';
 	            if($itemlist) $itemlist.style.display = 'block';
@@ -273,6 +282,8 @@ var wrio = {};
 		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
 		        var $cover = document.getElementById('cover-container-id');
+                var $titter = document.getElementById('titter-id');
+                if($titter) $titter.style.display = 'block';
 		        if($article) $article.style.display = 'block';
 		        if($person) $person.style.display = 'none';
 		        if($itemlist) $itemlist.style.display = 'none';
@@ -284,17 +295,22 @@ var wrio = {};
 		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
 		        var $cover = document.getElementById('cover-container-id');
+                var $titter = document.getElementById('titter-id');
+                if($titter) $titter.style.display = 'block';
 		        if($article) $article.style.display = 'none';
 		        if($person) $person.style.display = 'block';
 		        if($itemlist) $itemlist.style.display = 'none';
 		        if($cover) $cover.style.display = 'none';
 	        }
-        } else if(own == 'ItemListList'){
+        } else if(own == 'Cover'){
 	        li.onclick = function (){
 		        var $article = document.getElementById('article-article-id');
 		        var $person = document.getElementById('article-person-id');
 		        var $itemlist = document.getElementById('itemlist-container-id');
 		        var $cover = document.getElementById('cover-container-id');
+                //if(!$cover) addCoverWidget(boxC);
+                var $titter = document.getElementById('titter-id');
+                if($titter) $titter.style.display = 'none';
 		        if($article) $article.style.display = 'none';
 		        if($person) $person.style.display = 'none';
 		        if($itemlist) $itemlist.style.display = 'none';
@@ -307,11 +323,29 @@ var wrio = {};
         li.appendChild(a);
         boxRitem.appendChild(li);
     };
-
+    var getCoverUrl = function(){
+        for(var i = 0; i < wrio.jsons.length; i++){
+            if(wrio.coverUrl) break;
+            var widgetType = wrio.jsons[i]['@type'];
+            if(widgetType == 'ItemList'){
+                var items = wrio.jsons[i].itemListElement;
+                if(items){
+                    for(var j = 0; j < items.length; j++){
+                        var index = items[j].url.indexOf('?cover');
+                        if(index > 0) {
+                            wrio.coverUrl = items[j].url.substring(0, items[j].url.indexOf('?cover'));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    };
     //init
     var init = function(){
         getCurrentWidget();
         prepareJsonLd();
+        getCoverUrl();
         addBootstrapLink();
         addImportLink();
         createDom();
@@ -324,9 +358,10 @@ var wrio = {};
         addLoginElement(boxC);
         if(wrio.widgetmodels.Article) addArticleElement(boxC);
         if(wrio.widgetmodels.Person) addPersonElement(boxC);
-        if(wrio.widgetmodels.Cover) addCoverElement(boxC);
+        if(wrio.coverUrl) addCoverElement(boxC);
         if(wrio.widgetmodels.ItemList) addItemListElement(boxC);
         addTitterElement(boxC);
+
 
     };
     init();
