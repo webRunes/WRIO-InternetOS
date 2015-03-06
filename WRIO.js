@@ -10,6 +10,7 @@ var wrio = {};
     wrio.coverUrl = '';
     wrio.page = '';
     wrio.hash = '';
+    wrio.storageKey = 'plusLdModel';
 
     //DOM elements
     var boxHeadL, boxL, boxC, boxR, boxRitem;
@@ -34,6 +35,10 @@ var wrio = {};
         var script = document.createElement('script');
         script.src = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js';
         document.head.appendChild(script);
+
+        var storageScript = document.createElement('script');
+        script.src = importUrl + '/Plus-WRIO-App/public/scripts/client.min.js';
+        document.head.appendChild(storageScript);
     };
     //add Import
     var addImportLink = function(){
@@ -341,6 +346,55 @@ var wrio = {};
             }
         }
     };
+
+    var updatePlusStorage = function(){
+        // browser address url
+        var href = window.location.origin + window.location.pathname;
+        var storage = new CrossStorageClient(importUrl + '/Plus-WRIO-App/widget/plus.htm');
+
+        storage.onConnect().then(function() {
+            return storage.get(wrio.storageKey);
+        }).then(function(model) {
+            if(model && model.length > 0){
+               return model;
+            }
+            else{
+                return {
+                    "@context": "http://schema.org",
+                    "@type": ["ItemList"],
+                    "name": "My Plus List",
+                    "itemList": []
+                };
+            }
+        }).then(function(model) {
+            var urlExists = false;
+
+            if(model.itemList) {
+                model.itemList.forEach(function (element) {
+                    if(element.url && element.url === href){
+                        urlExists = true;
+                    }
+                });
+            }
+
+            if(!urlExists){
+                model.itemList.push(
+                {
+                    "@type": "Article",
+                    "inLanguage": "en-US",
+                    "name": "New Article",
+                    "about": "New Article from " + href,
+                    "image": "",
+                    "url": href
+                });
+                return storage.set(wrio.storageKey, model);
+            }
+            return model;
+        }).catch(function(err) {
+            console.log(err);
+        });
+    };
+
     //init
     var init = function(){
         getCurrentWidget();
@@ -350,6 +404,7 @@ var wrio = {};
         addImportLink();
         createDom();
         prepareWidgetModels();
+        updatePlusStorage();
 
         //plus
         if(wrio.widgetmodels.Plus) addPlusElement(boxL);
