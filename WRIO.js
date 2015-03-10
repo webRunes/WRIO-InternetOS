@@ -3,7 +3,7 @@ var wrio = {};
     'use strict';
 
     //properties
-    var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com';
+    var importUrl = 'https://wrio.s3.amazonaws.com';
     var cssUrl = 'http://webrunes.github.io';
     var theme = '/Default-WRIO-Theme';
     wrio.plusUrl = '';
@@ -37,7 +37,11 @@ var wrio = {};
         document.head.appendChild(script);
 
         var storageScript = document.createElement('script');
-        script.src = importUrl + '/Plus-WRIO-App/public/scripts/client.min.js';
+        storageScript.type = "text/javascript";
+        storageScript.onload = function () {
+            updatePlusStorage();
+        };
+        storageScript.src = importUrl + '/Plus-WRIO-App/public/scripts/client.min.js';
         document.head.appendChild(storageScript);
     };
     //add Import
@@ -347,52 +351,54 @@ var wrio = {};
         }
     };
 
-    var updatePlusStorage = function(){
+    var updatePlusStorage = function () {
         // browser address url
         var href = window.location.origin + window.location.pathname;
         var storage = new CrossStorageClient(importUrl + '/Plus-WRIO-App/widget/plus.htm');
 
-        storage.onConnect().then(function() {
-            return storage.get(wrio.storageKey);
-        }).then(function(model) {
-            if(model && model.length > 0){
-               return model;
-            }
-            else{
-                return {
-                    "@context": "http://schema.org",
-                    "@type": ["ItemList"],
-                    "name": "My Plus List",
-                    "itemList": []
-                };
-            }
-        }).then(function(model) {
-            var urlExists = false;
+        if (typeof CrossStorageClient === 'function'){
+            storage.onConnect().then(function () {
+                return storage.get(wrio.storageKey);
+            }).then(function (model) {
+                if (model && model.length > 0) {
+                    return model;
+                }
+                else {
+                    return {
+                        "@context": "http://schema.org",
+                        "@type": ["ItemList"],
+                        "name": "My Plus List",
+                        "itemList": []
+                    };
+                }
+            }).then(function (model) {
+                var urlExists = false;
 
-            if(model.itemList) {
-                model.itemList.forEach(function (element) {
-                    if(element.url && element.url === href){
-                        urlExists = true;
-                    }
-                });
-            }
+                if (model.itemList) {
+                    model.itemList.forEach(function (element) {
+                        if (element.url && element.url === href) {
+                            urlExists = true;
+                        }
+                    });
+                }
 
-            if(!urlExists){
-                model.itemList.push(
-                {
-                    "@type": "Article",
-                    "inLanguage": "en-US",
-                    "name": "New Article",
-                    "about": "New Article from " + href,
-                    "image": "",
-                    "url": href
-                });
-                return storage.set(wrio.storageKey, model);
-            }
-            return model;
-        }).catch(function(err) {
-            console.log(err);
-        });
+                if (!urlExists) {
+                    model.itemList.push(
+                        {
+                            "@type": "Article",
+                            "inLanguage": "en-US",
+                            "name": "New Article",
+                            "about": "New Article from " + href,
+                            "image": "",
+                            "url": href
+                        });
+                    return storage.set(wrio.storageKey, model);
+                }
+                return model;
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
     };
 
     //init
@@ -404,7 +410,6 @@ var wrio = {};
         addImportLink();
         createDom();
         prepareWidgetModels();
-        updatePlusStorage();
 
         //plus
         if(wrio.widgetmodels.Plus) addPlusElement(boxL);
