@@ -41,7 +41,7 @@ var wrio = {};
         storageScript.onload = function () {
             updatePlusStorage();
         };
-        storageScript.src = importUrl + '/Plus-WRIO-App/public/scripts/client.min.js';
+        storageScript.src = importUrl + '/Plus-WRIO-App/public/scripts/client.js';
         document.head.appendChild(storageScript);
     };
     //add Import
@@ -360,7 +360,7 @@ var wrio = {};
             storage.onConnect().then(function () {
                 return storage.get(wrio.storageKey);
             }).then(function (model) {
-                if (model && model.length > 0) {
+                if (model) {
                     return model;
                 }
                 else {
@@ -397,6 +397,8 @@ var wrio = {};
                 return model;
             }).catch(function (err) {
                 console.log(err);
+            }).then(function() {
+                storage.close();
             });
         }
     };
@@ -421,8 +423,6 @@ var wrio = {};
         if(wrio.coverUrl) addCoverElement(boxC);
         if(wrio.widgetmodels.ItemList) addItemListElement(boxC);
         addTitterElement(boxC);
-
-
     };
     init();
 })();
