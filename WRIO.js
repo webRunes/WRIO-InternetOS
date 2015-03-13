@@ -11,6 +11,7 @@ var wrio = {};
     wrio.page = '';
     wrio.hash = '';
     wrio.storageKey = 'plusLdModel';
+    wrio.storageHubUrl = importUrl;
 
     //DOM elements
     var boxHeadL, boxL, boxC, boxR, boxRitem;
