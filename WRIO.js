@@ -354,7 +354,7 @@ var wrio = {};
     var updatePlusStorage = function () {
         // browser address url
         var href = window.location.origin + window.location.pathname;
-        var storage = new CrossStorageClient(importUrl + '/Plus-WRIO-App/widget/plus.htm');
+        var storage = new CrossStorageClient(importUrl + '/Plus-WRIO-App/widget/storageHub.htm');
 
         if (typeof CrossStorageClient === 'function'){
             storage.onConnect().then(function () {
@@ -373,7 +373,6 @@ var wrio = {};
                 }
             }).then(function (model) {
                 var urlExists = false;
-
                 if (model.itemList) {
                     model.itemList.forEach(function (element) {
                         if (element.url && element.url === href) {
@@ -381,7 +380,6 @@ var wrio = {};
                         }
                     });
                 }
-
                 if (!urlExists) {
                     model.itemList.push(
                         {
