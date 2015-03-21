@@ -1,427 +1,405 @@
-var wrio = {};
-(function(){
-    'use strict';
+/**
+ * This file provided by Facebook is for non-commercial testing and evaluation purposes only.
+ * Facebook reserves all rights not expressly granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+     
+var importUrl = 'https://raw.githubusercontent.com/webRunes/';      
+var cssUrl = 'http://webrunes.github.io';     
+var theme = '/Default-WRIO-Theme';       
+ 
+var converter = new Showdown.converter();
 
-    //properties
-    var importUrl = 'https://wrio.s3.amazonaws.com';
-    var cssUrl = 'http://webrunes.github.io';
-    var theme = '/Default-WRIO-Theme';
-    wrio.plusUrl = '';
-    wrio.coverUrl = '';
-    wrio.page = '';
-    wrio.hash = '';
-    wrio.storageKey = 'plusLdModel';
-    wrio.storageHubUrl = importUrl;
+var finalJson;
+var finalJsonArray = [];
+var getScripts = function(){	
+	var scripts = document.getElementsByTagName("script");
+	var jsonData = new Object();
+	var jsonArray = [];
+	var has = false;
+  	for(var i=0; i< scripts.length; i++){
+		if(scripts[i].type=='application/ld+json'){
+			has = true;
+			jsonData = JSON.parse(scripts[i].innerHTML);
+			jsonArray.push(jsonData);
+		}
+	}
+	var completeJson = jsonArray;
+	finalJson = getFinalJSON(completeJson);
+}
+var getFinalJSON = function(json,hasPart){
+	if(hasPart==undefined){
+		hasPart = false;
+	}           
+	$.each(json,function(i,item){			         
+		comment = this;        
+		var is_article = false;     
+		if(comment['@type']=='Article'){       
+			is_article = true;        
+		}         
+		      
+		var articlebody = comment['articleBody'];      
+		if(comment['articleBody']==undefined){           
+			articlebody = '';        
+		}  
+		var newArticle='';       
+		for(var i=0;i < articlebody.length;i++){    
+   //   alert(i)     
+//   console.log(articlebody);       
+			if(i>0){       
+				//newArticle = newArticle +'</p>';  
+      //  alert(newArticle);  
+			}
+			newArticle +=  '<p>' + articlebody[i]  + '</p>';  
+		}
+		
+		row = {
+			"is_article": is_article,
+			"articlename": comment['name'],
+			"articleBody": newArticle,
+			"url": '',//comment['url']
+			"hasPart": hasPart
+		}
+		finalJsonArray.push(row);
+		//console.log((finalJsonArray).length);
+		if(comment.hasPart!=undefined){
+			if((comment.hasPart).length > 0){
+				hasParts = comment.hasPart;		
+				getFinalJSON(hasParts,true);
+			}
+		}
+	});
+	return finalJsonArray;
+}
 
-    //DOM elements
-    var boxHeadL, boxL, boxC, boxR, boxRitem;
+var CreateDomLeft = React.createClass({
+  render: function() {    
+    return (
+      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header"></div><div className="navbar-collapse in"></div></div></div>
+    );
+  }
+});
 
-    //add css, ico, js
-    var addBootstrapLink = function(){
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css';
-        document.head.appendChild(link);
+var CreateDomRight = React.createClass({
+  render: function() {    
+    return (
+      <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
+      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
+    );
+  }
+});
 
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = cssUrl + theme + '/css/webrunes.css';
-        document.head.appendChild(link);
+var CreateCommentMenus = React.createClass({
+  loadCommentsFromServer: function() {
+	this.setState({data: finalJson});
+  },
+  getInitialState: function() {   
+    return {data: []};      
+  },   
+  componentDidMount: function() {   
+    this.loadCommentsFromServer();
+    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);   
+  },     
+  render: function() {    
+    return (     
+            <CreateItemMenu data={this.state.data} />
+ 
+    );
+  }
+});
 
-        link = document.createElement('link');
-        link.rel = 'shortcut icon';
-        link.href = cssUrl + theme + '/ico/favicon.ico';
-        document.head.appendChild(link);
+var CreateItemMenu = React.createClass({
+  render: function() {
+	  var commentMenus = this.props.data.map(function(comment, index) {
+		  if(comment.is_article==false) return false;
+		  var href = comment.url ? comment.url : '#' + comment.articlename;
+		  return (				  
+				  <li><a href={href}>{comment.articlename}</a></li>
+		  );
+	  });
+	  
+	  return (
+      	<ul className="nav nav-pills nav-stacked">
+        {commentMenus}
+        </ul>
+    );
+  }
+});
 
-        var script = document.createElement('script');
-        script.src = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js';
-        document.head.appendChild(script);
+var CreateDomCenter = React.createClass({
+  render: function() {
+    return (
+      <div className="content col-xs-12 col-sm-5 col-md-7">
+      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+    );
+  }
+});
 
-        var storageScript = document.createElement('script');
-        storageScript.type = "text/javascript";
-        storageScript.onload = function () {
-            updatePlusStorage();
-        };
-        storageScript.src = importUrl + '/Plus-WRIO-App/public/scripts/client.js';
-        document.head.appendChild(storageScript);
-    };
-    //add Import
-    var addImportLink = function(){
-        //import Login
-        var login = document.createElement('link');
-        login.rel = 'import';
-        login.href = importUrl + '/Login-WRIO-App/widget/login.htm';
-        document.head.appendChild(login);
+var CreateTitter = React.createClass({
+  loadTwittCommentsFromServer: function() {
+    var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/titter.htm';
+	$.ajax({
+      url: url,
+      dataType: 'html',
+      success: function(data) {
+		  //console.log(data);
+		  this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString()); 
+      }.bind(this)     
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadTwittCommentsFromServer();
+    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+	!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");
+  },
+  render: function() {	  
+    return (  
+        <CreateOneTitter data={this.state.data} />
+    );	
+  }
 
-        //import Plus
-        var plus = document.createElement('link');
-        plus.rel = 'import';
-        plus.href = importUrl + '/Plus-WRIO-App/widget/plus.htm';
-        document.head.appendChild(plus);
+});
 
-        //import titter
-        var titter = document.createElement('link');
-        titter.rel = 'import';
-        titter.href = importUrl + '/Titter-WRIO-App/widget/titter.htm';
-        document.head.appendChild(titter);
+var CreateOneTitter = React.createClass({
+  render: function() {
+	  var rawMarkup = converter.makeHtml(this.props.data.toString());
+	  if(rawMarkup=="") return false;
+      return (        		        
+		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+      );
 
-        //import Menu
-        //var menu = document.createElement('link');
-        //menu.rel = 'import';
-        //menu.href = importUrl + '/Default-WRIO-Theme/widget/menu.htm';
-        //document.head.appendChild(menu);
+  }
+});
 
-        //import Article
-        var article = document.createElement('link');
-        article.rel = 'import';
-        article.href = importUrl + '/Default-WRIO-Theme/widget/article.htm';
-        document.head.appendChild(article);
+var CreateDom = React.createClass({
+  render: function() {
+	  getScripts();
+    return (
+      <div id="content" className="container-liquid">
+      <div className="row row-offcanvas row-offcanvas-right">
+	  <CreateDomLeft></CreateDomLeft>
+      <CreateDomCenter></CreateDomCenter>
+      <CreateDomRight></CreateDomRight>
+      </div>
+      </div>
+    );
+  }
+});
 
-        //import Cover
-        var cover = document.createElement('link');
-        cover.rel = 'import';
-        cover.href = importUrl + '/Default-WRIO-Theme/widget/cover.htm';
-        document.head.appendChild(cover);
+var CreateArticleList = React.createClass({
+  loadCommentsFromServer: function() {
+	this.setState({data: finalJson});
 
-        //import Person
-        var person = document.createElement('link');
-        person.rel = 'import';
-        person.href = importUrl + '/Default-WRIO-Theme/widget/person.htm';
-        document.head.appendChild(person);
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (  
+            <CreateArticle data={this.state.data} />
 
-        //import ItemList
-        var itemList = document.createElement('link');
-        itemList.rel = 'import';
-        itemList.href = importUrl + '/Default-WRIO-Theme/widget/itemList.htm';
-        document.head.appendChild(itemList);
-    };
-    //add DOM
-    var createDom = function(){
-        var container = document.createElement('div');
-        container.className  = 'container-liquid';
-        document.body.appendChild(container);
-        //childroot container
-        var childroot = document.createElement('div');
-        childroot.className  = 'row row-offcanvas row-offcanvas-right';
-        container.appendChild(childroot);
-        //leftbox container
-        createDomLeft(childroot);
-        //centerbox container
-        createDomCenter(childroot);
-        //rightbox container
-        createDomRight(childroot);
+    );
+  }
+});
 
-//        var script = document.createElement('script');
-//        script.src = cssUrl + theme + '/js/offcanvas.js';
-//        document.body.appendChild(script);
-    };
-    var createDomLeft = function(el){
-        var leftbox = document.createElement('div');
-        leftbox.className  = 'col-xs-12 col-sm-3 col-md-2';
-        el.appendChild(leftbox);
-        var navbar = document.createElement('div');
-        navbar.className  = 'navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu';
-        leftbox.appendChild(navbar);
-        boxHeadL = document.createElement('div');
-        boxHeadL.className  = 'navbar-header';
-        navbar.appendChild(boxHeadL);
-        boxL = document.createElement('div');
-        boxL.className  = 'navbar-collapse in';
-        navbar.appendChild(boxL);
-    };
-    var createDomCenter = function(el){
-        var centerbox = document.createElement('div');
-        centerbox.className  = 'content col-xs-12 col-sm-5 col-md-7';
-        el.appendChild(centerbox);
-        boxC = document.createElement('div');
-        boxC.className  = 'margin';
-        centerbox.appendChild(boxC);
-    };
-    var createDomRight = function(el){
-        var rightbox = document.createElement('div');
-        rightbox.className  = 'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas';
-        rightbox.id = 'sidebar';
-        el.appendChild(rightbox);
-        boxR = document.createElement('div');
-        boxR.className = 'sidebar-margin';
-        rightbox.appendChild(boxR);
+var printJson = function(json){	 
+	 var commentNodes = json.map(function(comment, index) {
+		if(comment.is_article==false) return false;
+      return (
+        // `key` is a React-specific concept and is not mandatory for the
+        // purpose of this tutorial. if you're curious, see more here:
+        // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+        <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+          {comment.articleBody}
+        </CreatArticleEl>
+      );
+    });
+	
+    return (
+      	<article>
+        {commentNodes}
+        </article>
+    );
+}
 
-        boxRitem = document.createElement('ul');
-        boxRitem.className = 'nav nav-pills nav-stacked';
-        boxR.appendChild(boxRitem);
-    };
-    var addCoverWidget = function(el){
-        //import Cover
-        //var cover = document.createElement('link');
-        //cover.rel = 'import';
-        //cover.href = importUrl + '/Default-WRIO-Theme/widget/cover.htm';
-        //document.head.appendChild(cover);
-        //
-        //addCoverElement(el);
-    };
-    //add dom elements
-    var addPlusElement = function(el){
-        var pluswidget = document.createElement('plus-widget');
-        el.appendChild(pluswidget);
-    };
-    var addLoginElement = function(el){
-        var loginwidget = document.createElement('login-widget');
-        el.appendChild(loginwidget);
-    };
-    var addTitterElement = function(el){
-        var titterwidget = document.createElement('titter-widget');
-        el.appendChild(titterwidget);
-    };
-    var addArticleElement = function(el){
-        var articlewidget = document.createElement('article-widget');
-        el.appendChild(articlewidget);
-    };
-    var addCoverElement = function(el){
-        var coverwidget = document.createElement('cover-widget');
-        el.appendChild(coverwidget);
-    };
-    var addPersonElement = function(el){
-        var personwidget = document.createElement('person-widget');
-        el.appendChild(personwidget);
-    };
-    var addItemListElement = function(el){
-        var itemListwidget = document.createElement('itemlist-widget');
-        el.appendChild(itemListwidget);
-    };
-    var getCurrentWidget = function(){
-        var hash = window.location.hash;
-        if(hash){
-            wrio.hash = window.location.hash.replace('#', '');
-        }
-    };
-    var prepareJsonLd = function(){
-        wrio.jsons = [];
-        var scripts = document.getElementsByTagName("script");
-        for(var i = 0; i < scripts.length - 1; i++){
-	        try{
-		        var model = JSON.parse(scripts[i].innerHTML);
-                wrio.jsons.push(model);
+var CreateArticle = React.createClass({
+  render: function() {
+	
+	return printJson(this.props.data);
 
-	        }catch(err){
-		        Console.log(err);
-	        }
-        }
-    };
-    var prepareWidgetModels = function(){
-        wrio.widgetmodels = {};
-        for(var i = 0; i < wrio.jsons.length; i++){
-            var widgetType = wrio.jsons[i]['@type'];
-            if(widgetType != 'ItemList'){
-                wrio.widgetmodels[widgetType] = wrio.jsons[i];
-                addMenulinks(widgetType, wrio.jsons[i]);
-            }else{
-                var items = wrio.jsons[i].itemListElement;
-                if(items){
-                    for(var j = 0; j < items.length; j++){
-                        var index = items[j].url.indexOf('?cover');
-                        if(index > 0) {
-                            addMenulinks('Cover', items[j]);
-                        }else{
-                            wrio.widgetmodels['ItemList'] = wrio.jsons[i];
-                            addMenulinks('ItemList', items[j]);
-                            break;
-                        }
-                    }
-                }
-            }
-            checkCurrentPage();
-        }
-    };
-    var checkCurrentPage = function(){
-        if(!wrio.page){
-            if(wrio.widgetmodels.Article) wrio.page = 'Article';
-            else if(wrio.widgetmodels.Person) wrio.page = 'Person';
-        }
-    };
-	var addMenulinks = function(name, model){
-        if(name == 'Article') addArticleLink(model);
-        else if(name == 'Person') addPersonalLink(model);
-        else if(name == 'Cover') addCoverLink(model);
-        else if(name == 'ItemList') addItemListLink(model);
-	};
-    var addArticleLink = function(model){
-        if(model.name) addItemListToMenu('#' + model.name, model.name, 'Article');
-        if(model.hasPart){
-            for(var i = 0; i < model.hasPart.length; i++){
-                addItemListToMenu('#' + model.hasPart[i].name, model.hasPart[i].name, 'Article');
-                if(wrio.hash == model.hasPart[i].name) wrio.page = 'Article';
-            }
-        }
-    };
-    var addPersonalLink = function(model){
-        if(model.name) addItemListToMenu('#' + model.name, model.name, 'Person');
-        if(model.hasPart){
-            for(var i = 0; i < model.hasPart.length; i++){
-                addItemListToMenu('#' + model.hasPart[i].name, model.hasPart[i].name, 'Person');
-                if(wrio.hash == model.hasPart[i].name) wrio.page = 'Person';
-            }
-        }
-    };
-    var addCoverLink = function(model){
-        addItemListToMenu('#' + model.name, model.name, 'Cover');
-        if(wrio.hash == 'Cover') wrio.page = 'Cover';
-    };
-    var addItemListLink = function(model){
-        addItemListToMenu('#' + model.name, model.name, 'ItemList');
-        if(wrio.hash == model.name) wrio.page = 'ItemList';
-    };
-    var addItemListToMenu = function(url, name, own){
-        var li = document.createElement('li');
+  }
+});
 
-        if(own == 'ItemList') {
-	        li.onclick = function () {
-		        var $article = document.getElementById('article-article-id');
-		        var $person = document.getElementById('article-person-id');
-		        var $itemlist = document.getElementById('itemlist-container-id');
-		        var $cover = document.getElementById('cover-container-id');
-                var $titter = document.getElementById('titter-id');
-                if($titter) $titter.style.display = 'none';
-	            if($article) $article.style.display = 'none';
-		        if($person) $person.style.display = 'none';
-	            if($itemlist) $itemlist.style.display = 'block';
-		        if($cover) $cover.style.display = 'none';
-	        }
-        } else if(own == 'Article'){
-	        li.onclick = function (){
-		        var $article = document.getElementById('article-article-id');
-		        var $person = document.getElementById('article-person-id');
-		        var $itemlist = document.getElementById('itemlist-container-id');
-		        var $cover = document.getElementById('cover-container-id');
-                var $titter = document.getElementById('titter-id');
-                if($titter) $titter.style.display = 'block';
-		        if($article) $article.style.display = 'block';
-		        if($person) $person.style.display = 'none';
-		        if($itemlist) $itemlist.style.display = 'none';
-		        if($cover) $cover.style.display = 'none';
-	        }
-        } else if(own == 'Person'){
-	        li.onclick = function (){
-		        var $article = document.getElementById('article-article-id');
-		        var $person = document.getElementById('article-person-id');
-		        var $itemlist = document.getElementById('itemlist-container-id');
-		        var $cover = document.getElementById('cover-container-id');
-                var $titter = document.getElementById('titter-id');
-                if($titter) $titter.style.display = 'block';
-		        if($article) $article.style.display = 'none';
-		        if($person) $person.style.display = 'block';
-		        if($itemlist) $itemlist.style.display = 'none';
-		        if($cover) $cover.style.display = 'none';
-	        }
-        } else if(own == 'Cover'){
-	        li.onclick = function (){
-		        var $article = document.getElementById('article-article-id');
-		        var $person = document.getElementById('article-person-id');
-		        var $itemlist = document.getElementById('itemlist-container-id');
-		        var $cover = document.getElementById('cover-container-id');
-                //if(!$cover) addCoverWidget(boxC);
-                var $titter = document.getElementById('titter-id');
-                if($titter) $titter.style.display = 'none';
-		        if($article) $article.style.display = 'none';
-		        if($person) $person.style.display = 'none';
-		        if($itemlist) $itemlist.style.display = 'none';
-		        if($cover) $cover.style.display = 'block';
-	        }
-        }
-        var a = document.createElement('a');
-        a.href = url;
-        a.innerText = name;
-        li.appendChild(a);
-        boxRitem.appendChild(li);
-    };
-    var getCoverUrl = function(){
-        for(var i = 0; i < wrio.jsons.length; i++){
-            if(wrio.coverUrl) break;
-            var widgetType = wrio.jsons[i]['@type'];
-            if(widgetType == 'ItemList'){
-                var items = wrio.jsons[i].itemListElement;
-                if(items){
-                    for(var j = 0; j < items.length; j++){
-                        var index = items[j].url.indexOf('?cover');
-                        if(index > 0) {
-                            wrio.coverUrl = items[j].url.substring(0, items[j].url.indexOf('?cover'));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    };
+var CreatArticleEl = React.createClass({
+  loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
+	var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/article.htm';
+  $.ajax({
+      url: url,
+      dataType: 'html',
+      data: { haspart : title },
+      success: function(data) {
+     // alert(data);
+		 if(hasPart==true){
+				if(rawMarkup==""){
+						var html='<h2 id="{this.props.articlename}">{this.props.articlename}</h2>';
+				}else{
+						var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articlename}">{this.props.articlename}</h1></header>','<h2 id={this.props.articlename}>{this.props.articlename}</h2>');
+				}
+		  }else{
+				var html=data;
+		  }
+		  var res = html.replace(/{this.props.articlename}/g,title);
+		   res = res.replace("{description}",children);
+		   res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
+		   res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
+		   this.setState({data: res});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+	  var rawMarkup = converter.makeHtml(this.props.children.toString());	
+    this.loadArticleFromServer(this.props.articlename,this.props.children,this.props.hasPart,rawMarkup); 
+  },
+  render: function() {
+     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
+			  </section>;
 
-    var updatePlusStorage = function () {
-        // browser address url
-        var href = window.location.origin + window.location.pathname;
-        var storage = new CrossStorageClient(importUrl + '/Plus-WRIO-App/widget/storageHub.htm');
+  }
+});
 
-        if (typeof CrossStorageClient === 'function'){
-            storage.onConnect().then(function () {
-                return storage.get(wrio.storageKey);
-            }).then(function (model) {
-                if (model) {
-                    return model;
-                }
-                else {
-                    return {
-                        "@context": "http://schema.org",
-                        "@type": ["ItemList"],
-                        "name": "My Plus List",
-                        "itemList": []
-                    };
-                }
-            }).then(function (model) {
-                var urlExists = false;
-                if (model.itemList) {
-                    model.itemList.forEach(function (element) {
-                        if (element.url && element.url === href) {
-                            urlExists = true;
-                        }
-                    });
-                }
-                if (!urlExists) {
-                    model.itemList.push(
-                        {
-                            "@type": "Article",
-                            "inLanguage": "en-US",
-                            "name": "New Article",
-                            "about": "New Article from " + href,
-                            "image": "",
-                            "url": href
-                        });
-                    return storage.set(wrio.storageKey, model);
-                }
-                return model;
-            }).catch(function (err) {
-                console.log(err);
-            }).then(function() {
-                storage.close();
-            });
-        }
-    };
 
-    //init
-    var init = function(){
-        getCurrentWidget();
-        prepareJsonLd();
-        getCoverUrl();
-        addBootstrapLink();
-        addImportLink();
-        createDom();
-        prepareWidgetModels();
+var Comment = React.createClass({
+  render: function() {
+    var rawMarkup = converter.makeHtml(this.props.children.toString());
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+      </div>
+    );
+  }
+});
 
-        //plus
-        if(wrio.widgetmodels.Plus) addPlusElement(boxL);
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function(comment) {
+    var comments = this.state.data;
+    comments.push(comment);
+    this.setState({data: comments}, function() {
+      // `setState` accepts a callback. To avoid (improbable) race condition,
+      // `we'll send the ajax request right after we optimistically set the new
+      // `state.
+      $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        type: 'POST',
+        data: comment,
+        success: function(data) {
+          this.setState({data: data});
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      </div>
+    );
+  }
+});
 
-        //center Container
-        addLoginElement(boxC);
-        if(wrio.widgetmodels.Article) addArticleElement(boxC);
-        if(wrio.widgetmodels.Person) addPersonElement(boxC);
-        if(wrio.coverUrl) addCoverElement(boxC);
-        if(wrio.widgetmodels.ItemList) addItemListElement(boxC);
-        addTitterElement(boxC);
-    };
-    init();
-})();
+var CommentList = React.createClass({
+  render: function() {
+    var commentNodes = this.props.data.map(function(comment, index) {
+      return (
+        // `key` is a React-specific concept and is not mandatory for the
+        // purpose of this tutorial. if you're curious, see more here:
+        // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+        <Comment author={comment.author} key={index}>
+          {comment.text}
+        </Comment>
+      );
+    });
+    return (
+      <div className="commentList">
+        {commentNodes}
+      </div>
+    );
+  }
+});
+
+var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = this.refs.author.getDOMNode().value.trim(); 
+    var text = this.refs.text.getDOMNode().value.trim();
+    if (!text || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({author: author, text: text});
+    this.refs.author.getDOMNode().value = '';
+    this.refs.text.getDOMNode().value = '';
+  },
+  render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+
+React.render(
+  <CreateDom/>,
+  document.body
+);
