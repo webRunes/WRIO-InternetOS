@@ -10,9 +10,9 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-/* jshint browser: true */  
-/* jslint evil: true */ 
-  
+/* jshint browser: true */
+/* jslint evil: true */
+
 'use strict';
 
 var buffer = _dereq_('buffer');

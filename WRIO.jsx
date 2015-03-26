@@ -1,54 +1,41 @@
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation purposes only.
- * Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+define(['react','jquery','showdown'], function(React) {   
+/**  
+ * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
+ * Facebook reserves all rights not expressly granted.  
+ *       
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL  
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN    
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION  
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
+ */      
+  
+var importUrl = 'https://raw.githubusercontent.com/webRunes/';   
+var cssUrl = 'http://webrunes.github.io';  
+var theme = '/Default-WRIO-Theme';    
+ (function(){      
+     'use strict';
+ var addBootstrapLink = function(){   
+         var link = document.createElement('link');  
+         link.rel = 'stylesheet';
+         link.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css';
+         document.head.appendChild(link);
 
-var importUrl = '.';
-var cssUrl = 'http://webrunes.github.io';
-var theme = '/Default-WRIO-Theme';
-// (function(){
-//     'use strict';
-// var addBootstrapLink = function(){
-//         var link = document.createElement('link');
-//         link.rel = 'stylesheet';
-//         link.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css';
-//         document.head.appendChild(link);
+         link = document.createElement('link');
+         link.rel = 'stylesheet';
+         link.href = cssUrl + theme + '/css/webrunes.css';
+         document.head.appendChild(link);
 
-//         link = document.createElement('link');
-//         link.rel = 'stylesheet';
-//         link.href = cssUrl + theme + '/css/webrunes.css';
-//         document.head.appendChild(link);
-
-//         link = document.createElement('link');
-//         link.rel = 'shortcut icon';
-//         link.href = cssUrl + theme + '/ico/favicon.ico';
-//         document.head.appendChild(link);
-
-//         var script = document.createElement('script');
-//         script.src = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js';
-//         document.head.appendChild(script);
-//     };
-// })();
+         link = document.createElement('link');
+         link.rel = 'shortcut icon';
+         link.href = cssUrl + theme + '/ico/favicon.ico';
+         document.head.appendChild(link);
+     };
+	 addBootstrapLink();
+ })();
 
 var converter = new Showdown.converter();
-
-// var Head = React.createClass({
-//   render: function() {
-//     return (
-//       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-//       <link rel="stylesheet" href="http://webrunes.github.io/Default-WRIO-Theme/css/webrunes.css" />
-//       <link rel="shortcut icon" href="http://webrunes.github.io/Default-WRIO-Theme/ico/favicon.ico" />
-//       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-//     );                      
-//   }
-// });
 
 var finalJson;
 var finalJsonArray = [];
@@ -80,15 +67,11 @@ var getFinalJSON = function(json,hasPart){
 		
 		var articlebody = comment['articleBody'];
 		if(comment['articleBody']==undefined){
-			articlebody = '';
-		}
-		var newArticle='';
+			articlebody = '';    
+		}  
+		var newArticle='';    
 		for(var i=0;i < articlebody.length;i++){
-   //   alert(i)
-//   console.log(articlebody);
-			if(i>0){        
-				//newArticle = newArticle +'</p>';
-      //  alert(newArticle);
+			if(i>0){
 			}
 			newArticle +=  '<p>' + articlebody[i]  + '</p>';
 		}
@@ -138,27 +121,25 @@ var CreateCommentMenus = React.createClass({
   },
   componentDidMount: function() {
     this.loadCommentsFromServer();
-    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (  
             <CreateItemMenu data={this.state.data} />
-
     );
-  }
-});
-
+  }           
+});   
+  
 var CreateItemMenu = React.createClass({
   render: function() {
 	  var commentMenus = this.props.data.map(function(comment, index) {
 		  if(comment.is_article==false) return false;
 		  var href = comment.url ? comment.url : '#' + comment.articlename;
-		  return (				  
-				  <li><a href={href}>{comment.articlename}</a></li>
+		  return (
+				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
 		  );
-	  });
+	  });        
 	  
-	  return (
+	  return (    
       	<ul className="nav nav-pills nav-stacked">
         {commentMenus}
         </ul>
@@ -177,12 +158,11 @@ var CreateDomCenter = React.createClass({
 
 var CreateTitter = React.createClass({
   loadTwittCommentsFromServer: function() {
-    var url = importUrl + '/Titter-WRIO-App/widget/titter.htm';
+    var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/titter.htm';
 	$.ajax({
       url: url,
       dataType: 'html',
       success: function(data) {
-		  //console.log(data);
 		  this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -203,32 +183,7 @@ var CreateTitter = React.createClass({
         <CreateOneTitter data={this.state.data} />
     );	
   }
-  /*
-  render: function() {
-		
-    return (
-      <div id="titter-id">
-        <form className="margin-bottom" role="form">
-            <div className="form-group col-xs-12 has-error">
-                <textarea rows="3" className="form-control" placeholder="Let us know your thoughts! Max 672 characters"></textarea>
-                <div className="help-block">Max 672 characters</div>
-            </div>
-            <div className="form-group col-xs-12">
-                <div className="btn-group tooltip-demo">
-                    <button type="button" className="btn btn-default active"><span className="glyphicon glyphicon-pencil"></span>Text</button>
-                    <button type="button" className="btn btn-default disabled" data-toggle="tooltip" data-placement="right" title="Coming soon"><span className="glyphicon glyphicon-camera"></span>Photo</button>
-                </div>
-                <div className="pull-right">
-                    <div className="pull-right">
-                        <label className="comment-limit">672</label>
-                        <button type="button" className="btn btn-primary"><span className="glyphicon glyphicon-ok"></span>Submit</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-        </div>
-    );
-  }*/
+
 });
 
 var CreateOneTitter = React.createClass({
@@ -238,12 +193,6 @@ var CreateOneTitter = React.createClass({
       return (        		        
 		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
       );
-	
-    /*return (
-      <titter-widget>
-        {titterWidget}
-      </titter-widget>
-    );*/
   }
 });
 
@@ -265,23 +214,12 @@ var CreateDom = React.createClass({
 var CreateArticleList = React.createClass({
   loadCommentsFromServer: function() {
 	this.setState({data: finalJson});
-    /*$.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      success: function(data) {
-        //this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });*/
   },
   getInitialState: function() {
     return {data: []};
   },
   componentDidMount: function() {
     this.loadCommentsFromServer();
-    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (  
@@ -297,7 +235,6 @@ var printJson = function(json){
       return (
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
-        // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
         <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
           {comment.articleBody}
         </CreatArticleEl>
@@ -313,31 +250,13 @@ var printJson = function(json){
 
 var CreateArticle = React.createClass({
   render: function() {
-	
 	return printJson(this.props.data);
-	  
-    /*var commentNodes = this.props.data.map(function(comment, index) {	
-      return (
-        // `key` is a React-specific concept and is not mandatory for the
-        // purpose of this tutorial. if you're curious, see more here:
-        // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-        <CreatArticleEl articlename={comment.name} key={index}>
-          {comment.articleBody}
-        </CreatArticleEl>
-      );
-    });
-	
-    return (
-      <div className="commentList">
-        {commentNodes}
-      </div>
-    );*/
   }
 });
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-	var url = importUrl + '/Titter-WRIO-App/widget/article.htm';
+	var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/article.htm';
   $.ajax({
       url: url,
       dataType: 'html',
@@ -374,66 +293,6 @@ var CreatArticleEl = React.createClass({
   render: function() {
      return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
 			  </section>;
-	
-	/*if(rawMarkup!=""){
-		var array = rawMarkup.split('<br/><br/>');
-		if(array.length > 1){
-			newRawMarkup = '';
-			for(var i=0;i<array.length;i++){
-				newRawMarkup += <div className="paragraph">
-				  <div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={{__html: array[i]}} />
-				  <div className="col-xs-12 col-md-6">
-					<aside>
-						<span className="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span>
-					</aside>
-				  </div>
-				</div>
-				alert(newRawMarkup);
-			}
-		}
-	}*/  
-   /* if(this.props.hasPart==true){
-		if(rawMarkup==""){
-			data = 
-			 <section>
-				<h2 id={this.props.articlename}>{this.props.articlename}</h2>				
-			  </section>
-		}else{
-			data = 
-			 <section>
-				<h2 id={this.props.articlename}>{this.props.articlename}</h2>
-				<div className="paragraph">
-				  <div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={{__html: rawMarkup}} />
-				  <div className="col-xs-12 col-md-6">
-					<aside>
-						<span className="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span>
-					</aside>
-				  </div>
-				</div>
-			  </section>
-		}
-	}else{
-		data = (
-		 <section>
-	      <header className="col-xs-12">
-            <h1 id={this.props.articlename}>{this.props.articlename}</h1>            			
-          </header>
-		  <div className="paragraph">
-        	  <div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={{__html: rawMarkup}} />
-			  <div className="col-xs-12 col-md-6">
-				<aside>
-					<span className="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span>
-				</aside>
-			  </div>
-		  </div>
-		  </section>
-		);
-	}*/
-  // var article_data = converter.makeHtml(this.state.data.toString());
-  // data = (
-  //     <span dangerouslySetInnerHTML={{__html: article_data}} />
-  //   );
-	/*return data;*/
   }
 });
 
@@ -510,7 +369,6 @@ var CommentList = React.createClass({
       return (
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
-        // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
         <Comment author={comment.author} key={index}>
           {comment.text}
         </Comment>
@@ -547,17 +405,7 @@ var CommentForm = React.createClass({
   }
 });
 
-// React.render(
-//   <CommentBox url="comments.json"/>,
-//   document.getElementById('content')
-// );
-
-//React.render(
-//	  <CreateDom/>,
-//	  document.body
-//	);
-
-// React.render(
-//   <Head />,
-//   document.getElementById('head')
-// );
+//  return CreateDom;
+  return React.createFactory(CreateDom)
+ // return React.createElement(CreateDom{});
+});
