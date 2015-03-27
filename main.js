@@ -1,5 +1,5 @@
 require.config({
-  baseUrl: "/",
+  baseUrl: "http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/",
 
   paths: {
 	"jquery": "jquery.min",
