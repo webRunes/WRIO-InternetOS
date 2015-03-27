@@ -11,9 +11,9 @@ define(['react','jquery','showdown'], function(React) {
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
  */      
   
-var importUrl = 'https://raw.githubusercontent.com/webRunes/';   
+var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';   
 var cssUrl = 'http://webrunes.github.io';  
-var theme = '/Default-WRIO-Theme';    
+var theme = 'Default-WRIO-Theme';    
  (function(){      
      'use strict';
  var addBootstrapLink = function(){   
@@ -158,7 +158,7 @@ var CreateDomCenter = React.createClass({
 
 var CreateTitter = React.createClass({
   loadTwittCommentsFromServer: function() {
-    var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/titter.htm';
+    var url = importUrl + theme +'/widget/titter.htm';
 	$.ajax({
       url: url,
       dataType: 'html',
@@ -256,7 +256,7 @@ var CreateArticle = React.createClass({
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-	var url = importUrl + 'Default-WRIO-Theme/gh-pages/widget/article.htm';
+	var url = importUrl + theme + '/widget/article.htm';
   $.ajax({
       url: url,
       dataType: 'html',
