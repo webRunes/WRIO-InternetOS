@@ -1,12 +1,12 @@
 require.config({
-  baseUrl: "/",
+  baseUrl: "http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/",
 
   paths: {
 	"jquery": "jquery.min",
-    "react": "react",  
+    "react": "react",   
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
-    "wrio": "WRIO"   
+    "wrio": "wrio"   
   },   
   jsx: {
     fileExtension: '.jsx',
