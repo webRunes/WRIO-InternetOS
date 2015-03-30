@@ -11,13 +11,13 @@ define(['react','jquery','showdown'], function(React) {
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
  */      
   
-var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';   
-var cssUrl = 'http://webrunes.github.io';  
-var theme = 'Default-WRIO-Theme';    
- (function(){      
+var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
+var cssUrl = 'http://webrunes.github.io';
+var theme = 'Default-WRIO-Theme';
+ (function(){
      'use strict';
- var addBootstrapLink = function(){   
-         var link = document.createElement('link');  
+ var addBootstrapLink = function(){
+         var link = document.createElement('link');
          link.rel = 'stylesheet';
          link.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css';
          document.head.appendChild(link);
@@ -39,7 +39,7 @@ var converter = new Showdown.converter();
 
 var finalJson;
 var finalJsonArray = [];
-var getScripts = function(){	
+var getScripts = function(){
 	var scripts = document.getElementsByTagName("script");
 	var jsonData = new Object();
 	var jsonArray = [];
@@ -58,7 +58,7 @@ var getFinalJSON = function(json,hasPart){
 	if(hasPart==undefined){
 		hasPart = false;
 	}
-	$.each(json,function(i,item){			
+	$.each(json,function(i,item){	
 		comment = this;
 		var is_article = false;
 		if(comment['@type']=='Article'){
@@ -67,9 +67,9 @@ var getFinalJSON = function(json,hasPart){
 		
 		var articlebody = comment['articleBody'];
 		if(comment['articleBody']==undefined){
-			articlebody = '';    
-		}  
-		var newArticle='';    
+			articlebody = '';
+		}
+		var newArticle='';
 		for(var i=0;i < articlebody.length;i++){
 			if(i>0){
 			}
@@ -87,7 +87,7 @@ var getFinalJSON = function(json,hasPart){
 		//console.log((finalJsonArray).length);
 		if(comment.hasPart!=undefined){
 			if((comment.hasPart).length > 0){
-				hasParts = comment.hasPart;		
+				hasParts = comment.hasPart;	
 				getFinalJSON(hasParts,true);
 			}
 		}
@@ -96,7 +96,7 @@ var getFinalJSON = function(json,hasPart){
 }
 
 var CreateDomLeft = React.createClass({
-  render: function() {    
+  render: function() {
     return (
       <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header"></div><div className="navbar-collapse in"></div></div></div>
     );
@@ -104,7 +104,7 @@ var CreateDomLeft = React.createClass({
 });
 
 var CreateDomRight = React.createClass({
-  render: function() {    
+  render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
       <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
@@ -123,11 +123,11 @@ var CreateCommentMenus = React.createClass({
     this.loadCommentsFromServer();
   },
   render: function() {
-    return (  
+    return (
             <CreateItemMenu data={this.state.data} />
     );
-  }           
-});   
+  }
+});
   
 var CreateItemMenu = React.createClass({
   render: function() {
@@ -135,11 +135,11 @@ var CreateItemMenu = React.createClass({
 		  if(comment.is_article==false) return false;
 		  var href = comment.url ? comment.url : '#' + comment.articlename;
 		  return (
-				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
+		  	<li key={index}><a href={href}>{comment.articlename}</a></li>
 		  );
-	  });        
+	  });
 	  
-	  return (    
+	  return (
       	<ul className="nav nav-pills nav-stacked">
         {commentMenus}
         </ul>
@@ -178,10 +178,10 @@ var CreateTitter = React.createClass({
     //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
 	!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");
   },
-  render: function() {	  
-    return (  
+  render: function() {
+    return (
         <CreateOneTitter data={this.state.data} />
-    );	
+    );
   }
 
 });
@@ -190,7 +190,7 @@ var CreateOneTitter = React.createClass({
   render: function() {
 	  var rawMarkup = converter.makeHtml(this.props.data.toString());
 	  if(rawMarkup=="") return false;
-      return (        		        
+      return (
 		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
       );
   }
@@ -222,19 +222,16 @@ var CreateArticleList = React.createClass({
     this.loadCommentsFromServer();
   },
   render: function() {
-    return (  
-            <CreateArticle data={this.state.data} />
-
+    return (
+    	<CreateArticle data={this.state.data} />
     );
   }
 });
 
-var printJson = function(json){	 
+var printJson = function(json){
 	 var commentNodes = json.map(function(comment, index) {
 		if(comment.is_article==false) return false;
       return (
-        // `key` is a React-specific concept and is not mandatory for the
-        // purpose of this tutorial. if you're curious, see more here:
         <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
           {comment.articleBody}
         </CreatArticleEl>
@@ -287,15 +284,14 @@ var CreatArticleEl = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-	  var rawMarkup = converter.makeHtml(this.props.children.toString());	
-    this.loadArticleFromServer(this.props.articlename,this.props.children,this.props.hasPart,rawMarkup); 
+	  var rawMarkup = converter.makeHtml(this.props.children.toString());
+    this.loadArticleFromServer(this.props.articlename,this.props.children,this.props.hasPart,rawMarkup);
   },
   render: function() {
      return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
-			  </section>;
+     </section>;
   }
 });
-
 
 var Comment = React.createClass({
   render: function() {
@@ -367,8 +363,6 @@ var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        // `key` is a React-specific concept and is not mandatory for the
-        // purpose of this tutorial. if you're curious, see more here:
         <Comment author={comment.author} key={index}>
           {comment.text}
         </Comment>
