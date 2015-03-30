@@ -6,10 +6,10 @@ require.config({
     "react": "react",   
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
-    "wrio": "WRIO.jsx?lipl=1"   
+    "wrio": "wrio.jsx?lipl=1"   
   },   
   jsx: {
-    fileExtension: '.jsx',
+    //fileExtension: '.jsx',
     harmony: true,  
     stripTypes: true
   }
