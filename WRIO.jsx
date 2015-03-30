@@ -158,7 +158,7 @@ var CreateDomCenter = React.createClass({
 
 var CreateTitter = React.createClass({
   loadTwittCommentsFromServer: function() {
-    var url = importUrl + 'Titter-WRIO-App/widget/titter.htm';
+    var url = importUrl + 'Titter-WRIO-App/widget/titter.htm'; // Updated Titter
 	$.ajax({
       url: url,
       dataType: 'html',
