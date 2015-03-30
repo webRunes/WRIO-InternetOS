@@ -1,4 +1,4 @@
-define(['react','jquery','showdown'], function(React) {   
+define(['jsx','react','jquery','showdown'], function(React) {   
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
