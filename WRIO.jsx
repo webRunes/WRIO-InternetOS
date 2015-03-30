@@ -146,12 +146,12 @@ var CreateItemMenu = React.createClass({
     );
   }
 });
-// <CreateTitter></CreateTitter> was used inside CreateDomCenter Fn.
+
 var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList></div></div>
+      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
