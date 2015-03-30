@@ -9,7 +9,7 @@ require.config({
     "wrio": "WRIO.jsx?lipl=1"   
   },   
   jsx: {
-    //fileExtension: '.jsx',
+    fileExtension: '.jsx',
     harmony: true,  
     stripTypes: true
   }
