@@ -3,10 +3,10 @@ require.config({
 
   paths: {
 	"jquery": "jquery.min",
-    "react": "react",  
+    "react": "react",   
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
-    "wrio": "WRIO"   
+    "wrio": "wrio.jsx?lipl=1"   
   },   
   jsx: {
     fileExtension: '.jsx',
