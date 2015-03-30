@@ -6,7 +6,7 @@ require.config({
     "react": "react",   
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
-    "wrio": "wrio.jsx?lipl=1"   
+    "wrio": "WRIO"   
   },   
   jsx: {
     //fileExtension: '.jsx',
@@ -20,4 +20,4 @@ require(['react', 'jsx!wrio'], function(React, CreateDom) {
 React.render(
 		CreateDom(),            
 		document.body);
-});
+}); 
