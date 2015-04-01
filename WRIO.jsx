@@ -12,7 +12,7 @@ define(['react','jquery','showdown'], function(React) {
  */      
   
 var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
-var cssUrl = 'http://webrunes.github.io';
+var cssUrl = 'http://webrunes.github.io/';
 var theme = 'Default-WRIO-Theme';
  (function(){
      'use strict';
@@ -257,7 +257,7 @@ var CreatArticleEl = React.createClass({
   $.ajax({
       url: url,
       dataType: 'html',
-      data: { haspart : title },
+//      data: { haspart : title },
       success: function(data) {
      // alert(data);
 		 if(hasPart==true){
