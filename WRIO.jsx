@@ -253,7 +253,7 @@ var CreateArticle = React.createClass({
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-	var url = importUrl + theme + '/widget/article.htm';
+	var url = 'https://webrunes.github.io/' + theme + '/widget/article.htm';	// Article Path
   $.ajax({
       url: url,
       dataType: 'html',
