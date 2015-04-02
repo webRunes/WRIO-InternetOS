@@ -164,6 +164,73 @@ var CreateTitter = React.createClass({
       dataType: 'html',
       success: function(data) {
 		  this.setState({data: data});
+		  		   $( "#comment" ).keypress(function() {
+				lineHeight = 14;
+				var canvas = document.getElementById('twitterPost');
+				if (canvas.getContext) {    
+					var ctx = canvas.getContext('2d');
+					var context=ctx;
+					var text=document.getElementById('comment').value;
+					var x=5;
+					var y=20;
+					var maxWidth=canvas.width;
+					var lineHeight=lineHeight;
+					var simulate=true;
+					console.log(text.length)
+					var words = text.split(' ');
+					var line = '';
+					
+					for(var n = 0; n < words.length; n++) {
+						var testLine = line + words[n] + ' ';
+						var metrics = context.measureText(testLine);
+						var testWidth = metrics.width;
+						if (testWidth > maxWidth && n > 0) {
+							context.fillText(line, x, y);
+							line = words[n] + ' ';
+							y += lineHeight;
+						}
+						else {
+							line = testLine;
+						}
+					}
+					if (!simulate) {
+						context.fillText(line, x, y);
+					}	
+					ms_height =y + lineHeight + lineHeight*2;     
+					canvas.height = ms_height+5;    
+					ctx.fillStyle = '#ffffff'; 
+					ctx.fillRect(0, 0, canvas.width, canvas.height);    
+					ctx.font = '12px Tahoma';   
+					ctx.fillStyle = '#292f33';   
+					ctx.fillStyle = '#666666';    
+					ctx.fillText('Posted via Titter - Advanced tweets http://titter.webrunes.com', 2, ms_height);
+				}
+	}); 
+	 $( "#sendComment" ).on('click',function(event) {
+	 		event.preventDefault();
+			var canvas = document.getElementById('twitterPost');
+						var comment = document.getElementById('comment').value;
+						var imageData = canvas.toDataURL('image/png');
+						
+						//dataType: 'json', removed because of ajax error
+						$.ajax({
+							url: 'http://54.235.73.25:5001/sendComment',
+							type: 'post',
+							dataType: 'json',
+							data: {
+							'fileData': imageData,
+							'comment': window.location.origin
+						},
+						}).done(function(data) {
+							document.getElementById('comment').value = '';
+							console.log('successfully sent');
+							$('#result').html('Successfully sent!').removeClass('redError');
+						
+						}).fail(function(request,error) {
+							console.log('Request: ' + JSON.stringify(request));
+							$('#result').html('Error while executing your request :(').addClass('redError');
+						}); 	
+	});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
