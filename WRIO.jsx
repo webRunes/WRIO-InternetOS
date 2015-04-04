@@ -151,7 +151,7 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+      <div className="margin"><Login></Login><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
@@ -294,6 +294,32 @@ var CreateArticleList = React.createClass({
     );
   }
 });
+
+var Login = React.createClass({loadLoginFromServer: function() {
+  var url = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/login.htm';
+  $.ajax({
+      url: url,
+      dataType: 'html',
+      success: function(data) {
+     // alert(data);
+        var html=data;     
+       this.setState({data: html});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadLoginFromServer(); 
+  },
+  render: function() {
+     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
+        </section>;
+  }
+    });
 
 var printJson = function(json){
 	 var commentNodes = json.map(function(comment, index) {
