@@ -216,7 +216,7 @@ var CreateTitter = React.createClass({
 						$.ajax({
 							url: 'http://54.235.73.25:5001/sendComment',
 							type: 'post',
-						//	dataType: 'json',
+							dataType: 'json',
 							data: {
 							'fileData': imageData,
 							'comment': window.location.origin
