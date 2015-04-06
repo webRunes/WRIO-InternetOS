@@ -193,9 +193,9 @@ var CreateTitter = React.createClass({
 							line = testLine;
 						}
 					}
-					if (!simulate) {
+					//if (!simulate) {
 						context.fillText(line, x, y);
-					}	
+					//}	
 					ms_height =y + lineHeight + lineHeight*2;     
 					canvas.height = ms_height+5;    
 					ctx.fillStyle = '#ffffff'; 
