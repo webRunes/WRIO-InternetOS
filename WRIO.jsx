@@ -1,4 +1,4 @@
-define(['react','promise','client','jquery','bootstrap','showdown'], function(React) { 
+define(['react','promise','client','jquery','bootstrap','showdown','plus'], function(React) { 
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
