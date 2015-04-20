@@ -19,10 +19,13 @@ baseUrl: "http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/",
 
   paths: {
 	"jquery": "jquery.min",
+	"bootstrap":"bootstrap.min",
     "react": "react",   
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
-    "wrio": "WRIO"   
+    "wrio": "WRIO",
+	"client":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/public/scripts/client",
+	"promise":"promise-1.0.0.min",
   },   
   jsx: {
     fileExtension: '.jsx',

@@ -1,4 +1,4 @@
-define(['react','jquery','showdown'], function(React) {   
+define(['react','promise','client','jquery','bootstrap','showdown'], function(React) { 
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -14,6 +14,20 @@ define(['react','jquery','showdown'], function(React) {
 var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
 var cssUrl = 'http://webrunes.github.io/';
 var theme = 'Default-WRIO-Theme';
+
+//by me 
+var wrio = {};
+wrio.storageKey = 'plusLdModel';
+wrio.storageHubUrl = importUrl;
+var $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>');
+var wrioNamespace = window.wrio || {};
+var storageHubPath='storageHub.htm';
+var updatedStorageHtml=""; 
+var storeageKeys=[];
+var href =window.location.href; 
+//by me
+
+
  (function(){
      'use strict';
  var addBootstrapLink = function(){
@@ -39,6 +53,7 @@ var converter = new Showdown.converter();
 
 var finalJson;
 var finalJsonArray = [];
+
 var getScripts = function(){
 	var scripts = document.getElementsByTagName("script");
 	var jsonData = new Object();
@@ -52,8 +67,11 @@ var getScripts = function(){
 		}
 	}
 	var completeJson = jsonArray;
+	complete_script=completeJson;
+
 	finalJson = getFinalJSON(completeJson);
 }
+
 var getFinalJSON = function(json,hasPart){
 	if(hasPart==undefined){
 		hasPart = false;
@@ -96,12 +114,43 @@ var getFinalJSON = function(json,hasPart){
 }
 
 var CreateDomLeft = React.createClass({
-  render: function() {
+  render: function() {    
     return (
-      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header"></div><div className="navbar-collapse in"></div></div></div>
+      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus></CreateLeftCommentMenus></div><div className="navbar-collapse in"></div></div></div>
     );
   }
 });
+
+var CreateLeftCommentMenus = React.createClass({
+  loadCommentsFromServer: function() {
+    
+	
+	     var reactObj = this;
+		 
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+     updatePlusStorage(); 
+	 this.loadCommentsFromServer();
+  },
+  render: function() {
+    return (  	
+			<CreateLeftItemMenu data={this.state.data} />		
+    );
+  }           
+}); 
+
+var CreateLeftItemMenu = React.createClass({
+  render: function(data) {
+      var rawMarkup = converter.makeHtml(this.props.data.toString());
+	  return (    
+		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+    );
+  }
+}); 
+
 
 var CreateDomRight = React.createClass({
   render: function() {
@@ -128,18 +177,17 @@ var CreateCommentMenus = React.createClass({
     );
   }
 });
-  
+
 var CreateItemMenu = React.createClass({
   render: function() {
 	  var commentMenus = this.props.data.map(function(comment, index) {
-		  if(comment.is_article==false) return false;
 		  var href = comment.url ? comment.url : '#' + comment.articlename;
 		  return (
-		  	<li key={index}><a href={href}>{comment.articlename}</a></li>
+				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
 		  );
-	  });
+	  });        
 	  
-	  return (
+	  return (    
       	<ul className="nav nav-pills nav-stacked">
         {commentMenus}
         </ul>
@@ -151,7 +199,7 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><Login></Login><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
@@ -164,73 +212,6 @@ var CreateTitter = React.createClass({
       dataType: 'html',
       success: function(data) {
 		  this.setState({data: data});
-		  		   $( "#comment" ).keypress(function() {
-				lineHeight = 14;
-				var canvas = document.getElementById('twitterPost');
-				if (canvas.getContext) {    
-					var ctx = canvas.getContext('2d');
-					var context=ctx;
-					var text=document.getElementById('comment').value;
-					var x=5;
-					var y=20;
-					var maxWidth=canvas.width;
-					var lineHeight=lineHeight;
-					var simulate=true;
-					console.log(text.length)
-					var words = text.split(' ');
-					var line = '';
-					
-					for(var n = 0; n < words.length; n++) {
-						var testLine = line + words[n] + ' ';
-						var metrics = context.measureText(testLine);
-						var testWidth = metrics.width;
-						if (testWidth > maxWidth && n > 0) {
-							context.fillText(line, x, y);
-							line = words[n] + ' ';
-							y += lineHeight;
-						}
-						else {
-							line = testLine;
-						}
-					}
-					//if (!simulate) {
-						context.fillText(line, x, y);
-					//}	
-					ms_height =y + lineHeight + lineHeight*2;     
-					canvas.height = ms_height+5;    
-					ctx.fillStyle = '#ffffff'; 
-					ctx.fillRect(0, 0, canvas.width, canvas.height);    
-					ctx.font = '12px Tahoma';   
-					ctx.fillStyle = '#292f33';   
-					ctx.fillStyle = '#666666';    
-					ctx.fillText('Posted via Titter - Advanced tweets http://titter.webrunes.com', 2, ms_height);
-				}
-	}); 
-	 $( "#sendComment" ).on('click',function(event) {
-	 		event.preventDefault();
-			var canvas = document.getElementById('twitterPost');
-						var comment = document.getElementById('comment').value;
-						var imageData = canvas.toDataURL('image/png');
-						
-						//dataType: 'json', removed because of ajax error
-						$.ajax({
-							url: 'http://54.235.73.25:5001/sendComment',
-							type: 'post',
-							dataType: 'json',
-							data: {
-							'fileData': imageData,
-							'comment': window.location.origin
-						},
-						}).done(function(data) {
-							document.getElementById('comment').value = '';
-							console.log('successfully sent');
-							$('#result').html('Successfully sent!').removeClass('redError');
-						
-						}).fail(function(request,error) {
-							console.log('Request: ' + JSON.stringify(request));
-							$('#result').html('Error while executing your request :(').addClass('redError');
-						}); 	
-	});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
@@ -295,32 +276,6 @@ var CreateArticleList = React.createClass({
   }
 });
 
-var Login = React.createClass({loadLoginFromServer: function() {
-  var url = 'http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/login.htm';
-  $.ajax({
-      url: url,
-      dataType: 'html',
-      success: function(data) {
-     // alert(data);
-        var html=data;     
-       this.setState({data: html});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(url, status, err.toString());
-      }.bind(this)
-    });
-  },getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadLoginFromServer(); 
-  },
-  render: function() {
-     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
-        </section>;
-  }
-    });
-
 var printJson = function(json){
 	 var commentNodes = json.map(function(comment, index) {
 		if(comment.is_article==false) return false;
@@ -350,9 +305,9 @@ var CreatArticleEl = React.createClass({
   $.ajax({
       url: url,
       dataType: 'html',
-//      data: { haspart : title },
+     // data: { haspart : title },
       success: function(data) {
-     // alert(data);
+     //alert(data);
 		 if(hasPart==true){
 				if(rawMarkup==""){
 						var html='<h2 id="{this.props.articlename}">{this.props.articlename}</h2>';
@@ -385,6 +340,7 @@ var CreatArticleEl = React.createClass({
      </section>;
   }
 });
+
 
 var Comment = React.createClass({
   render: function() {
@@ -491,6 +447,8 @@ var CommentForm = React.createClass({
     );
   }
 });
+
+
 
 //  return CreateDom;
   return React.createFactory(CreateDom)
