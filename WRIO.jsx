@@ -1,4 +1,5 @@
-define(['react','promise','client','jquery','bootstrap','showdown','plus'], function(React) { 
+define(['react','plus','promise','client','jquery','bootstrap','showdown'], function(React,plus) { 
+  alert(plus.color);
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -132,7 +133,7 @@ var CreateLeftCommentMenus = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-     updatePlusStorage(); 
+     plus.updatePlusStorage(); 
 	 this.loadCommentsFromServer();
   },
   render: function() {
