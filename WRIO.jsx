@@ -1,5 +1,4 @@
-define(['react','plus','promise','client','jquery','bootstrap','showdown'], function(React,plus) { 
-  alert(plus.color);
+define(['react','plus','promise','client','jquery','bootstrap','showdown'], function(React,plus) {   
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -157,7 +156,7 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
+      <div className="sidebar-margin"><Login></Login><CreateCommentMenus></CreateCommentMenus></div></div>
     );
   }
 });
@@ -343,6 +342,33 @@ var CreateArticleList = React.createClass({
     );
   }
 });
+
+
+var Login = React.createClass({loadLoginFromServer: function() {
+  var url = importUrl + 'Login-WRIO-App/widget/login.htm';
+  $.ajax({
+      url: url,
+      dataType: 'html',
+      success: function(data) {
+     // alert(data);
+        var html=data;     
+       this.setState({data: html});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadLoginFromServer(); 
+  },
+  render: function() {
+     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
+        </section>;
+  }
+    });
 
 var printJson = function(json){
 	 var commentNodes = json.map(function(comment, index) {
