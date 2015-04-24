@@ -156,7 +156,7 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><Login></Login><CreateCommentMenus></CreateCommentMenus></div></div>
+      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
     );
   }
 });
@@ -199,7 +199,7 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+      <div className="margin"><Login></Login><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
