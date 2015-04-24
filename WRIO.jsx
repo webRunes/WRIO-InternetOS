@@ -181,7 +181,7 @@ var CreateCommentMenus = React.createClass({
 var CreateItemMenu = React.createClass({
   render: function() {
 	  var commentMenus = this.props.data.map(function(comment, index) {
-      var commentMenustring = comment.articlename.replace(/\s/g, '');
+      var commentMenustring = comment.articlename.replace(/\s/g, '_');
       var href = comment.url ? comment.url : '#' + commentMenustring;
 		  return (
 				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
@@ -397,7 +397,7 @@ var CreateArticle = React.createClass({
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
 	var url = 'https://webrunes.github.io/' + theme + '/widget/article.htm';	// Article Path  
-  var CreatArticleID = title.replace(/\s/g, ''); // Article ID
+  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
   $.ajax({
       url: url,
       dataType: 'html',
