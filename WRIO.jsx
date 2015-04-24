@@ -181,7 +181,8 @@ var CreateCommentMenus = React.createClass({
 var CreateItemMenu = React.createClass({
   render: function() {
 	  var commentMenus = this.props.data.map(function(comment, index) {
-		  var href = comment.url ? comment.url : '#' + comment.articlename;
+      var commentMenustring = comment.articlename.replace(/\s/g, '');
+      var href = comment.url ? comment.url : '#' + commentMenustring;
 		  return (
 				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
 		  );
@@ -395,7 +396,8 @@ var CreateArticle = React.createClass({
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-	var url = 'https://webrunes.github.io/' + theme + '/widget/article.htm';	// Article Path
+	var url = 'https://webrunes.github.io/' + theme + '/widget/article.htm';	// Article Path  
+  var CreatArticleID = title.replace(/\s/g, ''); // Article ID
   $.ajax({
       url: url,
       dataType: 'html',
@@ -404,14 +406,15 @@ var CreatArticleEl = React.createClass({
      //alert(data);
 		 if(hasPart==true){
 				if(rawMarkup==""){
-						var html='<h2 id="{this.props.articlename}">{this.props.articlename}</h2>';
+						var html='<h2 id="{this.props.articleid}">{this.props.articlename}</h2>';
 				}else{
-						var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articlename}">{this.props.articlename}</h1></header>','<h2 id={this.props.articlename}>{this.props.articlename}</h2>');
+						var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articleid}">{this.props.articlename}</h1></header>','<h2 id={this.props.articleid}>{this.props.articlename}</h2>');
 				}
 		  }else{
 				var html=data;
 		  }
 		  var res = html.replace(/{this.props.articlename}/g,title);
+      res = res.replace(/{this.props.articleid}/g,CreatArticleID);
 		   res = res.replace("{description}",children);
 		   res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
 		   res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
