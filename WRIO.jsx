@@ -14,6 +14,7 @@ define(['react','plus','promise','client','jquery','bootstrap','showdown'], func
 var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
 var cssUrl = 'http://webrunes.github.io/';
 var theme = 'Default-WRIO-Theme';
+var themeImportUrl='https://raw.githubusercontent.com/webRunes/';
 
 //by me 
 var wrio = {};
@@ -143,7 +144,9 @@ var CreateLeftCommentMenus = React.createClass({
   },
   componentDidMount: function() {
       // for plus tab
-      var url = importUrl + '/Default-WRIO-Theme/widget/defaultList.htm';
+     // var url = importUrl + 'Default-WRIO-Theme/widget/defaultList.htm';
+	  var url= themeImportUrl + 'defaultList.htm';
+	  
       var jsonItemArray = [];
 	  $.get(url, function(result){
         jQuery('<div/>', {
@@ -577,7 +580,10 @@ var CommentForm = React.createClass({
 // get default List on click of plus tab
 function defaultList(){
      plusArray= JSON.parse(localStorage.getItem('plusTabItem'));
-      var url = importUrl + '/Default-WRIO-Theme/widget/itemList.htm';
+      //var url = importUrl + 'Default-WRIO-Theme/widget/itemList.htm';
+	  
+	  var url= themeImportUrl + 'itemList.htm';
+	  
 		
 	if ( !$('#plusWrp').hasClass('plusList')) {  // for check default list available or not
    	 $.ajax({
