@@ -21,7 +21,6 @@ wrio.storageKey = 'plusLdModel';
 wrio.storageHubUrl = importUrl;
 var $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>');
 var wrioNamespace = window.wrio || {};
-var storageHubPath='storageHub.htm';
 var updatedStorageHtml=""; 
 var storeageKeys=[];
 var href =window.location.href; 
@@ -30,6 +29,17 @@ var href =window.location.href;
 
  (function(){
      'use strict';
+	 
+	 // for plus tab
+	  $('body').on('click','.plusIcon',function() {
+		  $('.active').removeClass('active');
+		  $('.removeParent').removeClass('collapsed');
+		  $('.parentNodeA').removeClass('collapsed');
+		  $('.new').addClass('active');
+		  defaultList();
+	  });
+	  // for plus tab
+	 
  var addBootstrapLink = function(){
          var link = document.createElement('link');
          link.rel = 'stylesheet';
@@ -132,6 +142,24 @@ var CreateLeftCommentMenus = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
+      // for plus tab
+      var url = importUrl + '/Default-WRIO-Theme/widget/defaultList.htm';
+      var jsonItemArray = [];
+	  $.get(url, function(result){
+        jQuery('<div/>', {
+        id: 'foo',
+        css:{
+          display:'none'
+        },
+        html: result
+      }).appendTo('body');
+           defaultPlusList=$('script#defaultPlusList').html();
+		   $('#foo').remove();
+	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
+		   plusItemList=defaultPlusListJson.itemListElement;
+	       localStorage.setItem("plusTabItem", JSON.stringify( plusItemList ));  //set plus tab item
+	  }); // for plus tab
+  
      plus.updatePlusStorage(); 
 	 this.loadCommentsFromServer();
   },
@@ -545,6 +573,39 @@ var CommentForm = React.createClass({
   }
 });
 
+
+// get default List on click of plus tab
+function defaultList(){
+     plusArray= JSON.parse(localStorage.getItem('plusTabItem'));
+      var url = importUrl + '/Default-WRIO-Theme/widget/itemList.htm';
+		
+	if ( !$('#plusWrp').hasClass('plusList')) {  // for check default list available or not
+   	 $.ajax({
+			   url: url,
+			   dataType: 'html',
+			   success: function(data) {
+			   var tHtml="";  
+		   	   if(plusArray!=undefined){ 
+					for(var i=0; i< plusArray.length; i++){
+					   var plusHtml = data.replace("{title}", plusArray[i].name);
+						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
+						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
+						 plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
+						 
+						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
+						 plusHtml = plusHtml.replace("{rating}", "244");
+						 plusHtml = plusHtml.replace("{readers}", "1,634");
+						 plusHtml = plusHtml.replace("{access}", "Free");
+						 tHtml=tHtml+plusHtml ;
+					}
+		    	 }
+				 $('.content').html(tHtml);
+				}
+		 });
+		 	
+	 } // if end 
+ }  // for plus tab
 
 
 //  return CreateDom;
