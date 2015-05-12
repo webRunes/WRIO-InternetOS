@@ -288,7 +288,47 @@ var CreateTitter = React.createClass({
           ctx.fillStyle = '#666666';    
           ctx.fillText('Posted via Titter - Advanced tweets http://titter.webrunes.com', 2, ms_height);
         }
-  }); 
+  });
+   $("#titteriframe").on('load',function (event) {
+       console.log("Iframe loaded");
+       var CommendId = function(){
+           var scripts = document.getElementsByTagName("script");
+           var jsonData = new Object();
+           var jsonArray = [];
+           var has = false;
+           for(var i=0; i< scripts.length; i++){
+               if(scripts[i].type=='application/ld+json') {
+                   has = true;
+                   jsonData = JSON.parse(scripts[i].innerHTML);
+                   jsonArray.push(jsonData);
+               }
+           }
+           var completeJson = jsonArray;
+           complete_script=completeJson;
+
+           return getFinalJSON(completeJson);
+       };
+       var getFinalJSON = function(json,hasPart){
+           for(var j=0; j < json.length; j++){
+               comment = json[j];
+
+               var commentid = comment['comment'];
+               if (commentid) {
+                   return commentid;
+               }
+           };
+           return null;
+       };
+       var w= this.contentWindow;
+       var data = {
+           url:window.location.href
+       };
+       var id = CommendId();
+       if (id) {
+           data['commentid'] = id;
+       }
+       w.postMessage(JSON.stringify(data), "*");
+   });
    $( "#sendComment" ).on('click',function(event) {
       event.preventDefault();
       var canvas = document.getElementById('twitterPost');
