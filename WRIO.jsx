@@ -14,7 +14,9 @@ define(['react','plus','promise','client','jquery','bootstrap','showdown'], func
 var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
 var cssUrl = 'http://webrunes.github.io/';
 var theme = 'Default-WRIO-Theme';
-var themeImportUrl='https://raw.githubusercontent.com/webRunes/';
+//var themeImportUrl='https://raw.githubusercontent.com/webRunes/';
+var themeImportUrl='http://webrunes.github.io/Default-WRIO-Theme/widget/';
+
 
 //by me 
 var wrio = {};
@@ -156,7 +158,8 @@ var CreateLeftCommentMenus = React.createClass({
         },
         html: result
       }).appendTo('body');
-           defaultPlusList=$('script#defaultPlusList').html();
+           //defaultPlusList=$('script#defaultPlusList').html();
+		   defaultPlusList=$("#foo [type^='application/ld+json']" ).html();
 		   $('#foo').remove();
 	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
 		   plusItemList=defaultPlusListJson.itemListElement;
