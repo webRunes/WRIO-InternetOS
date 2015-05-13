@@ -195,7 +195,51 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><CreateMyList></CreateMyList><CreateCommentMenus></CreateCommentMenus></div></div>
+      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
+    );
+  }
+});
+
+var CreateCommentMenus = React.createClass({
+  loadCommentsFromServer: function() {
+	this.setState({data: finalJson});
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+  },
+  render: function() {
+    return (
+            <CreateItemMenu data={this.state.data} />
+    );
+  }
+});
+
+var CreateItemMenu = React.createClass({
+  render: function() {
+	  var commentMenus = this.props.data.map(function(comment, index) {
+      var commentMenustring = comment.articlename.replace(/\s/g, '_');
+      var href = comment.url ? comment.url : '#' + commentMenustring;
+		  return (
+				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
+		  );
+	  });        
+	  
+	  return (    
+      	<ul className="nav nav-pills nav-stacked">
+        {commentMenus}
+        </ul>
+    );
+  }
+});
+
+var CreateDomCenter = React.createClass({
+  render: function() {
+    return (
+      <div className="content col-xs-12 col-sm-5 col-md-7">
+      <div className="margin"><Login></Login><CreateMyList></CreateMyList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
@@ -209,7 +253,7 @@ var CreateMyList = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-        var url = themeImportUrl + 'List.htm';
+        var url = "http://webrunes.github.io/webRunes-WRIO-Hub/list2-name.htm";  
         //var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/List.htm';
 		
 	  var jsonItemArray = [];
@@ -254,49 +298,7 @@ var CreateList = React.createClass({
 });
 // for blog list
 
-var CreateCommentMenus = React.createClass({
-  loadCommentsFromServer: function() {
-	this.setState({data: finalJson});
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadCommentsFromServer();
-  },
-  render: function() {
-    return (
-            <CreateItemMenu data={this.state.data} />
-    );
-  }
-});
 
-var CreateItemMenu = React.createClass({
-  render: function() {
-	  var commentMenus = this.props.data.map(function(comment, index) {
-      var commentMenustring = comment.articlename.replace(/\s/g, '_');
-      var href = comment.url ? comment.url : '#' + commentMenustring;
-		  return (
-				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
-		  );
-	  });        
-	  
-	  return (    
-      	<ul className="nav nav-pills nav-stacked">
-        {commentMenus}
-        </ul>
-    );
-  }
-});
-
-var CreateDomCenter = React.createClass({
-  render: function() {
-    return (
-      <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><Login></Login><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
-    );
-  }
-});
 
 var CreateTitter = React.createClass({
   loadTwittCommentsFromServer: function() {
@@ -687,7 +689,7 @@ function defaultList(){
 	  var url= themeImportUrl + 'itemList.htm';
 	  
 		
-	if ( !$('#plusWrp').hasClass('plusList')) {  // for check default list available or not
+	if ( !$('.plusActive').hasClass('plusList')) {  // for check default list available or not
    	 $.ajax({
 			   url: url,
 			   dataType: 'html',
@@ -695,12 +697,13 @@ function defaultList(){
 			   var tHtml="";  
 		   	   if(plusArray!=undefined){ 
 					for(var i=0; i< plusArray.length; i++){
-					   var plusHtml = data.replace("{title}", plusArray[i].name);
+					    var plusHtml = data.replace("{title}", plusArray[i].name);
 						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
 						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
 						// plusHtml = plusHtml.replace("{image}", plusArray[i].image);
 						
 						 plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+						
 						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
 						 
 						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
@@ -711,6 +714,7 @@ function defaultList(){
 					}
 		    	 }
 				 $('.content').html(tHtml);
+				   $('#plusWrp').addClass('plusActive');
 				}
 		 });
 		 	
@@ -722,7 +726,7 @@ function defaultList(){
 // get List 
 function getlist(){
       plusArray= JSON.parse(localStorage.getItem('myListItem'));
-      var url = themeImportUrl + 'myList.htm';
+      var url = themeImportUrl + 'itemList.htm';
 	  //var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/myList.htm';
    	  $.ajax({
 			   url: url,
@@ -731,10 +735,14 @@ function getlist(){
 			   var tHtml="";  
 		   	   if(plusArray!=undefined){ 
 					for(var i=0; i< plusArray.length; i++){
-					   	var plusHtml = data.replace("{about}",plusArray[i].about);
-						 //plusHtml = plusHtml.replace("{image}", plusArray[i].image);
-						  plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
-						 //plusHtml = plusHtml.replace("{url}", plusArray[i].url);
+					   	 var plusHtml = data.replace("{title}", plusArray[i].name);
+						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
+						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
+						// plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						
+						 plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+						
+						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
 						 
 						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
 						 plusHtml = plusHtml.replace("{rating}", "244");
