@@ -17,8 +17,6 @@ var theme = 'Default-WRIO-Theme';
 //var themeImportUrl='https://raw.githubusercontent.com/webRunes/';
 var themeImportUrl='http://webrunes.github.io/Default-WRIO-Theme/widget/';
 
-
-//by me 
 var wrio = {};
 wrio.storageKey = 'plusLdModel';
 wrio.storageHubUrl = importUrl;
@@ -27,6 +25,8 @@ var wrioNamespace = window.wrio || {};
 var updatedStorageHtml=""; 
 var storeageKeys=[];
 var href =window.location.href; 
+//by me 
+var is_list=false;
 //by me
 
 
@@ -95,6 +95,11 @@ var getFinalJSON = function(json,hasPart){
 		if(comment['@type']=='Article'){
 			is_article = true;
 		}
+		//for blog list
+		if(comment['itemListElement']!=undefined){
+			is_list = true;
+		}
+		//for blog list
 		
 		var articlebody = comment['articleBody'];
 		if(comment['articleBody']==undefined){
@@ -190,10 +195,64 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
+      <div className="sidebar-margin"><CreateMyList></CreateMyList><CreateCommentMenus></CreateCommentMenus></div></div>
     );
   }
 });
+
+// for blog list
+var CreateMyList = React.createClass({
+  loadCommentsFromServer: function() {
+	
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+        var url = themeImportUrl + 'List.htm';
+        //var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/List.htm';
+		
+	  var jsonItemArray = [];
+	  $.get(url, function(result){
+        jQuery('<div/>', {
+        id: 'foo1',
+        css:{
+          display:'none'
+        },
+        html: result
+      }).appendTo('body');
+           //defaultPlusList=$('script#defaultPlusList').html();
+		    defaultPlusList=$("#foo1 [type^='application/ld+json']" ).html();
+		   $('#foo1').remove();
+	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
+		   plusItemList=defaultPlusListJson.itemListElement;
+	       localStorage.setItem("myListItem", JSON.stringify( plusItemList ));  //set plus tab item
+		   
+		if(is_list==true){
+		   var htmlList=getlist();
+		}
+		   
+	  });	
+  
+    this.loadCommentsFromServer();
+  },
+  render: function() {
+    return (  
+            <CreateList data={this.state.data} />
+   );
+  }
+});
+
+var CreateList = React.createClass({
+  render: function() {
+      var rawMarkup = converter.makeHtml(this.props.data.toString());
+	  if(rawMarkup=="") return false;
+      return (        		        
+		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+      );
+  }
+});
+// for blog list
 
 var CreateCommentMenus = React.createClass({
   loadCommentsFromServer: function() {
@@ -639,7 +698,9 @@ function defaultList(){
 					   var plusHtml = data.replace("{title}", plusArray[i].name);
 						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
 						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
-						 plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						// plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						
+						 plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
 						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
 						 
 						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
@@ -657,6 +718,42 @@ function defaultList(){
  }  // for plus tab
 
 
+// for blog list
+// get List 
+function getlist(){
+      plusArray= JSON.parse(localStorage.getItem('myListItem'));
+      var url = themeImportUrl + 'myList.htm';
+	  //var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/myList.htm';
+   	  $.ajax({
+			   url: url,
+			   dataType: 'html',
+			   success: function(data) {
+			   var tHtml="";  
+		   	   if(plusArray!=undefined){ 
+					for(var i=0; i< plusArray.length; i++){
+					   	var plusHtml = data.replace("{about}",plusArray[i].about);
+						 //plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						  plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+						 //plusHtml = plusHtml.replace("{url}", plusArray[i].url);
+						 
+						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
+						 plusHtml = plusHtml.replace("{rating}", "244");
+						 plusHtml = plusHtml.replace("{readers}", "1,634");
+						 plusHtml = plusHtml.replace("{access}", "Free");
+						 tHtml=tHtml+plusHtml ;
+					}
+		    	 }
+				 
+				  if(!$( ".paragraph" ).hasClass( "paragraph" )){
+				     $('#titter-id').remove();
+				  }
+				  $('.content').append(tHtml);
+				 
+				}
+		 });
+		 	
+ }
+// for blog list
 //  return CreateDom;
   return React.createFactory(CreateDom)
  // return React.createElement(CreateDom{});
