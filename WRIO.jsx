@@ -257,13 +257,13 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><Login></Login><CreateMyList></CreateMyList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+      <div className="margin"><Login></Login><CreateItemList></CreateItemList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
 
 // for list
-var CreateMyList = React.createClass({
+var CreateItemList = React.createClass({
   loadCommentsFromServer: function() {
 	
   },
