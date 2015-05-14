@@ -18,7 +18,7 @@ var theme = 'Default-WRIO-Theme';
 var themeImportUrl='http://webrunes.github.io/Default-WRIO-Theme/widget/';
 
 
-//by me 
+
 var wrio = {};
 wrio.storageKey = 'plusLdModel';
 wrio.storageHubUrl = importUrl;
@@ -27,7 +27,7 @@ var wrioNamespace = window.wrio || {};
 var updatedStorageHtml=""; 
 var storeageKeys=[];
 var href =window.location.href; 
-//by me
+var is_list=false;
 
 
  (function(){
@@ -66,6 +66,7 @@ var converter = new Showdown.converter();
 
 var finalJson;
 var finalJsonArray = [];
+var finalListJsonArray = [];
 
 var getScripts = function(){
 	var scripts = document.getElementsByTagName("script");
@@ -96,6 +97,28 @@ var getFinalJSON = function(json,hasPart){
 			is_article = true;
 		}
 		
+		// for list
+	    if(comment['itemListElement']!=undefined){
+			is_list = true;
+				for(var i=0;i < comment['itemListElement'].length;i++){
+			     name= comment['itemListElement'][i].name;
+				 author= comment['itemListElement'][i].author;
+				 about= comment['itemListElement'][i].about;
+				 url= comment['itemListElement'][i].url;
+				 image= comment['itemListElement'][i].image;
+		        rowList = {
+					"name": name,
+					"author": comment['name'],
+					"about": about,
+					"url": url,
+					"image": image
+				}
+			  finalListJsonArray.push(rowList);	
+			}
+		}
+		// for list
+		
+
 		var articlebody = comment['articleBody'];
 		if(comment['articleBody']==undefined){
 			articlebody = '';
@@ -234,10 +257,45 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7">
-      <div className="margin"><Login></Login><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+      <div className="margin"><Login></Login><CreateItemList></CreateItemList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
 });
+
+// for list
+var CreateItemList = React.createClass({
+  loadCommentsFromServer: function() {
+	
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+   // for list tab
+    if(is_list==true){
+	   localStorage.setItem("myListItem", JSON.stringify(finalListJsonArray ));  //set plus tab item
+	   getlist();
+	}
+	// for list tab
+	this.loadCommentsFromServer();
+  },
+  render: function() {
+    return (  
+            <CreateList data={this.state.data} />
+   );
+  }
+});
+
+var CreateList = React.createClass({
+  render: function() {
+      var rawMarkup = converter.makeHtml(this.props.data.toString());
+	  if(rawMarkup=="") return false;
+      return (        		        
+		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+      );
+  }
+});
+// for list
 
 var CreateTitter = React.createClass({
   loadTwittCommentsFromServer: function() {
@@ -655,7 +713,49 @@ function defaultList(){
 		 	
 	 } // if end 
  }  // for plus tab
-
+ 
+ 
+ 
+// get List  for list 
+function getlist(){
+      plusArray= JSON.parse(localStorage.getItem('myListItem'));
+       var url = themeImportUrl + 'itemList.htm';
+	//  var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/myList.htm';
+   	  $.ajax({
+			   url: url,
+			   dataType: 'html',
+			   success: function(data) {
+			   var tHtml="";  
+		   	   if(plusArray!=undefined){ 
+					for(var i=0; i< plusArray.length; i++){
+					   	var plusHtml = data.replace("{title}", plusArray[i].name);
+						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
+						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
+						// plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+						
+						 plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
+						 
+						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
+						 plusHtml = plusHtml.replace("{rating}", "244");
+						 plusHtml = plusHtml.replace("{readers}", "1,634");
+						 plusHtml = plusHtml.replace("{access}", "Free");
+						 tHtml=tHtml+plusHtml ;
+					}
+		    	 }
+				 
+				 
+				  if(!$(".paragraph").hasClass("paragraph")){
+				     $('#titter-id').remove();
+				     $('.content').append(tHtml);
+				  }else{
+				    $('.content').append(tHtml);
+				  }
+				 
+				}
+		 });
+ }
+ // for list  
 
 //  return CreateDom;
   return React.createFactory(CreateDom)
