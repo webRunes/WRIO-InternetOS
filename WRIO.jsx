@@ -748,6 +748,7 @@ function getlist(){
 				 
 				  if(!$(".paragraph").hasClass("paragraph")){
 				     $('#titter-id').remove();
+					 $('#titter-template').remove();
 				     $('.content').append(tHtml);
 				  }else{
 				    $('.content').append(tHtml);
