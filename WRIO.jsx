@@ -745,7 +745,6 @@ function getlist(){
 					}
 		    	 }
 				 
-				 
 				  if(!$(".paragraph").hasClass("paragraph")){
 				     $('#titter-id').remove();
 					 $('#titter-template').remove();
