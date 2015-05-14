@@ -745,10 +745,9 @@ function getlist(){
 					}
 		    	 }
 				 
-				  if(!$(".paragraph").hasClass("paragraph")){
-				     $('#titter-id').remove();
-					 $('#titter-template').remove();
-				     $('.content').append(tHtml);
+				  if($(".paragraph").length==0){ 
+					$('.content').append(tHtml);
+					removeTwiter();										
 				  }else{
 				    $('.content').append(tHtml);
 				  }
@@ -757,6 +756,25 @@ function getlist(){
 		 });
  }
  // for list  
+
+ 
+// for remove titter 
+ var twitmout = '';
+function removeTwiter(){						
+	twitmout = setTimeout(function(){					
+		if($('#titter-id').length > 0){
+			if($(".paragraph").length==0){ 									
+				$('#titter-id').remove();
+				$('#titter-template').remove();
+			}
+			clearTimeout(twitmout);
+		}else{
+			removeTwiter();
+		}
+	},200);						
+}
+// for remove titter 
+ 
 
 //  return CreateDom;
   return React.createFactory(CreateDom)
