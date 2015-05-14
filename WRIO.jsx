@@ -686,7 +686,7 @@ function defaultList(){
 	  var url= themeImportUrl + 'itemList.htm';
 	  
 		
-	if ( !$('.plusActive').hasClass('plusList')) {  // for check default list available or not
+	if ( !$('#plusWrp').hasClass('plusList')) {  // for check default list available or not
    	 $.ajax({
 			   url: url,
 			   dataType: 'html',
@@ -708,7 +708,6 @@ function defaultList(){
 					}
 		    	 }
 				 $('.content').html(tHtml);
-				  $('#plusWrp').addClass('plusActive');
 				}
 		 });
 		 	
