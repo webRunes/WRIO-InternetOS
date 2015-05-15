@@ -28,7 +28,7 @@ var updatedStorageHtml="";
 var storeageKeys=[];
 var href =window.location.href; 
 var is_list=false;
-
+var is_airticlelist=false;
 
  (function(){
      'use strict';
@@ -95,6 +95,7 @@ var getFinalJSON = function(json,hasPart){
 		var is_article = false;
 		if(comment['@type']=='Article'){
 			is_article = true;
+			is_airticlelist=true;
 		}
 		
 		// for list
@@ -304,8 +305,13 @@ var CreateTitter = React.createClass({
       url: url,
       dataType: 'html',
       success: function(data) {
-      this.setState({data: data});
-             $( "#comment" ).keypress(function() {
+         if(is_airticlelist==false){
+		      this.setState({data: ""});
+         }else{
+		    this.setState({data: data});
+         }
+		//this.setState({data: data});
+    	$( "#comment" ).keypress(function() {
         lineHeight = 14;
         var canvas = document.getElementById('twitterPost');
         if (canvas.getContext) {    
@@ -745,35 +751,16 @@ function getlist(){
 		    	 }
 				 
 				  if($(".paragraph").length==0){ 
-					$('.content').append(tHtml);
-					removeTwiter();										
+					 $('.content').append(tHtml);
+					 $('#titter-id').remove();
+			         $('#titter-template').remove();									
 				  }else{
-				    $('.content').append(tHtml);
+				     $('.content').append(tHtml);
 				  }
-				 
 				}
 		 });
  }
  // for list  
-
- 
-// for remove titter 
- var twitmout = '';
-function removeTwiter(){						
-	twitmout = setTimeout(function(){					
-		if($('#titter-id').length > 0){
-			if($(".paragraph").length==0){ 									
-				$('#titter-id').remove();
-				$('#titter-template').remove();
-			}
-			clearTimeout(twitmout);
-		}else{
-			removeTwiter();
-		}
-	},200);						
-}
-// for remove titter 
- 
 
 //  return CreateDom;
   return React.createFactory(CreateDom)
