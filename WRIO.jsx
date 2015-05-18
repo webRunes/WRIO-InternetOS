@@ -42,6 +42,27 @@ var is_airticlelist=false;
 		  defaultList();
 	  });
 	  // for plus tab
+	  
+	  
+	  // right menu click
+	   $('body').on('click','.listView',function() {
+	      var url=$(this).attr('data-url');
+          $('.listView').removeClass('active');
+		  $(".listView").parent().removeClass("active");
+	      $(this).addClass('active');
+		  $(".active").parent().addClass("active");
+		 getListJson(url);
+      });
+	  
+	  $('body').on('click','.articleView',function() {
+	      var url=$(this).attr('data-url');
+          //$(this).addClass('active');
+		  $(".listView").parent().removeClass("active");
+		  $('.itemListWrp').css('display','none');
+		  $('.margin').css('display','block'); 		  
+		  
+      });
+	  // right menu click
 	 
  var addBootstrapLink = function(){
          var link = document.createElement('link');
@@ -67,6 +88,8 @@ var converter = new Showdown.converter();
 var finalJson;
 var finalJsonArray = [];
 var finalListJsonArray = [];
+var itemListArray = [];
+var finalMenuJsonArray = [];
 
 var getScripts = function(){
 	var scripts = document.getElementsByTagName("script");
@@ -97,6 +120,25 @@ var getFinalJSON = function(json,hasPart){
 			is_article = true;
 			is_airticlelist=true;
 		}
+		
+		
+		// for menu
+		if(comment['@type']!=undefined && comment['@type']=='Article'){
+			  name=comment['name'];
+			  url="";
+			  rowMenu = {"name": name,"url":url,"class":"articleView"}
+			  finalMenuJsonArray.push(rowMenu);	
+		}else if(comment['@type']!=undefined && comment['@type']=='ItemList'){
+		        if(comment['itemListElement']!=undefined){
+				   for(var i=0;i < comment['itemListElement'].length;i++){
+						 name= comment['itemListElement'][i].name;
+						 url= comment['itemListElement'][i].url;
+						 rowMenu = {"name": name,"url":url,"class":"listView"}
+					     finalMenuJsonArray.push(rowMenu);	
+					}
+				}
+		}
+		//end menu array
 		
 		// for list
 	    if(comment['itemListElement']!=undefined){
@@ -214,10 +256,57 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><CreateCommentMenus></CreateCommentMenus></div></div>
+      <div className="sidebar-margin"><CreateArticleMenus></CreateArticleMenus></div></div>
     );
   }
 });
+
+// for right menu
+var CreateArticleMenus = React.createClass({
+  loadCommentsFromServer: function() {
+	if(is_airticlelist==false){
+	    this.setState({data: []});
+		getListJson(href); 
+	}else{
+	   this.setState({data: finalMenuJsonArray});
+    }
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+  },
+  render: function() {
+    return (
+            <CreateArticleItemMenu data={this.state.data} />
+    );
+  }
+});
+
+
+var CreateArticleItemMenu = React.createClass({
+  render: function() {
+	   var commentItemMenus = this.props.data.map(function(comment, index) {
+       var commentMenustring = comment.name.replace(/\s/g, '_');
+       var href = comment.url ? comment.url : '#' + commentMenustring;
+	   var listURl = '#' + comment.name;
+	   var menuClass =comment.class;
+	  
+		  return (
+				  <li key={index}><a href={listURl}  className={menuClass} data-url={href}>{comment.name}</a></li>  
+		  );
+	  });        
+	  
+	  return (    
+      	<ul className="nav nav-pills nav-stacked">
+        {commentItemMenus}
+        </ul>
+    );
+  }
+});
+
+// for right menu
 
 var CreateCommentMenus = React.createClass({
   loadCommentsFromServer: function() {
@@ -254,6 +343,7 @@ var CreateItemMenu = React.createClass({
   }
 });
 
+
 var CreateDomCenter = React.createClass({
   render: function() {
     return (
@@ -275,7 +365,7 @@ var CreateItemList = React.createClass({
    // for list tab
     if(is_list==true){
 	   localStorage.setItem("myListItem", JSON.stringify(finalListJsonArray ));  //set plus tab item
-	   getlist();
+	  // getlist();
 	}
 	// for list tab
 	this.loadCommentsFromServer();
@@ -297,6 +387,7 @@ var CreateList = React.createClass({
   }
 });
 // for list
+
 
 var CreateDom = React.createClass({
   render: function() {
@@ -570,46 +661,100 @@ function defaultList(){
  }  // for plus tab
  
  
+ // for list
+function getListJson(listurl){
+
+       var url=listurl;
+	   var jsonItemArray = [];
+	  $.get(url, function(result){
+	         var rHtml = result.replace('<script type="text/javascript" src="http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/WRIO.js"></script>', '');
+	   
+	   jQuery('<div/>', {
+        id: 'foo1',
+        css:{
+          display:'none'
+        },
+        html: rHtml
+      }).appendTo('body');
+           defaultPlusList=$("#foo1 [type^='application/ld+json']" ).html();
+		   $('#foo1').remove();
+	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
+		   itemListArray=defaultPlusListJson.itemListElement;
+		   getlist(itemListArray);
+		   
+		   if(is_list==true){
+		    //  var htmlList=getlist();
+		   }
+	  });	
+}
+ 
  
 // get List  for list 
-function getlist(){
-      plusArray= JSON.parse(localStorage.getItem('myListItem'));
-       var url = themeImportUrl + 'itemList.htm';
-	//  var url = 'http://codingserver.com/react/Default-WRIO-Theme/widget/myList.htm';
-   	  $.ajax({
+function getlist(itemListArray){
+      
+	  //listArray= JSON.parse(localStorage.getItem('myListItem'));
+      var url = themeImportUrl + 'itemList.htm';
+	  $.ajax({
 			   url: url,
 			   dataType: 'html',
 			   success: function(data) {
 			   var tHtml="";  
-		   	   if(plusArray!=undefined){ 
-					for(var i=0; i< plusArray.length; i++){
-					   	var plusHtml = data.replace("{title}", plusArray[i].name);
-						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
-						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
-						// plusHtml = plusHtml.replace("{image}", plusArray[i].image);
+		   	   if(itemListArray!="" && itemListArray!=undefined){ 
+					for(var i=0; i< itemListArray.length; i++){
+					   	var listHtml = data.replace("{title}", itemListArray[i].name);
+						 listHtml = listHtml.replace("{sub_title}",itemListArray[i].name);
+						 listHtml = listHtml.replace("{about}",itemListArray[i].about);
+						// listHtml = listHtml.replace("{image}", itemListArray[i].image);
 						
-						 plusHtml = plusHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
-						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
+						 listHtml = listHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+						 listHtml = listHtml.replace("{url}", itemListArray[i].url);
 						 
-						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
-						 plusHtml = plusHtml.replace("{rating}", "244");
-						 plusHtml = plusHtml.replace("{readers}", "1,634");
-						 plusHtml = plusHtml.replace("{access}", "Free");
-						 tHtml=tHtml+plusHtml ;
+						 listHtml = listHtml.replace("{created_date}","22 Jun 2013");
+						 listHtml = listHtml.replace("{rating}", "244");
+						 listHtml = listHtml.replace("{readers}", "1,634");
+						 listHtml = listHtml.replace("{access}", "Free");
+						 tHtml=tHtml+listHtml ;
 					}
 		    	 }
 				 
+				    is_append=false;
+				    if(tHtml!="") {  
+					$('.itemListWrp').css('display','block');
+					   if($(".itemListWrp").length==0){
+					      tHtml='<div class="itemListWrp">'+tHtml+'</div>';
+					      is_append=true;
+					   }
+					   
+					   if(is_airticlelist==false){
+					      $('.margin').css("display","block");
+					   }else{
+					      $('.margin').css("display","none");
+					   }
+					}
+					
 				  if($(".paragraph").length==0){ 
-					 $('.content').append(tHtml);
-					 $('#titter-id').remove();
-			         $('#titter-template').remove();									
+					      if(is_append==true){
+						    $('.content').append(tHtml);
+						    $('#titter-id').remove();
+			         	    $('#titter-template').remove();
+						  }else{
+						    $('.itemListWrp').html(tHtml);
+						    $('#titter-id').remove();
+			         	    $('#titter-template').remove();
+						  }	
 				  }else{
-				     $('.content').append(tHtml);
-				  }
+				          if(is_append==true){
+						     $('.content').append(tHtml);
+						  }else{
+						       $('.itemListWrp').html(tHtml);
+						  }	 
+				  }                                       
+				  
 				}
 		 });
  }
  // for list  
+
 
 //  return CreateDom;
   return React.createFactory(CreateDom)
