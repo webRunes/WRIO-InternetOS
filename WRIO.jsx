@@ -57,11 +57,10 @@ var is_hashUrl=false;
 	  
 	  $('body').on('click','.articleView',function() {
 	      var url=$(this).attr('data-url');
-          //$(this).addClass('active');
-		  $(".listView").parent().removeClass("active");
+          $(".listView").parent().removeClass("active");
 		  $('.itemListWrp').css('display','none');
-		 $("section").parent("article").css('display','block');
-          $("#titter-template").parent("section").css('display','block');			  
+		  $("section").parent("article").css('display','block');
+          $('#titter_frame_container').css('display','block');		  
 		  
       });
 	  // right menu click
@@ -350,7 +349,7 @@ var CreateItemMenu = React.createClass({
 var CreateDomCenter = React.createClass({
   render: function() {
     return (
-      <div className="content col-xs-12 col-sm-5 col-md-7">
+      <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
       <div className="margin"><Login></Login><CreateItemList></CreateItemList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
     );
   }
@@ -655,7 +654,7 @@ function defaultList(){
 						 tHtml=tHtml+plusHtml ;
 					}
 		    	 }
-				 $('.content').html(tHtml);
+				 $('#centerWrp').html(tHtml);
 				 $('#plusWrp').addClass('plusActive');
 				}
 		 });
@@ -729,29 +728,29 @@ function getlist(itemListArray){
 					   }
 					   
 					   if(is_airticlelist==false){
-					     // $('.margin').css("display","block");
 					      $("section").parent("article").css('display','block');
-                          $("#titter-template").parent("section").css('display','block');
-					   }else{
-					      //$('.margin').css("display","none");
-						   $("section").parent("article").css('display','none');
-                          $("#titter-template").parent("section").css('display','none');
+                          $('#titter_frame_container').css('display','block');
+						}else{
+					       $("section").parent("article").css('display','none');
+                           $('#titter_frame_container').css('display','none');
 					   }
 					}
 					
 				  if($(".paragraph").length==0){ 
 					      if(is_append==true){
-						    $('.content').append(tHtml);
-						    $('#titter-id').remove();
+						    $('#centerWrp').append(tHtml);
+						    $('#titter_frame_container').remove();
+							$('#titter-id').remove();
 			         	    $('#titter-template').remove();
 						  }else{
 						    $('.itemListWrp').html(tHtml);
-						    $('#titter-id').remove();
+						    $('#titter_frame_container').remove();
+							$('#titter-id').remove();
 			         	    $('#titter-template').remove();
 						  }	
 				  }else{
 				          if(is_append==true){
-						     $('.content').append(tHtml);
+						       $('#centerWrp').append(tHtml);
 						  }else{
 						       $('.itemListWrp').html(tHtml);
 						  }	 
