@@ -29,6 +29,7 @@ var storeageKeys=[];
 var href =window.location.href; 
 var is_list=false;
 var is_airticlelist=false;
+var is_hashUrl=false;
 
  (function(){
      'use strict';
@@ -59,7 +60,8 @@ var is_airticlelist=false;
           //$(this).addClass('active');
 		  $(".listView").parent().removeClass("active");
 		  $('.itemListWrp').css('display','none');
-		  $('.margin').css('display','block'); 		  
+		 $("section").parent("article").css('display','block');
+          $("#titter-template").parent("section").css('display','block');			  
 		  
       });
 	  // right menu click
@@ -107,6 +109,7 @@ var getScripts = function(){
 	complete_script=completeJson;
 
 	finalJson = getFinalJSON(completeJson);
+	checkUrl(); // for check # url 
 }
 
 var getFinalJSON = function(json,hasPart){
@@ -290,7 +293,7 @@ var CreateArticleItemMenu = React.createClass({
 	   var commentItemMenus = this.props.data.map(function(comment, index) {
        var commentMenustring = comment.name.replace(/\s/g, '_');
        var href = comment.url ? comment.url : '#' + commentMenustring;
-	   var listURl = '#' + comment.name;
+	   var listURl = '#' + commentMenustring;
 	   var menuClass =comment.class;
 	  
 		  return (
@@ -726,9 +729,13 @@ function getlist(itemListArray){
 					   }
 					   
 					   if(is_airticlelist==false){
-					      $('.margin').css("display","block");
+					     // $('.margin').css("display","block");
+					      $("section").parent("article").css('display','block');
+                          $("#titter-template").parent("section").css('display','block');
 					   }else{
-					      $('.margin').css("display","none");
+					      //$('.margin').css("display","none");
+						   $("section").parent("article").css('display','none');
+                          $("#titter-template").parent("section").css('display','none');
 					   }
 					}
 					
@@ -754,6 +761,37 @@ function getlist(itemListArray){
 		 });
  }
  // for list  
+
+
+// function for check url
+function checkUrl(){
+     if(href!= undefined ){
+       href = href.replace('index.html', '');  // for remove index.html
+       href = href.replace('index.htm', '');  // for remove index.htm
+     }
+	 if(href!= undefined && href.substr(-1) == '/') {
+		href  = href.substring(0,href.length - 1);   // for remove "/" from string "30-04-15"
+	 }
+       //console.log(finalMenuJsonArray);
+	  
+     // for remove # from url
+     hashName='';
+	 if(href.indexOf("#") != -1){
+	   var hrefArray = href.split("#"); 
+	   url=hrefArray['0']?hrefArray['0']:'';
+	   hashName=hrefArray['1']?hrefArray['1']:'';
+       is_hashUrl=true;
+	}
+	   hashUrl="";
+	   for (i=0;i<finalMenuJsonArray.length;i++){
+	              if(finalMenuJsonArray[i].name==hashName){
+				      hashUrl=finalMenuJsonArray[i].url;
+				     getListJson(hashUrl); 
+				  }     
+	   }  
+	   	  
+}
+// end fn
 
 
 //  return CreateDom;
