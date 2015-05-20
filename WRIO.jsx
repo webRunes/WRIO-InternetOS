@@ -30,6 +30,7 @@ var href =window.location.href;
 var is_list=false;
 var is_airticlelist=false;
 var is_hashUrl=false;
+var is_cover=false;
 
  (function(){
      'use strict';
@@ -667,6 +668,9 @@ function defaultList(){
 function getListJson(listurl){
 
        var url=listurl;
+	   if(url.indexOf("?cover") != -1){
+	    	is_cover=true;
+	   }
 	   var jsonItemArray = [];
 	  $.get(url, function(result){
 	         var rHtml = result.replace('<script type="text/javascript" src="http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/WRIO.js"></script>', '');
@@ -694,8 +698,12 @@ function getListJson(listurl){
 // get List  for list 
 function getlist(itemListArray){
       
-	  //listArray= JSON.parse(localStorage.getItem('myListItem'));
-      var url = themeImportUrl + 'itemList.htm';
+	            var url = themeImportUrl + 'itemList.htm'; 
+				var coverHtml='<div class="{status}"><div style="background: url({contentUrl}) center center" class="img"></div><div class="carousel-caption"><div class="carousel-text"><h2>{name}</h2><ul class="features">{text}</ul></div></div></div>';
+			   var contentdiv='<li><span class="glyphicon glyphicon-ok"></span>{content}</li>';					
+			   var coverHeader='<ul class="breadcrumb"><li class="active">Cover</li></ul><div data-ride="carousel" class="carousel slide" id="cover-carousel"><div class="carousel-inner">';
+			   var coverFooter='</div><a data-slide="prev" href="#cover-carousel" class="left carousel-control"><span class="glyphicon glyphicon-chevron-left"></span></a><a data-slide="next" href="#cover-carousel" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
+	  
 	  $.ajax({
 			   url: url,
 			   dataType: 'html',
@@ -703,21 +711,54 @@ function getlist(itemListArray){
 			   var tHtml="";  
 		   	   if(itemListArray!="" && itemListArray!=undefined){ 
 					for(var i=0; i< itemListArray.length; i++){
-					   	var listHtml = data.replace("{title}", itemListArray[i].name);
-						 listHtml = listHtml.replace("{sub_title}",itemListArray[i].name);
-						 listHtml = listHtml.replace("{about}",itemListArray[i].about);
-						// listHtml = listHtml.replace("{image}", itemListArray[i].image);
+					      if(is_cover!=true){
+							 var listHtml = data.replace("{title}", itemListArray[i].name);
+							 listHtml = listHtml.replace("{sub_title}",itemListArray[i].name);
+							 listHtml = listHtml.replace("{about}",itemListArray[i].about);
+							// listHtml = listHtml.replace("{image}", itemListArray[i].image);
+							
+							 listHtml = listHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+							 listHtml = listHtml.replace("{url}", itemListArray[i].url);
+							 
+							 listHtml = listHtml.replace("{created_date}","22 Jun 2013");
+							 listHtml = listHtml.replace("{rating}", "244");
+							 listHtml = listHtml.replace("{readers}", "1,634");
+							 listHtml = listHtml.replace("{access}", "Free");
+							 tHtml=tHtml+listHtml ;
 						
-						 listHtml = listHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
-						 listHtml = listHtml.replace("{url}", itemListArray[i].url);
-						 
-						 listHtml = listHtml.replace("{created_date}","22 Jun 2013");
-						 listHtml = listHtml.replace("{rating}", "244");
-						 listHtml = listHtml.replace("{readers}", "1,634");
-						 listHtml = listHtml.replace("{access}", "Free");
-						 tHtml=tHtml+listHtml ;
+						 }else{  // for cover structure
+						      
+								 var listHtml = coverHtml.replace("{name}", itemListArray[i].name);
+								 var text=""; 
+								 if(itemListArray[i].text != undefined){
+									
+									 for(var j=0; j< itemListArray[i].text.length; j++){
+										  li=itemListArray[i].text[j];
+										  var allcont = contentdiv.replace("{content}",li);          
+										  text=text + allcont; 
+									 }	
+									 
+								 }
+									
+		                    
+			                 listHtml = listHtml.replace("{contentUrl}",itemListArray[i].contentUrl);
+							  listHtml = listHtml.replace("{text}",text);	
+
+							   if(i==0){
+							     listHtml = listHtml.replace("{status}",'item active');	
+							   }else{
+							      listHtml = listHtml.replace("{status}",'item');
+							   }
+							   tHtml=tHtml+listHtml;	
+								
+						  }
 					}
 		    	 }
+				 
+				if(is_cover==true){
+				    tHtml=coverHeader+tHtml+coverFooter;
+				    is_cover=false;
+				}
 				 
 				    is_append=false;
 				    if(tHtml!="") {  
