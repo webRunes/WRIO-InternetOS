@@ -1,4 +1,4 @@
-define(['react','plus','jsx!titter','promise','client','jquery','bootstrap','showdown', 'moment'], function(React,plus,CreateTitter) {
+define(['react','plus','jsx!titter','moment','promise','client','jquery','bootstrap','showdown'], function(React,plus,CreateTitter,moment) {
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -445,7 +445,7 @@ var Details = React.createClass({
           </span>
           <ul className="details">
               <li>Registered: {this.state.registered}</li>
-              <li>Rating: this.state.rating</li>
+              <li>Rating: {this.state.rating}</li>
               <li>Followers: {this.state.followers}</li>
               <li>Posts: {this.state.posts}</li>
           </ul>
