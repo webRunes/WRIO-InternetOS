@@ -53,6 +53,7 @@ baseUrl: "http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/",
   "client":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/js/client",
   "promise":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/js/promise-1.0.0.min",
     "plus":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/js/plus",
+    "moment": "http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min"
   },
   jsx: {
     fileExtension: '.jsx',
