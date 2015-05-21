@@ -29,12 +29,10 @@
     "xml2js": "*",
     "nconf": "*",
     "aws-sdk-apis": "*",
-    "supervisor": "*"
-  },
-  "dependencies": {
-    "jsxhint": "^0.15.0"
+    "supervisor": "*",
+    "react-tools": "^0.13.3"
   },
   "scripts": {
-  	"start": "jsxhint WRIO.jsx"
+    "start": "mkdir tmp && jsx -x jsx . tmp WRIO && rm -rf tmp .module-cache"
   }
 }
