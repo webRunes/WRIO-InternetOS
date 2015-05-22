@@ -469,11 +469,27 @@ var Login = React.createClass({
         text: 'Already have an account?'
       },
       twitter: {
-        url: 'http://54.235.73.25:5000/auth/twitter',
+        url: 'http://login.twitter.com/auth/twitter',
         img: 'http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg'
       }
     };
   },
+    componentDidMount: function () {
+    var that = this;
+    window.addEventListener('message', function (e) {
+        var message = e.data;
+        console.log("Got message from iframe", message);
+        var jsmsg = JSON.parse(message);
+        that.setState({
+            upgrade: {
+                text: "Upgrade guest account for free",
+                label: days + 'days left',
+                url: jsmsg.url
+            }
+        });
+
+    });
+    },
   render: function() {
     return (
       <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
@@ -488,7 +504,7 @@ var Login = React.createClass({
                           <p>{this.state.description}</p>
                           <ul className="actions">
                               <li>
-                                <iframe src="http://storage.webrunes.com" width="100%" height="20px"></iframe>
+                                <iframe src="http://storage.webrunes.com" style="display:none"></iframe>
                                 <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
                               </li>
                           </ul>
