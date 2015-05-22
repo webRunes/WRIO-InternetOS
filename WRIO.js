@@ -49,10 +49,7 @@ baseUrl: "http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/",
     "JSXTransformer": "JSXTransformer",
     "showdown": "showdown.min",
     "titter":"http://wrio.s3-website-us-east-1.amazonaws.com/Titter-WRIO-App/widget/titter",
-    "login": [
-      "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/js/login",
-      "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/login"
-    ],
+    "login": "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/js/login",
     "createdom": "createdom",
   "client":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/js/client",
   "promise":"http://wrio.s3-website-us-east-1.amazonaws.com/Plus-WRIO-App/js/promise-1.0.0.min",
