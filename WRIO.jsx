@@ -356,7 +356,13 @@ var CreateDomCenter = React.createClass({
   render: function() {
     return (
       <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
-      <div className="margin"><Login></Login><CreateItemList></CreateItemList><CreateArticleList  url="comments.json"></CreateArticleList><CreateTitter></CreateTitter></div></div>
+        <div className="margin">
+          <Login importUrl={importUrl} theme={theme} />
+          <CreateItemList />
+          <CreateArticleList  url="comments.json" />
+          <CreateTitter />
+        </div>
+      </div>
     );
   }
 });
