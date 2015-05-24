@@ -106,7 +106,6 @@ var is_cover=false;
 var converter = new Showdown.converter();
 
 var finalJson;
-var scripts;
 var finalJsonArray = [];
 var finalListJsonArray = [];
 var itemListArray = [];
@@ -355,7 +354,7 @@ var CreateDomCenter = React.createClass({
           <Login importUrl={importUrl} theme={theme} />
           <CreateItemList />
           <CreateArticleList  url="comments.json" />
-          <CreateTitter scripts={scripts} />
+          <CreateTitter scripts={window.complete_script} />
         </div>
       </div>
     );
@@ -400,8 +399,8 @@ var CreateList = React.createClass({
 
 var Main = React.createClass({
   render: function() {
-    scripts = getScripts();
-    finalJson = getFinalJSON(scripts);
+    window.complete_script = getScripts();
+    finalJson = getFinalJSON(complete_script);
     checkUrl(); // for check # url 
     return (
       <div id="content" className="container-liquid">
