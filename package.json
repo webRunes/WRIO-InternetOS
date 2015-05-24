@@ -38,9 +38,8 @@
     "xmlbuilder": "*"
   },
   "scripts": {
-    "build": "browserify -t reactify -t uglifyify WRIO.jsx -o createdom.js",
-    "check": "mkdir tmp && jsx -x jsx . tmp WRIO && rm -rf tmp .module-cache",
-    "start": "npm run check && npm run build",
-    "watch": "watchify -p browserify-notify -t reactify WRIO.jsx -o createdom.js -d"
+    "jsx": "jsx --no-cache-dir -x jsx . . createdom",
+    "start": "npm run jsx",
+    "watch": "jsx --no-cache-dir -w -x jsx . . createdom"
   }
 }

@@ -1,4 +1,17 @@
-define(['react','plus','jsx!titter', 'login','promise','client','jquery','bootstrap','showdown'], function(React,plus,CreateTitter,Login) {
+define(
+  [
+    'react',
+    'plus',
+    'titter',
+    'login',
+    'getScripts',
+    'promise',
+    'client',
+    'jquery',
+    'bootstrap',
+    'showdown'
+  ],
+  function(React, plus, CreateTitter, Login, getScripts) {
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -93,29 +106,11 @@ var is_cover=false;
 var converter = new Showdown.converter();
 
 var finalJson;
+var scripts;
 var finalJsonArray = [];
 var finalListJsonArray = [];
 var itemListArray = [];
 var finalMenuJsonArray = [];
-
-var getScripts = function(){
-	var scripts = document.getElementsByTagName("script");
-	var jsonData = new Object();
-	var jsonArray = [];
-	var has = false;
-  	for(var i=0; i< scripts.length; i++){
-		if(scripts[i].type=='application/ld+json'){
-			has = true;
-			jsonData = JSON.parse(scripts[i].innerHTML);
-			jsonArray.push(jsonData);
-		}
-	}
-	var completeJson = jsonArray;
-	complete_script=completeJson;
-
-	finalJson = getFinalJSON(completeJson);
-	checkUrl(); // for check # url 
-}
 
 var getFinalJSON = function(json,hasPart){
 	if(hasPart==undefined){
@@ -360,7 +355,7 @@ var CreateDomCenter = React.createClass({
           <Login importUrl={importUrl} theme={theme} />
           <CreateItemList />
           <CreateArticleList  url="comments.json" />
-          <CreateTitter />
+          <CreateTitter scripts={scripts} />
         </div>
       </div>
     );
@@ -405,7 +400,9 @@ var CreateList = React.createClass({
 
 var CreateDom = React.createClass({
   render: function() {
-	  getScripts();
+    scripts = getScripts();
+    finalJson = getFinalJSON(scripts);
+    checkUrl(); // for check # url 
     return (
       <div id="content" className="container-liquid">
       <div className="row row-offcanvas row-offcanvas-right">
