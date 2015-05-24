@@ -38,8 +38,8 @@
     "xmlbuilder": "*"
   },
   "scripts": {
-    "jsx": "jsx --no-cache-dir -x jsx . . createdom",
+    "jsx": "jsx --no-cache-dir -x jsx . . main",
     "start": "npm run jsx",
-    "watch": "jsx --no-cache-dir -w -x jsx . . createdom"
+    "watch": "jsx --no-cache-dir -w -x jsx . . main"
   }
 }
