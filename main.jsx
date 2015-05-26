@@ -1,17 +1,13 @@
-define(
-  [
-    'react',
-    'plus',
-    'titter',
-    'login',
-    'getScripts',
-    'promise',
-    'client',
-    'jquery',
-    'bootstrap',
-    'showdown'
-  ],
-  function(React, plus, CreateTitter, Login, getScripts) {
+var 
+	domready = require('domready'),
+	React = require('react'),
+    plus = require('./plus'),
+    CreateTitter = require('./titter.jsx'),
+    Login = require('./login.jsx'),
+    getScripts = require('./js/getScripts'),
+    $ = require('min-jquery'),
+    Showdown = require('./showdown.min');
+
 /**  
  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
  * Facebook reserves all rights not expressly granted.  
@@ -114,7 +110,7 @@ var finalMetionsArray=[];
 
 
 var getFinalJSON = function(json,hasPart){
-	if(hasPart==undefined){
+	if(hasPart===undefined){
 		hasPart = false;
 	}
 	$.each(json,function(i,item){	
@@ -126,7 +122,7 @@ var getFinalJSON = function(json,hasPart){
 		}
 		
 		// for mention 
-		 if(comment.mentions!=undefined){
+		 if(comment.mentions!==undefined){
 				   for(var i=0;i < comment.mentions.length;i++){
 						var name= comment.mentions[i].name;
 						var nameWithoutSpace = name.replace(/\s/g, "-");
@@ -140,7 +136,7 @@ var getFinalJSON = function(json,hasPart){
 						
 						var newUrl=mentionUrlComponent['0']+nameWithoutSpace;
 						
-						rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line}
+						rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line};
 					    finalMetionsArray.push(rowMenu);	
 					}
 					
@@ -227,7 +223,7 @@ var getFinalJSON = function(json,hasPart){
 var CreateDomLeft = React.createClass({
   render: function() {    
     return (
-      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus></CreateLeftCommentMenus></div></div></div></div>
+      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
     );
   }
 });
@@ -275,7 +271,7 @@ var CreateLeftCommentMenus = React.createClass({
 }); 
 
 var CreateLeftItemMenu = React.createClass({
-  render: function(data) {
+  render: function() {
       var rawMarkup = converter.makeHtml(this.props.data.toString());
 	  return (    
 		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
@@ -972,6 +968,9 @@ function getParaGraph(str){
 		}
 } // end function
 
-
-  return React.createFactory(Main);
+domready(function () {
+	React.render(
+        <Main />,
+        document.body
+    );
 });

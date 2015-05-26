@@ -39,7 +39,16 @@
   },
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx . . main",
-    "start": "npm run jsx",
-    "watch": "jsx --no-cache-dir -w -x jsx . . main"
+    "start": "gulp && npm run bundle",
+    "bundle": "browserify -t reactify -t uglifyify main.jsx -o WRIO.js",
+    "watch": "watchify -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+  },
+  "dependencies": {
+    "domready": "^1.0.8",
+    "jQuery": "^1.7.4",
+    "min-jquery": "^1.2.20",
+    "moment": "^2.10.3",
+    "react": "^0.13.3",
+    "react-script-loader": "git://github.com/yariv/ReactScriptLoader"
   }
 }
