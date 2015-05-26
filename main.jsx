@@ -198,7 +198,7 @@ var getFinalJSON = function(json,hasPart){
 		for(var i=0;i < articlebody.length;i++){
 			
 			var articlePara=articlebody[i];
-			var article=getParaGraph(articlePara,temp); // for get paragraph with link
+			var article=getParaGraph(articlePara); // for get paragraph with link
      		newArticle +=  '<p>' + article + '</p>';
 			//newArticle +=  '<p>' + articlebody[i]  + '</p>';
 		}
@@ -911,9 +911,9 @@ function getArticleWithLink(str,replaceleng,word,newUrl){
 
 var temp=0;
 // for get article paragraph with link 
-function getParaGraph(str,i){
+function getParaGraph(str){
 	    temp=temp+1;
-	    var updateArticle='';
+		var updateArticle='';
 		var is_para_link=false; 
 		var addedurl="";
 		var lastline="";
