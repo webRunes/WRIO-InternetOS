@@ -382,7 +382,8 @@ var CreateDomCenter = React.createClass({
       <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
         <div className="margin">
           <Login importUrl={importUrl} theme={theme} />
-          <CreateItemList />
+          <CreateBreadcrumb/>
+		  <CreateItemList />
           <CreateArticleList  url="comments.json" />
           <CreateTitter scripts={window.complete_script} />
         </div>
@@ -390,6 +391,20 @@ var CreateDomCenter = React.createClass({
     );
   }
 });
+
+var CreateBreadcrumb = React.createClass({
+  render: function() {
+   
+         var htmlBreadcrumb='<ul class="breadcrumb controls tooltip-demo"><li title="Read time" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-time"></span>4-5 minutes</li><li title="Last modified" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-calendar"></span>30 May, 2014</li></ul><ul itemprop="breadcrumb" class="breadcrumb"><li class="active">Read</li><li><a href="#">Edit</a></li></ul>';
+   
+      var rawMarkup = converter.makeHtml(htmlBreadcrumb.toString());
+	  if(rawMarkup=="") return false;
+      return (        		        
+		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+      );
+  }
+});
+
 
 // for list
 var CreateItemList = React.createClass({
