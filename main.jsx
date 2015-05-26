@@ -110,6 +110,8 @@ var finalJsonArray = [];
 var finalListJsonArray = [];
 var itemListArray = [];
 var finalMenuJsonArray = [];
+var finalMetionsArray=[];
+
 
 var getFinalJSON = function(json,hasPart){
 	if(hasPart==undefined){
@@ -122,6 +124,28 @@ var getFinalJSON = function(json,hasPart){
 			is_article = true;
 			is_airticlelist=true;
 		}
+		
+		// for mention 
+		 if(comment.mentions!=undefined){
+				   for(var i=0;i < comment.mentions.length;i++){
+						var name= comment.mentions[i].name;
+						var nameWithoutSpace = name.replace(/\s/g, "-");
+						var mentionUrl= comment.mentions[i].url;
+	                    var mentionUrlComponent = mentionUrl.split("'");
+	                    var linkWord=mentionUrlComponent['1'];
+						var res2 = mentionUrlComponent['2'].split(","); 
+						var para_line=parseInt(res2['1']);
+						var res3 = res2['0'].split(":");
+						var para_no=res3['1'];
+						
+						var newUrl=mentionUrlComponent['0']+nameWithoutSpace;
+						
+						rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line}
+					    finalMetionsArray.push(rowMenu);	
+					}
+					
+		 }
+		// end mention
 		
 		
 		// for menu
@@ -145,16 +169,18 @@ var getFinalJSON = function(json,hasPart){
 		// for list
 	    if(comment['itemListElement']!=undefined){
 			is_list = true;
-				for(var i=0;i < comment['itemListElement'].length;i++){
+			  for(var i=0;i < comment['itemListElement'].length;i++){
 			     name= comment['itemListElement'][i].name;
 				 author= comment['itemListElement'][i].author;
 				 about= comment['itemListElement'][i].about;
 				 url= comment['itemListElement'][i].url;
 				 image= comment['itemListElement'][i].image;
+				 description= comment['itemListElement'][i].description;
 		        rowList = {
 					"name": name,
 					"author": comment['name'],
 					"about": about,
+					"description": description,
 					"url": url,
 					"image": image
 				}
@@ -170,16 +196,20 @@ var getFinalJSON = function(json,hasPart){
 		}
 		var newArticle='';
 		for(var i=0;i < articlebody.length;i++){
-			if(i>0){
-			}
-			newArticle +=  '<p>' + articlebody[i]  + '</p>';
+			
+			var articlePara=articlebody[i];
+			var article=getParaGraph(articlePara,temp); // for get paragraph with link
+     		newArticle +=  '<p>' + article + '</p>';
+			//newArticle +=  '<p>' + articlebody[i]  + '</p>';
 		}
 		
+		var articlurl=comment['url']?comment['url']:'';
 		row = {
 			"is_article": is_article,
 			"articlename": comment['name'],
 			"articleBody": newArticle,
-			"url": '',//comment['url']
+			"url": articlurl,
+			"about": comment['about'],
 			"hasPart": hasPart
 		}
 		finalJsonArray.push(row);
@@ -434,11 +464,20 @@ var CreateArticleList = React.createClass({
 var printJson = function(json){
 	 var commentNodes = json.map(function(comment, index) {
 		if(comment.is_article==false) return false;
-      return (
-        <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
-          {comment.articleBody}
-        </CreatArticleEl>
-      );
+      
+		   if(comment.url!= ""){
+				  return (
+					<CreatArticleLists articlename={comment.articlename}  url={comment.url} key={index} about={comment.about}>
+					  {comment.articleBody}
+					</CreatArticleLists>
+				  );	  
+		    }else{
+				  return (
+					<CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+					  {comment.articleBody}
+					</CreatArticleEl>
+				  );
+	        }
     });
 	
     return (
@@ -453,6 +492,53 @@ var CreateArticle = React.createClass({
 	return printJson(this.props.data);
   }
 });
+
+
+// for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
+var CreatArticleLists = React.createClass({
+  loadArticleFromServer: function(title,urlArticle,about,rawMarkup) {
+  var url = themeImportUrl + 'itemList.htm';	// itemList Path  
+  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
+  var tHtml="";
+  
+  $.ajax({
+      url: url,
+      dataType: 'html',
+      success: function(data) {
+				  
+				var data = data.replace('<ul class="actions"><li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li><li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li></ul>', '');
+				
+				  var listHtml = data.replace("{title}", "<a href='"+urlArticle+"'>"+title+"</a>")
+				 .replace("{sub_title}",title)
+				 .replace("{about}",about)
+.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png")
+				 .replace("{created_date}","22 Jun 2013")
+				 .replace("{rating}", "244")
+				 .replace("{readers}", "1,634")
+				 .replace("{access}", "Free");
+				  
+				  tHtml="<div id='"+CreatArticleID+"'>"+listHtml+"</div>";
+		   
+		   this.setState({data: tHtml});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+	  var rawMarkup = converter.makeHtml(this.props.children.toString());
+	  this.loadArticleFromServer(this.props.articlename,this.props.url,this.props.about,rawMarkup);
+  },
+  render: function() {
+     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
+     </section>;
+  }
+});
+
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
@@ -812,6 +898,64 @@ function checkUrl(){
 	   	  
 }
 // end fn
+
+
+// function for replace word to link word
+function getArticleWithLink(str,replaceleng,word,newUrl){
+			var res1 = str.substring(0,replaceleng);
+			var lengWithWord=word.length + replaceleng; 
+			var res2 = str.substring(lengWithWord);
+			return res1.concat('<a href="'+newUrl+'" >'+word+'</a>'+res2); 
+} // end function
+
+
+var temp=0;
+// for get article paragraph with link 
+function getParaGraph(str,i){
+	    temp=temp+1;
+	    var updateArticle='';
+		var is_para_link=false; 
+		var addedurl="";
+		var lastline="";
+		
+		for(var j=0; j < finalMetionsArray.length;j++){
+            
+				var paragraph=finalMetionsArray[j].para_no;
+			    var para_line=finalMetionsArray[j].para_line;
+				var linkWord=finalMetionsArray[j].linkWord;
+				var newUrl=finalMetionsArray[j].newUrl;
+			  
+			   if (temp == paragraph) {
+						if (is_para_link) {
+								linklength=(addedurl.length);
+								addedurl +='<a href="'+newUrl+'" ></a>';
+								
+								if(linklength!='' && para_line > lastline){
+									para_line=para_line + linklength;
+									lastline=finalMetionsArray[j].para_line;   
+									linklength=addedurl.length;
+								}else{
+									lastline=para_line;
+									linklength=addedurl.length;				    
+								}
+							   updateArticle= getArticleWithLink(updateArticle,para_line,linkWord,newUrl);
+					
+						}else {  // false
+								updateArticle= getArticleWithLink(str,para_line,linkWord,newUrl);
+								is_para_link=true;
+								lastline=para_line;
+								addedurl='<a href="'+newUrl+'" ></a>';
+						}
+                } // if loop end
+				
+		 } // for loop end
+	 		
+		if(updateArticle==""){
+		   return str;
+		}else{
+		   return updateArticle;
+		}
+} // end function
 
 
   return React.createFactory(Main);
