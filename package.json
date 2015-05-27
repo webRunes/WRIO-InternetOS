@@ -57,6 +57,7 @@
     "bluebird": "^2.9.26",
     "domready": "^1.0.8",
     "moment": "^2.10.3",
+    "npm": "^2.10.1",
     "react": "^0.13.3",
     "react-script-loader": "git://github.com/yariv/ReactScriptLoader"
   }
