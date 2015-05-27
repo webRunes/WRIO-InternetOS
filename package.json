@@ -20,6 +20,8 @@
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
+    "gulp": "^3.8.11",
+    "gulp-download": "0.0.1",
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
