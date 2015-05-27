@@ -54,6 +54,7 @@
     "jquery": "$"
   },
   "dependencies": {
+    "bluebird": "^2.9.26",
     "domready": "^1.0.8",
     "moment": "^2.10.3",
     "react": "^0.13.3",
