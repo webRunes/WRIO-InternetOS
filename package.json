@@ -12,9 +12,11 @@
     "body-parser": "*",
     "browserify": "^10.2.1",
     "browserify-notify": "^1.1.2",
+    "browserify-shim": "^3.8.7",
     "debug": "*",
     "depd": "*",
     "destroy": "*",
+    "envify": "^3.4.0",
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
@@ -39,14 +41,19 @@
   },
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx . . main",
-    "start": "gulp && npm run bundle",
-    "bundle": "browserify -t reactify -t uglifyify main.jsx -o WRIO.js",
-    "watch": "watchify -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+    "start": "gulp && npm run bundleP",
+    "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -t uglifyify main.jsx -o WRIO.js",
+    "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -t uglifyify main.jsx -o WRIO.js",
+    "watch": "watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+  },
+  "browser": {
+    "jquery": "./jquery.min.js"
+  },
+  "browserify-shim": {
+    "jquery": "$"
   },
   "dependencies": {
     "domready": "^1.0.8",
-    "jQuery": "^1.7.4",
-    "min-jquery": "^1.2.20",
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-script-loader": "git://github.com/yariv/ReactScriptLoader"

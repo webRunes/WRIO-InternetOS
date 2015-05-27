@@ -1,5 +1,6 @@
-var $ = require('min-jquery');
-var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
+var $ = require('jquery');
+var CrossStorageClient = require('./client');
+var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://wrio.s3-website-us-east-1.amazonaws.com/';
 var wrio = {};
 wrio.storageKey = 'plusLdModel';
 wrio.storageHubUrl = importUrl;
@@ -222,7 +223,7 @@ function loadPlusHtml(){
 				$accordion.append($parentTab);
 			}
 	  
-			return (($accordion.get(0).outerHTML));
+			return (($accordion[0].outerHTML));
 		  
 	}; // end createCustomWidget
 	   
