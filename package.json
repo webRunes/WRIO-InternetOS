@@ -42,7 +42,7 @@
     "xmlbuilder": "*"
   },
   "scripts": {
-    "start": "gulp && npm run bundleP",
+    "start": "gulp && npm run bundleP && gulp clear",
     "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
