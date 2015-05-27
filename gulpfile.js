@@ -5,9 +5,12 @@ var gulp = require('gulp'),
 gulp.task('default', ['download']);
 
 gulp.task('download', function() {
+	var server = 'http://wrio.s3-website-us-east-1.amazonaws.com/'
 	download([
-		"http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/login.jsx",
-		"http://wrio.s3-website-us-east-1.amazonaws.com/Titter-WRIO-App/widget/titter.jsx"
+		server + 'Plus-WRIO-App/js/client.js',
+		server + 'Plus-WRIO-App/js/plus.js',
+		server + 'Login-WRIO-App/widget/login.jsx',
+		server + 'Titter-WRIO-App/widget/titter.jsx'
 	])
-    	.pipe(gulp.dest("./js/sub"));
+    	.pipe(gulp.dest("./js/ext"));
 });
