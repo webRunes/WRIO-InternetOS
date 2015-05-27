@@ -44,8 +44,8 @@
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx . . main",
     "start": "gulp && npm run bundleP",
-    "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -t uglifyify main.jsx -o WRIO.js",
-    "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -t uglifyify main.jsx -o WRIO.js",
+    "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "watch": "watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {

@@ -38,3 +38,4 @@ config.json
 .module-cache
 npm-debug.log
 WRIO.js
+js/ext
