@@ -1,9 +1,9 @@
 var 
     domready = require('domready'),
     React = require('react'),
-    plus = require('./plus'),
-    CreateTitter = require('./titter.jsx'),
-    Login = require('./login.jsx'),
+    plus = require('./js/ext/plus'),
+    CreateTitter = require('./js/ext/titter.jsx'),
+    Login = require('./js/ext/login.jsx'),
     getScripts = require('./js/getScripts'),
     $ = require('jquery'),
     Showdown = require('./showdown.min'),
