@@ -1,89 +1,71 @@
-define(
-  [
-    'react',
-    'plus',
-    'titter',
-    'login',
-    'getScripts',
-    'promise',
-    'client',
-    'jquery',
-    'bootstrap',
-    'showdown'
-  ],
-  function(React, plus, CreateTitter, Login, getScripts) {
-/**  
- * This file provided by Facebook is for non-commercial testing and evaluation purposes only.  
- * Facebook reserves all rights not expressly granted.  
- *       
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN    
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION  
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
- */      
-  
-var importUrl = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
-var cssUrl = 'http://webrunes.github.io/';
-var theme = 'Default-WRIO-Theme';
-//var themeImportUrl='https://raw.githubusercontent.com/webRunes/';
-var themeImportUrl='http://webrunes.github.io/Default-WRIO-Theme/widget/';
+var 
+    domready = require('domready'),
+    React = require('react'),
+    plus = require('./plus'),
+    CreateTitter = require('./titter.jsx'),
+    Login = require('./login.jsx'),
+    getScripts = require('./js/getScripts'),
+    $ = require('jquery'),
+    Showdown = require('./showdown.min'),
 
+    importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://wrio.s3-website-us-east-1.amazonaws.com/',
+    cssUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://webrunes.github.io/',
+    theme = 'Default-WRIO-Theme',
+    themeImportUrl = importUrl + theme + '/widget/',
 
-
-var wrio = {};
-wrio.storageKey = 'plusLdModel';
-wrio.storageHubUrl = importUrl;
-var $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>');
-var wrioNamespace = window.wrio || {};
-var updatedStorageHtml=""; 
-var storeageKeys=[];
-var href =window.location.href; 
-var is_list=false;
-var is_airticlelist=false;
-var is_hashUrl=false;
-var is_cover=false;
+    wrio = {
+        storageKey: 'plusLdModel',
+        storageHubUrl: importUrl
+    },
+    $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>'),
+    wrioNamespace = window.wrio || {};
+    updatedStorageHtml = "",
+    storeageKeys = [],
+    href = window.location.href,
+    is_list = false,
+    is_airticlelist = false,
+    is_hashUrl = false,
+    is_cover = false;
 
  (function(){
      'use strict';
-	 
-	  $('body').on('click','#myoffcanvas',function() {
-		 $('.row-offcanvas').toggleClass('active');
-	     $('.row-offcanvas-menu').toggleClass('active');
-	  });
-	 
-	 // for plus tab
-	  $('body').on('click','.plusIcon',function() {
-		  $('.active').removeClass('active');
-		  $('.removeParent').removeClass('collapsed');
-		  $('.parentNodeA').removeClass('collapsed');
-		  $('.new').addClass('active');
-		  defaultList();
-	  });
-	  // for plus tab
-	  
-	  
-	  // right menu click
-	   $('body').on('click','.listView',function() {
-	      var url=$(this).attr('data-url');
+   
+    $('body').on('click','#myoffcanvas',function() {
+     $('.row-offcanvas').toggleClass('active');
+       $('.row-offcanvas-menu').toggleClass('active');
+    });
+   
+   // for plus tab
+    $('body').on('click','.plusIcon',function() {
+      $('.active').removeClass('active');
+      $('.removeParent').removeClass('collapsed');
+      $('.parentNodeA').removeClass('collapsed');
+      $('.new').addClass('active');
+      defaultList();
+    });
+    // for plus tab
+    
+    
+    // right menu click
+     $('body').on('click','.listView',function() {
+        var url=$(this).attr('data-url');
           $('.listView').removeClass('active');
-		  $(".listView").parent().removeClass("active");
-	      $(this).addClass('active');
-		  $(".active").parent().addClass("active");
-		 getListJson(url);
+      $(".listView").parent().removeClass("active");
+        $(this).addClass('active');
+      $(".active").parent().addClass("active");
+     getListJson(url);
       });
-	  
-	  $('body').on('click','.articleView',function() {
-	      var url=$(this).attr('data-url');
+    
+    $('body').on('click','.articleView',function() {
+        var url=$(this).attr('data-url');
           $(".listView").parent().removeClass("active");
-		  $('.itemListWrp').css('display','none');
-		  $("section").parent("article").css('display','block');
-          $('#titter_frame_container').css('display','block');		  
-		  
+      $('.itemListWrp').css('display','none');
+      $("section").parent("article").css('display','block');
+          $('#titter_frame_container').css('display','block');      
+      
       });
-	  // right menu click
-	 
+    // right menu click
+   
  var addBootstrapLink = function(){
          var link = document.createElement('link');
          link.rel = 'stylesheet';
@@ -100,7 +82,7 @@ var is_cover=false;
          link.href = cssUrl + theme + '/ico/favicon.ico';
          document.head.appendChild(link);
      };
-	 addBootstrapLink();
+   addBootstrapLink();
  })();
 
 var converter = new Showdown.converter();
@@ -114,172 +96,149 @@ var finalMetionsArray=[];
 
 
 var getFinalJSON = function(json,hasPart){
-	if(hasPart==undefined){
-		hasPart = false;
-	}
-	$.each(json,function(i,item){	
-		comment = this;
-		var is_article = false;
-		if(comment['@type']=='Article'){
-			is_article = true;
-			is_airticlelist=true;
-		}
-		
-		// for mention 
-		 if(comment.mentions!=undefined){
-				   for(var i=0;i < comment.mentions.length;i++){
-						var name= comment.mentions[i].name;
-						var nameWithoutSpace = name.replace(/\s/g, "-");
-						var mentionUrl= comment.mentions[i].url;
-	                    var mentionUrlComponent = mentionUrl.split("'");
-	                    var linkWord=mentionUrlComponent['1'];
-						var res2 = mentionUrlComponent['2'].split(","); 
-						var para_line=parseInt(res2['1']);
-						var res3 = res2['0'].split(":");
-						var para_no=res3['1'];
-						
-						var newUrl=mentionUrlComponent['0']+nameWithoutSpace;
-						
-						rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line}
-					    finalMetionsArray.push(rowMenu);	
-					}
-					
-		 }
-		// end mention
-		
-		
-		// for menu
-		if(comment['@type']=='Article'){
-			  name=comment['name'];
-			  url="";
-			  rowMenu = {"name": name,"url":url,"class":"articleView"}
-			  finalMenuJsonArray.push(rowMenu);	
-		}else if(comment['@type']=='ItemList'){
-		        if(comment['itemListElement']!=undefined){
-				   for(var i=0;i < comment['itemListElement'].length;i++){
-						 name= comment['itemListElement'][i].name;
-						 url= comment['itemListElement'][i].url;
-						 rowMenu = {"name": name,"url":url,"class":"listView"}
-					     finalMenuJsonArray.push(rowMenu);	
-					}
-				}
-		}
-		//end menu array
-		
-		// for list
-	    if(comment['itemListElement']!=undefined){
-			is_list = true;
-			  for(var i=0;i < comment['itemListElement'].length;i++){
-			     name= comment['itemListElement'][i].name;
-				 author= comment['itemListElement'][i].author;
-				 about= comment['itemListElement'][i].about;
-				 url= comment['itemListElement'][i].url;
-				 image= comment['itemListElement'][i].image;
-				 description= comment['itemListElement'][i].description;
-		        rowList = {
-					"name": name,
-					"author": comment['name'],
-					"about": about,
-					"description": description,
-					"url": url,
-					"image": image
-				}
-			  finalListJsonArray.push(rowList);	
-			}
-		}
-		// for list
-		
+  if(hasPart===undefined){
+    hasPart = false;
+  }
+  $.each(json,function(i,item){ 
+    comment = this;
+    var is_article = false,
+      name;
+    if(comment['@type']=='Article'){
+      is_article = true;
+      is_airticlelist=true;
+    }
+    
+    // for mention 
+     if(comment.mentions!==undefined){
+           for(var i=0; i < comment.mentions.length; i++){
+            name = comment.mentions[i].name;
+            var nameWithoutSpace = name.replace(/\s/g, "-");
+            var mentionUrl= comment.mentions[i].url;
+                      var mentionUrlComponent = mentionUrl.split("'");
+                      var linkWord=mentionUrlComponent['1'];
+            var res2 = mentionUrlComponent['2'].split(","); 
+            var para_line=parseInt(res2['1']);
+            var res3 = res2['0'].split(":");
+            var para_no=res3['1'];
+            
+            var newUrl=mentionUrlComponent['0']+nameWithoutSpace;
+            
+            rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line};
+              finalMetionsArray.push(rowMenu);  
+          }
+          
+     }
+    // end mention
+    
+    
+    // for menu
+    if(comment['@type']=='Article'){
+        name=comment.name;
+        url="";
+        rowMenu = {"name": name,"url":url,"class":"articleView"}
+        finalMenuJsonArray.push(rowMenu); 
+    }else if(comment['@type']=='ItemList'){
+            if(comment['itemListElement']!=undefined){
+           for(var i=0;i < comment['itemListElement'].length;i++){
+             name= comment['itemListElement'][i].name;
+             url= comment['itemListElement'][i].url;
+             rowMenu = {"name": name,"url":url,"class":"listView"}
+               finalMenuJsonArray.push(rowMenu);  
+          }
+        }
+    }
+    //end menu array
+    
+    // for list
+      if(comment['itemListElement']!==undefined){
+      is_list = true;
+        for(var i=0;i < comment['itemListElement'].length;i++){
+           name= comment['itemListElement'][i].name;
+         author= comment['itemListElement'][i].author;
+         about= comment['itemListElement'][i].about;
+         url= comment['itemListElement'][i].url;
+         image= comment['itemListElement'][i].image;
+         description= comment['itemListElement'][i].description;
+            rowList = {
+          "name": name,
+          "author": comment['name'],
+          "about": about,
+          "description": description,
+          "url": url,
+          "image": image
+        };
+        finalListJsonArray.push(rowList); 
+      }
+    }
+    // for list
+    
 
-		var articlebody = comment['articleBody'];
-		if(comment['articleBody']==undefined){
-			articlebody = '';
-		}
-		var newArticle='';
-		for(var i=0;i < articlebody.length;i++){
-			
-			var articlePara=articlebody[i];
-			var article=getParaGraph(articlePara); // for get paragraph with link
-     		newArticle +=  '<p>' + article + '</p>';
-			//newArticle +=  '<p>' + articlebody[i]  + '</p>';
-		}
-		
-		var articlurl=comment['url']?comment['url']:'';
-		row = {
-			"is_article": is_article,
-			"articlename": comment['name'],
-			"articleBody": newArticle,
-			"url": articlurl,
-			"about": comment['about'],
-			"hasPart": hasPart
-		}
-		finalJsonArray.push(row);
-		//console.log((finalJsonArray).length);
-		if(comment.hasPart!=undefined){
-			if((comment.hasPart).length > 0){
-				hasParts = comment.hasPart;	
-				getFinalJSON(hasParts,true);
-			}
-		}
-	});
-	return finalJsonArray;
-}
+    var articlebody = comment['articleBody'];
+    if(comment['articleBody']===undefined){
+      articlebody = '';
+    }
+    var newArticle='';
+    for(var i=0;i < articlebody.length;i++){
+      
+      var articlePara=articlebody[i];
+      var article=getParaGraph(articlePara); // for get paragraph with link
+        newArticle +=  '<p>' + article + '</p>';
+      //newArticle +=  '<p>' + articlebody[i]  + '</p>';
+    }
+    
+    var articlurl=comment['url']?comment['url']:'';
+    row = {
+      "is_article": is_article,
+      "articlename": comment['name'],
+      "articleBody": newArticle,
+      "url": articlurl,
+      "about": comment['about'],
+      "hasPart": hasPart
+    }
+    finalJsonArray.push(row);
+    //console.log((finalJsonArray).length);
+    if(comment.hasPart!==undefined){
+      if((comment.hasPart).length > 0){
+        hasParts = comment.hasPart; 
+        getFinalJSON(hasParts,true);
+      }
+    }
+  });
+  return finalJsonArray;
+};
 
 var CreateDomLeft = React.createClass({
   render: function() {    
     return (
-      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus></CreateLeftCommentMenus></div></div></div></div>
+      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
     );
   }
 });
 
 var CreateLeftCommentMenus = React.createClass({
-  loadCommentsFromServer: function() {
-    
-	
-	     var reactObj = this;
-		 
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
   componentDidMount: function() {
-      // for plus tab
-     // var url = importUrl + 'Default-WRIO-Theme/widget/defaultList.htm';
-	  var url= themeImportUrl + 'defaultList.htm';
-	  
-      var jsonItemArray = [];
-	  $.get(url, function(result){
-        jQuery('<div/>', {
-        id: 'foo',
-        css:{
-          display:'none'
-        },
-        html: result
-      }).appendTo('body');
-           //defaultPlusList=$('script#defaultPlusList').html();
-		   defaultPlusList=$("#foo [type^='application/ld+json']" ).html();
-		   $('#foo').remove();
-	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
-		   plusItemList=defaultPlusListJson.itemListElement;
-	       localStorage.setItem("plusTabItem", JSON.stringify( plusItemList ));  //set plus tab item
-	  }); // for plus tab
-  
-     plus.updatePlusStorage(); 
-	 this.loadCommentsFromServer();
+    $.get(
+        themeImportUrl + 'defaultList.htm',
+        function (result) {
+            var e = document.createElement('div');
+            e.innerHTML = result
+            localStorage.setItem("plusTabItem", JSON.stringify(JSON.parse(e.getElementsByTagName('script')[0].innerText).itemListElement));
+        }
+    );
+    plus.updatePlusStorage();
   },
   render: function() {
-    return (  	
-			<CreateLeftItemMenu data={this.state.data} />		
+    return (    
+    <CreateLeftItemMenu />    
     );
   }           
 }); 
 
 var CreateLeftItemMenu = React.createClass({
-  render: function(data) {
-      var rawMarkup = converter.makeHtml(this.props.data.toString());
-	  return (    
-		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
-    );
+  render: function() {
+      return (    
+    <section />
+      );
   }
 }); 
 
@@ -288,26 +247,25 @@ var CreateDomRight = React.createClass({
   render: function() {
     return (
       <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-margin"><CreateArticleMenus></CreateArticleMenus></div></div>
+        <div className="sidebar-margin">
+          <CreateArticleMenus />
+        </div>
+      </div>
     );
   }
 });
 
 // for right menu
 var CreateArticleMenus = React.createClass({
-  loadCommentsFromServer: function() {
-	if(is_airticlelist==false){
-	    this.setState({data: []});
-		getListJson(href); 
-	}else{
-	   this.setState({data: finalMenuJsonArray});
-    }
-  },
   getInitialState: function() {
     return {data: []};
   },
   componentDidMount: function() {
-    this.loadCommentsFromServer();
+  if(is_airticlelist==false){
+    getListJson(href); 
+  }else{
+     this.setState({data: finalMenuJsonArray});
+    }
   },
   render: function() {
     return (
@@ -319,19 +277,19 @@ var CreateArticleMenus = React.createClass({
 
 var CreateArticleItemMenu = React.createClass({
   render: function() {
-	   var commentItemMenus = this.props.data.map(function(comment, index) {
+     var commentItemMenus = this.props.data.map(function(comment, index) {
        var commentMenustring = comment.name.replace(/\s/g, '_');
        var href = comment.url ? comment.url : '#' + commentMenustring;
-	   var listURl = '#' + commentMenustring;
-	   var menuClass =comment.class;
-	  
-		  return (
-				  <li key={index}><a href={listURl}  className={menuClass} data-url={href}>{comment.name}</a></li>  
-		  );
-	  });        
-	  
-	  return (    
-      	<ul className="nav nav-pills nav-stacked">
+     var listURl = '#' + commentMenustring;
+     var menuClass =comment.class;
+    
+      return (
+          <li key={index}><a href={listURl}  className={menuClass} data-url={href}>{comment.name}</a></li>  
+      );
+    });        
+    
+    return (    
+        <ul className="nav nav-pills nav-stacked">
         {commentItemMenus}
         </ul>
     );
@@ -342,7 +300,7 @@ var CreateArticleItemMenu = React.createClass({
 
 var CreateCommentMenus = React.createClass({
   loadCommentsFromServer: function() {
-	this.setState({data: finalJson});
+  this.setState({data: finalJson});
   },
   getInitialState: function() {
     return {data: []};
@@ -359,16 +317,16 @@ var CreateCommentMenus = React.createClass({
 
 var CreateItemMenu = React.createClass({
   render: function() {
-	  var commentMenus = this.props.data.map(function(comment, index) {
+    var commentMenus = this.props.data.map(function(comment, index) {
       var commentMenustring = comment.articlename.replace(/\s/g, '_');
       var href = comment.url ? comment.url : '#' + commentMenustring;
-		  return (
-				  <li key={index}><a href={href}>{comment.articlename}</a></li>   
-		  );
-	  });        
-	  
-	  return (    
-      	<ul className="nav nav-pills nav-stacked">
+      return (
+          <li key={index}><a href={href}>{comment.articlename}</a></li>   
+      );
+    });        
+    
+    return (    
+        <ul className="nav nav-pills nav-stacked">
         {commentMenus}
         </ul>
     );
@@ -383,7 +341,7 @@ var CreateDomCenter = React.createClass({
         <div className="margin">
           <Login importUrl={importUrl} theme={theme} />
           <CreateBreadcrumb/>
-		  <CreateItemList />
+      <CreateItemList />
           <CreateArticleList  url="comments.json" />
           <CreateTitter scripts={window.complete_script} />
         </div>
@@ -398,9 +356,9 @@ var CreateBreadcrumb = React.createClass({
          var htmlBreadcrumb='<ul class="breadcrumb controls tooltip-demo"><li title="Read time" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-time"></span>4-5 minutes</li><li title="Last modified" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-calendar"></span>30 May, 2014</li></ul><ul itemprop="breadcrumb" class="breadcrumb"><li class="active">Read</li><li><a href="#">Edit</a></li></ul>';
    
       var rawMarkup = converter.makeHtml(htmlBreadcrumb.toString());
-	  if(rawMarkup=="") return false;
-      return (        		        
-		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+    if(rawMarkup=="") return false;
+      return (                    
+    <section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
       );
   }
 });
@@ -409,7 +367,7 @@ var CreateBreadcrumb = React.createClass({
 // for list
 var CreateItemList = React.createClass({
   loadCommentsFromServer: function() {
-	
+  
   },
   getInitialState: function() {
     return {data: []};
@@ -417,11 +375,11 @@ var CreateItemList = React.createClass({
   componentDidMount: function() {
    // for list tab
     if(is_list==true){
-	   localStorage.setItem("myListItem", JSON.stringify(finalListJsonArray ));  //set plus tab item
-	  // getlist();
-	}
-	// for list tab
-	this.loadCommentsFromServer();
+     localStorage.setItem("myListItem", JSON.stringify(finalListJsonArray ));  //set plus tab item
+    // getlist();
+  }
+  // for list tab
+  this.loadCommentsFromServer();
   },
   render: function() {
     return (  
@@ -433,9 +391,9 @@ var CreateItemList = React.createClass({
 var CreateList = React.createClass({
   render: function() {
       var rawMarkup = converter.makeHtml(this.props.data.toString());
-	  if(rawMarkup=="") return false;
-      return (        		        
-		<section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
+    if(rawMarkup=="") return false;
+      return (                    
+    <section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
       );
   }
 });
@@ -450,7 +408,7 @@ var Main = React.createClass({
     return (
       <div id="content" className="container-liquid">
       <div className="row row-offcanvas row-offcanvas-right">
-	  <CreateDomLeft></CreateDomLeft>
+    <CreateDomLeft></CreateDomLeft>
       <CreateDomCenter></CreateDomCenter>
       <CreateDomRight></CreateDomRight>
       </div>
@@ -461,7 +419,7 @@ var Main = React.createClass({
 
 var CreateArticleList = React.createClass({
   loadCommentsFromServer: function() {
-	this.setState({data: finalJson});
+  this.setState({data: finalJson});
   },
   getInitialState: function() {
     return {data: []};
@@ -471,32 +429,32 @@ var CreateArticleList = React.createClass({
   },
   render: function() {
     return (
-    	<CreateArticle data={this.state.data} />
+      <CreateArticle data={this.state.data} />
     );
   }
 });
 
 var printJson = function(json){
-	 var commentNodes = json.map(function(comment, index) {
-		if(comment.is_article==false) return false;
+   var commentNodes = json.map(function(comment, index) {
+    if(comment.is_article==false) return false;
       
-		   if(comment.url!= ""){
-				  return (
-					<CreatArticleLists articlename={comment.articlename}  url={comment.url} key={index} about={comment.about}>
-					  {comment.articleBody}
-					</CreatArticleLists>
-				  );	  
-		    }else{
-				  return (
-					<CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
-					  {comment.articleBody}
-					</CreatArticleEl>
-				  );
-	        }
+       if(comment.url!= ""){
+          return (
+          <CreatArticleLists articlename={comment.articlename}  url={comment.url} key={index} about={comment.about}>
+            {comment.articleBody}
+          </CreatArticleLists>
+          );    
+        }else{
+          return (
+          <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+            {comment.articleBody}
+          </CreatArticleEl>
+          );
+          }
     });
-	
+  
     return (
-      	<article>
+        <article>
         {commentNodes}
         </article>
     );
@@ -504,7 +462,7 @@ var printJson = function(json){
 
 var CreateArticle = React.createClass({
   render: function() {
-	return printJson(this.props.data);
+  return printJson(this.props.data);
   }
 });
 
@@ -512,7 +470,7 @@ var CreateArticle = React.createClass({
 // for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
 var CreatArticleLists = React.createClass({
   loadArticleFromServer: function(title,urlArticle,about,rawMarkup) {
-  var url = themeImportUrl + 'itemList.htm';	// itemList Path  
+  var url = themeImportUrl + 'itemList.htm';  // itemList Path  
   var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
   var tHtml="";
   
@@ -520,21 +478,21 @@ var CreatArticleLists = React.createClass({
       url: url,
       dataType: 'html',
       success: function(data) {
-				  
-				var data = data.replace('<ul class="actions"><li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li><li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li></ul>', '');
-				
-				  var listHtml = data.replace("{title}", "<a href='"+urlArticle+"'>"+title+"</a>")
-				 .replace("{sub_title}",title)
-				 .replace("{about}",about)
-.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png")
-				 .replace("{created_date}","22 Jun 2013")
-				 .replace("{rating}", "244")
-				 .replace("{readers}", "1,634")
-				 .replace("{access}", "Free");
-				  
-				  tHtml="<div id='"+CreatArticleID+"'>"+listHtml+"</div>";
-		   
-		   this.setState({data: tHtml});
+          
+        var data = data.replace('<ul class="actions"><li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li><li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li></ul>', '');
+        
+          var listHtml = data.replace("{title}", "<a href='"+urlArticle+"'>"+title+"</a>")
+         .replace("{sub_title}",title)
+         .replace("{about}",about)
+         .replace("{image}",cssUrl + theme + '/img/no-photo-200x200.png')
+         .replace("{created_date}","22 Jun 2013")
+         .replace("{rating}", "244")
+         .replace("{readers}", "1,634")
+         .replace("{access}", "Free");
+          
+          tHtml="<div id='"+CreatArticleID+"'>"+listHtml+"</div>";
+       
+       this.setState({data: tHtml});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
@@ -545,8 +503,8 @@ var CreatArticleLists = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-	  var rawMarkup = converter.makeHtml(this.props.children.toString());
-	  this.loadArticleFromServer(this.props.articlename,this.props.url,this.props.about,rawMarkup);
+    var rawMarkup = converter.makeHtml(this.props.children.toString());
+    this.loadArticleFromServer(this.props.articlename,this.props.url,this.props.about,rawMarkup);
   },
   render: function() {
      return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
@@ -557,7 +515,7 @@ var CreatArticleLists = React.createClass({
 
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-	var url = 'https://webrunes.github.io/' + theme + '/widget/article.htm';	// Article Path  
+  var url = importUrl + theme + '/widget/article.htm';  // Article Path  
   var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
   $.ajax({
       url: url,
@@ -565,21 +523,21 @@ var CreatArticleEl = React.createClass({
      // data: { haspart : title },
       success: function(data) {
      //alert(data);
-		 if(hasPart==true){
-				if(rawMarkup==""){
-						var html='<h2 id="{this.props.articleid}">{this.props.articlename}</h2>';
-				}else{
-						var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articleid}">{this.props.articlename}</h1></header>','<h2 id={this.props.articleid}>{this.props.articlename}</h2>');
-				}
-		  }else{
-				var html=data;
-		  }
-		  var res = html.replace(/{this.props.articlename}/g,title);
+     if(hasPart==true){
+        if(rawMarkup==""){
+            var html='<h2 id="{this.props.articleid}">{this.props.articlename}</h2>';
+        }else{
+            var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articleid}">{this.props.articlename}</h1></header>','<h2 id={this.props.articleid}>{this.props.articlename}</h2>');
+        }
+      }else{
+        var html=data;
+      }
+      var res = html.replace(/{this.props.articlename}/g,title);
       res = res.replace(/{this.props.articleid}/g,CreatArticleID);
-		   res = res.replace("{description}",children);
-		   res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
-		   res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
-		   this.setState({data: res});
+       res = res.replace("{description}",children);
+       res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
+       res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
+       this.setState({data: res});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
@@ -590,7 +548,7 @@ var CreatArticleEl = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-	  var rawMarkup = converter.makeHtml(this.props.children.toString());
+    var rawMarkup = converter.makeHtml(this.props.children.toString());
     this.loadArticleFromServer(this.props.articlename,this.props.children,this.props.hasPart,rawMarkup);
   },
   render: function() {
@@ -711,52 +669,48 @@ var CommentForm = React.createClass({
 function defaultList(){
      plusArray= JSON.parse(localStorage.getItem('plusTabItem'));
       //var url = importUrl + 'Default-WRIO-Theme/widget/itemList.htm';
-	  
-	  var url= themeImportUrl + 'itemList.htm';
-	  
-		
-	if ( !$('.plusActive').hasClass('plusList')) {  // for check default list available or not
-   	 $.ajax({
-			   url: url,
-			   dataType: 'html',
-			   success: function(data) {
-			   var tHtml="";  
-		   	   if(plusArray!=undefined){ 
-					for(var i=0; i< plusArray.length; i++){
-					   var plusHtml = data.replace("{title}", plusArray[i].name);
-						 plusHtml = plusHtml.replace("{sub_title}",plusArray[i].name);
-						 plusHtml = plusHtml.replace("{about}",plusArray[i].about);
-						 plusHtml = plusHtml.replace("{image}", plusArray[i].image);
-						 plusHtml = plusHtml.replace("{url}", plusArray[i].url);
-						 
-						 plusHtml = plusHtml.replace("{created_date}","22 Jun 2013");
-						 plusHtml = plusHtml.replace("{rating}", "244");
-						 plusHtml = plusHtml.replace("{readers}", "1,634");
-						 plusHtml = plusHtml.replace("{access}", "Free");
-						 tHtml=tHtml+plusHtml ;
-					}
-		    	 }
-				 $('#centerWrp').html(tHtml);
-				 $('#plusWrp').addClass('plusActive');
-				}
-		 });
-		 	
-	 } // if end 
- }  // for plus tab
+    
+    var url= themeImportUrl + 'itemList.htm';
+    
+    
+  if ( !$('.plusActive').hasClass('plusList')) {  // for check default list available or not
+    $.ajax({
+      url: url,
+      dataType: 'html',
+      success: function(data) {  
+        if(plusArray !== undefined && typeof plusArray[0] === 'object'){ 
+              $('#centerWrp').html(
+             data
+            .replace("{title}", plusArray[0].name)
+            .replace("{sub_title}",plusArray[0].name)
+            .replace("{about}",plusArray[0].about)
+            .replace("{image}", plusArray[0].image)
+            .replace("{url}", plusArray[0].url)
+            .replace("{created_date}","22 Jun 2013")
+            .replace("{rating}", "244")
+            .replace("{readers}", "1,634")
+            .replace("{access}", "Free")
+          );
+          $('#plusWrp').addClass('plusActive');
+          }
+      }
+    });   
+  }
+}
  
  
  // for list
 function getListJson(listurl){
 
        var url=listurl;
-	   if(url.indexOf("?cover") != -1){
-	    	is_cover=true;
-	   }
-	   var jsonItemArray = [];
-	  $.get(url, function(result){
-	         var rHtml = result.replace('<script type="text/javascript" src="http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/WRIO.js"></script>', '');
-	   
-	   jQuery('<div/>', {
+     if(url.indexOf("?cover") != -1){
+        is_cover=true;
+     }
+     var jsonItemArray = [];
+    $.get(url, function(result){
+           var rHtml = result.replace('<script type="text/javascript" src="http://wrio.s3-website-us-east-1.amazonaws.com/WRIO-InternetOS/WRIO.js"></script>', '');
+     
+     jQuery('<div/>', {
         id: 'foo1',
         css:{
           display:'none'
@@ -764,122 +718,122 @@ function getListJson(listurl){
         html: rHtml
       }).appendTo('body');
            defaultPlusList=$("#foo1 [type^='application/ld+json']" ).html();
-		   $('#foo1').remove();
-	       defaultPlusListJson = JSON.parse(defaultPlusList);	  
-		   itemListArray=defaultPlusListJson.itemListElement;
-		   getlist(itemListArray);
-		   
-		   if(is_list==true){
-		    //  var htmlList=getlist();
-		   }
-	  });	
+       $('#foo1').remove();
+         defaultPlusListJson = JSON.parse(defaultPlusList);   
+       itemListArray=defaultPlusListJson.itemListElement;
+       getlist(itemListArray);
+       
+       if(is_list==true){
+        //  var htmlList=getlist();
+       }
+    }); 
 }
  
  
 // get List  for list 
 function getlist(itemListArray){
       
-	            var url = themeImportUrl + 'itemList.htm'; 
-				var coverHtml='<div class="{status}"><div style="background: url({contentUrl}) center center" class="img"></div><div class="carousel-caption"><div class="carousel-text"><h2>{name}</h2><ul class="features">{text}</ul></div></div></div>';
-			   var contentdiv='<li><span class="glyphicon glyphicon-ok"></span>{content}</li>';					
-			   var coverHeader='<ul class="breadcrumb"><li class="active">Cover</li></ul><div data-ride="carousel" class="carousel slide" id="cover-carousel"><div class="carousel-inner">';
-			   var coverFooter='</div><a data-slide="prev" href="#cover-carousel" class="left carousel-control"><span class="glyphicon glyphicon-chevron-left"></span></a><a data-slide="next" href="#cover-carousel" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
-	  
-	  $.ajax({
-			   url: url,
-			   dataType: 'html',
-			   success: function(data) {
-			   var tHtml="";  
-		   	   if(itemListArray!="" && itemListArray!=undefined){ 
-					for(var i=0; i< itemListArray.length; i++){
-					      if(is_cover!=true){
-							 var listHtml = data.replace("{title}", itemListArray[i].name);
-							 listHtml = listHtml.replace("{sub_title}",itemListArray[i].name);
-							 listHtml = listHtml.replace("{about}",itemListArray[i].about);
-							// listHtml = listHtml.replace("{image}", itemListArray[i].image);
-							
-							 listHtml = listHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
-							 listHtml = listHtml.replace("{url}", itemListArray[i].url);
-							 
-							 listHtml = listHtml.replace("{created_date}","22 Jun 2013");
-							 listHtml = listHtml.replace("{rating}", "244");
-							 listHtml = listHtml.replace("{readers}", "1,634");
-							 listHtml = listHtml.replace("{access}", "Free");
-							 tHtml=tHtml+listHtml ;
-						
-						 }else{  // for cover structure
-						      
-								 var listHtml = coverHtml.replace("{name}", itemListArray[i].name);
-								 var text=""; 
-								 if(itemListArray[i].text != undefined){
-									
-									 for(var j=0; j< itemListArray[i].text.length; j++){
-										  li=itemListArray[i].text[j];
-										  var allcont = contentdiv.replace("{content}",li);          
-										  text=text + allcont; 
-									 }	
-									 
-								 }
-									
-		                    
-			                 listHtml = listHtml.replace("{contentUrl}",itemListArray[i].contentUrl);
-							  listHtml = listHtml.replace("{text}",text);	
+              var url = themeImportUrl + 'itemList.htm'; 
+        var coverHtml='<div class="{status}"><div style="background: url({contentUrl}) center center" class="img"></div><div class="carousel-caption"><div class="carousel-text"><h2>{name}</h2><ul class="features">{text}</ul></div></div></div>';
+         var contentdiv='<li><span class="glyphicon glyphicon-ok"></span>{content}</li>';         
+         var coverHeader='<ul class="breadcrumb"><li class="active">Cover</li></ul><div data-ride="carousel" class="carousel slide" id="cover-carousel"><div class="carousel-inner">';
+         var coverFooter='</div><a data-slide="prev" href="#cover-carousel" class="left carousel-control"><span class="glyphicon glyphicon-chevron-left"></span></a><a data-slide="next" href="#cover-carousel" class="right carousel-control"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
+    
+    $.ajax({
+         url: url,
+         dataType: 'html',
+         success: function(data) {
+         var tHtml="";  
+           if(itemListArray!="" && itemListArray!=undefined){ 
+          for(var i=0; i< itemListArray.length; i++){
+                if(is_cover!=true){
+               var listHtml = data.replace("{title}", itemListArray[i].name);
+               listHtml = listHtml.replace("{sub_title}",itemListArray[i].name);
+               listHtml = listHtml.replace("{about}",itemListArray[i].about);
+              // listHtml = listHtml.replace("{image}", itemListArray[i].image);
+              
+               listHtml = listHtml.replace("{image}","http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png");
+               listHtml = listHtml.replace("{url}", itemListArray[i].url);
+               
+               listHtml = listHtml.replace("{created_date}","22 Jun 2013");
+               listHtml = listHtml.replace("{rating}", "244");
+               listHtml = listHtml.replace("{readers}", "1,634");
+               listHtml = listHtml.replace("{access}", "Free");
+               tHtml=tHtml+listHtml ;
+            
+             }else{  // for cover structure
+                  
+                 var listHtml = coverHtml.replace("{name}", itemListArray[i].name);
+                 var text=""; 
+                 if(itemListArray[i].text != undefined){
+                  
+                   for(var j=0; j< itemListArray[i].text.length; j++){
+                      li=itemListArray[i].text[j];
+                      var allcont = contentdiv.replace("{content}",li);          
+                      text=text + allcont; 
+                   }  
+                   
+                 }
+                  
+                        
+                       listHtml = listHtml.replace("{contentUrl}",itemListArray[i].contentUrl);
+                listHtml = listHtml.replace("{text}",text); 
 
-							   if(i==0){
-							     listHtml = listHtml.replace("{status}",'item active');	
-							   }else{
-							      listHtml = listHtml.replace("{status}",'item');
-							   }
-							   tHtml=tHtml+listHtml;	
-								
-						  }
-					}
-		    	 }
-				 
-				if(is_cover==true){
-				    tHtml=coverHeader+tHtml+coverFooter;
-				    is_cover=false;
-				}
-				 
-				    is_append=false;
-				    if(tHtml!="") {  
-					$('.itemListWrp').css('display','block');
-					   if($(".itemListWrp").length==0){
-					      tHtml='<div class="itemListWrp">'+tHtml+'</div>';
-					      is_append=true;
-					   }
-					   
-					   if(is_airticlelist==false){
-					      $("section").parent("article").css('display','block');
+                 if(i==0){
+                   listHtml = listHtml.replace("{status}",'item active'); 
+                 }else{
+                    listHtml = listHtml.replace("{status}",'item');
+                 }
+                 tHtml=tHtml+listHtml;  
+                
+              }
+          }
+           }
+         
+        if(is_cover==true){
+            tHtml=coverHeader+tHtml+coverFooter;
+            is_cover=false;
+        }
+         
+            is_append=false;
+            if(tHtml!="") {  
+          $('.itemListWrp').css('display','block');
+             if($(".itemListWrp").length==0){
+                tHtml='<div class="itemListWrp">'+tHtml+'</div>';
+                is_append=true;
+             }
+             
+             if(is_airticlelist==false){
+                $("section").parent("article").css('display','block');
                           $('#titter_frame_container').css('display','block');
-						}else{
-					       $("section").parent("article").css('display','none');
+            }else{
+                 $("section").parent("article").css('display','none');
                            $('#titter_frame_container').css('display','none');
-					   }
-					}
-					
-				  if($(".paragraph").length==0){ 
-					      if(is_append==true){
-						    $('#centerWrp').append(tHtml);
-						    $('#titter_frame_container').remove();
-							$('#titter-id').remove();
-			         	    $('#titter-template').remove();
-						  }else{
-						    $('.itemListWrp').html(tHtml);
-						    $('#titter_frame_container').remove();
-							$('#titter-id').remove();
-			         	    $('#titter-template').remove();
-						  }	
-				  }else{
-				          if(is_append==true){
-						       $('#centerWrp').append(tHtml);
-						  }else{
-						       $('.itemListWrp').html(tHtml);
-						  }	 
-				  }                                       
-				  
-				}
-		 });
+             }
+          }
+          
+          if($(".paragraph").length==0){ 
+                if(is_append==true){
+                $('#centerWrp').append(tHtml);
+                $('#titter_frame_container').remove();
+              $('#titter-id').remove();
+                    $('#titter-template').remove();
+              }else{
+                $('.itemListWrp').html(tHtml);
+                $('#titter_frame_container').remove();
+              $('#titter-id').remove();
+                    $('#titter-template').remove();
+              } 
+          }else{
+                  if(is_append==true){
+                   $('#centerWrp').append(tHtml);
+              }else{
+                   $('.itemListWrp').html(tHtml);
+              }  
+          }                                       
+          
+        }
+     });
  }
  // for list  
 
@@ -890,88 +844,91 @@ function checkUrl(){
        href = href.replace('index.html', '');  // for remove index.html
        href = href.replace('index.htm', '');  // for remove index.htm
      }
-	 if(href!= undefined && href.substr(-1) == '/') {
-		href  = href.substring(0,href.length - 1);   // for remove "/" from string "30-04-15"
-	 }
+   if(href!= undefined && href.substr(-1) == '/') {
+    href  = href.substring(0,href.length - 1);   // for remove "/" from string "30-04-15"
+   }
        //console.log(finalMenuJsonArray);
-	  
+    
      // for remove # from url
      hashName='';
-	 if(href.indexOf("#") != -1){
-	   var hrefArray = href.split("#"); 
-	   url=hrefArray['0']?hrefArray['0']:'';
-	   hashName=hrefArray['1']?hrefArray['1']:'';
+   if(href.indexOf("#") != -1){
+     var hrefArray = href.split("#"); 
+     url=hrefArray['0']?hrefArray['0']:'';
+     hashName=hrefArray['1']?hrefArray['1']:'';
        is_hashUrl=true;
-	}
-	   hashUrl="";
-	   for (i=0;i<finalMenuJsonArray.length;i++){
-	              if(finalMenuJsonArray[i].name==hashName){
-				      hashUrl=finalMenuJsonArray[i].url;
-				     getListJson(hashUrl); 
-				  }     
-	   }  
-	   	  
+  }
+     hashUrl="";
+     for (i=0;i<finalMenuJsonArray.length;i++){
+                if(finalMenuJsonArray[i].name==hashName){
+              hashUrl=finalMenuJsonArray[i].url;
+             getListJson(hashUrl); 
+          }     
+     }  
+        
 }
 // end fn
 
 
 // function for replace word to link word
 function getArticleWithLink(str,replaceleng,word,newUrl){
-			var res1 = str.substring(0,replaceleng);
-			var lengWithWord=word.length + replaceleng; 
-			var res2 = str.substring(lengWithWord);
-			return res1.concat('<a href="'+newUrl+'" >'+word+'</a>'+res2); 
+      var res1 = str.substring(0,replaceleng);
+      var lengWithWord=word.length + replaceleng; 
+      var res2 = str.substring(lengWithWord);
+      return res1.concat('<a href="'+newUrl+'" >'+word+'</a>'+res2); 
 } // end function
 
 
 var temp=0;
 // for get article paragraph with link 
 function getParaGraph(str){
-	    temp=temp+1;
-		var updateArticle='';
-		var is_para_link=false; 
-		var addedurl="";
-		var lastline="";
-		
-		for(var j=0; j < finalMetionsArray.length;j++){
+      temp=temp+1;
+    var updateArticle='';
+    var is_para_link=false; 
+    var addedurl="";
+    var lastline="";
+    
+    for(var j=0; j < finalMetionsArray.length;j++){
             
-				var paragraph=finalMetionsArray[j].para_no;
-			    var para_line=finalMetionsArray[j].para_line;
-				var linkWord=finalMetionsArray[j].linkWord;
-				var newUrl=finalMetionsArray[j].newUrl;
-			  
-			   if (temp == paragraph) {
-						if (is_para_link) {
-								linklength=(addedurl.length);
-								addedurl +='<a href="'+newUrl+'" ></a>';
-								
-								if(linklength!='' && para_line > lastline){
-									para_line=para_line + linklength;
-									lastline=finalMetionsArray[j].para_line;   
-									linklength=addedurl.length;
-								}else{
-									lastline=para_line;
-									linklength=addedurl.length;				    
-								}
-							   updateArticle= getArticleWithLink(updateArticle,para_line,linkWord,newUrl);
-					
-						}else {  // false
-								updateArticle= getArticleWithLink(str,para_line,linkWord,newUrl);
-								is_para_link=true;
-								lastline=para_line;
-								addedurl='<a href="'+newUrl+'" ></a>';
-						}
+        var paragraph=finalMetionsArray[j].para_no;
+          var para_line=finalMetionsArray[j].para_line;
+        var linkWord=finalMetionsArray[j].linkWord;
+        var newUrl=finalMetionsArray[j].newUrl;
+        
+         if (temp == paragraph) {
+            if (is_para_link) {
+                linklength=(addedurl.length);
+                addedurl +='<a href="'+newUrl+'" ></a>';
+                
+                if(linklength!='' && para_line > lastline){
+                  para_line=para_line + linklength;
+                  lastline=finalMetionsArray[j].para_line;   
+                  linklength=addedurl.length;
+                }else{
+                  lastline=para_line;
+                  linklength=addedurl.length;           
+                }
+                 updateArticle= getArticleWithLink(updateArticle,para_line,linkWord,newUrl);
+          
+            }else {  // false
+                updateArticle= getArticleWithLink(str,para_line,linkWord,newUrl);
+                is_para_link=true;
+                lastline=para_line;
+                addedurl='<a href="'+newUrl+'" ></a>';
+            }
                 } // if loop end
-				
-		 } // for loop end
-	 		
-		if(updateArticle==""){
-		   return str;
-		}else{
-		   return updateArticle;
-		}
+        
+     } // for loop end
+      
+    if(updateArticle==""){
+       return str;
+    }else{
+       return updateArticle;
+    }
 } // end function
 
-
-  return React.createFactory(Main);
+domready(function () {
+  React.render(
+        <Main />,
+        document.body
+    );
 });
