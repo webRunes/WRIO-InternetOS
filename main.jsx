@@ -1,4 +1,6 @@
-var 
+/*jshint ignore:start */
+/*jshint ignore:end */
+var
     domready = require('domready'),
     React = require('react'),
     plus = require('./js/ext/plus'),
@@ -7,6 +9,11 @@ var
     getScripts = require('./js/getScripts'),
     $ = require('jquery'),
     Showdown = require('./showdown.min'),
+    getFinalJSON = require('./js/storages/getFinalJSON'),
+	getParaGraph = require('./js/storages/getParaGraph'),
+	finalMetionsArray = require('./js/storages/finalMetionsArray'),
+	finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
+	finalListJsonArray = require('./js/storages/finalListJsonArray'),
 
     importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://wrio.s3-website-us-east-1.amazonaws.com/',
     cssUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://webrunes.github.io/',
@@ -88,129 +95,13 @@ var
 var converter = new Showdown.converter();
 
 var finalJson;
-var finalJsonArray = [];
-var finalListJsonArray = [];
 var itemListArray = [];
-var finalMenuJsonArray = [];
-var finalMetionsArray=[];
 
-
-var getFinalJSON = function(json,hasPart){
-  if(hasPart===undefined){
-    hasPart = false;
-  }
-  $.each(json,function(i,item){ 
-    comment = this;
-    var is_article = false,
-      name;
-    if(comment['@type']=='Article'){
-      is_article = true;
-      is_airticlelist=true;
-    }
-    
-    // for mention 
-     if(comment.mentions!==undefined){
-           for(var i=0; i < comment.mentions.length; i++){
-            name = comment.mentions[i].name;
-            var nameWithoutSpace = name.replace(/\s/g, "-");
-            var mentionUrl= comment.mentions[i].url;
-                      var mentionUrlComponent = mentionUrl.split("'");
-                      var linkWord=mentionUrlComponent['1'];
-            var res2 = mentionUrlComponent['2'].split(","); 
-            var para_line=parseInt(res2['1']);
-            var res3 = res2['0'].split(":");
-            var para_no=res3['1'];
-            
-            var newUrl=mentionUrlComponent['0']+nameWithoutSpace;
-            
-            rowMenu = {"name": name,"url":mentionUrl,"linkWord":linkWord,"newUrl":newUrl,"para_no":para_no,"para_line":para_line};
-              finalMetionsArray.push(rowMenu);  
-          }
-          
-     }
-    // end mention
-    
-    
-    // for menu
-    if(comment['@type']=='Article'){
-        name=comment.name;
-        url="";
-        rowMenu = {"name": name,"url":url,"class":"articleView"}
-        finalMenuJsonArray.push(rowMenu); 
-    }else if(comment['@type']=='ItemList'){
-            if(comment['itemListElement']!=undefined){
-           for(var i=0;i < comment['itemListElement'].length;i++){
-             name= comment['itemListElement'][i].name;
-             url= comment['itemListElement'][i].url;
-             rowMenu = {"name": name,"url":url,"class":"listView"}
-               finalMenuJsonArray.push(rowMenu);  
-          }
-        }
-    }
-    //end menu array
-    
-    // for list
-      if(comment['itemListElement']!==undefined){
-      is_list = true;
-        for(var i=0;i < comment['itemListElement'].length;i++){
-           name= comment['itemListElement'][i].name;
-         author= comment['itemListElement'][i].author;
-         about= comment['itemListElement'][i].about;
-         url= comment['itemListElement'][i].url;
-         image= comment['itemListElement'][i].image;
-         description= comment['itemListElement'][i].description;
-            rowList = {
-          "name": name,
-          "author": comment['name'],
-          "about": about,
-          "description": description,
-          "url": url,
-          "image": image
-        };
-        finalListJsonArray.push(rowList); 
-      }
-    }
-    // for list
-    
-
-    var articlebody = comment['articleBody'];
-    if(comment['articleBody']===undefined){
-      articlebody = '';
-    }
-    var newArticle='';
-    for(var i=0;i < articlebody.length;i++){
-      
-      var articlePara=articlebody[i];
-      var article=getParaGraph(articlePara); // for get paragraph with link
-        newArticle +=  '<p>' + article + '</p>';
-      //newArticle +=  '<p>' + articlebody[i]  + '</p>';
-    }
-    
-    var articlurl=comment['url']?comment['url']:'';
-    row = {
-      "is_article": is_article,
-      "articlename": comment['name'],
-      "articleBody": newArticle,
-      "url": articlurl,
-      "about": comment['about'],
-      "hasPart": hasPart
-    }
-    finalJsonArray.push(row);
-    //console.log((finalJsonArray).length);
-    if(comment.hasPart!==undefined){
-      if((comment.hasPart).length > 0){
-        hasParts = comment.hasPart; 
-        getFinalJSON(hasParts,true);
-      }
-    }
-  });
-  return finalJsonArray;
-};
 
 var CreateDomLeft = React.createClass({
   render: function() {    
     return (
-      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
+      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">{'&nbsp;'}</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
     );
   }
 });
@@ -340,9 +231,9 @@ var CreateDomCenter = React.createClass({
       <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
         <div className="margin">
           <Login importUrl={importUrl} theme={theme} />
-          <CreateBreadcrumb/>
-      <CreateItemList />
-          <CreateArticleList  url="comments.json" />
+          <CreateBreadcrumb />
+          <CreateItemList />
+          <CreateArticleList data={finalJson} />
           <CreateTitter scripts={window.complete_script} />
         </div>
       </div>
@@ -408,7 +299,7 @@ var Main = React.createClass({
     return (
       <div id="content" className="container-liquid">
       <div className="row row-offcanvas row-offcanvas-right">
-    <CreateDomLeft></CreateDomLeft>
+    //<CreateDomLeft></CreateDomLeft>
       <CreateDomCenter></CreateDomCenter>
       <CreateDomRight></CreateDomRight>
       </div>
@@ -418,54 +309,32 @@ var Main = React.createClass({
 });
 
 var CreateArticleList = React.createClass({
-  loadCommentsFromServer: function() {
-  this.setState({data: finalJson});
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadCommentsFromServer();
-  },
-  render: function() {
-    return (
-      <CreateArticle data={this.state.data} />
-    );
-  }
+	render: function() {
+		var commentNodes = this.props.data.map(function(comment, index) {
+			if(comment.is_article === false) {
+				return false;
+			}
+			if (comment.url !== '') {
+				return (
+					<CreatArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about}>
+						{comment.articleBody}
+					</CreatArticleLists>
+				);
+			} else {
+				return (
+					<CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+						{comment.articleBody}
+					</CreatArticleEl>
+				);
+			}
+		});
+		return (
+			<article>
+				{commentNodes}
+			</article>
+		);
+	}
 });
-
-var printJson = function(json){
-   var commentNodes = json.map(function(comment, index) {
-    if(comment.is_article==false) return false;
-      
-       if(comment.url!= ""){
-          return (
-          <CreatArticleLists articlename={comment.articlename}  url={comment.url} key={index} about={comment.about}>
-            {comment.articleBody}
-          </CreatArticleLists>
-          );    
-        }else{
-          return (
-          <CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
-            {comment.articleBody}
-          </CreatArticleEl>
-          );
-          }
-    });
-  
-    return (
-        <article>
-        {commentNodes}
-        </article>
-    );
-}
-
-var CreateArticle = React.createClass({
-  render: function() {
-  return printJson(this.props.data);
-  }
-});
-
 
 // for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
 var CreatArticleLists = React.createClass({
@@ -868,67 +737,9 @@ function checkUrl(){
 }
 // end fn
 
-
-// function for replace word to link word
-function getArticleWithLink(str,replaceleng,word,newUrl){
-      var res1 = str.substring(0,replaceleng);
-      var lengWithWord=word.length + replaceleng; 
-      var res2 = str.substring(lengWithWord);
-      return res1.concat('<a href="'+newUrl+'" >'+word+'</a>'+res2); 
-} // end function
-
-
-var temp=0;
-// for get article paragraph with link 
-function getParaGraph(str){
-      temp=temp+1;
-    var updateArticle='';
-    var is_para_link=false; 
-    var addedurl="";
-    var lastline="";
-    
-    for(var j=0; j < finalMetionsArray.length;j++){
-            
-        var paragraph=finalMetionsArray[j].para_no;
-          var para_line=finalMetionsArray[j].para_line;
-        var linkWord=finalMetionsArray[j].linkWord;
-        var newUrl=finalMetionsArray[j].newUrl;
-        
-         if (temp == paragraph) {
-            if (is_para_link) {
-                linklength=(addedurl.length);
-                addedurl +='<a href="'+newUrl+'" ></a>';
-                
-                if(linklength!='' && para_line > lastline){
-                  para_line=para_line + linklength;
-                  lastline=finalMetionsArray[j].para_line;   
-                  linklength=addedurl.length;
-                }else{
-                  lastline=para_line;
-                  linklength=addedurl.length;           
-                }
-                 updateArticle= getArticleWithLink(updateArticle,para_line,linkWord,newUrl);
-          
-            }else {  // false
-                updateArticle= getArticleWithLink(str,para_line,linkWord,newUrl);
-                is_para_link=true;
-                lastline=para_line;
-                addedurl='<a href="'+newUrl+'" ></a>';
-            }
-                } // if loop end
-        
-     } // for loop end
-      
-    if(updateArticle==""){
-       return str;
-    }else{
-       return updateArticle;
-    }
-} // end function
-
 domready(function () {
-  React.render(
-        <Main />,
-        document.body
-    );
+	React.render(
+		<Main />,
+		document.body
+	);
 });
