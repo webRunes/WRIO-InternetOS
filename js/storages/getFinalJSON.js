@@ -102,7 +102,7 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		}
 		var articlurl = comment.url || '';
 		finalJsonArray.push({
-			'isArticle': isArticle,
+			'is_article': isArticle,
 			'articlename': comment.name,
 			'articleBody': newArticle,
 			'url': articlurl,

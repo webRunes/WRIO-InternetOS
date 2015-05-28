@@ -15,10 +15,12 @@ var
 	finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
 	finalListJsonArray = require('./js/storages/finalListJsonArray'),
 
-    importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://wrio.s3-website-us-east-1.amazonaws.com/',
-    cssUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'http://webrunes.github.io/',
-    theme = 'Default-WRIO-Theme',
-    themeImportUrl = importUrl + theme + '/widget/',
+	CreateArticleList = require('./js/components/CreateArticleList'),
+
+    importUrl = require('./js/global').importUrl,
+    cssUrl = require('./js/global').cssUrl,
+    theme = require('./js/global').theme,
+    themeImportUrl = require('./js/global').themeImportUrl,
 
     wrio = {
         storageKey: 'plusLdModel',
@@ -295,136 +297,20 @@ var Main = React.createClass({
   render: function() {
     window.complete_script = getScripts();
     finalJson = getFinalJSON(complete_script);
-    checkUrl(); // for check # url 
+    checkUrl(); // for check # url
     return (
-      <div id="content" className="container-liquid">
-      <div className="row row-offcanvas row-offcanvas-right">
-    //<CreateDomLeft></CreateDomLeft>
-      <CreateDomCenter></CreateDomCenter>
-      <CreateDomRight></CreateDomRight>
-      </div>
-      </div>
+		<div id="content" className="container-liquid">
+			<div className="row row-offcanvas row-offcanvas-right">
+				<CreateDomLeft />
+				<CreateDomCenter />
+				<CreateDomRight />
+			</div>
+		</div>
     );
   }
 });
 
-var CreateArticleList = React.createClass({
-	render: function() {
-		var commentNodes = this.props.data.map(function(comment, index) {
-			if(comment.is_article === false) {
-				return false;
-			}
-			if (comment.url !== '') {
-				return (
-					<CreatArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about}>
-						{comment.articleBody}
-					</CreatArticleLists>
-				);
-			} else {
-				return (
-					<CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
-						{comment.articleBody}
-					</CreatArticleEl>
-				);
-			}
-		});
-		return (
-			<article>
-				{commentNodes}
-			</article>
-		);
-	}
-});
 
-// for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
-var CreatArticleLists = React.createClass({
-  loadArticleFromServer: function(title,urlArticle,about,rawMarkup) {
-  var url = themeImportUrl + 'itemList.htm';  // itemList Path  
-  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
-  var tHtml="";
-  
-  $.ajax({
-      url: url,
-      dataType: 'html',
-      success: function(data) {
-          
-        var data = data.replace('<ul class="actions"><li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li><li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li></ul>', '');
-        
-          var listHtml = data.replace("{title}", "<a href='"+urlArticle+"'>"+title+"</a>")
-         .replace("{sub_title}",title)
-         .replace("{about}",about)
-         .replace("{image}",cssUrl + theme + '/img/no-photo-200x200.png')
-         .replace("{created_date}","22 Jun 2013")
-         .replace("{rating}", "244")
-         .replace("{readers}", "1,634")
-         .replace("{access}", "Free");
-          
-          tHtml="<div id='"+CreatArticleID+"'>"+listHtml+"</div>";
-       
-       this.setState({data: tHtml});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    var rawMarkup = converter.makeHtml(this.props.children.toString());
-    this.loadArticleFromServer(this.props.articlename,this.props.url,this.props.about,rawMarkup);
-  },
-  render: function() {
-     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
-     </section>;
-  }
-});
-
-
-var CreatArticleEl = React.createClass({
-  loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
-  var url = importUrl + theme + '/widget/article.htm';  // Article Path  
-  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
-  $.ajax({
-      url: url,
-      dataType: 'html',
-     // data: { haspart : title },
-      success: function(data) {
-     //alert(data);
-     if(hasPart==true){
-        if(rawMarkup==""){
-            var html='<h2 id="{this.props.articleid}">{this.props.articlename}</h2>';
-        }else{
-            var html=data.replace('<header class="col-xs-12"><h1 id="{this.props.articleid}">{this.props.articlename}</h1></header>','<h2 id={this.props.articleid}>{this.props.articlename}</h2>');
-        }
-      }else{
-        var html=data;
-      }
-      var res = html.replace(/{this.props.articlename}/g,title);
-      res = res.replace(/{this.props.articleid}/g,CreatArticleID);
-       res = res.replace("{description}",children);
-       res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
-       res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
-       this.setState({data: res});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-    var rawMarkup = converter.makeHtml(this.props.children.toString());
-    this.loadArticleFromServer(this.props.articlename,this.props.children,this.props.hasPart,rawMarkup);
-  },
-  render: function() {
-     return data =  <section  dangerouslySetInnerHTML={{__html: this.state.data}}>
-     </section>;
-  }
-});
 
 
 var Comment = React.createClass({
