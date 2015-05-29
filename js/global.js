@@ -7,5 +7,6 @@ module.exports = {
 	importUrl: importUrl,
 	cssUrl: cssUrl,
 	theme: theme,
-	themeImportUrl: themeImportUrl
+	themeImportUrl: themeImportUrl,
+	isAirticlelist: false
 };

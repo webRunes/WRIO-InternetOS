@@ -1,7 +1,8 @@
 var getParaGraph = require('./getParaGraph'),
 	finalMetionsArray = require('./finalMetionsArray'),
 	finalMenuJsonArray = require('./finalMenuJsonArray'),
-	finalListJsonArray = require('./finalListJsonArray');
+	finalListJsonArray = require('./finalListJsonArray'),
+	isAirticlelist = require('../global').isAirticlelist;
 
 var getFinalJSON = function (json, hasPart, finalJsonArray) {
 	var
@@ -23,6 +24,7 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		var isArticle = false;
 		if(comment['@type'] === 'Article'){
 			isArticle = true;
+			isAirticlelist = true;
 		}
 
 		mentions = comment.mentions;
