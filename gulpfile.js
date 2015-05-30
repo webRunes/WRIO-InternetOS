@@ -29,15 +29,19 @@ gulp.task('clear', function () {
 gulp.task('debug', ['debugServer', 'download']);
 
 gulp.task('debugServer', function() {
-	server = 'http://localhost:3000/';
+	server = 'http://localhost:3000/node_modules/';
 });
 
 gulp.task('download', function() {
-	download([
-		server + 'Plus-WRIO-App/js/client.js',
-		server + 'Plus-WRIO-App/js/plus.js',
-		server + 'Login-WRIO-App/widget/login.jsx',
-		server + 'Titter-WRIO-App/widget/titter.jsx'
-	])
+	download(
+		[
+			'Plus-WRIO-App/js/client.js',
+			'Plus-WRIO-App/js/plus.js',
+			'Login-WRIO-App/widget/login.jsx',
+			'Titter-WRIO-App/widget/titter.jsx'
+		].map(function (path) {
+			return server + path;
+		})
+	)
 		.pipe(gulp.dest('./js/ext'));
 });
