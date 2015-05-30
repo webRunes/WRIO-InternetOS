@@ -1,4 +1,4 @@
-var getParaGraph = require('./getParaGraph'),
+var getParagraph = require('./getParagraph'),
 	finalMetionsArray = require('./finalMetionsArray'),
 	finalMenuJsonArray = require('./finalMenuJsonArray'),
 	finalListJsonArray = require('./finalListJsonArray'),
@@ -35,19 +35,17 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 				var nameWithoutSpace = name.replace(/\s/g, '-');
 				var mentionUrl = mention.url;
 				var mentionUrlComponent = mentionUrl.split('\'');
-				var linkWord = mentionUrlComponent['1'];
-				var res2 = mentionUrlComponent['2'].split(',');
-				var paraLine = parseInt(res2['1']);
-				var res3 = res2['0'].split(':');
-				var paraNo = res3['1'];
-				var newUrl = mentionUrlComponent['0'] + nameWithoutSpace;
+				var linkWord = mentionUrlComponent[1];
+				var res2 = mentionUrlComponent[2].split(',');
+				var res3 = res2[0].split(':');
+				var newUrl = mentionUrlComponent[0] + nameWithoutSpace;
 				finalMetionsArray.push({
-					'name': name,
-					'url': mentionUrl,
-					'linkWord': linkWord,
-					'newUrl': newUrl,
-					'para_no': paraNo,
-					'para_line': paraLine
+					name: name,
+					url: mentionUrl,
+					linkWord: linkWord,
+					newUrl: newUrl,
+					paragraphNo: res3[1],
+					paragraphLine: parseInt(res2[1])
 				});
             }
         }
@@ -98,8 +96,8 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		var articlebody = comment.articleBody || '';
 		var newArticle = '';
 		for (i = 0; i < articlebody.length; i += 1) {
-			var articlePara = articlebody[i];
-			var article = getParaGraph(articlePara); // for get paragraph with link
+			var articleParagraph = articlebody[i];
+			var article = getParagraph(articleParagraph); // for get paragraph with link
 			newArticle += '<p>' + article + '</p>';
 		}
 		var articlurl = comment.url || '';

@@ -1,6 +1,6 @@
 var React = require('react'),
-	CreatArticleLists = require('./CreatArticleLists'),
-	CreatArticleEl = require('./CreatArticleEl');
+	CreateArticleLists = require('./CreateArticleLists'),
+	CreateArticleElement = require('./CreateArticleElement');
 
 var CreateArticleList = React.createClass({
 	render: function() {
@@ -10,15 +10,15 @@ var CreateArticleList = React.createClass({
 			}
 			if (comment.url !== '') {
 				return (
-					<CreatArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about}>
+					<CreateArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about}>
 						{comment.articleBody}
-					</CreatArticleLists>
+					</CreateArticleLists>
 				);
 			} else {
 				return (
-					<CreatArticleEl articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+					<CreateArticleElement articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
 						{comment.articleBody}
-					</CreatArticleEl>
+					</CreateArticleElement>
 				);
 			}
 		});

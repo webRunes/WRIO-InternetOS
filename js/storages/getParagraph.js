@@ -11,38 +11,38 @@ function getArticleWithLink(str, replaceleng, word, newUrl){
 
 var temp = 0;
 // for get article paragraph with link
-function getParaGraph(str){
+function getParagraph(str){
       temp = temp + 1;
     var updateArticle = '';
-    var isParaLink = false;
+    var isParagraphLink = false;
     var addedurl = '';
     var lastline = '';
 
     for (var j = 0; j < finalMetionsArray.length; j += 1) {
-        var paragraph = finalMetionsArray[j].para_no;
-        var paraLine = finalMetionsArray[j].para_line;
+        var paragraph = finalMetionsArray[j].paragraphNo;
+        var paragraphLine = finalMetionsArray[j].paragraphLine;
         var linkWord = finalMetionsArray[j].linkWord;
         var newUrl = finalMetionsArray[j].newUrl;
 
          if (temp === paragraph) {
-            if (isParaLink) {
+            if (isParagraphLink) {
                 var linklength = (addedurl.length);
                 addedurl += '<a href="' + newUrl + '" ></a>';
 
-                if (linklength !== '' && paraLine > lastline){
-                  paraLine += linklength;
-                  lastline = finalMetionsArray[j].para_line;
+                if (linklength !== '' && paragraphLine > lastline){
+                  paragraphLine += linklength;
+                  lastline = finalMetionsArray[j].paragraphLine;
                   linklength = addedurl.length;
                 } else {
-                  lastline = paraLine;
+                  lastline = paragrLine;
                   linklength = addedurl.length;
                 }
-                 updateArticle = getArticleWithLink(updateArticle, paraLine, linkWord, newUrl);
+                 updateArticle = getArticleWithLink(updateArticle, paragraphLine, linkWord, newUrl);
 
             }else {  // false
-                updateArticle = getArticleWithLink(str, paraLine, linkWord, newUrl);
-                isParaLink = true;
-                lastline = paraLine;
+                updateArticle = getArticleWithLink(str, paragraphLine, linkWord, newUrl);
+                isParagraphLink = true;
+                lastline = paragraphLine;
                 addedurl = '<a href="' + newUrl + '" ></a>';
             }
                 } // if loop end
@@ -54,4 +54,4 @@ function getParaGraph(str){
     }
 } // end function
 
-module.exports = getParaGraph;
+module.exports = getParagraph;

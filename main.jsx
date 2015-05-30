@@ -11,7 +11,6 @@ var
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
     getFinalJSON = require('./js/storages/getFinalJSON'),
-    getParaGraph = require('./js/storages/getParaGraph'),
     finalMetionsArray = require('./js/storages/finalMetionsArray'),
     finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
     finalListJsonArray = require('./js/storages/finalListJsonArray'),
