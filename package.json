@@ -1,5 +1,9 @@
 {
   "name": "WRIO-InternetOS",
+  "version": "1.0.0",
+  "bin" : {
+    "WRIO-InternetOS" : "./bin.js"
+  },
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
   "repository": "https://github.com/webRunes/WRIO-InternetOS.git",
