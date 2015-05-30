@@ -11,7 +11,7 @@ var
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
     getFinalJSON = require('./js/storages/getFinalJSON'),
-    finalMetionsArray = require('./js/storages/finalMetionsArray'),
+    finalMentionsArray = require('./js/storages/finalMentionsArray'),
     finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
     finalListJsonArray = require('./js/storages/finalListJsonArray'),
 
@@ -32,7 +32,6 @@ var
     storeageKeys = [],
     href = window.location.href,
     is_list = false,
-    isAirticlelist = require('./js/global').isAirticlelist,
     is_hashUrl = false,
     is_cover = false,
     addBootstrapLink = require('./js/addBootstrapLink');

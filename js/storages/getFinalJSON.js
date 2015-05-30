@@ -1,8 +1,7 @@
 var getParagraph = require('./getParagraph'),
-	finalMetionsArray = require('./finalMetionsArray'),
+	finalMentionsArray = require('./finalMentionsArray'),
 	finalMenuJsonArray = require('./finalMenuJsonArray'),
-	finalListJsonArray = require('./finalListJsonArray'),
-	isAirticlelist = require('../global').isAirticlelist;
+	finalListJsonArray = require('./finalListJsonArray');
 
 var getFinalJSON = function (json, hasPart, finalJsonArray) {
 	var
@@ -24,7 +23,6 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		var isArticle = false;
 		if(comment['@type'] === 'Article'){
 			isArticle = true;
-			isAirticlelist = true;
 		}
 
 		mentions = comment.mentions;
@@ -39,7 +37,7 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 				var res2 = mentionUrlComponent[2].split(',');
 				var res3 = res2[0].split(':');
 				var newUrl = mentionUrlComponent[0] + nameWithoutSpace;
-				finalMetionsArray.push({
+				finalMentionsArray.push({
 					name: name,
 					url: mentionUrl,
 					linkWord: linkWord,

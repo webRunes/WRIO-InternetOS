@@ -1,4 +1,4 @@
-var finalMetionsArray = require('./finalMetionsArray');
+var finalMentionsArray = require('./finalMentionsArray');
 
 // function for replace word to link word
 function getArticleWithLink(str, replaceleng, word, newUrl){
@@ -18,11 +18,11 @@ function getParagraph(str){
     var addedurl = '';
     var lastline = '';
 
-    for (var j = 0; j < finalMetionsArray.length; j += 1) {
-        var paragraph = finalMetionsArray[j].paragraphNo;
-        var paragraphLine = finalMetionsArray[j].paragraphLine;
-        var linkWord = finalMetionsArray[j].linkWord;
-        var newUrl = finalMetionsArray[j].newUrl;
+    for (var j = 0; j < finalMentionsArray.length; j += 1) {
+        var paragraph = finalMentionsArray[j].paragraphNo;
+        var paragraphLine = finalMentionsArray[j].paragraphLine;
+        var linkWord = finalMentionsArray[j].linkWord;
+        var newUrl = finalMentionsArray[j].newUrl;
 
          if (temp === paragraph) {
             if (isParagraphLink) {
@@ -31,10 +31,10 @@ function getParagraph(str){
 
                 if (linklength !== '' && paragraphLine > lastline){
                   paragraphLine += linklength;
-                  lastline = finalMetionsArray[j].paragraphLine;
+                  lastline = finalMentionsArray[j].paragraphLine;
                   linklength = addedurl.length;
                 } else {
-                  lastline = paragrLine;
+                  lastline = paragraphLine;
                   linklength = addedurl.length;
                 }
                  updateArticle = getArticleWithLink(updateArticle, paragraphLine, linkWord, newUrl);
