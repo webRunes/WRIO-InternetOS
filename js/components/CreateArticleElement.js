@@ -7,7 +7,7 @@ var React = require('react'),
 var CreatArticleEl = React.createClass({
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
   var url = importUrl + theme + '/widget/article.htm';  // Article Path  
-  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
+  var CreateArticleID = title.replace(/\s/g, '_'); // Article ID
   $.ajax({
       url: url,
       dataType: 'html',
@@ -24,7 +24,7 @@ var CreatArticleEl = React.createClass({
         var html=data;
       }
       var res = html.replace(/{this.props.articlename}/g,title);
-      res = res.replace(/{this.props.articleid}/g,CreatArticleID);
+      res = res.replace(/{this.props.articleid}/g, CreateArticleID);
        res = res.replace("{description}",children);
        res = res.replace(/<p>/g,'<div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
        res = res.replace(/p>/g,'</p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');

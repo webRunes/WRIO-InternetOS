@@ -1,8 +1,7 @@
-var getParaGraph = require('./getParaGraph'),
-	finalMetionsArray = require('./finalMetionsArray'),
+var getParagraph = require('./getParagraph'),
+	finalMentionsArray = require('./finalMentionsArray'),
 	finalMenuJsonArray = require('./finalMenuJsonArray'),
-	finalListJsonArray = require('./finalListJsonArray'),
-	isAirticlelist = require('../global').isAirticlelist;
+	finalListJsonArray = require('./finalListJsonArray');
 
 var getFinalJSON = function (json, hasPart, finalJsonArray) {
 	var
@@ -24,7 +23,6 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		var isArticle = false;
 		if(comment['@type'] === 'Article'){
 			isArticle = true;
-			isAirticlelist = true;
 		}
 
 		mentions = comment.mentions;
@@ -35,19 +33,17 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 				var nameWithoutSpace = name.replace(/\s/g, '-');
 				var mentionUrl = mention.url;
 				var mentionUrlComponent = mentionUrl.split('\'');
-				var linkWord = mentionUrlComponent['1'];
-				var res2 = mentionUrlComponent['2'].split(',');
-				var paraLine = parseInt(res2['1']);
-				var res3 = res2['0'].split(':');
-				var paraNo = res3['1'];
-				var newUrl = mentionUrlComponent['0'] + nameWithoutSpace;
-				finalMetionsArray.push({
-					'name': name,
-					'url': mentionUrl,
-					'linkWord': linkWord,
-					'newUrl': newUrl,
-					'para_no': paraNo,
-					'para_line': paraLine
+				var linkWord = mentionUrlComponent[1];
+				var res2 = mentionUrlComponent[2].split(',');
+				var res3 = res2[0].split(':');
+				var newUrl = mentionUrlComponent[0] + nameWithoutSpace;
+				finalMentionsArray.push({
+					name: name,
+					url: mentionUrl,
+					linkWord: linkWord,
+					newUrl: newUrl,
+					paragraphNo: res3[1],
+					paragraphLine: parseInt(res2[1])
 				});
             }
         }
@@ -98,8 +94,8 @@ var getFinalJSON = function (json, hasPart, finalJsonArray) {
 		var articlebody = comment.articleBody || '';
 		var newArticle = '';
 		for (i = 0; i < articlebody.length; i += 1) {
-			var articlePara = articlebody[i];
-			var article = getParaGraph(articlePara); // for get paragraph with link
+			var articleParagraph = articlebody[i];
+			var article = getParagraph(articleParagraph); // for get paragraph with link
 			newArticle += '<p>' + article + '</p>';
 		}
 		var articlurl = comment.url || '';

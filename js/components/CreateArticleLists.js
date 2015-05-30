@@ -5,10 +5,10 @@ var React = require('react'),
   themeImportUrl = require('../global').themeImportUrl;
 
 // for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
-var CreatArticleLists = React.createClass({
+var CreateArticleLists = React.createClass({
   loadArticleFromServer: function(title, urlArticle, about) {
   var url = themeImportUrl + 'itemList.htm';  // itemList Path
-  var CreatArticleID = title.replace(/\s/g, '_'); // Article ID
+  var CreateArticleID = title.replace(/\s/g, '_'); // Article ID
   var tHtml = '';
 
   $.ajax({
@@ -27,7 +27,7 @@ var CreatArticleLists = React.createClass({
          .replace("{readers}", "1,634")
          .replace("{access}", "Free");
           
-          tHtml="<div id='"+CreatArticleID+"'>"+listHtml+"</div>";
+          tHtml = "<div id='" + CreateArticleID + "'>" + listHtml + "</div>";
        
        this.setState({data: tHtml});
       }.bind(this),
@@ -49,4 +49,4 @@ var CreatArticleLists = React.createClass({
   }
 });
 
-module.exports = CreatArticleLists;
+module.exports = CreateArticleLists;
