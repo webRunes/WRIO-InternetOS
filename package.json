@@ -12,18 +12,12 @@
   "devDependencies": {
     "aws-sdk-apis": "*",
     "body-parser": "*",
-    "browserify": "^10.2.1",
-    "browserify-notify": "^1.1.2",
-    "browserify-shim": "^3.8.7",
     "debug": "*",
     "depd": "*",
     "destroy": "*",
-    "envify": "^3.4.0",
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
-    "gulp": "^3.8.11",
-    "gulp-download": "0.0.1",
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
@@ -33,12 +27,10 @@
     "on-finished": "*",
     "proxy-addr": "*",
     "qs": "*",
-    "react-tools": "^0.13.3",
-    "reactify": "^1.1.1",
+
     "supervisor": "*",
     "uglifyify": "^3.0.1",
     "utils-merge": "*",
-    "watchify": "^3.2.1",
     "when": "~3.1.0",
     "xml2js": "*",
     "xmlbuilder": "*"
@@ -57,12 +49,19 @@
     "jquery": "$"
   },
   "dependencies": {
+    "gulp": "^3.8.11",
+    "envify": "^3.4.0",
+    "gulp-download": "0.0.1",
+    "browserify": "^10.2.1",
+    "browserify-notify": "^1.1.2",
+    "browserify-shim": "^3.8.7",
+    "watchify": "^3.2.1",
+    "react-tools": "^0.13.3",
+    "reactify": "^1.1.1",
     "bluebird": "^2.9.26",
     "domready": "^1.0.8",
     "moment": "^2.10.3",
     "npm": "^2.10.1",
-    "react": "^0.13.3",
-    "react-script-loader": "git://github.com/yariv/ReactScriptLoader",
-    "reflux": "^0.2.7"
+    "react": "^0.13.3"
   }
 }
