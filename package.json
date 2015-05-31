@@ -1,7 +1,5 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.0",
-  "bin" : "./bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
   "repository": "https://github.com/webRunes/WRIO-InternetOS.git",
@@ -27,9 +25,7 @@
     "on-finished": "*",
     "proxy-addr": "*",
     "qs": "*",
-
     "supervisor": "*",
-    "uglifyify": "^3.0.1",
     "utils-merge": "*",
     "when": "~3.1.0",
     "xml2js": "*",
@@ -39,7 +35,6 @@
     "start": "gulp && npm run bundleP && gulp clear",
     "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "build": "gulp debug && npm run bundleD",
     "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {
@@ -49,19 +44,22 @@
     "jquery": "$"
   },
   "dependencies": {
-    "gulp": "^3.8.11",
-    "envify": "^3.4.0",
-    "gulp-download": "0.0.1",
+    "watchify": "^3.2.1",
+    "uglifyify": "^3.0.1",
     "browserify": "^10.2.1",
     "browserify-notify": "^1.1.2",
     "browserify-shim": "^3.8.7",
-    "watchify": "^3.2.1",
+    "envify": "^3.4.0",
+    "gulp": "^3.8.11",
+    "gulp-download": "0.0.1",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "bluebird": "^2.9.26",
     "domready": "^1.0.8",
     "moment": "^2.10.3",
     "npm": "^2.10.1",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-script-loader": "git://github.com/yariv/ReactScriptLoader",
+    "reflux": "^0.2.7"
   }
 }
