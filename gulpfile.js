@@ -1,8 +1,7 @@
 var gulp = require('gulp'),
     download = require('gulp-download'),
     npm = require('npm'),
-    package = require('./package.json'),
-    server = 'http://wrio.s3-website-us-east-1.amazonaws.com/';
+    package = require('./package.json');
 
 gulp.task('default', ['download']);
 
@@ -14,23 +13,9 @@ gulp.task('clear', function () {
     });
 });
 
-gulp.task('debug', ['debugServer', 'download']);
-
-gulp.task('debugServer', function() {
-    server = 'http://localhost:3000/';
-});
-
 gulp.task('download', function() {
-    download(
-        [
-            'Plus-WRIO-App/js/client.js',
-            'Plus-WRIO-App/js/plus.js',
-            'Titter-WRIO-App/widget/titter.jsx'
-        ].map(function (path) {
-            return server + path;
-        }).concat([
-            'http://code.jquery.com/jquery-2.1.4.js'//TODO: replace jquery with superagent
-        ])
-    )
+    download([
+        'http://code.jquery.com/jquery-2.1.4.js'//TODO: replace jquery with superagent
+    ])
         .pipe(gulp.dest('./js/ext'));
 });
