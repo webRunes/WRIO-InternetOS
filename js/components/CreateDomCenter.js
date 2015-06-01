@@ -1,5 +1,5 @@
 var React = require('react'),
-    CreateTitter = require('../ext/titter.jsx'),
+    CreateTitter = require('titter-wrio-app'),
     Login = require('passport-signin'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,

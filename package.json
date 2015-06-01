@@ -35,10 +35,10 @@
   },
   "scripts": {
     "start": "gulp && npm run bundleP && gulp clear",
-    "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "build": "gulp debug && npm run bundleD",
-    "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+    "bundleP": "browserify -g browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "bundleD": "browserify -g browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "build": "gulp && npm run bundleD",
+    "watch": "gulp && watchify -g browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {
     "jquery": "./js/ext/jquery-2.1.4.js"
