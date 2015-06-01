@@ -1,10 +1,11 @@
 var React = require('react'),
     importUrl = require('../global').importUrl,
-    theme = require('../global').theme,
-    Showdown = require('../../showdown.min'),
-    converter = new Showdown.converter();
+    theme = require('../global').theme;
 
-var CreatArticleEl = React.createClass({
+module.exports = React.createClass({
+  propTypes: {
+    converter: React.PropTypes.object.isRequired
+  },
   loadArticleFromServer: function(title,children,hasPart,rawMarkup) {
   var url = importUrl + theme + '/widget/article.htm';  // Article Path  
   var CreateArticleID = title.replace(/\s/g, '_'); // Article ID
@@ -39,7 +40,7 @@ var CreatArticleEl = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-    var rawMarkup = converter.makeHtml(this.props.children.toString());
+    var rawMarkup = this.props.converter.makeHtml(this.props.children.toString());
     this.loadArticleFromServer(this.props.articlename, this.props.children, this.props.hasPart,rawMarkup);
   },
   render: function() {
@@ -48,5 +49,3 @@ var CreatArticleEl = React.createClass({
     );
   }
 });
-
-module.exports = CreatArticleEl;
