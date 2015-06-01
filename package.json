@@ -62,6 +62,8 @@
     "reflux": "^0.2.7",
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git"
+    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
+    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
+    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git"
   }
 }
