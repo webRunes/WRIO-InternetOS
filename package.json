@@ -1,5 +1,7 @@
 {
   "name": "WRIO-InternetOS",
+  "version": "1.0.0",
+  "bin" : "./bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
   "repository": "https://github.com/webRunes/WRIO-InternetOS.git",
@@ -35,6 +37,7 @@
     "start": "gulp && npm run bundleP && gulp clear",
     "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "build": "gulp debug && npm run bundleD",
     "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {
@@ -55,7 +58,6 @@
     "moment": "^2.10.3",
     "npm": "^2.10.1",
     "react": "^0.13.3",
-    "react-script-loader": "git://github.com/yariv/ReactScriptLoader",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "reflux": "^0.2.7",
