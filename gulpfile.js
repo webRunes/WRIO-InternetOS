@@ -29,7 +29,9 @@ gulp.task('download', function() {
             'Titter-WRIO-App/widget/titter.jsx'
         ].map(function (path) {
             return server + path;
-        })
+        }).concat([
+            'http://code.jquery.com/jquery-2.1.4.js'
+        ])
     )
         .pipe(gulp.dest('./js/ext'));
 });

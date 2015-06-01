@@ -41,7 +41,7 @@
     "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {
-    "jquery": "./jquery.min.js"
+    "jquery": "./js/ext/jquery-2.1.4.js"
   },
   "browserify-shim": {
     "jquery": "$"
