@@ -55,7 +55,6 @@
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
     "gulp-download": "0.0.1",
-    "moment": "^2.10.3",
     "npm": "^2.10.1",
     "react": "^0.13.3",
     "react-tools": "^0.13.3",
@@ -63,6 +62,6 @@
     "reflux": "^0.2.7",
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "login": "git+https://git@github.com/webRunes/Login-WRIO-App.git"
+    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git"
   }
 }
