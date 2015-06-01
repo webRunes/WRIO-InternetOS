@@ -29,7 +29,7 @@ gulp.task('clear', function () {
 gulp.task('debug', ['debugServer', 'download']);
 
 gulp.task('debugServer', function() {
-	server = 'http://localhost:8080/';
+	server = 'http://localhost:3000/';
 });
 
 gulp.task('download', function() {

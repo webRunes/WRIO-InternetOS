@@ -1,12 +1,12 @@
 /*jshint ignore:start */
 /*jshint ignore:end */
+/*global complete_script*/
 var
     domready = require('domready'),
     React = require('react'),
+    Reflux = require('reflux'),
     plus = require('./js/ext/plus'),
-    CreateTitter = require('./js/ext/titter.jsx'),
-    Login = require('./js/ext/login.jsx'),
-    getScripts = require('./js/getScripts'),
+    scriptsStore = require('./js/storages/scripts'),
     $ = require('jquery'),
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
@@ -15,7 +15,8 @@ var
     finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
     finalListJsonArray = require('./js/storages/finalListJsonArray'),
 
-    CreateArticleList = require('./js/components/CreateArticleList'),
+    CreateDomCenter = require('./js/components/CreateDomCenter'),
+    scriptsActions = require('./js/actions/scripts'),
 
     importUrl = require('./js/global').importUrl,
     cssUrl = require('./js/global').cssUrl,
@@ -31,7 +32,6 @@ var
     updatedStorageHtml = "",
     storeageKeys = [],
     href = window.location.href,
-    is_list = false,
     is_hashUrl = false,
     is_cover = false,
     addBootstrapLink = require('./js/addBootstrapLink');
@@ -43,7 +43,7 @@ var itemListArray = [];
 
 
 var CreateDomLeft = React.createClass({
-  render: function() {    
+  render: function() {
     return (
       <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
     );
@@ -56,22 +56,22 @@ var CreateLeftCommentMenus = React.createClass({
         themeImportUrl + 'defaultList.htm',
         function (result) {
             var e = document.createElement('div');
-            e.innerHTML = result
-            localStorage.setItem("plusTabItem", JSON.stringify(JSON.parse(e.getElementsByTagName('script')[0].innerText).itemListElement));
+            e.innerHTML = result;
+            localStorage.setItem('plusTabItem', JSON.stringify(JSON.parse(e.getElementsByTagName('script')[0].innerText).itemListElement));
         }
     );
     plus.updatePlusStorage();
   },
   render: function() {
-    return (    
-    <CreateLeftItemMenu />    
+    return (
+    <CreateLeftItemMenu />
     );
-  }           
+  }
 });
 
 var CreateLeftItemMenu = React.createClass({
     render: function() {
-        return (    
+        return (
             <section />
         );
     }
@@ -130,6 +130,9 @@ var CreateCommentMenus = React.createClass({
 });
 
 var CreateItemMenu = React.createClass({
+  propTypes: {
+    data: React.PropTypes.array.isRequired
+  },
   render: function() {
     var commentMenus = this.props.data.map(function(comment, index) {
       var commentMenustring = comment.articlename.replace(/\s/g, '_');
@@ -137,99 +140,30 @@ var CreateItemMenu = React.createClass({
       return (
         <li key={index}>
             <a href={href}>{comment.articlename}</a>
-        </li>   
+        </li>
       );
-    });        
-    
-    return (    
+    });
+    return (
         <ul className="nav nav-pills nav-stacked">
-        {commentMenus}
+            {commentMenus}
         </ul>
     );
   }
 });
 
-
-var CreateDomCenter = React.createClass({
-  render: function() {
-    return (
-      <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
-        <div className="margin">
-          <Login importUrl={importUrl} theme={theme} />
-          <CreateBreadcrumb />
-          <CreateItemList />
-          <CreateArticleList data={finalJson} />
-          <CreateTitter scripts={window.complete_script} />
-        </div>
-      </div>
-    );
-  }
-});
-
-var CreateBreadcrumb = React.createClass({
-  render: function() {
-   
-         var htmlBreadcrumb='<ul class="breadcrumb controls tooltip-demo"><li title="Read time" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-time"></span>4-5 minutes</li><li title="Last modified" data-placement="top" data-toggle="tooltip"><span class="glyphicon glyphicon-calendar"></span>30 May, 2014</li></ul><ul itemprop="breadcrumb" class="breadcrumb"><li class="active">Read</li><li><a href="#">Edit</a></li></ul>';
-   
-      var rawMarkup = converter.makeHtml(htmlBreadcrumb.toString());
-    if(rawMarkup === "") return null;
-      return (
-        <section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
-      );
-  }
-});
-
-
-// for list
-var CreateItemList = React.createClass({
-  loadCommentsFromServer: function() {
-  
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
-   // for list tab
-    if(is_list==true){
-     localStorage.setItem("myListItem", JSON.stringify(finalListJsonArray ));  //set plus tab item
-    // getlist();
-  }
-  // for list tab
-  this.loadCommentsFromServer();
-  },
-  render: function() {
-    return (  
-            <CreateList data={this.state.data} />
-   );
-  }
-});
-
-var CreateList = React.createClass({
-  render: function() {
-      var rawMarkup = converter.makeHtml(this.props.data.toString());
-    if(rawMarkup=="") return false;
-      return (                    
-    <section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>
-      );
-  }
-});
-// for list
-
-
 var Main = React.createClass({
-  render: function() {
-    window.complete_script = getScripts();
-    finalJson = getFinalJSON(complete_script);
-    return (
-        <div id="content" className="container-liquid">
-            <div className="row row-offcanvas row-offcanvas-right">
-                <CreateDomLeft />
-                <CreateDomCenter />
-                <CreateDomRight data={finalMenuJsonArray} />
+    mixins: [Reflux.connect(getFinalJSON, 'jsonld')],
+    render: function() {
+        return (
+            <div id="content" className="container-liquid">
+                <div className="row row-offcanvas row-offcanvas-right">
+                    <CreateDomLeft />
+                    <CreateDomCenter converter={converter} data={this.state.jsonld} />
+                    <CreateDomRight data={finalMenuJsonArray} />
+                </div>
             </div>
-        </div>
-    );
-  }
+        );
+    }
 });
 
 
@@ -341,9 +275,29 @@ var CommentForm = React.createClass({
   }
 });
 
+Reflux.createStore({
+    init: function() {
+        this.listenTo(scriptsStore, function (data) {
+            window.complete_script = data;
+        });
+    }
+});
+
+Reflux.createStore({
+    init: function() {
+        this.listenTo(getFinalJSON, function (data) {
+            finalJson = data;
+        });
+    }
+});
+
+scriptsActions.read();
+
 domready(function () {
     React.render(
         <Main />,
         document.body
     );
 });
+
+module.exports = Main;
