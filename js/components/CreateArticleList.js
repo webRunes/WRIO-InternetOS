@@ -19,7 +19,7 @@ var CreateArticleList = React.createClass({
                 );
             } else {
                 return (
-                    <CreateArticleElement articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+                    <CreateArticleElement converter={this.props.converter} articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
                         {comment.articleBody}
                     </CreateArticleElement>
                 );

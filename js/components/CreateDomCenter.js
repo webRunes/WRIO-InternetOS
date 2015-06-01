@@ -19,7 +19,7 @@ module.exports = React.createClass({
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb converter={this.props.converter} />
                     <CreateItemList converter={this.props.converter} />
-                    <CreateArticleList data={this.props.data} />
+                    <CreateArticleList converter={this.props.converter} data={this.props.data} />
                     <CreateTitter scripts={this.props.data} />
                 </div>
             </div>
