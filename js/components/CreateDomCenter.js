@@ -1,6 +1,6 @@
 var React = require('react'),
     CreateTitter = require('../ext/titter.jsx'),
-    Login = require('../ext/login.jsx'),
+    Login = require('login'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,
     CreateBreadcrumb = require('./CreateBreadcrumb'),

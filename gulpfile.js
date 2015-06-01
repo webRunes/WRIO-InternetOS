@@ -25,12 +25,11 @@ gulp.task('download', function() {
         [
             'Plus-WRIO-App/js/client.js',
             'Plus-WRIO-App/js/plus.js',
-            'Login-WRIO-App/widget/login.jsx',
             'Titter-WRIO-App/widget/titter.jsx'
         ].map(function (path) {
             return server + path;
         }).concat([
-            'http://code.jquery.com/jquery-2.1.4.js'
+            'http://code.jquery.com/jquery-2.1.4.js'//TODO: replace jquery with superagent
         ])
     )
         .pipe(gulp.dest('./js/ext'));
