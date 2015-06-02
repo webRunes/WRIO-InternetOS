@@ -5,7 +5,7 @@ var
     domready = require('domready'),
     React = require('react'),
     Reflux = require('reflux'),
-    plus = require('./js/ext/plus'),
+    plus = require('plus'),
     scriptsStore = require('./js/storages/scripts'),
     $ = require('jquery'),
     Showdown = require('./showdown.min'),

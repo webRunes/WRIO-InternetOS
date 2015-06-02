@@ -37,8 +37,8 @@
     "start": "gulp && npm run bundleP && gulp clear",
     "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
     "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "build": "gulp debug && npm run bundleD",
-    "watch": "gulp debug && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+    "build": "gulp && npm run bundleD",
+    "watch": "gulp && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
   },
   "browser": {
     "jquery": "./js/ext/jquery-2.1.4.js"
@@ -62,6 +62,8 @@
     "reflux": "^0.2.7",
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git"
+    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
+    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
+    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git"
   }
 }
