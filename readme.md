@@ -2,7 +2,7 @@
 
 #WRIO <sup>Internet OS</sup>
 WRIO - webRunes Input/Output.
-Official node based on [WRIO] (https://wrioos.com) is [webrunes.com] (https://webrunes.com)
+Official node based on [WRIO OS] (https://wrioos.com) is [webrunes.com] (https://webrunes.com)
 
 ##Official Hub
 [wrioos.com](https://wrioos.com/)
