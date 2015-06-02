@@ -19,7 +19,6 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-[Bb]in
 [Dd]ebug*/
 *.lib
 *.sbr
@@ -35,3 +34,7 @@ express
 node_modules/**/node_modules
 node_module/
 config.json
+.module-cache
+npm-debug.log
+WRIO.js
+js/ext
