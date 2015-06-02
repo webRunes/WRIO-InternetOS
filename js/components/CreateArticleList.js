@@ -4,7 +4,8 @@ var React = require('react'),
 
 var CreateArticleList = React.createClass({
     propTypes: {
-        data: React.PropTypes.array.isRequired
+        data: React.PropTypes.array.isRequired,
+        converter: React.PropTypes.object.isRequired
     },
     render: function() {
         var commentNodes = this.props.data.map(function(comment, index) {
@@ -24,7 +25,7 @@ var CreateArticleList = React.createClass({
                     </CreateArticleElement>
                 );
             }
-        });
+        }, this);
         return (
             <article>
                 {commentNodes}
