@@ -6,8 +6,9 @@ var
     React = require('react'),
     Reflux = require('reflux'),
     plus = require('plus'),
+    ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin,
+    request = require('superagent'),
     scriptsStore = require('./js/storages/scripts'),
-    $ = require('jquery'),
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
     getFinalJSON = require('./js/storages/getFinalJSON'),
@@ -27,16 +28,13 @@ var
         storageKey: 'plusLdModel',
         storageHubUrl: importUrl
     },
-    $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>'),
     wrioNamespace = window.wrio || {};
-    updatedStorageHtml = "",
+    updatedStorageHtml = '',
     storeageKeys = [],
     href = window.location.href,
     is_hashUrl = false,
     is_cover = false,
     addBootstrapLink = require('./js/addBootstrapLink');
-
-addBootstrapLink();
 
 var finalJson;
 var itemListArray = [];
@@ -52,11 +50,14 @@ var CreateDomLeft = React.createClass({
 
 var CreateLeftCommentMenus = React.createClass({
   componentDidMount: function() {
-    $.get(
+    request.get(
         themeImportUrl + 'defaultList.htm',
-        function (result) {
+        function (err, result) {
+            if (err) {
+                throw err;
+            }
             var e = document.createElement('div');
-            e.innerHTML = result;
+            e.innerHTML = result.text;
             localStorage.setItem('plusTabItem', JSON.stringify(JSON.parse(e.getElementsByTagName('script')[0].innerText).itemListElement));
         }
     );
@@ -152,7 +153,19 @@ var CreateItemMenu = React.createClass({
 });
 
 var Main = React.createClass({
-    mixins: [Reflux.connect(getFinalJSON, 'jsonld')],
+    mixins: [
+        ReactScriptLoaderMixin,
+        Reflux.connect(getFinalJSON, 'jsonld')
+    ],
+    getScriptURL: function () {
+        return '//code.jquery.com/jquery-2.1.4.js';
+    },
+    onScriptLoaded: function () {
+        addBootstrapLink();
+    },
+    onScriptError: function () {
+        console.error('jquery not loaded');
+    },
     render: function() {
         return (
             <div id="content" className="container-liquid">
