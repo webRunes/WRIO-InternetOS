@@ -29,7 +29,7 @@ var CreateArticleLists = React.createClass({
           
           tHtml = "<div id='" + CreateArticleID + "'>" + listHtml + "</div>";
        
-       this.setState({data: tHtml});
+      this.setState({data: tHtml});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
