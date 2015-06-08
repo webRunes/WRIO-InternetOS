@@ -7,6 +7,11 @@ var CreateArticleList = React.createClass({
         data: React.PropTypes.array.isRequired,
         converter: React.PropTypes.object.isRequired
     },
+    editIframeStyles: {
+        width: '100%',
+        height: '600px',
+        border: 'none'
+    },
     render: function() {
         var commentNodes = this.props.data.map(function(comment, index) {
             if(comment.is_article === false) {
@@ -26,11 +31,12 @@ var CreateArticleList = React.createClass({
                 );
             }
         }, this);
-        return (
-            <article>
+        
+        return this.props.editMode 
+            ? <iframe src={'http://core-wrio-app-am-niceday.c9.io/?edit=' + location.href} style={ this.editIframeStyles }/>
+            : (<article>
                 {commentNodes}
-            </article>
-        );
+            </article>);
     }
 });
 
