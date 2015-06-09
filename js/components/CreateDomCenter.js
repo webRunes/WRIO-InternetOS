@@ -12,14 +12,24 @@ module.exports = React.createClass({
         data: React.PropTypes.array.isRequired,
         converter: React.PropTypes.object.isRequired
     },
+    getInitialState: function() {
+        return {
+            editMode: false
+        }
+    },
+    switchToEditMode: function() {
+        this.setState({
+             editMode: true
+        });
+    },
     render: function() {
         return (
             <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
                 <div className="margin">
                     <Login importUrl={importUrl} theme={theme} />
-                    <CreateBreadcrumb converter={this.props.converter} />
+                    <CreateBreadcrumb converter={this.props.converter} onEditClick={ this.switchToEditMode }/>
                     <CreateItemList converter={this.props.converter} />
-                    <CreateArticleList converter={this.props.converter} data={this.props.data} />
+                    <CreateArticleList converter={this.props.converter} data={this.props.data} editMode={this.state.editMode} />
                     <CreateTitter scripts={this.props.data} />
                 </div>
             </div>
