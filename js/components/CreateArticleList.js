@@ -33,7 +33,7 @@ var CreateArticleList = React.createClass({
         }, this);
         
         return this.props.editMode 
-            ? <iframe src={'http://core-wrio-app-am-niceday.c9.io/?edit=' + location.href} style={ this.editIframeStyles }/>
+            ? <iframe src={'http://core.wrioos.com/?edit=' + location.href} style={ this.editIframeStyles }/>
             : (<article>
                 {commentNodes}
             </article>);
