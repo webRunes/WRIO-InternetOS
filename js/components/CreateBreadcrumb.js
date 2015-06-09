@@ -1,10 +1,29 @@
 var React = require('react');
 
 module.exports = React.createClass({
-    propTypes: {
-        converter: React.PropTypes.object.isRequired
-    },
     render: function () {
+        var readEditMode;
+        if (!this.props.editMode) {
+            readEditMode = (
+                <ul itemprop="breadcrumb" className="breadcrumb">
+                    <li className="active">
+                        Read
+                    </li>
+                    <li>
+                        <a onClick={ this.props.onEditClick }>Edit</a>
+                    </li>
+                </ul>);
+        } else {
+            readEditMode = (
+                <ul itemprop="breadcrumb" className="breadcrumb">
+                    <li>
+                        <a onClick={ this.props.onReadClick }>Read</a>
+                    </li>
+                    <li className="active">
+                        Edit
+                    </li>
+                </ul>);
+        }
         return (
             <section>
                 <ul className="breadcrumb controls tooltip-demo">
@@ -15,14 +34,7 @@ module.exports = React.createClass({
                         <span className="glyphicon glyphicon-calendar"></span>30 May, 2014
                     </li>
                 </ul>
-                <ul itemprop="breadcrumb" className="breadcrumb">
-                    <li className="active">
-                        Read
-                    </li>
-                    <li>
-                        <a onClick={ this.props.onEditClick }>Edit</a>
-                    </li>
-                </ul>
+                { readEditMode }
             </section>
         );
     }
