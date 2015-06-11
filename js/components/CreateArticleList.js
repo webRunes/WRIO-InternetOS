@@ -26,6 +26,7 @@ var CreateArticleList = React.createClass({
                 );
             }
         }, this);
+        
         return (
             <article>
                 {commentNodes}
