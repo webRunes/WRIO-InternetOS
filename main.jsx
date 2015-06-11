@@ -28,7 +28,7 @@ var
         storageKey: 'plusLdModel',
         storageHubUrl: importUrl
     },
-    wrioNamespace = window.wrio || {};
+    wrioNamespace = window.wrio || {},
     updatedStorageHtml = '',
     storeageKeys = [],
     href = window.location.href,
