@@ -41,7 +41,6 @@ addBootstrapLink();
 var finalJson;
 var itemListArray = [];
 
-
 var CreateDomLeft = React.createClass({
   render: function() {
     return (
