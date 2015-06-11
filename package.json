@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "aws-sdk-apis": "*",
+    "babelify": "^6.1.2",
     "body-parser": "*",
     "debug": "*",
     "depd": "*",
@@ -34,11 +35,13 @@
     "xmlbuilder": "*"
   },
   "scripts": {
+    "postinstall": "rm -rf node_modules/react-tools && cd node_modules && git clone https://github.com/facebook/react react-tools && cd react-tools && git reset --hard 128390a691f790b8003c7abd42560f0025e40c79 && npm i && npm run build && cd build/npm-react && npm link && cd ../../../.. && npm link react",
     "start": "npm run bundleP && gulp clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "bundleD": "browserify -g [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "bundleD": "browserify -g [envify --NODE_ENV development] -t reactify main.jsx -o WRIO.js -d",
     "build": "npm run bundleD",
-    "watch": "watchify -g [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
+    "w": "npm run watch",
+    "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] -t reactify main.jsx -o WRIO.js -d"
   },
   "dependencies": {
     "bluebird": "^2.9.26",
@@ -47,12 +50,11 @@
     "domready": "^1.0.8",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
+    "node-libs-browser": "^0.5.2",
     "npm": "^2.10.1",
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
-    "react": "^0.13.3",
     "react-script-loader": "yariv/ReactScriptLoader",
-    "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "reflux": "^0.2.7",
     "superagent": "^1.2.0",
