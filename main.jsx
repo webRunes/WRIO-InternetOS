@@ -314,7 +314,7 @@ scriptsActions.read();
 domready(function () {
     React.render(
         <Main />,
-        document.body
+        document.body.appendChild(document.createElement('div'))
     );
 });
 
