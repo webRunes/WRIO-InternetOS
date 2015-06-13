@@ -5,9 +5,10 @@ var
     domready = require('domready'),
     React = require('react'),
     Reflux = require('reflux'),
-    plus = require('plus'),
+    Plus = require('plus'),
+    ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin,
+    request = require('superagent'),
     scriptsStore = require('./js/storages/scripts'),
-    $ = require('jquery'),
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
     getFinalJSON = require('./js/storages/getFinalJSON'),
@@ -27,54 +28,60 @@ var
         storageKey: 'plusLdModel',
         storageHubUrl: importUrl
     },
-    $accordion = $('<ul class="nav navbar-nav" id="nav-accordion"></ul>'),
-    wrioNamespace = window.wrio || {};
-    updatedStorageHtml = "",
+    wrioNamespace = window.wrio || {},
+    updatedStorageHtml = '',
     storeageKeys = [],
     href = window.location.href,
     is_hashUrl = false,
     is_cover = false,
     addBootstrapLink = require('./js/addBootstrapLink');
 
-addBootstrapLink();
-
 var finalJson;
 var itemListArray = [];
 
 var CreateDomLeft = React.createClass({
-  render: function() {
-    return (
-      <div className="col-xs-12 col-sm-3 col-md-2"><div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu"><div className="navbar-header tooltip-demo" id="topMenu"><ul className="nav menu pull-right"><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-comment"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-lock"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen"><a className="btn btn-link btn-sm" href="#"><span className="glyphicon glyphicon-fullscreen"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu"><a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#"><span className="glyphicon glyphicon-align-justify"></span></a></li><li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar"><a data-toggle="offcanvas" id="myoffcanvas"  className="btn btn-link btn-sm visible-xs" href="#"><span className="glyphicon glyphicon-transfer"></span></a></li></ul><a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a></div><div className="navbar-collapse in"><div className="navbar-header" id="leftMenuwrp"><CreateLeftCommentMenus /></div></div></div></div>
-    );
-  }
-});
-
-var CreateLeftCommentMenus = React.createClass({
-  componentDidMount: function() {
-    $.get(
-        themeImportUrl + 'defaultList.htm',
-        function (result) {
-            var e = document.createElement('div');
-            e.innerHTML = result;
-            localStorage.setItem('plusTabItem', JSON.stringify(JSON.parse(e.getElementsByTagName('script')[0].innerText).itemListElement));
-        }
-    );
-    plus.updatePlusStorage();
-  },
-  render: function() {
-    return (
-    <CreateLeftItemMenu />
-    );
-  }
-});
-
-var CreateLeftItemMenu = React.createClass({
     render: function() {
         return (
-            <section />
+            <div className="col-xs-12 col-sm-3 col-md-2">
+                <div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
+                    <div className="navbar-header tooltip-demo" id="topMenu">
+                        <ul className="nav menu pull-right">
+                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
+                                <a className="btn btn-link btn-sm" href="#">
+                                    <span className="glyphicon glyphicon-comment" />
+                                </a>
+                            </li>
+                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
+                                <a className="btn btn-link btn-sm" href="#">
+                                    <span className="glyphicon glyphicon-lock" />
+                                </a>
+                            </li>
+                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
+                                <a className="btn btn-link btn-sm" href="#">
+                                    <span className="glyphicon glyphicon-fullscreen" />
+                                </a>
+                            </li>
+                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
+                                <a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#">
+                                    <span className="glyphicon glyphicon-align-justify" />
+                                </a>
+                            </li>
+                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
+                                <a data-toggle="offcanvas" id="myoffcanvas" className="btn btn-link btn-sm visible-xs" href="#">
+                                    <span className="glyphicon glyphicon-transfer" />
+                                </a>
+                            </li>
+                        </ul>
+                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a>
+                    </div>
+                    <Plus themeImportUrl={themeImportUrl} />
+                </div>
+            </div>
         );
     }
 });
+
+
 
 var CreateDomRight = React.createClass({
   render: function() {
@@ -151,7 +158,19 @@ var CreateItemMenu = React.createClass({
 });
 
 var Main = React.createClass({
-    mixins: [Reflux.connect(getFinalJSON, 'jsonld')],
+    mixins: [
+        ReactScriptLoaderMixin,
+        Reflux.connect(getFinalJSON, 'jsonld')
+    ],
+    getScriptURL: function () {
+        return '//code.jquery.com/jquery-2.1.4.js';
+    },
+    onScriptLoaded: function () {
+        addBootstrapLink();
+    },
+    onScriptError: function () {
+        console.error('jquery not loaded');
+    },
     render: function() {
         return (
             <div id="content" className="container-liquid">
@@ -295,7 +314,7 @@ scriptsActions.read();
 domready(function () {
     React.render(
         <Main />,
-        document.body
+        document.body.appendChild(document.createElement('div'))
     );
 });
 

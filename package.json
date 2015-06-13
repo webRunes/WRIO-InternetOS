@@ -1,11 +1,11 @@
 {
   "name": "WRIO-InternetOS",
   "version": "1.0.0",
-  "bin" : "./bin/WRIO-InternetOS",
+  "bin": "./bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
   "repository": "https://github.com/webRunes/WRIO-InternetOS.git",
-  "main": "Main.jsx",
+  "main": "main.jsx",
   "engines": {
     "node": ">= v0.8.0"
   },
@@ -34,36 +34,30 @@
     "xmlbuilder": "*"
   },
   "scripts": {
-    "start": "gulp && npm run bundleP && gulp clear",
-    "bundleP": "browserify -t browserify-shim -t [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "bundleD": "browserify -t browserify-shim -t [envify --NODE_ENV development] -t reactify -g uglifyify main.jsx -o WRIO.js",
-    "build": "gulp && npm run bundleD",
-    "watch": "gulp && watchify -t browserify-shim -t [envify --NODE_ENV development] -p browserify-notify -t reactify main.jsx -o WRIO.js -d"
-  },
-  "browser": {
-    "jquery": "./js/ext/jquery-2.1.4.js"
-  },
-  "browserify-shim": {
-    "jquery": "$"
+    "postinstall": "rm -rf node_modules/react-tools && cd node_modules && git clone https://github.com/facebook/react react-tools && cd react-tools && git reset --hard 128390a691f790b8003c7abd42560f0025e40c79 && npm i && npm run build && cd build/npm-react && npm link && cd ../../../.. && npm link react",
+    "start": "npm run bundleP && gulp clear",
+    "bundleP": "browserify -g [envify --NODE_ENV production] -t reactify -g uglifyify main.jsx -o WRIO.js",
+    "bundleD": "browserify -g [envify --NODE_ENV development] -t reactify main.jsx -o WRIO.js -d",
+    "build": "npm run bundleD",
+    "w": "npm run watch",
+    "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] -t reactify main.jsx -o WRIO.js -d"
   },
   "dependencies": {
     "bluebird": "^2.9.26",
     "browserify": "^10.2.1",
     "browserify-notify": "^1.1.2",
-    "browserify-shim": "^3.8.7",
     "domready": "^1.0.8",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
-    "gulp-download": "0.0.1",
     "npm": "^2.10.1",
-    "react": "^0.13.3",
-    "react-tools": "^0.13.3",
+    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
+    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
+    "react-script-loader": "yariv/ReactScriptLoader",
     "reactify": "^1.1.1",
     "reflux": "^0.2.7",
-    "uglifyify": "^3.0.1",
-    "watchify": "^3.2.1",
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
+    "superagent": "^1.2.0",
     "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
-    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git"
+    "uglifyify": "^3.0.1",
+    "watchify": "^3.2.1"
   }
 }
