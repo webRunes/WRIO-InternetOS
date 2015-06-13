@@ -5,7 +5,7 @@ module.exports = React.createClass({
         var readEditMode;
         if (!this.props.editMode) {
             readEditMode = (
-                <ul itemprop="breadcrumb" className="breadcrumb">
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
                         Read
                     </li>
@@ -15,7 +15,7 @@ module.exports = React.createClass({
                 </ul>);
         } else {
             readEditMode = (
-                <ul itemprop="breadcrumb" className="breadcrumb">
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li>
                         <a onClick={ this.props.onReadClick }>Read</a>
                     </li>
