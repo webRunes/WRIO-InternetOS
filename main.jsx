@@ -173,12 +173,10 @@ var Main = React.createClass({
     },
     render: function() {
         return (
-            <div id="content" className="container-liquid">
-                <div className="row row-offcanvas row-offcanvas-right">
-                    <CreateDomLeft />
-                    <CreateDomCenter converter={converter} data={this.state.jsonld} />
-                    <CreateDomRight data={finalMenuJsonArray} />
-                </div>
+            <div className="row row-offcanvas row-offcanvas-right">
+                <CreateDomLeft />
+                <CreateDomCenter converter={converter} data={this.state.jsonld} />
+                <CreateDomRight data={finalMenuJsonArray} />
             </div>
         );
     }
@@ -314,7 +312,12 @@ scriptsActions.read();
 domready(function () {
     React.render(
         <Main />,
-        document.body.appendChild(document.createElement('div'))
+        document.body.appendChild((function () {
+          var d = document.createElement('div');
+          d.id = 'content';
+          d.className = 'container-liquid';
+          return d;
+        }()))
     );
 });
 
