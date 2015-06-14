@@ -1,6 +1,5 @@
 var React = require('react'),
-    CreateList = require('./CreateList'),
-    finalListJsonArray = require('../storages/finalListJsonArray');
+    CreateList = require('./CreateList');
 
 module.exports = React.createClass({
     propTypes: {
@@ -8,10 +7,6 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         return {data: []};
-    },
-    componentDidMount: function() {
-        //if (is_list === true) {
-        localStorage.setItem('myListItem', JSON.stringify(finalListJsonArray));
     },
     render: function() {
         return (

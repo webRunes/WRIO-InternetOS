@@ -7,16 +7,14 @@ var CreateArticleList = React.createClass({
         data: React.PropTypes.array.isRequired,
         converter: React.PropTypes.object.isRequired
     },
-    render: function() {
+    render: function () {
         var commentNodes = this.props.data.map(function(comment, index) {
-            if(comment.is_article === false) {
+            if(!comment.is_article) {
                 return false;
             }
             if (comment.url !== '') {
                 return (
-                    <CreateArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about}>
-                        {comment.articleBody}
-                    </CreateArticleLists>
+                    <CreateArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about} />
                 );
             } else {
                 return (
@@ -26,7 +24,6 @@ var CreateArticleList = React.createClass({
                 );
             }
         }, this);
-        
         return (
             <article>
                 {commentNodes}
