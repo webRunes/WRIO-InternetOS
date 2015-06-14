@@ -1,6 +1,4 @@
 var Reflux = require('reflux'),
-    getParagraph = require('./getParagraph'),
-    finalMentionsArray = require('./finalMentionsArray'),
     finalMenuJsonArray = require('./finalMenuJsonArray'),
     finalListJsonArray = require('./finalListJsonArray'),
     mentionsStore = require('./mentions');
@@ -40,9 +38,7 @@ module.exports = Reflux.createStore({
                 var articlebody = comment.articleBody || '';
                 var newArticle = '';
                 for (i = 0; i < articlebody.length; i += 1) {
-                    var articleParagraph = articlebody[i];
-                    var article = getParagraph(articleParagraph); // for get paragraph with link
-                    newArticle += '<p>' + article + '</p>';
+                    newArticle += '<p>' + articlebody[i] + '</p>';
                 }
                 var articlurl = comment.url || '';
                 finalJsonArray.push({

@@ -1,6 +1,11 @@
 var React = require('react');
 
 module.exports = React.createClass({
+    propTypes: {
+        editMode: React.PropTypes.bool.isRequired,
+        onEditClick: React.PropTypes.func.isRequired,
+        onReadClick: React.PropTypes.func.isRequired
+    },
     render: function () {
         var readEditMode;
         if (!this.props.editMode) {
