@@ -55,7 +55,7 @@
     "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "react-script-loader": "yariv/ReactScriptLoader",
     "reactify": "^1.1.1",
-    "reflux": "^0.2.7",
+    "reflux": "0.2.7",
     "superagent": "^1.2.0",
     "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
     "uglifyify": "^3.0.1",
