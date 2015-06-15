@@ -1,8 +1,6 @@
 var React = require('react'),
-    request = require('superagent'),
     cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme,
-    themeImportUrl = require('../global').themeImportUrl;
+    theme = require('../global').theme;
 
 // for article list in itemList view (if have url in json-ld then show aticle in listview otherwise same as article formate)
 var CreateArticleLists = React.createClass({
@@ -11,41 +9,38 @@ var CreateArticleLists = React.createClass({
         articlename: React.PropTypes.string.isRequired,
         about: React.PropTypes.string.isRequired
     },
-    loadArticleFromServer: function(title, urlArticle, about) {
-        var url = themeImportUrl + 'itemList.htm';  // itemList Path
-        var CreateArticleID = title.replace(/\s/g, '_'); // Article ID
-        var tHtml = '';
-        request.get(
-            url,
-            function(err, data) {
-                if (err) {
-                    console.error(url, err.toString());
-                }
-                data = data.text;
-                data = data.replace('<ul class="actions"><li><a href="#"><span class="glyphicon glyphicon-plus"></span>Add</a></li><li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li></ul>', '');
-                var listHtml = data
-                    .replace('{title}', '<a href="' + urlArticle + '">' + title + '</a>')
-                    .replace('{sub_title}', title)
-                    .replace('{about}', about)
-                    .replace('{image}', cssUrl + theme + '/img/no-photo-200x200.png')
-                    .replace('{created_date}', '22 Jun 2013')
-                    .replace('{rating}', '244')
-                    .replace('{readers}', '1,634')
-                    .replace('{access}', 'Free');
-                tHtml = '<div id="' + CreateArticleID + '">' + listHtml + '</div>';
-                this.setState({data: tHtml});
-            }.bind(this)
-        );
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        this.loadArticleFromServer(this.props.articlename, this.props.url, this.props.about);
-    },
     render: function() {
+        var title = this.props.articlename.replace(/\s/g, '_');
         return (
-            <section dangerouslySetInnerHTML={{__html: this.state.data}} />
+            <div id={title}>;
+                <article>
+                    <div className="media thumbnail clearfix" id="plusWrp">
+                        <header className="col-xs-12">
+                            <h2>
+                                <a href={this.props.url}>{title}</a>
+                                <sup>{title}</sup>
+                            </h2>
+                        </header>
+                        <div className="col-xs-12 col-md-6 pull-right">
+                            <img className="pull-left" src={cssUrl + theme + '/img/no-photo-200x200.png'} />
+                            <ul className="details">
+                                <li>Created: 22 Jun 2013</li>
+                                <li>Rating: 244</li>
+                                <li>Readers: 1,634</li>
+                                <li>Access: Free</li>
+                            </ul>
+                        </div>
+                        <div className="col-xs-12 col-md-6">
+                            <p>{this.props.about}</p>
+                            <ul className="actions">
+                                <li><a href="#"><span className="glyphicon glyphicon-plus"></span>Add</a></li>
+                                <li><a href="#"><span className="glyphicon glyphicon-share"></span>Share</a></li>
+                            </ul>
+                            <p></p>
+                        </div>
+                    </div>
+                </article>
+            </div>
         );
     }
 });

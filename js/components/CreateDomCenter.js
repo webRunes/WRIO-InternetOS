@@ -15,12 +15,12 @@ module.exports = React.createClass({
     getInitialState: function() {
         return {
             editMode: false
-        }
+        };
     },
     switchToReadMode: function() {
-        this.setState(({
+        this.setState({
             editMode: false
-        }))
+        });
     },
     switchToEditMode: function() {
         this.setState({
@@ -37,7 +37,8 @@ module.exports = React.createClass({
             <div className="content col-xs-12 col-sm-5 col-md-7" id="centerWrp">
                 <div className="margin">
                     <Login importUrl={importUrl} theme={theme} />
-                    <CreateBreadcrumb converter={this.props.converter} 
+                    <CreateBreadcrumb
+                        converter={this.props.converter}
                         editMode={ this.state.editMode }
                         onReadClick={ this.switchToReadMode }
                         onEditClick={ this.switchToEditMode } />

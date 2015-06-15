@@ -44,7 +44,12 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var rawMarkup = this.props.converter.makeHtml(this.props.children.toString());
-        this.loadArticleFromServer(this.props.articlename, this.props.children, this.props.hasPart, rawMarkup);
+        this.loadArticleFromServer(
+            this.props.articlename,
+            this.props.children,
+            this.props.hasPart,
+            rawMarkup
+        );
     },
     render: function() {
         return (
