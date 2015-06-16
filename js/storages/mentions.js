@@ -29,7 +29,7 @@ module.exports = Reflux.createStore({
         }
     },
     attachMentionToElement: function (mention, json) {
-        var order = -1,
+        var order = 0,
             i,
             keys = Object.keys(json);
         for (i = 0; i < keys.length; i += 1) {
