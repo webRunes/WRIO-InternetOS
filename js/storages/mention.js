@@ -13,7 +13,7 @@ var Mention = function (opts) {
     var cutUrl = this.url.split('\''),
         positions = cutUrl[2].replace(':', '').split(',');
     this.linkWord = cutUrl[1];
-    this.newUrl = cutUrl[0] + '\'' + this.name.replace(/\s/g, '-') + '\'';
+    this.newUrl = cutUrl[0] + this.name.replace(/\s/g, '-');
     this.order = Number(positions[0]);
     this.start = Number(positions[1]);
 };
