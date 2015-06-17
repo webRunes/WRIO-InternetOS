@@ -1,16 +1,13 @@
 var Reflux = require('reflux'),
     finalMenuJsonArray = require('./finalMenuJsonArray'),
     finalListJsonArray = require('./finalListJsonArray'),
-    mentionsStore = require('./mentions');
+    mentionsStore = require('./mentions'),
+    mentionsActions = require('../actions/mentions');
 
 module.exports = Reflux.createStore({
     init: function() {
-        var self = this;
-        this.listenTo(mentionsStore, function (data) {
-            self.trigger(
-                self.parse(data)
-            );
-        });
+        mentionsStore.listen(this.parse);
+        mentionsActions.read();
     },
     getInitialState: function () {
         return [];
@@ -85,6 +82,6 @@ module.exports = Reflux.createStore({
                 }
             }
         }
-        return finalJsonArray;
+        this.trigger(finalJsonArray);
     }
 });
