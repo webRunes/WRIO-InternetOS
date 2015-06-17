@@ -1,26 +1,15 @@
-/*jshint ignore:start */
-/*jshint ignore:end */
-/*global complete_script*/
 var
     domready = require('domready'),
     React = require('react'),
     Reflux = require('reflux'),
-    Plus = require('plus'),
-    ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin,
-    scriptsStore = require('./js/storages/scripts'),
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
     getFinalJSON = require('./js/storages/getFinalJSON'),
     finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
-
+    CreateDomLeft = require('./js/components/CreateDomLeft'),
     CreateDomCenter = require('./js/components/CreateDomCenter'),
     scriptsActions = require('./js/actions/scripts'),
-
     importUrl = require('./js/global').importUrl,
-    cssUrl = require('./js/global').cssUrl,
-    theme = require('./js/global').theme,
-    themeImportUrl = require('./js/global').themeImportUrl,
-
     wrio = {
         storageKey: 'plusLdModel',
         storageHubUrl: importUrl
@@ -32,53 +21,6 @@ var
     is_hashUrl = false,
     is_cover = false,
     addBootstrapLink = require('./js/addBootstrapLink');
-
-var finalJson;
-var itemListArray = [];
-
-var CreateDomLeft = React.createClass({
-    render: function() {
-        return (
-            <div className="col-xs-12 col-sm-3 col-md-2">
-                <div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
-                    <div className="navbar-header tooltip-demo" id="topMenu">
-                        <ul className="nav menu pull-right">
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-comment" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-lock" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-fullscreen" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
-                                <a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#">
-                                    <span className="glyphicon glyphicon-align-justify" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
-                                <a data-toggle="offcanvas" id="myoffcanvas" className="btn btn-link btn-sm visible-xs" href="#">
-                                    <span className="glyphicon glyphicon-transfer" />
-                                </a>
-                            </li>
-                        </ul>
-                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a>
-                    </div>
-                    <Plus themeImportUrl={themeImportUrl} />
-                </div>
-            </div>
-        );
-    }
-});
-
-
 
 var CreateDomRight = React.createClass({
   render: function() {
@@ -101,7 +43,7 @@ var CreateArticleItemMenu = React.createClass({
      var menuClass =comment.class;
     
       return (
-          <li key={index}><a href={listURl}  className={menuClass} data-url={href}>{comment.name}</a></li>  
+          <li key={index}><a href={listURl} className={menuClass} data-url={href}>{comment.name}</a></li>  
       );
     });        
     
@@ -116,14 +58,9 @@ var CreateArticleItemMenu = React.createClass({
 // for right menu
 
 var CreateCommentMenus = React.createClass({
-  loadCommentsFromServer: function() {
-  this.setState({data: finalJson});
-  },
+  mixins: [Reflux.connect(getFinalJSON, 'data')],
   getInitialState: function() {
     return {data: []};
-  },
-  componentDidMount: function() {
-    this.loadCommentsFromServer();
   },
   render: function() {
     return (
@@ -155,18 +92,19 @@ var CreateItemMenu = React.createClass({
 });
 
 var Main = React.createClass({
-    mixins: [
-        ReactScriptLoaderMixin,
-        Reflux.connect(getFinalJSON, 'jsonld')
-    ],
-    getScriptURL: function () {
-        return '//code.jquery.com/jquery-2.1.4.js';
+    mixins: [Reflux.ListenerMixin],
+    componentDidMount: function () {
+        this.listenTo(getFinalJSON, this.onStatusChange);
     },
-    onScriptLoaded: function () {
-        addBootstrapLink();
+    onStatusChange: function (status) {
+        this.setState({
+            jsonld: status
+        });
     },
-    onScriptError: function () {
-        console.error('jquery not loaded');
+    getInitialState: function () {
+        return {
+            jsonld: []
+        };
     },
     render: function() {
         return (
@@ -288,34 +226,19 @@ var CommentForm = React.createClass({
   }
 });
 
-Reflux.createStore({
-    init: function() {
-        this.listenTo(scriptsStore, function (data) {
-            window.complete_script = data;
-        });
-    }
-});
-
-Reflux.createStore({
-    init: function() {
-        this.listenTo(getFinalJSON, function (data) {
-            finalJson = data;
-        });
-    }
-});
-
-scriptsActions.read();
-
 domready(function () {
-    React.render(
-        <Main />,
-        document.body.appendChild((function () {
-          var d = document.createElement('div');
-          d.id = 'content';
-          d.className = 'container-liquid';
-          return d;
-        }()))
-    );
+    addBootstrapLink(function () {
+        React.render(
+            <Main />,
+            document.body.appendChild((function () {
+              var d = document.createElement('div');
+              d.id = 'content';
+              d.className = 'container-liquid';
+              return d;
+            }())),
+            scriptsActions.read
+        );
+    });
 });
 
 module.exports = Main;

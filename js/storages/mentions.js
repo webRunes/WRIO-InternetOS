@@ -1,11 +1,15 @@
 var Reflux = require('reflux'),
     Mention = require('./mention'),
     scripts = require('./scripts'),
+    Actions = require('../actions/mentions'),
+    scriptsActions = require('../actions/scripts'),
     merge = Mention.merge;
 
 module.exports = Reflux.createStore({
+    listenables: Actions,
     init: function() {
         scripts.listen(this.moveMentionsToElements);
+        scriptsActions.read();
     },
     moveMentionsToElements: function (data) {
         data.forEach(this.check);
