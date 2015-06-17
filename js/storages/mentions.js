@@ -7,9 +7,8 @@ var Reflux = require('reflux'),
 
 module.exports = Reflux.createStore({
     listenables: Actions,
-    init: function() {
+    init: function () {
         scripts.listen(this.moveMentionsToElements);
-        scriptsActions.read();
     },
     moveMentionsToElements: function (data) {
         data.forEach(this.check);
