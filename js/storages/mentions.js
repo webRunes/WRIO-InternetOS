@@ -2,7 +2,6 @@ var Reflux = require('reflux'),
     Mention = require('./mention'),
     scripts = require('./scripts'),
     Actions = require('../actions/mentions'),
-    scriptsActions = require('../actions/scripts'),
     merge = Mention.merge;
 
 module.exports = Reflux.createStore({
