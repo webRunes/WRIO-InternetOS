@@ -8,11 +8,21 @@ module.exports = Reflux.createStore({
             return;
         }
         var scripts = document.getElementsByTagName('script'),
-            i;
+            i,
+            json;
         this.data = [];
         for (i = 0; i < scripts.length; i += 1) {
             if (scripts[i].type === 'application/ld+json') {
-                this.data.push(JSON.parse(scripts[i].innerHTML));
+                json = undefined;
+                try {
+                    json = JSON.parse(scripts[i].textContent);
+                } catch (exception) {
+                    json = undefined;
+                    console.error('Your json-ld not valid: ' + exception);
+                }
+                if (typeof json === 'object') {
+                    this.data.push(json);
+                }
             }
         }
     },
