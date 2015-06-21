@@ -24,7 +24,7 @@ module.exports = React.createClass({
     },
     switchToEditMode: function() {
         this.setState({
-             editMode: true
+            editMode: true
         });
     },
     editIframeStyles: {
