@@ -47,22 +47,11 @@ module.exports = Reflux.createStore({
                     'hasPart': hasPart ? true : false
                 });
             } else if (comment['@type'] === 'ItemList') {
-                if(comment.itemListElement !== undefined) {
-                    for (i = 0; i < comment.itemListElement.length; i += 1) {
-                        name = comment.itemListElement[i].name;
-                        var url = comment.itemListElement[i].url;
-                        finalMenuJsonArray.push({
-                            'name': name,
-                            'url': url,
-                            'class': 'listView'
-                        });
-                    }
-                }
                 if (comment.itemListElement !== undefined) {
                     for (i = 0; i < comment.itemListElement.length; i += 1) {
                         name = comment.itemListElement[i].name;
                         var about = comment.itemListElement[i].about;
-                        url = comment.itemListElement[i].url;
+                        var url = comment.itemListElement[i].url;
                         var image = comment.itemListElement[i].image;
                         var description = comment.itemListElement[i].description;
                         finalListJsonArray.push({
@@ -72,6 +61,11 @@ module.exports = Reflux.createStore({
                             'description': description,
                             'url': url,
                             'image': image
+                        });
+                        finalMenuJsonArray.push({
+                            'name': name,
+                            'url': url,
+                            'class': 'listView'
                         });
                     }
                 }
