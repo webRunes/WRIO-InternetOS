@@ -1,32 +1,17 @@
 var
     domready = require('domready'),
     React = require('react'),
-    Reflux = require('reflux'),
     Showdown = require('./showdown.min'),
     converter = new Showdown.converter(),
-    getFinalJSON = require('./js/storages/getFinalJSON'),
-    finalMenuJsonArray = require('./js/storages/finalMenuJsonArray'),
     CreateDomLeft = require('./js/components/CreateDomLeft'),
     CreateDomRight = require('./js/components/CreateDomRight'),
     CreateDomCenter = require('./js/components/CreateDomCenter'),
-    scriptsActions = require('./js/actions/scripts'),
-    importUrl = require('./js/global').importUrl,
-    wrio = {
-        storageKey: 'plusLdModel',
-        storageHubUrl: importUrl
-    },
-    wrioNamespace = window.wrio || {},
-    updatedStorageHtml = '',
-    storeageKeys = [],
-    href = window.location.href,
-    is_hashUrl = false,
-    is_cover = false,
+    scripts = require('./js/jsonld/scripts'),
     addBootstrapLink = require('./js/addBootstrapLink');
 
 // for right menu
 
 var CreateCommentMenus = React.createClass({
-  mixins: [Reflux.connect(getFinalJSON, 'data')],
   getInitialState: function() {
     return {data: []};
   },
@@ -60,26 +45,15 @@ var CreateItemMenu = React.createClass({
 });
 
 var Main = React.createClass({
-    mixins: [Reflux.ListenerMixin],
-    componentDidMount: function () {
-        this.listenTo(getFinalJSON, this.onStatusChange);
-    },
-    onStatusChange: function (status) {
-        this.setState({
-            jsonld: status
-        });
-    },
-    getInitialState: function () {
-        return {
-            jsonld: []
-        };
+    propTypes: {
+        data: React.PropTypes.array.isRequired
     },
     render: function() {
         return (
             <div className="row row-offcanvas row-offcanvas-right">
                 <CreateDomLeft />
-                <CreateDomCenter converter={converter} data={this.state.jsonld} />
-                <CreateDomRight data={finalMenuJsonArray} />
+                <CreateDomCenter converter={converter} data={this.props.data} />
+                <CreateDomRight data={this.props.data} />
             </div>
         );
     }
@@ -197,14 +171,13 @@ var CommentForm = React.createClass({
 domready(function () {
     addBootstrapLink(function () {
         React.render(
-            <Main />,
+            <Main data={scripts()} />,
             document.body.appendChild((function () {
               var d = document.createElement('div');
               d.id = 'content';
               d.className = 'container-liquid';
               return d;
-            }())),
-            scriptsActions.read
+            }()))
         );
     });
 });

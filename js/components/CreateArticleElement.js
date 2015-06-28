@@ -1,59 +1,58 @@
 var React = require('react'),
-    request = require('superagent'),
-    importUrl = require('../global').importUrl,
-    theme = require('../global').theme;
+    mentions = require('../mixins/mentions'),
+    CreateArticleLists = require('./CreateArticleLists');
 
-module.exports = React.createClass({
+var CreateArticleElement = React.createClass({
     propTypes: {
-        converter: React.PropTypes.object.isRequired,
-        articlename: React.PropTypes.string.isRequired,
-        hasPart: React.PropTypes.bool.isRequired,
-        children: React.PropTypes.node
+        data: React.PropTypes.object.isRequired
     },
-    loadArticleFromServer: function(title, children, hasPart, rawMarkup) {
-        var url = importUrl + theme + '/widget/article.htm';  // Article Path
-        var CreateArticleID = title.replace(/\s/g, '_'); // Article ID
-        request.get(
-            url,
-            function(err, data) {
-                if (err) {
-                    console.error(url, err.toString());
-                }
-                data = data.text;
-                var html;
-                if(hasPart === true){
-                    if(rawMarkup === ''){
-                        html = '<h2 id="{this.props.articleid}">{this.props.articlename}</h2>';
-                    } else {
-                        html = data.replace('<header class="col-xs-12"><h1 id="{this.props.articleid}">{this.props.articlename}</h1></header>', '<h2 id={this.props.articleid}>{this.props.articlename}</h2>');
-                    }
-                } else {
-                    html = data;
-                }
-                var res = html.replace(/{this.props.articlename}/g, title);
-                res = res.replace(/{this.props.articleid}/g, CreateArticleID);
-                res = res.replace('{description}', children);
-                res = res.replace(/<p>/g, ' <div class="paragraph"><div class="col-xs-12 col-md-6"><p itemprop="description">');
-                res = res.replace(/p>/g, ' </p></div><div class="col-xs-12 col-md-6"><aside><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="right" title="Not yet available"></span></aside></div></div>');
-                this.setState({data: res});
-            }.bind(this)
-        );
-    },
-    getInitialState: function() {
-        return {data: []};
-    },
-    componentDidMount: function() {
-        var rawMarkup = this.props.converter.makeHtml(this.props.children.toString());
-        this.loadArticleFromServer(
-            this.props.articlename,
-            this.props.children,
-            this.props.hasPart,
-            rawMarkup
-        );
+    mixins: [mentions],
+    articleBody: function () {
+        var o = this.props.data;
+        o.articleBody = o.articleBody || [];
+        return o.articleBody.map(function (item, i) {
+            if (o.m && o.m.articleBody && o.m.articleBody[i]) {
+                item = this.applyMentions(o.m.articleBody[i]);
+            }
+            return <div key={i}>{item}</div>;
+        }, this);
     },
     render: function() {
+        var o = this.props.data,
+            articleName = o.name,
+            Parts = null;
+        if (o.m && o.m.name) {
+            articleName = this.applyMentions(o.m.name);
+        }
+        if (o.hasPart) {
+            Parts = o.hasPart.map(function (o, key) {
+                if (o.url) {
+                    return <CreateArticleLists data={o} key={key} />;
+                } else {
+                    return <CreateArticleElement data={o} key={key} />;
+                }
+            });
+        }
         return (
-            <section dangerouslySetInnerHTML={{__html: this.state.data}} />
+            <section>
+                {(o.hasPart) ?
+                    <h1 id={o.name}>{articleName}</h1> :
+                    <h2 id={o.name}>{articleName}</h2>
+                }
+                <div className="paragraph">
+                    <div className="col-xs-12 col-md-6">
+                        {this.articleBody()}
+                    </div>
+                    <div className="col-xs-12 col-md-6">
+                        <aside>
+                            <span className="glyphicon glyphicon-comment" title="Not yet available" />
+                        </aside>
+                    </div>
+                </div>
+                {Parts}
+            </section>
         );
     }
 });
+
+module.exports = CreateArticleElement;

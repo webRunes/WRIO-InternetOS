@@ -5,28 +5,31 @@ var React = require('react'),
 var CreateArticleList = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired,
-        converter: React.PropTypes.object.isRequired
+        id: React.PropTypes.string
+    },
+    getArticles: function () {
+        return this.props.data
+            .filter(function (o) {
+                return o['@type'] === 'Article';
+            })
+            .map(function (o, key) {
+                if (o.url) {
+                    return <CreateArticleLists data={o} key={key} />;
+                } else {
+                    return <CreateArticleElement data={o} key={key} />;
+                }
+            });
+    },
+    componentDidUpdate: function () {
+        var id = this.props.id;
+        if (id) {
+            location.hash = '#' + id;
+        }
     },
     render: function () {
-        var commentNodes = this.props.data.map(function(comment, index) {
-            if(!comment.is_article) {
-                return false;
-            }
-            if (comment.url !== '') {
-                return (
-                    <CreateArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about} />
-                );
-            } else {
-                return (
-                    <CreateArticleElement converter={this.props.converter} articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
-                        {comment.articleBody}
-                    </CreateArticleElement>
-                );
-            }
-        }, this);
         return (
             <article>
-                {commentNodes}
+                {this.getArticles()}
             </article>
         );
     }
