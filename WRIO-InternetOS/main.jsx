@@ -1,8 +1,8 @@
 var
     domready = require('domready'),
     React = require('react'),
-    Showdown = require('./showdown.min'),
-    converter = new Showdown.converter(),
+    Showdown = require('showdown'),
+    converter = new Showdown.Converter(),
     CreateDomLeft = require('./js/components/CreateDomLeft'),
     CreateDomRight = require('./js/components/CreateDomRight'),
     CreateDomCenter = require('./js/components/CreateDomCenter'),
@@ -183,3 +183,4 @@ domready(function () {
 });
 
 module.exports = Main;
+ 
