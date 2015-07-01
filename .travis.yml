@@ -17,7 +17,6 @@ deploy:
   secret_access_key: 
     secure: KZVb2QAc86f8TBDXp4O2DIlcdh1FfT8iF6OeNs2EhRZlyL/xfhYf0k00y4tGDyZJ/wK5VZ56jfq1q3hX+HFI3fPa0dvfEem7QtSCfPUa/bbxpz+nVRnNC6atZQbhvmHsEvcL8tY9rwdfhxZSwSo4aQmiYRE7Cc/6ZTBLTce4WZs=
   bucket: wrioos.com
-  upload-dir: WRIO-InternetOS
   acl: public_read
   skip_cleanup: true
   on:
