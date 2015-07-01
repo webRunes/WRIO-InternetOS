@@ -37,8 +37,8 @@
     "postinstall": "rm -rf node_modules/react-tools && cd node_modules && git clone https://github.com/facebook/react react-tools && cd react-tools && git reset --hard 128390a691f790b8003c7abd42560f0025e40c79 && npm i && npm run build && cd build/npm-react && npm link && cd ../../../.. && npm link react",
     "start": "npm run bundleP && gulp copy clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -t reactify -g uglifyify WRIO-InternetOS/main.jsx -o WRIO-InternetOS/start.js",
-    "bundleD": "browserify -g [envify --NODE_ENV development] -t reactify WRIO-InternetOS/main.jsx -o WRIO-InternetOS/start.js -d",
-    "build": "npm run bundleD && gulp copy",
+    "bundleD": "browserify -g [envify --NODE_ENV production] -t reactify WRIO-InternetOS/main.jsx -o WRIO-InternetOS/start.js -d",
+    "build": "npm run bundleD && gulp copy clear",
     "w": "npm run watch",
     "watch": "onchange WRIO-InternetOS/start.js -- gulp copy & npm run watchify",
     "watchify": "watchify -p browserify-notify -g [envify --NODE_ENV development] -t reactify WRIO-InternetOS/main.jsx -o WRIO-InternetOS/start.js -d"
