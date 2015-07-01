@@ -14,8 +14,3 @@ gulp.task('clear', function () {
         );
     });
 });
-
-gulp.task('copy', function() {
-    gulp.src('WRIO-InternetOS/start.js')
-        .pipe(gulp.dest('.'));
-});
