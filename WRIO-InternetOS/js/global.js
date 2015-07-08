@@ -7,7 +7,6 @@ if (process.env.NODE_ENV == 'dockerdev') {
 	importUrl = cssUrl = 'http://wrioos.local/'
 }
 
-
 module.exports = {
 	importUrl: importUrl,
 	cssUrl: cssUrl,
