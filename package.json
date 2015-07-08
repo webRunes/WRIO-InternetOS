@@ -38,6 +38,7 @@
     "start": "npm run bundleP && gulp clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -t reactify -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] -t reactify WRIO-InternetOS/main.jsx -o start.js -d",
+    "bundleDOCKER": "browserify -g [envify --NODE_ENV dockerdev] -t reactify WRIO-InternetOS/main.jsx -o start.js -d",
     "build": "npm run bundleD && gulp clear",
     "w": "npm run watch",
     "watch": "onchange WRIO-InternetOS/start.js -- gulp copy & npm run watchify",
