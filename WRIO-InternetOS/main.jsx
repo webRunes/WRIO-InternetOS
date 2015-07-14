@@ -171,7 +171,7 @@ var CommentForm = React.createClass({
 domready(function () {
     addBootstrapLink(function () {
         React.render(
-            <Main data={scripts()} />,
+            <Main data={scripts(document.getElementsByTagName('script'))} />,
             document.body.appendChild((function () {
               var d = document.createElement('div');
               d.id = 'content';

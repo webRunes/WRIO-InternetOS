@@ -1,8 +1,7 @@
 var mentions = require('./mentions');
 
-module.exports = function () {
-    var scripts = document.getElementsByTagName('script'),
-        i,
+module.exports = function (scripts) {
+    var i,
         json,
         data = [];
     for (i = 0; i < scripts.length; i += 1) {

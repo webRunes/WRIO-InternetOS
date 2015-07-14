@@ -1,5 +1,4 @@
 var React = require('react'),
-    CreateTitter = require('titter-wrio-app'),
     Login = require('passport-signin'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,
@@ -44,7 +43,6 @@ module.exports = React.createClass({
                     { this.state.editMode ? <iframe src={'http://core.wrioos.com/?edit=' + location.href} style={ this.editIframeStyles }/>
                         : null }
                     <Center data={this.props.data} />
-                    <CreateTitter scripts={this.props.data} />
                 </div>
             </div>
         );

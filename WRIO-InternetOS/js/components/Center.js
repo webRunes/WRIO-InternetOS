@@ -1,7 +1,8 @@
 var React = require('react'),
     Reflux = require('reflux'),
     CreateArticleList = require('./CreateArticleList'),
-    store = require('../store/center');
+    store = require('../store/center'),
+    CreateTitter = require('titter-wrio-app');
 
 var Center = React.createClass({
     propTypes: {
@@ -26,9 +27,14 @@ var Center = React.createClass({
         if (type === 'cover') {
             return <h1>COVER WILL BE HERE</h1>;//TODO
         } else if (type === 'article') {
-            return <CreateArticleList data={this.props.data} id={content.id} />;
+            return (
+                <div>
+                    <CreateArticleList data={this.props.data} id={content.id} />;
+                    <CreateTitter scripts={this.props.data} />
+                </div>
+            );
         } else if (type === 'external') {
-            return <h1>EXTERNAL CONTENT WILL BE HERE from {content.url}</h1>;//TODO
+            return <CreateArticleList data={content.data} id={content.url} />;
         }
     }
 });
