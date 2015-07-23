@@ -35,19 +35,10 @@ Mention.prototype.attach = function (s) {
         toReplace = s.substr(this.start, this.linkWord.length),
         after = s.substring(this.start + this.linkWord.length, s.length);
     if (toReplace === this.linkWord) {
-        return {
-            before: before,
-            link: {
-                text: toReplace,
-                url: this.newUrl
-            },
-            after: after
-        };
+        return before + toReplace.link(this.newUrl) + after;
     }
     this.warn();
-    return {
-        before: s
-    };
+    return s;
 };
 
 module.exports = Mention;

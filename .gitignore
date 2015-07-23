@@ -36,5 +36,5 @@ node_module/
 config.json
 .module-cache
 npm-debug.log
-start.js
-WRIO-InternetOS/start.js
+WRIO.js
+js/ext
