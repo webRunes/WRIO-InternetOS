@@ -8,16 +8,19 @@ node_js:
 before_install: sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
 
 install : npm install
-script  : npm run build
+script  : npm start
 
 deploy:
   provider: s3
-  access_key_id:
+  access_key_id: 
     secure: PfRbnam9KEVy+l9KwXf9gBc4lNUjhd9lw3BRb8eWP8kUZsEvDkAZU3+tpCcC9aOixDD1n7au1j5nIxSApDKXdX1PfTkDgQRYzDorx8vjk/vbB+oyy4fIx6Pnmc/5mNjY9r3TImYi5pUwTqzcJ+hiNtlbMHlDANMzmbuvvoiEZ84=
-  secret_access_key:
+  secret_access_key: 
     secure: KZVb2QAc86f8TBDXp4O2DIlcdh1FfT8iF6OeNs2EhRZlyL/xfhYf0k00y4tGDyZJ/wK5VZ56jfq1q3hX+HFI3fPa0dvfEem7QtSCfPUa/bbxpz+nVRnNC6atZQbhvmHsEvcL8tY9rwdfhxZSwSo4aQmiYRE7Cc/6ZTBLTce4WZs=
   bucket: wrioos.com
+  upload-dir: WRIO-InternetOS
   acl: public_read
   skip_cleanup: true
   on:
     all_branches: true
+    
+    

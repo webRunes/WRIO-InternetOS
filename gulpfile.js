@@ -8,8 +8,8 @@ gulp.task('clear', function () {
     npm.load({}, function () {
         npm.commands.uninstall(
             Object.keys(package.dependencies).concat([
-                'react',
-                'react-tools'
+            	'react',
+            	'react-tools'
             ])
         );
     });
