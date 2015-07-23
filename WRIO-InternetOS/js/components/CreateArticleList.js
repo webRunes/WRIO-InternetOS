@@ -1,6 +1,7 @@
 var React = require('react'),
-    CreateArticleLists = require('./CreateArticleLists'),
+    CreateArticleLists   = require('./CreateArticleLists'),
     CreateArticleElement = require('./CreateArticleElement');
+    CreateItemLists      = require('./CreateItemLists');
 
 var CreateArticleList = React.createClass({
     propTypes: {
@@ -20,6 +21,13 @@ var CreateArticleList = React.createClass({
                 }
             });
     },
+    getItemList: function() {
+        if(this.props.data[0]['@type'] === 'ItemList') {
+            return this.props.data[0].itemListElement.map(function (item) {
+                return <CreateItemLists data={item} />;
+            });
+        }
+    },
     componentDidUpdate: function () {
         var id = this.props.id;
         if (id) {
@@ -27,8 +35,10 @@ var CreateArticleList = React.createClass({
         }
     },
     render: function () {
+
         return (
             <article>
+                {this.getItemList()}
                 {this.getArticles()}
             </article>
         );
