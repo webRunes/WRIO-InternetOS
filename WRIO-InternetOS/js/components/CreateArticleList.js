@@ -22,11 +22,13 @@ var CreateArticleList = React.createClass({
             });
     },
     getItemList: function() {
-        if(this.props.data[0]['@type'] === 'ItemList') {
-            return this.props.data[0].itemListElement.map(function (item) {
-                return <CreateItemLists data={item} />;
-            });
-        }
+        return  this.props.data.filter(function (o) {
+            return o['@type'] === 'ItemList'
+        }).map(function (list) {
+            return list.itemListElement.map(function (item, key) {
+                return <CreateItemLists data={item} key={key} />
+            })
+        });
     },
     componentDidUpdate: function () {
         var id = this.props.id;
