@@ -1,9 +1,10 @@
 var React = require('react'),
     CreateArticleLists   = require('./CreateArticleLists'),
-    CreateArticleElement = require('./CreateArticleElement');
-    CreateItemLists      = require('./CreateItemLists');
-    CreateCoverLists     = require('./CreateCoverLists');
-    CreateCover          = require('./CreateCover');
+    CreateArticleElement = require('./CreateArticleElement'),
+    CreateItemLists      = require('./CreateItemLists'),
+    CreateCover          = require('./CreateCover'),
+    Carousel             = require('react-bootstrap').Carousel,
+    CarouselItem         = require('react-bootstrap').CarouselItem;
 
 var CreateArticleList = React.createClass({
     propTypes: {
@@ -26,16 +27,16 @@ var CreateArticleList = React.createClass({
     isCover: function() {
         var location = window.location.search.substring(1).split("&")
         location = location.filter(function(item) {
-            return item == 'cover';
+            return item === 'cover';
         });
         return location.length > 0;
     },
     getItemList: function() {
         return this.props.data.filter(function (o) {
-            return o['@type'] === 'ItemList'
+            return o['@type'] === 'ItemList';
         }).map(function (list) {
             return list.itemListElement.map(function (item, key) {
-                return <CreateItemLists data={item} key={key} />
+                return <CreateItemLists data={item} key={key} />;
             })
         });
     },
@@ -44,11 +45,11 @@ var CreateArticleList = React.createClass({
             return o['@type'] === 'ItemList'
         }).map(function (list) {
             return list.itemListElement.map(function (item, key) {
-                return <CreateCover data={item} key={key} isActive={key == 0} />;
+                return <CarouselItem><CreateCover data={item} key={key} isActive={key == 0} /></CarouselItem>;
             })
         });
         return (
-            <CreateCoverLists>{data}</CreateCoverLists>
+            <Carousel>{data}</Carousel>
         );
     },
     componentDidUpdate: function () {
