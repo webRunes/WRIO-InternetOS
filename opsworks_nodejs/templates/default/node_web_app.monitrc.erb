@@ -1,0 +1,11 @@
+check host node_web_app_<%= @application_name %> with address 127.0.0.1
+  start program = "/bin/bash -c 'cd <%= @deploy[:deploy_to] %>/current ; source <%= @deploy[:deploy_to] %>/shared/app.env ; /usr/bin/env PORT=<%= @deploy[:nodejs][:port] %> NODE_PATH=<%= @deploy[:deploy_to] %>/current/node_modules:<%= @deploy[:deploy_to] %>/current /usr/local/bin/node <%= @monitored_script %> &>> <%= @deploy[:deploy_to] %>/../nodejs_app.log'"
+  stop program = "/usr/bin/pkill -f 'node <%= @monitored_script %>'"
+  <% if @deploy[:ssl_support] -%>
+  if failed port <%= @deploy[:nodejs][:port] %> type TCPSSL protocol HTTP
+  <% else -%>
+  if failed port <%= @deploy[:nodejs][:port] %> protocol HTTP
+  <% end -%>
+    request /
+    with timeout 10 seconds
+    then restart
