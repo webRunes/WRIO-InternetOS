@@ -10,4 +10,4 @@
 #
 #normal[:opsworks_nodejs][:version] = '0.10.21'
 
-default[:opsworks_nodejs][:npm_install_options] = 'install'
+normal[:opsworks_nodejs][:npm_install_options] = 'install'
