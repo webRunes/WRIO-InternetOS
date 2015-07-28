@@ -11,7 +11,7 @@ var CreateItemLists = React.createClass({
             title = item.name,
             image = cssUrl + theme + '/img/no-photo-200x200.png', //item.thumbnail,
             about = item.about,
-            created_date = item.datePublished;
+            createdDate = item.datePublished;
 
         return (
             <article>
@@ -25,7 +25,7 @@ var CreateItemLists = React.createClass({
                 <div className="col-xs-12 col-md-6 pull-right">
                   <img className="pull-left" src={image} />
                   <ul className="details">
-                    <li>Created: {created_date}</li>
+                    <li>Created: {createdDate}</li>
                     <li>Rating: rating</li>
                     <li>Readers: readers</li>
                     <li>Access: access</li>
@@ -35,7 +35,7 @@ var CreateItemLists = React.createClass({
                   <p>{about}</p>
                   <ul className="actions">
                     <li><a href="#"><span className="glyphicon glyphicon-plus"></span>Add</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-share"></span>Share</a></li>
+                    <li><a href="#"><span className="glyphicon glyphicon-share"></span>Share</a></li>
                   </ul>
                   <p></p>
                 </div>

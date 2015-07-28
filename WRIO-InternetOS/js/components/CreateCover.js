@@ -3,15 +3,19 @@ var React = require('react'),
     theme = require('../global').theme;
 
 var CreateCover = React.createClass({
-
+    propTypes: {
+        data: React.PropTypes.object.isRequired,
+        isActive: React.PropTypes.bool.isRequired
+    },
     render: function() {
         var cover = this.props.data;
-        var path = cssUrl + theme + "/img/sign_in-cover1.jpg"; //cover.img;
-        var name = cover.name
-        var isActive = this.props.isActive ? 'item active' : 'item'
+        var path = cssUrl + theme + '/img/sign_in-cover1.jpg'; //cover.img;
+        var name = cover.name;
+        var isActive = this.props.isActive ? 'item active' : 'item';
+
         return (
             <div className={isActive}>
-                <div className="img" style={{background: "url(" + path + ") center center"}}></div>
+                <div className="img" style={{background: 'url(' + path + ') center center'}}></div>
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>

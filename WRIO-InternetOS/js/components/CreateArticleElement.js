@@ -18,14 +18,14 @@ var CreateArticleElement = React.createClass({
         }, this);
     },
     render: function() {
-        var o = this.props.data,
-            articleName = o.name,
+        var data = this.props.data,
+            articleName = data.name,
             Parts = null;
-        if (o.m && o.m.name) {
-            articleName = this.applyMentions(o.m.name);
+        if (data.m && data.m.name) {
+            articleName = this.applyMentions(data.m.name);
         }
-        if (o.hasPart) {
-            Parts = o.hasPart.map(function (o, key) {
+        if (data.hasPart) {
+            Parts = data.hasPart.map(function (o, key) {
                 if (o.url) {
                     return <CreateArticleLists data={o} key={key} />;
                 } else {
@@ -35,9 +35,9 @@ var CreateArticleElement = React.createClass({
         }
         return (
             <section>
-                {(o.hasPart) ?
-                    <h1 id={o.name}>{articleName}</h1> :
-                    <h2 id={o.name}>{articleName}</h2>
+                {(data.hasPart) ?
+                    <h1 id={data.name}>{articleName}</h1> :
+                    <h2 id={data.name}>{articleName}</h2>
                 }
                 <div className="paragraph">
                     <div className="col-xs-12 col-md-6">

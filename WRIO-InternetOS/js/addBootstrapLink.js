@@ -30,7 +30,7 @@ module.exports = function (cb) {
     var js = [];
 
 
-    js.forEach (function (src) {
+    js.forEach(function (src) {
         var script;
         script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');

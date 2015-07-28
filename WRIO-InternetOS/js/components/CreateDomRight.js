@@ -3,7 +3,8 @@ var React = require('react'),
 
 var External = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
         center.external(this.props.data.url);
@@ -11,7 +12,7 @@ var External = React.createClass({
     },
     getInitialState: function () {
         return {
-            active: false,
+            active: false
         };
     },
     render: function () {
@@ -27,7 +28,8 @@ var External = React.createClass({
 
 var Article = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
         center.article(this.props.data.name);
@@ -35,7 +37,7 @@ var Article = React.createClass({
     },
     getInitialState: function () {
         return {
-            active: false,
+            active: false
         };
     },
     render: function () {
@@ -51,7 +53,8 @@ var Article = React.createClass({
 
 var Cover = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
         center.cover();
@@ -59,7 +62,7 @@ var Cover = React.createClass({
     },
     getInitialState: function () {
         return {
-            active: false,
+            active: false
         };
     },
     render: function () {
@@ -93,7 +96,7 @@ var CreateDomRight = React.createClass({
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
             items = [];
-        this.props.data.forEach(function add (o, i) {
+        this.props.data.forEach(function add (o) {
             if (o['@type'] === 'Article') {
                 items.push(<Article data={o} key={items.length} active={this.active} />);
             } else if (o['@type'] === 'ItemList') {

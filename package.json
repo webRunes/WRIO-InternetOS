@@ -41,18 +41,22 @@
   "scripts": {
     "postinstall": "rm -rf node_modules/react-tools && cd node_modules && git clone https://github.com/facebook/react react-tools && cd react-tools && git reset --hard 128390a691f790b8003c7abd42560f0025e40c79 && npm i && npm run build && cd build/npm-react && npm link && cd ../../../.. && npm link react",
     "start": "npm run bundleP && gulp clear",
+    "lint": "eslint js",
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
     "bundleDOCKER": "browserify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d",
     "build": "npm run bundleD && gulp clear",
-    "w": "npm run watch",
+    "w": "npm run watch && npm run lint",
     "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d"
   },
   "dependencies": {
+    "bluebird": "^2.9.26",
     "browserify": "^10.2.1",
     "browserify-notify": "^1.1.2",
     "domready": "^1.0.8",
     "envify": "^3.4.0",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^3.1.0",
     "gulp": "^3.8.11",
     "lodash.sortby": "^3.1.4",
     "npm": "^2.10.1",
