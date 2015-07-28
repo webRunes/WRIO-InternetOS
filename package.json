@@ -62,7 +62,7 @@
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
-    "plus": "git+https://git@github.com/spirinvladimir/Plus-WRIO-App.git",
+    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "reactify": "^1.1.1",
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
