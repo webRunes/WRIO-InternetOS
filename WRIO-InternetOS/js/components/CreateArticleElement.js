@@ -25,11 +25,11 @@ var CreateArticleElement = React.createClass({
             articleName = this.applyMentions(o.m.name);
         }
         if (o.hasPart) {
-            Parts = o.hasPart.map(function (o, key) {
-                if (o.url) {
-                    return <CreateArticleLists data={o} key={key} />;
+            Parts = o.hasPart.map(function (ϙ, key) {
+                if (ϙ.url) {
+                    return <CreateArticleLists data={ϙ} key={key} />;
                 } else {
-                    return <CreateArticleElement data={o} key={key} />;
+                    return <CreateArticleElement data={ϙ} key={key} />;
                 }
             });
         }
