@@ -35,6 +35,6 @@ module.exports = function (cb) {
         script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
         script.setAttribute('src', src);
-        document.body.appendChild(script);
+        document.head.appendChild(script);
     });
 };

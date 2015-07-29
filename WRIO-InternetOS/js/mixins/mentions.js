@@ -15,24 +15,24 @@ module.exports = {
             intersection = function (s1, s2) {
                 s2 = s2 || '';
                 var a1 = s1.split('').reverse(),
-                    a2 = s2.split('');
-                i = 0;
-                while (a1[i] && a2[i] && (a1[i] === a2[i])) {
-                    i += 1;
+                    a2 = s2.split(''),
+                    j = 0;
+                while (a1[j] && a2[j] && (a1[j] === a2[j])) {
+                    j += 1;
                 }
-                return s2.substr(0, i);
+                return s2.substr(0, j);
             },
-            before = function (str, inc) {
-                inc += 1;
-                m = mentions[inc];
+            before = function (str, x) {
+                x += 1;
+                m = mentions[x];
                 if (m) {
-                Link = link(m.link);
-                After = intersection(str, m.after);
+                var L = link(m.link),
+                    A = intersection(str, m.after);
                     return (
                         <div>
                             {before(m.before)},
-                            {Link},
-                            {After}
+                            {L},
+                            {A}
                         </div>
                     );
                 }

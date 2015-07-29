@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -15,6 +15,9 @@
     "debug": "*",
     "depd": "*",
     "destroy": "*",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^3.1.0",
+    "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
@@ -45,12 +48,12 @@
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
     "bundleDOCKER": "browserify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d",
-    "build": "npm run bundleD && gulp clear",
-    "w": "npm run watch && npm run lint",
+    "build": "npm run lint && npm run bundleD && gulp clear",
+    "w": "npm run watch",
+    "lint": "eslint WRIO-InternetOS",
     "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d"
   },
   "dependencies": {
-    "bluebird": "^2.9.26",
     "browserify": "^10.2.1",
     "browserify-notify": "^1.1.2",
     "domready": "^1.0.8",
