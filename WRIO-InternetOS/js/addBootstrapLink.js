@@ -26,4 +26,15 @@ module.exports = function (cb) {
     e.rel = 'shortcut icon';
     e.href = cssUrl + theme + '/ico/favicon.ico';
     document.head.appendChild(e);
+
+    var js = [];
+
+
+    js.forEach(function (src) {
+        var script;
+        script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', src);
+        document.head.appendChild(script);
+    });
 };
