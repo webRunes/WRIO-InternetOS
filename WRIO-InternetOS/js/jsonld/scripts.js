@@ -18,8 +18,8 @@ module.exports = function (scripts) {
             }
         }
     }
-    data.forEach(function (jsonData) {
-        mentions(jsonData);
+    data.forEach(function (jsn) {
+        mentions(jsn);
     });
     return data;
 };
