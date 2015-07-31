@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -63,6 +63,9 @@
     "onchange": "^1.1.0",
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
+    "react": "^0.13.3",
+    "react-bootstrap": "^0.24.2",
+    "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
