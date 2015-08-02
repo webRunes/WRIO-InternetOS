@@ -2,22 +2,24 @@ var React = require('react'),
     Reflux = require('reflux'),
     CreateArticleList = require('./CreateArticleList'),
     store = require('../store/center'),
+    UrlMixin = require('../mixins/UrlMixin'),
     CreateTitter = require('titter-wrio-app');
 
 var Center = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired
     },
-    mixins: [Reflux.listenTo(store, 'onStatusChange')],
+    mixins: [Reflux.listenTo(store, 'onStatusChange'), UrlMixin],
     onStatusChange: function (x) {
         this.setState({
             content: x
         });
     },
     getInitialState: function() {
+        var locationSearch = this.getUrlParams();
         return {
             content: {
-                type: 'article'
+                type: (locationSearch) ? locationSearch : 'article'
             }
         };
     },
@@ -25,7 +27,7 @@ var Center = React.createClass({
         var content = this.state.content,
             type = content.type;
         if (type === 'cover') {
-            return <h1>COVER WILL BE HERE</h1>;//TODO
+            return <CreateArticleList data={this.props.data} id={content.url} />;
         } else if (type === 'article') {
             return (
                 <div>
@@ -34,7 +36,7 @@ var Center = React.createClass({
                 </div>
             );
         } else if (type === 'external') {
-            return <CreateArticleList data={content.data} id={content.url} />;
+            return <CreateArticleList data={this.props.data} id={content.url} />;
         }
     }
 });

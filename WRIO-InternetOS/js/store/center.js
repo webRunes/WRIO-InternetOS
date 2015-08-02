@@ -20,22 +20,34 @@ module.exports = Reflux.createStore({
             }
         );
     },
-    onExternal: function (url) {
+    setUrlWithParams: function(params) {
+        params = (typeof params !== 'undefined') ? params : '';
+        var search = (params.length > 1) ? '?' + params : '',
+            path = window.location.pathname + search;
+        window.history.pushState('page2', 'Title', path);
+    },
+    onExternal: function (url, id) {
+        var type = 'external';
+        this.setUrlWithParams(type)
         this.getHttp(url, function (data) {
             this.trigger({
-                type: 'external',
+                type: type,
                 data: data
             });
         }.bind(this));
     },
-    onCover: function () {
+    onCover: function (id) {
+        var type = 'cover';
+        this.setUrlWithParams(type)
         this.trigger({
-            type: 'cover'
+            type: type
         });
     },
     onArticle: function (id) {
+        var type = 'article';
+        this.setUrlWithParams(type)
         this.trigger({
-            type: 'article',
+            type: type,
             id: id
         });
     }
