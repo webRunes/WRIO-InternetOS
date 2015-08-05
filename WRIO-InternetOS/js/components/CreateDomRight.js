@@ -7,7 +7,7 @@ var External = React.createClass({
         active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.external(this.props.data.url);
+        center.external(this.props.data.url, this.props.data.name);
         this.props.active(this);
     },
     getInitialState: function () {
@@ -57,7 +57,7 @@ var Cover = React.createClass({
         active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.cover();
+        center.cover(this.props.data.name);
         this.props.active(this);
     },
     getInitialState: function () {
