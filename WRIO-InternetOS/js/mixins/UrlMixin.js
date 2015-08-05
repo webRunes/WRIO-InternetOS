@@ -1,5 +1,5 @@
- var UrlMixin = {
-	  getUrlParams: function() {
+var UrlMixin = {
+    getUrlParams: function() {
         return window.location.search.substring(1);
     }
 };

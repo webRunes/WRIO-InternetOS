@@ -21,14 +21,13 @@ module.exports = Reflux.createStore({
         );
     },
     setUrlWithParams: function(params) {
-        params = (typeof params !== 'undefined') ? params : '';
-        var search = (params.length > 1) ? '?' + params : '',
+        var search = '?' + params,
             path = window.location.pathname + search;
         window.history.pushState('page2', 'Title', path);
     },
-    onExternal: function (url, id) {
+    onExternal: function (url) {
         var type = 'external';
-        this.setUrlWithParams(type)
+        this.setUrlWithParams(type);
         this.getHttp(url, function (data) {
             this.trigger({
                 type: type,
@@ -36,16 +35,16 @@ module.exports = Reflux.createStore({
             });
         }.bind(this));
     },
-    onCover: function (id) {
+    onCover: function () {
         var type = 'cover';
-        this.setUrlWithParams(type)
+        this.setUrlWithParams(type);
         this.trigger({
             type: type
         });
     },
     onArticle: function (id) {
         var type = 'article';
-        this.setUrlWithParams(type)
+        this.setUrlWithParams(type);
         this.trigger({
             type: type,
             id: id
