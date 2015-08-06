@@ -1,11 +1,13 @@
 var Reflux = require('reflux'),
     Actions = require('../actions/center'),
     request = require('superagent'),
+    UrlMixin = require('../mixins/UrlMixin'),
     scripts = require('../jsonld/scripts');
 
 
 module.exports = Reflux.createStore({
     listenables: Actions,
+    mixins: [UrlMixin],
     getHttp: function (url, cb) {
         var self = this;
         request.get(
@@ -19,12 +21,6 @@ module.exports = Reflux.createStore({
                 cb.call(self, result || []);
             }
         );
-    },
-    getAliasByType: function(type) {
-        return {
-            cover: 'Cover',
-            external: 'Blog'
-        }[type];
     },
     setUrlWithParams: function(type) {
         var search = '?list=' + this.getAliasByType(type),
