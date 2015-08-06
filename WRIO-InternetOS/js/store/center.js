@@ -20,10 +20,19 @@ module.exports = Reflux.createStore({
             }
         );
     },
-    setUrlWithParams: function(params) {
-        var search = '?' + params,
+    getAliasByType: function(type) {
+        return {
+            cover: 'Cover',
+            external: 'Blog'
+        }[type];
+    },
+    setUrlWithParams: function(type) {
+        var search = '?list=' + this.getAliasByType(type),
             path = window.location.pathname + search;
-        window.history.pushState('page2', 'Title', path);
+        window.history.pushState('page', 'params', path);
+    },
+    setUrlWithoutParams: function() {
+        window.history.pushState('page', 'params', window.location.pathname);
     },
     onExternal: function (url) {
         var type = 'external';
@@ -44,7 +53,7 @@ module.exports = Reflux.createStore({
     },
     onArticle: function (id) {
         var type = 'article';
-        this.setUrlWithParams(type);
+        this.setUrlWithoutParams();
         this.trigger({
             type: type,
             id: id
