@@ -1,11 +1,13 @@
 var Reflux = require('reflux'),
     Actions = require('../actions/center'),
     request = require('superagent'),
+    UrlMixin = require('../mixins/UrlMixin'),
     scripts = require('../jsonld/scripts');
 
 
 module.exports = Reflux.createStore({
     listenables: Actions,
+    mixins: [UrlMixin],
     getHttp: function (url, cb) {
         var self = this;
         request.get(
@@ -20,10 +22,13 @@ module.exports = Reflux.createStore({
             }
         );
     },
-    setUrlWithParams: function(params) {
-        var search = '?' + params,
+    setUrlWithParams: function(type) {
+        var search = '?list=' + this.getAliasByType(type),
             path = window.location.pathname + search;
-        window.history.pushState('page2', 'Title', path);
+        window.history.pushState('page', 'params', path);
+    },
+    setUrlWithoutParams: function() {
+        window.history.pushState('page', 'params', window.location.pathname);
     },
     onExternal: function (url) {
         var type = 'external';
@@ -44,7 +49,7 @@ module.exports = Reflux.createStore({
     },
     onArticle: function (id) {
         var type = 'article';
-        this.setUrlWithParams(type);
+        this.setUrlWithoutParams();
         this.trigger({
             type: type,
             id: id

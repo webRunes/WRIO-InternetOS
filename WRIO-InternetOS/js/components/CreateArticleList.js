@@ -55,15 +55,14 @@ var CreateArticleList = React.createClass({
     },
     getContentByType: function(type) {
         return {
-            'cover': this.getCoverList(),
-            'external': this.getItemList(),
-            'article': this.getArticles()
+            'Cover': this.getCoverList(),
+            'Blog': this.getItemList()
         }[type] || this.getArticles();
     },
     render: function () {
         return (
             <article>
-                {this.getContentByType(this.getUrlParams())}
+                {this.getContentByType(this.searchToObject().list)}
             </article>
         );
     }

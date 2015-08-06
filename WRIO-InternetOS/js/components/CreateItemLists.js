@@ -11,6 +11,7 @@ var CreateItemLists = React.createClass({
             title = item.name,
             image = cssUrl + theme + '/img/no-photo-200x200.png', //item.thumbnail,
             about = item.about,
+            url = item.url,
             createdDate = item.datePublished;
 
         return (
@@ -18,7 +19,9 @@ var CreateItemLists = React.createClass({
               <div className="media thumbnail clearfix" id="plusWrp">
                 <header className="col-xs-12">
                   <h2>
-                    {title}
+                    <a href={url}>
+                      {title}
+                    </a>
                     <sup>sub_title</sup>
                   </h2>
                 </header>
