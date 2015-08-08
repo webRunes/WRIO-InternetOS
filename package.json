@@ -50,7 +50,8 @@
     "build": "npm run lint && npm run bundleD && gulp clear",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
-    "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d"
+    "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d",
+    "watchDOCKER": "watchify -p browserify-notify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d"
   },
   "dependencies": {
     "browserify": "^10.2.1",
