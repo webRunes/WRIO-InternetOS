@@ -1,4 +1,5 @@
 var React = require('react'),
+    UrlMixin = require('../mixins/UrlMixin'),
     center = require('../actions/center');
 
 var External = React.createClass({
@@ -80,6 +81,7 @@ var CreateDomRight = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired
     },
+    mixins: [UrlMixin],
     active: function (child) {
         if (this.current) {
             this.current.setState({
@@ -92,6 +94,7 @@ var CreateDomRight = React.createClass({
         });
     },
     render: function () {
+
         var isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
@@ -104,6 +107,9 @@ var CreateDomRight = React.createClass({
                     if (isCover(item)) {
                         items.push(<Cover data={item} key={items.length} active={this.active} />);
                     } else {
+                        if(this.searchToObject().list === item.name) {
+                            center.external(item.url, item.name);
+                        }
                         items.push(<External data={item} key={items.length} active={this.active} />);
                     }
                 }, this);
