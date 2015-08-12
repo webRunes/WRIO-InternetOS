@@ -25,17 +25,18 @@ var Center = React.createClass({
     },
     render: function () {
         var content = this.state.content,
+            data = content.data || this.props.data,
             type = this.searchToObject().list;
         if (type === 'Cover') {
-            return <CreateArticleList data={this.props.data} id={content.url} />;
-        } else if (type === 'Blog') {
-            return <CreateArticleList data={this.props.data} id={content.url} />;
+            return <CreateArticleList data={data} id={content.url} />;
+        } else if (this.state.content.type === 'external' || typeof type !== 'undefined') {
+            return <CreateArticleList data={data} id={content.url} />;
         }
         else {
             return (
                 <div>
                     <CreateArticleList data={this.props.data} id={content.id} />;
-                    <CreateTitter scripts={this.props.data} />
+                    <CreateTitter scripts={data} />
                 </div>
             );
         }
