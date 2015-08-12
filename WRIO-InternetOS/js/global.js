@@ -5,7 +5,7 @@ var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:300
 
 if (process.env.NODE_ENV === 'dockerdev') {
 	importUrl = cssUrl = 'http://wrioos.local/';
-	theme = 'Default-WRIO-Theme',
+	theme = 'Default-WRIO-Theme';
 	themeImportUrl = importUrl + theme + '/widget/';
 }
 
