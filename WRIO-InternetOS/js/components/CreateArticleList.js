@@ -4,7 +4,8 @@ var React = require('react'),
     CreateItemLists = require('./CreateItemLists'),
     CreateCover = require('./CreateCover'),
     Carousel = require('react-bootstrap').Carousel,
-    CarouselItem = require('react-bootstrap').CarouselItem;
+    CarouselItem = require('react-bootstrap').CarouselItem,
+    UrlMixin = require('../mixins/UrlMixin');
 
 var CreateArticleList = React.createClass({
     propTypes: {
@@ -24,13 +25,7 @@ var CreateArticleList = React.createClass({
                 }
             });
     },
-    isCover: function() {
-        var location = window.location.search.substring(1).split('&');
-        location = location.filter(function(item) {
-            return item === 'cover';
-        });
-        return location.length > 0;
-    },
+    mixins: [UrlMixin],
     getItemList: function() {
         return this.props.data.filter(function (o) {
             return o['@type'] === 'ItemList';
@@ -58,12 +53,19 @@ var CreateArticleList = React.createClass({
             location.hash = '#' + id;
         }
     },
+    getContentByName: function(name) {
+        if(typeof name === 'undefined') {
+            return this.getArticles();
+        } else if (name === 'Cover') {
+            return this.getCoverList();
+        } else {
+            return this.getItemList();
+        }
+    },
     render: function () {
-        var itemList = (this.isCover()) ? this.getCoverList() : this.getItemList();
         return (
             <article>
-                {itemList}
-                {this.getArticles()}
+                {this.getContentByName(this.searchToObject().list)}
             </article>
         );
     }
