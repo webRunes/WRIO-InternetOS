@@ -1,71 +1,32 @@
 var React = require('react'),
     CreateArticleLists = require('./CreateArticleLists'),
-    CreateArticleElement = require('./CreateArticleElement'),
-    CreateItemLists = require('./CreateItemLists'),
-    CreateCover = require('./CreateCover'),
-    Carousel = require('react-bootstrap').Carousel,
-    CarouselItem = require('react-bootstrap').CarouselItem,
-    UrlMixin = require('../mixins/UrlMixin');
+    CreateArticleElement = require('./CreateArticleElement');
 
 var CreateArticleList = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired,
-        id: React.PropTypes.string
-    },
-    getArticles: function () {
-        return this.props.data
-            .filter(function (o) {
-                return o['@type'] === 'Article';
-            })
-            .map(function (o, key) {
-                if (o.url) {
-                    return <CreateArticleLists data={o} key={key} />;
-                } else {
-                    return <CreateArticleElement data={o} key={key} />;
-                }
-            });
-    },
-    mixins: [UrlMixin],
-    getItemList: function() {
-        return this.props.data.filter(function (o) {
-            return o['@type'] === 'ItemList';
-        }).map(function (list) {
-            return list.itemListElement.map(function (item, key) {
-                return <CreateItemLists data={item} key={key} />;
-            });
-        });
-    },
-    getCoverList: function() {
-        var data = this.props.data.filter(function (o) {
-            return o['@type'] === 'ItemList';
-        }).map(function (list) {
-            return list.itemListElement.map(function (item, key) {
-                return <CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
-            });
-        });
-        return (
-            <Carousel>{data}</Carousel>
-        );
-    },
-    componentDidUpdate: function () {
-        var id = this.props.id;
-        if (id) {
-            location.hash = '#' + id;
-        }
-    },
-    getContentByName: function(name) {
-        if(typeof name === 'undefined') {
-            return this.getArticles();
-        } else if (name === 'Cover') {
-            return this.getCoverList();
-        } else {
-            return this.getItemList();
-        }
+        converter: React.PropTypes.object.isRequired
     },
     render: function () {
+        var commentNodes = this.props.data.map(function(comment, index) {
+            if(!comment.is_article) {
+                return false;
+            }
+            if (comment.url !== '') {
+                return (
+                    <CreateArticleLists articlename={comment.articlename} url={comment.url} key={index} about={comment.about} />
+                );
+            } else {
+                return (
+                    <CreateArticleElement converter={this.props.converter} articlename={comment.articlename} key={index} hasPart={comment.hasPart}>
+                        {comment.articleBody}
+                    </CreateArticleElement>
+                );
+            }
+        }, this);
         return (
             <article>
-                {this.getContentByName(this.searchToObject().list)}
+                {commentNodes}
             </article>
         );
     }
