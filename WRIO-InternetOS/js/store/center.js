@@ -27,8 +27,9 @@ module.exports = Reflux.createStore({
             path = window.location.pathname + search;
         window.history.pushState('page', 'params', path);
     },
-    setUrlWithoutParams: function() {
+    setUrlWithHash: function(name) {
         window.history.pushState('page', 'params', window.location.pathname);
+        window.location.hash = name
     },
     onExternal: function (url, name) {
         var type = 'external';
@@ -50,7 +51,7 @@ module.exports = Reflux.createStore({
     },
     onArticle: function (id) {
         var type = 'article';
-        this.setUrlWithoutParams();
+        this.setUrlWithHash(id);
         this.trigger({
             type: type,
             id: id

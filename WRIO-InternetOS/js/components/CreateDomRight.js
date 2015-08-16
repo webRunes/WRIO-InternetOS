@@ -46,7 +46,7 @@ var Article = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a onClick={this.onClick} className={o.class} >{o.name}</a>
+                <a onClick={this.onClick} className={o.class}>{o.name}</a>
             </li>
         );
     }
