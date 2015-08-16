@@ -29,7 +29,7 @@ module.exports = Reflux.createStore({
     },
     setUrlWithHash: function(name) {
         window.history.pushState('page', 'params', window.location.pathname);
-        window.location.hash = name
+        window.location.hash = name;
     },
     onExternal: function (url, name) {
         var type = 'external';
