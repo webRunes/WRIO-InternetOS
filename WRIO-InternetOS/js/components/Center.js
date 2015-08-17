@@ -23,6 +23,11 @@ var Center = React.createClass({
             }
         };
     },
+    componentDidUpdate: function() {
+        var hash = window.location.hash;
+        window.location.hash = "";
+        window.location.hash = hash;
+    },
     render: function () {
         var content = this.state.content,
             data = content.data || this.props.data,
