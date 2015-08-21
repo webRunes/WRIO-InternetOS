@@ -23,7 +23,7 @@ var CreateArticleList = React.createClass({
                 } else if (o['@type'] === 'ItemList') {
                     return o.itemListElement.map(function(item, index){
                         return <CreateArticleLists data={item} key={index} />;
-                    })
+                    });
                 } else {
                     return <CreateArticleElement data={o} key={key} />;
                 }
