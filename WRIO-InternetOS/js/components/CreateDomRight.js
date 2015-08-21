@@ -1,17 +1,26 @@
 var React = require('react'),
-    center = require('../actions/CreateDomCenter');
+    UrlMixin = require('../mixins/UrlMixin'),
+    center = require('../actions/center');
 
 var External = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.show(this.props.data.url);
+        center.external(this.props.data.url, this.props.data.name);
+        this.props.active(this);
+    },
+    getInitialState: function () {
+        return {
+            active: false
+        };
     },
     render: function () {
-        var o = this.props.data;
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '';
         return (
-            <li>
+            <li className={className}>
                 <a onClick={this.onClick}>{o.name}</a>
             </li>
         );
@@ -20,20 +29,24 @@ var External = React.createClass({
 
 var Article = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.show();
+        center.article(this.props.data.name);
+        this.props.active(this);
+    },
+    getInitialState: function () {
+        return {
+            active: false
+        };
     },
     render: function () {
-        var comment = this.props.data,
-            commentMenustring = comment.name.replace(/\s/g, '_'),
-            href = comment.url ? comment.url : '#' + commentMenustring,
-            listURl = '#' + commentMenustring,
-            menuClass = comment.class;
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '';
         return (
-            <li>
-                <a onClick={this.onClick} className={menuClass} data-url={href}>{comment.name}</a>
+            <li className={className}>
+                <a onClick={this.onClick} className={o.class}>{o.name}</a>
             </li>
         );
     }
@@ -41,15 +54,23 @@ var Article = React.createClass({
 
 var Cover = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.show('cover');
+        center.cover(this.props.data.name);
+        this.props.active(this);
+    },
+    getInitialState: function () {
+        return {
+            active: false
+        };
     },
     render: function () {
-        var o = this.props.data;
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '';
         return (
-            <li>
+            <li className={className}>
                 <a onClick={this.onClick}>{o.name}</a>
             </li>
         );
@@ -60,25 +81,48 @@ var CreateDomRight = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired
     },
-    isCover: function (o) {
-        return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
+    mixins: [UrlMixin],
+    active: function (child) {
+        if (this.current) {
+            this.current.setState({
+                active: false
+            });
+        }
+        this.current = child;
+        this.current.setState({
+            active: true
+        });
     },
     render: function () {
-        var commentItemMenus = this.props.data.map(function(o, i) {
-            if (o.class === 'articleView') {
-                return <Article data={o} key={i} />;
-            } else if (o.class === 'listView') {
-                if (this.isCover(o)) {
-                    return <Cover data={o} key={i} />;
-                }
-                return <External data={o} key={i} />;
+
+        var isCover = function (o) {
+            return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
+        },
+            items = [];
+        this.props.data.forEach(function add (o) {
+            if (o['@type'] === 'Article') {
+                items.push(<Article data={o} key={items.length} active={this.active} />);
+            } else if (o['@type'] === 'ItemList') {
+                o.itemListElement.forEach(function (item) {
+                    if (isCover(item)) {
+                        items.push(<Cover data={item} key={items.length} active={this.active} />);
+                    } else {
+                        if(this.searchToObject().list === item.name) {
+                            center.external(item.url, item.name);
+                        }
+                        items.push(<External data={item} key={items.length} active={this.active} />);
+                    }
+                }, this);
+            }
+            if (o.hasPart) {
+                o.hasPart.forEach(add, this);
             }
         }, this);
         return (
             <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
                 <div className="sidebar-margin">
                     <ul className="nav nav-pills nav-stacked">
-                        {commentItemMenus}
+                        {items}
                     </ul>
                 </div>
             </div>
