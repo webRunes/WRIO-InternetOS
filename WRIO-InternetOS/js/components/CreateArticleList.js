@@ -15,11 +15,15 @@ var CreateArticleList = React.createClass({
     getArticles: function () {
         return this.props.data
             .filter(function (o) {
-                return o['@type'] === 'Article';
+                return o['@type'] === 'Article' || o['@type'] === 'ItemList';
             })
             .map(function (o, key) {
                 if (o.url) {
                     return <CreateArticleLists data={o} key={key} />;
+                } else if (o['@type'] === 'ItemList') {
+                    return o.itemListElement.map(function(item, index){
+                        return <CreateArticleLists data={item} key={index} />;
+                    })
                 } else {
                     return <CreateArticleElement data={o} key={key} />;
                 }

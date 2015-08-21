@@ -9,7 +9,7 @@ var CreateArticleLists = React.createClass({
     render: function() {
         var o = this.props.data;
         return (
-            <div id={o.name}>;
+            <div id={o.name}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
