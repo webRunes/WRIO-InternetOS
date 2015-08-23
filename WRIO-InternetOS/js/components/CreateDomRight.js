@@ -1,5 +1,6 @@
 var React = require('react'),
     UrlMixin = require('../mixins/UrlMixin'),
+    _ = require('lodash'),
     center = require('../actions/center');
 
 var External = React.createClass({
@@ -94,7 +95,6 @@ var CreateDomRight = React.createClass({
         });
     },
     render: function () {
-
         var isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
@@ -103,16 +103,29 @@ var CreateDomRight = React.createClass({
             if (o['@type'] === 'Article') {
                 items.push(<Article data={o} key={items.length} active={this.active} />);
             } else if (o['@type'] === 'ItemList') {
-                o.itemListElement.forEach(function (item) {
-                    if (isCover(item)) {
-                        items.push(<Cover data={item} key={items.length} active={this.active} />);
-                    } else {
-                        if(this.searchToObject().list === item.name) {
-                            center.external(item.url, item.name);
-                        }
-                        items.push(<External data={item} key={items.length} active={this.active} />);
-                    }
-                }, this);
+                  var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
+                  if(!isContainItemList) {
+                      if (isCover(o)) {
+                          items.push(<Cover data={o} key={items.length} active={this.active} />);
+                      } else {
+                          if(this.searchToObject().list === o.name) {
+                              center.external(o.url, o.name);
+                          }
+                          items.push( <External data={o} key={items.length} active={this.active} />);
+                      }
+                  }
+                  else {
+                      o.itemListElement.forEach(function (item) {
+                          if (isCover(item)) {
+                              items.push(<Cover data={item} key={items.length} active={this.active} />);
+                          } else {
+                              if(this.searchToObject().list === item.name) {
+                                  center.external(item.url, item.name);
+                              }
+                              items.push(<External data={item} key={items.length} active={this.active} />);
+                          }
+                      }, this);
+                  }
             }
             if (o.hasPart) {
                 o.hasPart.forEach(add, this);

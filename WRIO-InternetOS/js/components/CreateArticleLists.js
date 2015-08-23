@@ -8,6 +8,10 @@ var CreateArticleLists = React.createClass({
     },
     render: function() {
         var o = this.props.data;
+        if(o['@type'] !== 'Article') {
+            return null;
+        }
+
         return (
             <div id={o.name}>
                 <article>
