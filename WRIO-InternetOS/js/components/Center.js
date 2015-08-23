@@ -32,6 +32,7 @@ var Center = React.createClass({
         var content = this.state.content,
             data = content.data || this.props.data,
             type = this.searchToObject().list;
+        console.log('data', data);
         if (type === 'Cover') {
             return <CreateArticleList data={data} id={content.url} />;
         } else if (this.state.content.type === 'external' || typeof type !== 'undefined') {
@@ -40,7 +41,7 @@ var Center = React.createClass({
         else {
             return (
                 <div>
-                    <CreateArticleList data={this.props.data} id={content.id} />;
+                    <CreateArticleList data={this.props.data} id={content.id} />
                     <CreateTitter scripts={data} />
                 </div>
             );

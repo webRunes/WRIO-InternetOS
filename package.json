@@ -59,6 +59,7 @@
     "domready": "^1.0.8",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
+    "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
