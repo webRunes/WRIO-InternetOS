@@ -47,7 +47,7 @@
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
     "bundleDOCKER": "browserify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d",
-    "build": "npm run lint && npm run bundleD && gulp clear",
+    "build": "npm run lint && npm run bundleD && gulp clear && gzip -9 start.js && mv start.js.gz start.js",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
     "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d",
