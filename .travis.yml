@@ -18,5 +18,6 @@ deploy:
   bucket: wrioos.com
   acl: public_read
   skip_cleanup: true
+  detect_encoding: true # <== default is false
   on:
     all_branches: true
