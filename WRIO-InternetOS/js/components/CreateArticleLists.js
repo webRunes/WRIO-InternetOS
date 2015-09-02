@@ -8,7 +8,7 @@ var CreateArticleLists = React.createClass({
     },
     render: function() {
         var o = this.props.data;
-        if(o['@type'] !== 'Article') {
+        if(o['@type'] === 'ItemList') {
             return null;
         }
 
