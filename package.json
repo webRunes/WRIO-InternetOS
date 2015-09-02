@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -52,7 +52,6 @@
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
     "watch": "gulp watch",
-
     "bundleDOCKER": "gulp --docker",
     "watchDOCKER": "gulp watch --docker"
   },
