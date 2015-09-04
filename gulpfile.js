@@ -5,6 +5,7 @@ var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
+var shell = require('gulp-shell')
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -37,6 +38,9 @@ gulp.task('babel-client', function() {
         .pipe(gulp.dest('.'));
 });
 
+gulp.task('update-modules', function() {
+    shell('npm install plus passport-signin titter');
+});
 
 gulp.task('nodemon', function() {
     nodemon({
