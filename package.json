@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.20",
+  "version": "1.0.35",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "aws-sdk-apis": "*",
+    "babel": "^5.6.14",
+    "babelify": "^6.1.2",
     "body-parser": "*",
     "debug": "*",
     "depd": "*",
@@ -21,6 +23,7 @@
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
+    "gulp-shell": "^0.4.3",
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
@@ -32,6 +35,7 @@
     "qs": "*",
     "supervisor": "*",
     "utils-merge": "*",
+    "vinyl-source-stream": "^1.1.0",
     "when": "~3.1.0",
     "xml2js": "*",
     "xmlbuilder": "*"
@@ -42,37 +46,42 @@
     ]
   },
   "scripts": {
-    "postinstall": "rm -rf node_modules/react-tools && cd node_modules && git clone https://github.com/facebook/react react-tools && cd react-tools && git reset --hard 128390a691f790b8003c7abd42560f0025e40c79 && npm i && npm run build && cd build/npm-react && npm link && cd ../../../.. && npm link react",
-    "start": "npm run bundleP && gulp clear",
+    "start": "gulp && gulp clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
-    "bundleDOCKER": "browserify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d",
-    "build": "npm run lint && npm run bundleD && gulp clear",
+    "build": "npm run lint && gulp && gulp clear && gzip -9 start.js && mv start.js.gz start.js",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
-    "watch": "watchify -p browserify-notify -g [envify --NODE_ENV development] WRIO-InternetOS/main.jsx -o start.js -d",
-    "watchDOCKER": "watchify -p browserify-notify -g [envify --NODE_ENV dockerdev  --DOMAIN wrioos.local] WRIO-InternetOS/main.jsx -o start.js -d"
+    "watch": "gulp watch",
+    "bundleDOCKER": "gulp --docker",
+    "watchDOCKER": "gulp watch --docker"
   },
   "dependencies": {
-    "browserify": "^10.2.1",
+    "browserify": "^10.2.4",
     "browserify-notify": "^1.1.2",
     "domready": "^1.0.8",
     "envify": "^3.4.0",
+    "es6-promise": "^3.0.2",
     "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-nodemon": "^2.0.3",
+    "gulp-notify": "^2.2.0",
+    "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
+    "login-wrio-app": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
-    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
+    "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "react": "^0.13.3",
     "react-bootstrap": "^0.24.2",
-    "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",
     "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
     "uglifyify": "^3.0.1",
-    "watchify": "^3.2.1"
+    "watchify": "^3.2.1",
+    "yargs": "^3.23.0"
   }
 }
