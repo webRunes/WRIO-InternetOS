@@ -52,12 +52,17 @@ gulp.task('babel-client', ['update-modules'], function() {
 }*/
 
 gulp.task('update-modules', function(callback) {
-    npm.load(['./package.json'],function (er, npm) {
-        npm.commands.install(['file:../Titter-WRIO-App/', 'file:../Login-WRIO-App/','file:../Plus-WRIO-App/'],function(err,cb){
-            callback();
-        });
+    if (argv.dev) {
+        npm.load(['./package.json'],function (er, npm) {
+            npm.commands.install(['file:../Titter-WRIO-App/', 'file:../Login-WRIO-App/','file:../Plus-WRIO-App/'],function(err,cb){
+                callback();
+            });
 
-    });
+        });
+    } else {
+        callback();
+    }
+
 });
 
 
