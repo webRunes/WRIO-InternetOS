@@ -5,6 +5,7 @@ var React = require('react'),
     CreateCover = require('./CreateCover'),
     Carousel = require('react-bootstrap').Carousel,
     CarouselItem = require('react-bootstrap').CarouselItem,
+    _ = require('lodash'),
     UrlMixin = require('../mixins/UrlMixin');
 
 var CreateArticleList = React.createClass({
@@ -13,6 +14,23 @@ var CreateArticleList = React.createClass({
         id: React.PropTypes.string
     },
     getArticles: function () {
+        var mentions = _.chain(this.props.data)
+          .pluck('itemListElement').flatten()
+          .pluck('mentions').flatten()
+          .filter(function(item) {
+              return !_.isEmpty(item);
+          })
+          .map(function(item, index) {
+              return <CreateArticleLists data={item} key={index} />;
+          })
+          .value();
+
+        var isMentions = mentions.length > 0;
+
+        if(isMentions) {
+            return mentions;
+        }
+
         return this.props.data
             .map(function (o, key) {
                 if (o.url) {
