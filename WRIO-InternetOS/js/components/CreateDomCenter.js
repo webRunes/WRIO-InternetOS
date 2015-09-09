@@ -27,7 +27,7 @@ module.exports = React.createClass({
     },
     editIframeStyles: {
         width: '100%',
-        height: '600px',
+        height: '700px',
         border: 'none'
     },
     render: function () {

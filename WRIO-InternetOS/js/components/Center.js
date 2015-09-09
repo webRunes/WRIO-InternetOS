@@ -32,7 +32,6 @@ var Center = React.createClass({
         var content = this.state.content,
             data = content.data || this.props.data,
             type = this.searchToObject().list;
-        console.log('data', data);
         if (type === 'Cover') {
             return <CreateArticleList data={data} id={content.url} />;
         } else if (this.state.content.type === 'external' || typeof type !== 'undefined') {
