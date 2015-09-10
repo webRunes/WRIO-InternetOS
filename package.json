@@ -1,4 +1,4 @@
-{
+{ 
   "name": "WRIO-InternetOS",
   "version": "1.0.39",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
