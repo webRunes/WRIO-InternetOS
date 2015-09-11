@@ -6,19 +6,23 @@ var CreateArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
+
+    handleClick: function() {
+        window.location.href = this.props.data.url;
+    },
+
     render: function() {
         var o = this.props.data;
         if(o['@type'] !== 'Article') {
             return null;
         }
-
         return (
-            <div id={o.name}>
+            <div id={o.name} onClick={this.handleClick}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
                             <h2>
-                                <a href={o.url}>{o.name}</a>
+                                <span>{o.name}</span>
                                 <sup>{o.name}</sup>
                             </h2>
                         </header>
