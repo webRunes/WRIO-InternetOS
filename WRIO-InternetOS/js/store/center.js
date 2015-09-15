@@ -41,13 +41,16 @@ module.exports = Reflux.createStore({
             });
         }.bind(this));
     },
-    onCover: function () {
+    onCover: function (url) {
         var type = 'cover',
             name = 'Cover';
         this.setUrlWithParams(type, name);
-        this.trigger({
-            type: type
-        });
+        this.getHttp(url, function (data) {
+            this.trigger({
+                type: type,
+                data: data
+            });
+        }.bind(this));
     },
     onArticle: function (id) {
         var type = 'article';
