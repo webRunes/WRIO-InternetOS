@@ -59,7 +59,7 @@ var Cover = React.createClass({
         active: React.PropTypes.func.isRequired
     },
     onClick: function () {
-        center.cover(this.props.data.name);
+        center.cover(this.props.data.url);
         this.props.active(this);
     },
     getInitialState: function () {
@@ -106,6 +106,9 @@ var CreateDomRight = React.createClass({
                   var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
                   if(!isContainItemList) {
                       if (isCover(o)) {
+                          if(this.searchToObject().list === o.name) {
+                              center.cover(o.itemListElement[0].url);
+                          }
                           items.push(<Cover data={o} key={items.length} active={this.active} />);
                       } else {
                           if(this.searchToObject().list === o.name) {
@@ -117,6 +120,10 @@ var CreateDomRight = React.createClass({
                   else {
                       o.itemListElement.forEach(function (item) {
                           if (isCover(item)) {
+                              if(this.searchToObject().list === o.name) {
+                                  center.cover(o.url);
+                              }
+                              center.cover(o.itemListElement[0].url);
                               items.push(<Cover data={item} key={items.length} active={this.active} />);
                           } else {
                               if(this.searchToObject().list === item.name) {
