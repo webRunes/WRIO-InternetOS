@@ -1,6 +1,4 @@
-var React = require('react'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
+var React = require('react');
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -9,7 +7,7 @@ var CreateCover = React.createClass({
     },
     render: function() {
         var cover = this.props.data;
-        var path = cssUrl + theme + '/img/sign_in-cover1.jpg'; //cover.img;
+        var path = cover.thumbnail; //cover.img;
         var name = cover.name;
         var isActive = this.props.isActive ? 'item active' : 'item';
 
