@@ -17,7 +17,7 @@
     "debug": "*",
     "depd": "*",
     "destroy": "*",
-    "eslint": "^0.24.1",
+    "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.1.0",
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "etag": "*",
