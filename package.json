@@ -42,7 +42,9 @@
   },
   "browserify": {
     "transform": [
-      "reactify"
+      "reactify",
+      "envify",
+      "babelify"
     ]
   },
   "scripts": {
