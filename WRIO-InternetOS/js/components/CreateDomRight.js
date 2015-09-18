@@ -107,7 +107,7 @@ var CreateDomRight = React.createClass({
                   if(!isContainItemList) {
                       if (isCover(o)) {
                           if(this.searchToObject().list === o.name) {
-                              center.cover(o.itemListElement[0].url);
+                              center.cover(o.itemListElement[0].url, false);
                           }
                           items.push(<Cover data={o} key={items.length} active={this.active} />);
                       } else {
@@ -121,9 +121,9 @@ var CreateDomRight = React.createClass({
                       o.itemListElement.forEach(function (item) {
                           if (isCover(item)) {
                               if(this.searchToObject().list === o.name) {
-                                  center.cover(o.url);
+                                  center.cover(o.url, false);
                               }
-                              center.cover(o.itemListElement[0].url);
+                              center.cover(o.itemListElement[0].url, true);
                               items.push(<Cover data={item} key={items.length} active={this.active} />);
                           } else {
                               if(this.searchToObject().list === item.name) {
