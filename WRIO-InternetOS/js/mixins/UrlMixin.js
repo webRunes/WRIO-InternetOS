@@ -23,8 +23,6 @@ var UrlMixin = {
         }
         return obj;
     }
-
-
 };
 
 module.exports = UrlMixin;

@@ -55,13 +55,17 @@ var CreateArticleList = React.createClass({
         });
     },
     getCoverList: function() {
-        var data = this.props.data.filter(function (o) {
-            return o['@type'] === 'ItemList';
-        }).map(function (list) {
-            return list.itemListElement.map(function (item, key) {
+        var data = _.chain(this.props.data)
+            .pluck('itemListElement')
+            .flatten()
+            .filter(function(item) {
+                return !_.isEmpty(item);
+            })
+            .map(function(item, key) {
                 return <CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
-            });
-        });
+            })
+            .value();
+
         return (
             <Carousel>{data}</Carousel>
         );
