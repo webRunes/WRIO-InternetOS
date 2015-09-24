@@ -32,9 +32,7 @@ gulp.task('babel-client', ['update-modules'], function() {
         entries: './WRIO-InternetOS/main.jsx',
         debug: true
     })
-        .transform(babelify.configure({
-            blacklist: ["strict"]
-        }))
+        .transform(babelify)
         .transform(envify(envify_params))
         .bundle()
         .on('error', function(err) {
