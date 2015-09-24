@@ -115,13 +115,15 @@ var CreateDomRight = React.createClass({
     render: function () {
         var type = this.searchToObject().list,
             isActive,
+            isInit = true,
             isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
             items = [];
         this.props.data.forEach(function add (o) {
             if (o['@type'] === 'Article') {
-                isActive = o.name === window.location.hash.substring(1);
+                isActive = o.name === window.location.hash.substring(1) || isInit;
+                isInit = false;
                 items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
             } else if (o['@type'] === 'ItemList') {
                   var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
