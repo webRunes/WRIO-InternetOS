@@ -115,19 +115,20 @@ var CreateDomRight = React.createClass({
     render: function () {
         var type = this.searchToObject().list,
             isActive,
-            isInit = true,
+            isActiveFirstArticle = true,
             isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
             items = [];
         this.props.data.forEach(function add (o) {
-            if (o['@type'] === 'Article') {
-                isActive = o.name === window.location.hash.substring(1) || isInit;
-                isInit = false;
+            if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
+                isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
+                isActiveFirstArticle = false;
                 items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
             } else if (o['@type'] === 'ItemList') {
                   var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
                   if(!isContainItemList) {
+                      isActive = type === o.name;
                       if (isCover(o)) {
                           if(type === o.name) {
                               center.cover(o.itemListElement[0].url, false);
@@ -141,7 +142,7 @@ var CreateDomRight = React.createClass({
                           if(type === o.name) {
                               center.external(o.url, o.name);
                           }
-                          items.push( <External data={o} key={items.length} active={this.active} />);
+                          items.push( <External data={o} key={items.length} active={this.active} isActive={isActive} />);
                       }
                   }
                   else {
@@ -170,6 +171,7 @@ var CreateDomRight = React.createClass({
                 o.hasPart.forEach(add, this);
             }
         }, this);
+
         return (
             <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
                 <div className="sidebar-margin">
