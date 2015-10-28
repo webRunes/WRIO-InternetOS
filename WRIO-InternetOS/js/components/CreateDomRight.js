@@ -1,5 +1,9 @@
 var React = require('react'),
     UrlMixin = require('../mixins/UrlMixin'),
+    classNames = require('classnames'),
+    ActionMenu = require('plus/js/actions/menu'),
+    StoreMenu = require('plus/js/stores/menu'),
+    Reflux = require('reflux'),
     _ = require('lodash'),
     center = require('../actions/center');
 
@@ -100,7 +104,9 @@ var CreateDomRight = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired
     },
+
     mixins: [UrlMixin],
+
     active: function (child) {
         if (this.current) {
             this.current.setState({
@@ -112,6 +118,27 @@ var CreateDomRight = React.createClass({
             active: true
         });
     },
+
+    getInitialState: function() {
+        return {
+            active: false
+        };
+    },
+
+    componentDidMount: function (){
+        this.unsubscribe = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+    },
+
+    onShowSidebar: function (data) {
+        this.setState({
+            active: data
+        });
+    },
+
+    componentWillUnmount: function () {
+        this.unsubscribe();
+    },
+
     render: function () {
         var type = this.searchToObject().list,
             isActive,
@@ -133,27 +160,23 @@ var CreateDomRight = React.createClass({
                           if(type === o.name) {
                               center.cover(o.itemListElement[0].url, false);
                               items.push(<Cover data={o} key={items.length} active={this.active} isActive={true} />);
-                          }
-                          else {
+                          } else {
                               items.push(<Cover data={o} key={items.length} active={this.active} isActive={false} />);
                           }
-
                       } else {
                           if(type === o.name) {
                               center.external(o.url, o.name);
                           }
                           items.push( <External data={o} key={items.length} active={this.active} isActive={isActive} />);
                       }
-                  }
-                  else {
+                  } else {
                       o.itemListElement.forEach(function (item) {
                           if (isCover(item)) {
                               isActive = type === item.name;
                               if(type === o.name) {
                                   center.cover(o.url, false);
                                   items.push(<Cover data={o} key={items.length} active={this.active} isActive={isActive} />);
-                              }
-                              else {
+                              } else {
                                   center.cover(o.itemListElement[0].url, true);
                                   items.push(<Cover data={item} key={items.length} active={this.active} isActive={isActive} />);
                               }
@@ -172,10 +195,15 @@ var CreateDomRight = React.createClass({
             }
         }, this);
 
+        var className = classNames({
+            'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
+            'active': this.state.active
+        });
+
         return (
-            <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
-                <div className="sidebar-margin">
-                    <ul className="nav nav-pills nav-stacked">
+            <div className={className} id='sidebar'>
+                <div className='sidebar-margin'>
+                    <ul className='nav nav-pills nav-stacked'>
                         {items}
                     </ul>
                 </div>
