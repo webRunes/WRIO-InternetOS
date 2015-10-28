@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.66",
+  "version": "1.0.80",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -64,6 +64,8 @@
     "browserify-notify": "^1.1.2",
     "domready": "^1.0.8",
     "envify": "^3.4.0",
+    "esprima": "~1.0.4",
+    "classnames": "^2.1.2",
     "es6-promise": "^3.0.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
