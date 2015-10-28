@@ -7,7 +7,7 @@ var CreateCover = React.createClass({
     },
     render: function() {
         var cover = this.props.data;
-        var path = cover.thumbnail; //cover.img;
+        var path = cover.contentUrl; //cover.img;
         var name = cover.name;
         var isActive = this.props.isActive ? 'item active' : 'item';
 

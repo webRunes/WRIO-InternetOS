@@ -6,7 +6,8 @@ var React = require('react'),
 var External = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired
+        active: React.PropTypes.func.isRequired,
+        isActive: React.PropTypes.bool.isRequired
     },
     onClick: function () {
         center.external(this.props.data.url, this.props.data.name);
@@ -16,6 +17,11 @@ var External = React.createClass({
         return {
             active: false
         };
+    },
+    componentWillMount: function() {
+        if(this.props.isActive) {
+            this.props.active(this);
+        }
     },
     render: function () {
         var o = this.props.data,
@@ -31,7 +37,8 @@ var External = React.createClass({
 var Article = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired
+        active: React.PropTypes.func.isRequired,
+        isActive: React.PropTypes.bool.isRequired
     },
     onClick: function () {
         center.article(this.props.data.name);
@@ -41,6 +48,11 @@ var Article = React.createClass({
         return {
             active: false
         };
+    },
+    componentWillMount: function() {
+        if(this.props.isActive) {
+            this.props.active(this);
+        }
     },
     render: function () {
         var o = this.props.data,
@@ -56,7 +68,8 @@ var Article = React.createClass({
 var Cover = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired
+        active: React.PropTypes.func.isRequired,
+        isActive: React.PropTypes.bool.isRequired
     },
     onClick: function () {
         center.cover(this.props.data.url);
@@ -66,6 +79,11 @@ var Cover = React.createClass({
         return {
             active: false
         };
+    },
+    componentWillMount: function() {
+        if(this.props.isActive) {
+            this.props.active(this);
+        }
     },
     render: function () {
         var o = this.props.data,
@@ -95,41 +113,56 @@ var CreateDomRight = React.createClass({
         });
     },
     render: function () {
-        var isCover = function (o) {
+        var type = this.searchToObject().list,
+            isActive,
+            isActiveFirstArticle = true,
+            isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
             items = [];
         this.props.data.forEach(function add (o) {
-            if (o['@type'] === 'Article') {
-                items.push(<Article data={o} key={items.length} active={this.active} />);
+            if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
+                isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
+                isActiveFirstArticle = false;
+                items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
             } else if (o['@type'] === 'ItemList') {
                   var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
                   if(!isContainItemList) {
+                      isActive = type === o.name;
                       if (isCover(o)) {
-                          if(this.searchToObject().list === o.name) {
-                              center.cover(o.itemListElement[0].url);
+                          if(type === o.name) {
+                              center.cover(o.itemListElement[0].url, false);
+                              items.push(<Cover data={o} key={items.length} active={this.active} isActive={true} />);
                           }
-                          items.push(<Cover data={o} key={items.length} active={this.active} />);
+                          else {
+                              items.push(<Cover data={o} key={items.length} active={this.active} isActive={false} />);
+                          }
+
                       } else {
-                          if(this.searchToObject().list === o.name) {
+                          if(type === o.name) {
                               center.external(o.url, o.name);
                           }
-                          items.push( <External data={o} key={items.length} active={this.active} />);
+                          items.push( <External data={o} key={items.length} active={this.active} isActive={isActive} />);
                       }
                   }
                   else {
                       o.itemListElement.forEach(function (item) {
                           if (isCover(item)) {
-                              if(this.searchToObject().list === o.name) {
-                                  center.cover(o.url);
+                              isActive = type === item.name;
+                              if(type === o.name) {
+                                  center.cover(o.url, false);
+                                  items.push(<Cover data={o} key={items.length} active={this.active} isActive={isActive} />);
                               }
-                              center.cover(o.itemListElement[0].url);
-                              items.push(<Cover data={item} key={items.length} active={this.active} />);
+                              else {
+                                  center.cover(o.itemListElement[0].url, true);
+                                  items.push(<Cover data={item} key={items.length} active={this.active} isActive={isActive} />);
+                              }
                           } else {
-                              if(this.searchToObject().list === item.name) {
+                              isActive = type === item.name;
+                              if(isActive) {
                                   center.external(item.url, item.name);
                               }
-                              items.push(<External data={item} key={items.length} active={this.active} />);
+                              items.push(<External data={item} key={items.length} active={this.active} isActive={isActive} />);
                           }
                       }, this);
                   }
@@ -138,6 +171,7 @@ var CreateDomRight = React.createClass({
                 o.hasPart.forEach(add, this);
             }
         }, this);
+
         return (
             <div className="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas" id="sidebar">
                 <div className="sidebar-margin">
