@@ -23,7 +23,6 @@ class CreateDomLeft extends React.Component{
         this.setState({
             showSidebar: !this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
         });
-        console.log( !this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active') )
         ActionMenu.showSidebar(!this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
     }
 
@@ -88,7 +87,7 @@ class CreateDomLeft extends React.Component{
                                 </a>
                             </li>
                         </ul>
-                        <a title='' data-placement='right' data-toggle='tooltip' className='navbar-brand' href='webrunes-contact.htm' data-original-title='Contact us'>&nbsp;</a>
+                        <a title='' data-placement='right' data-toggle='tooltip' className='navbar-brand' href='webrunes-contact.htm' data-original-title='Contact us'> </a>
                     </div>
                     <Plus themeImportUrl={themeImportUrl} />
                 </div>
