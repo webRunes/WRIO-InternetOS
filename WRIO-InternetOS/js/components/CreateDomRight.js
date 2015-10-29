@@ -201,9 +201,9 @@ var CreateDomRight = React.createClass({
         });
 
         return (
-            <div className={className} id='sidebar'>
-                <div className='sidebar-margin'>
-                    <ul className='nav nav-pills nav-stacked'>
+            <div className={className} id="sidebar">
+                <div className="sidebar-margin">
+                    <ul className="nav nav-pills nav-stacked">
                         {items}
                     </ul>
                 </div>
