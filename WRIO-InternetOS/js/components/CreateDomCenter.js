@@ -79,8 +79,8 @@ class CreateDomCenter extends React.Component{
             });
 
         return (
-            <div className={className} id='centerWrp'>
-                <div className='margin'>
+            <div className={className} id="centerWrp">
+                <div className="margin">
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb
                         converter={this.props.converter}
