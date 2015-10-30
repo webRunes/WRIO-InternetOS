@@ -15,6 +15,7 @@ var External = React.createClass({
     },
     onClick: function () {
         center.external(this.props.data.url, this.props.data.name);
+        ActionMenu.showSidebar(false);
         this.props.active(this);
     },
     getInitialState: function () {
@@ -47,6 +48,7 @@ var Article = React.createClass({
     onClick: function () {
         center.article(this.props.data.name);
         this.props.active(this);
+        ActionMenu.showSidebar(false);
     },
     getInitialState: function () {
         return {
@@ -77,6 +79,7 @@ var Cover = React.createClass({
     },
     onClick: function () {
         center.cover(this.props.data.url);
+        ActionMenu.showSidebar(false);
         this.props.active(this);
     },
     getInitialState: function () {
@@ -146,7 +149,9 @@ var CreateDomRight = React.createClass({
             isCover = function (o) {
             return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
         },
-            items = [];
+            items = [],
+            self = this;
+
         this.props.data.forEach(function add (o) {
             if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
                 isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
