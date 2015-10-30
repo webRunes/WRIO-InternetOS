@@ -34,8 +34,6 @@ class CreateDomCenter extends React.Component{
         this.onShowSidebar = this.onShowSidebar.bind(this);
     }
 
-    //mixins: [ UrlMixin],
-
     componentDidMount(){
         this.unsubscribe = store.listen(this.onStateChange);
         this.unsubscribe1 = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
@@ -70,7 +68,7 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    render ()   {
+    render (){
         var type = this.UrlMixin.searchToObject().list,
             condition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
             className = classNames({

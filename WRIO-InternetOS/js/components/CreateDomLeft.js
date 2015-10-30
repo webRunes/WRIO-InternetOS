@@ -13,24 +13,47 @@ class CreateDomLeft extends React.Component{
         super(props);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.showSidebar = this.showSidebar.bind(this);
+        this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
+        this.showSidebarByClick = this.showSidebarByClick.bind(this);
         this.state = {
             toggleMenu: false,
             showSidebar: false
         };
     }
-
-    showSidebar(){
-        this.setState({
-            showSidebar: !this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
-        });
-        ActionMenu.showSidebar(!this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+    componentDidMount() {
+        this.unsubscribe = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
+        this.unsubscribe = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
     }
 
-    toggleMenu(){
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    toggleMenu(data){
+        this.setState({
+            toggleMenu: data
+        });
+    }
+
+    showSidebar(data){
+        this.setState({
+            showSidebar: data
+        });
+    }
+
+    toggleMenuByClick(){
         this.setState({
             toggleMenu: !this.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
         });
         ActionMenu.toggleMenu(!this.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
+    }
+
+    showSidebarByClick(){
+        this.setState({
+            showSidebar: !this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
+        });
+        ActionMenu.showSidebar(!this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+        ActionMenu.toggleMenu(false);
     }
 
     hasClass(el, selector) {
@@ -41,7 +64,6 @@ class CreateDomLeft extends React.Component{
         }else{
             return false;
         }
-
     }
 
     render() {
@@ -77,12 +99,12 @@ class CreateDomLeft extends React.Component{
                                 </a>
                             </li>
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
-                                <a onClick={this.toggleMenu} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
+                                <a onClick={this.toggleMenuByClick} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
                                     <span className="glyphicon glyphicon-align-justify" />
                                 </a>
                             </li>
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
-                                <a onClick={this.showSidebar} ref="showSidebar"  data-toggle="offcanvas" id="myoffcanvas" className={classNameSidebar} href="#">
+                                <a onClick={this.showSidebarByClick} ref="showSidebar"  data-toggle="offcanvas" id="myoffcanvas" className={classNameSidebar} href="#">
                                     <span className="glyphicon glyphicon-transfer" />
                                 </a>
                             </li>
