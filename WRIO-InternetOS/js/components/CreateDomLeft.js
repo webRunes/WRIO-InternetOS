@@ -21,12 +21,13 @@ class CreateDomLeft extends React.Component{
         };
     }
     componentDidMount() {
-        this.unsubscribe = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
-        this.unsubscribe = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+        this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
+        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
+        this.listenStoreMenuToggle();
+        this.listenStoreMenuSidebar();
     }
 
     toggleMenu(data){
@@ -43,20 +44,21 @@ class CreateDomLeft extends React.Component{
 
     toggleMenuByClick(){
         this.setState({
-            toggleMenu: !this.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
+            toggleMenu: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
         });
-        ActionMenu.toggleMenu(!this.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
+        ActionMenu.toggleMenu(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
     }
 
     showSidebarByClick(){
         this.setState({
-            showSidebar: !this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
+            showSidebar: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
         });
-        ActionMenu.showSidebar(!this.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+
+        ActionMenu.showSidebar(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
         ActionMenu.toggleMenu(false);
     }
 
-    hasClass(el, selector) {
+    static hasClass(el, selector) {
         var className = ' ' + selector + ' ';
 
         if ((' ' + el.className + ' ').replace(/[\n\t]/g, ' ').indexOf(className) > -1) {
@@ -66,7 +68,7 @@ class CreateDomLeft extends React.Component{
         }
     }
 
-    render() {
+    render(){
 
         var classNameToggle = classNames({
             'btn btn-link btn-sm visible-xs collapsed' : true,
@@ -80,7 +82,7 @@ class CreateDomLeft extends React.Component{
 
         return (
             <div className="col-xs-12 col-sm-3 col-md-2">
-                <div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
+                <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
                     <div className="navbar-header tooltip-demo" id="topMenu 12">
                         <ul className="nav menu pull-right">
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
