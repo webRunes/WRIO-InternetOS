@@ -21,13 +21,13 @@ class CreateDomLeft extends React.Component{
         };
     }
     componentDidMount() {
-        this.unsubscribe = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
-        this.unsubscribe1 = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+        this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
+        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
-        this.unsubscribe1();
+        this.listenStoreMenuToggle();
+        this.listenStoreMenuSidebar();
     }
 
     toggleMenu(data){

@@ -7,7 +7,7 @@ var React = require('react'),
     CreateBreadcrumb = require('./CreateBreadcrumb'),
     CreateTitter = require('titter-wrio-app'),
     Center = require('./Center'),
-    store = require('../store/center'),
+    StoreLd = require('../store/center'),
     classNames = require('classnames'),
     ActionMenu = require('plus/js/actions/menu'),
     StoreMenu = require('plus/js/stores/menu'),
@@ -35,8 +35,8 @@ class CreateDomCenter extends React.Component{
     }
 
     componentDidMount(){
-        this.unsubscribe = store.listen(this.onStateChange);
-        this.unsubscribe1 = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+        this.listenStoreLd = StoreLd.listen(this.onStateChange);
+        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
     }
 
     onShowSidebar(data) {
@@ -46,8 +46,8 @@ class CreateDomCenter extends React.Component{
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
-        this.unsubscribe1();
+        this.listenStoreLd();
+        this.listenStoreMenuSidebar();
     }
 
     onStatusChange (x) {
