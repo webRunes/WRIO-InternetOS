@@ -96,7 +96,6 @@ class CreateDomCenter extends React.Component{
     }
 }
 
-
 CreateDomCenter.propTypes = {
     data: React.PropTypes.array.isRequired,
     converter: React.PropTypes.object.isRequired

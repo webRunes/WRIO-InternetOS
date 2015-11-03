@@ -47,8 +47,8 @@ var Article = React.createClass({
     },
     onClick: function () {
         center.article(this.props.data.name);
-        this.props.active(this);
         ActionMenu.showSidebar(false);
+        this.props.active(this);
     },
     getInitialState: function () {
         return {
@@ -204,11 +204,13 @@ var CreateDomRight = React.createClass({
             'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
             'active': this.state.active
         });
-
+        var height = {
+            height: window.innerHeight - 52
+        };
         return (
             <div className={className} id="sidebar">
                 <div className="sidebar-margin">
-                    <ul className="nav nav-pills nav-stacked">
+                    <ul className="nav nav-pills nav-stacked" style={height}>
                         {items}
                     </ul>
                 </div>
