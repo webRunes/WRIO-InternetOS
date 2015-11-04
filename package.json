@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.95",
+  "version": "1.0.96",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
