@@ -13,21 +13,34 @@ class CreateDomLeft extends React.Component{
         super(props);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.showSidebar = this.showSidebar.bind(this);
+        this.resize = this.resize.bind(this);
         this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
         this.showSidebarByClick = this.showSidebarByClick.bind(this);
         this.state = {
             toggleMenu: false,
-            showSidebar: false
+            showSidebar: false,
+            height: 'auto'
         };
     }
+
     componentDidMount() {
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+        this.listenStoreMenuResize = StoreMenu.listenTo(ActionMenu.resize, this.resize);
+    }
+
+    resize(height) {
+        if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 42 && window.innerWidth > 767){
+            this.setState({
+                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 42)
+            });
+        }
     }
 
     componentWillUnmount() {
         this.listenStoreMenuToggle();
         this.listenStoreMenuSidebar();
+        this.listenStoreMenuResize();
     }
 
     toggleMenu(data){
@@ -68,8 +81,8 @@ class CreateDomLeft extends React.Component{
         }
     }
 
-    render(){
 
+    render(){
         var classNameToggle = classNames({
             'btn btn-link btn-sm visible-xs collapsed' : true,
             'active' : this.state.toggleMenu
@@ -83,7 +96,7 @@ class CreateDomLeft extends React.Component{
         return (
             <div className="col-xs-12 col-sm-3 col-md-2">
                 <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
-                    <div className="navbar-header tooltip-demo" id="topMenu 12">
+                    <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
                         <ul className="nav menu pull-right">
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
                                 <a className="btn btn-link btn-sm" href="#">
@@ -113,7 +126,7 @@ class CreateDomLeft extends React.Component{
                         </ul>
                         <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us"> </a>
                     </div>
-                    <Plus themeImportUrl={themeImportUrl} />
+                    <Plus themeImportUrl={themeImportUrl} height={this.state.height}/>
                 </div>
             </div>
         );
