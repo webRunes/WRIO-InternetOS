@@ -30,9 +30,13 @@ class CreateDomLeft extends React.Component{
     }
 
     resize(height) {
-        if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 42 && window.innerWidth > 767){
+        if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767){
             this.setState({
-                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 42)
+                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41)
+            });
+        }else{
+            this.setState({
+                height: 'auto'
             });
         }
     }
@@ -83,12 +87,10 @@ class CreateDomLeft extends React.Component{
 
 
     render(){
-        var classNameToggle = classNames({
+        var classNameToggle = classNames ({
             'btn btn-link btn-sm visible-xs collapsed' : true,
             'active' : this.state.toggleMenu
-        });
-
-        var classNameSidebar = classNames({
+        }), classNameSidebar = classNames({
             'btn btn-link btn-sm visible-xs' : true,
             'active' : this.state.showSidebar
         });
