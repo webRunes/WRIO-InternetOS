@@ -74,7 +74,6 @@
     "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
-    "login-wrio-app": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
@@ -84,9 +83,9 @@
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",
-    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
-    "uglifyify": "^3.0.1",
+      "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "yargs": "^3.23.0"
+    "yargs": "^3.23.0",
+    "moment": "^2.10.3"
   }
 }

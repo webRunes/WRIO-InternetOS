@@ -1,11 +1,11 @@
 'use strict';
 var React = require('react'),
     Reflux = require('reflux'),
-    Login = require('passport-signin'),
+    Login = require('../../../widgets/login.jsx'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,
     CreateBreadcrumb = require('./CreateBreadcrumb'),
-    CreateTitter = require('titter-wrio-app'),
+    CreateTitter = require('../../../widgets/titter.jsx'),
     Center = require('./Center'),
     StoreLd = require('../store/center'),
     classNames = require('classnames'),
