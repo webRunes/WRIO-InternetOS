@@ -74,7 +74,7 @@ gulp.task('watch', ['default'], function() {
 gulp.task('watchDev', ['default'], function() {
 
     var mod = ['update-modules','babel-client'];
-    gulp.watch(['../Titter-WRIO-App/widget/*.*', '../Login-WRIO-App/widget/*.*','../Plus-WRIO-App/js/**/*.*'], mod);
+    gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
     gulp.watch('WRIO-InternetOS/**/*.*', ['update-modules','babel-client']);
 
 });

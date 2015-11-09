@@ -363,9 +363,10 @@ var React = require('react');
                 <li className="active">Add funds</li>
                 </ul>
               );
+              parts.push(<iframe src={this.state.webgoldIframeUrl } style={ this.editIframeStyles } />);
             }
 
-              { this.state.addFundsMode ? <iframe src={this.state.webgoldIframeUrl } style={ this.editIframeStyles } /> : <Donate /> }
+
 
             return (
                 <div>
