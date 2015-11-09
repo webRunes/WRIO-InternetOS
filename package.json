@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.103",
+  "version": "1.0.104",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -83,7 +83,7 @@
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",
-      "uglifyify": "^3.0.1",
+    "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
     "yargs": "^3.23.0",
     "moment": "^2.10.3"
