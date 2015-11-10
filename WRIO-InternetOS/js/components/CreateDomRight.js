@@ -124,12 +124,14 @@ var CreateDomRight = React.createClass({
 
     getInitialState: function() {
         return {
-            active: false
+            active: false,
+            resize: false,
         };
     },
 
     componentDidMount: function (){
-        this.unsubscribe = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+        this.listenStoreMenuWindowResize = StoreMenu.listenTo(ActionMenu.windowResize, this.onWindowResize);
     },
 
     onShowSidebar: function (data) {
@@ -138,19 +140,37 @@ var CreateDomRight = React.createClass({
         });
     },
 
+    onWindowResize: function (width, height) {
+        if(width > 767){
+            if(height < React.findDOMNode(this.refs.sidebar).offsetHeight){
+                this.setState({
+                    resize: true
+                });
+            }
+        }else{
+            this.setState({
+                resize: true
+            });
+        }
+    },
+
     componentWillUnmount: function () {
-        this.unsubscribe();
+        this.listenStoreMenuSidebar();
+        this.listenStoreMenuWindowResize();
     },
 
     render: function () {
         var type = this.searchToObject().list,
             isActive,
             isActiveFirstArticle = true,
-            isCover = function (o) {
-            return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
-        },
             items = [],
-            self = this;
+            isCover = function (o) {
+                return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
+            },
+            className = classNames({
+                'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
+                'active': this.state.active
+            }), height;
 
         this.props.data.forEach(function add (o) {
             if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
@@ -200,16 +220,18 @@ var CreateDomRight = React.createClass({
             }
         }, this);
 
-        var className = classNames({
-            'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
-            'active': this.state.active
-        });
-        var height = {
-            height: window.innerHeight - 52
-        };
+        if(window.innerWidth > 767){
+            height = {
+                height: 'auto'
+            };
+        } else {
+            height = {
+                height: window.innerHeight - 52
+            };
+        }
         return (
             <div className={className} id="sidebar">
-                <div className="sidebar-margin">
+                <div ref="sidebar" className="sidebar-margin">
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {items}
                     </ul>
