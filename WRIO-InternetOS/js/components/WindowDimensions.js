@@ -3,10 +3,7 @@
  */
 'use strict';
 var React = require('react'),
-    Reflux = require('reflux'),
-    className={className} = require('reflux'),
-    ActionMenu = require('plus/js/actions/menu'),
-    StoreMenu = require('plus/js/stores/menu');
+    ActionMenu = require('plus/js/actions/menu');
 
 class WindowDimensions extends React.Component{
     constructor(props){
@@ -37,9 +34,8 @@ class WindowDimensions extends React.Component{
     }
 
     render() {
-        var hide = ('hide');
         ActionMenu.windowResize(this.state.width, this.state.height);
-        return <span className={hide}>{this.state.width} x {this.state.height}</span>;
+        return <span className={('hide')}>{this.state.width} x {this.state.height}</span>;
     }
 }
 
