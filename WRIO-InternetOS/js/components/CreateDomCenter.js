@@ -68,6 +68,14 @@ class CreateDomCenter extends React.Component{
         });
     }
 
+    checkLocation () {
+        if (window.location.search != "") {
+            return true
+        } else {
+            return false;
+        }
+    }
+
     render (){
         var type = this.UrlMixin.searchToObject().list,
             condition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
@@ -76,6 +84,25 @@ class CreateDomCenter extends React.Component{
                 'active': this.state.active
             });
 
+        var displayCore = "";
+        var displayWebgold = "";
+
+        var location = this.checkLocation();
+        switch (window.location.search) {
+            case "?create":
+                condition = true;
+                break;
+            case "?add_funds":
+                condition = false;
+                displayWebgold = ( <iframe src={'http://webgold.wrioos.com/?edit=' + location.href} style={ this.editIframeStyles }/>);
+                break;
+            case "?edit":
+                displayCore =  ( <iframe src={'http://core.wrioos.com/?edit=' + location.href} style={ this.editIframeStyles }/>);
+                break;
+            default:
+        }
+
+
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
@@ -83,10 +110,12 @@ class CreateDomCenter extends React.Component{
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
-                        onReadClick={ this.switchToReadMode }
-                        onEditClick={ this.switchToEditMode } />
+                        onReadClick={ this.switchToReadMode.bind(this) }
+                        onEditClick={ this.switchToEditMode.bind(this) } />
                     { this.state.editMode ? <iframe src={'http://core.wrioos.com/?edit=' + location.href} style={ this.editIframeStyles }/> : null }
-                    <Center data={this.props.data} content={this.state.content} type={type} />
+                    { location ? "" : <Center data={this.props.data} content={this.state.content} type={type} />}
+                    { displayCore }
+                    { displayWebgold }
                     <div style={{display: condition ? 'none' : 'block'}}>
                         <CreateTitter scripts={this.props.data} />
                     </div>
