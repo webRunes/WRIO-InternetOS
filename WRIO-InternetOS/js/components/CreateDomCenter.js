@@ -89,7 +89,7 @@ class CreateDomCenter extends React.Component{
         var location = this.checkLocation();
         switch (window.location.search) {
             case '?create':
-                condition = true;
+                condition = false;
                 break;
             case '?add_funds':
                 condition = false;
