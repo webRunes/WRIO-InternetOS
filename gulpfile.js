@@ -7,6 +7,9 @@ var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
 var npm =  require("npm");
 var notify = require("gulp-notify");
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -39,8 +42,16 @@ gulp.task('babel-client', ['update-modules'], function() {
             console.log('Babel client:', err.toString());
         })
         .pipe(source('start.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./raw/'))
+        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./')) // writes .map file
         .pipe(gulp.dest('.'))
         .pipe(notify("start.js built!!"));
+
+    //    .pipe(source('start.js'))
+    //    .pipe(gulp.dest('.'))
 });
 /*
 "optionalDependencies": {
