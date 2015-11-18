@@ -18,6 +18,7 @@ var argv = require('yargs').argv;
 
 var envify_params = {
     NODE_ENV:"production",
+    DOMAIN:"wrioos.com"
 };
 console.log(argv);
 if (argv.docker) {
