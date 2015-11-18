@@ -111,7 +111,7 @@ class CreateDomCenter extends React.Component{
                         editMode={ this.state.editMode }
                         onReadClick={ this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) } />
-                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + location.href} style={ this.editIframeStyles }/> : null }
+                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { location ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
