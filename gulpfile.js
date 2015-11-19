@@ -30,7 +30,7 @@ if (argv.dev) {
 
 gulp.task('babel-client', ['update-modules'], function() {
     var main = browserify({
-        entries: './WRIO-InternetOS/all.js',
+        entries: './WRIO-InternetOS/main.js',
         debug: true
     })
         .transform(babelify)
