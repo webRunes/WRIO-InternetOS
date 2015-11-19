@@ -66,6 +66,7 @@
     "envify": "^3.4.0",
     "esprima": "~1.0.4",
     "classnames": "^2.1.2",
+    "cross-storage": "^0.7.0",
     "es6-promise": "^3.0.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",

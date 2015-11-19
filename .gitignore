@@ -37,4 +37,4 @@ config.json
 .module-cache
 npm-debug.log
 start.js
-WRIO-InternetOS/start.js
+main.js

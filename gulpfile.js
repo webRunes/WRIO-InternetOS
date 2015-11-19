@@ -7,6 +7,7 @@ var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
 var npm =  require("npm");
 var notify = require("gulp-notify");
+var merge = require('merge-stream');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -18,18 +19,32 @@ var envify_params = {
 };
 console.log(argv);
 if (argv.docker) {
-    console.log("Got docker param");
     envify_params['DOMAIN'] = "wrioos.local"
 }
 
 if (argv.dev) {
     console.log("Got dev mode");
     envify_params['NODE_ENV'] = 'development';
+    console.log("Got docker param");
 }
 
 gulp.task('babel-client', ['update-modules'], function() {
-    return browserify({
-        entries: './WRIO-InternetOS/main.jsx',
+    var main = browserify({
+        entries: './WRIO-InternetOS/all.js',
+        debug: true
+    })
+        .transform(babelify)
+        .transform(envify(envify_params))
+        .bundle()
+        .on('error', function(err) {
+            console.log('Babel client:', err.toString());
+        })
+        .pipe(source('main.js'))
+        .pipe(gulp.dest('.'))
+        .pipe(notify("main.js built!!"));
+
+    var start = browserify({
+        entries: './WRIO-InternetOS/start.js',
         debug: true
     })
         .transform(babelify)
@@ -41,6 +56,9 @@ gulp.task('babel-client', ['update-modules'], function() {
         .pipe(source('start.js'))
         .pipe(gulp.dest('.'))
         .pipe(notify("start.js built!!"));
+
+
+    return merge(main, start);
 });
 /*
 "optionalDependencies": {
@@ -52,7 +70,7 @@ gulp.task('babel-client', ['update-modules'], function() {
 gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
-            npm.commands.install(['file:../Titter-WRIO-App/', 'file:../Login-WRIO-App/','file:../Plus-WRIO-App/'],function(err,cb){
+            npm.commands.install(['file:../Plus-WRIO-App/'],function(err,cb){
                 callback();
             });
 
@@ -63,18 +81,16 @@ gulp.task('update-modules', function(callback) {
 
 });
 
-
 gulp.task('default', ['update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
-
     gulp.watch('WRIO-InternetOS/**/*.*', ['babel-client']);
 });
 
 gulp.task('watchDev', ['default'], function() {
 
     var mod = ['update-modules','babel-client'];
-    gulp.watch(['../Titter-WRIO-App/widget/*.*', '../Login-WRIO-App/widget/*.*','../Plus-WRIO-App/js/**/*.*'], mod);
+    gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
     gulp.watch('WRIO-InternetOS/**/*.*', ['update-modules','babel-client']);
 
 });
