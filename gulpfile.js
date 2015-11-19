@@ -7,6 +7,9 @@ var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
 var npm =  require("npm");
 var notify = require("gulp-notify");
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -15,6 +18,7 @@ var argv = require('yargs').argv;
 
 var envify_params = {
     NODE_ENV:"production",
+    DOMAIN:"wrioos.com"
 };
 console.log(argv);
 if (argv.docker) {
@@ -39,8 +43,16 @@ gulp.task('babel-client', ['update-modules'], function() {
             console.log('Babel client:', err.toString());
         })
         .pipe(source('start.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./raw/'))
+        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./')) // writes .map file
         .pipe(gulp.dest('.'))
         .pipe(notify("start.js built!!"));
+
+    //    .pipe(source('start.js'))
+    //    .pipe(gulp.dest('.'))
 });
 /*
 "optionalDependencies": {
@@ -52,7 +64,7 @@ gulp.task('babel-client', ['update-modules'], function() {
 gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
-            npm.commands.install(['file:../Titter-WRIO-App/', 'file:../Login-WRIO-App/','file:../Plus-WRIO-App/'],function(err,cb){
+            npm.commands.install(['file:../Plus-WRIO-App/'],function(err,cb){
                 callback();
             });
 
@@ -74,7 +86,7 @@ gulp.task('watch', ['default'], function() {
 gulp.task('watchDev', ['default'], function() {
 
     var mod = ['update-modules','babel-client'];
-    gulp.watch(['../Titter-WRIO-App/widget/*.*', '../Login-WRIO-App/widget/*.*','../Plus-WRIO-App/js/**/*.*'], mod);
+    gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
     gulp.watch('WRIO-InternetOS/**/*.*', ['update-modules','babel-client']);
 
 });

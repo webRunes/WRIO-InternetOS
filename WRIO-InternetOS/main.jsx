@@ -6,6 +6,7 @@ var
     CreateDomLeft = require('./js/components/CreateDomLeft'),
     CreateDomRight = require('./js/components/CreateDomRight'),
     CreateDomCenter = require('./js/components/CreateDomCenter'),
+    WindowDimensions = require('./js/components/WindowDimensions'),
     scripts = require('./js/jsonld/scripts'),
     addBootstrapLink = require('./js/addBootstrapLink');
 
@@ -37,7 +38,7 @@ var CreateItemMenu = React.createClass({
       );
     });
     return (
-        <ul className='nav nav-pills nav-stacked'>
+        <ul className="nav nav-pills nav-stacked">
             {commentMenus}
         </ul>
     );
@@ -49,26 +50,73 @@ var Main = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired
     },
+
+    render: function() {
+
+        return (
+        <div className={'row row-offcanvas row-offcanvas-right '}>
+            <CreateDomLeft />
+            <CreateDomCenter converter={converter} data={this.props.data} />
+            <CreateDomRight data={this.props.data} />
+            <WindowDimensions />
+        </div>
+        );
+    }
+});
+
+var Preloader = React.createClass({
+
+    propTypes: {
+        data: React.PropTypes.array.isRequired
+    },
+
+    getInitialState: function() {
+        return{
+            container : 'preloader-wrapper loading'
+        };
+    },
+
+    componentDidMount: function() {
+        var self = this;
+        window.onload = function(){
+            self.changClass();
+        };
+    },
+
+    changClass: function() {
+        this.setState({
+            container : 'preloader-wrapper loaded switch'
+        });
+    },
+
     render: function() {
         return (
-            <div className='row row-offcanvas row-offcanvas-right'>
-                <CreateDomLeft />
-                <CreateDomCenter converter={converter} data={this.props.data} />
-                <CreateDomRight data={this.props.data} />
+            <div className={this.state.container}>
+                <div className="preloader">
+                    <div className="container">
+                        <h1>webRunes webgate</h1>
+                        <p>Alpha stage, certain issues and slow connection may be expected</p>
+                        <div className="inner">
+                            <div className="preloader-logo"></div>
+                            <div className="progress progress-striped active">
+                                <div className="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p>Loading... please wait</p>
+                        </div>
+                    </div>
+                </div>
+                <Main data={this.props.data} />
             </div>
         );
     }
 });
 
-
-
-
 var Comment = React.createClass({
   render: function() {
     var rawMarkup = converter.makeHtml(this.props.children.toString());
     return (
-      <div className='comment'>
-        <h2 className='commentAuthor'>
+      <div className="comment">
+        <h2 className="commentAuthor">
           {this.props.author}
         </h2>
         <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
@@ -120,7 +168,7 @@ var CommentBox = React.createClass({
   },
   render: function() {
     return (
-      <div className='commentBox'>
+      <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
@@ -139,7 +187,7 @@ var CommentList = React.createClass({
       );
     });
     return (
-      <div className='commentList'>
+      <div className="commentList">
         {commentNodes}
       </div>
     );
@@ -160,10 +208,10 @@ var CommentForm = React.createClass({
   },
   render: function() {
     return (
-      <form className='commentForm' onSubmit={this.handleSubmit}>
-        <input type='text' placeholder='Your name' ref='author' />
-        <input type='text' placeholder='Say something...' ref='text' />
-        <input type='submit' value='Post' />
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
+        <input type="submit" value="Post" />
       </form>
     );
   }
@@ -172,13 +220,15 @@ var CommentForm = React.createClass({
 domready(function () {
     addBootstrapLink(function () {
         React.render(
-            <Main data={scripts(document.getElementsByTagName('script'))} />,
-            document.body.appendChild((function () {
-              var d = document.createElement('div');
-              d.id = 'content';
-              d.className = 'container-liquid';
-              return d;
-            }()))
+            <Preloader data={scripts(document.getElementsByTagName('script'))} />,
+            document.body.appendChild((
+                function () {
+                    var d = document.createElement('div');
+                    d.id = 'content';
+                    d.className = 'container-liquid';
+                    return d;
+                }()
+            ))
         );
     });
 });
