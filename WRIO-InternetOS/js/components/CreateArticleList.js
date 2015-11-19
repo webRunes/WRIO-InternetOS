@@ -5,6 +5,7 @@ var React = require('react'),
     CreateCover = require('./CreateCover'),
     Carousel = require('react-bootstrap').Carousel,
     CarouselItem = require('react-bootstrap').CarouselItem,
+    _ = require('lodash'),
     UrlMixin = require('../mixins/UrlMixin');
 
 var CreateArticleList = React.createClass({
@@ -13,6 +14,23 @@ var CreateArticleList = React.createClass({
         id: React.PropTypes.string
     },
     getArticles: function () {
+        var mentions = _.chain(this.props.data)
+          .pluck('itemListElement').flatten()
+          .pluck('mentions').flatten()
+          .filter(function(item) {
+              return !_.isEmpty(item);
+          })
+          .map(function(item, index) {
+              return <CreateArticleLists data={item} key={index} />;
+          })
+          .value();
+
+        var isMentions = mentions.length > 0;
+
+        if(isMentions) {
+            return mentions;
+        }
+
         return this.props.data
             .map(function (o, key) {
                 if (o.url) {
@@ -37,13 +55,17 @@ var CreateArticleList = React.createClass({
         });
     },
     getCoverList: function() {
-        var data = this.props.data.filter(function (o) {
-            return o['@type'] === 'ItemList';
-        }).map(function (list) {
-            return list.itemListElement.map(function (item, key) {
+        var data = _.chain(this.props.data)
+            .pluck('itemListElement')
+            .flatten()
+            .filter(function(item) {
+                return !_.isEmpty(item);
+            })
+            .map(function(item, key) {
                 return <CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
-            });
-        });
+            })
+            .value();
+
         return (
             <Carousel>{data}</Carousel>
         );

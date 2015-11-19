@@ -1,27 +1,12 @@
 var React = require('react'),
-    Reflux = require('reflux'),
-    CreateArticleList = require('./CreateArticleList'),
-    store = require('../store/center'),
-    UrlMixin = require('../mixins/UrlMixin'),
-    CreateTitter = require('titter-wrio-app');
+    CreateArticleList = require('./CreateArticleList');
+
 
 var Center = React.createClass({
     propTypes: {
-        data: React.PropTypes.array.isRequired
-    },
-    mixins: [Reflux.listenTo(store, 'onStatusChange'), UrlMixin],
-    onStatusChange: function (x) {
-        this.setState({
-            content: x
-        });
-    },
-    getInitialState: function() {
-        var locationSearch = this.getUrlParams();
-        return {
-            content: {
-                type: (locationSearch) ? locationSearch : 'article'
-            }
-        };
+        data: React.PropTypes.array.isRequired,
+        content: React.PropTypes.object.isRequired,
+        type: React.PropTypes.any.isRequired
     },
     componentDidUpdate: function() {
         var hash = window.location.hash;
@@ -29,20 +14,18 @@ var Center = React.createClass({
         window.location.hash = hash;
     },
     render: function () {
-        var content = this.state.content,
+        var content = this.props.content,
             data = content.data || this.props.data,
-            type = this.searchToObject().list;
-        console.log('data', data);
+            type = this.props.type;
         if (type === 'Cover') {
             return <CreateArticleList data={data} id={content.url} />;
-        } else if (this.state.content.type === 'external' || typeof type !== 'undefined') {
+        } else if (content.type === 'external' || typeof type !== 'undefined') {
             return <CreateArticleList data={data} id={content.url} />;
         }
         else {
             return (
                 <div>
                     <CreateArticleList data={this.props.data} id={content.id} />
-                    <CreateTitter scripts={data} />
                 </div>
             );
         }

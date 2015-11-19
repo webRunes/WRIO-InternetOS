@@ -27,7 +27,7 @@ Mention.merge = function (mentions) {
 
 Mention.prototype.warn = function (text) {
     text = text || 'Wrong mention: ' + this.url;
-    console.warn(text);
+    //console.warn(text);
 };
 
 Mention.prototype.attach = function (s) {

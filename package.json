@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.33",
+  "version": "1.0.99",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -11,18 +11,19 @@
   },
   "devDependencies": {
     "aws-sdk-apis": "*",
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
     "body-parser": "*",
-    "babel": "^5.6.14",
-    "babelify": "^6.1.2",
     "debug": "*",
     "depd": "*",
     "destroy": "*",
-    "eslint": "^0.24.1",
+    "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.1.0",
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "etag": "*",
     "express": "4.9.4",
     "finalhandler": "*",
+    "gulp-shell": "^0.4.3",
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
@@ -34,14 +35,16 @@
     "qs": "*",
     "supervisor": "*",
     "utils-merge": "*",
+    "vinyl-source-stream": "^1.1.0",
     "when": "~3.1.0",
     "xml2js": "*",
-    "xmlbuilder": "*",
-    "vinyl-source-stream": "^1.1.0"
+    "xmlbuilder": "*"
   },
   "browserify": {
     "transform": [
-      "reactify"
+      "reactify",
+      "envify",
+      "babelify"
     ]
   },
   "scripts": {
@@ -56,20 +59,25 @@
     "watchDOCKER": "gulp watch --docker"
   },
   "dependencies": {
+    "babel-core": "^5.8.24",
     "browserify": "^10.2.4",
     "browserify-notify": "^1.1.2",
     "domready": "^1.0.8",
     "envify": "^3.4.0",
+    "esprima": "~1.0.4",
+    "classnames": "^2.1.2",
+    "es6-promise": "^3.0.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-browserify": "^0.5.1",
     "gulp-nodemon": "^2.0.3",
+    "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
+    "login-wrio-app": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
-    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
+    "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "react": "^0.13.3",
     "react-bootstrap": "^0.24.2",
     "reactify": "^1.1.1",

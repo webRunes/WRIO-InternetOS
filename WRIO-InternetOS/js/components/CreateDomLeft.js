@@ -1,13 +1,89 @@
+'use strict';
 var React = require('react'),
     Plus = require('plus'),
+    Reflux = require('reflux'),
+    classNames = require('classnames'),
+    ActionMenu = require('plus/js/actions/menu'),
+    StoreMenu = require('plus/js/stores/menu'),
     themeImportUrl = require('../global').themeImportUrl;
 
-var CreateDomLeft = React.createClass({
-    render: function() {
+class CreateDomLeft extends React.Component{
+
+    constructor (props) {
+        super(props);
+        this.toggleMenu = this.toggleMenu.bind(this);
+        this.showSidebar = this.showSidebar.bind(this);
+        this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
+        this.showSidebarByClick = this.showSidebarByClick.bind(this);
+        this.state = {
+            toggleMenu: false,
+            showSidebar: false
+        };
+    }
+    componentDidMount() {
+        this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
+        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+    }
+
+    componentWillUnmount() {
+        this.listenStoreMenuToggle();
+        this.listenStoreMenuSidebar();
+    }
+
+    toggleMenu(data){
+        this.setState({
+            toggleMenu: data
+        });
+    }
+
+    showSidebar(data){
+        this.setState({
+            showSidebar: data
+        });
+    }
+
+    toggleMenuByClick(){
+        this.setState({
+            toggleMenu: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
+        });
+        ActionMenu.toggleMenu(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
+    }
+
+    showSidebarByClick(){
+        this.setState({
+            showSidebar: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
+        });
+
+        ActionMenu.showSidebar(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+        ActionMenu.toggleMenu(false);
+    }
+
+    static hasClass(el, selector) {
+        var className = ' ' + selector + ' ';
+
+        if ((' ' + el.className + ' ').replace(/[\n\t]/g, ' ').indexOf(className) > -1) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    render(){
+
+        var classNameToggle = classNames({
+            'btn btn-link btn-sm visible-xs collapsed' : true,
+            'active' : this.state.toggleMenu
+        });
+
+        var classNameSidebar = classNames({
+            'btn btn-link btn-sm visible-xs' : true,
+            'active' : this.state.showSidebar
+        });
+
         return (
             <div className="col-xs-12 col-sm-3 col-md-2">
-                <div className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
-                    <div className="navbar-header tooltip-demo" id="topMenu">
+                <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
+                    <div className="navbar-header tooltip-demo" id="topMenu 12">
                         <ul className="nav menu pull-right">
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
                                 <a className="btn btn-link btn-sm" href="#">
@@ -25,23 +101,23 @@ var CreateDomLeft = React.createClass({
                                 </a>
                             </li>
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
-                                <a data-target=".navbar-collapse" data-toggle="collapse" className="btn btn-link btn-sm visible-xs collapsed" href="#">
+                                <a onClick={this.toggleMenuByClick} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
                                     <span className="glyphicon glyphicon-align-justify" />
                                 </a>
                             </li>
                             <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
-                                <a data-toggle="offcanvas" id="myoffcanvas" className="btn btn-link btn-sm visible-xs" href="#">
+                                <a onClick={this.showSidebarByClick} ref="showSidebar"  data-toggle="offcanvas" id="myoffcanvas" className={classNameSidebar} href="#">
                                     <span className="glyphicon glyphicon-transfer" />
                                 </a>
                             </li>
                         </ul>
-                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us">&nbsp;</a>
+                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us"> </a>
                     </div>
                     <Plus themeImportUrl={themeImportUrl} />
                 </div>
             </div>
         );
     }
-});
+};
 
 module.exports = CreateDomLeft;
