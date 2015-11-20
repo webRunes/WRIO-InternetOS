@@ -3,7 +3,7 @@ var cssUrl = require('./js/global').cssUrl,
     code = '<div id="preloader" class="preloader-wrapper loading"> <div class="preloader"> <div class="container"> <h1>webRunes webgate</h1> <p>Alpha stage, certain issues and slow connection may be expected</p> <div class="inner"> <div class="preloader-logo"></div> <div class="progress progress-striped active"> <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div> </div><p>Loading... please wait</p> </div>  </div> </div> </div>',
     css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-        cssUrl + theme + '/css/webrunes.css'
+        cssUrl + theme + '/css/webrunes.css',
     ],
     count = css.length,
     favicon,
@@ -123,13 +123,13 @@ var cssUrl = require('./js/global').cssUrl,
         ]
     };
 
-for(var i = 0; i < count; i++){
-    var link;
-    link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = css[i];
-    head.appendChild(link);
-}
+
+
+var link;
+link = document.createElement('link');
+link.rel = 'stylesheet';
+link.href = cssUrl + theme + '/css/old_browser.css';
+head.appendChild(link);
 
 favicon = document.createElement('link');
 favicon.rel = 'shortcut icon';
@@ -144,6 +144,13 @@ if(!BrowserDetection.init()){
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', 'WRIO-InternetOS/main.js');
     document.body.appendChild(script);
+    for(var i = 0; i < count; i++){
+        var link;
+        link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = css[i];
+        head.appendChild(link);
+    }
     var main = require('./main');
 }else{
     document.getElementById('preloader').style.display = 'none';

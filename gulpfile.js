@@ -12,6 +12,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 
+var cssmin = require('gulp-cssmin');
+var rename = require('gulp-rename');
+
 var npm = require('npm'),
 package = require('./package.json');
 
@@ -53,6 +56,7 @@ gulp.task('babel-client', ['update-modules'], function() {
       .pipe(notify("start.js built!!"))
 
 });
+
 /*
 "optionalDependencies": {
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
