@@ -38,3 +38,6 @@ config.json
 npm-debug.log
 ./WRIO-InternetOS/start.js
 ./WRIO-InternetOS/main.js
+./WRIO-InternetOS/start.js.map
+./WRIO-InternetOS/main.js.map
+/WRIO-InternetOS/raw
