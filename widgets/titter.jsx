@@ -272,7 +272,9 @@ var React = require('react');
         },
         prepTwitWidget: function() {
             var that = this;
-            document.getElementById('titteriframe').addEventListener('load', function () {
+            var titteriframe = document.getElementById('titteriframe');
+            if (!titteriframe) return;
+            titteriframe.addEventListener('load', function () {
                 var comment, author;
                 var id = that.getJsonLDProperty(that.props.scripts,'comment');
                 if (id === null) {

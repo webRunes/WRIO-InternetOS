@@ -66,14 +66,7 @@ class CreateDomCenter extends React.Component{
             editMode: true
         });
     }
-
-    checkLocation () {
-        if (window.location.search != '') {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     render (){
         var type = this.UrlMixin.searchToObject().list,
@@ -86,17 +79,20 @@ class CreateDomCenter extends React.Component{
         var displayCore = '';
         var displayWebgold = '';
 
-        var location = this.checkLocation();
+        var notDisplayCenter = false;
         switch (window.location.search) {
             case '?create':
                 condition = false;
+                notDisplayCenter=true;
                 break;
             case '?add_funds':
                 condition = false;
                 displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+                notDisplayCenter=true;
                 break;
             case '?edit':
-                displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + location.href} style={ this.editIframeStyles }/>);
+                notDisplayCenter=true;
+                displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
                 break;
             default:
         }
@@ -112,7 +108,7 @@ class CreateDomCenter extends React.Component{
                         onReadClick={ this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) } />
                     { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
-                    { location ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
+                    { notDisplayCenter ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
                     <div style={{display: condition ? 'none' : 'block'}}>
