@@ -44,8 +44,9 @@ domready(function (){
                 return d;
             }()
         )), function (){
-            document.getElementById('preloader').style.display = 'none';
-            //window.addEventListener('load', function load(){}, false);
+            window.addEventListener('load', function load(){
+                document.getElementById('preloader').style.display = 'none';
+            }, false);
         }
     );
 });
