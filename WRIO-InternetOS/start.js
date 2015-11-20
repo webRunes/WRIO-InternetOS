@@ -144,44 +144,7 @@ if(!BrowserDetection.init()){
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', 'WRIO-InternetOS/main.js');
     document.body.appendChild(script);
-
-    //if(window.localStorage.getItem('newUser')){
-    //    document.getElementById('preloader').style.display = 'none';
-    //}else{
-    //    window.localStorage.setItem('newUser', true);
-    //}
-
-    //sessionStorage['detailPage'] = 'value';
-    //alert(sessionStorage['detailPage']);
-
-
-    //if(sessionStorage['detailPage']){
-    //    document.getElementById('preloader').style.display = 'none';
-    //}else{
-    //      sessionStorage['newUser'] = true;
-    //}
-
-    //function readCookie(name) {
-    //    var i, c, ca, nameEQ = name + '=';
-    //    ca = document.cookie.split(';');
-    //    for(i=0;i < ca.length;i++) {
-    //        c = ca[i];
-    //        while (c.charAt(0)==' ') {
-    //            c = c.substring(1,c.length);
-    //        }
-    //        if (c.indexOf(nameEQ) == 0) {
-    //            return c.substring(nameEQ.length,c.length);
-    //        }
-    //    }
-    //    return '';
-    //}
-    //
-    //if(readCookie('newUser')){
-    //    document.getElementById('preloader').style.display = 'none';
-    //}else{
-    //    document.cookie = 'newUser' + '=' + 'true' + ' ' + '; path=/';
-    //}
-
+    var main = require('./main');
 }else{
     document.getElementById('preloader').style.display = 'none';
 }

@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.79",
+  "version": "1.0.129",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -24,6 +24,8 @@
     "express": "4.9.4",
     "finalhandler": "*",
     "gulp-shell": "^0.4.3",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
@@ -34,7 +36,9 @@
     "proxy-addr": "*",
     "qs": "*",
     "supervisor": "*",
+    "uglify": "^0.1.5",
     "utils-merge": "*",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "when": "~3.1.0",
     "xml2js": "*",
@@ -51,7 +55,7 @@
     "start": "gulp && gulp clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
-    "build": "npm run lint && gulp && gulp clear && gzip -9 start.js && mv start.js.gz start.js",
+    "build": "npm run lint && gulp && gulp clear && gzip -9 start.js && mv start.js.gz start.js && gzip -9 start.js.map && mv start.js.map.gz start.js.map",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
     "watch": "gulp watch",
@@ -75,7 +79,6 @@
     "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
-    "login-wrio-app": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
@@ -85,9 +88,9 @@
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",
-    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git",
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "yargs": "^3.23.0"
+    "yargs": "^3.23.0",
+    "moment": "^2.10.3"
   }
 }

@@ -7,6 +7,9 @@ var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
 var npm =  require("npm");
 var notify = require("gulp-notify");
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 
 var npm = require('npm'),
@@ -16,6 +19,7 @@ var argv = require('yargs').argv;
 
 var envify_params = {
     NODE_ENV:"production",
+    DOMAIN:"wrioos.com"
 };
 console.log(argv);
 if (argv.docker) {
@@ -25,40 +29,29 @@ if (argv.docker) {
 if (argv.dev) {
     console.log("Got dev mode");
     envify_params['NODE_ENV'] = 'development';
-    console.log("Got docker param");
 }
 
 gulp.task('babel-client', ['update-modules'], function() {
-    var main = browserify({
-        entries: './WRIO-InternetOS/main.js',
-        debug: true
-    })
-        .transform(babelify)
-        .transform(envify(envify_params))
-        .bundle()
-        .on('error', function(err) {
-            console.log('Babel client:', err.toString());
-        })
-        .pipe(source('main.js'))
-        .pipe(gulp.dest('.'))
-        .pipe(notify("main.js built!!"));
 
-    var start = browserify({
+    return browserify({
         entries: './WRIO-InternetOS/start.js',
         debug: true
     })
-        .transform(babelify)
-        .transform(envify(envify_params))
-        .bundle()
-        .on('error', function(err) {
-            console.log('Babel client:', err.toString());
-        })
-        .pipe(source('start.js'))
-        .pipe(gulp.dest('.'))
-        .pipe(notify("start.js built!!"));
+      .transform(babelify)
+      .transform(envify(envify_params))
+      .bundle()
+      .on('error', function(err) {
+          console.log('Babel client:', err.toString());
+      })
+      .pipe(source('start.js'))
+      .pipe(buffer())
+      .pipe(gulp.dest('./raw/'))
+      .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./')) // writes .map file
+      .pipe(gulp.dest('.'))
+      .pipe(notify("start.js built!!"))
 
-
-    return merge(main, start);
 });
 /*
 "optionalDependencies": {
@@ -70,10 +63,9 @@ gulp.task('babel-client', ['update-modules'], function() {
 gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
-            npm.commands.install(['file:../Titter-WRIO-App/', 'file:../Login-WRIO-App/','file:../Plus-WRIO-App/'],function(err,cb){
+            npm.commands.install(['file:../Plus-WRIO-App/'],function(err,cb){
                 callback();
             });
-
         });
     } else {
         callback();
