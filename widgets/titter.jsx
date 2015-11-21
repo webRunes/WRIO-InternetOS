@@ -274,10 +274,6 @@ var React = require('react');
             var that = this;
             var titteriframe = document.getElementById('titteriframe');
             if (!titteriframe) return;
-            if (this.props.nocomments) {
-                that.setState({nocomments: false});
-                return;
-            }
             titteriframe.addEventListener('load', function () {
                 var comment, author;
                 var id = that.getJsonLDProperty(that.props.scripts,'comment');
