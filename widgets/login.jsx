@@ -1,4 +1,6 @@
 var domain = '';
+var Actions = require('../WRIO-InternetOS/js/actions/center');
+
 if (process.env.DOMAIN == undefined) {
     domain = 'wrioos.com';
 } else {
@@ -79,6 +81,7 @@ if (process.env.DOMAIN == undefined) {
 
                     if (jsmsg.profile) {
                         jsmsg = jsmsg.profile;
+                        Actions.gotWrioID(jsmsg.id);
                         var state;
 
                         if (jsmsg.temporary) {

@@ -80,14 +80,14 @@ gulp.task('update-modules', function(callback) {
 gulp.task('default', ['update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
-    gulp.watch('WRIO-InternetOS/**/*.*', ['babel-client']);
+    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['babel-client']);
 });
 
 gulp.task('watchDev', ['default'], function() {
 
     var mod = ['update-modules','babel-client'];
     gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
-    gulp.watch('WRIO-InternetOS/**/*.*', ['update-modules','babel-client']);
+    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['update-modules','babel-client']);
 
 });
 

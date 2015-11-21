@@ -10,7 +10,9 @@ var React = require('react'),
     classNames = require('classnames'),
     ActionMenu = require('plus/js/actions/menu'),
     StoreMenu = require('plus/js/stores/menu'),
-    UrlMixin = require('../mixins/UrlMixin');
+    UrlMixin = require('../mixins/UrlMixin'),
+    CenterActions = require('../actions/center');
+
 
 class CreateDomCenter extends React.Component{
 
@@ -28,14 +30,41 @@ class CreateDomCenter extends React.Component{
             content: {
                 type: (locationSearch) ? locationSearch : 'article'
             },
-            active: false
+            active: false,
+            editAllowed: false
         };
         this.onShowSidebar = this.onShowSidebar.bind(this);
+    }
+
+
+    getAuthorWrioID() {
+        var data = this.props.data;
+        for (var i in data) {
+            var element = data[i];
+            if (element.author) {
+                var id = element.author.match(/\?wr.io=([0-9]+)$/);
+                if (id) {
+                    return id[1];
+                }
+            }
+        }
     }
 
     componentDidMount(){
         this.listenStoreLd = StoreLd.listen(this.onStateChange);
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+
+        var that = this;
+
+        CenterActions.gotWrioID.listen( function(id) {
+           console.log('Checking if editing allowed: ',id,that.getAuthorWrioID());
+            if (id == that.getAuthorWrioID()) {
+                that.setState({
+                    editAllowed: true
+                });
+            }
+
+        });
     }
 
     onShowSidebar(data) {
@@ -67,13 +96,6 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    checkLocation () {
-        if (window.location.search != '') {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     render (){
         var type = this.UrlMixin.searchToObject().list,
@@ -85,18 +107,23 @@ class CreateDomCenter extends React.Component{
 
         var displayCore = '';
         var displayWebgold = '';
+        var nocomments = false;
 
-        var location = this.checkLocation();
+        var notDisplayCenter = false;
         switch (window.location.search) {
             case '?create':
                 condition = false;
+                nocomments = true;
+                notDisplayCenter=true;
                 break;
             case '?add_funds':
                 condition = false;
                 displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+                notDisplayCenter=true;
                 break;
             case '?edit':
-                displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + location.href} style={ this.editIframeStyles }/>);
+                notDisplayCenter=true;
+                displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
                 break;
             default:
         }
@@ -110,13 +137,15 @@ class CreateDomCenter extends React.Component{
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
                         onReadClick={ this.switchToReadMode.bind(this) }
-                        onEditClick={ this.switchToEditMode.bind(this) } />
+                        onEditClick={ this.switchToEditMode.bind(this) }
+                        editAllowed ={ this.state.editAllowed }
+                        />
                     { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
-                    { location ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
+                    { notDisplayCenter ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
                     <div style={{display: condition ? 'none' : 'block'}}>
-                        <CreateTitter scripts={this.props.data} />
+                        <CreateTitter scripts={this.props.data} nocomments={ nocomments }/>
                     </div>
                 </div>
             </div>
