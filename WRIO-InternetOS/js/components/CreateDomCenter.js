@@ -107,13 +107,11 @@ class CreateDomCenter extends React.Component{
 
         var displayCore = '';
         var displayWebgold = '';
-        var nocomments = false;
 
         var notDisplayCenter = false;
         switch (window.location.search) {
             case '?create':
                 condition = false;
-                nocomments = true;
                 notDisplayCenter=true;
                 break;
             case '?add_funds':
@@ -145,7 +143,7 @@ class CreateDomCenter extends React.Component{
                     { displayCore }
                     { displayWebgold }
                     <div style={{display: condition ? 'none' : 'block'}}>
-                        <CreateTitter scripts={this.props.data} nocomments={ nocomments }/>
+                        <CreateTitter scripts={this.props.data} />
                     </div>
                 </div>
             </div>
