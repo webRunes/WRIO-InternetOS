@@ -10,8 +10,6 @@ var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
-var merge = require('merge-stream');
-
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
 

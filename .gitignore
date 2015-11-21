@@ -36,6 +36,6 @@ node_module/
 config.json
 .module-cache
 npm-debug.log
-./start.js
-./start.js.map
-./raw
+start.js
+start.js.map
+raw
