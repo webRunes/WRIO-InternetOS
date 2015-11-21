@@ -32,7 +32,7 @@ if (argv.dev) {
 }
 
 gulp.task('babel-client', ['update-modules'], function() {
-    return browserify({
+    var result = browserify({
         entries: './WRIO-InternetOS/main.jsx',
         debug: true
     })
@@ -44,15 +44,17 @@ gulp.task('babel-client', ['update-modules'], function() {
         })
         .pipe(source('start.js'))
         .pipe(buffer())
-        .pipe(gulp.dest('./raw/'))
-        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./')) // writes .map file
-        .pipe(gulp.dest('.'))
-        .pipe(notify("start.js built!!"));
+        .pipe(gulp.dest('./raw/'));
 
-    //    .pipe(source('start.js'))
-    //    .pipe(gulp.dest('.'))
+        if (argv.docker) { // dont' uglify and generate sourcemaps when debugging in local env
+            result = result.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+             .pipe(uglify())
+             .pipe(sourcemaps.write('./')); // writes .map file
+        }
+
+        return result.pipe(gulp.dest('.'))
+                     .pipe(notify("start.js built!!"));
+
 });
 /*
 "optionalDependencies": {
@@ -80,14 +82,14 @@ gulp.task('default', ['update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
 
-    gulp.watch('WRIO-InternetOS/**/*.*', ['babel-client']);
+    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['babel-client']);
 });
 
 gulp.task('watchDev', ['default'], function() {
 
     var mod = ['update-modules','babel-client'];
     gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
-    gulp.watch('WRIO-InternetOS/**/*.*', ['update-modules','babel-client']);
+    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['update-modules','babel-client']);
 
 });
 
