@@ -139,11 +139,6 @@ head.appendChild(favicon);
 window.document.body.innerHTML += code;
 
 if(!BrowserDetection.init()){
-    var script;
-    script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', 'WRIO-InternetOS/main.js');
-    document.body.appendChild(script);
     for(var i = 0; i < count; i++){
         var link;
         link = document.createElement('link');
@@ -151,6 +146,12 @@ if(!BrowserDetection.init()){
         link.href = css[i];
         head.appendChild(link);
     }
+    var script;
+    script = document.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+    script.setAttribute('src', 'WRIO-InternetOS/main.js');
+    document.body.appendChild(script);
+
     var main = require('./main');
 }else{
     document.getElementById('preloader').style.display = 'none';
