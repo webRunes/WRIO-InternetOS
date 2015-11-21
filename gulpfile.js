@@ -10,6 +10,10 @@ var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
+var merge = require('merge-stream');
+
+var cssmin = require('gulp-cssmin');
+var rename = require('gulp-rename');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -22,7 +26,6 @@ var envify_params = {
 };
 console.log(argv);
 if (argv.docker) {
-    console.log("Got docker param");
     envify_params['DOMAIN'] = "wrioos.local"
 }
 
@@ -32,30 +35,28 @@ if (argv.dev) {
 }
 
 gulp.task('babel-client', ['update-modules'], function() {
-    var result = browserify({
-        entries: './WRIO-InternetOS/main.jsx',
+
+    return browserify({
+        entries: './WRIO-InternetOS/start.js',
         debug: true
     })
-        .transform(babelify)
-        .transform(envify(envify_params))
-        .bundle()
-        .on('error', function(err) {
-            console.log('Babel client:', err.toString());
-        })
-        .pipe(source('start.js'))
-        .pipe(buffer())
-        .pipe(gulp.dest('./raw/'));
-
-        if (argv.docker) { // dont' uglify and generate sourcemaps when debugging in local env
-            result = result.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-             .pipe(uglify())
-             .pipe(sourcemaps.write('./')); // writes .map file
-        }
-
-        return result.pipe(gulp.dest('.'))
-                     .pipe(notify("start.js built!!"));
+      .transform(babelify)
+      .transform(envify(envify_params))
+      .bundle()
+      .on('error', function(err) {
+          console.log('Babel client:', err.toString());
+      })
+      .pipe(source('preloader.js'))
+      .pipe(buffer())
+      .pipe(gulp.dest('./raw/'))
+      .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./')) // writes .map file
+      .pipe(gulp.dest('.'))
+      .pipe(notify("preloader.js built!!"))
 
 });
+
 /*
 "optionalDependencies": {
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
@@ -69,7 +70,6 @@ gulp.task('update-modules', function(callback) {
             npm.commands.install(['file:../Plus-WRIO-App/'],function(err,cb){
                 callback();
             });
-
         });
     } else {
         callback();
@@ -77,11 +77,9 @@ gulp.task('update-modules', function(callback) {
 
 });
 
-
 gulp.task('default', ['update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
-
     gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['babel-client']);
 });
 

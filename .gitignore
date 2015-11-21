@@ -36,5 +36,6 @@ node_module/
 config.json
 .module-cache
 npm-debug.log
-start.js
-WRIO-InternetOS/start.js
+./start.js
+./start.js.map
+./raw
