@@ -4,10 +4,14 @@ module.exports = React.createClass({
     propTypes: {
         editMode: React.PropTypes.bool.isRequired,
         onEditClick: React.PropTypes.func.isRequired,
-        onReadClick: React.PropTypes.func.isRequired
+        onReadClick: React.PropTypes.func.isRequired,
+        editAllowed: React.PropTypes.bool.isRequired
     },
     render: function () {
         var readEditMode;
+
+
+
         if (!this.props.editMode) {
             readEditMode = (
                 <ul itemProp="breadcrumb" className="breadcrumb">
@@ -29,6 +33,16 @@ module.exports = React.createClass({
                     </li>
                 </ul>);
         }
+
+        if (!this.props.editAllowed) {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
+                    <li className="active">
+                        Read
+                    </li>
+                </ul>);
+        }
+
         return (
             <section>
                 <ul className="breadcrumb controls tooltip-demo">
