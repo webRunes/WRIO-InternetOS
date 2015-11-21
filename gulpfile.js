@@ -46,14 +46,14 @@ gulp.task('babel-client', ['update-modules'], function() {
       .on('error', function(err) {
           console.log('Babel client:', err.toString());
       })
-      .pipe(source('start.js'))
+      .pipe(source('preloader.js'))
       .pipe(buffer())
       .pipe(gulp.dest('./raw/'))
       .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
       .pipe(uglify())
       .pipe(sourcemaps.write('./')) // writes .map file
       .pipe(gulp.dest('.'))
-      .pipe(notify("start.js built!!"))
+      .pipe(notify("preloader.js built!!"))
 
 });
 
