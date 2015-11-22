@@ -77,13 +77,18 @@ var CreateArticleList = React.createClass({
         }
     },
     getContentByName: function(name) {
-        if(typeof name === 'undefined') {
+
+        if (typeof name === 'undefined') {
             return this.getArticles();
-        } else if (name === 'Cover') {
-            return this.getCoverList();
         } else {
-            return this.getItemList();
+            name = name.toLowerCase();
+            if (name === 'cover') {
+                return this.getCoverList();
+            } else {
+                return this.getItemList();
+            }
         }
+
     },
     render: function () {
         return (
