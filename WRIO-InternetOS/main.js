@@ -13,7 +13,6 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         return (
             <div className={'row row-offcanvas row-offcanvas-right '}>
@@ -24,7 +23,6 @@ class Main extends React.Component {
             </div>
         );
     }
-
 }
 
 Main.propTypes = {
@@ -44,9 +42,8 @@ domready(function (){
                 return d;
             }()
         )), function (){
-            window.addEventListener('load', function load(){
-                document.getElementById('preloader').style.display = 'none';
-            }, false);
+            document.getElementById('preloader').style.display = 'none';
+            //window.addEventListener('load', function load(){}, false);
         }
     );
 });

@@ -12,6 +12,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
+var merge = require('merge-stream');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -34,7 +35,8 @@ if (argv.dev) {
 
 gulp.task('babel-client', ['update-modules'], function() {
 
-    return browserify({
+
+    var preloader = browserify({
         entries: './WRIO-InternetOS/preloader.js',
         debug: true
     })
@@ -51,7 +53,28 @@ gulp.task('babel-client', ['update-modules'], function() {
       .pipe(uglify())
       .pipe(sourcemaps.write('./')) // writes .map file
       .pipe(gulp.dest('.'))
-      .pipe(notify("start.js built!!"))
+      .pipe(notify("start.js built!!"));
+
+    var main = browserify({
+            entries: './WRIO-InternetOS/main.js',
+            debug: true
+        })
+        .transform(babelify)
+        .transform(envify(envify_params))
+        .bundle()
+        .on('error', function(err) {
+            console.log('Babel client:', err.toString());
+        })
+        .pipe(source('main.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./raw/'))
+        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./')) // writes .map file
+        .pipe(gulp.dest('.'))
+        .pipe(notify("main.js built!!"));
+
+    return merge(preloader, main);
 
 });
 
@@ -72,7 +95,6 @@ gulp.task('update-modules', function(callback) {
     } else {
         callback();
     }
-
 });
 
 gulp.task('default', ['update-modules','babel-client']);
