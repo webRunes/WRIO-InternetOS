@@ -82,7 +82,7 @@ var CreateArticleList = React.createClass({
             return this.getArticles();
         } else {
             name = name.toLowerCase();
-            if (name === 'сover') {
+            if (name === 'cover') {
                 return this.getCoverList();
             } else {
                 return this.getItemList();
