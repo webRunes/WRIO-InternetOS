@@ -10,8 +10,7 @@ var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
-var cssmin = require('gulp-cssmin');
-var rename = require('gulp-rename');
+
 
 var npm = require('npm'),
 package = require('./package.json');
