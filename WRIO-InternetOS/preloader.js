@@ -18,7 +18,6 @@ var code =
     head = document.getElementsByTagName('head')[0],
     notSupportedBrowsers = [];
 
-
 var cssUrl = require('./js/global').cssUrl,
     theme = require('./js/global').theme,
     css = [
@@ -32,8 +31,8 @@ loading.rel = 'stylesheet';
 loading.href = cssUrl + theme + '/css/loading.css';
 head.appendChild(loading);
 
-document.body.style.heigth = '100%';
-document.body.style.margin = 0;
+window.document.body.style.heigth = '100%';
+window.document.body.style.margin = 0;
 document.documentElement.style.heigth = '100%';
 document.documentElement.style.margin = 0;
 window.document.body.innerHTML += code;
