@@ -10,7 +10,7 @@ var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
-
+var merge = require('merge-stream');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -33,7 +33,8 @@ if (argv.dev) {
 
 gulp.task('babel-client', ['update-modules'], function() {
 
-    var res = browserify({
+
+    var preloader = browserify({
         entries: './WRIO-InternetOS/preloader.js',
         debug: true
     })
@@ -46,17 +47,46 @@ gulp.task('babel-client', ['update-modules'], function() {
       .pipe(source('start.js'))
       .pipe(buffer());
 
+        if (!argv.docker) {
+            preloader = preloader.pipe(gulp.dest('./raw/'))
+                .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+                .pipe(uglify())
+                .pipe(sourcemaps.write('./')); // writes .map file
+        } else {
+            console.log("Skip uglification...");
+        }
+        preloader
+            .pipe(gulp.dest('.'))
+            .pipe(notify("start.js built!!"));
+
+
+
+    var main = browserify({
+            entries: './WRIO-InternetOS/main.js',
+            debug: true
+        })
+        .transform(babelify)
+        .transform(envify(envify_params))
+        .bundle()
+        .on('error', function(err) {
+            console.log('Babel client:', err.toString());
+        })
+        .pipe(source('main.js'))
+        .pipe(buffer());
+
     if (!argv.docker) {
-        res = res.pipe(gulp.dest('./raw/'))
+        main = main.pipe(gulp.dest('./raw/'))
             .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
             .pipe(uglify())
             .pipe(sourcemaps.write('./')); // writes .map file
     } else {
         console.log("Skip uglification...");
     }
+    main
+        .pipe(gulp.dest('.'))
+        .pipe(notify("main.js built!!"));
 
-    return res.pipe(gulp.dest('.'))
-      .pipe(notify("start.js built!!"))
+    return merge(preloader, main);
 
 });
 
@@ -77,7 +107,6 @@ gulp.task('update-modules', function(callback) {
     } else {
         callback();
     }
-
 });
 
 gulp.task('default', ['update-modules','babel-client']);
