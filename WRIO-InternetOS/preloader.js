@@ -164,7 +164,7 @@ if(!BrowserDetection.init()){
         if (document.styleSheets.length > css.length) {
             var script = document.createElement('script');
             script.setAttribute('type', 'text/javascript');
-            script.setAttribute('src', './WRIO-InternetOS/main.js');
+            script.setAttribute('src', '/main.js');
             document.body.appendChild(script);
             clearInterval(ti);
         }
