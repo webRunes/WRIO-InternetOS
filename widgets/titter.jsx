@@ -351,7 +351,7 @@ var React = require('react');
                     </ul>
                 );
                 if (this.state.nocomments) {
-                    parts.push(
+                    return (
                         <div key="a" className="alert alert-warning">Comments are disabled. <a href="#">Enable</a></div>
                     );
                 }

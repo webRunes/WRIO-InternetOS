@@ -109,24 +109,25 @@ class CreateDomCenter extends React.Component{
         var displayWebgold = '';
         var nocomments = false;
 
+        var urlParams = this.UrlMixin.searchToObject();
         var notDisplayCenter = false;
-        switch (window.location.search) {
-            case '?create':
-                condition = false;
-                nocomments = true;
-                notDisplayCenter=true;
-                break;
-            case '?add_funds':
-                condition = false;
-                displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
-                notDisplayCenter=true;
-                break;
-            case '?edit':
-                notDisplayCenter=true;
-                displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
-                break;
-            default:
+
+        if (urlParams.create) {
+           condition = false;
+           nocomments = true;
+           notDisplayCenter=true;
         }
+        if (urlParams.add_funds) {
+            condition = false;
+            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+            notDisplayCenter=true;
+        }
+
+        if (urlParams.edit) {
+            notDisplayCenter=true;
+            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
+        }
+
 
 
         return (

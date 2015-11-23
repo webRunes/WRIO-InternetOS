@@ -76,12 +76,16 @@ var CreateArticleList = React.createClass({
             location.hash = '#' + id;
         }
     },
-    getContentByName: function(name) {
+    getContentByName: function(params) {
 
-        if (typeof name === 'undefined') {
+        if (params.cover) {
+            return this.getCoverList();
+        }
+
+        if (typeof params.list === 'undefined') {
             return this.getArticles();
         } else {
-            name = name.toLowerCase();
+            var name = params.list.toLowerCase();
             if (name === 'cover') {
                 return this.getCoverList();
             } else {
@@ -93,7 +97,7 @@ var CreateArticleList = React.createClass({
     render: function () {
         return (
             <article>
-                {this.getContentByName(this.searchToObject().list)}
+                {this.getContentByName(this.searchToObject())}
             </article>
         );
     }
