@@ -13,4 +13,4 @@ COPY . /srv/www/
 
 EXPOSE 3000
 #RUN cd /srv/www/ && npm run build
-CMD cd /srv/www/ && hs -p 3000 && npm run watch
+CMD cd /srv/www/ && hs -p 3000 && npm run watchDOCKER
