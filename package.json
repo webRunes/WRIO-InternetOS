@@ -59,7 +59,7 @@
     "start": "gulp && gulp clear",
     "bundleP": "browserify -g [envify --NODE_ENV production] -g uglifyify WRIO-InternetOS/main.jsx -o start.js",
     "bundleD": "browserify -g [envify --NODE_ENV production] WRIO-InternetOS/main.jsx -o start.js -d",
-    "build": "npm run lint && gulp && gulp clear && gzip -9 start.js && mv start.js.gz start.js && gzip -9 start.js.map && mv start.js.map.gz start.js.map",
+    "build": "npm run lint && gulp && rm -fr node_modules && gzip -9 start.js && mv start.js.gz start.js && gzip -9 start.js.map && mv start.js.map.gz start.js.map",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
     "watch": "gulp watch",
