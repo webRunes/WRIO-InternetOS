@@ -57,6 +57,7 @@
   },
   "scripts": {
     "build": "gulp && sh compress.sh",
+    "start": "npm run build",
     "buildDOCKER": "gulp",
     "w": "npm run watch",
     "lint": "eslint WRIO-InternetOS",
