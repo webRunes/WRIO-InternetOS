@@ -32,6 +32,7 @@
     "http": "~0.0",
     "jade": "1.7",
     "media-typer": "*",
+    "merge-stream": "^1.0.0",
     "ms": "*",
     "mysql": "~2.5",
     "nconf": "*",
