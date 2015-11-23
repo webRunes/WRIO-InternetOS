@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# This scripts executed before deploy on Travis CI, it deletes node_modules, gzips all sources for quick download
+
 rm -fr node_modules
 
 echo "Gzipping scripts"
