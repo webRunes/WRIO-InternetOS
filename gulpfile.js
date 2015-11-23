@@ -93,14 +93,18 @@ gulp.task('babel-client', ['update-modules'], function() {
 /*
 "optionalDependencies": {
     "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
-        "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
-        "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git"
-}*/
+    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
+    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git"
+}
+*/
 
 gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
-            npm.commands.install(['file:../Plus-WRIO-App/'],function(err,cb){
+            npm.commands.install([
+                'file:../Titter-WRIO-App/',
+                'file:../Plus-WRIO-App/'
+            ],function(err,cb){
                 callback();
             });
         });
@@ -116,11 +120,10 @@ gulp.task('watch', ['default'], function() {
 });
 
 gulp.task('watchDev', ['default'], function() {
-
     var mod = ['update-modules','babel-client'];
     gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
-    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['update-modules','babel-client']);
-
+    gulp.watch(['../Titter-WRIO-App/src/**/*.*'], mod);
+    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], mod);
 });
 
 gulp.task('clear', function () {
