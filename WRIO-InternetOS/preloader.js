@@ -164,7 +164,16 @@ if(!BrowserDetection.init()){
         if (document.styleSheets.length > css.length) {
             var script = document.createElement('script');
             script.setAttribute('type', 'text/javascript');
-            script.setAttribute('src', '/main.js');
+            if (process.env.NODE_ENV === 'production') {
+                script.setAttribute('src', '//wrioos.com/main.js');
+            }
+            if (process.env.NODE_ENV === 'development') {
+                script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
+            }
+
+            if (process.env.NODE_ENV === 'dockerdev') {
+                script.setAttribute('src', '//wrioos.local/WRIO-InternetOS/main.js');
+            }
             document.body.appendChild(script);
             clearInterval(ti);
         }

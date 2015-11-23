@@ -23,6 +23,8 @@ var envify_params = {
 };
 console.log(argv);
 if (argv.docker) {
+    console.log("Got docker dev mode");
+    envify_params['NODE_ENV'] = 'dockerdev';
     envify_params['DOMAIN'] = "wrioos.local"
 }
 
@@ -126,13 +128,3 @@ gulp.task('watchDev', ['default'], function() {
     gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], mod);
 });
 
-gulp.task('clear', function () {
-    npm.load({}, function () {
-        npm.commands.uninstall(
-            Object.keys(package.dependencies).concat([
-                'react',
-                'react-tools'
-            ])
-        );
-    });
-});
