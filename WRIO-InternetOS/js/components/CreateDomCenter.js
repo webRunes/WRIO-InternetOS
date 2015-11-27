@@ -51,7 +51,10 @@ class CreateDomCenter extends React.Component{
     }
 
     componentDidMount(){
-        this.listenStoreLd = StoreLd.listen(this.onStateChange);
+        var that = this;
+        this.listenStoreLd = StoreLd.listen((state) => {
+            that.onStateChange(state);
+        });
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
         var that = this;
@@ -67,9 +70,11 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    onStateChange(state,data) {
-        console.log("State:",state,data);
-
+    onStateChange(state) {
+        console.log("State:",state);
+        this.setState(
+            { data: state.data}
+        );
     }
 
     onShowSidebar(data) {
@@ -133,7 +138,13 @@ class CreateDomCenter extends React.Component{
             displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
         }
 
+        var centerData;
 
+        if (this.state.data) {
+            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
+        } else {
+            centerData = this.props.data; // otherwise use default data provided in props
+        }
 
         return (
             <div className={className} id="centerWrp">
@@ -147,7 +158,7 @@ class CreateDomCenter extends React.Component{
                         editAllowed ={ this.state.editAllowed }
                         />
                     { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
-                    { notDisplayCenter ? '' : <Center data={this.props.data} content={this.state.content} type={type} />}
+                    { notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
                     <div style={{display: condition ? 'none' : 'block'}}>
