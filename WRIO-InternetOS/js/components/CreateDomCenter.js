@@ -67,6 +67,11 @@ class CreateDomCenter extends React.Component{
         });
     }
 
+    onStateChange(state,data) {
+        console.log("State:",state,data);
+
+    }
+
     onShowSidebar(data) {
         this.setState({
             active: data
