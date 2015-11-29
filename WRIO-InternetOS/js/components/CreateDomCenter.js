@@ -141,7 +141,9 @@ class CreateDomCenter extends React.Component{
         var centerData;
 
         if (this.state.data) {
-            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
+            if (type) {
+                centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
+            }
         } else {
             centerData = this.props.data; // otherwise use default data provided in props
         }
