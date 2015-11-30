@@ -226,10 +226,24 @@ var React = require('react');
             };
 
             var twheight = 10000;
-            document.getElementById('titteriframe').style.height = '320px';
+            document.getElementById('titteriframe').style.height = '240px';
+
+            window.addEventListener('message', function (e) {
+
+                    var message = e.data;
+                    var httpChecker = new RegExp('^(http|https)://titter.' + domain, 'i');
+                    if (httpChecker.test(e.origin)) {
+                        console.log(e);
+                        var jsmsg = JSON.parse(message);
+
+                        if (jsmsg.titterHeight) {
+                            document.getElementById('titteriframe').style.height = jsmsg.titterHeight+'px';
+                        }
+                    };
+            });
 
             var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
-            var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" height="' + twheight + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
+            var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
             document.getElementById('twitter_frame_container').innerHTML = commentTitle + twitterTemplate;
 
             var js,
@@ -356,9 +370,10 @@ var React = require('react');
                     );
                 }
                 if (this.state.article) {
+
                     parts.push(
                         <section key="b">
-                            <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no" />
+                            <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
                             <div id="twitter_frame_container"></div>
                         </section>
                     );
