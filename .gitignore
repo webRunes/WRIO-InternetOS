@@ -41,3 +41,5 @@ npm-debug.log
 raw
 /main.js
 /main.js.map
+/deploy.js
+/deploy.sh
