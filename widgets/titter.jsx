@@ -230,7 +230,7 @@ var React = require('react');
 
             var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
             var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" height="' + twheight + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
-            document.getElementById('titter_frame_container').innerHTML += commentTitle + twitterTemplate;
+            document.getElementById('twitter_frame_container').innerHTML = commentTitle + twitterTemplate;
 
             var js,
                 fjs = document.getElementsByTagName('script')[0],
@@ -357,8 +357,9 @@ var React = require('react');
                 }
                 if (this.state.article) {
                     parts.push(
-                        <section key="b" id="titter_frame_container">
+                        <section key="b">
                             <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no" />
+                            <div id="twitter_frame_container"></div>
                         </section>
                     );
                 }
