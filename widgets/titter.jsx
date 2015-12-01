@@ -233,7 +233,6 @@ var React = require('react');
                     var message = e.data;
                     var httpChecker = new RegExp('^(http|https)://titter.' + domain, 'i');
                     if (httpChecker.test(e.origin)) {
-                        console.log(e);
                         var jsmsg = JSON.parse(message);
 
                         if (jsmsg.titterHeight) {
