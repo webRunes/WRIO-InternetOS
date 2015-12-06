@@ -17,3 +17,11 @@ mv main.js.gz main.js
 
 gzip -9 main.js.map
 mv main.js.map.gz main.js.map
+
+cd raw
+
+gzip -9 start.js
+mv start.js.gz start.js
+
+gzip -9 main.js
+mv main.js.gz main.js

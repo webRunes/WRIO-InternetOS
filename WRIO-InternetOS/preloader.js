@@ -169,7 +169,22 @@ if(!BrowserDetection.init()){
             var script = document.createElement('script');
             script.setAttribute('type', 'text/javascript');
             if (process.env.NODE_ENV === 'production') {
-                script.setAttribute('src', '//wrioos.com/main.js');
+
+                // for debugging purposes allow unminified script loading
+                // simply set window.localStorage.setItem('debugJS',true); to allow unminifed code debugging
+
+                var debug = false;
+                if (window.localStorage) {
+                    if (localStorage.getItem('debugJS')) {
+                        debug = true;
+                    }
+                }
+                if (debug) {
+                    script.setAttribute('src', '//wrioos.com/raw/main.js');
+                } else {
+                    script.setAttribute('src', '//wrioos.com/main.js');
+                }
+
             }
             if (process.env.NODE_ENV === 'development') {
                 script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
