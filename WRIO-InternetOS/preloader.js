@@ -16,28 +16,16 @@ var code =
         '</div>',
     favicon,
     head = document.getElementsByTagName('head')[0],
-    notSupportedBrowsers = [];
-
-var cssUrl = require('./js/global').cssUrl,
+    notSupportedBrowsers = [],
+    cssUrl = require('./js/global').cssUrl,
     theme = require('./js/global').theme,
     css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
         cssUrl + theme + '/css/webrunes.css'
     ],
     count = css.length,
-    loading;
-loading = document.createElement('link');
-loading.rel = 'stylesheet';
-loading.href = cssUrl + theme + '/css/loading.css';
-head.appendChild(loading);
-
-window.document.body.style.heigth = '100%';
-window.document.body.style.margin = 0;
-document.documentElement.style.heigth = '100%';
-document.documentElement.style.margin = 0;
-window.document.body.innerHTML += code;
-
-var BrowserDetection = {
+    loading,
+    BrowserDetection = {
     init: function(){
         if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
             notSupportedBrowsers = this.defaultNotSupportedBrowsers;
@@ -150,6 +138,22 @@ var BrowserDetection = {
         {'os': 'Any', 'browser': 'MSIE', 'version': 9}
     ]
 };
+
+loading = document.createElement('link');
+loading.rel = 'stylesheet';
+loading.href = cssUrl + theme + '/css/loading.css';
+head.appendChild(loading);
+
+window.document.body.style.heigth = '100%';
+window.document.body.style.margin = 0;
+document.documentElement.style.heigth = '100%';
+document.documentElement.style.margin = 0;
+
+if(localStorage && !localStorage.getItem('newUser')){
+    localStorage.setItem('newUser', true);
+    window.document.body.innerHTML += code;
+}
+
 if(!BrowserDetection.init()){
 
     for(var i = 0; i < count; i++){

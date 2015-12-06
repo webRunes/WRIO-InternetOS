@@ -1,3 +1,10 @@
+'use strict';
+var domain = '';
+if (process.env.DOMAIN === undefined) {
+    domain = 'wrioos.com';
+} else {
+    domain = process.env.DOMAIN;
+}
 var React = require('react'),
     Reflux = require('reflux'),
     Login = require('../../../widgets/login.jsx'),
@@ -11,8 +18,8 @@ var React = require('react'),
     ActionMenu = require('plus/js/actions/menu'),
     StoreMenu = require('plus/js/stores/menu'),
     UrlMixin = require('../mixins/UrlMixin'),
+    Alert = require('react-bootstrap').Alert,
     CenterActions = require('../actions/center');
-
 
 class CreateDomCenter extends React.Component{
 
@@ -31,11 +38,14 @@ class CreateDomCenter extends React.Component{
                 type: (locationSearch) ? locationSearch : 'article'
             },
             active: false,
+            userId: false,
+            alertVisible: false,
             editAllowed: false
         };
         this.onShowSidebar = this.onShowSidebar.bind(this);
+        this.hideAlert = this.hideAlert.bind(this);
+        this.hideAlertByClick = this.hideAlertByClick.bind(this);
     }
-
 
     getAuthorWrioID() {
         var data = this.props.data;
@@ -65,6 +75,18 @@ class CreateDomCenter extends React.Component{
             }
 
         });
+
+        window.addEventListener('message', function (e) {
+
+            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+            if (httpChecker.test(e.origin)) {
+                let jsmsg = JSON.parse(e.data);
+                this.userId(jsmsg.profile.id);
+                this.hideAlert();
+            }
+
+        }.bind(this));
+
     }
 
     onShowSidebar(data) {
@@ -96,6 +118,30 @@ class CreateDomCenter extends React.Component{
         });
     }
 
+    userId (userId){
+        this.setState({
+            'userId': userId
+        });
+    }
+
+    hideAlert (){
+        if(localStorage && localStorage.getItem(this.state.userId + ' close alert')) {
+            this.setState({
+                'alertVisible': false
+            });
+        }else{
+            this.setState({
+                'alertVisible': true
+            });
+        }
+    }
+
+    hideAlertByClick (){
+        localStorage.setItem(this.state.userId  + ' close alert', true);
+        this.setState({
+            'alertVisible': false
+        });
+    }
 
     render (){
         var type = this.UrlMixin.searchToObject().list,
@@ -128,11 +174,18 @@ class CreateDomCenter extends React.Component{
             displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
         }
 
-
+        var alertVisible = classNames({
+            'hide': !this.state.alertVisible
+        });
 
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
+                    <div className={alertVisible}>
+                        <Alert bsStyle="warning" onDismiss={this.hideAlertByClick}>
+                            <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
+                        </Alert>
+                    </div>
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb
                         converter={this.props.converter}
