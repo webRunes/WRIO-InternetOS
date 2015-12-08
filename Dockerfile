@@ -12,5 +12,5 @@ RUN cd /srv/www/ && npm install --unsafe-perm
 COPY . /srv/www/
 
 EXPOSE 3000
-RUN cd /srv/www/ && npm run build
-CMD cd /srv/www/ && hs -p 3000 && npm run watch
+#RUN cd /srv/www/ && npm run build
+CMD cd /srv/www/ && hs -p 3000 && npm run watchDOCKER

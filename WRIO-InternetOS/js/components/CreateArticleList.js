@@ -31,6 +31,11 @@ var CreateArticleList = React.createClass({
             return mentions;
         }
 
+        if (!this.props.data) {
+            console.log("Assertion raised, CreateArticleList this.props.data not specified!",this.props);
+            return (<p>Error, cannot render article list</p>)
+        }
+
         return this.props.data
             .map(function (o, key) {
                 if (o.url) {
@@ -76,19 +81,28 @@ var CreateArticleList = React.createClass({
             location.hash = '#' + id;
         }
     },
-    getContentByName: function(name) {
-        if(typeof name === 'undefined') {
-            return this.getArticles();
-        } else if (name === 'Cover') {
+    getContentByName: function(params) {
+
+        if (params.cover) {
             return this.getCoverList();
-        } else {
-            return this.getItemList();
         }
+
+        if (typeof params.list === 'undefined') {
+            return this.getArticles();
+        } else {
+            var name = params.list.toLowerCase();
+            if (name === 'cover') {
+                return this.getCoverList();
+            } else {
+                return this.getItemList();
+            }
+        }
+
     },
     render: function () {
         return (
             <article>
-                {this.getContentByName(this.searchToObject().list)}
+                {this.getContentByName(this.searchToObject())}
             </article>
         );
     }

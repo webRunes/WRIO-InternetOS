@@ -165,12 +165,21 @@ var CreateDomRight = React.createClass({
             isActiveFirstArticle = true,
             items = [],
             isCover = function (o) {
-                return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6);
+                return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
             },
             className = classNames({
                 'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
                 'active': this.state.active
             }), height;
+
+        var listParam = this.searchToObject().list;
+
+        if (listParam) {
+            if (listParam.toLowerCase() == 'cover') {
+                isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
+            }
+        }
+
 
         this.props.data.forEach(function add (o) {
             if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
