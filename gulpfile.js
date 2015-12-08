@@ -104,7 +104,6 @@ gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
             npm.commands.install([
-                'file:../Titter-WRIO-App/',
                 'file:../Plus-WRIO-App/'
             ],function(err,cb){
                 callback();
@@ -118,13 +117,16 @@ gulp.task('update-modules', function(callback) {
 gulp.task('default', ['update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
-    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], ['babel-client']);
+    gulp.watch([
+        'WRIO-InternetOS/**/*.*',
+        'widgets/**/*.*',
+        '../Plus-WRIO-App/'
+    ], ['babel-client']);
 });
 
 gulp.task('watchDev', ['default'], function() {
     var mod = ['update-modules','babel-client'];
     gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
-    gulp.watch(['../Titter-WRIO-App/src/**/*.*'], mod);
     gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], mod);
 });
 

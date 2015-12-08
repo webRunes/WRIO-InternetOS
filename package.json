@@ -69,12 +69,13 @@
     "babel-core": "^5.8.24",
     "browserify": "^10.2.4",
     "browserify-notify": "^1.1.2",
-    "domready": "^1.0.8",
-    "envify": "^3.4.0",
-    "esprima": "~1.0.4",
     "classnames": "^2.1.2",
     "cross-storage": "^0.7.0",
+    "domready": "^1.0.8",
+    "envify": "^3.4.0",
     "es6-promise": "^3.0.2",
+    "esprima": "~1.0.4",
+    "evercookie": "^0.3.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-browserify": "^0.5.1",
@@ -82,6 +83,7 @@
     "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash.sortby": "^3.1.4",
+    "moment": "^2.10.3",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
@@ -93,7 +95,6 @@
     "superagent": "^1.2.0",
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1",
-    "yargs": "^3.23.0",
-    "moment": "^2.10.3"
+    "yargs": "^3.23.0"
   }
 }
