@@ -1,4 +1,3 @@
-'use strict';
 var domain = '';
 if (process.env.DOMAIN === undefined) {
     domain = 'wrioos.com';
@@ -7,7 +6,8 @@ if (process.env.DOMAIN === undefined) {
 }
 var React = require('react'),
     Reflux = require('reflux'),
-    Login = require('../../../widgets/login.jsx'),
+    Login = require('../../../widgets/Login.jsx'),
+    Details = require('../../../widgets/Details.jsx'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,
     CreateBreadcrumb = require('./CreateBreadcrumb'),
@@ -91,7 +91,7 @@ class CreateDomCenter extends React.Component{
     }
 
     onStateChange(state) {
-        console.log("State:",state);
+        console.log('State:',state);
         this.setState(
             { data: state.data}
         );
@@ -182,11 +182,6 @@ class CreateDomCenter extends React.Component{
             displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
         }
 
-
-        var alertVisible = classNames({
-            'hide': !this.state.alertVisible
-        });
-
         var centerData;
 
         if (this.state.data && (type == 'cover' || type == 'Cover')) {
@@ -198,11 +193,7 @@ class CreateDomCenter extends React.Component{
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
-                    <div className={alertVisible}>
-                        <Alert bsStyle="warning" onDismiss={this.hideAlertByClick}>
-                            <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
-                        </Alert>
-                    </div>
+                    {!this.state.alertVisible || <Alert bsStyle="warning" onDismiss={this.hideAlertByClick}><strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.</Alert>}
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb
                         converter={this.props.converter}
