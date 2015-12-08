@@ -45,7 +45,7 @@ module.exports = React.createClass({
 
         return (
             <section>
-                <ul className="breadcrumb controls tooltip-demo">
+                <ul className="hide breadcrumb controls tooltip-demo">
                     <li title="Read time" data-placement="top" data-toggle="tooltip">
                         <span className="glyphicon glyphicon-time"></span>4-5 minutes
                     </li>
