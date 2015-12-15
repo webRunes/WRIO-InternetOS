@@ -50,13 +50,16 @@ class CreateDomCenter extends React.Component{
     getAuthorWrioID() {
         var data = this.props.data;
         for (var i in data) {
-            var element = data[i];
-            if (element.author) {
-                var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                if (id) {
-                    return id[1];
+            if(data.hasOwnProperty(i)) {
+
+                if (element.author) {
+                    var id = element.author.match(/\?wr.io=([0-9]+)$/);
+                    if (id) {
+                        return id[1];
+                    }
                 }
             }
+            var element = data[i];
         }
     }
 
