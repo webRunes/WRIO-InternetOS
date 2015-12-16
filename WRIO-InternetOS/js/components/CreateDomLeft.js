@@ -13,7 +13,7 @@ class CreateDomLeft extends React.Component{
         super(props);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.showSidebar = this.showSidebar.bind(this);
-        this.resize = this.resize.bind(this);
+        this.tabsSize = this.tabsSize.bind(this);
         this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
         this.showSidebarByClick = this.showSidebarByClick.bind(this);
         this.state = {
@@ -26,10 +26,10 @@ class CreateDomLeft extends React.Component{
     componentDidMount() {
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
-        this.listenStoreMenuResize = StoreMenu.listenTo(ActionMenu.resize, this.resize);
+        this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.tabsSize, this.tabsSize);
     }
 
-    resize(height) {
+    tabsSize(height) {
         if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767){
             this.setState({
                 height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41)
@@ -44,7 +44,7 @@ class CreateDomLeft extends React.Component{
     componentWillUnmount() {
         this.listenStoreMenuToggle();
         this.listenStoreMenuSidebar();
-        this.listenStoreMenuResize();
+        this.listenStoreMenuTabsSize();
     }
 
     toggleMenu(data){

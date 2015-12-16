@@ -125,7 +125,7 @@ var CreateDomRight = React.createClass({
     getInitialState: function() {
         return {
             active: false,
-            resize: false,
+            resize: false
         };
     },
 

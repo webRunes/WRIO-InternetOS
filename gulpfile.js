@@ -77,10 +77,10 @@ gulp.task('babel-client', ['update-modules'], function() {
         .pipe(buffer());
 
     if (!argv.docker) {
-        //main = main.pipe(gulp.dest('./raw/'))
-        //    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-        //    .pipe(uglify())
-        //    .pipe(sourcemaps.write('./')); // writes .map file
+        main = main.pipe(gulp.dest('./raw/'))
+            .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+            .pipe(uglify())
+            .pipe(sourcemaps.write('./')); // writes .map file
     } else {
         console.log("Skip uglification...");
     }
