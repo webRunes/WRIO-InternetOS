@@ -42,8 +42,7 @@ domready(function (){
                 return d;
             }()
         )), function (){
-            document.getElementById('preloader').style.display = 'none';
-            //window.addEventListener('load', function load(){}, false);
+            document.getElementById('preloader') ? document.getElementById('preloader').style.display = 'none' : true;
         }
     );
 });
