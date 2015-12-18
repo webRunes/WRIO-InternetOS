@@ -31,6 +31,11 @@ class CreateDomCenter extends React.Component{
             height: '700px',
             border: 'none'
         };
+        this.startIframeStyles = {
+            width: '100%',
+            height: '200px',
+            border: 'none'
+        };
         var locationSearch = this.UrlMixin.getUrlParams();
         this.state = {
             editMode: false,
@@ -40,7 +45,8 @@ class CreateDomCenter extends React.Component{
             active: false,
             userId: false,
             alertVisible: false,
-            editAllowed: false
+            editAllowed: false,
+            notDisplayCenter: false
         };
         this.onShowSidebar = this.onShowSidebar.bind(this);
         this.hideAlert = this.hideAlert.bind(this);
@@ -119,13 +125,15 @@ class CreateDomCenter extends React.Component{
 
     switchToReadMode () {
         this.setState({
-            editMode: false
+            editMode: false,
+            notDisplayCenter: false
         });
     }
 
     switchToEditMode (){
         this.setState({
             editMode: true
+            notDisplayCenter: true
         });
     }
 
@@ -164,25 +172,39 @@ class CreateDomCenter extends React.Component{
 
         var displayCore = '';
         var displayWebgold = '';
+        var displayChess = '';
         var nocomments = false;
 
         var urlParams = this.UrlMixin.searchToObject();
-        var notDisplayCenter = false;
+        //var notDisplayCenter = false;
+
+        if (urlParams.add_funds) {
+            condition = false;
+            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+            this.state.notDisplayCenter=true;
+        }
+
+        if (urlParams.transactions) {
+            condition = false;
+            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/transactions'} style={ this.editIframeStyles }/>);
+            this.state.notDisplayCenter=true;
+        }
 
         if (urlParams.create) {
            condition = false;
            nocomments = true;
-           notDisplayCenter=true;
-        }
-        if (urlParams.add_funds) {
-            condition = false;
-            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
-            notDisplayCenter=true;
+           this.state.notDisplayCenter=true;
+            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
         }
 
         if (urlParams.edit) {
-            notDisplayCenter=true;
-            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + notDisplayCenter.href} style={ this.editIframeStyles }/>);
+            this.state.notDisplayCenter=true;
+            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.host} style={ this.editIframeStyles }/>);
+        }
+
+        if (urlParams.start) {
+            this.state.notDisplayCenter=true;
+            displayChess =  ( <iframe src={'http://chess.'+process.env.DOMAIN+'/start?uuid=' + urlParams.start} style={ this.startIframeStyles }/>);
         }
 
         var centerData;
@@ -205,10 +227,11 @@ class CreateDomCenter extends React.Component{
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
-                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
-                    { notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
+                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
+                    { displayChess }
                     <div style={{display: condition ? 'none' : 'block'}}>
                         <CreateTitter scripts={this.props.data} nocomments={ nocomments }/>
                     </div>
