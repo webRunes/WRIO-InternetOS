@@ -199,7 +199,7 @@ class CreateDomCenter extends React.Component{
 
         if (urlParams.edit) {
             this.state.notDisplayCenter=true;
-            displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.host} style={ this.editIframeStyles }/>);
+            displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + urlParams.edit} style={ this.editIframeStyles }/>);
         }
 
         if (urlParams.start) {
