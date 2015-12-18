@@ -194,17 +194,17 @@ class CreateDomCenter extends React.Component{
            condition = false;
            nocomments = true;
            this.state.notDisplayCenter=true;
-            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?create'} style={ this.editIframeStyles }/>);
+            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
         }
 
         if (urlParams.edit) {
             this.state.notDisplayCenter=true;
-            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.host} style={ this.editIframeStyles }/>);
+            displayCore =  ( <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.host} style={ this.editIframeStyles }/>);
         }
 
         if (urlParams.start) {
             this.state.notDisplayCenter=true;
-            displayChess =  ( <iframe src={'http://chess.'+process.env.DOMAIN+'/?start=' + urlParams.start} style={ this.startIframeStyles }/>);
+            displayChess =  ( <iframe src={'http://chess.'+process.env.DOMAIN+'/start?uuid=' + urlParams.start} style={ this.startIframeStyles }/>);
         }
 
         var centerData;
@@ -227,7 +227,7 @@ class CreateDomCenter extends React.Component{
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
-                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/?edit=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
