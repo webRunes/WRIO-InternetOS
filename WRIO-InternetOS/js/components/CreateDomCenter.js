@@ -227,7 +227,7 @@ class CreateDomCenter extends React.Component{
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
-                    { this.state.editMode ? <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { this.state.editMode ? <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
