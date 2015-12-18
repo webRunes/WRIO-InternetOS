@@ -32,8 +32,8 @@ var CreateArticleList = React.createClass({
         }
 
         if (!this.props.data) {
-            console.log("Assertion raised, CreateArticleList this.props.data not specified!",this.props);
-            return (<p>Error, cannot render article list</p>)
+            console.log('Assertion raised, CreateArticleList this.props.data not specified!', this.props);
+            return (<p>Error, cannot render article list</p>);
         }
 
         return this.props.data
