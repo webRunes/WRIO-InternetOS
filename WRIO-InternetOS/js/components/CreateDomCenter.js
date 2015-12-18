@@ -126,14 +126,14 @@ class CreateDomCenter extends React.Component{
     switchToReadMode () {
         this.setState({
             editMode: false,
-            notDisplayCenter: false
+            this.state.notDisplayCenter: false
         });
     }
 
     switchToEditMode (){
         this.setState({
             editMode: true
-            notDisplayCenter: true
+            this.state.notDisplayCenter: true
         });
     }
 
