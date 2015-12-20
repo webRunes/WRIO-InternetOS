@@ -19,8 +19,7 @@ var React = require('react'),
     StoreMenu = require('plus/js/stores/menu'),
     UrlMixin = require('../mixins/UrlMixin'),
     Alert = require('react-bootstrap').Alert,
-    CenterActions = require('../actions/center'),
-    cheerio = require('cheerio');
+    CenterActions = require('../actions/center');
 
 class CreateDomCenter extends React.Component{
 
@@ -86,30 +85,11 @@ class CreateDomCenter extends React.Component{
     getAuthorWrioID(cb) {
         if (this.state.urlParams.edit && this.state.urlParams.edit !== "undefined") {
             var url = this.formatUrl(this.state.urlParams.edit);
-            var data = '';
-            var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
-            var xhr = new XHR();
-            xhr.open('GET', url, true);
-            xhr.onload = function() {
-                data = this.responseText;
-
-                var $ = cheerio.load(data);
-                var scripts = $('script[type="application/ld+json"]');
-
-                var article = scripts.map((index, script) => {
-                    var data = script.children[0].data;
-                    return JSON.parse(data);
-                }).filter((index, json) => 
-                    json['@type'] == 'Article')[0];
+            StoreLd.getHttp(url,(article) => {
+                article = article.filter((json) => json['@type'] == 'Article')[0];
                 var id = article['author'].match(/\?wr.io=([0-9]+)$/);
                 cb(id ? id[1] : undefined);
-            }
-            console.log()
-            xhr.onerror = function() {
-                console.log( 'Error: ' + this.status );
-            }
-
-            xhr.send();
+            });
         } else {
             var data = this.props.data;
             for (var i in data) {
