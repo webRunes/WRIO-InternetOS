@@ -57,36 +57,35 @@ class CreateDomCenter extends React.Component{
         this.hideAlertByClick = this.hideAlertByClick.bind(this);
     }
 
-    getAuthorWrioID(cb) {
-        function formatUrl(url) {
-            var splittedUrl = url.split('://');
-            var host;
-            var path;
-            if (splittedUrl.length == 2) {
-                host = splittedUrl[0];
-                path = splittedUrl[1];
-            } else {
-                host = 'http';
-                path = url;
-            }
-             
-            var splittedPath = path.split('/');
-            var lastNode = splittedPath[splittedPath.length - 1];
-            if (splittedPath.length > 1 && lastNode) {
-                if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
-                    path += '/'; 
-                }
-            } else if (splittedPath.length == 1) {
-                path += '/';
-            }
-            var resultUrl = host + '://' + path;
-            
-            return resultUrl;
+    formatUrl(url) {
+        var splittedUrl = url.split('://');
+        var host;
+        var path;
+        if (splittedUrl.length == 2) {
+            host = splittedUrl[0];
+            path = splittedUrl[1];
+        } else {
+            host = 'http';
+            path = url;
         }
+         
+        var splittedPath = path.split('/');
+        var lastNode = splittedPath[splittedPath.length - 1];
+        if (splittedPath.length > 1 && lastNode) {
+            if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
+                path += '/'; 
+            }
+        } else if (splittedPath.length == 1) {
+            path += '/';
+        }
+        var resultUrl = host + '://' + path;
+        
+        return resultUrl;
+    }
 
-
+    getAuthorWrioID(cb) {
         if (this.state.urlParams.edit && this.state.urlParams.edit !== "undefined") {
-            var url = formatUrl(this.state.urlParams.edit);
+            var url = this.formatUrl(this.state.urlParams.edit);
             var data = '';
             var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
             var xhr = new XHR();
@@ -115,7 +114,7 @@ class CreateDomCenter extends React.Component{
             var data = this.props.data;
             for (var i in data) {
                 var element = data[i];
-                if (element.author) {
+                if (element && element.author) {
                     var id = element.author.match(/\?wr.io=([0-9]+)$/);
                     cb(id ? id[1] : undefined);
                 }
@@ -147,7 +146,7 @@ class CreateDomCenter extends React.Component{
             var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
                 let jsmsg = JSON.parse(e.data);
-                this.userId(jsmsg.profile.id);
+                if (jsmsg.profile) this.userId(jsmsg.profile.id);
                 this.hideAlert();
             }
 
@@ -177,6 +176,10 @@ class CreateDomCenter extends React.Component{
         this.setState({
             content: x
         });
+    }
+
+    redirectFromEditMode () {
+        window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
     }
 
     switchToReadMode () {
@@ -287,7 +290,7 @@ class CreateDomCenter extends React.Component{
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
-                        onReadClick={ this.switchToReadMode.bind(this) }
+                        onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== "undefined" ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
