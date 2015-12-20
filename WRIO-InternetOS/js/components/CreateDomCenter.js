@@ -196,10 +196,6 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    closeButton () {
-        window.location.replace('//core.' +process.env.DOMAIN);
-    }
-
     userId (userId){
         this.setState({
             'userId': userId
@@ -291,8 +287,6 @@ class CreateDomCenter extends React.Component{
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
-                        closeButton={this.state.urlParams.edit && this.state.urlParams.edit !== "undefined"}
-                        onCloseClick={this.closeButton.bind(this)}
                         onReadClick={ this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }

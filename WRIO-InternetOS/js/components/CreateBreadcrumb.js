@@ -10,6 +10,8 @@ module.exports = React.createClass({
     render: function () {
         var readEditMode;
 
+
+
         if (!this.props.editMode) {
             readEditMode = (
                 <ul itemProp="breadcrumb" className="breadcrumb">
@@ -21,27 +23,15 @@ module.exports = React.createClass({
                     </li>
                 </ul>);
         } else {
-            if (!this.props.closeButton) {
-                readEditMode = (
-                    <ul itemProp="breadcrumb" className="breadcrumb">
-                        <li>
-                            <a onClick={ this.props.onReadClick }>Read</a>
-                        </li>
-                        <li className="active">
-                            Edit
-                        </li>
-                    </ul>);
-            } else {
-                readEditMode = (
-                    <ul itemProp="breadcrumb" className="breadcrumb">
-                        <li>
-                            <a onClick={ this.props.onCloseClick }>Close</a>
-                        </li>
-                        <li className="active">
-                            Edit
-                        </li>
-                    </ul>);
-            }
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
+                    <li>
+                        <a onClick={ this.props.onReadClick }>Read</a>
+                    </li>
+                    <li className="active">
+                        Edit
+                    </li>
+                </ul>);
         }
 
         if (!this.props.editAllowed) {
