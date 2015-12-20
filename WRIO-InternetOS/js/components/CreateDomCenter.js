@@ -228,7 +228,9 @@ class CreateDomCenter extends React.Component{
 
         if (this.state.urlParams.transactions) {
             condition = false;
-            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/transactions'} style={ this.editIframeStyles }/>);
+            displayWebgold = ( 
+                <CreateTransactions />
+            );
             this.state.notDisplayCenter=true;
         }
 
