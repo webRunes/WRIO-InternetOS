@@ -46,26 +46,59 @@ class CreateDomCenter extends React.Component{
             userId: false,
             alertVisible: false,
             editAllowed: false,
-            notDisplayCenter: false
+            notDisplayCenter: false,
+            fromRead: false,
+            editModeFromUrl: false,
+            urlParams: this.UrlMixin.searchToObject()
         };
         this.onShowSidebar = this.onShowSidebar.bind(this);
         this.hideAlert = this.hideAlert.bind(this);
         this.hideAlertByClick = this.hideAlertByClick.bind(this);
     }
 
-    getAuthorWrioID() {
-        var data = this.props.data;
-        for (var i in data) {
-            if(data.hasOwnProperty(i)) {
+    formatUrl(url) {
+        var splittedUrl = url.split('://');
+        var host;
+        var path;
+        if (splittedUrl.length == 2) {
+            host = splittedUrl[0];
+            path = splittedUrl[1];
+        } else {
+            host = 'http';
+            path = url;
+        }
+         
+        var splittedPath = path.split('/');
+        var lastNode = splittedPath[splittedPath.length - 1];
+        if (splittedPath.length > 1 && lastNode) {
+            if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
+                path += '/'; 
+            }
+        } else if (splittedPath.length == 1) {
+            path += '/';
+        }
+        var resultUrl = host + '://' + path;
+        
+        return resultUrl;
+    }
 
-                if (element.author) {
+    getAuthorWrioID(cb) {
+        if (this.state.urlParams.edit && this.state.urlParams.edit !== "undefined") {
+            var url = this.formatUrl(this.state.urlParams.edit);
+            StoreLd.getHttp(url,(article) => {
+                article = article.filter((json) => json['@type'] == 'Article')[0];
+                var id = article['author'].match(/\?wr.io=([0-9]+)$/);
+                cb(id ? id[1] : undefined);
+            });
+        } else {
+            var data = this.props.data;
+            for (var i in data) {
+                var element = data[i];
+                if (element && element.author) {
                     var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                    if (id) {
-                        return id[1];
-                    }
+                    cb(id ? id[1] : undefined);
                 }
             }
-            var element = data[i];
         }
     }
 
@@ -77,12 +110,14 @@ class CreateDomCenter extends React.Component{
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
         CenterActions.gotWrioID.listen( function(id) {
-           console.log('Checking if editing allowed: ',id,that.getAuthorWrioID());
-            if (id == that.getAuthorWrioID()) {
-                that.setState({
-                    editAllowed: true
-                });
-            }
+            that.getAuthorWrioID(function(authorId) {
+                console.log('Checking if editing allowed: ', id, authorId);
+                if (id == authorId) {
+                    that.setState({
+                        editAllowed: true
+                    });
+                }
+            });
 
         });
 
@@ -91,7 +126,7 @@ class CreateDomCenter extends React.Component{
             var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
                 let jsmsg = JSON.parse(e.data);
-                this.userId(jsmsg.profile.id);
+                if (jsmsg.profile) this.userId(jsmsg.profile.id);
                 this.hideAlert();
             }
 
@@ -123,17 +158,24 @@ class CreateDomCenter extends React.Component{
         });
     }
 
+    redirectFromEditMode () {
+        window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
+    }
+
     switchToReadMode () {
         this.setState({
             editMode: false,
-            notDisplayCenter: false
+            editModeFromUrl: false,
+            notDisplayCenter: false,
+            fromRead: true
         });
     }
 
     switchToEditMode () {
         this.setState({
             editMode: true,
-            notDisplayCenter: true
+            notDisplayCenter: true,
+            fromRead: false
         });
     }
 
@@ -175,34 +217,41 @@ class CreateDomCenter extends React.Component{
         var displayChess = '';
         var nocomments = false;
 
-        var urlParams = this.UrlMixin.searchToObject();
+        //var urlParams = this.UrlMixin.searchToObject();
         //var notDisplayCenter = false;
 
-        if (urlParams.add_funds) {
+        if (this.state.urlParams.add_funds) {
             condition = false;
             displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
             this.state.notDisplayCenter=true;
         }
 
-        if (urlParams.transactions) {
+        if (this.state.urlParams.transactions) {
             condition = false;
-            displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/transactions'} style={ this.editIframeStyles }/>);
+            displayWebgold = ( 
+                <CreateTransactions />
+            );
             this.state.notDisplayCenter=true;
         }
 
-        if (urlParams.create) {
+        if (this.state.urlParams.create) {
            condition = false;
            nocomments = true;
            this.state.notDisplayCenter=true;
             displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
         }
 
-        if (urlParams.edit) {
-            this.state.notDisplayCenter=true;
-            displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (urlParams.edit === "undefined" ? window.location.host : urlParams.edit)} style={ this.editIframeStyles }/>);
+        if (this.state.urlParams.edit && this.state.editAllowed) {
+            if (!this.state.fromRead) {
+                condition = false;
+                this.state.editModeFromUrl = true;
+                this.state.editMode = true;
+                this.state.notDisplayCenter=true;
+                displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === "undefined" ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
+            }
         }
 
-        if (urlParams.start) {
+        if (this.state.urlParams.start) {
             this.state.notDisplayCenter=true;
             displayChess =  ( <iframe src={'//chess.'+process.env.DOMAIN+'/start?uuid=' + urlParams.start} style={ this.startIframeStyles }/>);
         }
@@ -223,11 +272,11 @@ class CreateDomCenter extends React.Component{
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
-                        onReadClick={ this.switchToReadMode.bind(this) }
+                        onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== "undefined" ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
-                    { this.state.editMode ? <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { (this.state.editMode && !this.state.editModeFromUrl) ? <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
                     { displayWebgold }
