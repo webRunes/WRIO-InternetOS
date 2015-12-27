@@ -3,8 +3,10 @@ var React = require('react');
 module.exports = React.createClass({
     propTypes: {
         editMode: React.PropTypes.bool.isRequired,
+        transactionsMode: React.PropTypes.bool.isRequired,
         onEditClick: React.PropTypes.func.isRequired,
         onReadClick: React.PropTypes.func.isRequired,
+        onTransactionsClick: React.PropTypes.func.isRequired,
         editAllowed: React.PropTypes.bool.isRequired
     },
     render: function () {
@@ -21,6 +23,9 @@ module.exports = React.createClass({
                     <li>
                         <a onClick={ this.props.onEditClick }>Edit</a>
                     </li>
+                    <li>
+                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                    </li>
                 </ul>);
         } else {
             readEditMode = (
@@ -31,6 +36,9 @@ module.exports = React.createClass({
                     <li className="active">
                         Edit
                     </li>
+                    <li>
+                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                    </li>
                 </ul>);
         }
 
@@ -39,6 +47,15 @@ module.exports = React.createClass({
                 <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
                         Read
+                    </li>
+                </ul>);
+        }
+
+        if (this.props.actionButton) {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
+                    <li className="active">
+                        {this.props.actionButton}
                     </li>
                 </ul>);
         }
