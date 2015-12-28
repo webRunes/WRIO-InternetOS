@@ -39,12 +39,15 @@ class CreateDomCenter extends React.Component{
             },
             active: false,
             userId: false,
-            alertVisible: false,
+            alertWarning: false,
+            alertWelcome: false,
             editAllowed: false
         };
         this.onShowSidebar = this.onShowSidebar.bind(this);
-        this.hideAlert = this.hideAlert.bind(this);
-        this.hideAlertByClick = this.hideAlertByClick.bind(this);
+        this.hideAlertWarning = this.hideAlertWarning.bind(this);
+        this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
+        this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
+        this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
     }
 
     getAuthorWrioID() {
@@ -86,7 +89,12 @@ class CreateDomCenter extends React.Component{
             if (httpChecker.test(e.origin)) {
                 let jsmsg = JSON.parse(e.data);
                 this.userId(jsmsg.profile.id);
-                this.hideAlert();
+
+                localStorage.setItem(this.state.userId  + ' close welcome alert', false);
+                localStorage.setItem(this.state.userId  + ' close warning alert', false);
+
+                this.hideAlertWarning();
+                this.hideAlertWelcome();
             }
 
         }.bind(this));
@@ -94,7 +102,7 @@ class CreateDomCenter extends React.Component{
     }
 
     onStateChange(state) {
-        console.log('State:',state);
+        //console.log('State:',state);
         this.setState(
             { data: state.data}
         );
@@ -135,24 +143,41 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    hideAlert (){
-        if(localStorage && localStorage.getItem(this.state.userId + ' close alert')) {
+    hideAlertWelcome (){
+        if(localStorage && !localStorage.getItem(this.state.userId + ' close welcome alert')) {
             this.setState({
-                'alertVisible': false
+                'alertWelcome': false
             });
         }else{
             this.setState({
-                'alertVisible': true
+                'alertWelcome': true
             });
         }
     }
-
-    hideAlertByClick (){
-        localStorage.setItem(this.state.userId  + ' close alert', true);
+    hideAlertWelcomeByClick (){
+        localStorage.setItem(this.state.userId  + ' close welcome alert', false);
         this.setState({
-            'alertVisible': false
+            'alertWelcome': false
         });
     }
+
+    hideAlertWarning (){
+        if(localStorage && !localStorage.getItem(this.state.userId + ' close warning alert')) {
+            this.setState({
+                'alertWarning': false
+            });
+        }else{
+            this.setState({
+                'alertWarning': true
+            });
+        }
+    }
+    hideAlertWarningByClick (){
+        this.setState({
+            'alertWarning': false
+        });
+    }
+
 
     render (){
         var type = this.UrlMixin.searchToObject().list,
@@ -196,7 +221,12 @@ class CreateDomCenter extends React.Component{
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
-                    {!this.state.alertVisible || <Alert bsStyle="warning" onDismiss={this.hideAlertByClick}><strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.</Alert>}
+                    {!this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
+                        <h5>First time here?</h5><br/><p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>. Click it to open a side menu</p>
+                    </Alert>}
+                    {!this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
+                        <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
+                    </Alert>}
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb
                         converter={this.props.converter}
