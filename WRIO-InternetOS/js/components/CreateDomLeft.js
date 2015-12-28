@@ -14,11 +14,13 @@ class CreateDomLeft extends React.Component{
         this.toggleMenu = this.toggleMenu.bind(this);
         this.showSidebar = this.showSidebar.bind(this);
         this.tabsSize = this.tabsSize.bind(this);
+        this.windowResize = this.windowResize.bind(this);
         this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
         this.showSidebarByClick = this.showSidebarByClick.bind(this);
         this.state = {
             toggleMenu: false,
             showSidebar: false,
+            innerHeight: window.innerHeight,
             height: 'auto'
         };
     }
@@ -27,16 +29,28 @@ class CreateDomLeft extends React.Component{
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
         this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.tabsSize, this.tabsSize);
+        this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.windowResize, this.windowResize);
     }
 
     tabsSize(height) {
         if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767){
             this.setState({
-                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41)
+                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
+                innerHeight: window.innerHeight
             });
         }else{
             this.setState({
-                height: 'auto'
+                height: 'auto',
+                innerHeight: window.innerHeight
+            });
+        }
+    }
+
+    windowResize(width, height) {
+        if(this.state.innerHeight != window.innerHeight){
+            this.setState({
+                innerHeight: window.innerHeight,
+                height: (window.innerWidth > 767) ? window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41) : 'auto'
             });
         }
     }
