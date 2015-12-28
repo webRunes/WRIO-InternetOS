@@ -19,6 +19,7 @@ var React = require('react'),
     StoreMenu = require('plus/js/stores/menu'),
     UrlMixin = require('../mixins/UrlMixin'),
     Alert = require('react-bootstrap').Alert,
+    CreateTransactions = '',
     CenterActions = require('../actions/center');
 
 class CreateDomCenter extends React.Component{
@@ -86,7 +87,7 @@ class CreateDomCenter extends React.Component{
     }
 
     getAuthorWrioID(cb) {
-        if (this.state.urlParams.edit && this.state.urlParams.edit !== "undefined") {
+        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
             var url = this.formatUrl(this.state.urlParams.edit);
             StoreLd.getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
@@ -130,10 +131,6 @@ class CreateDomCenter extends React.Component{
             if (httpChecker.test(e.origin)) {
                 let jsmsg = JSON.parse(e.data);
                 if (jsmsg.profile) this.userId(jsmsg.profile.id);
-
-                localStorage.setItem(this.state.userId  + ' close welcome alert', false);
-                localStorage.setItem(this.state.userId  + ' close warning alert', false);
-
                 this.hideAlertWarning();
                 this.hideAlertWelcome();
             }
@@ -194,40 +191,42 @@ class CreateDomCenter extends React.Component{
     }
 
     hideAlertWelcome (){
-        if(localStorage && !localStorage.getItem(this.state.userId + ' close welcome alert')) {
-            this.setState({
-                'alertWelcome': false
-            });
-        }else{
+        if(!localStorage.getItem(this.state.userId + ' close welcome alert')) {
             this.setState({
                 'alertWelcome': true
             });
+        }else{
+            this.setState({
+                'alertWelcome': false
+            });
         }
     }
+
+    hideAlertWarningByClick (){
+        localStorage.setItem(this.state.userId  + ' close warning alert', true);
+        this.setState({
+            'alertWarning': false
+        });
+    }
+
     hideAlertWelcomeByClick (){
-        localStorage.setItem(this.state.userId  + ' close welcome alert', false);
+        localStorage.setItem(this.state.userId  + ' close welcome alert', true);
         this.setState({
             'alertWelcome': false
         });
     }
 
     hideAlertWarning (){
-        if(localStorage && !localStorage.getItem(this.state.userId + ' close warning alert')) {
-            this.setState({
-                'alertWarning': false
-            });
-        }else{
+        if(!localStorage.getItem(this.state.userId + ' close warning alert')) {
             this.setState({
                 'alertWarning': true
             });
+        }else{
+            this.setState({
+                'alertWarning': false
+            });
         }
     }
-    hideAlertWarningByClick (){
-        this.setState({
-            'alertWarning': false
-        });
-    }
-
 
     render (){
         var type = this.UrlMixin.searchToObject().list,
@@ -253,9 +252,7 @@ class CreateDomCenter extends React.Component{
 
         if (this.state.urlParams.transactions) {
             condition = false;
-            displayWebgold = (
-                <CreateTransactions />
-            );
+            displayWebgold = (<CreateTransactions />);
             this.state.notDisplayCenter=true;
         }
 
@@ -272,7 +269,7 @@ class CreateDomCenter extends React.Component{
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter=true;
-                displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === "undefined" ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
+                displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
             }
         }
 
@@ -302,7 +299,7 @@ class CreateDomCenter extends React.Component{
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
-                        onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== "undefined" ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
+                        onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }
                         />
