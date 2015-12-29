@@ -288,7 +288,7 @@ var React = require('react');
             var titteriframe = document.getElementById('titteriframe');
             if (!titteriframe) return;
             if (this.props.nocomments) {
-                that.setState({nocomments: false});
+                that.setState({nocomments: true});
                 return;
             }
             titteriframe.addEventListener('load', function () {
@@ -363,9 +363,10 @@ var React = require('react');
                         <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                     </ul>
                 );
-                if (this.state.nocomments) {
+                console.log('nocomments: ', this.state.nocomments, this.props.nocomments)
+                if (this.props.nocomments) {
                     return (
-                        <div key="a" className="alert alert-warning">Comments are disabled. <a href="#">Enable</a></div>
+                        <div key="a" className="alert alert-warning">Comments are disabled. </div>
                     );
                 }
                 if (this.state.article) {

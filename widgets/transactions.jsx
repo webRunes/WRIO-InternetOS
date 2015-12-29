@@ -34,7 +34,7 @@ var CreateTransactions = React.createClass({
                 };
         });
 
-    },    
+    },
     componentDidMount: function() {
         this.createTransactionsWidget();
     },
