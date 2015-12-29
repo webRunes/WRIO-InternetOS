@@ -1,3 +1,10 @@
+var domain = '';
+if (process.env.DOMAIN === undefined) {
+    domain = 'wrioos.com';
+} else {
+    domain = process.env.DOMAIN;
+}
+
 var React = require('react');
 
 module.exports = React.createClass({
@@ -23,9 +30,11 @@ module.exports = React.createClass({
                     <li>
                         <a onClick={ this.props.onEditClick }>Edit</a>
                     </li>
-                    <li>
-                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                    </li>
+                    if (window.location.host === "wrioos." + domain) {
+                        <li>
+                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                        </li>
+                    }
                 </ul>);
         } else {
             readEditMode = (
@@ -36,9 +45,11 @@ module.exports = React.createClass({
                     <li className="active">
                         Edit
                     </li>
-                    <li>
-                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                    </li>
+                    if (window.location.host === "wrioos." + domain) {
+                        <li>
+                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                        </li>
+                    }
                 </ul>);
         }
 
@@ -48,9 +59,11 @@ module.exports = React.createClass({
                     <li className="active">
                         Read
                     </li>
-                    <li>
-                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                    </li>
+                    if (window.location.host === "wrioos." + domain) {
+                        <li>
+                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                        </li>
+                    }
                 </ul>);
         }
 
