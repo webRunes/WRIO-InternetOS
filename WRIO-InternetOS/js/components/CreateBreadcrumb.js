@@ -48,6 +48,9 @@ module.exports = React.createClass({
                     <li className="active">
                         Read
                     </li>
+                    <li>
+                        <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                    </li>
                 </ul>);
         }
 
