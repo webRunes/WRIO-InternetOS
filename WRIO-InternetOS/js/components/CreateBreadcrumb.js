@@ -18,8 +18,15 @@ module.exports = React.createClass({
     },
     render: function () {
         var readEditMode;
+        var transactions;
 
-
+        if (window.location.host === "webgold." + domain) {
+            transactions = (
+                <li>
+                    <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                </li>
+            );
+        }
 
         if (!this.props.editMode) {
             readEditMode = (
@@ -30,12 +37,9 @@ module.exports = React.createClass({
                     <li>
                         <a onClick={ this.props.onEditClick }>Edit</a>
                     </li>
-                    if (window.location.host === "webgold." + domain) {
-                        <li>
-                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                        </li>
-                    }
-                </ul>);
+                    {transactions}
+                </ul>
+            );
         } else {
             readEditMode = (
                 <ul itemProp="breadcrumb" className="breadcrumb">
@@ -45,12 +49,9 @@ module.exports = React.createClass({
                     <li className="active">
                         Edit
                     </li>
-                    if (window.location.host === "webgold." + domain) {
-                        <li>
-                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                        </li>
-                    }
-                </ul>);
+                    {transactions}
+                </ul>
+            );
         }
 
         if (!this.props.editAllowed) {
@@ -59,12 +60,9 @@ module.exports = React.createClass({
                     <li className="active">
                         Read
                     </li>
-                    if (window.location.host === "webgold." + domain) {
-                        <li>
-                            <a onClick={ this.props.onTransactionsClick }>Transactions</a>
-                        </li>
-                    }
-                </ul>);
+                    {transactions}
+                </ul>
+            );
         }
 
         if (this.props.actionButton) {
@@ -73,7 +71,8 @@ module.exports = React.createClass({
                     <li className="active">
                         {this.props.actionButton}
                     </li>
-                </ul>);
+                </ul>
+            );
         }
 
         return (

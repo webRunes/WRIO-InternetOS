@@ -10,7 +10,7 @@ if (process.env.DOMAIN == undefined) {
 var CreateTransactions = React.createClass({
     getInitialState: function() {
         return({
-            transactionsFrameUrl: '//webgold.wrioos.com/transactions'
+            transactionsFrameUrl: '//webgold.' + domain + '/transactions'
         });
     },
     editIframeStyles: {

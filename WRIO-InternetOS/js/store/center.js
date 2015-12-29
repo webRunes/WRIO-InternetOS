@@ -17,6 +17,9 @@ module.exports = Reflux.createStore({
                     var e = document.createElement('div');
                     e.innerHTML = result.text;
                     result = scripts(e.getElementsByTagName('script'));
+                    console.log(result);
+                } else {
+                    console.log('center.js:22:err: ', err, typeof result)
                 }
                 cb.call(self, result || []);
             }
