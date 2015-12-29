@@ -30,7 +30,7 @@ module.exports = React.createClass({
                     <li>
                         <a onClick={ this.props.onEditClick }>Edit</a>
                     </li>
-                    if (window.location.host === "wrioos." + domain) {
+                    if (window.location.host === "webgold." + domain) {
                         <li>
                             <a onClick={ this.props.onTransactionsClick }>Transactions</a>
                         </li>
@@ -45,7 +45,7 @@ module.exports = React.createClass({
                     <li className="active">
                         Edit
                     </li>
-                    if (window.location.host === "wrioos." + domain) {
+                    if (window.location.host === "webgold." + domain) {
                         <li>
                             <a onClick={ this.props.onTransactionsClick }>Transactions</a>
                         </li>
@@ -59,7 +59,7 @@ module.exports = React.createClass({
                     <li className="active">
                         Read
                     </li>
-                    if (window.location.host === "wrioos." + domain) {
+                    if (window.location.host === "webgold." + domain) {
                         <li>
                             <a onClick={ this.props.onTransactionsClick }>Transactions</a>
                         </li>
