@@ -8,18 +8,15 @@ var Reflux = require('reflux'),
 module.exports = Reflux.createStore({
     listenables: Actions,
     mixins: [UrlMixin],
-    getHttp: function (url, cb) {
+    getHttp: function(url, cb) {
         var self = this;
         request.get(
             url,
-            function (err, result) {
+            function(err, result) {
                 if (!err && (typeof result === 'object')) {
                     var e = document.createElement('div');
                     e.innerHTML = result.text;
                     result = scripts(e.getElementsByTagName('script'));
-                    console.log(result);
-                } else {
-                    console.log('center.js:22:err: ', err, typeof result)
                 }
                 cb.call(self, result || []);
             }
@@ -34,30 +31,30 @@ module.exports = Reflux.createStore({
         window.history.pushState('page', 'params', window.location.pathname);
         window.location.hash = name;
     },
-    onExternal: function (url, name) {
+    onExternal: function(url, name) {
         var type = 'external';
         this.setUrlWithParams(type, name);
-        this.getHttp(url, function (data) {
+        this.getHttp(url, function(data) {
             this.trigger({
                 type: type,
                 data: data
             });
         }.bind(this));
     },
-    onCover: function (url, init) {
+    onCover: function(url, init) {
         var type = 'cover',
             name = 'Cover';
-        if(!init) {
+        if (!init) {
             this.setUrlWithParams(type, name);
         }
-        this.getHttp(url, function (data) {
+        this.getHttp(url, function(data) {
             this.trigger({
                 type: type,
                 data: data
             });
         }.bind(this));
     },
-    onArticle: function (id) {
+    onArticle: function(id) {
         var type = 'article';
         this.setUrlWithHash(id);
         this.trigger({

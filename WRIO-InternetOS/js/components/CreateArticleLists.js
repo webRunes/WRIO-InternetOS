@@ -1,23 +1,23 @@
 var React = require('react'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
+	cssUrl = require('../global').cssUrl,
+	theme = require('../global').theme;
 
 var CreateArticleLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+	propTypes: {
+		data: React.PropTypes.object.isRequired
+	},
 
-    handleClick: function() {
-        window.location.href = this.props.data.url;
-    },
+	handleClick: function() {
+		window.location.href = this.props.data.url;
+	},
 
-    render: function() {
-        var o = this.props.data;
-        if(o['@type'] !== 'Article') {
-            return null;
-        }
-        return (
-            <div id={o.name} onClick={this.handleClick}>
+	render: function() {
+		var o = this.props.data;
+		if (o['@type'] !== 'Article') {
+			return null;
+		}
+		return (
+			<div id={o.name} onClick={this.handleClick}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
@@ -46,8 +46,8 @@ var CreateArticleLists = React.createClass({
                     </div>
                 </article>
             </div>
-        );
-    }
+		);
+	}
 });
 
 module.exports = CreateArticleLists;
