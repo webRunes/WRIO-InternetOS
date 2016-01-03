@@ -21,8 +21,8 @@ var Mention = function(opts) {
 Mention.merge = function(mentions) {
 	return sortBy(mentions, function(m) {
 		var mention = new Mention(m);
-		return mention.start;
-	}).reverse();
+		return mention.order;
+	});
 };
 
 Mention.prototype.warn = function(text) {
