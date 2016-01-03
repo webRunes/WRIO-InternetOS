@@ -1,21 +1,21 @@
 var React = require('react'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
+	cssUrl = require('../global').cssUrl,
+	theme = require('../global').theme;
 
 var CreateItemLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-    render: function() {
-        var item = this.props.data,
-            title = item.name,
-            image = cssUrl + theme + '/img/no-photo-200x200.png', //item.thumbnail,
-            about = item.about,
-            url = item.url,
-            createdDate = item.datePublished;
+	propTypes: {
+		data: React.PropTypes.object.isRequired
+	},
+	render: function() {
+		var item = this.props.data,
+			title = item.name,
+			image = cssUrl + theme + '/img/no-photo-200x200.png', //item.thumbnail,
+			about = item.about,
+			url = item.url,
+			createdDate = item.datePublished;
 
-        return (
-          <a href={url}>
+		return (
+			<a href={url}>
             <article>
               <div className="media thumbnail clearfix" >
                 <header className="col-xs-12">
@@ -45,8 +45,8 @@ var CreateItemLists = React.createClass({
               </div>
             </article>
           </a>
-        );
-    }
+		);
+	}
 });
 
 module.exports = CreateItemLists;

@@ -1,316 +1,316 @@
 var domain = '';
 if (process.env.DOMAIN === undefined) {
-    domain = 'wrioos.com';
+	domain = 'wrioos.com';
 } else {
-    domain = process.env.DOMAIN;
+	domain = process.env.DOMAIN;
 }
 var React = require('react'),
-    Reflux = require('reflux'),
-    Login = require('../../../widgets/Login.jsx'),
-    Details = require('../../../widgets/Details.jsx'),
-    importUrl = require('../global').importUrl,
-    theme = require('../global').theme,
-    CreateBreadcrumb = require('./CreateBreadcrumb'),
-    CreateTitter = require('../../../widgets/titter.jsx'),
-    CreateTransactions = require('../../../widgets/transactions.jsx'),
-    Center = require('./Center'),
-    StoreLd = require('../store/center'),
-    classNames = require('classnames'),
-    ActionMenu = require('plus/js/actions/menu'),
-    StoreMenu = require('plus/js/stores/menu'),
-    UrlMixin = require('../mixins/UrlMixin'),
-    Alert = require('react-bootstrap').Alert,
-    CenterActions = require('../actions/center');
+	Reflux = require('reflux'),
+	Login = require('../../../widgets/Login.jsx'),
+	Details = require('../../../widgets/Details.jsx'),
+	importUrl = require('../global').importUrl,
+	theme = require('../global').theme,
+	CreateBreadcrumb = require('./CreateBreadcrumb'),
+	CreateTitter = require('../../../widgets/titter.jsx'),
+	CreateTransactions = require('../../../widgets/transactions.jsx'),
+	Center = require('./Center'),
+	StoreLd = require('../store/center'),
+	classNames = require('classnames'),
+	ActionMenu = require('plus/js/actions/menu'),
+	StoreMenu = require('plus/js/stores/menu'),
+	UrlMixin = require('../mixins/UrlMixin'),
+	Alert = require('react-bootstrap').Alert,
+	CenterActions = require('../actions/center');
 
-class CreateDomCenter extends React.Component{
+class CreateDomCenter extends React.Component {
 
-    constructor(props){
-        super(props);
-        this.UrlMixin = UrlMixin;
-        this.editIframeStyles = {
-            width: '100%',
-            height: '700px',
-            border: 'none'
-        };
-        this.startIframeStyles = {
-            width: '100%',
-            height: '200px',
-            border: 'none'
-        };
-        var locationSearch = this.UrlMixin.getUrlParams();
-        this.state = {
-            editMode: false,
-            actionButton: false,
-            content: {
-                type: (locationSearch) ? locationSearch : 'article'
-            },
-            nocomments: false,
-            active: false,
-            userId: false,
-            alertWarning: false,
-            alertWelcome: false,
-            editAllowed: false,
-            notDisplayCenter: false,
-            byButton: false,
-            editModeFromUrl: false,
-            transactionsModeFromUrl: false,
-            urlParams: this.UrlMixin.searchToObject()
-        };
-        this.onShowSidebar = this.onShowSidebar.bind(this);
-        this.hideAlertWarning = this.hideAlertWarning.bind(this);
-        this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
-        this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
-        this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
-    }
+	constructor(props) {
+		super(props);
+		this.UrlMixin = UrlMixin;
+		this.editIframeStyles = {
+			width: '100%',
+			height: '700px',
+			border: 'none'
+		};
+		this.startIframeStyles = {
+			width: '100%',
+			height: '200px',
+			border: 'none'
+		};
+		var locationSearch = this.UrlMixin.getUrlParams();
+		this.state = {
+			editMode: false,
+			actionButton: false,
+			content: {
+				type: (locationSearch) ? locationSearch : 'article'
+			},
+			nocomments: false,
+			active: false,
+			userId: false,
+			alertWarning: false,
+			alertWelcome: false,
+			editAllowed: false,
+			notDisplayCenter: false,
+			byButton: false,
+			editModeFromUrl: false,
+			transactionsModeFromUrl: false,
+			urlParams: this.UrlMixin.searchToObject()
+		};
+		this.onShowSidebar = this.onShowSidebar.bind(this);
+		this.hideAlertWarning = this.hideAlertWarning.bind(this);
+		this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
+		this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
+		this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
+	}
 
-    formatUrl(url) {
-        var splittedUrl = url.split('://');
-        var host;
-        var path;
-        if (splittedUrl.length == 2) {
-            host = splittedUrl[0];
-            path = splittedUrl[1];
-        } else {
-            host = 'http';
-            path = url;
-        }
+	formatUrl(url) {
+		var splittedUrl = url.split('://');
+		var host;
+		var path;
+		if (splittedUrl.length == 2) {
+			host = splittedUrl[0];
+			path = splittedUrl[1];
+		} else {
+			host = 'http';
+			path = url;
+		}
 
-        var splittedPath = path.split('/');
-        var lastNode = splittedPath[splittedPath.length - 1];
-        if (splittedPath.length > 1 && lastNode) {
-            if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
-                path += '/';
-            }
-        } else if (splittedPath.length == 1) {
-            path += '/';
-        }
-        var resultUrl = host + '://' + path;
+		var splittedPath = path.split('/');
+		var lastNode = splittedPath[splittedPath.length - 1];
+		if (splittedPath.length > 1 && lastNode) {
+			if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
+				path += '/';
+			}
+		} else if (splittedPath.length == 1) {
+			path += '/';
+		}
+		var resultUrl = host + '://' + path;
 
-        return resultUrl;
-    }
+		return resultUrl;
+	}
 
-    getAuthorWrioID(cb) {
-        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
-            var url = this.formatUrl(this.state.urlParams.edit);
-            StoreLd.getHttp(url,(article) => {
-                article = article.filter((json) => json['@type'] == 'Article')[0];
-                var id = article['author'].match(/\?wr.io=([0-9]+)$/);
-                cb(id ? id[1] : undefined);
-            });
-        } else {
-            var data = this.props.data;
-            for (var i in data) {
-                var element = data[i];
-                if (element && element.author) {
-                    var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                    cb(id ? id[1] : undefined);
-                }
-            }
-        }
-    }
+	getAuthorWrioID(cb) {
+		if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
+			var url = this.formatUrl(this.state.urlParams.edit);
+			StoreLd.getHttp(url, (article) => {
+				article = article.filter((json) => json['@type'] == 'Article')[0];
+				var id = article['author'].match(/\?wr.io=([0-9]+)$/);
+				cb(id ? id[1] : undefined);
+			});
+		} else {
+			var data = this.props.data;
+			for (var i in data) {
+				var element = data[i];
+				if (element && element.author) {
+					var id = element.author.match(/\?wr.io=([0-9]+)$/);
+					cb(id ? id[1] : undefined);
+				}
+			}
+		}
+	}
 
-    componentDidMount(){
-        var that = this;
-        this.listenStoreLd = StoreLd.listen((state) => {
-            that.onStateChange(state);
-        });
-        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
+	componentDidMount() {
+		var that = this;
+		this.listenStoreLd = StoreLd.listen((state) => {
+			that.onStateChange(state);
+		});
+		this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
-        CenterActions.gotWrioID.listen( function(id) {
-            that.getAuthorWrioID(function(authorId) {
-                console.log('Checking if editing allowed: ', id, authorId);
-                if (id == authorId) {
-                    that.setState({
-                        editAllowed: true
-                    });
-                }
-            });
+		CenterActions.gotWrioID.listen(function(id) {
+			that.getAuthorWrioID(function(authorId) {
+				console.log('Checking if editing allowed: ', id, authorId);
+				if (id == authorId) {
+					that.setState({
+						editAllowed: true
+					});
+				}
+			});
 
-        });
+		});
 
-        window.addEventListener('message', function (e) {
+		window.addEventListener('message', function(e) {
 
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                let jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) this.userId(jsmsg.profile.id);
-                this.hideAlertWarning();
-                this.hideAlertWelcome();
-            }
+			var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+			if (httpChecker.test(e.origin)) {
+				let jsmsg = JSON.parse(e.data);
+				if (jsmsg.profile) this.userId(jsmsg.profile.id);
+				this.hideAlertWarning();
+				this.hideAlertWelcome();
+			}
 
-        }.bind(this));
+		}.bind(this));
 
-    }
+	}
 
-    onStateChange(state) {
-        this.setState(
-            { data: state.data}
-        );
-    }
+	onStateChange(state) {
+		this.setState({
+			data: state.data
+		});
+	}
 
-    onShowSidebar(data) {
-        this.setState({
-            active: data
-        });
-    }
+	onShowSidebar(data) {
+		this.setState({
+			active: data
+		});
+	}
 
-    componentWillUnmount() {
-        this.listenStoreLd();
-        this.listenStoreMenuSidebar();
-    }
+	componentWillUnmount() {
+		this.listenStoreLd();
+		this.listenStoreMenuSidebar();
+	}
 
-    onStatusChange (x) {
-        this.setState({
-            content: x
-        });
-    }
+	onStatusChange(x) {
+		this.setState({
+			content: x
+		});
+	}
 
-    redirectFromEditMode () {
-        window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
-    }
+	redirectFromEditMode() {
+		window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
+	}
 
-    switchToReadMode () {
-        this.setState({
-            editMode: false,
-            editModeFromUrl: false,
-            notDisplayCenter: false,
-            byButton: true,
-            nocomments: false
-        });
-    }
+	switchToReadMode() {
+		this.setState({
+			editMode: false,
+			editModeFromUrl: false,
+			notDisplayCenter: false,
+			byButton: true,
+			nocomments: false
+		});
+	}
 
-    switchToEditMode () {
-        this.setState({
-            editMode: true,
-            notDisplayCenter: true,
-            byButton: true,
-            nocomments: true
-        });
-    }
+	switchToEditMode() {
+		this.setState({
+			editMode: true,
+			notDisplayCenter: true,
+			byButton: true,
+			nocomments: true
+		});
+	}
 
-    switchToTransactionsMode () {
-        this.setState({
-            editMode: false,
-            byButton: true,
-            transactionsMode: true,
-            actionButton: "Transactions",
-            nocomments: true,
-            notDisplayCenter: true
-        });
-    }
+	switchToTransactionsMode() {
+		this.setState({
+			editMode: false,
+			byButton: true,
+			transactionsMode: true,
+			actionButton: "Transactions",
+			nocomments: true,
+			notDisplayCenter: true
+		});
+	}
 
-    userId (userId){
-        this.setState({
-            'userId': userId
-        });
-    }
+	userId(userId) {
+		this.setState({
+			'userId': userId
+		});
+	}
 
-    hideAlertWelcome (){
-        if(!localStorage.getItem(this.state.userId + ' close welcome alert')) {
-            this.setState({
-                'alertWelcome': true
-            });
-        }else{
-            this.setState({
-                'alertWelcome': false
-            });
-        }
-    }
+	hideAlertWelcome() {
+		if (!localStorage.getItem(this.state.userId + ' close welcome alert')) {
+			this.setState({
+				'alertWelcome': true
+			});
+		} else {
+			this.setState({
+				'alertWelcome': false
+			});
+		}
+	}
 
-    hideAlertWarningByClick (){
-        localStorage.setItem(this.state.userId  + ' close warning alert', true);
-        this.setState({
-            'alertWarning': false
-        });
-    }
+	hideAlertWarningByClick() {
+		localStorage.setItem(this.state.userId + ' close warning alert', true);
+		this.setState({
+			'alertWarning': false
+		});
+	}
 
-    hideAlertWelcomeByClick (){
-        localStorage.setItem(this.state.userId  + ' close welcome alert', true);
-        this.setState({
-            'alertWelcome': false
-        });
-    }
+	hideAlertWelcomeByClick() {
+		localStorage.setItem(this.state.userId + ' close welcome alert', true);
+		this.setState({
+			'alertWelcome': false
+		});
+	}
 
-    hideAlertWarning (){
-        if(!localStorage.getItem(this.state.userId + ' close warning alert')) {
-            this.setState({
-                'alertWarning': true
-            });
-        }else{
-            this.setState({
-                'alertWarning': false
-            });
-        }
-    }
+	hideAlertWarning() {
+		if (!localStorage.getItem(this.state.userId + ' close warning alert')) {
+			this.setState({
+				'alertWarning': true
+			});
+		} else {
+			this.setState({
+				'alertWarning': false
+			});
+		}
+	}
 
-    render (){
-        var type = this.UrlMixin.searchToObject().list,
-            condition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
-            className = classNames({
-                'col-xs-12 col-sm-5 col-md-7 content content-offcanvas' : true,
-                'active': this.state.active
-            });
+	render() {
+		var type = this.UrlMixin.searchToObject().list,
+			condition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
+			className = classNames({
+				'col-xs-12 col-sm-5 col-md-7 content content-offcanvas': true,
+				'active': this.state.active
+			});
 
-        var displayCore = '';
-        var displayWebgold = '';
-        var displayChess = '';
-        var nocomments = false;
+		var displayCore = '';
+		var displayWebgold = '';
+		var displayChess = '';
+		var nocomments = false;
 
-        //var urlParams = this.UrlMixin.searchToObject();
-        //var notDisplayCenter = false;
-        if (!this.state.byButton) {
-            if (this.state.urlParams.add_funds) {
-                condition = false;
-                this.state.nocomments = true;
-                displayWebgold = ( <iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
-                this.state.notDisplayCenter=true;
-            }
+		//var urlParams = this.UrlMixin.searchToObject();
+		//var notDisplayCenter = false;
+		if (!this.state.byButton) {
+			if (this.state.urlParams.add_funds) {
+				condition = false;
+				this.state.nocomments = true;
+				displayWebgold = (<iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+				this.state.notDisplayCenter = true;
+			}
 
-            if (this.state.urlParams.transactions) {
-                condition = false;
-                this.state.nocomments = true;
-                this.state.actionButton = "Transactions";
-                this.state.transactionsModeFromUrl = true;
-                displayWebgold = ( 
-                    <CreateTransactions />
-                );
-                this.state.notDisplayCenter=true;
-            }
+			if (this.state.urlParams.transactions) {
+				condition = false;
+				this.state.nocomments = true;
+				this.state.actionButton = "Transactions";
+				this.state.transactionsModeFromUrl = true;
+				displayWebgold = (
+					<CreateTransactions />
+				);
+				this.state.notDisplayCenter = true;
+			}
 
-            if (this.state.urlParams.create) {
-               condition = false;
-               this.state.nocomments = true;
-               this.state.notDisplayCenter=true;
-                displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
-            }
+			if (this.state.urlParams.create) {
+				condition = false;
+				this.state.nocomments = true;
+				this.state.notDisplayCenter = true;
+				displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
+			}
 
-            if (this.state.urlParams.edit && this.state.editAllowed) {
-                condition = false;
-                this.state.nocomments = true;
-                this.state.editModeFromUrl = true;
-                this.state.editMode = true;
-                this.state.notDisplayCenter=true;
-                displayCore =  ( <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
-            }
+			if (this.state.urlParams.edit && this.state.editAllowed) {
+				condition = false;
+				this.state.nocomments = true;
+				this.state.editModeFromUrl = true;
+				this.state.editMode = true;
+				this.state.notDisplayCenter = true;
+				displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
+			}
 
-            if (this.state.urlParams.start) {
-                this.state.notDisplayCenter = true;
-                this.state.actionButton = "Start";
-                this.state.nocomments = true;
-                displayChess =  ( <iframe src={'//chess.'+process.env.DOMAIN+'/start?uuid=' + this.state.urlParams.start} style={ this.startIframeStyles }/>);
-            }
-        }
+			if (this.state.urlParams.start) {
+				this.state.notDisplayCenter = true;
+				this.state.actionButton = "Start";
+				this.state.nocomments = true;
+				displayChess = (<iframe src={'//chess.'+process.env.DOMAIN+'/start?uuid=' + this.state.urlParams.start} style={ this.startIframeStyles }/>);
+			}
+		}
 
-        var centerData;
+		var centerData;
 
-        if (this.state.data && (type == 'cover' || type == 'Cover')) {
-            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
-        } else {
-            centerData = this.props.data; // otherwise use default data provided in props
-        }
+		if (this.state.data && (type == 'cover' || type == 'Cover')) {
+			centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
+		} else {
+			centerData = this.props.data; // otherwise use default data provided in props
+		}
 
-        return (
-            <div className={className} id="centerWrp">
+		return (
+			<div className={className} id="centerWrp">
                 <div className="margin">
                     {!this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
                         <h5>First time here?</h5><br/><p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>. Click it to open a side menu</p>
@@ -338,13 +338,13 @@ class CreateDomCenter extends React.Component{
                     </div>
                 </div>
             </div>
-        );
-    }
+		);
+	}
 }
 
 CreateDomCenter.propTypes = {
-    data: React.PropTypes.array.isRequired,
-    converter: React.PropTypes.object.isRequired
+	data: React.PropTypes.array.isRequired,
+	converter: React.PropTypes.object.isRequired
 };
 
 module.exports = CreateDomCenter;
