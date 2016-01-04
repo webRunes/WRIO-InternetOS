@@ -363,7 +363,6 @@ var React = require('react');
                         <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                     </ul>
                 );
-                console.log('nocomments: ', this.state.nocomments, this.props.nocomments)
                 if (this.props.nocomments) {
                     return (
                         <div key="a" className="alert alert-warning">Comments are disabled. </div>
