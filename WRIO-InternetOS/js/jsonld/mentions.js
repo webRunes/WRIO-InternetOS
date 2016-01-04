@@ -1,9 +1,10 @@
 var Mention = require('./mention'),
-	merge = Mention.merge;
+	merge = Mention.merge,
+	mentions = [];
 
-var attachMentionToElement = function(mention, json) {
-	var order = 0,
-		i,
+var attachMentionToElement = function(mention, json, order) {
+	order = order || 0;
+	var i,
 		keys = Object.keys(json);
 	for (i = 0; i < keys.length; i += 1) {
 		var key = keys[i];
@@ -32,28 +33,36 @@ var attachMentionToElement = function(mention, json) {
 				);
 				return true;
 			} else {
-				order += articleBody.length;
+				//order += articleBody.length;
 			}
 		}
 	}
 	return false;
 };
 
-var check = function(json) {
-	var mentions = json.mentions;
+var check = function(json, order) {
+	mentions = json.mentions || mentions;
 	if (mentions) {
 		mentions = merge(mentions);
 		mentions.forEach(function(m) {
 			var mention = new Mention(m),
 				ok;
-			ok = attachMentionToElement(mention, json);
+			if (mention.order > (order || 0)) {
+				ok = attachMentionToElement(mention, json, order);
+			}
 			if (ok === false) {
 				mention.warn();
 			}
 		}, this);
 	}
 	if (json.hasPart) {
-		json.hasPart.forEach(check);
+		var order = json.articleBody.length + 2;
+		json.hasPart.forEach((part, i) => {
+			if (i > 0) {
+				order += json.hasPart[i-1].articleBody ? json.hasPart[i-1].articleBody.length + 1 : 1;
+			}
+			check(part, order);
+		});
 	}
 };
 
