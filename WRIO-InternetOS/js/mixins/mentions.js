@@ -10,28 +10,44 @@ module.exports = {
 	            }
 	            return null;
 	        },
-	        Link = link(m.link),
-	        After = m.after,
-	        before = function (str, x) {
-	            x -= 1;
-	            m = mentions[x];
-	            if (m) {
-		            var L = link(m.link),
-		                A = str.replace(m.before + m.link.text, '');
+	        image = function (img) {
+	            if (img) {
 	                return (
-	                    <span>
-	                        {before(m.before, x)}
-	                        {L}
-	                        {A}
-	                    </span>
+            			<figure>
+                            <img cssStyle={{width: '100%'}} src={img.src} />
+                            <figcaption className="callout figure-details">
+                                <h5>{img.name}</h5>
+                                <p>{img.description}</p>
+                            </figcaption>
+                        </figure>
 	                );
 	            }
-	            return str;
-	        };
+	            return null;
+	        },
+	        Link = link(m.link),
+	        Image = image(m.image),
+	        After = m.after;
+		var before = function(str, i) {
+			i--;
+			m = mentions[i];
+            if (m) {
+	            var L = link(m.link),
+	            	I = image(m.image),
+	                A = str.replace(m.before + (m.link ? m.link.text : ''), '');
+                return (
+                    <span>
+                        {before(m.before, i)}
+                        {L || I}
+                        {A}
+                    </span>
+                );
+            }
+            return str;
+	    };
         return (
             <div>
                 {before(m.before, i)}
-                {Link}
+                {Link || Image}
                 {After}
             </div>
         );

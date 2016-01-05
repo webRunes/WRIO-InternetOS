@@ -82,7 +82,7 @@
     "gulp-nodemon": "^2.0.3",
     "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
-    "lodash.sortby": "^3.1.4",
+    "lodash.sortbyorder": "^3.1.4",
     "moment": "^2.10.3",
     "npm": "^2.10.1",
     "onchange": "^1.1.0",

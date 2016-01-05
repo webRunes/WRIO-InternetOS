@@ -1,4 +1,5 @@
-var sortBy = require('lodash.sortby');
+var sortByOrder = require('lodash.sortbyorder'),
+	Image = require('./image');
 
 var Mention = function(opts) {
 	// Example:
@@ -19,10 +20,16 @@ var Mention = function(opts) {
 };
 
 Mention.merge = function(mentions) {
-	return sortBy(mentions, function(m) {
-		var mention = new Mention(m);
+	return sortByOrder(mentions, [function(m) {
+		var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
+		console.log(m["@type"], mention.order);
 		return mention.order;
-	});
+	}, function(m) {
+		var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
+		return mention.start;
+	}, function(m) {
+		return m["@type"];
+	}], ['asc', 'asc', 'desc']);
 };
 
 Mention.prototype.warn = function(text) {

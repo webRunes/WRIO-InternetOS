@@ -1,6 +1,8 @@
 var Mention = require('./mention'),
+	Image = require('./image'),
 	merge = Mention.merge,
-	mentions = [];
+	mentions = undefined,
+	images = undefined;
 
 var attachMentionToElement = function(mention, json, order) {
 	order = order || 0;
@@ -42,10 +44,17 @@ var attachMentionToElement = function(mention, json, order) {
 
 var check = function(json, order) {
 	mentions = json.mentions || mentions;
+	images = json.image || images;
+	if (json.image) {
+		mentions = mentions ? mentions : [];
+		images.forEach((i) => {
+			mentions.push(i);
+		});
+	}
 	if (mentions) {
 		mentions = merge(mentions);
 		mentions.forEach(function(m) {
-			var mention = new Mention(m),
+			var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m),
 				ok;
 			if (mention.order > (order || 0)) {
 				ok = attachMentionToElement(mention, json, order);
