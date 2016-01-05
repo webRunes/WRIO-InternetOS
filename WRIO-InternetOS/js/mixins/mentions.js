@@ -12,7 +12,15 @@ module.exports = {
 	        },
 	        image = function (img) {
 	            if (img) {
-	                return <img src={img.src} />;
+	                return (
+            			<figure>
+                            <img cssStyle={{width: '100%'}} src={img.src} />
+                            <figcaption className="callout figure-details">
+                                <h5>{img.name}</h5>
+                                <p>{img.description}</p>
+                            </figcaption>
+                        </figure>
+	                );
 	            }
 	            return null;
 	        },
@@ -25,7 +33,7 @@ module.exports = {
             if (m) {
 	            var L = link(m.link),
 	            	I = image(m.image),
-	                A = str.replace(m.before + (m.link.text || ''), '');
+	                A = str.replace(m.before + (m.link ? m.link.text : ''), '');
                 return (
                     <span>
                         {before(m.before, i)}

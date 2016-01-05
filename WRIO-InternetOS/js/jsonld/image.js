@@ -1,12 +1,6 @@
 var Image = function(opts) {
-	// Example:
-	//{
-	//    "@type": "Article",
-	//    "name": "First url title",
-	//    "about": "Text inside the ticket popup.",
-	//    "url": "http://webrunes.com/blog.htm?'dolor sit amet':1,104"
-	//},
 	this.name = opts.name;
+	this.description = opts.description;
 	this.url = opts.contentUrl;
 	var cutUrl = this.url.split('?'),
 		positions = cutUrl[1].split(',');
@@ -25,6 +19,8 @@ Image.prototype.attach = function(s) {
 	return {
 		before: before,
 		image: {
+			name: this.name,
+			description: this.description,
 			src: this.newUrl
 		},
 		after: after
