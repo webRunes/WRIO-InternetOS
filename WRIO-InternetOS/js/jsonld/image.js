@@ -11,7 +11,7 @@ class Image {
 	}
 
 	warn(text) {
-		text = text || 'Wrong image: ' + this.url;
+		text = text || 'Not Found: ' + this.url;
 	}
 
 	attach(s) {
