@@ -20,7 +20,7 @@ var Mention = function(opts) {
 
 Mention.merge = function(mentions) {
 	return sortBy(mentions, function(m) {
-		var mention = new Mention(m);
+		var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
 		return mention.order;
 	});
 };
