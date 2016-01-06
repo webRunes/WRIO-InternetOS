@@ -101,7 +101,7 @@ class CreateDomCenter extends React.Component {
 			var data = this.props.data;
 			for (var i in data) {
 				var element = data[i];
-				if (element && element.author) {
+				if (element && element.author && typeof element.author === "string") {
 					var id = element.author.match(/\?wr.io=([0-9]+)$/);
 					cb(id ? id[1] : undefined);
 				}

@@ -45,7 +45,7 @@ var attachMentionToElement = function(mention, json, order) {
 var check = function(json, order) {
 	mentions = json.mentions || mentions;
 	images = json.image || images;
-	if (json.image) {
+	if (json.image && typeof json.image === "object") {
 		mentions = mentions ? mentions : [];
 		images.forEach((i) => {
 			mentions.push(i);
