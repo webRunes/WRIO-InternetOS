@@ -311,7 +311,7 @@ var React = require('react');
             var author = this.getJsonLDProperty(this.props.scripts,'author');
             if (author) { // add author reference
                 var reg = /\?wr\.io=([0-9]*)$/gm;
-                var wrioID = reg.exec(author)[1];
+                var wrioID = reg.exec(author) ? reg.exec(author)[1] : !1;
                 if (wrioID) id = "&id="+wrioID;
             }
 
