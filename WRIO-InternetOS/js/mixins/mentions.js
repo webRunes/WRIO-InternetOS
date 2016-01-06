@@ -14,7 +14,7 @@ module.exports = {
 	            if (img) {
 	                return (
             			<figure>
-                            <img cssStyle={{width: '100%'}} src={img.src} />
+                            <img style={{width: '100%'}} src={img.src} />
                             <figcaption className="callout figure-details">
                                 <h5>{img.name}</h5>
                                 <p>{img.description}</p>
