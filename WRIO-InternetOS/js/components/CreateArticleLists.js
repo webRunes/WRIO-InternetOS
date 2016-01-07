@@ -1,5 +1,5 @@
 var React = require('react'),
-    mentions = require('../mixins/mentions'),
+	mentions = require('../mixins/mentions'),
 	cssUrl = require('../global').cssUrl,
 	theme = require('../global').theme;
 
@@ -7,20 +7,20 @@ var CreateArticleLists = React.createClass({
 	propTypes: {
 		data: React.PropTypes.object.isRequired
 	},
-    mixins: [mentions],
+	mixins: [mentions],
 	handleClick: function() {
 		window.location.href = this.props.data.url;
 	},
 
 	render: function() {
 		var o = this.props.data,
-            articleName = o.name;
+			articleName = o.name;
 		if (o['@type'] !== 'Article') {
 			return null;
 		}
-        if (o.m && o.m.name) {
-            articleName = this.applyMentions(o.m.name);
-        }
+		if (o.m && o.m.name) {
+			articleName = this.applyMentions(o.m.name);
+		}
 		return (
 			<div id={o.name} onClick={this.handleClick}>
                 <article>
