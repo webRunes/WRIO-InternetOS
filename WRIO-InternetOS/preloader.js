@@ -49,40 +49,14 @@ var code =
                 }
             }
         }
-
         if(oldBrowser){
-            this.displayNotice();
+            this.writeNoticeCode();
         }else{
             return false;
         }
     },
-    displayNotice: function(){
-        this.writeNoticeCode();
-    },
     writeNoticeCode: function(){
-        var code =
-            '<div id="outdated">' +
-            '<div class="outer">' +
-            '<div class="container">' +
-            '<div class="inner inner-info">' +
-            '<div class="warning">' +
-            '<strong>Warning!</strong> You are using an outdated browser that we do not support. <br /> Please download and install the latest version of your preferred browser' +
-            '<div>' +
-            '<a href="http://www.mozilla-europe.org/" target="_blank">' +
-            '<img src="http://webrunes.github.io/Default-WRIO-Theme/img/browser_firefox.png" /><div>Mozilla Firefox</div></a>' +
-            '<a href="http://www.google.com/chrome/" target="_blank">' +
-            '<img src="http://webrunes.github.io/Default-WRIO-Theme/img/browser_chrome.png" /><div>Google Chrome</div></a>' +
-            '<a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">' +
-            '<img src="http://webrunes.github.io/Default-WRIO-Theme/img//browser_ie.png" /><div>Internet Explorer</div></a>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
-
-        window.document.body.innerHTML += code;
-        document.getElementById('outdated').style.display = 'block';
+        document.location.replace('//wrioos.com/old_browser.htm');
     },
     detectBrowser: function(){
         this.browser = '';
@@ -135,7 +109,6 @@ var code =
         {'os': 'Any', 'browser': 'MSIE', 'version': 6},
         {'os': 'Any', 'browser': 'MSIE', 'version': 7},
         {'os': 'Any', 'browser': 'MSIE', 'version': 8},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 9}
     ]
 };
 
