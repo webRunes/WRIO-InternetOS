@@ -288,7 +288,7 @@ var React = require('react');
             var titteriframe = document.getElementById('titteriframe');
             if (!titteriframe) return;
             if (this.props.nocomments) {
-                that.setState({nocomments: false});
+                that.setState({nocomments: true});
                 return;
             }
             titteriframe.addEventListener('load', function () {
@@ -311,7 +311,7 @@ var React = require('react');
             var author = this.getJsonLDProperty(this.props.scripts,'author');
             if (author) { // add author reference
                 var reg = /\?wr\.io=([0-9]*)$/gm;
-                var wrioID = reg.exec(author)[1];
+                var wrioID = reg.exec(author) ? reg.exec(author)[1] : !1;
                 if (wrioID) id = "&id="+wrioID;
             }
 
@@ -363,9 +363,9 @@ var React = require('react');
                         <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                     </ul>
                 );
-                if (this.state.nocomments) {
+                if (this.props.nocomments) {
                     return (
-                        <div key="a" className="alert alert-warning">Comments are disabled. <a href="#">Enable</a></div>
+                        <div key="a" className="alert alert-warning">Comments are disabled. </div>
                     );
                 }
                 if (this.state.article) {

@@ -1,28 +1,30 @@
 var React = require('react'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
+	mentions = require('../mixins/mentions'),
+	cssUrl = require('../global').cssUrl,
+	theme = require('../global').theme;
 
 var CreateArticleLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+	propTypes: {
+		data: React.PropTypes.object.isRequired
+	},
+	mixins: [mentions],
 
-    handleClick: function() {
-        window.location.href = this.props.data.url;
-    },
-
-    render: function() {
-        var o = this.props.data;
-        if(o['@type'] !== 'Article') {
-            return null;
-        }
-        return (
-            <div id={o.name} onClick={this.handleClick}>
+	render: function() {
+		var o = this.props.data,
+			articleName = o.name;
+		if (o['@type'] !== 'Article') {
+			return null;
+		}
+		if (o.m && o.m.name) {
+			articleName = this.applyMentions(o.m.name);
+		}
+		return (
+			<a href={o.url}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
                             <h2>
-                                <span>{o.name}</span>
+                                <span>{articleName}</span>
                                 <sup>{o.name}</sup>
                             </h2>
                         </header>
@@ -45,9 +47,9 @@ var CreateArticleLists = React.createClass({
                         </div>
                     </div>
                 </article>
-            </div>
-        );
-    }
+            </a>
+		);
+	}
 });
 
 module.exports = CreateArticleLists;

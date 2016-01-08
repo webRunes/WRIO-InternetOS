@@ -1,116 +1,117 @@
 'use strict';
 var React = require('react'),
-    Plus = require('plus'),
-    Reflux = require('reflux'),
-    classNames = require('classnames'),
-    ActionMenu = require('plus/js/actions/menu'),
-    StoreMenu = require('plus/js/stores/menu'),
-    themeImportUrl = require('../global').themeImportUrl;
+	Plus = require('plus'),
+	Reflux = require('reflux'),
+	classNames = require('classnames'),
+	ActionMenu = require('plus/js/actions/menu'),
+	StoreMenu = require('plus/js/stores/menu'),
+	themeImportUrl = require('../global').themeImportUrl;
 
-class CreateDomLeft extends React.Component{
+class CreateDomLeft extends React.Component {
 
-    constructor (props) {
-        super(props);
-        this.toggleMenu = this.toggleMenu.bind(this);
-        this.showSidebar = this.showSidebar.bind(this);
-        this.tabsSize = this.tabsSize.bind(this);
-        this.windowResize = this.windowResize.bind(this);
-        this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
-        this.showSidebarByClick = this.showSidebarByClick.bind(this);
-        this.state = {
-            toggleMenu: false,
-            showSidebar: false,
-            innerHeight: window.innerHeight,
-            height: 'auto'
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.toggleMenu = this.toggleMenu.bind(this);
+		this.showSidebar = this.showSidebar.bind(this);
+		this.tabsSize = this.tabsSize.bind(this);
+		this.windowResize = this.windowResize.bind(this);
+		this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
+		this.showSidebarByClick = this.showSidebarByClick.bind(this);
+		this.state = {
+			toggleMenu: false,
+			showSidebar: false,
+			innerHeight: window.innerHeight,
+			height: 'auto'
+		};
+	}
 
-    componentDidMount() {
-        this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
-        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
-        this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.tabsSize, this.tabsSize);
-        this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.windowResize, this.windowResize);
-    }
+	componentDidMount() {
+		this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
+		this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+		this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.tabsSize, this.tabsSize);
+		this.listenStoreMenuTabsSize = StoreMenu.listenTo(ActionMenu.windowResize, this.windowResize);
+	}
 
-    tabsSize(height) {
-        if(window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767){
-            this.setState({
-                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
-                innerHeight: window.innerHeight
-            });
-        }else{
-            this.setState({
-                height: 'auto',
-                innerHeight: window.innerHeight
-            });
-        }
-    }
+	tabsSize(height) {
+		if (window.innerHeight < React.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
+			this.setState({
+				height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
+				innerHeight: window.innerHeight
+			});
+		} else {
+			this.setState({
+				height: 'auto',
+				innerHeight: window.innerHeight
+			});
+		}
+	}
 
-    windowResize(width, height) {
-        if(this.state.innerHeight != window.innerHeight){
-            this.setState({
-                innerHeight: window.innerHeight,
-                height: (window.innerWidth > 767) ? window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41) : 'auto'
-            });
-        }
-    }
+	windowResize(width, height) {
+		if (this.state.innerHeight != window.innerHeight) {
+			this.setState({
+				innerHeight: window.innerHeight,
+				height: (window.innerWidth > 767) ? window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41) : 'auto'
+			});
+		}
+	}
 
-    componentWillUnmount() {
-        this.listenStoreMenuToggle();
-        this.listenStoreMenuSidebar();
-        this.listenStoreMenuTabsSize();
-    }
+	componentWillUnmount() {
+		this.listenStoreMenuToggle();
+		this.listenStoreMenuSidebar();
+		this.listenStoreMenuTabsSize();
+	}
 
-    toggleMenu(data){
-        this.setState({
-            toggleMenu: data
-        });
-    }
+	toggleMenu(data) {
+		this.setState({
+			toggleMenu: data
+		});
+	}
 
-    showSidebar(data){
-        this.setState({
-            showSidebar: data
-        });
-    }
+	showSidebar(data) {
+		this.setState({
+			showSidebar: data
+		});
+	}
 
-    toggleMenuByClick(){
-        this.setState({
-            toggleMenu: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
-        });
-        ActionMenu.toggleMenu(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
-    }
+	toggleMenuByClick() {
+		this.setState({
+			toggleMenu: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
+		});
+		ActionMenu.toggleMenu(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
+	}
 
-    showSidebarByClick(){
-        this.setState({
-            showSidebar: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
-        });
+	showSidebarByClick() {
+		this.setState({
+			showSidebar: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
+		});
 
-        ActionMenu.showSidebar(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
-        ActionMenu.toggleMenu(false);
-    }
+		ActionMenu.showSidebar(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+		ActionMenu.toggleMenu(false);
+	}
 
-    static hasClass(el, selector) {
-        var className = ' ' + selector + ' ';
+	static hasClass(el, selector) {
+		var className = ' ' + selector + ' ';
 
-        if ((' ' + el.className + ' ').replace(/[\n\t]/g, ' ').indexOf(className) > -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }
+		if ((' ' + el.className + ' ').replace(/[\n\t]/g, ' ').indexOf(className) > -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
-    render(){
-        var classNameToggle = classNames ({
-            'btn btn-link btn-sm visible-xs collapsed' : true,
-            'active' : this.state.toggleMenu
-        }), classNameSidebar = classNames({
-            'btn btn-link btn-sm visible-xs' : true,
-            'active' : this.state.showSidebar
-        });
+	render() {
+		var classNameToggle = classNames({
+				'btn btn-link btn-sm visible-xs collapsed': true,
+				'active': this.state.toggleMenu
+			}),
+			classNameSidebar = classNames({
+				'btn btn-link btn-sm visible-xs': true,
+				'active': this.state.showSidebar
+			});
 
-        return (
-            <div className="col-xs-12 col-sm-3 col-md-2">
+		return (
+			<div className="col-xs-12 col-sm-3 col-md-2">
                 <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
                     <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
                         <ul className="nav menu pull-right">
@@ -145,8 +146,8 @@ class CreateDomLeft extends React.Component{
                     <Plus themeImportUrl={themeImportUrl} height={this.state.height}/>
                 </div>
             </div>
-        );
-    }
+		);
+	}
 };
 
 module.exports = CreateDomLeft;
