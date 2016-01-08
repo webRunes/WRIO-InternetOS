@@ -20,7 +20,8 @@ var React = require('react'),
     UrlMixin = require('../mixins/UrlMixin'),
     Alert = require('react-bootstrap').Alert,
     CreateTransactions = '',
-    CenterActions = require('../actions/center');
+    CenterActions = require('../actions/center'),
+    PlusStore = require('plus/js/stores/jsonld');
 
 class CreateDomCenter extends React.Component{
 
@@ -45,8 +46,8 @@ class CreateDomCenter extends React.Component{
             },
             active: false,
             userId: false,
-            alertWarning: false,
-            alertWelcome: false,
+            alertWarning: true,
+            alertWelcome: true,
             editAllowed: false,
             notDisplayCenter: false,
             fromRead: false,
@@ -97,10 +98,12 @@ class CreateDomCenter extends React.Component{
         } else {
             var data = this.props.data;
             for (var i in data) {
-                var element = data[i];
-                if (element && element.author) {
-                    var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                    cb(id ? id[1] : undefined);
+                if (data.hasOwnProperty(i)) {
+                    var element = data[i];
+                    if (element && element.author) {
+                        var id = element.author.match(/\?wr.io=([0-9]+)$/);
+                        cb(id ? id[1] : undefined);
+                    }
                 }
             }
         }
@@ -130,9 +133,12 @@ class CreateDomCenter extends React.Component{
             var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
                 let jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) this.userId(jsmsg.profile.id);
-                this.hideAlertWarning();
-                this.hideAlertWelcome();
+                if (jsmsg.profile) {
+                    this.userId(jsmsg.profile.id);
+                }
+
+                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
+                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
             }
 
         }.bind(this));
@@ -190,42 +196,32 @@ class CreateDomCenter extends React.Component{
         });
     }
 
-    hideAlertWelcome (){
-        if(!localStorage.getItem(this.state.userId + ' close welcome alert')) {
-            this.setState({
-                'alertWelcome': true
-            });
-        }else{
-            this.setState({
-                'alertWelcome': false
-            });
-        }
+    hideAlertWelcome (result){
+        console.log(result);
+        this.setState({
+            'alertWelcome': result
+        });
+    }
+
+    hideAlertWarning (result){
+        console.log(result);
+        this.setState({
+            'alertWarning': result
+        });
     }
 
     hideAlertWarningByClick (){
-        localStorage.setItem(this.state.userId  + ' close warning alert', true);
+        PlusStore.hideAlertWarningByClick(this.state.userId);
         this.setState({
-            'alertWarning': false
+            'alertWarning': true
         });
     }
 
     hideAlertWelcomeByClick (){
-        localStorage.setItem(this.state.userId  + ' close welcome alert', true);
+        PlusStore.hideAlertWelcomeByClick(this.state.userId);
         this.setState({
-            'alertWelcome': false
+            'alertWelcome': true
         });
-    }
-
-    hideAlertWarning (){
-        if(!localStorage.getItem(this.state.userId + ' close warning alert')) {
-            this.setState({
-                'alertWarning': true
-            });
-        }else{
-            this.setState({
-                'alertWarning': false
-            });
-        }
     }
 
     render (){
@@ -289,10 +285,10 @@ class CreateDomCenter extends React.Component{
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
-                    {!this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
+                    {this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
                         <h5>First time here?</h5><br/><p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>. Click it to open a side menu</p>
                     </Alert>}
-                    {!this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
+                    {this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
                         <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
                     </Alert>}
                     <Login importUrl={importUrl} theme={theme} />
