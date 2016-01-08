@@ -48,8 +48,8 @@ class CreateDomCenter extends React.Component {
 			nocomments: false,
 			active: false,
 			userId: false,
-			alertWarning: false,
-			alertWelcome: false,
+			alertWarning: true,
+			alertWelcome: true,
 			editAllowed: false,
 			notDisplayCenter: false,
 			byButton: false,
@@ -139,7 +139,6 @@ class CreateDomCenter extends React.Component {
                 if (jsmsg.profile) {
                     this.userId(jsmsg.profile.id);
                 }
-
                 PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
                 PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
             }
