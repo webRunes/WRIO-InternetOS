@@ -16,12 +16,3 @@ module.exports = {
 	themeImportUrl: themeImportUrl,
 	isAirticlelist: false
 };
-
-
-function getStorageDomain() {
-	var protocol = 'https://';
-	if (domain === 'wrioos.local') {
-		protocol = 'http://';
-	}
-	return protocol +"storage."+domain+"/"
-}
