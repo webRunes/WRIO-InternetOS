@@ -1,15 +1,12 @@
 'use strict'
-var domain = '',
-	React = require('react'),
-	Actions = require('../WRIO-InternetOS/js/actions/center'),
-	Details = require('./Details.jsx'),
-	moment = require('moment');
 
-if (process.env.DOMAIN == undefined) {
-	domain = 'wrioos.com';
-} else {
-	domain = process.env.DOMAIN;
-}
+import React from 'react'
+import Actions from '../WRIO-InternetOS/js/actions/center'
+import Details from'./Details.jsx'
+import moment from 'moment'
+import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js'
+
+var domain = getDomain();
 
 class Login extends React.Component{
 	constructor(props) {
@@ -32,9 +29,9 @@ class Login extends React.Component{
 				text: 'Already have an account?'
 			},
 			twitter: {
-				url: "http://login." + domain + "/auth/twitter",
-				buttontext: "http://login." + domain + "/auth/twitter",
-				buttonurl: "http://login." + domain + "/buttons/twitter"
+				url: getServiceUrl("login") + "/auth/twitter",
+				buttontext: getServiceUrl("login") + "/auth/twitter",
+				buttonurl: getServiceUrl("login") + "/buttons/twitter"
 			},
 			description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
 		};
@@ -97,12 +94,14 @@ class Login extends React.Component{
 	}
 
 	static openAuthPopup(e) {
-		window.open('http://login.wrioos.com/auth/twitter?callback=' + encodeURIComponent("//localhost:3000"), "Login", "height=500,width=700");
+		window.open(getServiceUrl('login') + '/auth/twitter?callback=' + encodeURIComponent("//localhost:3000"), // TODO: WTF?
+			"Login",
+			"height=500,width=700");
 		e.stopPropagation();
 	}
 
 	static logout(e) {
-		location.href = 'http://login.wrioos.com/';
+		location.href = getServiceUrl('login');
 		e.stopPropagation();
 	}
 
