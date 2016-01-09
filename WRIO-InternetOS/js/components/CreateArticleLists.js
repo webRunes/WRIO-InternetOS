@@ -8,9 +8,6 @@ var CreateArticleLists = React.createClass({
 		data: React.PropTypes.object.isRequired
 	},
 	mixins: [mentions],
-	handleClick: function() {
-		window.location.href = this.props.data.url;
-	},
 
 	render: function() {
 		var o = this.props.data,
@@ -22,7 +19,7 @@ var CreateArticleLists = React.createClass({
 			articleName = this.applyMentions(o.m.name);
 		}
 		return (
-			<div id={o.name} onClick={this.handleClick}>
+			<a href={o.url}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
@@ -50,7 +47,7 @@ var CreateArticleLists = React.createClass({
                         </div>
                     </div>
                 </article>
-            </div>
+            </a>
 		);
 	}
 });

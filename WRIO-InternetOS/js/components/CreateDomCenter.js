@@ -5,22 +5,23 @@ if (process.env.DOMAIN === undefined) {
 	domain = process.env.DOMAIN;
 }
 var React = require('react'),
-	Reflux = require('reflux'),
-	Login = require('../../../widgets/Login.jsx'),
-	Details = require('../../../widgets/Details.jsx'),
-	importUrl = require('../global').importUrl,
-	theme = require('../global').theme,
-	CreateBreadcrumb = require('./CreateBreadcrumb'),
-	CreateTitter = require('../../../widgets/titter.jsx'),
-	CreateTransactions = require('../../../widgets/transactions.jsx'),
-	Center = require('./Center'),
-	StoreLd = require('../store/center'),
-	classNames = require('classnames'),
-	ActionMenu = require('plus/js/actions/menu'),
-	StoreMenu = require('plus/js/stores/menu'),
-	UrlMixin = require('../mixins/UrlMixin'),
-	Alert = require('react-bootstrap').Alert,
-	CenterActions = require('../actions/center');
+    Reflux = require('reflux'),
+    Login = require('../../../widgets/Login.jsx'),
+    Details = require('../../../widgets/Details.jsx'),
+    importUrl = require('../global').importUrl,
+    theme = require('../global').theme,
+    CreateBreadcrumb = require('./CreateBreadcrumb'),
+    CreateTitter = require('../../../widgets/titter.jsx'),
+    Center = require('./Center'),
+    StoreLd = require('../store/center'),
+    classNames = require('classnames'),
+    ActionMenu = require('plus/js/actions/menu'),
+    StoreMenu = require('plus/js/stores/menu'),
+    UrlMixin = require('../mixins/UrlMixin'),
+    Alert = require('react-bootstrap').Alert,
+	  CreateTransactions = require('../../../widgets/transactions.jsx'),
+    CenterActions = require('../actions/center'),
+    PlusStore = require('plus/js/stores/jsonld');
 
 class CreateDomCenter extends React.Component {
 
@@ -47,8 +48,8 @@ class CreateDomCenter extends React.Component {
 			nocomments: false,
 			active: false,
 			userId: false,
-			alertWarning: false,
-			alertWelcome: false,
+			alertWarning: true,
+			alertWelcome: true,
 			editAllowed: false,
 			notDisplayCenter: false,
 			byButton: false,
@@ -89,25 +90,27 @@ class CreateDomCenter extends React.Component {
 		return resultUrl;
 	}
 
-	getAuthorWrioID(cb) {
-		if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
-			var url = this.formatUrl(this.state.urlParams.edit);
-			StoreLd.getHttp(url, (article) => {
-				article = article.filter((json) => json['@type'] == 'Article')[0];
-				var id = article['author'].match(/\?wr.io=([0-9]+)$/);
-				cb(id ? id[1] : undefined);
-			});
-		} else {
-			var data = this.props.data;
-			for (var i in data) {
-				var element = data[i];
-				if (element && element.author && typeof element.author === "string") {
-					var id = element.author.match(/\?wr.io=([0-9]+)$/);
-					cb(id ? id[1] : undefined);
-				}
-			}
-		}
-	}
+    getAuthorWrioID(cb) {
+        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
+            var url = this.formatUrl(this.state.urlParams.edit);
+            StoreLd.getHttp(url,(article) => {
+                article = article.filter((json) => json['@type'] == 'Article')[0];
+                var id = article['author'].match(/\?wr.io=([0-9]+)$/);
+                cb(id ? id[1] : undefined);
+            });
+        } else {
+            var data = this.props.data;
+            for (var i in data) {
+                if (data.hasOwnProperty(i)) {
+                    var element = data[i];
+                    if (element && element.author) {
+                        var id = element.author.match(/\?wr.io=([0-9]+)$/);
+                        cb(id ? id[1] : undefined);
+                    }
+                }
+            }
+        }
+    }
 
 	componentDidMount() {
 		var that = this;
@@ -130,13 +133,15 @@ class CreateDomCenter extends React.Component {
 
 		window.addEventListener('message', function(e) {
 
-			var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-			if (httpChecker.test(e.origin)) {
-				let jsmsg = JSON.parse(e.data);
-				if (jsmsg.profile) this.userId(jsmsg.profile.id);
-				this.hideAlertWarning();
-				this.hideAlertWelcome();
-			}
+            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+            if (httpChecker.test(e.origin)) {
+                let jsmsg = JSON.parse(e.data);
+                if (jsmsg.profile) {
+                    this.userId(jsmsg.profile.id);
+                }
+                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
+                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
+            }
 
 		}.bind(this));
 
@@ -205,43 +210,31 @@ class CreateDomCenter extends React.Component {
 		});
 	}
 
-	hideAlertWelcome() {
-		if (!localStorage.getItem(this.state.userId + ' close welcome alert')) {
-			this.setState({
-				'alertWelcome': true
-			});
-		} else {
-			this.setState({
-				'alertWelcome': false
-			});
-		}
-	}
+    hideAlertWelcome (result){
+        this.setState({
+            'alertWelcome': result
+        });
+    }
 
-	hideAlertWarningByClick() {
-		localStorage.setItem(this.state.userId + ' close warning alert', true);
-		this.setState({
-			'alertWarning': false
-		});
-	}
+    hideAlertWarning (result){
+        this.setState({
+            'alertWarning': result
+        });
+    }
 
-	hideAlertWelcomeByClick() {
-		localStorage.setItem(this.state.userId + ' close welcome alert', true);
-		this.setState({
-			'alertWelcome': false
-		});
-	}
+    hideAlertWarningByClick (){
+        PlusStore.hideAlertWarningByClick(this.state.userId);
+        this.setState({
+            'alertWarning': true
+        });
+    }
 
-	hideAlertWarning() {
-		if (!localStorage.getItem(this.state.userId + ' close warning alert')) {
-			this.setState({
-				'alertWarning': true
-			});
-		} else {
-			this.setState({
-				'alertWarning': false
-			});
-		}
-	}
+    hideAlertWelcomeByClick (){
+        PlusStore.hideAlertWelcomeByClick(this.state.userId);
+        this.setState({
+            'alertWelcome': true
+        });
+    }
 
 	render() {
 		var type = this.UrlMixin.searchToObject().list,
@@ -312,10 +305,10 @@ class CreateDomCenter extends React.Component {
 		return (
 			<div className={className} id="centerWrp">
                 <div className="margin">
-                    {!this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
+                    {this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
                         <h5>First time here?</h5><br/><p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>. Click it to open a side menu</p>
                     </Alert>}
-                    {!this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
+                    {this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
                         <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
                     </Alert>}
                     <Login importUrl={importUrl} theme={theme} />
