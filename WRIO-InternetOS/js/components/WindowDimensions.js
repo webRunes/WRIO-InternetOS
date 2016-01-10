@@ -1,7 +1,6 @@
 /**
  * Created by Victor on 09.11.2015.
  */
-'use strict';
 var React = require('react'),
     ActionMenu = require('plus/js/actions/menu');
 

@@ -94,7 +94,6 @@ var code =
 
         this.os = 'Unknown';
     },
-    //	Variables
     noticeHeight: 0,
     browser: '',
     os: '',

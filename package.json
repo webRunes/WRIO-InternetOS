@@ -19,7 +19,9 @@
     "destroy": "^1.0.3",
     "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.1.0",
-    "esprima-fb": "^15001.1.0-dev-harmony-fb",
+    "eslint-plugin-ideal":"^0.1.2",
+    "gulp-eslint":"*",
+    "babel-eslint": "*",
     "etag": "^1.7.0",
     "express": "^4.9.4",
     "finalhandler": "^0.2.0",
@@ -60,7 +62,6 @@
     "start": "npm run build",
     "buildDOCKER": "gulp",
     "w": "npm run watch",
-    "lint": "eslint WRIO-InternetOS",
     "watch": "gulp watch",
     "bundleDOCKER": "gulp --docker",
     "watchDOCKER": "gulp watch --docker"

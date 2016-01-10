@@ -1,18 +1,18 @@
 var React = require('react');
 
 var CreateCover = React.createClass({
-	propTypes: {
-		data: React.PropTypes.object.isRequired,
-		isActive: React.PropTypes.bool.isRequired
-	},
-	render: function() {
-		var cover = this.props.data;
-		var path = cover.contentUrl; //cover.img;
-		var name = cover.name;
-		var isActive = this.props.isActive ? 'item active' : 'item';
+    propTypes: {
+        data: React.PropTypes.object.isRequired,
+        isActive: React.PropTypes.bool.isRequired
+    },
+    render: function() {
+        var cover = this.props.data;
+        var path = cover.contentUrl; //cover.img;
+        var name = cover.name;
+        var isActive = this.props.isActive ? 'item active' : 'item';
 
-		return (
-			<div className={isActive}>
+        return (
+            <div className={isActive}>
                 <div className="img" style={{background: 'url(' + path + ') center center'}}></div>
                 <div className="carousel-caption">
                     <div className="carousel-text">
@@ -26,8 +26,8 @@ var CreateCover = React.createClass({
                     </div>
                 </div>
             </div>
-		);
-	}
+        );
+    }
 });
 
 module.exports = CreateCover;
