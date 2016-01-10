@@ -1,13 +1,9 @@
 'use strict'
-var domain = '',
-	React = require('react'),
-	moment = require('moment');
+import React from 'react'
+import moment from 'moment';
+import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js'
 
-if (process.env.DOMAIN == undefined) {
-	domain = 'wrioos.com';
-} else {
-	domain = process.env.DOMAIN;
-}
+var domain = getDomain();
 
 class Details extends React.Component{
 
@@ -42,4 +38,4 @@ Details.propTypes = {
 	theme: React.PropTypes.object.isRequired
 };
 
-module.exports = Details;
+export default Details;

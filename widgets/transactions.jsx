@@ -1,16 +1,12 @@
-var React = require('react');
+import React from 'react'
+import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js'
 
-var domain = '';
-if (process.env.DOMAIN == undefined) {
-    domain = 'wrioos.com';
-} else {
-    domain = process.env.DOMAIN;
-}
+var domain = getDomain();
 
 var CreateTransactions = React.createClass({
     getInitialState: function() {
         return({
-            transactionsFrameUrl: '//webgold.' + domain + '/transactions'
+            transactionsFrameUrl: getServiceUrl('webgold') + '/transactions'
         });
     },
     editIframeStyles: {
@@ -49,4 +45,4 @@ var CreateTransactions = React.createClass({
     }
 });
 
-module.exports = CreateTransactions;
+export default CreateTransactions;
