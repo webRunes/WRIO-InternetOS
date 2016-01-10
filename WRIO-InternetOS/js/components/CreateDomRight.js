@@ -142,7 +142,8 @@ var CreateDomRight = React.createClass({
 
     onWindowResize: function(width, height) {
         if (width > 767) {
-            if (height < React.findDOMNode(this.refs.sidebar).offsetHeight) {
+            if (height < React.findDOMNode(this.refs.sidebar)
+                .offsetHeight) {
                 this.setState({
                     resize: true
                 });
@@ -160,7 +161,8 @@ var CreateDomRight = React.createClass({
     },
 
     render: function() {
-        var type = this.searchToObject().list,
+        var type = this.searchToObject()
+            .list,
             isActive,
             isActiveFirstArticle = true,
             items = [],
@@ -173,7 +175,8 @@ var CreateDomRight = React.createClass({
             }),
             height;
 
-        var listParam = this.searchToObject().list;
+        var listParam = this.searchToObject()
+            .list;
 
         if (listParam) {
             if (listParam.toLowerCase() == 'cover') {
@@ -183,14 +186,20 @@ var CreateDomRight = React.createClass({
 
 
         this.props.data.forEach(function add(o) {
-            if (o['@type'] === 'Article' || _.chain(o.itemListElement).pluck('@type').contains('Article').value()) {
+            if (o['@type'] === 'Article' || _.chain(o.itemListElement)
+                .pluck('@type')
+                .contains('Article')
+                .value()) {
                 isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
             } else if (o['@type'] === 'ItemList') {
-                var isContainItemList = _.chain(o.itemListElement).pluck('@type').contains('ItemList').value();
+                var isContainItemList = _.chain(o.itemListElement)
+                    .pluck('@type')
+                    .contains('ItemList')
+                    .value();
                 if (!isContainItemList) {
-                    isActive = type === o.name;
+                    isActive = (type === o.name) || this.props.data.length === 1;
                     if (isCover(o)) {
                         if (type === o.name) {
                             center.cover(o.itemListElement[0].url, false);
