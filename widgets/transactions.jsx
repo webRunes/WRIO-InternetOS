@@ -1,5 +1,5 @@
-import React from 'react'
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js'
+import React from 'react';
+import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 
 var domain = getDomain();
 
