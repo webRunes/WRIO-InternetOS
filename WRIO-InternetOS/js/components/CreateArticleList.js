@@ -28,7 +28,8 @@ var CreateArticleList = React.createClass({
 		var isMentions = mentions.length > 0;
 
 		if (isMentions) {
-			return mentions;
+			return this.getItemList();
+//			return mentions;
 		}
 
 		if (!this.props.data) {
@@ -52,12 +53,13 @@ var CreateArticleList = React.createClass({
 	mixins: [UrlMixin],
 	getItemList: function() {
 		return this.props.data.filter(function(o) {
-			return o['@type'] === 'ItemList';
-		}).map(function(list) {
-			return list.itemListElement.map(function(item, key) {
-				return <CreateItemLists data={item} key={key} />;
+				return o['@type'] === 'ItemList';
+			})
+			.map(function(list) {
+				return list.itemListElement.map(function(item, key) {
+					return <CreateItemLists data={item} key={key} />;
+				});
 			});
-		});
 	},
 	getCoverList: function() {
 		var data = _.chain(this.props.data)
@@ -67,7 +69,8 @@ var CreateArticleList = React.createClass({
 				return !_.isEmpty(item);
 			})
 			.map(function(item, key) {
-				return <CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
+				return
+					<CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
 			})
 			.value();
 
