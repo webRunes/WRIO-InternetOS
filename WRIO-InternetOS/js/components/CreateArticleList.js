@@ -29,7 +29,6 @@ var CreateArticleList = React.createClass({
 
         if (isMentions) {
             return this.getItemList();
-//			return mentions;
         }
 
         if (!this.props.data) {
@@ -69,8 +68,7 @@ var CreateArticleList = React.createClass({
                 return !_.isEmpty(item);
             })
             .map(function(item, key) {
-                return
-                    <CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>;
+                return (<CarouselItem><CreateCover data={item} key={key} isActive={key === 0} /></CarouselItem>);
             })
             .value();
 
