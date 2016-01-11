@@ -8,7 +8,7 @@ export function getServiceUrl(service) {
     if (domain === 'wrioos.local') {
         protocol = 'http://';
     }
-    return protocol + service + "."+domain
+    return protocol + service + "."+domain;
 }
 
 export function getDomain() {

@@ -19,7 +19,9 @@
     "destroy": "^1.0.3",
     "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.1.0",
-    "esprima-fb": "^15001.1.0-dev-harmony-fb",
+    "eslint-plugin-ideal":"^0.1.2",
+    "gulp-eslint":"*",
+    "babel-eslint": "*",
     "etag": "^1.7.0",
     "express": "^4.9.4",
     "finalhandler": "^0.2.0",
@@ -50,7 +52,6 @@
   },
   "browserify": {
     "transform": [
-      "reactify",
       "envify",
       "babelify"
     ]
@@ -60,7 +61,6 @@
     "start": "npm run build",
     "buildDOCKER": "gulp",
     "w": "npm run watch",
-    "lint": "eslint WRIO-InternetOS",
     "watch": "gulp watch",
     "bundleDOCKER": "gulp --docker",
     "watchDOCKER": "gulp watch --docker"
@@ -74,7 +74,6 @@
     "domready": "^1.0.8",
     "envify": "^3.4.0",
     "es6-promise": "^3.0.2",
-    "esprima": "~1.0.4",
     "evercookie": "^0.3.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
@@ -85,11 +84,9 @@
     "lodash.sortbyorder": "^3.1.4",
     "moment": "^2.10.3",
     "npm": "^2.10.1",
-    "onchange": "^1.1.0",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "react": "^0.13.3",
     "react-bootstrap": "^0.24.2",
-    "reactify": "^1.1.1",
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",

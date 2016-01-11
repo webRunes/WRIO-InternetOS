@@ -1,5 +1,5 @@
 import React from 'react';
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js'
+import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 
 var domain = getDomain();
 
@@ -188,7 +188,8 @@ var Donate = React.createClass({
 
 var CreateTitter = React.createClass({
     propTypes: {
-        scripts: React.PropTypes.array.isRequired
+        scripts: React.PropTypes.array.isRequired,
+        nocomments: React.PropTypes.bool
     },
     createTwitterWidget: function (commentId) {
         window.onTimelineLoad = function () {
@@ -275,7 +276,7 @@ var CreateTitter = React.createClass({
     prepTwitWidget: function() {
         var that = this;
         var titteriframe = document.getElementById('titteriframe');
-        if (!titteriframe) return;
+        if (!titteriframe) {return;}
         if (this.props.nocomments) {
             that.setState({nocomments: true});
             return;
@@ -302,7 +303,9 @@ var CreateTitter = React.createClass({
             var reg = /\?wr\.io=([0-9]*)$/gm;
             var regResult = reg.exec(author);
             var wrioID =  regResult ? regResult : !1;
-            if (wrioID) id = "&id="+wrioID;
+            if (wrioID) {
+                id = "&id="+wrioID;
+            }
         }
 
         return {
@@ -317,7 +320,9 @@ var CreateTitter = React.createClass({
         for (var j = 0; j < json.length; j++) {
             var section = json[j];
             var data = section[field];
-            if (data) return data;
+            if (data) {
+                return data;
+            }
 
         }
         return null;

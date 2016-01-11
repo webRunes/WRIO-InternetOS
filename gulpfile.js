@@ -11,6 +11,7 @@ var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
+var eslint = require('gulp-eslint');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -32,6 +33,24 @@ if (argv.dev) {
     console.log("Got dev mode");
     envify_params['NODE_ENV'] = 'development';
 }
+
+
+gulp.task('lint', function () {
+    // ESLint ignores files with "node_modules" paths.
+    // So, it's best to have gulp ignore the directory as well.
+    // Also, Be sure to return the stream from the task;
+    // Otherwise, the task may end before the stream has finished.
+    return gulp.src(['./widgets/**/*.js*','WRIO-InternetOS/**/*.js'])
+        // eslint() attaches the lint output to the "eslint" property
+        // of the file object so it can be used by other modules.
+        .pipe(eslint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(eslint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failAfterError last.
+        .pipe(eslint.failAfterError());
+});
 
 gulp.task('babel-client', ['update-modules'], function() {
 
@@ -114,7 +133,7 @@ gulp.task('update-modules', function(callback) {
     }
 });
 
-gulp.task('default', ['update-modules','babel-client']);
+gulp.task('default', ['lint','update-modules','babel-client']);
 
 gulp.task('watch', ['default'], function() {
     gulp.watch([
