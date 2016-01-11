@@ -14,7 +14,7 @@ class Login extends React.Component{
                 text: "Logged as I'm Anonymous ",
                 label: 'WRIO',
                 link: {
-                    url: "http://webrunes.com/",
+                    url: "https://webrunes.com/",
                     text: "Profile page"
                 }
             },
