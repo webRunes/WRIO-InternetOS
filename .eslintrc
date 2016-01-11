@@ -1,5 +1,5 @@
 {
-    "parser": "esprima-fb",
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "node": true
@@ -7,7 +7,6 @@
 
     "rules": {
         "no-mixed-requires": [0, false],
-        "quotes": [2, "single"],
         "strict": [1, "never"],
         "semi": [2, "always"],
         "curly": 1,
@@ -27,13 +26,15 @@
         "react/prop-types": 2,
         "react/react-in-jsx-scope": 1,
         "react/self-closing-comp": 1,
-        "react/wrap-multilines": 2
+        "react/wrap-multilines": 2,
+        "ideal/vars-with-default": 0,
+        "ideal/vars-on-newline": 0
     },
     "ecmaFeatures": {
         "jsx": true
     },
 
-    "plugins": [ "react" ],
+    "plugins": [ "react", "ideal" ],
 
     "globals": {
         "require": "true",

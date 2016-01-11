@@ -1,36 +1,37 @@
 var domain = '';
 if (process.env.DOMAIN === undefined) {
-	domain = 'wrioos.com';
+    domain = 'wrioos.com';
 } else {
-	domain = process.env.DOMAIN;
+    domain = process.env.DOMAIN;
 }
 
 var React = require('react');
 
 module.exports = React.createClass({
-	propTypes: {
-		editMode: React.PropTypes.bool.isRequired,
-		transactionsMode: React.PropTypes.bool.isRequired,
-		onEditClick: React.PropTypes.func.isRequired,
-		onReadClick: React.PropTypes.func.isRequired,
-		onTransactionsClick: React.PropTypes.func.isRequired,
-		editAllowed: React.PropTypes.bool.isRequired
-	},
-	render: function() {
-		var readEditMode;
-		var transactions;
+    propTypes: {
+        editMode: React.PropTypes.bool.isRequired,
+        transactionsMode: React.PropTypes.bool.isRequired,
+        onEditClick: React.PropTypes.func.isRequired,
+        onReadClick: React.PropTypes.func.isRequired,
+        onTransactionsClick: React.PropTypes.func.isRequired,
+        editAllowed: React.PropTypes.bool.isRequired,
+        actionButton: React.PropTypes.any
+    },
+    render: function() {
+        var readEditMode;
+        var transactions;
 
-		if (window.location.host === "webgold." + domain) {
-			transactions = (
-				<li>
+        if (window.location.host === "webgold." + domain) {
+            transactions = (
+                <li>
                     <a onClick={ this.props.onTransactionsClick }>Transactions</a>
                 </li>
-			);
-		}
+            );
+        }
 
-		if (!this.props.editMode) {
-			readEditMode = (
-				<ul itemProp="breadcrumb" className="breadcrumb">
+        if (!this.props.editMode) {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
                         Read
                     </li>
@@ -39,10 +40,10 @@ module.exports = React.createClass({
                     </li>
                     {transactions}
                 </ul>
-			);
-		} else {
-			readEditMode = (
-				<ul itemProp="breadcrumb" className="breadcrumb">
+            );
+        } else {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li>
                         <a onClick={ this.props.onReadClick }>Read</a>
                     </li>
@@ -51,32 +52,32 @@ module.exports = React.createClass({
                     </li>
                     {transactions}
                 </ul>
-			);
-		}
+            );
+        }
 
-		if (!this.props.editAllowed) {
-			readEditMode = (
-				<ul itemProp="breadcrumb" className="breadcrumb">
+        if (!this.props.editAllowed) {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
                         Read
                     </li>
                     {transactions}
                 </ul>
-			);
-		}
+            );
+        }
 
-		if (this.props.actionButton) {
-			readEditMode = (
-				<ul itemProp="breadcrumb" className="breadcrumb">
+        if (this.props.actionButton) {
+            readEditMode = (
+                <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
                         {this.props.actionButton}
                     </li>
                 </ul>
-			);
-		}
+            );
+        }
 
-		return (
-			<section>
+        return (
+            <section>
                 <ul className="hide breadcrumb controls tooltip-demo">
                     <li title="Read time" data-placement="top" data-toggle="tooltip">
                         <span className="glyphicon glyphicon-time"></span>4-5 minutes
@@ -87,6 +88,6 @@ module.exports = React.createClass({
                 </ul>
                 { readEditMode }
             </section>
-		);
-	}
+        );
+    }
 });
