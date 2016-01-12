@@ -290,7 +290,7 @@ class CreateDomCenter extends React.Component {
                 this.state.notDisplayCenter = true;
                 this.state.actionButton = "Start";
                 this.state.nocomments = true;
-                displayChess = (<iframe src={'//chess.'+process.env.DOMAIN+'/start?uuid=' + this.state.urlParams.start} style={ this.startIframeStyles }/>);
+                displayChess = (<iframe src={'//localhost:5005/start?uuid=' + this.state.urlParams.start} style={ this.startIframeStyles }/>);
             }
         }
 

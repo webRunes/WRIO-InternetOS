@@ -22,7 +22,6 @@ var Mention = function(opts) {
 Mention.merge = function(mentions) {
     return sortByOrder(mentions, [function(m) {
         var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
-        console.log(m["@type"], mention.order);
         return mention.order;
     }, function(m) {
         var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
