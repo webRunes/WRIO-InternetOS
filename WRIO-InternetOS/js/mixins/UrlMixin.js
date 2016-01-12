@@ -1,14 +1,14 @@
 var UrlMixin = {
-    getUrlParams: function() {
+    getUrlParams: () => {
         return window.location.search.substring(1);
     },
-    getAliasByType: function(type) {
+    getAliasByType: (type) => {
         return {
             cover: 'Cover',
             external: 'Blog'
         }[type];
     },
-    searchToObject: function() {
+    searchToObject: () => {
         var pairs = window.location.search.substring(1).split('&'),
             obj = {},
             pair,
@@ -22,7 +22,16 @@ var UrlMixin = {
             obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         }
         return obj;
+    },
+    parseUrl: (url) => {
+        var parser = document.createElement('a');
+        parser.href = url;
+        return parser;
+    },
+    collectUrl: (parsedUrl) => { return parsedUrl.href; },
+    getCurrentProtocol: () => {
+        return window.location.protocol;
     }
 };
 
-module.exports = UrlMixin;
+export default UrlMixin;

@@ -8,17 +8,27 @@ var Reflux = require('reflux'),
 module.exports = Reflux.createStore({
     listenables: Actions,
     mixins: [UrlMixin],
-    getHttp: function(url, cb) {
-        var self = this;
+
+    fixUrlProtocol: function (url) {
+        var parsedUrl = this.parseUrl(url);
+        if ((this.getCurrentProtocol() === 'https:') && (parsedUrl.protocol === "http:")) {
+            parsedUrl.protocol = 'https:'; // let's try to get requested resource by https instead of http, if current protocol is https
+            url = this.collectUrl(parsedUrl);
+        }
+        return url;
+    },
+
+    getHttp: function (url, cb) {
+        url = this.fixUrlProtocol(url);
         request.get(
             url,
-            function(err, result) {
+            (err, result) => {
                 if (!err && (typeof result === 'object')) {
                     var e = document.createElement('div');
                     e.innerHTML = result.text;
                     result = scripts(e.getElementsByTagName('script'));
                 }
-                cb.call(self, result || []);
+                cb.call(this, result || []);
             }
         );
     },
@@ -34,12 +44,12 @@ module.exports = Reflux.createStore({
     onExternal: function(url, name) {
         var type = 'external';
         this.setUrlWithParams(type, name);
-        this.getHttp(url, function(data) {
+        this.getHttp(url, (data) => {
             this.trigger({
                 type: type,
                 data: data
             });
-        }.bind(this));
+        });
     },
     onCover: function(url, init) {
         var type = 'cover',
@@ -47,12 +57,12 @@ module.exports = Reflux.createStore({
         if (!init) {
             this.setUrlWithParams(type, name);
         }
-        this.getHttp(url, function(data) {
+        this.getHttp(url, (data) => {
             this.trigger({
                 type: type,
                 data: data
             });
-        }.bind(this));
+        });
     },
     onArticle: function(id) {
         var type = 'article';
