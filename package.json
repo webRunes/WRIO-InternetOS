@@ -1,6 +1,6 @@
 {
   "name": "WRIO-InternetOS",
-  "version": "1.0.143",
+  "version": "1.0.144",
   "bin": "./WRIO-InternetOS/bin/WRIO-InternetOS",
   "description": "https://github.com/webRunes/WRIO-InternetOS/",
   "private": true,
@@ -19,8 +19,8 @@
     "destroy": "^1.0.3",
     "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.1.0",
-    "eslint-plugin-ideal":"^0.1.2",
-    "gulp-eslint":"*",
+    "eslint-plugin-ideal": "^0.1.2",
+    "gulp-eslint": "*",
     "babel-eslint": "*",
     "etag": "^1.7.0",
     "express": "^4.9.4",
