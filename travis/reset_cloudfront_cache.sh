@@ -41,7 +41,7 @@ echo -e "\nCloudFront Invalidating...\n"
 cfadmin invalidate E25UPZJ6LYERMX /wrioos.com.com
 cfadmin invalidate E25UPZJ6LYERMX /.wrioos.com.com
 cfadmin invalidate E25UPZJ6LYERMX /www.wrioos.com.com
-cfadmin invalidate E25UPZJ6LYERMX /index.htm /start.js
+cfadmin invalidate E25UPZJ6LYERMX /index.htm /start.js /main.js /main.js.map /raw/
 echo -e "\nInvalidating is in progress...\n"
 echo -e "\nYou can check the status on the 'Invalidations' tab here https://console.aws.amazon.com/cloudfront/home?region=your_region#distribution-settings:XNXNXXNNNNXNXN\n"
 
