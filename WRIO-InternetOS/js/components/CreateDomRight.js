@@ -33,7 +33,7 @@ var External = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a onClick={this.onClick}>{o.name}</a>
+                <a href={this.props.data.url || ('#' + this.props.data.name)} onClick={this.onClick}>{o.name}</a>
             </li>
         );
     }
@@ -65,7 +65,7 @@ var Article = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a onClick={this.onClick} className={o.class}>{o.name}</a>
+                <a href={'#' + this.props.data.name} onClick={this.onClick} className={o.class}>{o.name}</a>
             </li>
         );
     }
@@ -97,7 +97,7 @@ var Cover = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a onClick={this.onClick}>{o.name}</a>
+                <a href={this.props.data.url} onClick={this.onClick}>{o.name}</a>
             </li>
         );
     }
