@@ -10,4 +10,6 @@
 #
 #normal[:opsworks_nodejs][:version] = '0.10.21'
 
+normal[:opsworks_nodejs][:version] = '0.12.0'
+default['nodejs']['repo'] = 'https://deb.nodesource.com/node_0.12'
 normal[:opsworks_nodejs][:npm_install_options] = 'install'

@@ -19,4 +19,3 @@ exports.init = function () {
 	// end nconf config
 	return nconf;
 };
-
