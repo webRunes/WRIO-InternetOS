@@ -2,6 +2,8 @@ var React = require('react'),
     UrlMixin = require('../mixins/UrlMixin'),
     classNames = require('classnames'),
     ActionMenu = require('plus/js/actions/menu'),
+    CreateInfoTicket = require('./CreateInfoTicket'),
+    CreateControlButtons = require('./CreateControlButtons'),
     StoreMenu = require('plus/js/stores/menu'),
     Reflux = require('reflux'),
     _ = require('lodash'),
@@ -125,13 +127,30 @@ var CreateDomRight = React.createClass({
     getInitialState: function() {
         return {
             active: false,
-            resize: false
+            resize: false,
+            article: {},
+            author: ''
         };
     },
 
     componentDidMount: function() {
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
         this.listenStoreMenuWindowResize = StoreMenu.listenTo(ActionMenu.windowResize, this.onWindowResize);
+    },
+
+    componentWillMount: function() {
+        this.props.data.forEach((o) => {
+            if (o['@type'] === 'Article') {
+                this.state.article = o;
+                if (o.author) {
+                    var regexp = o.author.match(/(.*)\?wr.io=([0-9]+)$/);
+                    this.state.author = {
+                        id: regexp[2],
+                        url: regexp[1]
+                    };
+                }
+            }
+        });
     },
 
     onShowSidebar: function(data) {
@@ -251,6 +270,10 @@ var CreateDomRight = React.createClass({
         return (
             <div className={className} id="sidebar">
                 <div ref="sidebar" className="sidebar-margin">
+                    {this.state.article ? <aside>
+                        <CreateInfoTicket article={this.state.article} author={this.state.author} />
+                    </aside> : null}
+                    {this.state.article ? <CreateControlButtons article={this.state.article} author={this.state.author} /> : null}
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {items}
                     </ul>
