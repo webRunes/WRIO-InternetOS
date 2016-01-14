@@ -18,7 +18,7 @@ export default class CreateControlButtons extends React.Component {
                     editAllowed: true
                 });
             }
-        }.bind(this));
+        });
     }
 
     onCloseClick() {

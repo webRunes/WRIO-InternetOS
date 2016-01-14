@@ -121,13 +121,13 @@ class CreateDomCenter extends React.Component {
                         editAllowed: true
                     });
                 }
-            }.bind(this));
-        }.bind(this));
+            });
+        });
         CenterActions.switchToEditMode.listen((data) => {
             if (data.editMode) {
                 this.switchToEditMode();
             }
-        }.bind(this));
+        });
     }
 
     componentDidMount() {
@@ -137,7 +137,7 @@ class CreateDomCenter extends React.Component {
         });
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
-        window.addEventListener('message', function(e) {
+        window.addEventListener('message', (e) => {
 
             var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
@@ -149,7 +149,7 @@ class CreateDomCenter extends React.Component {
                 PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
             }
 
-        }.bind(this));
+        });
 
     }
 
