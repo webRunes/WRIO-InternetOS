@@ -2,14 +2,14 @@
 
 #WRIO <sup>Internet OS</sup>
 WRIO - webRunes Input/Output.
-Official node based on [WRIO OS] (http://wrioos.com) is [webrunes.com] (http://webrunes.com)
+Official node based on [WRIO OS] (https://wrioos.com) is [webrunes.com] (https://webrunes.com)
 
 ##Official Hub
-[wrioos.com](http://wrioos.com)
+[wrioos.com](https://wrioos.com)
 
 ###Multilingual support
 Esperanto and English are primary languages. Yet, since the project is developed by natives of the former USSR, the third language is Russian. To write issues you can choose any of them.
-
+https://
 [more coming soon]
 
-Powered by [Open Copyright](http://opencopyright.webrunes.com)
+Powered by [Open Copyright](https://opencopyright.webrunes.com)
