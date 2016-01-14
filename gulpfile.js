@@ -1,3 +1,4 @@
+require('babel/register');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babel = require('gulp-babel');
@@ -12,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var eslint = require('gulp-eslint');
+var mocha = require('gulp-mocha');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -33,6 +35,23 @@ if (argv.dev) {
     console.log("Got dev mode");
     envify_params['NODE_ENV'] = 'development';
 }
+
+gulp.task('test', function() {
+    return gulp.src('test/**/*.js', {read: false})
+        // gulp-mocha needs filepaths so you can't have any plugins before it
+        .pipe(mocha({
+            reporter: 'dot',
+            timeout: 20000
+        }))
+        .once('error', function (err) {
+            console.log('Tests failed for reason:',err);
+            process.exit(1);
+        })
+        .once('end', function () {
+            process.exit();
+        });;
+});
+
 
 
 gulp.task('lint', function () {
