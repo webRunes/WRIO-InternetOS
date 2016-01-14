@@ -4,5 +4,6 @@ module.exports = Reflux.createActions([
     'external',
     'cover',
     'article',
-    'gotWrioID'
+    'gotWrioID',
+    'switchToEditMode'
 ]);
