@@ -13,8 +13,8 @@ if [[ -n "${TRAVIS_PULL_REQUEST}" && "${TRAVIS_PULL_REQUEST}" != "false"  ]]; th
   exit 0
 fi
 
-if [[ $TRAVIS_BRANCH == 'master' ]]; then
-    echo -e "\nThis is master/production branch - let's reset the CloudFront cache\n"
+if [[ $TRAVIS_BRANCH == 'production' ]]; then
+    echo -e "\nThis is production branch - let's reset the CloudFront cache\n"
 else
     echo -e "\nReset of CloudFront cache will not be started for non-production branch - exit.\n"
     exit 0
