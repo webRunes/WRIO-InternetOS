@@ -71,5 +71,10 @@ module.exports = Reflux.createStore({
             type: type,
             id: id
         });
+    },
+    onSwitchToEditMode: function() {
+        this.trigger({
+            editMode: true
+        });
     }
 });

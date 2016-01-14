@@ -19,7 +19,7 @@ var React = require('react'),
     StoreMenu = require('plus/js/stores/menu'),
     UrlMixin = require('../mixins/UrlMixin'),
     Alert = require('react-bootstrap').Alert,
-      CreateTransactions = require('../../../widgets/transactions.jsx'),
+    CreateTransactions = require('../../../widgets/transactions.jsx'),
     CenterActions = require('../actions/center'),
     PlusStore = require('plus/js/stores/jsonld');
 
@@ -112,6 +112,24 @@ class CreateDomCenter extends React.Component {
         }
     }
 
+    componentWillMount() {
+        CenterActions.gotWrioID.listen((id) => {
+            this.getAuthorWrioID((authorId) => {
+                console.log('Checking if editing allowed: ', id, authorId);
+                if (id == authorId) {
+                    this.setState({
+                        editAllowed: true
+                    });
+                }
+            });
+        });
+        CenterActions.switchToEditMode.listen((data) => {
+            if (data.editMode) {
+                this.switchToEditMode();
+            }
+        });
+    }
+
     componentDidMount() {
         var that = this;
         this.listenStoreLd = StoreLd.listen((state) => {
@@ -119,19 +137,7 @@ class CreateDomCenter extends React.Component {
         });
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
-        CenterActions.gotWrioID.listen(function(id) {
-            that.getAuthorWrioID(function(authorId) {
-                console.log('Checking if editing allowed: ', id, authorId);
-                if (id == authorId) {
-                    that.setState({
-                        editAllowed: true
-                    });
-                }
-            });
-
-        });
-
-        window.addEventListener('message', function(e) {
+        window.addEventListener('message', (e) => {
 
             var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
@@ -143,7 +149,7 @@ class CreateDomCenter extends React.Component {
                 PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
             }
 
-        }.bind(this));
+        });
 
     }
 
@@ -320,7 +326,7 @@ class CreateDomCenter extends React.Component {
                         onEditClick={ this.switchToEditMode.bind(this) }
                         onTransactionsClick={ this.switchToTransactionsMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }/>
-                    { (this.state.editMode && !this.state.editModeFromUrl) ? <iframe src={'http://core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { (this.state.editMode && !this.state.editModeFromUrl) ? <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { (this.state.transactionsMode && !this.state.transactionsModeFromUrl) ? <CreateTransactions /> : null }
                     { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
                     { displayCore }
