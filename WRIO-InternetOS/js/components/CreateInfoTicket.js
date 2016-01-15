@@ -22,9 +22,9 @@ export default class CreateInfoTicket extends React.Component {
         return (
             <ul className="info nav nav-pills nav-stacked" id="ticket-accordion">
                 <li className="panel">
-                    <a href="#ticket-element" data-parent="#ticket-accordion" data-toggle="collapse">
+                    <a href="#ticket-element" data-parent="#ticket-accordion" ref="name" data-toggle="collapse">
                         <span className="glyphicon glyphicon-chevron-down pull-right"></span>
-                        {this.props.article.name || ''}
+                        {this.props.article.name}
                     </a>
                     <div className="in" id="ticket-element">
                         <div className="media thumbnail">
@@ -42,7 +42,7 @@ export default class CreateInfoTicket extends React.Component {
                                 </ul>
                             </div>
                             <div className="col-xs-12">
-                                <p>
+                                <p ref="about">
                                     {this.props.article.about}
                                 </p>
                             </div>
