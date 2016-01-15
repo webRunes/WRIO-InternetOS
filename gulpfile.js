@@ -1,4 +1,5 @@
 require('babel/register');
+
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babel = require('gulp-babel');
@@ -51,8 +52,6 @@ gulp.task('test', function() {
             process.exit();
         });;
 });
-
-
 
 gulp.task('lint', function () {
     // ESLint ignores files with "node_modules" paths.
