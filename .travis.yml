@@ -6,8 +6,14 @@ script: "/bin/date"
 node_js:
   - 0.10
 
-install : npm install
-script  : npm start
+install : 
+  - npm install
+  - npm install -g gulp
+
+script  :
+  - gulp
+  - gulp test
+  - npm start
 
 before_deploy:
 - gem install mime-types -v 2.6.2
