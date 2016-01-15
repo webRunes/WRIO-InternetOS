@@ -10,10 +10,10 @@ install :
   - npm install
   - npm install -g gulp
 
-script  :
+script:
   - gulp
   - gulp test
-  - npm start
+  - sh compress.sh
 
 before_deploy:
 - gem install mime-types -v 2.6.2

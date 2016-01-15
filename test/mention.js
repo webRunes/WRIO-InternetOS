@@ -3,11 +3,11 @@ import assert from 'assert';
 import should from 'should';
 import Mention from '../WRIO-InternetOS/js/jsonld/mention.js';
 
-
 describe('mention test', () => {
-   before(() => {
+    before(() => {
 
-   });
+    });
+
     it("Shoud determine correct mention start and order", () => {
         var mention = new Mention({
             "@type": "Article",
@@ -17,6 +17,5 @@ describe('mention test', () => {
         })
         mention.start.should.be.equal(104);
         mention.order.should.be.equal(3);
-
-    })
+    });
 });

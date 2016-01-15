@@ -44,7 +44,8 @@ gulp.task('test', function() {
             reporter: 'dot',
             timeout: 20000
         }))
-        .once('error', function () {
+        .once('error', function (err) {
+            console.log('Tests failed for reason:',err);
             process.exit(1);
         })
         .once('end', function () {
