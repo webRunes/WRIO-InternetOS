@@ -10,7 +10,6 @@ var React = require('react');
 module.exports = React.createClass({
     propTypes: {
         editMode: React.PropTypes.bool.isRequired,
-        transactionsMode: React.PropTypes.bool.isRequired,
         onEditClick: React.PropTypes.func.isRequired,
         onReadClick: React.PropTypes.func.isRequired,
         onTransactionsClick: React.PropTypes.func.isRequired,
