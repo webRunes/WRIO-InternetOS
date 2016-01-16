@@ -5,7 +5,9 @@ sudo: false
 node_js:
   - 0.12
 
-install : npm install
+install :
+  - npm install
+  - npm install -g gulp
 
 script:
   - gulp
