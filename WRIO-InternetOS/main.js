@@ -1,4 +1,5 @@
 var React = require('react'),
+    ReactDOM = require('react-dom'),
     Showdown = require('showdown'),
     converter = new Showdown.Converter(),
     CreateDomLeft = require('./js/components/CreateDomLeft'),
@@ -31,7 +32,7 @@ Main.propTypes = {
 module.exports = Main;
 
 domready(function() {
-    React.render(
+    ReactDOM.render(
         <Main data={scripts(document.getElementsByTagName('script'))} />,
         document.body.appendChild((
             function() {

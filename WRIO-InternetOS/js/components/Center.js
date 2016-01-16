@@ -6,7 +6,7 @@ var Center = React.createClass({
     propTypes: {
         data: React.PropTypes.array.isRequired,
         content: React.PropTypes.object.isRequired,
-        type: React.PropTypes.any.isRequired
+        type: React.PropTypes.any
     },
     componentDidUpdate: function() {
         var hash = window.location.hash;

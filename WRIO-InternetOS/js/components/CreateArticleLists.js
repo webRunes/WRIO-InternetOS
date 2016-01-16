@@ -40,8 +40,8 @@ var CreateArticleLists = React.createClass({
                         <div className="col-xs-12 col-md-6">
                             <p>{o.about}</p>
                             <ul className="actions">
-                                <li><a href="#"><span className="glyphicon glyphicon-plus"></span>Add</a></li>
-                                <li><a href="#"><span className="glyphicon glyphicon-share"></span>Share</a></li>
+                                <li><span className="glyphicon glyphicon-plus"></span>Add</li>
+                                <li><span className="glyphicon glyphicon-share"></span>Share</li>
                             </ul>
                             <p></p>
                         </div>
