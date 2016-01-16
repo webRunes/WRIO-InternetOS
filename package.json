@@ -94,7 +94,7 @@
     "npm": "^2.10.1",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
     "react": "^0.14.6",
-    "react-bootstrap": "^0.24.2",
+    "react-bootstrap": "^0.28.2",
     "reflux": "0.2.7",
     "showdown": "^1.1.0",
     "superagent": "^1.2.0",
