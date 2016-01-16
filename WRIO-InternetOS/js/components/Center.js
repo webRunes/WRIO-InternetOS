@@ -13,6 +13,7 @@ var Center = React.createClass({
         window.location.hash = '';
         window.location.hash = hash;
     },
+    
     render: function() {
         var content = this.props.content,
             data = content.data || this.props.data,
