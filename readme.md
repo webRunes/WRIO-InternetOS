@@ -12,4 +12,6 @@ Esperanto and English are primary languages. Yet, since the project is developed
 https://
 [more coming soon]
 
+To test CI
+
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
