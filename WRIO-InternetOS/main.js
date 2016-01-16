@@ -1,16 +1,22 @@
-var React = require('react'),
-    Showdown = require('showdown'),
-    converter = new Showdown.Converter(),
-    CreateDomLeft = require('./js/components/CreateDomLeft'),
-    CreateDomRight = require('./js/components/CreateDomRight'),
-    CreateDomCenter = require('./js/components/CreateDomCenter'),
-    WindowDimensions = require('./js/components/WindowDimensions'),
-    scripts = require('./js/jsonld/scripts'),
-    domready = require('domready');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Showdown from 'showdown';
+import CreateDomLeft from './js/components/CreateDomLeft';
+import CreateDomRight from './js/components/CreateDomRight';
+import CreateDomCenter from './js/components/CreateDomCenter';
+import WindowDimensions  from './js/components/WindowDimensions';
+import scripts from './js/jsonld/scripts';
+import domready from 'domready';
 
-class Main extends React.Component {
+var converter = new Showdown.Converter();
+
+export default class Main extends React.Component {
     constructor(props) {
         super(props);
+    }
+    componentDidMount() {
+        // hide preloader
+        document.getElementById('preloader') ? document.getElementById('preloader').style.display = 'none' : true;
     }
     render() {
         return (
@@ -28,21 +34,16 @@ Main.propTypes = {
     data: React.PropTypes.array.isRequired
 };
 
-module.exports = Main;
+function createContainer() {
+    var d = document.createElement('div');
+    d.id = 'content';
+    d.className = 'container-liquid';
+    return d;
+}
 
-domready(function() {
-    React.render(
-        <Main data={scripts(document.getElementsByTagName('script'))} />,
-        document.body.appendChild((
-            function() {
-                var d = document.createElement('div');
-                d.id = 'content';
-                d.className = 'container-liquid';
-                return d;
-            }()
-        )),
-        function() {
-            document.getElementById('preloader') ? document.getElementById('preloader').style.display = 'none' : true;
-        }
-    );
+domready(() =>{
+    var container = createContainer();
+    var domnode = document.body.appendChild(container);
+    var docScripts = scripts(document.getElementsByTagName('script'));
+    ReactDOM.render(<Main data={docScripts} />, domnode);
 });
