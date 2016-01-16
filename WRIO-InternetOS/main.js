@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-var React = require('react'),
-    ReactDOM = require('react-dom'),
-    Showdown = require('showdown'),
-    converter = new Showdown.Converter(),
-    CreateDomLeft = require('./js/components/CreateDomLeft'),
-    CreateDomRight = require('./js/components/CreateDomRight'),
-    CreateDomCenter = require('./js/components/CreateDomCenter'),
-    WindowDimensions = require('./js/components/WindowDimensions'),
-    scripts = require('./js/jsonld/scripts'),
-    domready = require('domready');
-=======
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Showdown from 'showdown';
@@ -19,7 +7,6 @@ import CreateDomCenter from './js/components/CreateDomCenter';
 import WindowDimensions  from './js/components/WindowDimensions';
 import scripts from './js/jsonld/scripts';
 import domready from 'domready';
->>>>>>> 3f7dcf6253b3ce993b443f94be240125f806efeb
 
 var converter = new Showdown.Converter();
 
