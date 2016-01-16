@@ -26,90 +26,90 @@ var code =
     count = css.length,
     loading,
     BrowserDetection = {
-    init: function(){
-        if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
-            notSupportedBrowsers = this.defaultNotSupportedBrowsers;
-        }
+        init: function(){
+            if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
+                notSupportedBrowsers = this.defaultNotSupportedBrowsers;
+            }
 
-        this.detectBrowser();
-        this.detectOS();
+            this.detectBrowser();
+            this.detectOS();
 
-        if(this.browser == '' || this.browser == 'Unknown' || this.os == '' || this.os == 'Unknown' || this.browserVersion == '' || this.browserVersion == 0){
-            return;
-        }
+            if(this.browser == '' || this.browser == 'Unknown' || this.os == '' || this.os == 'Unknown' || this.browserVersion == '' || this.browserVersion == 0){
+                return;
+            }
 
-        var oldBrowser = false;
-        for(var i = 0; i < notSupportedBrowsers.length; i++){
-            if(notSupportedBrowsers[i].os == 'Any' || notSupportedBrowsers[i].os == this.os){
-                if(notSupportedBrowsers[i].browser == 'Any' || notSupportedBrowsers[i].browser == this.browser){
-                    if(notSupportedBrowsers[i].version == 'Any' || this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)){
-                        oldBrowser = true;
-                        break;
+            var oldBrowser = false;
+            for(var i = 0; i < notSupportedBrowsers.length; i++){
+                if(notSupportedBrowsers[i].os == 'Any' || notSupportedBrowsers[i].os == this.os){
+                    if(notSupportedBrowsers[i].browser == 'Any' || notSupportedBrowsers[i].browser == this.browser){
+                        if(notSupportedBrowsers[i].version == 'Any' || this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)){
+                            oldBrowser = true;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        if(oldBrowser){
-            this.writeNoticeCode();
-        }else{
-            return false;
-        }
-    },
-    writeNoticeCode: function(){
-        document.location.replace('//wrioos.com/old_browser.htm');
-    },
-    detectBrowser: function(){
-        this.browser = '';
-        this.browserVersion = 0;
-
-        if(/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-            this.browser = 'Opera';
-        } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
-            this.browser = 'MSIE';
-        } else if(/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-            this.browser = 'Netscape';
-        } else if(/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-            this.browser = 'Chrome';
-        } else if(/Safari[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-            this.browser = 'Safari';
-            /Version[\/\s](\d+\.\d+)/.test(navigator.userAgent);
-            this.browserVersion = new Number(RegExp.$1);
-        } else if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-            this.browser = 'Firefox';
-        }
-
-        if(this.browser == ''){
-            this.browser = 'Unknown';
-        } else if(this.browserVersion == 0) {
-            this.browserVersion = parseFloat(new Number(RegExp.$1));
-        }
-    },
-    detectOS: function(){
-        for(var i = 0; i < this.operatingSystems.length; i++){
-            if(this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) != -1){
-                this.os = this.operatingSystems[i].name;
-                return;
+            if(oldBrowser){
+                this.writeNoticeCode();
+            }else{
+                return false;
             }
-        }
+        },
+        writeNoticeCode: function(){
+            document.location.replace('//wrioos.com/old_browser.htm');
+        },
+        detectBrowser: function(){
+            this.browser = '';
+            this.browserVersion = 0;
 
-        this.os = 'Unknown';
-    },
-    noticeHeight: 0,
-    browser: '',
-    os: '',
-    browserVersion: '',
-    operatingSystems: [
-        { 'searchString': navigator.platform, 'name': 'Windows', 'subStr': 'Win' },
-        { 'searchString': navigator.platform, 'name': 'Mac', 'subStr': 'Mac' },
-        { 'searchString': navigator.platform, 'name': 'Linux', 'subStr': 'Linux' },
-        { 'searchString': navigator.userAgent, 'name': 'iPhone', 'subStr': 'iPhone/iPod' }
-    ],
-    defaultNotSupportedBrowsers: [
-        {'os': 'Any', 'browser': 'MSIE', 'version': 6},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 7},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 8},
-    ]
-};
+            if(/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
+                this.browser = 'Opera';
+            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+                this.browser = 'MSIE';
+            } else if(/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
+                this.browser = 'Netscape';
+            } else if(/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
+                this.browser = 'Chrome';
+            } else if(/Safari[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
+                this.browser = 'Safari';
+                /Version[\/\s](\d+\.\d+)/.test(navigator.userAgent);
+                this.browserVersion = new Number(RegExp.$1);
+            } else if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
+                this.browser = 'Firefox';
+            }
+
+            if(this.browser == ''){
+                this.browser = 'Unknown';
+            } else if(this.browserVersion == 0) {
+                this.browserVersion = parseFloat(new Number(RegExp.$1));
+            }
+        },
+        detectOS: function(){
+            for(var i = 0; i < this.operatingSystems.length; i++){
+                if(this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) != -1){
+                    this.os = this.operatingSystems[i].name;
+                    return;
+                }
+            }
+
+            this.os = 'Unknown';
+        },
+        noticeHeight: 0,
+        browser: '',
+        os: '',
+        browserVersion: '',
+        operatingSystems: [
+            { 'searchString': navigator.platform, 'name': 'Windows', 'subStr': 'Win' },
+            { 'searchString': navigator.platform, 'name': 'Mac', 'subStr': 'Mac' },
+            { 'searchString': navigator.platform, 'name': 'Linux', 'subStr': 'Linux' },
+            { 'searchString': navigator.userAgent, 'name': 'iPhone', 'subStr': 'iPhone/iPod' }
+        ],
+        defaultNotSupportedBrowsers: [
+            {'os': 'Any', 'browser': 'MSIE', 'version': 6},
+            {'os': 'Any', 'browser': 'MSIE', 'version': 7},
+            {'os': 'Any', 'browser': 'MSIE', 'version': 8},
+        ]
+    };
 
 loading = document.createElement('link');
 loading.rel = 'stylesheet';
@@ -121,8 +121,8 @@ window.document.body.style.margin = 0;
 document.documentElement.style.heigth = '100%';
 document.documentElement.style.margin = 0;
 
-if(localStorage && !localStorage.getItem('newUser')){
-    localStorage.setItem('newUser', true);
+if(localStorage && !localStorage.getItem('oldUser')){
+    localStorage.setItem('oldUser', true);
     window.document.body.innerHTML += code;
 }
 
@@ -174,6 +174,6 @@ if(!BrowserDetection.init()){
     favicon.rel = 'shortcut icon';
     favicon.href = cssUrl + theme + '/ico/favicon.ico';
     head.appendChild(favicon);
-}else{
+} else {
     document.getElementById('preloader').style.display = 'none';
 }

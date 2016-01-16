@@ -33,8 +33,8 @@ class Details extends React.Component{
 
 
 Details.propTypes = {
-    importUrl: React.PropTypes.object.isRequired,
-    theme: React.PropTypes.object.isRequired
+    importUrl: React.PropTypes.string.isRequired,
+    theme: React.PropTypes.string.isRequired
 };
 
 export default Details;

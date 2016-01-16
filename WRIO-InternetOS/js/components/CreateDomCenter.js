@@ -7,6 +7,7 @@ if (process.env.DOMAIN === undefined) {
 var React = require('react'),
     Reflux = require('reflux'),
     Login = require('../../../widgets/Login.jsx'),
+    Chess = require('../../../widgets/Chess.jsx'),
     Details = require('../../../widgets/Details.jsx'),
     importUrl = require('../global').importUrl,
     theme = require('../global').theme,
@@ -296,7 +297,7 @@ class CreateDomCenter extends React.Component {
                 this.state.notDisplayCenter = true;
                 this.state.actionButton = "Start";
                 this.state.nocomments = true;
-                displayChess = (<iframe src={'//chess.'+process.env.DOMAIN+'/start?uuid=' + this.state.urlParams.start} style={ this.startIframeStyles }/>);
+                displayChess = (<Chess uuid={this.state.urlParams.start}/>);
             }
         }
 

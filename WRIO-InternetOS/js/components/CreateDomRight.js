@@ -1,4 +1,5 @@
 var React = require('react'),
+    ReactDOM = require('react-dom'),
     UrlMixin = require('../mixins/UrlMixin'),
     classNames = require('classnames'),
     ActionMenu = require('plus/js/actions/menu'),
@@ -35,7 +36,7 @@ var External = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a href={this.props.data.url || ('#' + this.props.data.name)} onClick={this.onClick}>{o.name}</a>
+                <a onClick={this.onClick}>{o.name}</a>
             </li>
         );
     }
@@ -67,7 +68,7 @@ var Article = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a href={'#' + this.props.data.name} onClick={this.onClick} className={o.class}>{o.name}</a>
+                <a onClick={this.onClick} className={o.class}>{o.name}</a>
             </li>
         );
     }
@@ -80,9 +81,12 @@ var Cover = React.createClass({
         isActive: React.PropTypes.bool.isRequired
     },
     onClick: function() {
+        event.preventDefault();
         center.cover(this.props.data.url);
         ActionMenu.showSidebar(false);
         this.props.active(this);
+        event.preventDefault();
+        e.preventDefault();
     },
     getInitialState: function() {
         return {
@@ -99,7 +103,7 @@ var Cover = React.createClass({
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a href={this.props.data.url} onClick={this.onClick}>{o.name}</a>
+                <a onClick={this.onClick}>{o.name}</a>
             </li>
         );
     }
@@ -129,7 +133,7 @@ var CreateDomRight = React.createClass({
             active: false,
             resize: false,
             article: {},
-            author: ''
+            author: {}
         };
     },
 
@@ -144,10 +148,12 @@ var CreateDomRight = React.createClass({
                 this.state.article = o;
                 if (o.author) {
                     var regexp = o.author.match(/(.*)\?wr.io=([0-9]+)$/);
-                    this.state.author = {
-                        id: regexp[2],
-                        url: regexp[1]
-                    };
+                    this.setState({
+                        author: {
+                            id: regexp[2],
+                            url: regexp[1]
+                        }
+                    });
                 }
             }
         });
@@ -161,7 +167,7 @@ var CreateDomRight = React.createClass({
 
     onWindowResize: function(width, height) {
         if (width > 767) {
-            if (height < React.findDOMNode(this.refs.sidebar)
+            if (height < ReactDOM.findDOMNode(this.refs.sidebar)
                 .offsetHeight) {
                 this.setState({
                     resize: true
@@ -272,7 +278,7 @@ var CreateDomRight = React.createClass({
                 <div ref="sidebar" className="sidebar-margin">
                     {this.state.article ? <aside>
                         <CreateInfoTicket article={this.state.article} author={this.state.author} />
-                    </aside> : null}
+                    </aside> : ''}
                     {this.state.article ? <CreateControlButtons article={this.state.article} author={this.state.author} /> : null}
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {items}

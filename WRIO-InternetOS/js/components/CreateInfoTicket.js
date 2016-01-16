@@ -56,5 +56,5 @@ export default class CreateInfoTicket extends React.Component {
 
 CreateInfoTicket.propTypes = {
     article: React.PropTypes.object.isRequired,
-    author: React.PropTypes.object.isRequired
+    author: React.PropTypes.object
 };

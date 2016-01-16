@@ -92,14 +92,16 @@ class Login extends React.Component{
     }
 
     static openAuthPopup(e) {
-        window.open(getServiceUrl('login') + '/auth/twitter?callback=' + encodeURIComponent("//localhost:3000"), // TODO: WTF?
+        window.open(getServiceUrl('login') + '/auth/twitter?callback=' + encodeURIComponent(getServiceUrl('login') + '/buttons/callback'),
             "Login",
             "height=500,width=700");
         e.stopPropagation();
     }
 
     static logout(e) {
-        location.href = getServiceUrl('login');
+        $.get(getServiceUrl('login') + '/logout', (res) => {
+            location.reload();
+        });
         e.stopPropagation();
     }
 
@@ -156,8 +158,8 @@ class Login extends React.Component{
 }
 
 Login.propTypes = {
-    importUrl: React.PropTypes.object.isRequired,
-    theme: React.PropTypes.object.isRequired
+    importUrl: React.PropTypes.string.isRequired,
+    theme: React.PropTypes.string.isRequired
 };
 
 module.exports = Login;
