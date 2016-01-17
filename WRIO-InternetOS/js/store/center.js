@@ -32,18 +32,26 @@ module.exports = Reflux.createStore({
             }
         );
     },
-    setUrlWithParams: function(type, name) {
+    setUrlWithParams: function(type, name, isRet) {
         var search = '?list=' + name,
             path = window.location.pathname + search;
-        window.history.pushState('page', 'params', path);
+        if (isRet) {
+            return path;
+        } else {
+            window.history.pushState('page', 'params', path);
+        }
     },
-    setUrlWithHash: function(name) {
-        window.history.pushState('page', 'params', window.location.pathname);
-        window.location.hash = name;
+    setUrlWithHash: function(name, isRet) {
+        if (isRet) {
+            return window.location.pathname + '#' + name;
+        } else {
+            window.history.pushState('page', 'params', window.location.pathname);
+            window.location.hash = name;
+        }
     },
-    onExternal: function(url, name) {
+    onExternal: function(url, name, isRet, cb) {
         var type = 'external';
-        this.setUrlWithParams(type, name);
+        cb ? cb(this.setUrlWithParams(type, name, isRet)) : this.setUrlWithParams(type, name, isRet);
         this.getHttp(url, (data) => {
             this.trigger({
                 type: type,
@@ -51,11 +59,11 @@ module.exports = Reflux.createStore({
             });
         });
     },
-    onCover: function(url, init) {
+    onCover: function(url, init, isRet, cb) {
         var type = 'cover',
             name = 'Cover';
         if (!init) {
-            this.setUrlWithParams(type, name);
+            cb ? cb(this.setUrlWithParams(type, name, isRet)) : this.setUrlWithParams(type, name, isRet);
         }
         this.getHttp(url, (data) => {
             this.trigger({
@@ -64,9 +72,9 @@ module.exports = Reflux.createStore({
             });
         });
     },
-    onArticle: function(id) {
+    onArticle: function(id, isRet, cb) {
         var type = 'article';
-        this.setUrlWithHash(id);
+        cb ? cb(this.setUrlWithHash(id, isRet)) : this.setUrlWithHash(id, isRet);
         this.trigger({
             type: type,
             id: id

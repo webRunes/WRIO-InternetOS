@@ -1,9 +1,7 @@
-var domain = '';
-if (process.env.DOMAIN === undefined) {
-    domain = 'wrioos.com';
-} else {
-    domain = process.env.DOMAIN;
-}
+import {getServiceUrl,getDomain} from '../servicelocator.js';
+
+var domain = getDomain();
+
 var React = require('react'),
     Reflux = require('reflux'),
     Login = require('../../../widgets/Login.jsx'),
@@ -293,7 +291,7 @@ class CreateDomCenter extends React.Component {
                 displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
             }
 
-            if (this.state.urlParams.start) {
+            if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {
                 this.state.notDisplayCenter = true;
                 this.state.actionButton = "Start";
                 this.state.nocomments = true;
