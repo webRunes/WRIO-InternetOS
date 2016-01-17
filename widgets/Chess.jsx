@@ -36,7 +36,7 @@ export default class Chess extends React.Component {
                             footer: ''
                         });
                     } else {
-                        $.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&titterID=' + this.state.profile.titterID, (res) => {
+                        $.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (res) => {
                             this.setState({
                                 profile: jsmsg,
                                 user: res.user,
@@ -64,7 +64,6 @@ export default class Chess extends React.Component {
                 type: 'POST',
                 url: getServiceUrl('chess') + '/api/invite_callback',
                 data: {
-                    user: this.state.profile.titterID,
                     uuid: this.props.uuid,
                     invite: this.state.invite
                 }
@@ -79,8 +78,7 @@ export default class Chess extends React.Component {
                 type: 'POST',
                 url: getServiceUrl('chess') + '/api/access_callback',
                 data: {
-                    uuid: this.props.uuid,
-                    user: this.state.profile.titterID
+                    uuid: this.props.uuid
                 }
             }).success(() => {
                 this.state.footer = 'Game started, you can return to Twitter';
@@ -112,7 +110,6 @@ export default class Chess extends React.Component {
         return (
             <div style={{textAlign: 'center'}} className="form-group">
                 {this.state.form}
-                <iframe id="loginbuttoniframe" src={ this.state.twitter.buttonurl } width="0" height="0" frameBorder="no" scrolling="no"></iframe>
             </div>
         );
     }
