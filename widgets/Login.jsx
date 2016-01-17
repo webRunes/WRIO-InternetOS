@@ -92,16 +92,17 @@ class Login extends React.Component{
     }
 
     static openAuthPopup(e) {
-        window.open(getServiceUrl('login') + '/auth/twitter?callback=' + encodeURIComponent(getServiceUrl('login') + '/buttons/callback'),
-            "Login",
-            "height=500,width=700");
+        document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+        e.stopPropagation();
+    }
+
+    static setWRIOAuthData(e) {
+        document.getElementById('loginbuttoniframe').contentWindow.postMessage('setData', getServiceUrl('login'));
         e.stopPropagation();
     }
 
     static logout(e) {
-        $.get(getServiceUrl('login') + '/logout', (res) => {
-            location.reload();
-        });
+        document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
         e.stopPropagation();
     }
 
