@@ -16,76 +16,10 @@ var External = React.createClass({
         active: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool.isRequired
     },
-    onClick: function() {
+    onClick: function(e) {
         center.external(this.props.data.url, this.props.data.name);
         ActionMenu.showSidebar(false);
         this.props.active(this);
-    },
-    getInitialState: function() {
-        return {
-            active: false
-        };
-    },
-    componentWillMount: function() {
-        if (this.props.isActive) {
-            this.props.active(this);
-        }
-    },
-    render: function() {
-        var o = this.props.data,
-            className = this.state.active ? 'active' : '';
-        return (
-            <li className={className}>
-                <a onClick={this.onClick}>{o.name}</a>
-            </li>
-        );
-    }
-});
-
-var Article = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired,
-        isActive: React.PropTypes.bool.isRequired
-    },
-    onClick: function() {
-        center.article(this.props.data.name);
-        ActionMenu.showSidebar(false);
-        this.props.active(this);
-    },
-    getInitialState: function() {
-        return {
-            active: false
-        };
-    },
-    componentWillMount: function() {
-        if (this.props.isActive) {
-            this.props.active(this);
-        }
-    },
-    render: function() {
-        var o = this.props.data,
-            className = this.state.active ? 'active' : '';
-        return (
-            <li className={className}>
-                <a onClick={this.onClick} className={o.class}>{o.name}</a>
-            </li>
-        );
-    }
-});
-
-var Cover = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired,
-        isActive: React.PropTypes.bool.isRequired
-    },
-    onClick: function() {
-        event.preventDefault();
-        center.cover(this.props.data.url);
-        ActionMenu.showSidebar(false);
-        this.props.active(this);
-        event.preventDefault();
         e.preventDefault();
     },
     getInitialState: function() {
@@ -97,13 +31,94 @@ var Cover = React.createClass({
         if (this.props.isActive) {
             this.props.active(this);
         }
+        center.external(this.props.data.url, this.props.data.name, true, (url) => {
+            this.setState({
+                url: url
+            });
+        });
     },
     render: function() {
         var o = this.props.data,
             className = this.state.active ? 'active' : '';
         return (
             <li className={className}>
-                <a onClick={this.onClick}>{o.name}</a>
+                <a href={this.state.url} onClick={this.onClick}>{o.name}</a>
+            </li>
+        );
+    }
+});
+
+var Article = React.createClass({
+    propTypes: {
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired,
+        isActive: React.PropTypes.bool.isRequired
+    },
+    onClick: function(e) {
+        center.article(this.props.data.name);
+        ActionMenu.showSidebar(false);
+        this.props.active(this);
+        e.preventDefault();
+    },
+    getInitialState: function() {
+        return {
+            active: false
+        };
+    },
+    componentWillMount: function() {
+        if (this.props.isActive) {
+            this.props.active(this);
+        }
+        center.article(this.props.data.name, true, (url) => {
+            this.setState({
+                url: url
+            });
+        });
+    },
+    render: function() {
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '';
+        return (
+            <li className={className}>
+                <a href={this.state.url} onClick={this.onClick} className={o.class}>{o.name}</a>
+            </li>
+        );
+    }
+});
+
+var Cover = React.createClass({
+    propTypes: {
+        data: React.PropTypes.object.isRequired,
+        active: React.PropTypes.func.isRequired,
+        isActive: React.PropTypes.bool.isRequired
+    },
+    onClick: function(e) {
+        center.cover(this.props.data.url);
+        ActionMenu.showSidebar(false);
+        this.props.active(this);
+        e.preventDefault();
+    },
+    getInitialState: function() {
+        return {
+            active: false
+        };
+    },
+    componentWillMount: function() {
+        if (this.props.isActive) {
+            this.props.active(this);
+        }
+        center.cover(this.props.data.url, null, true, (url) => {
+            this.setState({
+                url: url
+            });
+        });
+    },
+    render: function() {
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '';
+        return (
+            <li className={className}>
+                <a href={this.state.url} onClick={this.onClick}>{o.name}</a>
             </li>
         );
     }
