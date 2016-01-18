@@ -37,7 +37,6 @@ export default class Chess extends React.Component {
                         request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
                             if (res) {
                                 res = res.body;
-                                console.log('res', res)
                                 this.setState({
                                     profile: jsmsg,
                                     user: res.user,
@@ -61,7 +60,6 @@ export default class Chess extends React.Component {
 
     componentDidMount() {
         if (this.state.profile && !this.state.expired && !this.state.alien) {
-            console.log('start')
             this.start();
         }
     }
