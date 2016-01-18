@@ -1,6 +1,7 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 import Login from './Login.jsx';
+import request from 'superagent';
 
 var domain = getDomain();
 
@@ -10,10 +11,7 @@ export default class Chess extends React.Component {
         super(props);
         this.state = {
             profile: !1,
-            disabled: true,
-            twitter: {
-                buttonurl: getServiceUrl('login') + "/buttons/twitter"
-            }
+            disabled: true
         };
     }
 
@@ -36,15 +34,24 @@ export default class Chess extends React.Component {
                             footer: ''
                         });
                     } else {
-                        $.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (res) => {
-                            this.setState({
-                                profile: jsmsg,
-                                user: res.user,
-                                invite: res.invite,
-                                alien: res.alien,
-                                expired: res.expired,
-                                footer: res.alien ? "This link is for the player @" + res.user.username : (res.expired ? "Link Expired" : "...please wait")
-                            });
+                        request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
+                            if (res) {
+                                res = res.body;
+                                console.log('res', res)
+                                this.setState({
+                                    profile: jsmsg,
+                                    user: res.user,
+                                    invite: res.invite,
+                                    alien: res.alien,
+                                    expired: res.expired,
+                                    footer: res.alien ? "This link is for the player @" + res.user.username : (res.expired ? "Link Expired" : "...please wait")
+                                });
+                            } else {
+                                this.setState({
+                                    disabled: false,
+                                    footer: 'Authorisation error. Please try again later.'
+                                });
+                            }
                         });
                     }
                 }
@@ -54,36 +61,34 @@ export default class Chess extends React.Component {
 
     componentDidMount() {
         if (this.state.profile && !this.state.expired && !this.state.alien) {
+            console.log('start')
             this.start();
         }
     }
     
     start() {
         if (this.state.invite && this.state.invite !== '') {
-            $.ajax({
-                type: 'POST',
-                url: getServiceUrl('chess') + '/api/invite_callback',
-                data: {
+            request.post(getServiceUrl('chess') + '/api/invite_callback')
+                .send({
                     uuid: this.props.uuid,
                     invite: this.state.invite
-                }
-            }).success(() => {
-                this.state.footer = 'Game started, you can return to Twitter';
-                window.close();
-            }).fail(() => {
-                this.state.footer = 'Link Expired';
-            });
+                })
+                .end((err, res) => {
+                    if (err || !res) {
+                        this.state.footer = 'Link Expired';
+                    } else {
+                        this.state.footer = 'Game started, you can return to Twitter';
+                        window.close();
+                    }
+                });
         } else {
-            $.ajax({
-                type: 'POST',
-                url: getServiceUrl('chess') + '/api/access_callback',
-                data: {
+            request.post(getServiceUrl('chess') + '/api/access_callback')
+                .send({
                     uuid: this.props.uuid
-                }
-            }).success(() => {
-                this.state.footer = 'Game started, you can return to Twitter';
-                window.close();
-            });
+                }).end((err, res) => {
+                    this.state.footer = 'Game started, you can return to Twitter';
+                    window.close();
+                });
         }
     }
 
