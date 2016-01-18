@@ -15,6 +15,8 @@ var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var eslint = require('gulp-eslint');
 var mocha = require('gulp-mocha');
+var headerfooter = require('gulp-headerfooter');
+var fs = require('fs');
 
 var npm = require('npm'),
 package = require('./package.json');
@@ -30,7 +32,7 @@ console.log(argv);
 if (argv.docker) {
     console.log("Got docker dev mode");
     envify_params['NODE_ENV'] = 'dockerdev';
-    envify_params['DOMAIN'] = "wrioos.local"
+    envify_params['DOMAIN'] = "wrioos.local";
     devmode = true;
 }
 
@@ -73,9 +75,16 @@ gulp.task('lint', function () {
         .pipe(eslint.failAfterError());
 });
 
+
+function getVersion() {
+    var version = new Date().toString();
+    var version = version + " WRIO-InternetOS build " + JSON.parse(fs.readFileSync('./package.json')).version;
+    return "\n/* "+version+' */\n';
+
+}
+var version = getVersion();
+
 gulp.task('babel-client', ['update-modules'], function() {
-
-
 
     var preloader = browserify({
         entries: './WRIO-InternetOS/preloader.js',
@@ -94,6 +103,7 @@ gulp.task('babel-client', ['update-modules'], function() {
             preloader = preloader.pipe(gulp.dest('./raw/'))
                 .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
                 .pipe(uglify())
+                .pipe(headerfooter.footer(version))
                 .pipe(sourcemaps.write('./')); // writes .map file
         } else {
             console.log("Skip uglification...");
@@ -120,6 +130,7 @@ gulp.task('babel-client', ['update-modules'], function() {
         main = main.pipe(gulp.dest('./raw/'))
             .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
             .pipe(uglify())
+            .pipe(headerfooter.footer(version))
             .pipe(sourcemaps.write('./')); // writes .map file
     } else {
         console.log("Skip uglification...");
