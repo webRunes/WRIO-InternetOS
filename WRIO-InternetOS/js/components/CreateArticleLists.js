@@ -23,7 +23,7 @@ var CreateArticleLists = React.createClass({
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
-                            <h2>
+                            <h2 id={articleName}>
                                 <span>{articleName}</span>
                                 <sup>{o.name}</sup>
                             </h2>
