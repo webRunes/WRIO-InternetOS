@@ -63,7 +63,7 @@ gulp.task('lint', function () {
     // So, it's best to have gulp ignore the directory as well.
     // Also, Be sure to return the stream from the task;
     // Otherwise, the task may end before the stream has finished.
-    return gulp.src(['./widgets/**/*.js*','WRIO-InternetOS/**/*.js'])
+    return gulp.src(['./widgets/**/*.js*','WRIO-InternetOS/**/*.js', './Plus-WRIO-App/**/*.js*'])
         // eslint() attaches the lint output to the "eslint" property
         // of the file object so it can be used by other modules.
         .pipe(eslint())
@@ -84,7 +84,7 @@ function getVersion() {
 }
 var version = getVersion();
 
-gulp.task('babel-client', ['update-modules'], function() {
+gulp.task('babel-client', function() {
 
     var preloader = browserify({
         entries: './WRIO-InternetOS/preloader.js',
@@ -150,7 +150,7 @@ gulp.task('babel-client', ['update-modules'], function() {
     "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git"
 }
 */
-
+/*
 gulp.task('update-modules', function(callback) {
     if (argv.dev) {
         npm.load(['./package.json'],function (er, npm) {
@@ -164,20 +164,20 @@ gulp.task('update-modules', function(callback) {
         callback();
     }
 });
-
-gulp.task('default', ['lint','update-modules','babel-client']);
+*/
+gulp.task('default', ['lint','babel-client']);
 
 gulp.task('watch', ['default'], function() {
     gulp.watch([
         'WRIO-InternetOS/**/*.*',
         'widgets/**/*.*',
-        '../Plus-WRIO-App/'
+        'Plus-WRIO-App/**/*.*'
     ], ['babel-client']);
 });
 
 gulp.task('watchDev', ['default'], function() {
-    var mod = ['update-modules','babel-client'];
-    gulp.watch(['../Plus-WRIO-App/js/**/*.*'], mod);
-    gulp.watch(['WRIO-InternetOS/**/*.*','widgets/**/*.*'], mod);
+    gulp.watch([
+        'WRIO-InternetOS/**/*.*','widgets/**/*.*','Plus-WRIO-App/**/*.*'
+    ], ['babel-client']);
 });
 
