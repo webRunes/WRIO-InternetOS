@@ -43,9 +43,9 @@ echo "aws_secret_access_key = $2" >> ~/.boto
 # E25UPZJ6LYERMX - distribution configured for the Web - in aws amazon cloudfront distributions.
 #
 echo -e "\nCloudFront Invalidating...\n"
-cfadmin invalidate E25UPZJ6LYERMX /wrioos.com.com
-cfadmin invalidate E25UPZJ6LYERMX /.wrioos.com.com
-cfadmin invalidate E25UPZJ6LYERMX /www.wrioos.com.com
+#cfadmin invalidate E25UPZJ6LYERMX /wrioos.com
+#cfadmin invalidate E25UPZJ6LYERMX /.wrioos.com
+#cfadmin invalidate E25UPZJ6LYERMX /www.wrioos.com
 cfadmin invalidate E25UPZJ6LYERMX /index.htm /start.js /start.js.map /main.js /main.js.map /raw/
 echo -e "\nInvalidating is in progress...\n"
 echo -e "\nYou can check the status on the 'Invalidations' tab here https://console.aws.amazon.com/cloudfront/home?region=your_region#distribution-settings:XNXNXXNNNNXNXN\n"
