@@ -91,6 +91,8 @@
     "gulp-notify": "^2.2.0",
     "lodash": "^3.10.1",
     "lodash.sortbyorder": "^3.1.4",
+    "lodash.sortby": "^3.1.4",
+    "lodash.some": "*",
     "moment": "^2.10.3",
     "npm": "^2.10.1",
     "plus-wrio-app": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
