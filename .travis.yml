@@ -1,5 +1,4 @@
 language: node_js
-sudo: false
 
 env:
   - secure: "oNCXFPNITsVmErcmI0plopfQMrsBh9sxF0H6U6FJOGmzpejh9NWqxoluT/cCyCvKqiQd4kpsh4FfL0Mjx84fkHltLetnybuJG7dneEoA4ZKRrG8+mQPMry5tgle1uKmKcW1fMAFV75os0VffXVqp2I4IvKmvuyCVbCW1MPRsL+E="
