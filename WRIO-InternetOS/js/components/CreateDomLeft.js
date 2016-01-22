@@ -1,10 +1,10 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    Plus = require('plus'),
+    Plus = require('../../../widgets/Plus/Plus'),
     Reflux = require('reflux'),
     classNames = require('classnames'),
-    ActionMenu = require('plus/js/actions/menu'),
-    StoreMenu = require('plus/js/stores/menu'),
+    ActionMenu = require('../../../widgets/Plus/actions/menu'),
+    StoreMenu = require('../../../widgets/Plus/stores/menu'),
     themeImportUrl = require('../global').themeImportUrl;
 
 class CreateDomLeft extends React.Component {
