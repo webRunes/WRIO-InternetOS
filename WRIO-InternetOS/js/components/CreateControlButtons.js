@@ -1,7 +1,7 @@
 import React from 'react';
 import CenterActions from '../actions/center';
-import PlusActions from '../../../Plus-WRIO-App/actions/jsonld';
-import normURL from '../../../Plus-WRIO-App/stores/normURL';
+import PlusActions from '../../../widgets/Plus/actions/jsonld';
+import normURL from '../../../widgets/Plus/stores/normURL';
 
 export default class CreateControlButtons extends React.Component {
     constructor(props) {

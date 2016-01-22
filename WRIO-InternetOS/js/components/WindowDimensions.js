@@ -2,7 +2,7 @@
  * Created by Victor on 09.11.2015.
  */
 var React = require('react'),
-    ActionMenu = require('../../../Plus-WRIO-App/actions/menu');
+    ActionMenu = require('../../../widgets/Plus/actions/menu');
 
 class WindowDimensions extends React.Component{
     constructor(props){

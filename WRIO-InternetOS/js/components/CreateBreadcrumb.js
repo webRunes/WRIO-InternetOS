@@ -1,13 +1,9 @@
-var domain = '';
-if (process.env.DOMAIN === undefined) {
-    domain = 'wrioos.com';
-} else {
-    domain = process.env.DOMAIN;
-}
+import React from 'react';
+import {getServiceUrl,getDomain} from '../servicelocator.js';
 
-var React = require('react');
+var domain = getDomain();
 
-module.exports = React.createClass({
+export default React.createClass({
     propTypes: {
         editMode: React.PropTypes.bool.isRequired,
         onEditClick: React.PropTypes.func.isRequired,

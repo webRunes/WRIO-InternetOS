@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
+import {getServiceUrl,getDomain} from '../../WRIO-InternetOS/js/servicelocator.js';
 
 var domain = getDomain();
 
