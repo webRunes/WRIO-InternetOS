@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import Item from '../Plus-WRIO-App/Item';
+import Item from '../widgets/Plus/Item';
 import jsdom from 'jsdom';
 
 var FAKE_DOM_HTML = `

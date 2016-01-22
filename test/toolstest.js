@@ -1,6 +1,6 @@
 import assert from 'assert';
 import should from 'should';
-import {getNext} from '../Plus-WRIO-App/stores/tools.js';
+import {getNext} from '../widgets/Plus/stores/tools.js';
 
 
 describe('tools test', () => {
