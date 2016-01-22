@@ -141,7 +141,7 @@ class CreateDomLeft extends React.Component {
                                 </a>
                             </li>
                         </ul>
-                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="webrunes-contact.htm" data-original-title="Contact us"> </a>
+                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="//webrunes-contact.htm" data-original-title="Contact us"> </a>
                     </div>
                     <Plus themeImportUrl={themeImportUrl} height={this.state.height}/>
                 </div>

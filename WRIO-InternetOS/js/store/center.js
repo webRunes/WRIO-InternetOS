@@ -10,12 +10,11 @@ module.exports = Reflux.createStore({
     mixins: [UrlMixin],
 
     fixUrlProtocol: function (url) {
-        var parsedUrl = this.parseUrl(url);
-        if ((this.getCurrentProtocol() === 'https:') && (parsedUrl.protocol === "http:")) {
-            parsedUrl.protocol = 'https:'; // let's try to get requested resource by https instead of http, if current protocol is https
-            url = this.collectUrl(parsedUrl);
+        var separatorPosition = url.indexOf('//');
+        if (separatorPosition !== -1) {
+            url = url.substring(separatorPosition + 2, url.length);
         }
-        return url;
+        return '//' + url;
     },
 
     getHttp: function (url, cb) {
