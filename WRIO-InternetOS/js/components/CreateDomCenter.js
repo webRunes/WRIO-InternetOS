@@ -14,13 +14,13 @@ var React = require('react'),
     Center = require('./Center'),
     StoreLd = require('../store/center'),
     classNames = require('classnames'),
-    ActionMenu = require('plus/js/actions/menu'),
-    StoreMenu = require('plus/js/stores/menu'),
+    ActionMenu = require('../../../widgets/Plus/actions/menu'),
+    StoreMenu = require('../../../widgets/Plus/stores/menu'),
     UrlMixin = require('../mixins/UrlMixin'),
     Alert = require('react-bootstrap').Alert,
     CreateTransactions = require('../../../widgets/transactions.jsx'),
     CenterActions = require('../actions/center'),
-    PlusStore = require('plus/js/stores/jsonld');
+    PlusStore = require('../../../widgets/Plus/stores/jsonld');
 
 class CreateDomCenter extends React.Component {
 
