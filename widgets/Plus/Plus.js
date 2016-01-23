@@ -63,11 +63,24 @@ class Plus extends React.Component {
     }
 
     static checkActive(data) {
+        var top, childActive;
         if (data) {
-            var top = Object.keys(data)
-                .filter(function(name) {
-                    return data[name].active == true;
-                }, this);
+            top = Object.keys(data).filter(function(name) {
+                if(data[name].active == true){
+                    return true
+                }else{
+                    if(data[name].children){
+                        var children = data[name].children;
+                        childActive = Object.keys(children).filter(function(childName){
+                            return children[childName].active == true
+                        });
+                        return !(top.length == 1)
+
+                    } else {
+                        return false
+                    }
+                }
+            }, this);
 
             return !(top.length == 1);
         } else {

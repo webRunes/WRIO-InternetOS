@@ -62,6 +62,44 @@ class CreateDomCenter extends React.Component {
         this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
         this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
     }
+	constructor(props) {
+		super(props);
+		this.UrlMixin = UrlMixin;
+		this.editIframeStyles = {
+			width: '100%',
+			height: '700px',
+			border: 'none'
+		};
+		this.startIframeStyles = {
+			width: '100%',
+			height: '200px',
+			border: 'none'
+		};
+		var locationSearch = this.UrlMixin.getUrlParams();
+		this.state = {
+			editMode: false,
+			actionButton: false,
+			content: {
+				type: (locationSearch) ? locationSearch : 'article'
+			},
+			nocomments: false,
+			active: false,
+			userId: false,
+			alertWarning: false,
+			alertWelcome: true,
+			editAllowed: false,
+			notDisplayCenter: false,
+			byButton: false,
+			editModeFromUrl: false,
+			transactionsModeFromUrl: false,
+			urlParams: this.UrlMixin.searchToObject()
+		};
+		this.onShowSidebar = this.onShowSidebar.bind(this);
+		this.hideAlertWarning = this.hideAlertWarning.bind(this);
+		this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
+		this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
+		this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
+	}
 
     formatUrl(url) {
         var splittedUrl = url.split('://');
@@ -138,15 +176,15 @@ class CreateDomCenter extends React.Component {
 
         window.addEventListener('message', (e) => {
 
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                let jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) {
-                    this.userId(jsmsg.profile.id);
-                }
-                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
-                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
-            }
+	            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+	            if (httpChecker.test(e.origin)) {
+	                let jsmsg = JSON.parse(e.data);
+	                if (jsmsg.profile) {
+	                    this.userId(jsmsg.profile.id);
+	                }
+	                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
+	                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
+	            }
 
         });
 
