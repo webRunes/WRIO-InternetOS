@@ -50,8 +50,7 @@ class Plus extends React.Component {
     }
 
     static checkActiveHeight(data) {
-        if (Object.keys(data)
-            .length > 0) {
+        if (Object.keys(data).length > 0) {
             return (Object.keys(data)
                 .map(function(name, i) {
                     return (data[name].active == true) ? i : null;
@@ -67,17 +66,17 @@ class Plus extends React.Component {
         if (data) {
             top = Object.keys(data).filter(function(name) {
                 if(data[name].active == true){
-                    return true
+                    return true;
                 }else{
                     if(data[name].children){
                         var children = data[name].children;
                         childActive = Object.keys(children).filter(function(childName){
-                            return children[childName].active == true
+                            return children[childName].active == true;
                         });
-                        return !(top.length == 1)
+                        return !(top.length == 1);
 
                     } else {
-                        return false
+                        return false;
                     }
                 }
             }, this);
@@ -89,10 +88,13 @@ class Plus extends React.Component {
     }
 
     render() {
+        var className, activePlus;
+
         if (this.state === null) {
             return null;
         }
-        var className = classNames({
+
+        className = classNames({
                 'navbar-collapse in unselectable': true,
                 'active': this.state.active,
                 'fixed': this.state.fixed
@@ -100,7 +102,7 @@ class Plus extends React.Component {
             height = {
                 height: this.props.height
             };
-        var activePlus = Plus.checkActive(this.state.jsonld);
+        activePlus = Plus.checkActive(this.state.jsonld);
 
         return (
             <nav className={className} unselectable="on">

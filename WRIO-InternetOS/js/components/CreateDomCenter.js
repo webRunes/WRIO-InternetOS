@@ -29,12 +29,10 @@ class CreateDomCenter extends React.Component {
         this.UrlMixin = UrlMixin;
         this.editIframeStyles = {
             width: '100%',
-            height: '700px',
             border: 'none'
         };
         this.startIframeStyles = {
             width: '100%',
-            height: '200px',
             border: 'none'
         };
         var locationSearch = this.UrlMixin.getUrlParams();
@@ -47,7 +45,7 @@ class CreateDomCenter extends React.Component {
             nocomments: false,
             active: false,
             userId: false,
-            alertWarning: true,
+            alertWarning: false,
             alertWelcome: true,
             editAllowed: false,
             notDisplayCenter: false,
@@ -62,44 +60,6 @@ class CreateDomCenter extends React.Component {
         this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
         this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
     }
-	constructor(props) {
-		super(props);
-		this.UrlMixin = UrlMixin;
-		this.editIframeStyles = {
-			width: '100%',
-			height: '700px',
-			border: 'none'
-		};
-		this.startIframeStyles = {
-			width: '100%',
-			height: '200px',
-			border: 'none'
-		};
-		var locationSearch = this.UrlMixin.getUrlParams();
-		this.state = {
-			editMode: false,
-			actionButton: false,
-			content: {
-				type: (locationSearch) ? locationSearch : 'article'
-			},
-			nocomments: false,
-			active: false,
-			userId: false,
-			alertWarning: false,
-			alertWelcome: true,
-			editAllowed: false,
-			notDisplayCenter: false,
-			byButton: false,
-			editModeFromUrl: false,
-			transactionsModeFromUrl: false,
-			urlParams: this.UrlMixin.searchToObject()
-		};
-		this.onShowSidebar = this.onShowSidebar.bind(this);
-		this.hideAlertWarning = this.hideAlertWarning.bind(this);
-		this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
-		this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
-		this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
-	}
 
     formatUrl(url) {
         var splittedUrl = url.split('://');
