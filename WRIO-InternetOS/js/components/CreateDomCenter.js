@@ -29,12 +29,10 @@ class CreateDomCenter extends React.Component {
         this.UrlMixin = UrlMixin;
         this.editIframeStyles = {
             width: '100%',
-            height: '700px',
             border: 'none'
         };
         this.startIframeStyles = {
             width: '100%',
-            height: '200px',
             border: 'none'
         };
         var locationSearch = this.UrlMixin.getUrlParams();
@@ -47,7 +45,7 @@ class CreateDomCenter extends React.Component {
             nocomments: false,
             active: false,
             userId: false,
-            alertWarning: true,
+            alertWarning: false,
             alertWelcome: true,
             editAllowed: false,
             notDisplayCenter: false,
@@ -138,15 +136,15 @@ class CreateDomCenter extends React.Component {
 
         window.addEventListener('message', (e) => {
 
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                let jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) {
-                    this.userId(jsmsg.profile.id);
-                }
-                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
-                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
-            }
+	            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+	            if (httpChecker.test(e.origin)) {
+	                let jsmsg = JSON.parse(e.data);
+	                if (jsmsg.profile) {
+	                    this.userId(jsmsg.profile.id);
+	                }
+	                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
+	                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
+	            }
 
         });
 
