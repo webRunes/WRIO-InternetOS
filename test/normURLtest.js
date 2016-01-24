@@ -14,7 +14,7 @@ describe('URL normalizer test', () => {
 
         var url = 'https://wrioos.com/index.htm';
         var normalized = normURL(url);
-        should(normalized).equal('wrioos.com')
+        should(normalized).equal('//wrioos.com')
 
     });
 });
