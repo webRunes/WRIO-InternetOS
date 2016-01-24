@@ -33,7 +33,7 @@ class CreateDomLeft extends React.Component {
     }
 
     tabsSize(height) {
-        if (window.innerHeight < ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
+        if (this.refs.navbarHeader && window.innerHeight < ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
             this.setState({
                 height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
                 innerHeight: window.innerHeight

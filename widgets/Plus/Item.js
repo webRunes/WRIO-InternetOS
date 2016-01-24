@@ -14,7 +14,7 @@ class Item extends React.Component {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
 
-        window.location = '//' + this.props.data.url;
+        window.location = this.props.data.url;
     }
     render() {
         var className = classNames({

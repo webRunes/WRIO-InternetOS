@@ -1,15 +1,13 @@
+import {fixUrlProtocol} from '../mixins/UrlMixin';
+
 class Image {
     constructor(opts) {
         this.name = opts.name;
         this.description = opts.description;
         this.url = opts.contentUrl;
         var cutUrl = this.url.split('?'),
-            positions = cutUrl[1].split(','),
-            separatorPosition = cutUrl[0].indexOf('//');
-        if (separatorPosition !== -1) {
-            cutUrl[0] = cutUrl[0].substring(separatorPosition + 2, url.length);
-        }
-        this.newUrl = '//' + cutUrl[0];
+            positions = cutUrl[1].split(',');
+        this.newUrl = fixUrlProtocol(cutUrl[0]);
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
     }

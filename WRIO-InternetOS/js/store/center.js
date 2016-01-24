@@ -4,11 +4,12 @@ var Reflux = require('reflux'),
     UrlMixin = require('../mixins/UrlMixin'),
     scripts = require('../jsonld/scripts');
 
+import {fixUrlProtocol} from '../mixins/UrlMixin';
 
 module.exports = Reflux.createStore({
     listenables: Actions,
     mixins: [UrlMixin],
-
+/*
     fixUrlProtocol: function (url) {
         var separatorPosition = url.indexOf('//');
         if (separatorPosition !== -1) {
@@ -16,9 +17,9 @@ module.exports = Reflux.createStore({
         }
         return '//' + url;
     },
-
+*/
     getHttp: function (url, cb) {
-        url = this.fixUrlProtocol(url);
+        url = fixUrlProtocol(url);
         request.get(
             url,
             (err, result) => {
