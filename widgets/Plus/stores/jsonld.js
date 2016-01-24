@@ -22,20 +22,9 @@ export default Reflux.createStore({
             .then((plus) => {
                 if (plus) {
                     this.data = plus;
-                    return storage.get('newUser');
-                } else {
-                    storage.set('newUser', true);
-                    this.data = {};
                     this.trigger(this.data);
-                }
-            }).then((newUser) => {
-                if (newUser) {
-                    storage.del('newUser');
-                    getJsonldsByUrl(
-                        this.getUrl(),
-                        this.filterItemList.bind(this)
-                    );
                 } else {
+                    this.data = {};
                     this.trigger(this.data);
                 }
             });
