@@ -1,3 +1,5 @@
+import {fixUrlProtocol} from '../mixins/UrlMixin';
+
 class Image {
     constructor(opts) {
         this.name = opts.name;
@@ -5,7 +7,7 @@ class Image {
         this.url = opts.contentUrl;
         var cutUrl = this.url.split('?'),
             positions = cutUrl[1].split(',');
-        this.newUrl = cutUrl[0];
+        this.newUrl = fixUrlProtocol(cutUrl[0]);
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
     }

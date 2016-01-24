@@ -36,5 +36,5 @@ module.exports = function (url) {
             url = rule(url);
         });
     }
-    return url;
+    return '//' + url;
 };

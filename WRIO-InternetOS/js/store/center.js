@@ -4,22 +4,22 @@ var Reflux = require('reflux'),
     UrlMixin = require('../mixins/UrlMixin'),
     scripts = require('../jsonld/scripts');
 
+import {fixUrlProtocol} from '../mixins/UrlMixin';
 
 module.exports = Reflux.createStore({
     listenables: Actions,
     mixins: [UrlMixin],
-
+/*
     fixUrlProtocol: function (url) {
-        var parsedUrl = this.parseUrl(url);
-        if ((this.getCurrentProtocol() === 'https:') && (parsedUrl.protocol === "http:")) {
-            parsedUrl.protocol = 'https:'; // let's try to get requested resource by https instead of http, if current protocol is https
-            url = this.collectUrl(parsedUrl);
+        var separatorPosition = url.indexOf('//');
+        if (separatorPosition !== -1) {
+            url = url.substring(separatorPosition + 2, url.length);
         }
-        return url;
+        return '//' + url;
     },
-
+*/
     getHttp: function (url, cb) {
-        url = this.fixUrlProtocol(url);
+        url = fixUrlProtocol(url);
         request.get(
             url,
             (err, result) => {

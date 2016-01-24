@@ -31,6 +31,13 @@ var UrlMixin = {
     collectUrl: (parsedUrl) => { return parsedUrl.href; },
     getCurrentProtocol: () => {
         return window.location.protocol;
+    },
+    fixUrlProtocol: (url) => {
+        var separatorPosition = url.indexOf('//');
+        if (separatorPosition !== -1) {
+            url = url.substring(separatorPosition + 2, url.length);
+        }
+        return '//' + url;
     }
 };
 
