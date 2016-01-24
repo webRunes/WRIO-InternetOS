@@ -99,7 +99,7 @@ class Plus extends React.Component {
             'fixed': this.state.fixed
         });
         height = {
-            height: this.props.height
+            'height': this.props.height || 'auto'
         };
         activePlus = Plus.checkActive(this.state.jsonld);
 
