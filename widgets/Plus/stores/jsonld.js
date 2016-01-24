@@ -139,10 +139,10 @@ export default Reflux.createStore({
         Object.keys(obj)
             .forEach(function(key) {
                 var o = obj[key];
-                if (o.active !== undefined) {
+                if (o && o.active !== undefined) {
                     obj[key].active = false;
                 }
-                if (o.children) {
+                if (o && o.children) {
                     this.removeLastActive(obj[key]);
                 }
             }, this);
