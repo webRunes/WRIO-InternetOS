@@ -73,8 +73,7 @@ class Plus extends React.Component {
                         childActive = Object.keys(children).filter(function(childName){
                             return children[childName].active == true;
                         });
-                        return !(top.length == 1);
-
+                        return top ? !(top.length == 1) : false;
                     } else {
                         return false;
                     }
@@ -95,13 +94,13 @@ class Plus extends React.Component {
         }
 
         className = classNames({
-                'navbar-collapse in unselectable': true,
-                'active': this.state.active,
-                'fixed': this.state.fixed
-            }),
-            height = {
-                height: this.props.height
-            };
+            'navbar-collapse in unselectable': true,
+            'active': this.state.active,
+            'fixed': this.state.fixed
+        });
+        height = {
+            height: this.props.height
+        };
         activePlus = Plus.checkActive(this.state.jsonld);
 
         return (
