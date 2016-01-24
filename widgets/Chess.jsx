@@ -36,7 +36,7 @@ export default class Chess extends React.Component {
                     } else {
                         request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
                             if (res) {
-                                res = res.body;
+                                res = res.body || {};
                                 this.setState({
                                     profile: jsmsg,
                                     user: res.user,

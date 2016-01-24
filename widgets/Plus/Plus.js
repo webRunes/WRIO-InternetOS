@@ -34,7 +34,7 @@ class Plus extends React.Component {
         });
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.listenStoreLd = StoreLd.listen(this.onStateChange);
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
         actions.read();
