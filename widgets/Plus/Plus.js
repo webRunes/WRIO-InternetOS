@@ -88,7 +88,7 @@ class Plus extends React.Component {
     }
 
     render() {
-        var className, activePlus;
+        var className, activePlus, height;
 
         if (this.state === null) {
             return null;
