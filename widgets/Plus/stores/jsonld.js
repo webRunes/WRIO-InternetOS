@@ -42,6 +42,7 @@ export default Reflux.createStore({
     },
     pending: 0,
     onData: function(params) {
+        console.log('onData');
         var o = params.tab,
             parentName = params.parent,
             key;
@@ -58,12 +59,12 @@ export default Reflux.createStore({
             if (this.data[key].children === undefined) {
                 this.data[key].children = {};
             }
-            this.data[key].children[o.url] = o;
+            this.data[key].children[normURL(o.url)] = o;
         } else {
             if (o.author) {
                 console.warn('plus: author [' + o.author + '] do not have type Article');
             }
-            key = o.url;
+            key = normURL(o.url);
             this.data[key] = o;
         }
         this.pending -= 1;
@@ -139,10 +140,10 @@ export default Reflux.createStore({
             .forEach(function(key) {
                 var o = obj[key];
                 if (o.active !== undefined) {
-                    delete o.active;
+                    obj[key].active = false;
                 }
                 if (o.children) {
-                    this.removeLastActive(o.children);
+                    this.removeLastActive(obj[key]);
                 }
             }, this);
     },
