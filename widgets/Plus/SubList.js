@@ -15,7 +15,7 @@ class SubList extends React.Component{
         this.gotoUrl = this.gotoUrl.bind(this);
     }
     gotoUrl () {
-        window.location = '//' + this.props.data.url;
+        window.location = this.props.data.url;
     }
     createItem () {
         var children = this.props.data.children;
@@ -53,7 +53,7 @@ class SubList extends React.Component{
             });
         return (
             <li className={className}>
-                <a href={'//' + this.props.data.url} onClick={this.gotoUrl} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
+                <a href={this.props.data.url} onClick={this.gotoUrl} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
                     <span className="qty pull-right">{rightContent}</span>
                     <span>{name}</span>
                 </a>
