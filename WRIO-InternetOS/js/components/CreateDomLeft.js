@@ -35,7 +35,7 @@ class CreateDomLeft extends React.Component {
     tabsSize(height) {
         if (this.refs.navbarHeader && window.innerHeight < ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
             this.setState({
-                height: window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
+                height: window.innerHeight - (ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
                 innerHeight: window.innerHeight
             });
         } else {
@@ -50,7 +50,7 @@ class CreateDomLeft extends React.Component {
         if (this.state.innerHeight != window.innerHeight) {
             this.setState({
                 innerHeight: window.innerHeight,
-                height: (window.innerWidth > 767) ? window.innerHeight - (React.findDOMNode(this.refs.navbarHeader).offsetHeight + 41) : 'auto'
+                height: (window.innerWidth > 767) ? window.innerHeight - (ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + 41) : 'auto'
             });
         }
     }
