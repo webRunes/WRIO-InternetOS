@@ -282,10 +282,6 @@ var CreateTitter = React.createClass({
             that.setState({nocomments: true});
             return;
         }
-        if (this.props.disabled) {
-            that.setState({titterDisabled: true});
-            return;
-        }
         titteriframe.addEventListener('load', function () {
             var comment, author;
             var id = that.getJsonLDProperty(that.props.scripts,'comment');
@@ -367,9 +363,6 @@ var CreateTitter = React.createClass({
                 return (
                     <div key="a" className="alert alert-warning">Comments are disabled. </div>
                 );
-            }
-            if (this.props.disabled) {
-                return false;
             }
             if (this.state.article) {
 

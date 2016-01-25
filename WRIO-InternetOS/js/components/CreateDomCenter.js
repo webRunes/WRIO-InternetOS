@@ -183,7 +183,7 @@ class CreateDomCenter extends React.Component {
             editModeFromUrl: false,
             notDisplayCenter: false,
             byButton: true,
-            nocomments: false
+            condition: false
         });
     }
 
@@ -192,7 +192,7 @@ class CreateDomCenter extends React.Component {
             editMode: true,
             notDisplayCenter: true,
             byButton: true,
-            titterDisabled: true
+            condition: true
         });
     }
 
@@ -202,7 +202,7 @@ class CreateDomCenter extends React.Component {
             byButton: true,
             transactionsMode: true,
             actionButton: "Transactions",
-            titterDisabled: true,
+            condition: true,
             notDisplayCenter: true
         });
     }
@@ -251,21 +251,18 @@ class CreateDomCenter extends React.Component {
         var displayWebgold = '';
         var displayChess = '';
         var nocomments = false;
-        var titterDisabled = false;
 
         //var urlParams = this.UrlMixin.searchToObject();
         //var notDisplayCenter = false;
         if (!this.state.byButton) {
             if (this.state.urlParams.add_funds) {
-                condition = false;
-                this.state.titterDisabled = true;
+                condition = true;
                 displayWebgold = (<iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
                 this.state.notDisplayCenter = true;
             }
 
             if (this.state.urlParams.transactions) {
-                condition = false;
-                this.state.titterDisabled = true;
+                condition = true;
                 this.state.actionButton = "Transactions";
                 this.state.transactionsModeFromUrl = true;
                 displayWebgold = (
@@ -275,15 +272,13 @@ class CreateDomCenter extends React.Component {
             }
 
             if (this.state.urlParams.create) {
-                condition = false;
-                this.state.titterDisabled = true;
+                condition = true;
                 this.state.notDisplayCenter = true;
                 displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
             }
 
             if (this.state.urlParams.edit && this.state.editAllowed) {
-                condition = false;
-                this.state.titterDisabled = true;
+                condition = true;
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter = true;
@@ -291,9 +286,9 @@ class CreateDomCenter extends React.Component {
             }
 
             if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {
+                condition = true;
                 this.state.notDisplayCenter = true;
                 this.state.actionButton = "Start";
-                this.state.titterDisabled = true;
                 displayChess = (<Chess uuid={this.state.urlParams.start}/>);
             }
         }
@@ -330,8 +325,8 @@ class CreateDomCenter extends React.Component {
                     { displayCore }
                     { displayWebgold }
                     { displayChess }
-                    <div style={{display: condition ? 'none' : 'block'}}>
-                        <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments } disabled={this.state.titterDisabled}/>
+                    <div style={{display: condition || this.state.condition ? 'none' : 'block'}}>
+                        <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
                     </div>
                 </div>
             </div>
