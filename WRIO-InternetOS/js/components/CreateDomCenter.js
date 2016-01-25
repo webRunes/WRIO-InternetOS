@@ -46,7 +46,7 @@ class CreateDomCenter extends React.Component {
             titterDisabled: false,
             active: false,
             userId: false,
-            alertWarning: false,
+            alertWarning: true,
             alertWelcome: true,
             editAllowed: false,
             notDisplayCenter: false,
