@@ -1,6 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
-
+import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
 var domain = getDomain();
 
 var CreateTransactions = React.createClass({
@@ -16,18 +16,10 @@ var CreateTransactions = React.createClass({
     createTransactionsWidget: function() {
         var twheight = 10000;
         document.getElementById('transactionsiframe').style.height = '240px';
-
-        window.addEventListener('message', function (e) {
-
-                var message = e.data;
-                var httpChecker = new RegExp('^(http|https)://webgold.' + domain, 'i');
-                if (httpChecker.test(e.origin)) {
-                    var jsmsg = JSON.parse(message);
-
-                    if (jsmsg.transactionsHeight) {
-                        document.getElementById('transactionsiframe').style.height = jsmsg.transactionsHeight+'px';
-                    }
-                };
+        WindowActions.webGoldMessage.listen((msg)=> {
+            if (msg.transactionsHeight) {
+                document.getElementById('transactionsiframe').style.height = msg.transactionsHeight+'px';
+            }
         });
 
     },

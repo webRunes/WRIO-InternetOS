@@ -3,6 +3,7 @@ import Actions from '../WRIO-InternetOS/js/actions/center';
 import Details from'./Details.jsx';
 import moment from 'moment';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
+import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
 
 var domain = getDomain();
 
@@ -42,50 +43,44 @@ class Login extends React.Component{
 
         var that = this;
 
-        window.addEventListener('message', function (e) {
-            var message = e.data;
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                var jsmsg = JSON.parse(message);
+        WindowActions.loginMessage.listen((jsmsg) => {
+            if (jsmsg.login == "success") {
+                location.reload();
+            }
 
-                if (jsmsg.login == "success") {
-                    location.reload();
-                }
-
-                if (jsmsg.profile) {
-                    jsmsg = jsmsg.profile;
-                    Actions.gotWrioID(jsmsg.id);
-                    if (jsmsg.temporary) {
-                        that.setState({
-                            title: {
-                                text: "Logged as I'm Anonymous ",
-                                label: 'WRIO',
-                                link: {
-                                    url: jsmsg.url
-                                }
-                            },
-                            upgrade: {
-                                text: "Upgrade guest account for free",
-                                label: jsmsg.days + ' days left',
-                                visible: true
+            if (jsmsg.profile) {
+                var profile = jsmsg.profile;
+                Actions.gotWrioID(profile.id);
+                if (profile.temporary) {
+                    that.setState({
+                        title: {
+                            text: "Logged as I'm Anonymous ",
+                            label: 'WRIO',
+                            link: {
+                                url: profile.url
                             }
-                        });
-                    } else {
-                        that.setState({
-                            title: {
-                                text: "Logged in as " + jsmsg.name,
-                                label: 'WRIO',
-                                link: {
-                                    url: jsmsg.url
-                                }
-                            },
-                            upgrade: {
-                                text: "Lock up or switch user",
-                                label: jsmsg.days + ' days left',
-                                visible: false
+                        },
+                        upgrade: {
+                            text: "Upgrade guest account for free",
+                            label: profile.days + ' days left',
+                            visible: true
+                        }
+                    });
+                } else {
+                    that.setState({
+                        title: {
+                            text: "Logged in as " + profile.name,
+                            label: 'WRIO',
+                            link: {
+                                url: profile.url
                             }
-                        });
-                    }
+                        },
+                        upgrade: {
+                            text: "Lock up or switch user",
+                            label: profile.days + ' days left',
+                            visible: false
+                        }
+                    });
                 }
             }
         });

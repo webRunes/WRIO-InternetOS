@@ -1,26 +1,27 @@
 import {getServiceUrl,getDomain} from '../servicelocator.js';
+import React from 'react';
+import Reflux from 'reflux';
+import Login from '../../../widgets/Login.jsx';
+import Chess from '../../../widgets/Chess.jsx';
+import Details from '../../../widgets/Details.jsx';
+import {importUrl} from '../global';
+import {theme} from '../global';
+import CreateBreadcrumb from './CreateBreadcrumb';
+import CreateTitter from '../../../widgets/titter.jsx';
+import Center from './Center';
+import StoreLd from '../store/center';
+import classNames from 'classnames';
+import ActionMenu from '../../../widgets/Plus/actions/menu';
+import StoreMenu from '../../../widgets/Plus/stores/menu';
+import UrlMixin from '../mixins/UrlMixin';
+import {Alert} from 'react-bootstrap';
+import CreateTransactions from '../../../widgets/transactions.jsx';
+import CenterActions from '../actions/center';
+import PlusStore from '../../../widgets/Plus/stores/jsonld';
+import WindowActions from '../actions/WindowActions.js';
+import WindowActionStore from '../store/WindowMessage.js';
 
 var domain = getDomain();
-
-var React = require('react'),
-    Reflux = require('reflux'),
-    Login = require('../../../widgets/Login.jsx'),
-    Chess = require('../../../widgets/Chess.jsx'),
-    Details = require('../../../widgets/Details.jsx'),
-    importUrl = require('../global').importUrl,
-    theme = require('../global').theme,
-    CreateBreadcrumb = require('./CreateBreadcrumb'),
-    CreateTitter = require('../../../widgets/titter.jsx'),
-    Center = require('./Center'),
-    StoreLd = require('../store/center'),
-    classNames = require('classnames'),
-    ActionMenu = require('../../../widgets/Plus/actions/menu'),
-    StoreMenu = require('../../../widgets/Plus/stores/menu'),
-    UrlMixin = require('../mixins/UrlMixin'),
-    Alert = require('react-bootstrap').Alert,
-    CreateTransactions = require('../../../widgets/transactions.jsx'),
-    CenterActions = require('../actions/center'),
-    PlusStore = require('../../../widgets/Plus/stores/jsonld');
 
 class CreateDomCenter extends React.Component {
 
@@ -134,19 +135,14 @@ class CreateDomCenter extends React.Component {
         });
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
-        window.addEventListener('message', (e) => {
-
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                let jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) {
-                    this.userId(jsmsg.profile.id);
-                }
-                PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
-                PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
+        WindowActions.loginMessage.listen((msg)=> {
+            if (msg.profile) {
+                this.userId(msg.profile.id);
             }
-
+            PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
+            PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
         });
+
     }
 
     onStateChange(state) {
