@@ -20,13 +20,8 @@ export default Reflux.createStore({
                 return storage.get('plus');
             })
             .then((plus) => {
-                if (plus) {
-                    this.data = plus;
-                    this.trigger(this.data);
-                } else {
-                    this.data = {};
-                    this.trigger(this.data);
-                }
+                this.data = plus || {};
+                this.trigger(this.data);
             });
     },
     pending: 0,
