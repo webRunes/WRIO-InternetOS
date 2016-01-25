@@ -261,7 +261,7 @@ class CreateDomCenter extends React.Component {
         if (!this.state.byButton) {
             if (this.state.urlParams.add_funds) {
                 displayTitterCondition = true;
-                displayWebgold = (<iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
+                displayWebgold = (<iframe src={'https://webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
                 this.state.notDisplayCenter = true;
             }
 
@@ -278,7 +278,7 @@ class CreateDomCenter extends React.Component {
             if (this.state.urlParams.create) {
                 displayTitterCondition = true;
                 this.state.notDisplayCenter = true;
-                displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
+                displayCore = (<iframe src={'https://core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
             }
 
             if (this.state.urlParams.edit && this.state.editAllowed) {
@@ -286,7 +286,7 @@ class CreateDomCenter extends React.Component {
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter = true;
-                displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
+                displayCore = (<iframe src={'https://core.'+process.env.DOMAIN+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
             }
 
             if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {
