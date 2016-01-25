@@ -189,7 +189,8 @@ var Donate = React.createClass({
 var CreateTitter = React.createClass({
     propTypes: {
         scripts: React.PropTypes.array.isRequired,
-        nocomments: React.PropTypes.bool
+        nocomments: React.PropTypes.bool,
+        disabled: React.PropTypes.bool
     },
     createTwitterWidget: function (commentId) {
         window.onTimelineLoad = function () {
