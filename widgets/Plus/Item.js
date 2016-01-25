@@ -1,17 +1,42 @@
 import React from 'react';
 import classNames from 'classnames';
+import normURL from './stores/normURL';
+import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
+
+var storage = new CrossStorageFactory().getCrossStorage();
 
 class Item extends React.Component {
     constructor(props) {
         super(props);
         this.gotoUrl = this.gotoUrl.bind(this);
     }
-    gotoUrl() {
+    gotoUrl(e) {
         if (window.localStorage) {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
-
-        window.location = this.props.data.url;
+        storage.onConnect()
+            .then(() =>{
+                return storage.get('plus');
+            })
+            .then((plus) => {
+                if (plus) {
+                    Object.keys(plus).forEach((item, i) => {
+                        if (normURL(item) === normURL(window.location.href)) {
+                            var _tmp = plus[item];
+                            _tmp.url = window.location.href;
+                            delete plus[item];
+                            plus[window.location.href] = _tmp;
+                        }
+                    });
+                    storage.del('plus');
+                    storage.set('plus', plus);
+                    window.location = this.props.data.url;
+                }
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
+        e.preventDefault();
     }
     render() {
         var className = classNames({

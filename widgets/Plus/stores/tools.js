@@ -2,16 +2,20 @@ var sortBy = require('lodash.sortby'),
     request = require('superagent');
 
 module.exports.lastOrder = function (x) {
-    var keys = Object.keys(x),
-        max = (keys.length === 0) ? 0 : x[keys[0]].order,
-        i;
-    for (i = 1; i < keys.length; i += 1) {
-        var order = x[keys[i]].order;
-        if (order > max) {
-            max = order;
+    var keys = Object.keys(x);
+    if (keys.length === 0) {
+        return 0;
+    } else {
+        var max = x[keys[0]].order,
+            i;
+        for (i = 0; i < keys.length; i += 1) {
+            var order = x[keys[i]].order;
+            if (order > max) {
+                max = order;
+            }
         }
+        return max+1;
     }
-    return max;
 };
 
 module.exports.getNext = function (data, current) {

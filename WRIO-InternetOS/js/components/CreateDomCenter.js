@@ -183,7 +183,7 @@ class CreateDomCenter extends React.Component {
             editModeFromUrl: false,
             notDisplayCenter: false,
             byButton: true,
-            condition: false
+            displayTitterCondition: false
         });
     }
 
@@ -192,7 +192,7 @@ class CreateDomCenter extends React.Component {
             editMode: true,
             notDisplayCenter: true,
             byButton: true,
-            condition: true
+            displayTitterCondition: true
         });
     }
 
@@ -202,7 +202,7 @@ class CreateDomCenter extends React.Component {
             byButton: true,
             transactionsMode: true,
             actionButton: "Transactions",
-            condition: true,
+            displayTitterCondition: true,
             notDisplayCenter: true
         });
     }
@@ -241,14 +241,14 @@ class CreateDomCenter extends React.Component {
 
     render() {
         var type = this.UrlMixin.searchToObject().list,
-            condition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
+            displayTitterCondition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
             className = classNames({
                 'col-xs-12 col-sm-5 col-md-7 content content-offcanvas': true,
                 'active': this.state.active
             });
 
         this.props.data.forEach((e) => {
-            condition = e['@type'] !== 'Article';
+            displayTitterCondition = e['@type'] !== 'Article';
         });
 
         var displayCore = '';
@@ -260,13 +260,13 @@ class CreateDomCenter extends React.Component {
         //var notDisplayCenter = false;
         if (!this.state.byButton) {
             if (this.state.urlParams.add_funds) {
-                condition = true;
+                displayTitterCondition = true;
                 displayWebgold = (<iframe src={'//webgold.'+process.env.DOMAIN+'/add_funds'} style={ this.editIframeStyles }/>);
                 this.state.notDisplayCenter = true;
             }
 
             if (this.state.urlParams.transactions) {
-                condition = true;
+                displayTitterCondition = true;
                 this.state.actionButton = "Transactions";
                 this.state.transactionsModeFromUrl = true;
                 displayWebgold = (
@@ -276,13 +276,13 @@ class CreateDomCenter extends React.Component {
             }
 
             if (this.state.urlParams.create) {
-                condition = true;
+                displayTitterCondition = true;
                 this.state.notDisplayCenter = true;
                 displayCore = (<iframe src={'//core.'+process.env.DOMAIN+'/create'} style={ this.editIframeStyles }/>);
             }
 
             if (this.state.urlParams.edit && this.state.editAllowed) {
-                condition = true;
+                displayTitterCondition = true;
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter = true;
@@ -290,7 +290,7 @@ class CreateDomCenter extends React.Component {
             }
 
             if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {
-                condition = true;
+                displayTitterCondition = true;
                 this.state.notDisplayCenter = true;
                 this.state.actionButton = "Start";
                 displayChess = (<Chess uuid={this.state.urlParams.start}/>);
@@ -329,7 +329,7 @@ class CreateDomCenter extends React.Component {
                     { displayCore }
                     { displayWebgold }
                     { displayChess }
-                    <div style={{display: condition || this.state.condition ? 'none' : 'block'}}>
+                    <div style={{display: displayTitterCondition || this.state.displayTitterCondition ? 'none' : 'block'}}>
                         <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
                     </div>
                 </div>
