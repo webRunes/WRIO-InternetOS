@@ -4,9 +4,6 @@ import classNames from 'classnames';
 class Item extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            active: props.data ? props.data.active : false
-        };
         this.gotoUrl = this.gotoUrl.bind(this);
     }
     gotoUrl() {
@@ -18,7 +15,7 @@ class Item extends React.Component {
     }
     render() {
         var className = classNames({
-                active: this.state.active,
+                active: this.props.data ? this.props.data.active : false,
                 panel: true
             }),
             data = this.props.data,
