@@ -68,7 +68,7 @@ export default class Chess extends React.Component {
                 .end((err, res) => {
                     if (err || !res) {
                         this.setState({
-                            footer: 'Link Expired',
+                            footer: 'expired',
                             expired: true
                         });
                     } else {
@@ -86,7 +86,7 @@ export default class Chess extends React.Component {
                 }).end((err, res) => {
                     if (err || !res) {
                         this.setState({
-                            footer: 'Link Expired',
+                            footer: 'expired',
                             expired: true
                         });
                     } else {
