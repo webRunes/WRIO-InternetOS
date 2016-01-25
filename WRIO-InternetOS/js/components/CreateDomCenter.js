@@ -247,6 +247,10 @@ class CreateDomCenter extends React.Component {
                 'active': this.state.active
             });
 
+        this.props.data.forEach((e) => {
+            condition = e['@type'] !== 'Article';
+        });
+
         var displayCore = '';
         var displayWebgold = '';
         var displayChess = '';
