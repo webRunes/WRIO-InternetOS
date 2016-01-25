@@ -37,7 +37,6 @@ describe('Item test', () => {
             <Item data={data} del={()=>{}}/>
         );
 
-        expect(item.state.active).to.equal(data.active);
         expect(item.refs.tab.textContent).to.equal(data.name);
         expect(item.refs.tab._attributes.href._nodeValue).to.equal(data.url);
     });

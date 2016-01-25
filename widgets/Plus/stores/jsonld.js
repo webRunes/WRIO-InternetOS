@@ -93,11 +93,15 @@ export default Reflux.createStore({
             }
         } else {
             key = o.url;
-            if (this.data[key]) {
-                this.data[key].active = true;
-            } else {
+            Object.keys(this.data).forEach((item) => {
+                if (normURL(item) === normURL(key)) {
+                    this.data[item].active = true;
+                    key = undefined;
+                }
+            });
+            if (key) {
+                o.order = lastOrder(this.data);
                 this.data[key] = o;
-                this.data[key].order = lastOrder(this.data);
             }
         }
     },
@@ -148,7 +152,7 @@ export default Reflux.createStore({
                 if ((typeof json === 'object') && (json['@type'] === 'ItemList')) {
                     o = {
                         name: json.name,
-                        url: normURL(window.location.href),
+                        url: window.location.href,
                         author: normURL(json.author),
                         active: true
                     };
@@ -157,7 +161,7 @@ export default Reflux.createStore({
                 if ((typeof json === 'object') && (json['@type'] === 'Article')) {
                     o = {
                         name: json.name,
-                        url: normURL(window.location.href),
+                        url: window.location.href,
                         author: normURL(json.author),
                         active: true
                     };
