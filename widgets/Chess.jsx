@@ -57,12 +57,6 @@ export default class Chess extends React.Component {
                 }
         });
     }
-
-    componentDidMount() {
-        if (this.state.profile && !this.state.expired && !this.state.alien) {
-            this.start();
-        }
-    }
     
     start() {
         if (this.state.invite && this.state.invite !== '') {
@@ -73,9 +67,15 @@ export default class Chess extends React.Component {
                 })
                 .end((err, res) => {
                     if (err || !res) {
-                        this.state.footer = 'Link Expired';
+                        this.setState({
+                            footer: 'Link expired',
+                            expired: true
+                        });
                     } else {
-                        this.state.footer = 'Game started, you can return to Twitter';
+                        this.setState({
+                            footer: 'Game started, you can return to Twitter',
+                            expired: true
+                        });
                         window.close();
                     }
                 });
@@ -84,13 +84,27 @@ export default class Chess extends React.Component {
                 .send({
                     uuid: this.props.uuid
                 }).end((err, res) => {
-                    this.state.footer = 'Game started, you can return to Twitter';
-                    window.close();
+                    if (err || !res) {
+                        this.setState({
+                            footer: 'Link expired',
+                            expired: true
+                        });
+                    } else {
+                        this.setState({
+                            footer: 'Game started, you can return to Twitter',
+                            expired: true
+                        });
+                        window.close();
+                    }
                 });
         }
     }
 
     render() {
+        if (this.state.profile && !this.state.expired && !this.state.alien) {
+            this.start();
+        }
+
         var button = this.state.invite ? "Accept" : "Start";
         var _button = this.state.invite ? "Login & Accept" : "Login & Start";
 
