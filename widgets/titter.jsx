@@ -1,5 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
+import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
 
 var domain = getDomain();
 
@@ -219,17 +220,10 @@ var CreateTitter = React.createClass({
 
         document.getElementById('titteriframe').style.height = '240px';
 
-        window.addEventListener('message', function (e) {
-
-                var message = e.data;
-                var httpChecker = new RegExp('^(http|https)://titter.' + domain, 'i');
-                if (httpChecker.test(e.origin)) {
-                    var jsmsg = JSON.parse(message);
-
-                    if (jsmsg.titterHeight) {
-                        document.getElementById('titteriframe').style.height = jsmsg.titterHeight+'px';
-                    }
-                };
+        WindowActions.titterMessage.listen((msg)=> {
+            if (msg.titterHeight) {
+                document.getElementById('titteriframe').style.height = msg.titterHeight+'px';
+            }
         });
 
         var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';

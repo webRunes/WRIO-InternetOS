@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {getServiceUrl,getDomain} from '../../WRIO-InternetOS/js/servicelocator.js';
-
+import WindowActions from '../../WRIO-InternetOS/js/actions/WindowActions.js';
 var domain = getDomain();
 
 class P extends React.Component{
@@ -21,18 +21,11 @@ class P extends React.Component{
 
     }
     componentDidMount () {
-        window.addEventListener('message', function (e) {
-
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                var jsmsg = JSON.parse(e.data);
-                if (jsmsg.profile) {
-                    this.userId(jsmsg.profile.id);
-                }
-
+       WindowActions.loginMessage.listen((jsmsg) => {
+            if (jsmsg.profile) {
+                this.userId(jsmsg.profile.id);
             }
-
-        }.bind(this));
+        });
     }
 
     gotoUrl(){
