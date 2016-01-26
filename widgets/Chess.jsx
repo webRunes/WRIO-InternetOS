@@ -17,7 +17,6 @@ export default class Chess extends React.Component {
     }
 
     requestChess(jsmsg) {
-        // TODO: is that safe? can any sensible information be got by thrird party?
         request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
             if (res) {
                 res = res.body || {};
