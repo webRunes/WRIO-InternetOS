@@ -22,7 +22,7 @@ export default class CreateControlButtons extends React.Component {
     }
 
     onCloseClick() {
-        var url = normURL(window.location.href);
+        var url = window.location.href;
         var parentUrl = this.props.author.url ? normURL(this.props.author.url) : undefined;
         parentUrl ? PlusActions.del(parentUrl, url) : PlusActions.del(url);
     }
