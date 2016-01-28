@@ -26,6 +26,10 @@ module.exports = Reflux.createStore({
                 WindowActions.titterMessage.trigger(msg);
             }
 
+            httpChecker = new RegExp('^(http|https)://core.' + domain, 'i');
+            if (httpChecker.test(e.origin)) {
+                WindowActions.coreMessage.trigger(msg);
+            }
             httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
                 WindowActions.loginMessage.trigger(msg);
