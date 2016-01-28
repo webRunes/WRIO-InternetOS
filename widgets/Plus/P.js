@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import {getServiceUrl,getDomain} from '../../WRIO-InternetOS/js/servicelocator.js';
+import Actions from './actions/jsonld';
 import WindowActions from '../../WRIO-InternetOS/js/actions/WindowActions.js';
+
 var domain = getDomain();
 
 class P extends React.Component{
@@ -28,11 +30,14 @@ class P extends React.Component{
         });
     }
 
-    gotoUrl(){
-        window.location = '//wr.io/' + this.state.userId + '/Plus-WRIO-App/';
+    gotoUrl(e) {
+        Actions.plusActive(true, '//wr.io/' + this.state.userId + '/Plus-WRIO-App/', () => {
+            window.location = '//wr.io/' + this.state.userId + '/Plus-WRIO-App/';
+        });
+        e.preventDefault();
     }
 
-    render(){
+    render() {
         var className = classNames(
             'new panel',
             {
@@ -43,7 +48,7 @@ class P extends React.Component{
 
         return (
             <div className={className}>
-                <a onClick={this.gotoUrl} style={{width: '100%'}} className="collapsed">
+                <a href={'//wr.io/' + this.state.userId + '/Plus-WRIO-App/'} onClick={this.gotoUrl} style={{width: '100%'}} className="collapsed">
                     <span className="glyphicon glyphicon-plus"></span>
                 </a>
             </div>

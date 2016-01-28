@@ -4,19 +4,21 @@ import Item from './Item';
 import classNames from 'classnames';
 import sortBy from 'lodash.sortby';
 import some from 'lodash.some';
+import normURL from './stores/normURL';
+import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
+import GenericListItem from './GenericListItem';
 
-class SubList extends React.Component{
+var storage = new CrossStorageFactory().getCrossStorage();
+
+class SubList extends GenericListItem {
     constructor(props){
         super(props);
         this.style = {
             overflow: 'hidden',
             height: ''
         };
-        this.gotoUrl = this.gotoUrl.bind(this);
     }
-    gotoUrl () {
-        window.location = this.props.data.url;
-    }
+
     createItem () {
         var children = this.props.data.children;
         return sortBy(
@@ -53,7 +55,7 @@ class SubList extends React.Component{
             });
         return (
             <li className={className}>
-                <a href={this.props.data.url} onClick={this.gotoUrl} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
+                <a href={this.props.data.url} onClick={this.gotoUrl.bind(this)} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
                     <span className="qty pull-right">{rightContent}</span>
                     <span>{name}</span>
                 </a>
@@ -67,9 +69,4 @@ class SubList extends React.Component{
     }
 }
 
-SubList.propTypes = {
-    data: React.PropTypes.object.isRequired
-};
-
 module.exports = SubList;
-
