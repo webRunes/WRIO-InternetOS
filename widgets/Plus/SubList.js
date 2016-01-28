@@ -19,51 +19,6 @@ class SubList extends GenericListItem {
         };
     }
 
-/*    modifyCurrentUrl(plus) {
-        Object.keys(plus).forEach((item) => {
-            if (normURL(item) === normURL(window.location.href)) {
-                var _tmp = plus[item];
-                _tmp.url = window.location.href;
-                delete plus[item];
-                plus[window.location.href] = _tmp;
-            } else if (plus[item].children) {
-                Object.keys(plus[item].children).forEach((child) => {
-                    if (normURL(child) === normURL(window.location.href)) {
-                        var _tmp = plus[item].children[child];
-                        _tmp.url = window.location.href;
-                        delete plus[item].children[child];
-                        plus[item].children[window.location.href] = _tmp;
-                    }
-                });
-            }
-        });
-        console.log('plus2', plus)
-        return plus;
-    }
-
-    async gotoUrl(e) {
-        console.log('gotoUrl called')
-        var _storage = await storage.onConnect();
-        console.log(_storage)
-        try {
-        var plus = await storage.get('plus');
-        console.log('plus1', plus)
-        } catch(err) {
-            console.log(err)
-        }
-        if (!plus) {
-            console.log('ololo')
-            return;
-        }
-        plus = this.modifyCurrentUrl(plus);
-        console.log('plus3', plus)
-        await storage.del('plus');
-        await storage.set('plus', plus);
-        await storage.del('plusActive');
-        window.location = this.props.data.url;
-        e.preventDefault();
-    }
-*/
     createItem () {
         var children = this.props.data.children;
         return sortBy(

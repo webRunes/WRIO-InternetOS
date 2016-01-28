@@ -11,44 +11,6 @@ class Item extends GenericListItem {
         super(props);
     }
 
-/*    modifyCurrentUrl(plus) {
-        Object.keys(plus).forEach((item) => {
-            if (normURL(item) === normURL(window.location.href)) {
-                var _tmp = plus[item];
-                _tmp.url = window.location.href;
-                delete plus[item];
-                plus[window.location.href] = _tmp;
-            } else if (plus[item].children) {
-                Object.keys(plus[item].children).forEach((child) => {
-                    if (normURL(child) === normURL(window.location.href)) {
-                        var _tmp = plus[item].children[child];
-                        _tmp.url = window.location.href;
-                        delete plus[item].children[child];
-                        plus[item].children[window.location.href] = _tmp;
-                    }
-                });
-            }
-        });
-        return plus;
-    }
-
-    async gotoUrl(e) {
-        if (window.localStorage) {
-            localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
-        }
-        await storage.onConnect();
-        var plus = await storage.get('plus');
-        if (!plus) {
-            return;
-        }
-        plus = this.modifyCurrentUrl(plus);
-        await storage.del('plus');
-        await storage.set('plus', plus);
-        await storage.del('plusActive');
-        window.location = this.props.data.url;
-        e.preventDefault();
-    }
-*/
     render() {
         var className = classNames({
                 active: this.props.data ? this.props.data.active : false,
