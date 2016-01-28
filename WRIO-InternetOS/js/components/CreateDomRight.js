@@ -160,16 +160,10 @@ var CreateDomRight = React.createClass({
     componentWillMount: function() {
         this.props.data.forEach((o) => {
             if (o['@type'] === 'Article') {
-                this.state.article = o;
-                if (o.author) {
-                    var regexp = o.author.match(/(.*)\?wr.io=([0-9]+)$/);
-                    this.setState({
-                        author: {
-                            id: regexp[2],
-                            url: regexp[1]
-                        }
-                    });
-                }
+                this.setState({
+                    article: o,
+                    author: o.author || ''
+                });
             }
         });
     },

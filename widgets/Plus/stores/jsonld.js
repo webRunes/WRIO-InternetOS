@@ -69,27 +69,44 @@ export default Reflux.createStore({
             parentName = params.parent,
             key;
         this.data = this.data || {};
-        if (o.author) {
+        if (o.author && !params.noAuthor) {
             //check parent
             key = o.author;
-            if (this.data[key] === undefined) {
+            Object.keys(this.data).forEach((item) => {
+                if (normURL(item) === normURL(key)) {
+                    key = undefined;
+                }
+            });
+            if (key) {
                 this.data[key] = {
                     name: parentName,
                     url: key,
-                    order: lastOrder(this.data) + 1
+                    order: lastOrder(this.data)
                 };
             }
-            if (this.data[key].children === undefined) {
+            key = o.author;
+            var children;
+            Object.keys(this.data).forEach((item) => {
+                if (normURL(item) === normURL(key) && this.data[item].children) {
+                    children = this.data[item].children;
+                    key = undefined;
+                }
+            });
+            if (key) {
                 this.data[key].children = {};
+                children = this.data[key].children;
             }
-            var children = this.data[key].children;
             //update child
             key = o.url;
-            if (children[key]) {
-                children[key].active = true;
-            } else {
+            Object.keys(children).forEach((item) => {
+                if (normURL(item) === normURL(key)) {
+                    children[item].active = true;
+                    key = undefined;
+                }
+            });
+            if (key) {
+                o.order = lastOrder(children);
                 children[key] = o;
-                children[key].order = lastOrder(children);
             }
         } else {
             key = o.url;
@@ -107,21 +124,48 @@ export default Reflux.createStore({
     },
     update: function(cb) {
         storage.onConnect()
-            .then(function() {
+            .then(() => {
                 storage.del('plus');
                 storage.set('plus', this.data);
-            }.bind(this))
+            })
             .then(cb);
+    },
+    onPlusActive: function(active, url, cb) {
+        storage.onConnect()
+            .then(() => {
+                storage.del('plusActive');
+                storage.set('plusActive', {
+                    active: active,
+                    url: url || normURL(window.location.href)
+                });
+                cb();
+            });
     },
     merge: function() {
         this.removeLastActive(this.data);
-        this.addCurrentPage((params) => {
-            if (params) {
-                this.onDataActive(params);
-            }
-            this.update();
-            this.trigger(this.data);
-        });
+        storage.onConnect()
+            .then(() => {
+                return storage.get('plusActive');
+            })
+            .then((plusActive) => {
+                if (plusActive && plusActive.active) {
+                    if (normURL(window.location.href) !== normURL(plusActive.url)) {
+                        plusActive.active = false;
+                        storage.del('plusActive');
+                        storage.set('plusActive', plusActive);
+                    }
+                    this.update();
+                    this.trigger(this.data);
+                } else {
+                    this.addCurrentPage((params) => {
+                        if (params) {
+                            this.onDataActive(params);
+                        }
+                        this.update();
+                        this.trigger(this.data);
+                    });
+                }
+            });
     },
     removeLastActive: function(obj) {
         Object.keys(obj)
@@ -131,11 +175,11 @@ export default Reflux.createStore({
                     obj[key].active = false;
                 }
                 if (o && o.children) {
-                    this.removeLastActive(obj[key]);
+                    this.removeLastActive(obj[key].children);
                 }
             }, this);
     },
-    addCurrentPage: function(cb) {
+    createCurrentPage: function(cb) {
         var scripts = document.getElementsByTagName('script'),
             i,
             json,
@@ -153,7 +197,7 @@ export default Reflux.createStore({
                     o = {
                         name: json.name,
                         url: window.location.href,
-                        author: normURL(json.author),
+                        author: json.author,
                         active: true
                     };
                 }
@@ -162,39 +206,60 @@ export default Reflux.createStore({
                     o = {
                         name: json.name,
                         url: window.location.href,
-                        author: normURL(json.author),
+                        author: json.author,
                         active: true
                     };
                     break;
                 }
             }
         }
-        if (o) {
-            if (o.author && !this.data[o.author]) {
-                getJsonldsByUrl(o.author, function(jsons) {
-                    var j, name;
-                    for (j = 0; j < jsons.length; j += 1) {
-                        if (jsons[j]['@type'] === 'Article') {
-                            name = jsons[j].name;
-                            j = jsons.length;
-                        }
+        cb.call(this, o);
+    },
+    addCurrentPageParent: function(o, cb) {
+        getJsonldsByUrl(o.author, (jsons) => {
+            if (jsons && jsons.length !== 0) {
+                var j, name;
+                for (j = 0; j < jsons.length; j += 1) {
+                    if (jsons[j]['@type'] === 'Article') {
+                        name = jsons[j].name;
+                        j = jsons.length;
                     }
-                    if (!name) {
-                        console.warn('plus: author [' + o.author + '] do not have type Article');
-                    }
-                    cb.call(this, {
-                        tab: o,
-                        parent: name
-                    });
-                }.bind(this));
+                }
+                if (!name) {
+                    console.warn('plus: author [' + o.author + '] do not have type Article');
+                }
+                cb.call(this, {
+                    tab: o,
+                    parent: name
+                });
             } else {
                 cb.call(this, {
-                    tab: o
+                    tab: o,
+                    noAuthor: true
                 });
             }
-        } else {
-            cb.call(this);
-        }
+        });
+    },
+    addCurrentPage: function(cb) {
+        this.createCurrentPage((o) => {
+            if (o) {
+                var key = o.author;
+                Object.keys(this.data).forEach((item, i) => {
+                    if (normURL(item) === normURL(key)) {
+                        key = undefined;
+                    }
+                });
+                if (o.author && key && (normURL(o.author) !== normURL(o.url))) {
+                    this.addCurrentPageParent(o, cb);
+                } else {
+                    cb.call(this, {
+                        tab: o
+                    });
+                }
+            } else {
+                cb.call(this);
+            }
+        });
     },
     filterItemList: function(jsons) {
         var items = [];
@@ -255,13 +320,25 @@ export default Reflux.createStore({
                 this.data[listName].active = true;
             }
         }
-        this.update(function() {
+        this.update(() => {
             if (next) {
                 window.location = next;
             } else {
-                this.trigger(this.data);
+                storage.onConnect()
+                    .then(() => {
+                        return storage.get('plusActive');
+                    })
+                    .then((plusActive) => {
+                        plusActive.active = true;
+                        storage.del();
+                        storage.set('plusActive', plusActive);
+                        window.location = plusActive.url;
+                    })
+                    .catch(() => {
+                        this.trigger(this.data);
+                    });
             }
-        }.bind(this));
+        });
     },
     haveData: function() {
         return ((this.data !== null) && (typeof this.data === 'object'));

@@ -2,6 +2,7 @@ import React from 'react';
 import CenterActions from '../actions/center';
 import PlusActions from '../../../widgets/Plus/actions/jsonld';
 import normURL from '../../../widgets/Plus/stores/normURL';
+import UrlMixin from '../mixins/UrlMixin';
 
 export default class CreateControlButtons extends React.Component {
     constructor(props) {
@@ -12,8 +13,8 @@ export default class CreateControlButtons extends React.Component {
     }
 
     componentWillMount() {
-        CenterActions.gotWrioID.listen((id) => {
-            if (id === this.props.author.id) {
+        CenterActions.gotAuthor.listen((author) => {
+            if (UrlMixin.fixUrlProtocol(author) == UrlMixin.fixUrlProtocol(this.props.author)) {
                 this.setState({
                     editAllowed: true
                 });
@@ -46,5 +47,5 @@ export default class CreateControlButtons extends React.Component {
 
 CreateControlButtons.propTypes = {
     article: React.PropTypes.object.isRequired,
-    author: React.PropTypes.object.isRequired
+    author: React.PropTypes.string.isRequired
 };

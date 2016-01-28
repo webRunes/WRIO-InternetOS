@@ -111,11 +111,33 @@ class CreateDomCenter extends React.Component {
         }
     }
 
+    getAuthor(cb) {
+        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
+            var url = this.formatUrl(this.state.urlParams.edit);
+            StoreLd.getHttp(url,(article) => {
+                article = article.filter((json) => json['@type'] == 'Article')[0];
+                var author = article['author'];
+                cb(author);
+            });
+        } else {
+            var data = this.props.data;
+            for (var i in data) {
+                if (data.hasOwnProperty(i)) {
+                    var element = data[i];
+                    if (element && element.author) {
+                        var author = element.author;
+                        cb(author);
+                    }
+                }
+            }
+        }
+    }
+
     componentWillMount() {
-        CenterActions.gotWrioID.listen((id) => {
-            this.getAuthorWrioID((authorId) => {
-                console.log('Checking if editing allowed: ', id, authorId);
-                if (id == authorId) {
+        CenterActions.gotAuthor.listen((author) => {
+            this.getAuthor((_author) => {
+                console.log('Checking if editing allowed: ', author, _author);
+                if (UrlMixin.fixUrlProtocol(author) == UrlMixin.fixUrlProtocol(_author)) {
                     this.setState({
                         editAllowed: true
                     });

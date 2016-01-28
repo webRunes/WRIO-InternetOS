@@ -1,5 +1,6 @@
 import React from 'react';
 import {importUrl,theme} from '../global';
+import {getJsonldsByUrl} from '../../../widgets/Plus/stores/tools';
 
 export default class CreateInfoTicket extends React.Component {
     constructor(props) {
@@ -11,6 +12,23 @@ export default class CreateInfoTicket extends React.Component {
     }
 
     componentWillMount() {
+        var author;
+        if (this.props.author) {
+            getJsonldsByUrl(this.props.author, (jsons) => {
+                if (jsons && jsons.length !== 0) {
+                    var j, name;
+                    for (j = 0; j < jsons.length; j += 1) {
+                        if (jsons[j]['@type'] === 'Article') {
+                            author = jsons[j].name;
+                            j = jsons.length;
+                        }
+                    }
+                    this.setState({
+                        author: author
+                    });
+                }
+            });
+        }
         setInterval(() => {
             this.setState({
                 readTime: this.state.readTime + 1
@@ -32,7 +50,7 @@ export default class CreateInfoTicket extends React.Component {
                                 <img src={this.state.img} className="pull-left"></img>
                                 <ul className="details">
                                     <li>Language: {this.props.article.inLanguage}</li>
-                                    <li>Author: </li>
+                                    <li>Author: {this.state.author}</li>
                                     <li>Published: {this.props.article.datePublished}</li>
                                     <li>Last modified: {this.props.article.dateModified}</li>
                                     <li>Read time: {this.state.readTime} minute(s)</li>
@@ -56,5 +74,5 @@ export default class CreateInfoTicket extends React.Component {
 
 CreateInfoTicket.propTypes = {
     article: React.PropTypes.object.isRequired,
-    author: React.PropTypes.object
+    author: React.PropTypes.string
 };
