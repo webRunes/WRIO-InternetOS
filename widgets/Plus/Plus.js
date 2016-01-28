@@ -52,9 +52,9 @@ class Plus extends React.Component {
     static checkActiveHeight(data) {
         if (Object.keys(data).length > 0) {
             return (Object.keys(data)
-                .map(function(name, i) {
+                .map((name, i) => {
                     return (data[name].active == true) ? i : null;
-                }, this)
+                })
                 .filter(Number)[0] + 1) * 40;
         } else {
             return 0;
@@ -62,28 +62,24 @@ class Plus extends React.Component {
     }
 
     static checkActive(data) {
-        var top, childActive;
+        var hasActive, childActive;
         if (data) {
-            top = Object.keys(data).filter(function(name) {
-                if(data[name].active == true){
-                    return true;
-                }else{
-                    if(data[name].children){
+            Object.keys(data).forEach((name) => {
+                if (data[name].active) {
+                    hasActive = true;
+                } else {
+                    if (data[name].children) {
                         var children = data[name].children;
-                        childActive = Object.keys(children).filter(function(childName){
-                            return children[childName].active == true;
+                        Object.keys(children).forEach((childName) => {
+                            if (children[childName].active) {
+                                hasActive = true;
+                            }
                         });
-                        return top ? !(top.length == 1) : false;
-                    } else {
-                        return false;
                     }
                 }
-            }, this);
-
-            return !(top.length == 1);
-        } else {
-            return false;
+            });
         }
+        return !hasActive;
     }
 
     render() {

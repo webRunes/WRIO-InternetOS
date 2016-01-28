@@ -55,6 +55,7 @@ class Login extends React.Component{
                 if (jsmsg.profile) {
                     jsmsg = jsmsg.profile;
                     Actions.gotWrioID(jsmsg.id);
+                    Actions.gotAuthor(jsmsg.url);
                     if (jsmsg.temporary) {
                         that.setState({
                             title: {
