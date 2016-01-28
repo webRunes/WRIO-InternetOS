@@ -31,21 +31,25 @@ class GenericListItem extends React.Component {
     }
 
     async gotoUrl(e) {
+        e.preventDefault();
         if (window.localStorage) {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
-        await storage.onConnect();
-        console.log(await storage.get('plus'));
-        var plus = await storage.get('plus');
-        if (!plus) {
-            return;
+        try {
+            await storage.onConnect();
+            var plus = await storage.get('plus');
+            if (!plus) {
+                return;
+            }
+            plus = this.modifyCurrentUrl(plus);
+            await storage.del('plus');
+            await storage.set('plus', plus);
+            await storage.del('plusActive');
+            window.location = this.props.data.url;
+
+        } catch (e) {
+            console.log(e);
         }
-        plus = this.modifyCurrentUrl(plus);
-        await storage.del('plus');
-        await storage.set('plus', plus);
-        await storage.del('plusActive');
-        window.location = this.props.data.url;
-        e.preventDefault();
     }
 
 }
