@@ -2,6 +2,7 @@ import React from 'react';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 import Login from './Login.jsx';
 import request from 'superagent';
+import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
 
 var domain = getDomain();
 
@@ -15,13 +16,29 @@ export default class Chess extends React.Component {
         };
     }
 
-    componentWillMount() {
-        window.addEventListener('message', (e) => {
-            var message = e.data;
-            var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                var jsmsg = JSON.parse(message);
+    requestChess(jsmsg) {
+        request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
+            if (res) {
+                res = res.body || {};
+                this.setState({
+                    profile: jsmsg,
+                    user: res.user,
+                    invite: res.invite,
+                    alien: res.alien,
+                    expired: res.expired,
+                    footer: res.alien ? "This link is for the player @" + res.user.username : (res.expired ? "Link Expired" : "...please wait")
+                });
+            } else {
+                this.setState({
+                    disabled: false,
+                    footer: 'Authorisation error. Please try again later.'
+                });
+            }
+        });
+    }
 
+    componentWillMount() {
+        WindowActions.loginMessage.listen((jsmsg) => {
                 if (jsmsg.login == "success") {
                     location.reload();
                 }
@@ -34,27 +51,9 @@ export default class Chess extends React.Component {
                             footer: ''
                         });
                     } else {
-                        request.get(getServiceUrl('chess') + '/data?uuid=' + this.props.uuid + '&wrid=' + jsmsg.id, (err, res) => {
-                            if (res) {
-                                res = res.body || {};
-                                this.setState({
-                                    profile: jsmsg,
-                                    user: res.user,
-                                    invite: res.invite,
-                                    alien: res.alien,
-                                    expired: res.expired,
-                                    footer: res.alien ? "This link is for the player @" + res.user.username : (res.expired ? "Link Expired" : "...please wait")
-                                });
-                            } else {
-                                this.setState({
-                                    disabled: false,
-                                    footer: 'Authorisation error. Please try again later.'
-                                });
-                            }
-                        });
+                        this.requestChess(jsmsg);
                     }
                 }
-            }
         });
     }
     

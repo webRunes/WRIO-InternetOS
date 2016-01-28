@@ -61,7 +61,7 @@ class Item extends GenericListItem {
                 <a onClick={this.props.del} className="pull-right">
                     <span className="glyphicon glyphicon-remove" />
                 </a>
-                <a href={this.props.data.url} ref="tab" onClick={this.gotoUrl}>{name}</a>
+                <a href={this.props.data.url} ref="tab" onClick={this.gotoUrl.bind(this)}>{name}</a>
             </li>
         );
     }

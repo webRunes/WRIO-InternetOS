@@ -35,6 +35,7 @@ class GenericListItem extends React.Component {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
         await storage.onConnect();
+        console.log(await storage.get('plus'));
         var plus = await storage.get('plus');
         if (!plus) {
             return;
