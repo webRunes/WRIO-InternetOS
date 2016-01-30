@@ -15,7 +15,7 @@ var CreateItemLists = React.createClass({
             createdDate = item.datePublished;
 
         return (
-            <a href={url}>
+            <a href={UrlMixin.fixUrlProtocol(url)}>
             <article>
               <div className="media thumbnail clearfix" >
                 <header className="col-xs-12">

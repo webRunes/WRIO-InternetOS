@@ -153,9 +153,31 @@ export default Reflux.createStore({
                         plusActive.active = false;
                         storage.del('plusActive');
                         storage.set('plusActive', plusActive);
+                        this.addCurrentPage((params) => {
+                            if (params) {
+                                this.onDataActive(params);
+                            }
+                            this.update();
+                            this.trigger(this.data);
+                        });
                     }
                     this.update();
                     this.trigger(this.data);
+                } else if (plusActive && !plusActive.active) {
+                    if (normURL(window.location.href) === normURL(plusActive.url)) {
+                        plusActive.active = true;
+                        storage.del('plusActive');
+                        storage.set('plusActive', plusActive);
+                        this.update();
+                        this.trigger(this.data);
+                    }
+                    this.addCurrentPage((params) => {
+                        if (params) {
+                            this.onDataActive(params);
+                        }
+                        this.update();
+                        this.trigger(this.data);
+                    });
                 } else {
                     this.addCurrentPage((params) => {
                         if (params) {
@@ -249,11 +271,12 @@ export default Reflux.createStore({
                         key = undefined;
                     }
                 });
-                if (o.author && key && (normURL(o.author) !== normURL(o.url))) {
+                if (o.author && typeof o.author === 'string' && key && (normURL(o.author) !== normURL(o.url))) {
                     this.addCurrentPageParent(o, cb);
                 } else {
                     cb.call(this, {
-                        tab: o
+                        tab: o,
+                        noAuthor: true
                     });
                 }
             } else {
