@@ -13,7 +13,6 @@ module.exports = Reflux.createStore({
     init() {
 
         window.addEventListener('message', function (e) {
-            console.log("Dispatched a message");
             var message = e.data;
             try {
                 var msg = JSON.parse(message);
