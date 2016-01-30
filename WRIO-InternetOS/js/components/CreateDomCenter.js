@@ -3,6 +3,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import Login from '../../../widgets/Login.jsx';
 import Chess from '../../../widgets/Chess.jsx';
+import Core from '../../../widgets/Core.jsx';
 import Details from '../../../widgets/Details.jsx';
 import {importUrl} from '../global';
 import {theme} from '../global';
@@ -296,7 +297,7 @@ class CreateDomCenter extends React.Component {
             if (this.state.urlParams.create) {
                 displayTitterCondition = true;
                 this.state.notDisplayCenter = true;
-                displayCore = (<iframe src={getServiceUrl('core')+'/create'} style={ this.editIframeStyles }/>);
+                displayCore = (<Core />);
             }
 
             if (this.state.urlParams.edit && this.state.editAllowed) {
@@ -304,7 +305,7 @@ class CreateDomCenter extends React.Component {
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter = true;
-                displayCore = (<iframe src={getServiceUrl('core')+'/edit?article=' + (this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)} style={ this.editIframeStyles }/>);
+                displayCore = (<Core article={(this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)}/>);
             }
 
             if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {

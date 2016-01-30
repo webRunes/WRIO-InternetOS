@@ -33,6 +33,9 @@ var UrlMixin = {
         return window.location.protocol;
     },
     fixUrlProtocol: (url) => {
+        if (!url) {
+            return;
+        }
         var separatorPosition = url.indexOf('//');
         if (separatorPosition !== -1) {
             url = url.substring(separatorPosition + 2, url.length);

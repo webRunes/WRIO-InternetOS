@@ -1,15 +1,19 @@
 import React from 'react';
-import Actions from '../WRIO-InternetOS/js/actions/center';
-import Details from'./Details.jsx';
-import moment from 'moment';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
 
 var domain = getDomain();
 
-class Login extends React.Component{
+class Core extends React.Component{
     constructor(props) {
         super(props);
+        this.editIframeStyles = {
+            width: '100%',
+            border: 'none'
+        };
+        this.state = {
+            article: this.props.article
+        };
    }
 
     componentDidMount() {
@@ -22,9 +26,16 @@ class Login extends React.Component{
 
     render() {
         return (
-            <iframe id="coreiframe" src={getServiceUrl('core')+'/create'} style={ this.editIframeStyles }/>
+            <div>
+                {this.state.article ? <iframe id="coreiframe" src={getServiceUrl('core') + '/create'} style={ this.editIframeStyles }/>
+                               : <iframe id="coreiframe" src={getServiceUrl('core') + '/edit?article=' + this.state.article} style={ this.editIframeStyles }/>}
+            </div>
         );
     }
 }
 
-module.exports = Login;
+Core.propTypes = {
+    article: React.PropTypes.string
+};
+
+module.exports = Core;

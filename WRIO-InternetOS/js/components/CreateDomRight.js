@@ -148,7 +148,7 @@ var CreateDomRight = React.createClass({
             active: false,
             resize: false,
             article: {},
-            author: {}
+            author: ''
         };
     },
 
