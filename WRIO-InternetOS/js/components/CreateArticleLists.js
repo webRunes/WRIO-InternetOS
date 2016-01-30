@@ -3,6 +3,8 @@ var React = require('react'),
     cssUrl = require('../global').cssUrl,
     theme = require('../global').theme;
 
+import UrlMixin from '../mixins/UrlMixin';
+
 var CreateArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
@@ -19,7 +21,7 @@ var CreateArticleLists = React.createClass({
             articleName = this.applyMentions(o.m.name);
         }
         return (
-            <a href={o.url}>
+            <a href={UrlMixin.fixUrlProtocol(o.url)}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
