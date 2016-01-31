@@ -2,6 +2,8 @@ var React = require('react'),
     cssUrl = require('../global').cssUrl,
     theme = require('../global').theme;
 
+import UrlMixin from '../mixins/UrlMixin';
+
 var CreateItemLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
