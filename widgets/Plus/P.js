@@ -25,7 +25,9 @@ class P extends React.Component{
     componentDidMount () {
        WindowActions.loginMessage.listen((jsmsg) => {
             if (jsmsg.profile) {
-                this.userId(jsmsg.profile.id);
+                Actions.plusActive(false, 'https://wr.io/' + jsmsg.profile.id + '/Plus-WRIO-App/', () => {
+                    this.userId(jsmsg.profile.id);
+                });
             }
         });
     }
