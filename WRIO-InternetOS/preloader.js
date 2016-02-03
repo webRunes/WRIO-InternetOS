@@ -56,7 +56,7 @@ var code =
             }
         },
         writeNoticeCode: function(){
-            document.location.replace('//wrioos.com/old_browser.htm');
+            window.location.href = '//wrioos.com/old_browser.htm';
         },
         detectBrowser: function(){
             this.browser = '';
@@ -108,6 +108,7 @@ var code =
             {'os': 'Any', 'browser': 'MSIE', 'version': 6},
             {'os': 'Any', 'browser': 'MSIE', 'version': 7},
             {'os': 'Any', 'browser': 'MSIE', 'version': 8},
+            {'os': 'Any', 'browser': 'MSIE', 'version': 9},
         ]
     };
 

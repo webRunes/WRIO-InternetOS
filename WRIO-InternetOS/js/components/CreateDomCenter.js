@@ -324,6 +324,8 @@ class CreateDomCenter extends React.Component {
             centerData = this.props.data; // otherwise use default data provided in props
         }
 
+        displayTitterCondition |= this.state.displayTitterCondition;
+
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
@@ -348,7 +350,7 @@ class CreateDomCenter extends React.Component {
                     { displayCore }
                     { displayWebgold }
                     { displayChess }
-                    <div style={{display: displayTitterCondition || this.state.displayTitterCondition ? 'none' : 'block'}}>
+                    <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
                         <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
                     </div>
                 </div>
