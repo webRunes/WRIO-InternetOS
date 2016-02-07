@@ -71,16 +71,16 @@ class List extends React.Component {
     }
 
     shouldComponentUpdate(newProps) {
+        var length = this.list().length;
         if (newProps.height != 'auto') {
-            if (this.list().length > 0) {
-
+            if (length > 0) {
                 return false;
             } else {
-                ActionMenu.tabsSize(this.list().length * 40);
+                ActionMenu.tabsSize(length * 40);
                 return true;
             }
         } else {
-            ActionMenu.tabsSize(this.list().length * 40);
+            ActionMenu.tabsSize(length * 40);
             return true;
         }
     }
