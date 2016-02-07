@@ -11,6 +11,7 @@ class CreateDomLeft extends React.Component {
 
     constructor(props) {
         super(props);
+        this.oldheight = -1;
         this.toggleMenu = this.toggleMenu.bind(this);
         this.showSidebar = this.showSidebar.bind(this);
         this.tabsSize = this.tabsSize.bind(this);
@@ -33,6 +34,12 @@ class CreateDomLeft extends React.Component {
     }
 
     tabsSize(height) {
+
+        if (this.oldheight == height) { // make sure no constant render loop is triggered, do render only when height is actually changed
+            return;
+        }
+        this.oldheight = height;
+
         if (this.refs.navbarHeader && window.innerHeight < ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
             this.setState({
                 height: window.innerHeight - (ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + 41),
