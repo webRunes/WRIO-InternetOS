@@ -20,7 +20,7 @@ module.exports.lastOrder = function (x) {
 
 module.exports.getNext = function (data, current) {
     var obj = data.children || data;
-    if (!obj[current].active) {
+    if (obj[current].active == undefined) {
         return undefined;
     }
     var children = sortBy(
