@@ -297,7 +297,7 @@ var CreateTitter = React.createClass({
         if (author) { // add author reference
             var reg = /\?wr\.io=([0-9]*)$/gm;
             var regResult = reg.exec(author);
-            var wrioID =  regResult ? regResult : !1;
+            var wrioID =  regResult ? regResult[1] : !1;
             if (wrioID) {
                 id = "&id="+wrioID;
             }
