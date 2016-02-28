@@ -349,14 +349,39 @@ export default Reflux.createStore({
             } else {
                 storage.onConnect()
                     .then(() => {
-                        return storage.get('plusActive');
+                        return storage.get('plus');
+                    })
+                    .then((plus) => {
+
+                        var hasActive = false;
+                        if (plus == true) {
+                            Object.keys(data).forEach((name) => {
+                                if (data[name].active) {
+                                    hasActive = true;
+                                } else {
+                                    if (data[name].children) {
+                                        var children = data[name].children;
+                                        Object.keys(children).forEach((childName) => {
+                                            if (children[childName].active) {
+                                                hasActive = true;
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }else{
+                            hasActive = false;
+                        }
+
+                        if(!hasActive){
+                            return storage.get('plusActive');
+                        }
                     })
                     .then((plusActive) => {
-                        plusActive.active = true;
-                        storage.del();
-                        storage.set('plusActive', plusActive);
-                        window.location = plusActive.url;
-                    })
+                        if(plusActive){
+                            window.location = plusActive.url;
+                        }
+                     })
                     .catch(() => {
                         this.trigger(this.data);
                     });
