@@ -324,7 +324,7 @@ class CreateDomCenter extends React.Component {
             centerData = this.props.data; // otherwise use default data provided in props
         }
 
-        displayTitterCondition = this.state.displayTitterCondition;
+        displayTitterCondition |= this.state.displayTitterCondition;
 
         return (
             <div className={className} id="centerWrp">
