@@ -355,12 +355,12 @@ export default Reflux.createStore({
 
                         var hasActive = false;
                         if (plus == true) {
-                            Object.keys(data).forEach((name) => {
+                            Object.keys(plus).forEach((name) => {
                                 if (data[name].active) {
                                     hasActive = true;
                                 } else {
-                                    if (data[name].children) {
-                                        var children = data[name].children;
+                                    if (plus[name].children) {
+                                        var children = plus[name].children;
                                         Object.keys(children).forEach((childName) => {
                                             if (children[childName].active) {
                                                 hasActive = true;
@@ -375,6 +375,8 @@ export default Reflux.createStore({
 
                         if(!hasActive){
                             return storage.get('plusActive');
+                        }else{
+                            return false;
                         }
                     })
                     .then((plusActive) => {

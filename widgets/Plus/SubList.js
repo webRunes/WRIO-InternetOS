@@ -39,7 +39,7 @@ class SubList extends GenericListItem {
     }
 
     render() {
-        this.style.height = this.props.data.active ? 'auto' : '0px';
+
         var data = this.props.data,
             name = data.name,
             children = data.children,
@@ -50,9 +50,12 @@ class SubList extends GenericListItem {
             rightContent = children ? Object.keys(children).length : <span onClick={this.del} className="glyphicon glyphicon-remove" />,
             className = classNames({
                 panel: true,
+                group: true,
                 active: data.active,
                 open: (children && (data.active || childrenActive))
             });
+
+        this.style.height = this.props.data.active ? 'auto' : '0px';
         return (
             <li className={className}>
                 <a href={this.props.data.url} onClick={this.gotoUrl.bind(this)} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
