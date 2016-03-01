@@ -354,9 +354,9 @@ export default Reflux.createStore({
                     .then((plus) => {
 
                         var hasActive = false;
-                        if (plus == true) {
+                        if (Object.keys(plus).length) {
                             Object.keys(plus).forEach((name) => {
-                                if (data[name].active) {
+                                if (plus[name].active) {
                                     hasActive = true;
                                 } else {
                                     if (plus[name].children) {
