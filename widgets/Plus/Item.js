@@ -4,7 +4,7 @@ import normURL from './stores/normURL';
 import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 
-var storage = new CrossStorageFactory().getCrossStorage();
+var storage = new CrossStorageFactory.getCrossStorage();
 
 class Item extends GenericListItem {
     constructor(props) {
