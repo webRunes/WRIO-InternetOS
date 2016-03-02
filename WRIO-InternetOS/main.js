@@ -43,9 +43,9 @@ function createContainer() {
     return d;
 }
 
-domready(() =>{
+//domready(() =>{
     var container = createContainer();
     var domnode = document.body.appendChild(container);
     var docScripts = scripts(document.getElementsByTagName('script'));
     ReactDOM.render(<Main data={docScripts} />, domnode);
-});
+//});

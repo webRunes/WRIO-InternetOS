@@ -127,6 +127,38 @@ if(localStorage && !localStorage.getItem('oldUser')){
     window.document.body.innerHTML += code;
 }
 
+function loadScripts() {
+
+    var script = document.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+    if (process.env.NODE_ENV === 'production') {
+
+        // for debugging purposes allow unminified script loading
+        // simply set window.localStorage.setItem('debugJS',true); to allow unminifed code debugging
+
+        var debug = false;
+        if (window.localStorage) {
+            if (localStorage.getItem('debugJS')) {
+                debug = true;
+            }
+        }
+        if (debug) {
+            script.setAttribute('src', '//wrioos.com/raw/main.js');
+        } else {
+            script.setAttribute('src', '//wrioos.com/main.js');
+        }
+
+    }
+    if (process.env.NODE_ENV === 'development') {
+        script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
+    }
+
+    if (process.env.NODE_ENV === 'dockerdev') {
+        script.setAttribute('src', '//wrioos.local/WRIO-InternetOS/main.js');
+    }
+    document.body.appendChild(script);
+}
+
 if(!BrowserDetection.init()){
 
     for(var i = 0; i < count; i++){
@@ -137,39 +169,17 @@ if(!BrowserDetection.init()){
         head.appendChild(link);
     }
 
-    var ti = setInterval(function() {
+/*    var ti = setInterval(function() {
         if (document.styleSheets.length > css.length) {
-            var script = document.createElement('script');
-            script.setAttribute('type', 'text/javascript');
-            if (process.env.NODE_ENV === 'production') {
-
-                // for debugging purposes allow unminified script loading
-                // simply set window.localStorage.setItem('debugJS',true); to allow unminifed code debugging
-
-                var debug = false;
-                if (window.localStorage) {
-                    if (localStorage.getItem('debugJS')) {
-                        debug = true;
-                    }
-                }
-                if (debug) {
-                    script.setAttribute('src', '//wrioos.com/raw/main.js');
-                } else {
-                    script.setAttribute('src', '//wrioos.com/main.js');
-                }
-
-            }
-            if (process.env.NODE_ENV === 'development') {
-                script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
-            }
-
-            if (process.env.NODE_ENV === 'dockerdev') {
-                script.setAttribute('src', '//wrioos.local/WRIO-InternetOS/main.js');
-            }
-            document.body.appendChild(script);
+            loadScripts();
             clearInterval(ti);
         }
-    }, 10);
+    }, 10);*/
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        loadScripts();
+        console.log("DOM fully loaded and parsed");
+    });
 
     favicon = document.createElement('link');
     favicon.rel = 'shortcut icon';
