@@ -175,6 +175,15 @@ if(!BrowserDetection.init()){
     favicon.rel = 'shortcut icon';
     favicon.href = cssUrl + theme + '/ico/favicon.ico';
     head.appendChild(favicon);
+
+    var preTitterIframe = document.createElement('iframe');
+    preTitterIframe.src = 'https://login.wrioos.com/buttons/twitter';
+    preTitterIframe.style = "display:none";
+    preTitterIframe.id = "loginbuttoniframe";
+    // <iframe id= src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
+
+    head.appendChild(preTitterIframe);
+
 } else {
     document.getElementById('preloader').style.display = 'none';
 }
