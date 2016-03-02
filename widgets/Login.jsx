@@ -125,6 +125,7 @@ class Login extends React.Component{
                 </li>);
         }
 
+
         return (
             <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
                 <li className="panel">
@@ -143,7 +144,7 @@ class Login extends React.Component{
                                     {has}
                                     {lock}
                                 </ul>
-                                <iframe id="loginbuttoniframe" src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
+
                             </div>
                         </div>
                     </span>
