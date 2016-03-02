@@ -38,10 +38,17 @@ class CrossStorageMock {
 
 }
 
-export class CrossStorageFactory {
+class _CrossStorageFactory {
 
     constructor () {
         this.isInTest = typeof global.it === 'function';
+        if (!this.isInTest) {
+            var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+            this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.htm', {
+                promise: Promise
+            });
+        }
+
     }
 
     getCrossStorage() {
@@ -49,11 +56,11 @@ export class CrossStorageFactory {
             console.log("Mocking crossStorage");
             return new CrossStorageMock();
         } else {
-            var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
-            return  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.htm', {
-                promise: Promise
-            });
+            console.log("============================================Requesting cross storage copy!!!!!!");
+           return this.cs;
         }
     }
 
 }
+
+export var CrossStorageFactory = new _CrossStorageFactory();

@@ -2,7 +2,7 @@ import React from 'react';
 import normURL from './stores/normURL';
 import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
 
-var storage = new CrossStorageFactory().getCrossStorage();
+var storage = CrossStorageFactory.getCrossStorage();
 
 class GenericListItem extends React.Component {
     constructor(props) {
