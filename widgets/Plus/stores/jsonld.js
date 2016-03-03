@@ -1,6 +1,7 @@
 import Reflux from 'reflux';
 import normURL from './normURL';
 import Actions from '../actions/jsonld';
+import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,lastOrder,getNext} from './tools';
 import {Promise} from 'es6-promise';
 import {CrossStorageFactory} from './CrossStorageFactory.js';
@@ -352,7 +353,6 @@ export default Reflux.createStore({
                         return storage.get('plus');
                     })
                     .then((plus) => {
-
                         var hasActive = false;
                         if (Object.keys(plus).length) {
                             Object.keys(plus).forEach((name) => {
@@ -382,6 +382,8 @@ export default Reflux.createStore({
                     .then((plusActive) => {
                         if(plusActive){
                             window.location = plusActive.url;
+                        }else{
+                            ActionMenu.refresh();
                         }
                      })
                     .catch(() => {

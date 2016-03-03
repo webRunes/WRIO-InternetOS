@@ -37,6 +37,7 @@ class Plus extends React.Component {
     componentWillMount() {
         this.listenStoreLd = StoreLd.listen(this.onStateChange);
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
+        this.listenStoreMenuRefresh = StoreMenu.listenTo(ActionMenu.refresh, this.onRefresh);
         actions.read();
     }
 
@@ -49,13 +50,15 @@ class Plus extends React.Component {
         this.listenStoreLd();
     }
 
+    onRefresh(){
+        this.forceUpdate();
+    }
+
     static checkActiveHeight(data) {
         if (Object.keys(data).length > 0) {
-            return (Object.keys(data)
-                .map((name, i) => {
+            return (Object.keys(data).map((name, i) => {
                     return (data[name].active == true) ? i : null;
-                })
-                .filter(Number)[0] + 1) * 40;
+                }).filter(Number)[0] + 1) * 40;
         } else {
             return 0;
         }
