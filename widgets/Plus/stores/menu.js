@@ -8,6 +8,7 @@ var storeMenu = Reflux.createStore({
         this.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
         this.listenTo(ActionMenu.tabsSize, this.onTabsSize);
         this.listenTo(ActionMenu.windowResize, this.onWindowResize);
+        this.listenTo(ActionMenu.refresh, this.onRefresh);
     },
     onCallAi: function () {
 
@@ -33,6 +34,9 @@ var storeMenu = Reflux.createStore({
     },
     onWindowResize: function(width, height){
         this.trigger(width, height);
+    },
+    onRefresh: function(){
+        this.trigger();
     }
 });
 
