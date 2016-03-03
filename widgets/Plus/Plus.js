@@ -14,6 +14,7 @@ class Plus extends React.Component {
         super(props);
         this.onStateChange = this.onStateChange.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
+        this.onRefresh = this.onRefresh.bind(this);
         this.state = {
             active: false,
             jsonld: {},
