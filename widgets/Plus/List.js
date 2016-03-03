@@ -70,6 +70,7 @@ class List extends React.Component {
         this.tabsSize(this.list().length);
     }
 
+
     shouldComponentUpdate(newProps) {
         var length = this.list().length;
         if (newProps.height != 'auto') {
