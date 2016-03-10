@@ -12,7 +12,7 @@
   "devDependencies": {
     "aws-sdk-apis": "^3.1.10",
     "babel": "^5.8.23",
-    "babel-eslint": "*",
+    "babel-eslint": "5.0.0",
     "babelify": "^6.3.0",
     "body-parser": "^1.14.1",
     "chai": "^2.1.2",
