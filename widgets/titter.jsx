@@ -199,13 +199,18 @@ var CreateTitter = React.createClass({
 
             function autoSizeTimeline() {
                 if($twitter.contentDocument) {
-                    var twitterht = Number(window.getComputedStyle(
-                        $twitter.contentDocument.getElementsByClassName("h-feed")[0]
-                    ).height.replace('px', ''));
+                    var $hfeed = $twitter.contentDocument.getElementsByClassName("timeline-TweetList")[0];
+                    var $noMorePane = $twitter.contentDocument.getElementsByClassName("no-more-pane")[0];
+                    var twitterht = 0;
+                    var add_ht = 0;
+                    if ($hfeed) {
+                        twitterht = Number(window.getComputedStyle($hfeed).height.replace('px', ''));
+                    }
+                    if ($noMorePane) {
+                        add_ht = Number(window.getComputedStyle($noMorePane).height.replace('px', ''));
+                    }
 
-                    var add_ht = Number(window.getComputedStyle(
-                        $twitter.contentDocument.getElementsByClassName("no-more-pane")[0]
-                    ).height.replace('px', ''));
+
                     if (add_ht > 0) {
                         twitterht += add_ht;
                     }
@@ -214,7 +219,7 @@ var CreateTitter = React.createClass({
                 }
             }
 
-            $twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline {max-width:10000px !important;}\n.timeline .stream {overflow-y: hidden !important;}';
+            $twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
             window.interval = setInterval(autoSizeTimeline, 1000);
         };
 
