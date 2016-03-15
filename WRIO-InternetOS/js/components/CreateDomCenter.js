@@ -20,7 +20,7 @@ import CreateTransactions from '../../../widgets/transactions.jsx';
 import CenterActions from '../actions/center';
 import PlusStore from '../../../widgets/Plus/stores/jsonld';
 import WindowActions from '../actions/WindowActions.js';
-import WindowActionStore from '../store/WindowMessage.js';
+import Lockup from './Lockup.js';
 
 var domain = getDomain();
 
@@ -325,6 +325,9 @@ class CreateDomCenter extends React.Component {
         }
 
         displayTitterCondition |= this.state.displayTitterCondition;
+
+
+        //return (<Lockup />);
 
         return (
             <div className={className} id="centerWrp">
