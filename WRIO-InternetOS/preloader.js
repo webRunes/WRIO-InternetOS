@@ -187,7 +187,8 @@ if(!BrowserDetection.init()){
     head.appendChild(favicon);
 
     var preTitterIframe = document.createElement('iframe');
-    preTitterIframe.src = 'https://login.wrioos.com/buttons/twitter';
+    var getServiceUrl = require('./js/servicelocator').getServiceUrl;
+    preTitterIframe.src = getServiceUrl('login') + '/buttons/twitter';
     preTitterIframe.style = "display:none";
     preTitterIframe.id = "loginbuttoniframe";
     // <iframe id= src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>

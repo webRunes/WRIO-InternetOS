@@ -9,6 +9,7 @@ import CreateDomCenter from './js/components/CreateDomCenter';
 import WindowDimensions  from './js/components/WindowDimensions';
 import scripts from './js/jsonld/scripts';
 import domready from 'domready';
+import WindowActionStore from './js/store/WindowMessage.js';
 
 var converter = new Showdown.Converter();
 

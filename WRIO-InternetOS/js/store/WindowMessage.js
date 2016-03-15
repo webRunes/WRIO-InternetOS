@@ -8,16 +8,21 @@ import {getServiceUrl,getDomain} from '../servicelocator.js';
 
 var domain = getDomain();
 
+var loginMessage = false;
+
 module.exports = Reflux.createStore({
 
-    init() {
 
+    init() {
         window.addEventListener('message', function (e) {
             var message = e.data;
+
+          //  console.log("WINDOW MESSAGE++++++++++++++++++++++++++",e.data);
             try {
                 var msg = JSON.parse(message);
             } catch (e) {
-                console.log("Error parsing the message");
+               // console.log("Error parsing the message");
+                return;
             }
 
             var httpChecker = new RegExp('^(http|https)://titter.' + domain, 'i');
@@ -31,7 +36,11 @@ module.exports = Reflux.createStore({
             }
             httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
-                WindowActions.loginMessage.trigger(msg);
+                if (!loginMessage) {
+                    WindowActions.loginMessage.trigger(msg);
+                    loginMessage = true;
+                }
+
             }
             httpChecker = new RegExp('^(http|https)://webgold.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
