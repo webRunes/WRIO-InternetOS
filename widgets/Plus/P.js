@@ -12,8 +12,8 @@ class P extends React.Component{
         this.state = {
             userId: ''
         };
-        this.userId = this.userId.bind(this);
-        this.gotoUrl = this.gotoUrl.bind(this);
+      //  this.userId = this.userId.bind(this);
+       // this.gotoUrl = this.gotoUrl.bind(this);
     }
 
     userId(id) {
@@ -22,13 +22,18 @@ class P extends React.Component{
         });
 
     }
+
+    getProfile(jsmsg) {
+        console.log("PLUS GOT PROFILE:",jsmsg);
+        if (jsmsg.profile) {
+            Actions.plusActive(false, 'https://wr.io/' + jsmsg.profile.id + '/Plus-WRIO-App/');
+            this.userId(jsmsg.profile.id);
+        }
+    }
+
     componentDidMount () {
        WindowActions.loginMessage.listen((jsmsg) => {
-            if (jsmsg.profile) {
-                Actions.plusActive(false, 'https://wr.io/' + jsmsg.profile.id + '/Plus-WRIO-App/', () => {
-                    this.userId(jsmsg.profile.id);
-                });
-            }
+           this.getProfile(jsmsg);
         });
     }
 
