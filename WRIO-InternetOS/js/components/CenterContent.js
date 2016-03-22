@@ -1,5 +1,5 @@
-var React = require('react'),
-    CreateArticleList = require('./CreateArticleList');
+import React from 'react';
+import CreateArticleList from './CreateArticleList';
 
 
 var Center = React.createClass({
