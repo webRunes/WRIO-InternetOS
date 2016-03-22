@@ -1,14 +1,14 @@
-var React = require('react'),
-    ReactDOM = require('react-dom'),
-    UrlMixin = require('../mixins/UrlMixin'),
-    classNames = require('classnames'),
-    ActionMenu = require('../../../widgets/Plus/actions/menu'),
-    CreateInfoTicket = require('./CreateInfoTicket'),
-    CreateControlButtons = require('./CreateControlButtons'),
-    StoreMenu = require('../../../widgets/Plus/stores/menu'),
-    Reflux = require('reflux'),
-    _ = require('lodash'),
-    center = require('../actions/center');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import UrlMixin from '../mixins/UrlMixin';
+import classNames from 'classnames';
+import ActionMenu from '../../../widgets/Plus/actions/menu';
+import CreateInfoTicket from './CreateInfoTicket';
+import CreateControlButtons from './CreateControlButtons';
+import StoreMenu from '../../../widgets/Plus/stores/menu';
+import Reflux from 'reflux';
+import _ from 'lodash';
+import center from '../actions/center';
 
 var External = React.createClass({
     propTypes: {
@@ -195,35 +195,66 @@ var CreateDomRight = React.createClass({
     },
 
     render: function() {
-        var type = this.searchToObject()
-            .list,
-            isActive,
-            isActiveFirstArticle = true,
-            items = [],
-            isCover = function(o) {
-                return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
-            },
-            className = classNames({
+        var className = classNames({
                 'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
                 'active': this.state.active
-            }),
-            height;
+            });
 
-        var listParam = this.searchToObject()
-            .list;
+        var items = this.getArticleItems();
+        var height = this.getHeight();
 
-        if (listParam) {
-            if (listParam.toLowerCase() == 'cover') {
-                isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
-            }
+        return (
+            <div className={className} id="sidebar">
+                <div ref="sidebar" className="sidebar-margin">
+                    {this.state.article ? <aside>
+                        <CreateInfoTicket article={this.state.article} author={this.state.author} />
+                    </aside> : ''}
+                    {this.state.article ? <CreateControlButtons article={this.state.article} author={this.state.author} /> : null}
+                    <ul className="nav nav-pills nav-stacked" style={height}>
+                        {items}
+                    </ul>
+                </div>
+            </div>
+        );
+    },
+
+    getHeight() {
+        if (window.innerWidth > 767) {
+            return {
+                height: 'auto'
+            };
+        } else {
+            return {
+                height: window.innerHeight - 52
+            };
         }
+    },
 
+    getArticleItems() {
+        // some dark magic down here
+        var items = [];
 
-        this.props.data.forEach(function add(o) {
+        var isActive,
+            isActiveFirstArticle = true,
+            type = this.searchToObject().list,
+            isCover = function(o) {
+                return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
+            };
+
+            var listParam = this.searchToObject()
+                .list;
+
+            if (listParam) {
+                if (listParam.toLowerCase() == 'cover') {
+                    isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
+                }
+            }
+
+            this.props.data.forEach(function add(o) {
             if (o['@type'] === 'Article' || _.chain(o.itemListElement)
-                .pluck('@type')
-                .contains('Article')
-                .value()) {
+                    .pluck('@type')
+                    .contains('Article')
+                    .value()) {
                 isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
@@ -272,29 +303,7 @@ var CreateDomRight = React.createClass({
                 o.hasPart.forEach(add, this);
             }
         }, this);
-
-        if (window.innerWidth > 767) {
-            height = {
-                height: 'auto'
-            };
-        } else {
-            height = {
-                height: window.innerHeight - 52
-            };
-        }
-        return (
-            <div className={className} id="sidebar">
-                <div ref="sidebar" className="sidebar-margin">
-                    {this.state.article ? <aside>
-                        <CreateInfoTicket article={this.state.article} author={this.state.author} />
-                    </aside> : ''}
-                    {this.state.article ? <CreateControlButtons article={this.state.article} author={this.state.author} /> : null}
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {items}
-                    </ul>
-                </div>
-            </div>
-        );
+        return items;
     }
 });
 

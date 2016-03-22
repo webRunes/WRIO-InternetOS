@@ -9,61 +9,22 @@ import {importUrl} from '../global';
 import {theme} from '../global';
 import CreateBreadcrumb from './CreateBreadcrumb';
 import CreateTitter from '../../../widgets/titter.jsx';
-import Center from './Center';
+import CenterContent from './CenterContent';
 import StoreLd from '../store/center';
 import classNames from 'classnames';
 import ActionMenu from '../../../widgets/Plus/actions/menu';
 import StoreMenu from '../../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
-import {Alert} from 'react-bootstrap';
 import CreateTransactions from '../../../widgets/transactions.jsx';
 import CenterActions from '../actions/center';
 import PlusStore from '../../../widgets/Plus/stores/jsonld';
 import WindowActions from '../actions/WindowActions.js';
-import Lockup from './Lockup.js';
+import {AlertWelcome, AlertWarning} from './Alerts.js';
+import UserStore from '../store/UserStore.js';
 
 var domain = getDomain();
 
-class CreateDomCenter extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.UrlMixin = UrlMixin;
-        this.editIframeStyles = {
-            width: '100%',
-            border: 'none'
-        };
-        this.startIframeStyles = {
-            width: '100%',
-            border: 'none'
-        };
-        var locationSearch = this.UrlMixin.getUrlParams();
-        this.state = {
-            editMode: false,
-            actionButton: false,
-            content: {
-                type: (locationSearch) ? locationSearch : 'article'
-            },
-            nocomments: false,
-            titterDisabled: false,
-            active: false,
-            userId: false,
-            alertWarning: true,
-            alertWelcome: true,
-            editAllowed: false,
-            notDisplayCenter: false,
-            byButton: false,
-            editModeFromUrl: false,
-            transactionsModeFromUrl: false,
-            urlParams: this.UrlMixin.searchToObject()
-        };
-        this.onShowSidebar = this.onShowSidebar.bind(this);
-        this.hideAlertWarning = this.hideAlertWarning.bind(this);
-        this.hideAlertWelcome = this.hideAlertWelcome.bind(this);
-        this.hideAlertWarningByClick = this.hideAlertWarningByClick.bind(this);
-        this.hideAlertWelcomeByClick = this.hideAlertWelcomeByClick.bind(this);
-    }
-
+class ArticleCenter  extends React.Component {
     formatUrl(url) {
         var splittedUrl = url.split('://');
         var host;
@@ -134,6 +95,50 @@ class CreateDomCenter extends React.Component {
         }
     }
 
+}
+
+ArticleCenter.propTypes = {
+    data: React.PropTypes.array.isRequired,
+    converter: React.PropTypes.object.isRequired
+};
+
+
+
+export class CreateDomCenter extends ArticleCenter {
+
+    constructor(props) {
+        super(props);
+        this.editIframeStyles = {
+            width: '100%',
+            border: 'none'
+        };
+        this.startIframeStyles = {
+            width: '100%',
+            border: 'none'
+        };
+        var locationSearch = UrlMixin.getUrlParams();
+        this.state = {
+            editMode: false,
+            actionButton: false,
+            content: {
+                type: (locationSearch) ? locationSearch : 'article'
+            },
+            nocomments: false,
+            titterDisabled: false,
+            active: false,
+            userId: false,
+            editAllowed: false,
+            notDisplayCenter: false,
+            byButton: false,
+            editModeFromUrl: false,
+            transactionsModeFromUrl: false,
+            urlParams: UrlMixin.searchToObject()
+        };
+        this.onShowSidebar = this.onShowSidebar.bind(this);
+
+    }
+
+
     componentWillMount() {
         CenterActions.gotAuthor.listen((author) => {
             this.getAuthor((_author) => {
@@ -163,8 +168,6 @@ class CreateDomCenter extends React.Component {
             if (msg.profile) {
                 this.userId(msg.profile.id);
             }
-            PlusStore.hideAlertWarning(this.state.userId, this.hideAlertWarning);
-            PlusStore.hideAlertWelcome(this.state.userId, this.hideAlertWelcome);
         });
 
     }
@@ -183,7 +186,7 @@ class CreateDomCenter extends React.Component {
 
     componentWillUnmount() {
         this.listenStoreLd();
-        this.listenStoreMenuSidebar();
+      //  this.listenStoreMenuSidebar();
     }
 
     onStatusChange(x) {
@@ -232,73 +235,21 @@ class CreateDomCenter extends React.Component {
         });
     }
 
-    hideAlertWelcome (result){
-        this.setState({
-            'alertWelcome': result
-        });
-    }
 
-    hideAlertWarning (result){
-        this.setState({
-            'alertWarning': result
-        });
-    }
-
-    hideAlertWarningByClick (){
-        PlusStore.hideAlertWarningByClick(this.state.userId);
-        this.setState({
-            'alertWarning': true
-        });
-    }
-
-    hideAlertWelcomeByClick (){
-        PlusStore.hideAlertWelcomeByClick(this.state.userId);
-        this.setState({
-            'alertWelcome': true
-        });
-    }
 
     render() {
-        var type = this.UrlMixin.searchToObject().list,
-            displayTitterCondition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined',
-            className = classNames({
-                'col-xs-12 col-sm-5 col-md-7 content content-offcanvas': true,
-                'active': this.state.active
-            });
+        var type = UrlMixin.searchToObject().list,
+            displayTitterCondition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
+
 
         this.props.data.forEach((e) => {
             displayTitterCondition = e['@type'] !== 'Article';
         });
 
         var displayCore = '';
-        var displayWebgold = '';
-        var displayChess = '';
-        var nocomments = false;
 
-        //var urlParams = this.UrlMixin.searchToObject();
-        //var notDisplayCenter = false;
+
         if (!this.state.byButton) {
-            if (this.state.urlParams.add_funds) {
-                displayTitterCondition = true;
-                displayWebgold = (<iframe src={getServiceUrl('webgold')+'/add_funds'} style={ this.editIframeStyles }/>);
-                this.state.notDisplayCenter = true;
-            }
-
-            if (this.state.urlParams.transactions) {
-                displayTitterCondition = true;
-                this.state.actionButton = "Transactions";
-                this.state.transactionsModeFromUrl = true;
-                displayWebgold = (
-                    <CreateTransactions />
-                );
-                this.state.notDisplayCenter = true;
-            }
-
-            if (this.state.urlParams.create) {
-                displayTitterCondition = true;
-                this.state.notDisplayCenter = true;
-                displayCore = (<Core />);
-            }
 
             if (this.state.urlParams.edit && this.state.editAllowed) {
                 displayTitterCondition = true;
@@ -308,36 +259,36 @@ class CreateDomCenter extends React.Component {
                 displayCore = (<Core article={(this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)}/>);
             }
 
-            if (this.state.urlParams.start && (window.location.origin === getServiceUrl('chess'))) {
-                displayTitterCondition = true;
-                this.state.notDisplayCenter = true;
-                this.state.actionButton = "Start";
-                displayChess = (<Chess uuid={this.state.urlParams.start}/>);
-            }
         }
 
-        var centerData;
-
-        if (this.state.data && (type == 'cover' || type == 'Cover')) {
-            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
-        } else {
-            centerData = this.props.data; // otherwise use default data provided in props
-        }
 
         displayTitterCondition |= this.state.displayTitterCondition;
 
+        var ArticleContent = this.getCenter();
+        var contents = (<div>
+                            {ArticleContent}
+                            { displayCore }
+                            <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
+                                <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
+                            </div>
+                        </div>);
 
-        //return (<Lockup />);
+
+        return this.generateCenterWithContents(contents);
+    }
+
+    generateCenterWithContents(contents) {
+
+        var className = classNames({
+            'col-xs-12 col-sm-5 col-md-7 content content-offcanvas': true,
+            'active': this.state.active
+        });
 
         return (
             <div className={className} id="centerWrp">
                 <div className="margin">
-                    {this.state.alertWelcome || <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick}>
-                        <h5>First time here?</h5><br/><p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>. Click it to open a side menu</p>
-                    </Alert>}
-                    {this.state.alertWarning || <Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick}>
-                        <strong>Внимание</strong> - эксперементальный проект, в стадии разработки. Заявленные функции будут подключаться по мере его развития.
-                    </Alert>}
+                    <AlertWelcome  />
+                    <AlertWarning  />
                     <Login importUrl={importUrl} theme={theme} />
                     <CreateBreadcrumb
                         converter={this.props.converter}
@@ -349,16 +300,25 @@ class CreateDomCenter extends React.Component {
                         editAllowed ={ this.state.editAllowed }/>
                     { (this.state.editMode && !this.state.editModeFromUrl) ? <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
                     { (this.state.transactionsMode && !this.state.transactionsModeFromUrl) ? <CreateTransactions /> : null }
-                    { this.state.notDisplayCenter ? '' : <Center data={centerData} content={this.state.content} type={type} />}
-                    { displayCore }
-                    { displayWebgold }
-                    { displayChess }
-                    <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
-                        <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
-                    </div>
+                    {contents}
                 </div>
             </div>
         );
+    }
+
+    getCenter() {
+        var type = UrlMixin.searchToObject().list;
+        var centerData;
+
+        if (this.state.data && (type == 'cover' || type == 'Cover')) {
+            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
+        } else {
+            centerData = this.props.data; // otherwise use default data provided in props
+        }
+        if (this.state.notDisplayCenter) {
+            return false;
+        }
+        return  (<CenterContent data={centerData} content={this.state.content} type={type} />);
     }
 }
 
@@ -367,4 +327,39 @@ CreateDomCenter.propTypes = {
     converter: React.PropTypes.object.isRequired
 };
 
-module.exports = CreateDomCenter;
+
+export class TransactionsCenter extends CreateDomCenter {
+    render() {
+        this.state.actionButton = "Transactions";
+        this.state.transactionsModeFromUrl = true;
+        return this.generateCenterWithContents (<CreateTransactions />);
+
+    }
+}
+
+export class ChessCenter extends CreateDomCenter {
+    render() {
+        this.state.actionButton = "Start";
+        return this.generateCenterWithContents (<Chess uuid={this.state.urlParams.start}/>);
+
+    }
+}
+
+
+export class CoreCreateCenter extends CreateDomCenter {
+    render() {
+
+        return this.generateCenterWithContents (<Core />);
+
+    }
+}
+
+export class WebGoldCenter extends CreateDomCenter {
+    render() {
+        this.state.actionButton = "Start";
+        var wg = (<iframe src={getServiceUrl('webgold')+'/add_funds'} style={ this.editIframeStyles }/>);
+        return this.generateCenterWithContents (wg);
+
+    }
+}
+

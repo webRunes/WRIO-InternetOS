@@ -4,6 +4,8 @@ import Details from'./Details.jsx';
 import moment from 'moment';
 import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
 import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
+import CenterActions from '../WRIO-InternetOS/js/actions/center.js';
+import UserStore from '../WRIO-InternetOS/js/store/UserStore.js';
 
 var domain = getDomain();
 
@@ -45,13 +47,19 @@ class Login extends React.Component{
 
         WindowActions.loginMessage.listen((jsmsg) => {
             if (jsmsg.login == "success") {
-                location.reload();
+                //location.reload();
+
             }
 
             if (jsmsg.profile) {
                 var profile = jsmsg.profile;
                 Actions.gotWrioID(profile.id);
                 Actions.gotAuthor(profile.url);
+                if (!profile.temporary) {
+                    UserStore.saveLoggedUser(profile.id,profile);
+                }
+
+
                 if (profile.temporary) {
                     that.setState({
                         title: {
@@ -77,7 +85,7 @@ class Login extends React.Component{
                             }
                         },
                         upgrade: {
-                            text: "Lock up or switch user",
+                            text: "Lock or switch user",
                             label: profile.days + ' days left',
                             visible: false
                         }
@@ -88,6 +96,7 @@ class Login extends React.Component{
     }
 
     static openAuthPopup(e) {
+
         document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
         e.stopPropagation();
     }
@@ -98,8 +107,24 @@ class Login extends React.Component{
     }
 
     static logout(e) {
-        document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
+        Login.doLogout();
+        Login.showLockup(e);
         e.stopPropagation();
+
+    }
+
+    static showLockup(e) {
+        e.stopPropagation();
+        CenterActions.showLockup.trigger(true);
+    }
+
+    static doLogout() {
+        document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
+    }
+
+    static doLogin() {
+        document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+        CenterActions.showLockup.trigger(false);
     }
 
     changePage(){
@@ -115,7 +140,11 @@ class Login extends React.Component{
                         </span>
                         <span className="label label-warning">{this.state.upgrade.label}</span>
                     </li>);
-            has = <li><span href="#"><i className="glyphicon glyphicon-user"></i>{this.state.have.text}</span></li>;
+            has = (<li>
+                <span href="#" onClick={Login.showLockup}>
+                    <i className="glyphicon glyphicon-user"></i>{this.state.have.text}
+                </span>
+                </li>);
         }else{
             lock =
                 (<li>
