@@ -4,12 +4,12 @@ import Login from '../../../widgets/Login.jsx';
 
 
 var imgStyle = {
-    background: "url('//dev.wrioos.com.s3.amazonaws.com/animated.jpg') center center",
+    background: "url('//webrunes.github.io/Default-WRIO-Theme/img/animated.jpg') center center",
     'backgroundSize': 'cover'
 };
 
 var backStyle = {
-    background: "url('//dev.wrioos.com.s3.amazonaws.com/welcome_back-cover.jpg') center center",
+    background: "url('//webrunes.github.io/Default-WRIO-Theme/img/welcome_back-cover.jpg') center center",
     'backgroundSize': 'cover'
 };
 
