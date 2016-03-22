@@ -4,9 +4,15 @@ import Login from '../../../widgets/Login.jsx';
 
 
 var imgStyle = {
-    background: "url('  //dev.wrioos.com.s3.amazonaws.com/animated.jpg') center center",
+    background: "url('//dev.wrioos.com.s3.amazonaws.com/animated.jpg') center center",
     'backgroundSize': 'cover'
 };
+
+var backStyle = {
+    background: "url('//dev.wrioos.com.s3.amazonaws.com/welcome_back-cover.jpg') center center",
+    'backgroundSize': 'cover'
+};
+
 
 class LockupHeader extends React.Component {
     render() {
@@ -45,11 +51,13 @@ class LockupImage extends React.Component {
             name: "",
             users:[]
         };
+        this.gotHistory = false;
     }
 
     getUserHistory() {
         UserStore.getLoggedUsers().then((users)=>{
             var result = [];
+            this.gotHistory = true;
 
             if (users) {
                 Object.values(users).forEach((value) => {
@@ -84,6 +92,11 @@ class LockupImage extends React.Component {
     }
 
     render() {
+
+        if (this.gotHistory && (this.state.users.length === 0)) {
+            return (<WelcomeBack />);
+        }
+
         return (
             <div id="cover-carousel" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
@@ -93,6 +106,26 @@ class LockupImage extends React.Component {
                         {this.state.users.map((user) => {
                             return this.getCarouselItem(user);
                         })}
+                    </div>
+                </div>
+            </div>
+        </div>);
+    }
+}
+
+class WelcomeBack extends React.Component {
+    render() {
+        return (<div id="cover-carousel" className="carousel slide" data-ride="carousel">
+            <div className="carousel-inner">
+                <div className="item active">
+                    <div className="img" style={backStyle}></div>
+                    <div className="carousel-caption">
+                        <div className="carousel-text">
+                            <h2>Welcome back!</h2>
+                            <div className="description">Добавить существующую учетную запись WRIO OS в один клик! Добавление происходит через привязку Твиттер аккаунта.</div>
+                            <button type="button" className="btn btn-success btn-lg" onClick={Login.doLogin}>
+                                <span className="glyphicon glyphicon-plus"></span>Add user</button>
+                        </div>
                     </div>
                 </div>
             </div>
