@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import sortBy from 'lodash.sortby';
 import some from 'lodash.some';
 import normURL from './stores/normURL';
-import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 
 var storage = CrossStorageFactory.getCrossStorage();

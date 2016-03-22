@@ -1,6 +1,6 @@
 import React from 'react';
 import normURL from './stores/normURL';
-import {CrossStorageFactory} from './stores/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 
 var storage = CrossStorageFactory.getCrossStorage();
 

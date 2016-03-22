@@ -1,9 +1,8 @@
-var Reflux = require('reflux'),
-    Actions = require('../actions/center'),
-    request = require('superagent'),
-    UrlMixin = require('../mixins/UrlMixin'),
-    scripts = require('../jsonld/scripts');
-
+import Reflux from 'reflux';
+import Actions from '../actions/center';
+import request from 'superagent';
+import UrlMixin from '../mixins/UrlMixin';
+import scripts from '../jsonld/scripts';
 import {fixUrlProtocol} from '../mixins/UrlMixin';
 
 module.exports = Reflux.createStore({

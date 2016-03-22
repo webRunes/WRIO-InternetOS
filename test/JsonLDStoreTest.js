@@ -1,7 +1,7 @@
 import assert from 'assert';
 import should from 'should';
-import {setMock} from '../widgets/Plus/stores/CrossStorageFactory.js'
-import JsonLDStore from '../widgets/Plus/stores/jsonld.js'
+import {setMock} from '../WRIO-InternetOS/js/store/CrossStorageFactory.js';
+import JsonLDStore from '../widgets/Plus/stores/jsonld.js';
 import jsdom from 'jsdom';
 
 var mockval = {

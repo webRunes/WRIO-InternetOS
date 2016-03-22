@@ -4,7 +4,7 @@ import Actions from '../actions/jsonld';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,lastOrder,getNext} from './tools';
 import {Promise} from 'es6-promise';
-import {CrossStorageFactory} from './CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
     storage = CrossStorageFactory.getCrossStorage();
@@ -409,45 +409,23 @@ export default Reflux.createStore({
     },
 
 
-    hideAlertWarning(id, cb){
-        var info = id + ' close warning alert';
+    storageGetKey(key, cb){
         storage.onConnect().then(function () {
-            return storage.get(info);
+            return storage.get(key);
         }).then(function (res) {
             if(res){
-                cb(true);
+                cb(key);
             }else{
                 cb(false);
             }
         });
     },
 
-    hideAlertWelcome(id, cb){
-        var info = id + ' close welcome alert';
+    storageSetKey(key,value){
         storage.onConnect().then(function () {
-            return storage.get(info);
-        }).then(function (res) {
-            if(res){
-                cb(true);
-            }else{
-                cb(false);
-            }
+            storage.set(key, value);
         });
-    },
-
-    hideAlertWarningByClick(id){
-        var info = id + ' close warning alert';
-        storage.onConnect().then(function () {
-            storage.set(info, true);
-        });
-    },
-
-    hideAlertWelcomeByClick(id){
-        var info = id + ' close welcome alert';
-        storage.onConnect().then(function () {
-            storage.set(info, true);
-        });
-    },
+    }
 
 
 

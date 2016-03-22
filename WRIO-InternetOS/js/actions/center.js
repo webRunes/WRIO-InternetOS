@@ -6,5 +6,6 @@ module.exports = Reflux.createActions([
     'article',
     'gotWrioID',
     'gotAuthor',
-    'switchToEditMode'
+    'switchToEditMode',
+    'showLockup'
 ]);

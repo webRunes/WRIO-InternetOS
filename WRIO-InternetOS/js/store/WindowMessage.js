@@ -36,10 +36,22 @@ module.exports = Reflux.createStore({
             }
             httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
             if (httpChecker.test(e.origin)) {
-                if (!loginMessage) {
-                    WindowActions.loginMessage.trigger(msg);
-                    loginMessage = true;
+                if (msg.login === "success") {
+                    console.log("Requesting page reload");
+                    document.getElementById('loginbuttoniframe').contentWindow.postMessage('reload', getServiceUrl('login'));
+                    loginMessage = false;
                 }
+
+                if (msg.profile) {
+                    if (!loginMessage) {
+                        loginMessage = true;
+                        WindowActions.loginMessage.trigger(msg); // leave only one profile message
+                    }
+                } else {
+                    WindowActions.loginMessage.trigger(msg); // leave only one profile message
+                }
+
+
 
             }
             httpChecker = new RegExp('^(http|https)://webgold.' + domain, 'i');
