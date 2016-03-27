@@ -1,6 +1,6 @@
-var Reflux = require('reflux'),
-    tools = require('./tools'),
-    ActionMenu = require('../actions/menu.js');
+import Reflux from 'reflux';
+import tools from './tools';
+import ActionMenu from '../actions/menu.js';
 
 var storeMenu = Reflux.createStore({
     init: function () {
@@ -40,5 +40,4 @@ var storeMenu = Reflux.createStore({
     }
 });
 
-
-module.exports = storeMenu;
+export default storeMenu;

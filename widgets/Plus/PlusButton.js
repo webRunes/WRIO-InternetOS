@@ -6,7 +6,7 @@ import WindowActions from '../../WRIO-InternetOS/js/actions/WindowActions.js';
 
 var domain = getDomain();
 
-class P extends React.Component{
+class PlusButton extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -63,9 +63,9 @@ class P extends React.Component{
     }
 }
 
-P.propTypes = {
+PlusButton.propTypes = {
     data: React.PropTypes.object.isRequired,
     active: React.PropTypes.bool.isRequired
 };
 
-export default P;
+export default PlusButton;

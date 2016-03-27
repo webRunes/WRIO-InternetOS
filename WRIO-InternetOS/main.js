@@ -15,6 +15,10 @@ import UrlMixin from './js/mixins/UrlMixin.js';
 import Lockup from './js/components/Lockup.js';
 import CenterActions from './js/actions/center';
 
+window.Perf = require('react-addons-perf');
+
+Perf.start();
+
 var converter = new Showdown.Converter();
 
 export default class Main extends React.Component {

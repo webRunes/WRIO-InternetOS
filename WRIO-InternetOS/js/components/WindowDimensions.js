@@ -1,41 +1,46 @@
 /**
  * Created by Victor on 09.11.2015.
  */
-var React = require('react'),
-    ActionMenu = require('../../../widgets/Plus/actions/menu');
+import React from 'react';
+import ActionMenu from '../../../widgets/Plus/actions/menu';
 
-class WindowDimensions extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            width: false,
-            height: false
+
+var oldHeight = 0;
+var oldWidth = 0;
+
+(function() {
+    var throttle = function(type, name, obj) {
+        obj = obj || window;
+        var running = false;
+        var func = function() {
+            if (running) { return; }
+            running = true;
+            requestAnimationFrame(function() {
+                // For IE compatibility
+                var evt = document.createEvent("CustomEvent");
+                evt.initCustomEvent(name, false, false, {
+                    'cmd': "resize"
+                });
+                obj.dispatchEvent(evt);
+                // obj.dispatchEvent(new CustomEvent(name));
+                running = false;
+            });
         };
-        this.updateDimensions = this.updateDimensions.bind(this);
-    }
-    updateDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
+        obj.addEventListener(type, func);
+    };
 
-    componentWillMount() {
-        this.updateDimensions();
-    }
+    /* init - you can init any event */
+    throttle("resize", "optimizedResize");
+})();
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateDimensions);
-    }
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateDimensions);
-    }
+window.addEventListener('optimizedResize',() => {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
 
-    render() {
-        ActionMenu.windowResize(this.state.width, this.state.height);
-        return <span className={('hide')}>{this.state.width} x {this.state.height}</span>;
+    if ((w != oldWidth) || (h!=oldHeight)) {
+        ActionMenu.windowResize(w,h);
     }
-}
-
-module.exports = WindowDimensions;
+    oldHeight = h;
+    oldWidth = w;
+});

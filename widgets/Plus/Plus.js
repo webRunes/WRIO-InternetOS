@@ -7,7 +7,7 @@ import StoreMenu from './stores/menu';
 import classNames from 'classnames';
 import List from './List';
 import sortBy from 'lodash.sortby';
-import P from './P';
+import PlusButton from './PlusButton.js';
 
 class Plus extends React.Component {
     constructor(props) {
@@ -108,7 +108,7 @@ class Plus extends React.Component {
                 <div className="navbar-header" id="tabScrollPosition" style={height}>
                     <List data={this.state.jsonld} height={this.props.height} />
                 </div>
-                <P data={{ name: 'plus' }} active={activePlus} />
+                <PlusButton data={{ name: 'plus' }} active={activePlus} />
             </nav>
         );
     }

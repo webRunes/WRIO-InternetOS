@@ -116,45 +116,49 @@ class CreateDomLeft extends React.Component {
                 'btn btn-link btn-sm visible-xs': true,
                 'active': this.state.showSidebar
             });
-
+        var header = this.getHeader(classNameToggle,classNameSidebar);
         return (
             <div className="col-xs-12 col-sm-3 col-md-2">
                 <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
-                    <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
-                        <ul className="nav menu pull-right">
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-comment" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-lock" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
-                                <a className="btn btn-link btn-sm" href="#">
-                                    <span className="glyphicon glyphicon-fullscreen" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
-                                <a onClick={this.toggleMenuByClick} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
-                                    <span className="glyphicon glyphicon-align-justify" />
-                                </a>
-                            </li>
-                            <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
-                                <a onClick={this.showSidebarByClick} ref="showSidebar"  data-toggle="offcanvas" id="myoffcanvas" className={classNameSidebar} href="#">
-                                    <span className="glyphicon glyphicon-transfer" />
-                                </a>
-                            </li>
-                        </ul>
-                        <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="//webrunes-contact.htm" data-original-title="Contact us"> </a>
-                    </div>
+                    {header}
                     <Plus themeImportUrl={themeImportUrl} height={this.state.height}/>
                 </div>
             </div>
         );
     }
-};
+
+    getHeader(classNameToggle,classNameSidebar) {
+        return ( <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
+            <ul className="nav menu pull-right">
+                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
+                    <a className="btn btn-link btn-sm" href="#">
+                        <span className="glyphicon glyphicon-comment" />
+                    </a>
+                </li>
+                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
+                    <a className="btn btn-link btn-sm" href="#">
+                        <span className="glyphicon glyphicon-lock" />
+                    </a>
+                </li>
+                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
+                    <a className="btn btn-link btn-sm" href="#">
+                        <span className="glyphicon glyphicon-fullscreen" />
+                    </a>
+                </li>
+                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
+                    <a onClick={this.toggleMenuByClick} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
+                        <span className="glyphicon glyphicon-align-justify" />
+                    </a>
+                </li>
+                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Show/hide the sidebar">
+                    <a onClick={this.showSidebarByClick} ref="showSidebar"  data-toggle="offcanvas" id="myoffcanvas" className={classNameSidebar} href="#">
+                        <span className="glyphicon glyphicon-transfer" />
+                    </a>
+                </li>
+            </ul>
+            <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="//webrunes-contact.htm" data-original-title="Contact us"> </a>
+        </div>);
+    }
+}
 
 module.exports = CreateDomLeft;
