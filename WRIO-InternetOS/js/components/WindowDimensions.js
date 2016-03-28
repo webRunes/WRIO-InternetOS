@@ -39,7 +39,8 @@ window.addEventListener('optimizedResize',() => {
     var h = window.innerHeight;
 
     if ((w != oldWidth) || (h!=oldHeight)) {
-        ActionMenu.windowResize(w,h);
+        console.log("WindowResize trigger");
+        ActionMenu.windowResize.trigger(w,h);
     }
     oldHeight = h;
     oldWidth = w;
