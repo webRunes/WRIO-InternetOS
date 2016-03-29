@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import normURL from './stores/normURL';
+import normURL from './utils/normURL';
 import {CrossStorageFactory} from '../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 

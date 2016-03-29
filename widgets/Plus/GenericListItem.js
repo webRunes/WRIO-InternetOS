@@ -1,5 +1,5 @@
 import React from 'react';
-import normURL from './stores/normURL';
+import normURL from './utils/normURL';
 import {CrossStorageFactory} from '../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 
 var storage = CrossStorageFactory.getCrossStorage();
@@ -48,7 +48,7 @@ class GenericListItem extends React.Component {
             window.location = this.props.data.url;
 
         } catch (e) {
-            console.log(e);
+            console.log("Error during gotoUrl", e);
         }
     }
 

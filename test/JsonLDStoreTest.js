@@ -1,7 +1,7 @@
 import assert from 'assert';
 import should from 'should';
 import {setMock} from '../WRIO-InternetOS/js/store/CrossStorageFactory.js';
-import JsonLDStore from '../widgets/Plus/stores/jsonld.js';
+import PlusStore from '../widgets/Plus/stores/PlusStore.js';
 import jsdom from 'jsdom';
 
 var mockval = {
@@ -53,7 +53,7 @@ describe('jsonld store test', () => {
     before(() => {});
 
     it("Should create jsonld store, and get plus from crossStorage", (done) => {
-       var store = JsonLDStore;
+       var store = PlusStore;
        setMock(mockval);
        store.init();
        setTimeout(() => {

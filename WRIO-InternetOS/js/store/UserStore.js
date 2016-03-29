@@ -20,8 +20,16 @@ export default Reflux.createStore({
     },
 
     async getLoggedUsers() {
+        console.log("Getting user list...");
         await storage.onConnect();
-        return storage.get('savedUsers');
+        var users = await storage.get('savedUsers');
+        this.trigger(this.convert(users));
+        return users;
+    },
+
+    convert(users) {
+        return users;
     }
+
 
 });

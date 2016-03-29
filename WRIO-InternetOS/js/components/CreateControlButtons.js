@@ -1,7 +1,7 @@
 import React from 'react';
 import CenterActions from '../actions/center';
 import PlusActions from '../../../widgets/Plus/actions/jsonld';
-import normURL from '../../../widgets/Plus/stores/normURL';
+import normURL from '../../../widgets/Plus/utils/normURL';
 import UrlMixin from '../mixins/UrlMixin';
 
 export default class CreateControlButtons extends React.Component {

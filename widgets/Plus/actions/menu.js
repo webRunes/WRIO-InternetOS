@@ -7,6 +7,7 @@ var menuAction = Reflux.createActions([
     'toggleMenu',
     'showSidebar',
     'tabsSize',
+    'leftHeight',
     'windowResize',
     'refresh'
 ]);

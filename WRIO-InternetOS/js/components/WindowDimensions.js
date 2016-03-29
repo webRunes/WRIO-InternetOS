@@ -33,8 +33,7 @@ var oldWidth = 0;
     throttle("resize", "optimizedResize");
 })();
 
-
-window.addEventListener('optimizedResize',() => {
+export default function sendHeight() {
     var w = window.innerWidth;
     var h = window.innerHeight;
 
@@ -44,4 +43,7 @@ window.addEventListener('optimizedResize',() => {
     }
     oldHeight = h;
     oldWidth = w;
-});
+}
+
+
+window.addEventListener('optimizedResize',sendHeight);

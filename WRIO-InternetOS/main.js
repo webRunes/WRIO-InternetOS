@@ -7,17 +7,17 @@ import CreateDomLeft from './js/components/CreateDomLeft';
 import CreateDomRight from './js/components/CreateDomRight';
 import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './js/components/CreateDomCenter';
 import {getServiceUrl,getDomain} from './js/servicelocator.js';
-import WindowDimensions  from './js/components/WindowDimensions';
+import sendHeight  from './js/components/WindowDimensions';
 import scripts from './js/jsonld/scripts';
 import domready from 'domready';
 import WindowActionStore from './js/store/WindowMessage.js';
 import UrlMixin from './js/mixins/UrlMixin.js';
 import Lockup from './js/components/Lockup.js';
 import CenterActions from './js/actions/center';
+import {Plus,Users} from "../widgets/Plus/Plus";
+import { Router, Route, Link } from 'react-router';
 
-window.Perf = require('react-addons-perf');
-
-Perf.start();
+//Perf.start();
 
 var converter = new Showdown.Converter();
 
@@ -41,8 +41,10 @@ export default class Main extends React.Component {
     componentDidMount() {
         // hide preloader
         this.listener();
+        sendHeight();
         document.getElementById('preloader') ? document.getElementById('preloader').style.display = 'none' : true;
     }
+
     render() {
 
         if (this.url.start && (window.location.origin === getServiceUrl('chess'))) {
@@ -62,20 +64,22 @@ export default class Main extends React.Component {
         }
 
         if (this.state.showLockup) {
-            return this.renderWithCenter(<Lockup />);
+            return this.renderWithCenter(<Lockup />, <Users />);
         }
 
         return this.renderWithCenter(<CreateDomCenter converter={converter} data={this.props.data} />);
     }
 
-    renderWithCenter(center) {
+    renderWithCenter(center,plus) {
+        var plus = plus || (<Plus />);
         return (
             <div className={'row row-offcanvas row-offcanvas-right '}>
-                <CreateDomLeft />
+                <CreateDomLeft list={plus} />
                 {center}
                 <CreateDomRight data={this.props.data} />
             </div>);
     }
+
 }
 
 Main.propTypes = {

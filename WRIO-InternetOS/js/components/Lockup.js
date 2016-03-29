@@ -83,8 +83,8 @@ class LockupImage extends React.Component {
             <h6>My motto</h6>
             <div className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam risus nulla, commodo vitae tincidunt quis, bibendum at felis. Donec placerat nisl ac libero lacinia, vel pellentesque metus placerat.</div>
             <ul className="features">
-                <li><span class="glyphicon glyphicon-ok"></span>Люблю читать и играть на гитаре</li>
-                <li><span class="glyphicon glyphicon-ok"></span>Моя цель - захватить Мир</li>
+                <li><span className="glyphicon glyphicon-ok"></span>Люблю читать и играть на гитаре</li>
+                <li><span className="glyphicon glyphicon-ok"></span>Моя цель - захватить Мир</li>
             </ul>
             <button type="button" className="btn btn-success btn-lg" onClick={Login.doLogin}>
                 <span className="glyphicon glyphicon-user"></span>Login with Twitter</button>

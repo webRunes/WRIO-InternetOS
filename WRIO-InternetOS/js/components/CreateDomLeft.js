@@ -1,11 +1,10 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    Plus = require('../../../widgets/Plus/Plus'),
     Reflux = require('reflux'),
     classNames = require('classnames'),
     ActionMenu = require('../../../widgets/Plus/actions/menu'),
-    StoreMenu = require('../../../widgets/Plus/stores/menu'),
-    themeImportUrl = require('../global').themeImportUrl;
+    StoreMenu = require('../../../widgets/Plus/stores/menu');
+
 
 class CreateDomLeft extends React.Component {
 
@@ -15,6 +14,7 @@ class CreateDomLeft extends React.Component {
         this.showSidebar = this.showSidebar.bind(this);
         this.toggleMenuByClick = this.toggleMenuByClick.bind(this);
         this.showSidebarByClick = this.showSidebarByClick.bind(this);
+        this.windowResize = this.windowResize.bind(this);
         this.state = {
             toggleMenu: false,
             showSidebar: false,
@@ -25,13 +25,14 @@ class CreateDomLeft extends React.Component {
     componentDidMount() {
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.toggleMenu);
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.showSidebar);
+        this.listenActionsResize = ActionMenu.windowResize.listen(this.windowResize);
     }
 
 
     componentWillUnmount() {
         this.listenStoreMenuToggle();
         this.listenStoreMenuSidebar();
-//        this.listenStoreMenuTabsSize();
+        this.listenActionsResize();
     }
 
     toggleMenu(data) {
@@ -62,6 +63,16 @@ class CreateDomLeft extends React.Component {
         ActionMenu.toggleMenu(false);
     }
 
+    windowResize(width, height) {
+
+        if (this.refs.navbarHeader && window.innerHeight < ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + height + 41 && window.innerWidth > 767) {
+            var pht = window.innerHeight - (ReactDOM.findDOMNode(this.refs.navbarHeader).offsetHeight + 41);
+            ActionMenu.leftHeight.trigger( pht + 'px');
+        } else {
+            ActionMenu.leftHeight.trigger('auto');
+        }
+    }
+
     static hasClass(el, selector) {
         var className = ' ' + selector + ' ';
 
@@ -87,7 +98,7 @@ class CreateDomLeft extends React.Component {
             <div className="col-xs-12 col-sm-3 col-md-2">
                 <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
                     {header}
-                    <Plus themeImportUrl={themeImportUrl}/>
+                    {this.props.list}
                 </div>
             </div>
         );
@@ -126,5 +137,9 @@ class CreateDomLeft extends React.Component {
         </div>);
     }
 }
+
+CreateDomLeft.propTypes = {
+    list: React.PropTypes.any
+};
 
 module.exports = CreateDomLeft;

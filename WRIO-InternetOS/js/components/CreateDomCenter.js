@@ -17,7 +17,7 @@ import StoreMenu from '../../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../../widgets/transactions.jsx';
 import CenterActions from '../actions/center';
-import PlusStore from '../../../widgets/Plus/stores/jsonld';
+import PlusStore from '../../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';

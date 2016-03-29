@@ -4,7 +4,7 @@
 
 import assert from 'assert';
 import should from 'should';
-import normURL from '../widgets/Plus/stores/normURL.js';
+import normURL from '../widgets/Plus/utils/normURL.js';
 
 
 describe('URL normalizer test', () => {

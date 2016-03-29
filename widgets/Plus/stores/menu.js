@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
-import tools from './tools';
+import tools from '../utils/tools';
 import ActionMenu from '../actions/menu.js';
 
 var storeMenu = Reflux.createStore({
@@ -7,7 +7,7 @@ var storeMenu = Reflux.createStore({
         this.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
         this.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
         this.listenTo(ActionMenu.tabsSize, this.onTabsSize);
-        this.listenTo(ActionMenu.windowResize, this.onWindowResize);
+        //this.listenTo(ActionMenu.windowResize, this.onWindowResize);
         this.listenTo(ActionMenu.refresh, this.onRefresh);
     },
     onCallAi: function () {

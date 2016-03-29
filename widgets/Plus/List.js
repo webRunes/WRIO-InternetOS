@@ -12,8 +12,8 @@ class List extends React.Component {
         super(props);
 
         this.onToggleMenu = this.onToggleMenu.bind(this);
-        this.onWindowResize = this.onWindowResize.bind(this);
-        this.tabsSize = this.tabsSize.bind(this);
+      //  this.onWindowResize = this.onWindowResize.bind(this);
+      //  this.tabsSize = this.tabsSize.bind(this);
         this.state = {
             fixed: false,
             resize: false,
@@ -31,7 +31,7 @@ class List extends React.Component {
         });
     }
 
-    onWindowResize(width, height) {
+  /*  onWindowResize(width, height) {
         this.setState({
             resize: true
         });
@@ -41,7 +41,8 @@ class List extends React.Component {
         this.setState({
             tabsSize: length
         });
-    }
+    }*/
+
 
     list() {
         var del;
@@ -66,11 +67,11 @@ class List extends React.Component {
 
     componentDidMount() {
         this.listenStoreMenuToggle = StoreMenu.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
-        this.listenStoreMenuWindowResize = StoreMenu.listenTo(ActionMenu.windowResize, this.onWindowResize);
-        this.tabsSize(this.list().length);
+       // this.listenStoreMenuWindowResize = StoreMenu.listenTo(ActionMenu.windowResize, this.onWindowResize);
+      //  this.tabsSize(this.list().length);
     }
 
-
+/*
     shouldComponentUpdate(newProps) {
         var length = this.list().length;
         if (newProps.height != 'auto') {
@@ -84,18 +85,14 @@ class List extends React.Component {
             ActionMenu.tabsSize(length * 40);
             return true;
         }
-    }
+    }*/
 
     render() {
+
         var height = {
-            height: 'auto'
+            height: "auto"
         };
 
-        if (window.innerWidth < 767 && (this.state.fixed == true || window.innerHeight - 93 < this.list().length * 40)) {
-            height = {
-                height: window.innerHeight - 93
-            };
-        }
 
         return (
             <ul id="nav-accordion" className="nav navbar-var" style={height}>
@@ -106,8 +103,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-    data: React.PropTypes.object.isRequired,
-    height: React.PropTypes.node.isRequired
+    data: React.PropTypes.object.isRequired
 };
 
 module.exports = List;

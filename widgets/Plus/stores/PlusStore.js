@@ -1,8 +1,8 @@
 import Reflux from 'reflux';
-import normURL from './normURL';
+import normURL from '../utils/normURL';
 import Actions from '../actions/jsonld';
 import ActionMenu from '../actions/menu';
-import {getJsonldsByUrl,lastOrder,getNext} from './tools';
+import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
 import {Promise} from 'es6-promise';
 import {CrossStorageFactory} from '../../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
 
