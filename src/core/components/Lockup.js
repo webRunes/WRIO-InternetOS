@@ -1,6 +1,6 @@
 import React from 'react';
 import UserStore from '../store/UserStore.js';
-import Login from '../../../widgets/Login.jsx';
+import Login from '../../widgets/Login.jsx';
 
 
 var imgStyle = {

@@ -2,8 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     Reflux = require('reflux'),
     classNames = require('classnames'),
-    ActionMenu = require('../../../widgets/Plus/actions/menu'),
-    StoreMenu = require('../../../widgets/Plus/stores/menu');
+    ActionMenu = require('../../widgets/Plus/actions/menu'),
+    StoreMenu = require('../../widgets/Plus/stores/menu');
 
 
 class CreateDomLeft extends React.Component {

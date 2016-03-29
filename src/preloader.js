@@ -17,8 +17,8 @@ var code =
     favicon,
     head = document.getElementsByTagName('head')[0],
     notSupportedBrowsers = [],
-    cssUrl = require('./js/global').cssUrl,
-    theme = require('./js/global').theme,
+    cssUrl = require('./core/global').cssUrl,
+    theme = require('./core/global').theme,
     css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
         cssUrl + theme + '/css/webrunes.css'
@@ -187,7 +187,7 @@ if(!BrowserDetection.init()){
     head.appendChild(favicon);
 
     var preTitterIframe = document.createElement('iframe');
-    var getServiceUrl = require('./js/servicelocator').getServiceUrl;
+    var getServiceUrl = require('./core/servicelocator').getServiceUrl;
     preTitterIframe.src = getServiceUrl('login') + '/buttons/twitter';
     preTitterIframe.style = "display:none";
     preTitterIframe.id = "loginbuttoniframe";

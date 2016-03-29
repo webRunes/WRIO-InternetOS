@@ -2,7 +2,7 @@
  * Created by Victor on 09.11.2015.
  */
 import React from 'react';
-import ActionMenu from '../../../widgets/Plus/actions/menu';
+import ActionMenu from '../../widgets/Plus/actions/menu';
 
 
 var oldHeight = 0;

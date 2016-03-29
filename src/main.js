@@ -1,20 +1,19 @@
 require('babel/polyfill');
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Showdown from 'showdown';
-import CreateDomLeft from './js/components/CreateDomLeft';
-import CreateDomRight from './js/components/CreateDomRight';
-import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './js/components/CreateDomCenter';
-import {getServiceUrl,getDomain} from './js/servicelocator.js';
-import sendHeight  from './js/components/WindowDimensions';
-import scripts from './js/jsonld/scripts';
+import CreateDomLeft from './core/components/CreateDomLeft';
+import CreateDomRight from './core/components/CreateDomRight';
+import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
+import {getServiceUrl,getDomain} from './core/servicelocator.js';
+import sendHeight  from './core/components/WindowDimensions';
+import scripts from './core/jsonld/scripts';
 import domready from 'domready';
-import WindowActionStore from './js/store/WindowMessage.js';
-import UrlMixin from './js/mixins/UrlMixin.js';
-import Lockup from './js/components/Lockup.js';
-import CenterActions from './js/actions/center';
-import {Plus,Users} from "../widgets/Plus/Plus";
+import WindowActionStore from './core/store/WindowMessage.js';
+import UrlMixin from './core/mixins/UrlMixin.js';
+import Lockup from './core/components/Lockup.js';
+import CenterActions from './core/actions/center';
+import {Plus,Users} from "./widgets/Plus/Plus";
 import { Router, Route, Link } from 'react-router';
 
 //Perf.start();

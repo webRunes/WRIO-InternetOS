@@ -1,11 +1,11 @@
 import React from 'react';
-import Actions from '../WRIO-InternetOS/js/actions/center';
+import Actions from '../core/actions/center';
 import Details from'./Details.jsx';
 import moment from 'moment';
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
-import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
-import CenterActions from '../WRIO-InternetOS/js/actions/center.js';
-import UserStore from '../WRIO-InternetOS/js/store/UserStore.js';
+import {getServiceUrl,getDomain} from '../core/servicelocator.js';
+import WindowActions from '../core/actions/WindowActions.js';
+import CenterActions from '../core/actions/center.js';
+import UserStore from '../core/store/UserStore.js';
 
 var domain = getDomain();
 

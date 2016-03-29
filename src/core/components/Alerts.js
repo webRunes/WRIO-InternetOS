@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Alert} from 'react-bootstrap';
-import PlusStore from '../../../widgets/Plus/stores/PlusStore.js';
+import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 
 export class AlertWelcome extends React.Component {

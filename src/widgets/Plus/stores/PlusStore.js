@@ -4,7 +4,7 @@ import Actions from '../actions/jsonld';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
 import {Promise} from 'es6-promise';
-import {CrossStorageFactory} from '../../../WRIO-InternetOS/js/store/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
     storage = CrossStorageFactory.getCrossStorage();

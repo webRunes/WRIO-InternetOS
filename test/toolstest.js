@@ -1,6 +1,6 @@
 import assert from 'assert';
 import should from 'should';
-import {getNext} from '../widgets/Plus/stores/tools.js';
+import {getNext} from '../src/widgets/Plus/utils/tools.js';
 
 
 describe('tools test', () => {

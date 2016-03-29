@@ -1,6 +1,6 @@
 import React from 'react';
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
-import WindowActions from '../WRIO-InternetOS/js/actions/WindowActions.js';
+import {getServiceUrl,getDomain} from '../core/servicelocator.js';
+import WindowActions from '../core/actions/WindowActions.js';
 
 var domain = getDomain();
 

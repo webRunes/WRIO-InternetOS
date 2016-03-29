@@ -1,6 +1,6 @@
 import React from 'react';
 import {importUrl,theme} from '../global';
-import {getJsonldsByUrl} from '../../../widgets/Plus/utils/tools';
+import {getJsonldsByUrl} from '../../widgets/Plus/utils/tools';
 
 export default class CreateInfoTicket extends React.Component {
     constructor(props) {

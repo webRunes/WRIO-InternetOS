@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {getServiceUrl,getDomain} from '../WRIO-InternetOS/js/servicelocator.js';
+import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 
 var domain = getDomain();
 
