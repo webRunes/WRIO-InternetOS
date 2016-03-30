@@ -1,7 +1,7 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import Mention from '../WRIO-InternetOS/js/jsonld/mention.js';
+import Mention from '../src/core/jsonld/mention.js';
 
 describe('mention test', () => {
     before(() => {

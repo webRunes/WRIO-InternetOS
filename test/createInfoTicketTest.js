@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import CreateInfoTicket from '../WRIO-InternetOS/js/components/CreateInfoTicket';
+import CreateInfoTicket from '../src/core/components/CreateInfoTicket';
 import jsdom from 'jsdom';
 
 var FAKE_DOM_HTML = `
