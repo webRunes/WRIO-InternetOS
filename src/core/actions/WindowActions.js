@@ -2,9 +2,9 @@
  * Created by michbil on 26.01.16.
  */
 
-var Reflux = require('reflux');
+import Reflux from 'reflux';
 
-module.exports = Reflux.createActions([
+export default Reflux.createActions([
     'titterMessage',
     'coreMessage',
     'loginMessage',

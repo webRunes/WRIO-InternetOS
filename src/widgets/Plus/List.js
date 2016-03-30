@@ -1,11 +1,11 @@
-var React = require('react'),
-    Reflux = require('reflux'),
-    actions = require('./actions/jsonld'),
-    Item = require('./Item'),
-    sortBy = require('lodash.sortby'),
-    SubList = require('./SubList'),
-    StoreMenu = require('./stores/menu'),
-    ActionMenu = require('./actions/menu');
+import React from 'react';
+import Reflux from 'reflux';
+import actions from './actions/PlusActions.js';
+import Item from './Item';
+import sortBy from 'lodash.sortby';
+import SubList from './SubList';
+import StoreMenu from './stores/menu';
+import ActionMenu from './actions/menu';
 
 class List extends React.Component {
     constructor(props) {

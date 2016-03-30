@@ -1,10 +1,11 @@
 import Reflux from 'reflux';
 import normURL from '../utils/normURL';
-import Actions from '../actions/jsonld';
+import Actions from '../actions/PlusActions.js';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
 import {Promise} from 'es6-promise';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
+import UserActions from '../../../core/actions/UserActions.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
     storage = CrossStorageFactory.getCrossStorage();
@@ -425,6 +426,55 @@ export default Reflux.createStore({
         storage.onConnect().then(function () {
             storage.set(key, value);
         });
+    },
+
+    modifyCurrentUrl(plus) {
+        Object.keys(plus).forEach((item) => {
+            if (normURL(item) === normURL(window.location.href)) {
+                var _tmp = plus[item];
+                _tmp.url = window.location.href;
+                delete plus[item];
+                plus[window.location.href] = _tmp;
+            } else if (plus[item].children) {
+                Object.keys(plus[item].children).forEach((child) => {
+                    if (normURL(child) === normURL(window.location.href)) {
+                        var _tmp = plus[item].children[child];
+                        _tmp.url = window.location.href;
+                        delete plus[item].children[child];
+                        plus[item].children[window.location.href] = _tmp;
+                    }
+                });
+            }
+        });
+        return plus;
+    },
+
+    async onClickLink(data) {
+
+        console.log(data);
+
+        if (data && (data.temporary !== undefined)) {
+            return UserActions.selectUser.trigger(data);
+        }
+
+        if (window.localStorage) {
+            localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
+        }
+        try {
+            await storage.onConnect();
+            var plus = await storage.get('plus');
+            if (!plus) {
+                return;
+            }
+            plus = this.modifyCurrentUrl(plus);
+            await storage.del('plus');
+            await storage.set('plus', plus);
+            await storage.del('plusActive');
+            window.location = data.url;
+
+        } catch (e) {
+            console.log("Error during gotoUrl", e);
+        }
     }
 
 

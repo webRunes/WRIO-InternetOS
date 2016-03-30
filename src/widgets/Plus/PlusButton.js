@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {getServiceUrl,getDomain} from '../../core/servicelocator.js';
-import Actions from './actions/jsonld';
+import Actions from './actions/PlusActions.js';
 import WindowActions from '../../core/actions/WindowActions.js';
 
 var domain = getDomain();

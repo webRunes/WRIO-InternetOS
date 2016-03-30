@@ -1,6 +1,6 @@
 import React from 'react';
 import Actions from '../core/actions/center';
-import Details from'./Details.jsx';
+import Details from'./Details.js';
 import moment from 'moment';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';

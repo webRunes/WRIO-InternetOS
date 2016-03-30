@@ -1,6 +1,6 @@
 import React from 'react';
 import CenterActions from '../actions/center';
-import PlusActions from '../../widgets/Plus/actions/jsonld';
+import PlusActions from '../../widgets/Plus/actions/PlusActions.js';
 import normURL from '../../widgets/Plus/utils/normURL';
 import UrlMixin from '../mixins/UrlMixin';
 

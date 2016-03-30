@@ -1,5 +1,5 @@
 import React from 'react';
-import actions from './actions/jsonld';
+import actions from './actions/PlusActions.js';
 import Item from './Item';
 import classNames from 'classnames';
 import sortBy from 'lodash.sortby';

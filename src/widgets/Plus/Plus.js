@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import PlusStore from './stores/PlusStore.js';
 import UserStore from '../../core/store/UserStore.js';
-import actions from './actions/jsonld';
+import actions from './actions/PlusActions.js';
 import ActionMenu from './actions/menu';
 import StoreMenu from './stores/menu';
 import classNames from 'classnames';
@@ -169,9 +169,9 @@ export class Users extends RightBar {
         this.listenStore();
     }
 
-    onStateChange(users) {
+    onStateChange(usersState) {
         this.setState({
-            users: users
+            users: usersState.users
         });
     }
 

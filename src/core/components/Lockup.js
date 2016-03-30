@@ -1,6 +1,6 @@
 import React from 'react';
 import UserStore from '../store/UserStore.js';
-import Login from '../../widgets/Login.jsx';
+import Login from '../../widgets/Login.js';
 
 
 var imgStyle = {
@@ -49,30 +49,29 @@ class LockupImage extends React.Component {
         this.state = {
             description:"",
             name: "",
-            users:[]
+            selectedUser: null
         };
         this.gotHistory = false;
     }
 
     getUserHistory() {
-        UserStore.getLoggedUsers().then((users)=>{
-            var result = [];
-            this.gotHistory = true;
+        UserStore.getLoggedUsers().then(() => this.gotHistory = true);
 
-            if (users) {
-                Object.values(users).forEach((value) => {
-                    result.push(value);
-                });
-            }
+    }
 
-            this.setState({
-                users:result
-            });
+    onStateChange(state) {
+        this.setState({
+            selectedUser: UserStore.getActiveUser(state)
         });
     }
 
     componentDidMount() {
         this.getUserHistory();
+        this.userStore = UserStore.listen(this.onStateChange.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.userStore();
     }
 
     getCarouselItem(user) {
@@ -93,7 +92,7 @@ class LockupImage extends React.Component {
 
     render() {
 
-        if (this.gotHistory && (this.state.users.length === 0)) {
+        if (this.state.selectedUser === null) {
             return (<WelcomeBack />);
         }
 
@@ -103,9 +102,8 @@ class LockupImage extends React.Component {
                 <div className="item active">
                     <div className="img" style={imgStyle} id="container"></div>
                     <div className="carousel-caption">
-                        {this.state.users.map((user) => {
-                            return this.getCarouselItem(user);
-                        })}
+                        {this.getCarouselItem(this.state.selectedUser)};
+
                     </div>
                 </div>
             </div>

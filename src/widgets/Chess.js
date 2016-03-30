@@ -1,6 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
-import Login from './Login.jsx';
+import Login from './Login.js';
 import request from 'superagent';
 import WindowActions from '../core/actions/WindowActions.js';
 
