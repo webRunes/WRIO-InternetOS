@@ -15,6 +15,8 @@ import Lockup from './core/components/Lockup.js';
 import CenterActions from './core/actions/center';
 import {Plus,Users} from "./widgets/Plus/Plus";
 import { Router, Route, Link } from 'react-router';
+import WrioDocumentActions from './core/actions/WrioDocument.js';
+import WrioDocumentStore from './core/store/WrioDocument.js';
 
 //Perf.start();
 
@@ -25,7 +27,8 @@ export default class Main extends React.Component {
         super(props);
         this.url = UrlMixin.searchToObject();
         this.state = {
-            showLockup: false
+            showLockup: false,
+            data: WrioDocumentStore.getDocument()
         };
     }
 
@@ -35,6 +38,8 @@ export default class Main extends React.Component {
                 showLockup:data
             });
         });
+        this.wrioStore = WrioDocumentStore.listen(this.onDocumentChange.bind(this));
+
     }
 
     componentDidMount() {
@@ -44,45 +49,56 @@ export default class Main extends React.Component {
         document.getElementById('preloader') ? document.getElementById('preloader').style.display = 'none' : true;
     }
 
+    componentWillUnmount() {
+        this.wrioStore();
+    }
+
+    onDocumentChange(doc) {
+        this.setState({
+           changed: true
+        });
+    }
+
     render() {
 
         if (this.url.start && (window.location.origin === getServiceUrl('chess'))) {
-            return this.renderWithCenter(<ChessCenter converter={converter} data={this.props.data} />);
+            return this.renderWithCenter(<ChessCenter converter={converter} data={this.state.data} />);
         }
 
         if (this.url.transactions) {
-           return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.props.data}/>);
+           return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.state.data}/>);
         }
 
         if (this.url.create) {
-            return this.renderWithCenter(<CoreCreateCenter converter={converter} data={this.props.data} />);
+            return this.renderWithCenter(<CoreCreateCenter converter={converter} data={this.state.data} />);
         }
 
         if (this.url.add_funds) {
-            return this.renderWithCenter(<WebGoldCenter converter={converter} data={this.props.data} />);
+            return this.renderWithCenter(<WebGoldCenter converter={converter} data={this.state.data} />);
         }
 
         if (this.state.showLockup) {
-            return this.renderWithCenter(<Lockup />, <Users />);
+            return this.renderWithCenter(<Lockup data={this.state.data}/>, <Users />);
         }
 
-        return this.renderWithCenter(<CreateDomCenter converter={converter} data={this.props.data} />);
+        return this.renderWithCenter(<CreateDomCenter converter={converter} data={this.state.data} />);
     }
 
     renderWithCenter(center,plus) {
         var plus = plus || (<Plus />);
+        var data = WrioDocumentStore.getData();
         return (
             <div className={'row row-offcanvas row-offcanvas-right '}>
                 <CreateDomLeft list={plus} />
                 {center}
-                <CreateDomRight data={this.props.data} />
+                <CreateDomRight data={data} />
             </div>);
     }
 
 }
 
 Main.propTypes = {
-    data: React.PropTypes.array.isRequired
+
 };
 
 function createContainer() {
@@ -96,5 +112,6 @@ function createContainer() {
     var container = createContainer();
     var domnode = document.body.appendChild(container);
     var docScripts = scripts(document.getElementsByTagName('script'));
-    ReactDOM.render(<Main data={docScripts} />, domnode);
+    WrioDocumentActions.loadDocumentWithData.trigger(docScripts,window.location.href);
+    ReactDOM.render(<Main />, domnode);
 //});

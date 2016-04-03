@@ -4,30 +4,48 @@ import request from 'superagent';
 import UrlMixin from '../mixins/UrlMixin';
 import scripts from '../jsonld/scripts';
 import {fixUrlProtocol} from '../mixins/UrlMixin';
+import {WrioDocument} from './WrioDocument.js';
+
+const useCorsProxy = true;
 
 module.exports = Reflux.createStore({
     listenables: Actions,
     mixins: [UrlMixin],
-/*
-    fixUrlProtocol: function (url) {
-        var separatorPosition = url.indexOf('//');
-        if (separatorPosition !== -1) {
-            url = url.substring(separatorPosition + 2, url.length);
-        }
-        return '//' + url;
+
+    getScript(result) {
+        var e = document.createElement('div');
+        e.innerHTML = result.text;
+        return scripts(e.getElementsByTagName('script'));
     },
-*/
-    getHttp: function (url, cb) {
-        url = fixUrlProtocol(url);
+
+    tryCors(url,cb) {
+        console.log("Trying to reach URL via CORS ",url);
+        url = 'https://crossorigin.me/'+url;
         request.get(
             url,
             (err, result) => {
                 if (!err && (typeof result === 'object')) {
-                    var e = document.createElement('div');
-                    e.innerHTML = result.text;
-                    result = scripts(e.getElementsByTagName('script'));
+                   console.log("CORS proxy request succeeded");
+                   result = this.getScript(result);
                 }
                 cb.call(this, result || []);
+            }
+        );
+    },
+
+    getHttp: function (url, cb) {
+        var strippedUrl = fixUrlProtocol(url);
+
+        request.get(
+            strippedUrl,
+            (err, result) => {
+                if (!err && (typeof result === 'object')) {
+                    result = this.getScript(result);
+                    cb.call(this, result || []);
+                } else {
+                    this.tryCors(url,cb);
+                }
+
             }
         );
     },
@@ -83,5 +101,8 @@ module.exports = Reflux.createStore({
         this.trigger({
             editMode: true
         });
+    },
+    onShowLockup: function(state) {
+        this.lockupShown = state;
     }
 });

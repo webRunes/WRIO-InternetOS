@@ -1,12 +1,13 @@
-var React = require('react'),
-    CreateArticleLists = require('./CreateArticleLists'),
-    CreateArticleElement = require('./CreateArticleElement'),
-    CreateItemLists = require('./CreateItemLists'),
-    CreateCover = require('./CreateCover'),
-    Carousel = require('react-bootstrap').Carousel,
-    CarouselItem = require('react-bootstrap').CarouselItem,
-    _ = require('lodash'),
-    UrlMixin = require('../mixins/UrlMixin');
+import React from 'react';
+import CreateArticleLists from './CreateArticleLists';
+import CreateArticleElement from './CreateArticleElement';
+import CreateItemLists from './CreateItemLists';
+import CreateCover from './CreateCover';
+import {Carousel} from 'react-bootstrap';
+import {CarouselItem} from 'react-bootstrap';
+import _ from 'lodash';
+import UrlMixin from '../mixins/UrlMixin';
+import WrioDocument from '../store/WrioDocument.js';
 
 var CreateArticleList = React.createClass({
     propTypes: {
@@ -103,10 +104,10 @@ var CreateArticleList = React.createClass({
     render: function() {
         return (
             <article>
-                {this.getContentByName(this.searchToObject())}
+                {this.getContentByName(this.searchToObject(WrioDocument.getUrl()))}
             </article>
         );
     }
 });
 
-module.exports = CreateArticleList;
+export default CreateArticleList;

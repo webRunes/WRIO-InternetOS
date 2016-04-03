@@ -9,6 +9,7 @@ import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
 import _ from 'lodash';
 import center from '../actions/center';
+import WrioDocument from '../store/WrioDocument.js';
 
 var External = React.createClass({
     propTypes: {
@@ -236,13 +237,12 @@ var CreateDomRight = React.createClass({
 
         var isActive,
             isActiveFirstArticle = true,
-            type = this.searchToObject().list,
+            type = WrioDocument.getListType(),
             isCover = function(o) {
                 return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
             };
 
-            var listParam = this.searchToObject()
-                .list;
+            var listParam = type;
 
             if (listParam) {
                 if (listParam.toLowerCase() == 'cover') {

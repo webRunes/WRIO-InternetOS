@@ -9,7 +9,7 @@ import {importUrl} from '../global';
 import {theme} from '../global';
 import CreateBreadcrumb from './CreateBreadcrumb';
 import CreateTitter from '../../widgets/Titter.js';
-import CenterContent from './CenterContent';
+import WrioDocumentBody from './WrioDocumentBody.js';
 import StoreLd from '../store/center';
 import classNames from 'classnames';
 import ActionMenu from '../../widgets/Plus/actions/menu';
@@ -21,10 +21,12 @@ import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';
+import WrioDocument from '../store/WrioDocument.js';
 
 var domain = getDomain();
 
 class ArticleCenter  extends React.Component {
+
     formatUrl(url) {
         var splittedUrl = url.split('://');
         var host;
@@ -51,8 +53,13 @@ class ArticleCenter  extends React.Component {
         return resultUrl;
     }
 
+    editAllowed() {
+        return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
+    }
+
+
     getAuthorWrioID(cb) {
-        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
+        if (this.editAllowed()) {
             var url = this.formatUrl(this.state.urlParams.edit);
             StoreLd.getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
@@ -60,7 +67,7 @@ class ArticleCenter  extends React.Component {
                 cb(id ? id[1] : undefined);
             });
         } else {
-            var data = this.props.data;
+            var data = WrioDocument.getData();
             for (var i in data) {
                 if (data.hasOwnProperty(i)) {
                     var element = data[i];
@@ -74,7 +81,7 @@ class ArticleCenter  extends React.Component {
     }
 
     getAuthor(cb) {
-        if (this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined') {
+        if (this.editAllowed()) {
             var url = this.formatUrl(this.state.urlParams.edit);
             StoreLd.getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
@@ -82,7 +89,7 @@ class ArticleCenter  extends React.Component {
                 cb(author);
             });
         } else {
-            var data = this.props.data;
+            var data = WrioDocument.getData();
             for (var i in data) {
                 if (data.hasOwnProperty(i)) {
                     var element = data[i];
@@ -98,7 +105,6 @@ class ArticleCenter  extends React.Component {
 }
 
 ArticleCenter.propTypes = {
-    data: React.PropTypes.array.isRequired,
     converter: React.PropTypes.object.isRequired
 };
 
@@ -238,16 +244,13 @@ export class CreateDomCenter extends ArticleCenter {
 
 
     render() {
-        var type = UrlMixin.searchToObject().list,
-            displayTitterCondition = type === 'Cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
+        var type = WrioDocument.getListType(),
+            displayTitterCondition = type === 'cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
 
 
-        this.props.data.forEach((e) => {
-            displayTitterCondition = e['@type'] !== 'Article';
-        });
 
+        displayTitterCondition |= WrioDocument.hasArticle();
         var displayCore = '';
-
 
         if (!this.state.byButton) {
 
@@ -265,11 +268,12 @@ export class CreateDomCenter extends ArticleCenter {
         displayTitterCondition |= this.state.displayTitterCondition;
 
         var ArticleContent = this.getCenter();
+        var data = WrioDocument.getData();
         var contents = (<div>
                             {ArticleContent}
                             { displayCore }
                             <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
-                                <CreateTitter scripts={this.props.data} nocomments={ this.state.nocomments }/>
+                                <CreateTitter scripts={data} nocomments={ this.state.nocomments }/>
                             </div>
                         </div>);
 
@@ -307,23 +311,15 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     getCenter() {
-        var type = UrlMixin.searchToObject().list;
-        var centerData;
 
-        if (this.state.data && (type == 'cover' || type == 'Cover')) {
-            centerData = this.state.data; // if we got some data from the store, let's diplay it in center component
-        } else {
-            centerData = this.props.data; // otherwise use default data provided in props
-        }
         if (this.state.notDisplayCenter) {
             return false;
         }
-        return  (<CenterContent data={centerData} content={this.state.content} type={type} />);
+        return  (<WrioDocumentBody content={this.state.content}/>);
     }
 }
 
 CreateDomCenter.propTypes = {
-    data: React.PropTypes.array.isRequired,
     converter: React.PropTypes.object.isRequired
 };
 

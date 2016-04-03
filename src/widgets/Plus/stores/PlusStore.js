@@ -6,6 +6,7 @@ import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
 import {Promise} from 'es6-promise';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
+import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
     storage = CrossStorageFactory.getCrossStorage();
@@ -460,6 +461,10 @@ export default Reflux.createStore({
         if (window.localStorage) {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
+
+        // uncomment for loading page in the same tab
+        // return WrioDocumentStore.loadDocumentWithUrl.trigger(data.url);
+
         try {
             await storage.onConnect();
             var plus = await storage.get('plus');
@@ -476,6 +481,7 @@ export default Reflux.createStore({
             console.log("Error during gotoUrl", e);
         }
     }
+
 
 
 
