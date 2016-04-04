@@ -34,6 +34,9 @@ export default Reflux.createStore({
     },
 
     convert(users) {
+        if (!users) {
+            users = {};
+        }
         var userList = Object.values(users);
         var length = userList.length;
         var selected = null;
