@@ -42,13 +42,27 @@ export default Reflux.createStore({
         } else {
             selected = userList[0].id;
             users[selected].active = true;
-            this.onSelectUser(userList[0]);
         }
+
+        var anonUrl = 'https://wr.io/cover.htm';
+        users['0'] = {
+            name: "Anonymous",
+            url: anonUrl,
+            cover: anonUrl,
+            id:'0',
+            temporary: true,
+            active:false
+        };
 
         this.state =  {
             users: users,
             selected: selected
         };
+
+        if (length !== 0) {
+            this.onSelectUser(userList[0]);
+        }
+
         return this.state;
     },
 

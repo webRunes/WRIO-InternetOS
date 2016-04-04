@@ -9,6 +9,7 @@ import Reflux from 'reflux';
 export default Reflux.createActions([
     'loadDocumentWithData',
     'loadDocumentWithUrl',
+    'changeDocumentChapter',
     'backupPage',
     'restorePage',
     'showLoader'

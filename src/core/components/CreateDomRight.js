@@ -69,12 +69,13 @@ var Article = React.createClass({
     componentWillMount: function() {
         if (this.props.isActive) {
             this.props.active(this);
+        /*    center.article(this.props.data.name, true, (url) => {
+                this.setState({
+                    url: url
+                });
+            });*/
         }
-        center.article(this.props.data.name, true, (url) => {
-            this.setState({
-                url: url
-            });
-        });
+
     },
     render: function() {
         var o = this.props.data,
@@ -250,57 +251,54 @@ var CreateDomRight = React.createClass({
                 }
             }
 
-            this.props.data.forEach(function add(o) {
-            if (o['@type'] === 'Article' || _.chain(o.itemListElement)
+            this.props.data.forEach(function add(currentItem) {
+            if (currentItem['@type'] === 'Article' || _.chain(currentItem.itemListElement)
                     .pluck('@type')
                     .contains('Article')
                     .value()) {
-                isActive = o.name === window.location.hash.substring(1) || isActiveFirstArticle;
+                isActive = currentItem.name === window.location.hash.substring(1) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
-                items.push(<Article data={o} key={items.length} active={this.active} isActive={isActive} />);
-            } else if (o['@type'] === 'ItemList') {
-                var isContainItemList = _.chain(o.itemListElement)
+                items.push(<Article data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
+            } else if (currentItem['@type'] === 'ItemList') {
+                var isContainItemList = _.chain(currentItem.itemListElement)
                     .pluck('@type')
                     .contains('ItemList')
                     .value();
                 if (!isContainItemList) {
-                    isActive = (type === o.name) || this.props.data.length === 1;
-                    if (isCover(o)) {
-                        if (type === o.name) {
-                            center.cover(o.itemListElement[0].url, false);
-                            items.push(<Cover data={o} key={items.length} active={this.active} isActive={true} />);
-                        } else {
-                            items.push(<Cover data={o} key={items.length} active={this.active} isActive={false} />);
-                        }
+                    isActive = (type === currentItem.name) || this.props.data.length === 1;
+                    if (isCover(currentItem)) {
+                       // center.cover(currentItem.itemListElement[0].url, false);
+                        var active = (type === currentItem.name);
+                        items.push(<Cover data={currentItem} key={items.length} active={this.active} isActive={active} />);
                     } else {
-                        if (type === o.name) {
-                            center.external(o.url, o.name);
+                        if (type === currentItem.name) {
+                        //    center.external(currentItem.url, currentItem.name);
                         }
-                        items.push(<External data={o} key={items.length} active={this.active} isActive={isActive} />);
+                        items.push(<External data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
                     }
                 } else {
-                    o.itemListElement.forEach(function(item) {
+                    currentItem.itemListElement.forEach(function(item) {
                         if (isCover(item)) {
                             isActive = type === item.name;
-                            if (type === o.name) {
-                                center.cover(o.url, false);
-                                items.push(<Cover data={o} key={items.length} active={this.active} isActive={isActive} />);
+                            if (type === currentItem.name) {
+                             //   center.cover(currentItem.url, false);
+                                items.push(<Cover data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
                             } else {
-                                center.cover(o.itemListElement[0].url, true);
+                             //   center.cover(currentItem.itemListElement[0].url, true);
                                 items.push(<Cover data={item} key={items.length} active={this.active} isActive={isActive} />);
                             }
                         } else {
                             isActive = type === item.name;
                             if (isActive) {
-                                center.external(item.url, item.name);
+                            //    center.external(item.url, item.name);
                             }
                             items.push(<External data={item} key={items.length} active={this.active} isActive={isActive} />);
                         }
                     }, this);
                 }
             }
-            if (o.hasPart) {
-                o.hasPart.forEach(add, this);
+            if (currentItem.hasPart) {
+                currentItem.hasPart.forEach(add, this);
             }
         }, this);
         return items;

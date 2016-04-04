@@ -452,7 +452,7 @@ export default Reflux.createStore({
 
     async onClickLink(data) {
 
-        console.log(data);
+        console.log("Link clicked",data);
 
         if (data && (data.temporary !== undefined)) {
             return UserActions.selectUser.trigger(data);
@@ -479,6 +479,7 @@ export default Reflux.createStore({
 
         } catch (e) {
             console.log("Error during gotoUrl", e);
+            debugger;
         }
     }
 

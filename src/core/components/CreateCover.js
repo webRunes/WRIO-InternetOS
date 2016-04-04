@@ -1,8 +1,10 @@
 import React from 'react';
 import {fixUrlProtocol} from '../mixins/UrlMixin';
 import WrioDocument from '../store/WrioDocument.js';
+import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import CenterStore from '../store/center.js';
+import CenterActions from '../actions/center.js';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -15,6 +17,12 @@ var CreateCover = React.createClass({
 
     },
 
+    logout() {
+        Login.doLogout();
+        CenterActions.showLockup(false);
+        WrioDocumentActions.changeDocumentChapter('article','');
+    },
+
     render: function() {
         var cover = this.props.data;
         var path = cover.contentUrl; //cover.img;
@@ -25,10 +33,21 @@ var CreateCover = React.createClass({
             path = fixUrlProtocol(path);
         }
 
-        var button = (
-            <button type="button" className="btn btn-success btn-lg" onClick={Login.doLogin}>
-                <span className="glyphicon glyphicon-user"></span>Login with Twitter
-            </button>);
+        var button;
+
+        if (cover.action == 'Logout') {
+            button = (
+                <button type="button" className="btn btn-success btn-lg" onClick={this.logout}>
+                    <span className="glyphicon glyphicon-user"></span>Login as anonymous
+                </button>);
+        } else {
+            button = (
+                <button type="button" className="btn btn-success btn-lg" onClick={Login.doLogin}>
+                    <span className="glyphicon glyphicon-user"></span>Login with Twitter
+                </button>);
+        }
+
+
 
         return (
             <div className={isActive}>

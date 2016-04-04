@@ -241,8 +241,6 @@ export class CreateDomCenter extends ArticleCenter {
         });
     }
 
-
-
     render() {
         var type = WrioDocument.getListType(),
             displayTitterCondition = type === 'cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
