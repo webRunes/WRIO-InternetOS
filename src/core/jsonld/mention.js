@@ -1,5 +1,5 @@
-var sortByOrder = require('lodash.sortbyorder'),
-    Image = require('./image');
+import sortByOrder from 'lodash.sortbyorder';
+import Image from './image';
 
 var Mention = function(opts) {
     // Example:

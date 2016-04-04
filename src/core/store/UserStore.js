@@ -5,6 +5,7 @@
 import {CrossStorageFactory} from './CrossStorageFactory.js';
 import Reflux from 'reflux';
 import UserActions from "../actions/UserActions.js";
+import DocumentActions from '../actions/WrioDocument.js';
 
 var storage = CrossStorageFactory.getCrossStorage();
 
@@ -21,14 +22,21 @@ export default Reflux.createStore({
     },
 
     async getLoggedUsers() {
+        this.state = {};
         console.log("Getting user list...");
         await storage.onConnect();
         var users = await storage.get('savedUsers');
         this.trigger(this.convert(users));
+
+
+
         return users;
     },
 
     convert(users) {
+        if (!users) {
+            users = {};
+        }
         var userList = Object.values(users);
         var length = userList.length;
         var selected = null;
@@ -39,10 +47,25 @@ export default Reflux.createStore({
             users[selected].active = true;
         }
 
+        var anonUrl = 'https://wr.io/cover.htm';
+        users['0'] = {
+            name: "Anonymous",
+            url: anonUrl,
+            cover: anonUrl,
+            id:'0',
+            temporary: true,
+            active:false
+        };
+
         this.state =  {
             users: users,
             selected: selected
         };
+
+        if (length !== 0) {
+            this.onSelectUser(userList[0]);
+        }
+
         return this.state;
     },
 
@@ -52,6 +75,7 @@ export default Reflux.createStore({
         this.state.selected = data.id;
         this.trigger(this.state);
         this.setUserActive(data.id);
+        DocumentActions.loadDocumentWithUrl.trigger(data.cover+'?cover');
     },
 
     setUserActive(id) {
