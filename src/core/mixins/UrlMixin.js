@@ -1,38 +1,46 @@
-var UrlMixin = {
-    getUrlParams: () => {
+var UrlMixin  = {
+    getUrlParams() {
         return window.location.search.substring(1);
     },
-    getAliasByType: (type) => {
+
+    getAliasByType (type) {
         return {
             cover: 'Cover',
             external: 'Blog'
         }[type];
     },
-    searchToObject: () => {
-        var pairs = window.location.search.substring(1).split('&'),
-            obj = {},
-            pair,
-            i;
+    searchToObject (url) {
 
-        for ( i in pairs ) {
+        if (url) {
+            url = this.parseUrl(url).search;
+        } else {
+            url = window.location.search;
+        }
+        var pairs = url.substring(1).split('&'),
+            obj = {};
+
+        for (var i in pairs ) {
             if ( pairs[i] === '' ) {
                 continue;
             }
-            pair = pairs[i].split('=');
+            var pair = pairs[i].split('=');
             obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         }
         return obj;
     },
-    parseUrl: (url) => {
+    parseUrl (url) {
         var parser = document.createElement('a');
         parser.href = url;
         return parser;
     },
-    collectUrl: (parsedUrl) => { return parsedUrl.href; },
-    getCurrentProtocol: () => {
+    collectUrl  (parsedUrl)
+    {
+        return parsedUrl.href;
+    },
+    getCurrentProtocol () {
         return window.location.protocol;
     },
-    fixUrlProtocol: (url) => {
+    fixUrlProtocol(url) {
         if (!url) {
             return;
         }

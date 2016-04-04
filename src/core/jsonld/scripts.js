@@ -1,6 +1,6 @@
-var mentions = require('./mentions');
+import mentions from './mentions';
 
-module.exports = function(scripts) {
+export default function(scripts) {
     var i,
         json,
         data = [];

@@ -84,7 +84,7 @@ export class AlertWarning extends React.Component {
         WindowActions.loginMessage.listen((msg)=> {
             self.id = msg.profile.id;
             PlusStore.storageGetKey('hideAlertWarning'+self.id, (result) => {
-                console.log("DBG:", this, result);
+               // console.log("DBG:", this, result);
                 this.setState({
                     'hidden': result
                 });

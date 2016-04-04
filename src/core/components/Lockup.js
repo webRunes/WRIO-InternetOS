@@ -1,7 +1,7 @@
 import React from 'react';
 import UserStore from '../store/UserStore.js';
 import Login from '../../widgets/Login.js';
-
+import WrioDocumentBody from './WrioDocumentBody.js';
 
 var imgStyle = {
     background: "url('//default.wrioos.com/img/animated.jpg') center center",
@@ -51,11 +51,10 @@ class LockupImage extends React.Component {
             name: "",
             selectedUser: null
         };
-        this.gotHistory = false;
     }
 
     getUserHistory() {
-        UserStore.getLoggedUsers().then(() => this.gotHistory = true);
+        UserStore.getLoggedUsers();
 
     }
 
@@ -74,21 +73,6 @@ class LockupImage extends React.Component {
         this.userStore();
     }
 
-    getCarouselItem(user) {
-        console.log(user);
-        return (
-        <div className="carousel-text" key={user.id}>
-            <h2>{user.name} &nbsp;<sup>Standart account &middot; <a href="upgrade.htm">Upgrade</a></sup></h2>
-            <h6>My motto</h6>
-            <div className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam risus nulla, commodo vitae tincidunt quis, bibendum at felis. Donec placerat nisl ac libero lacinia, vel pellentesque metus placerat.</div>
-            <ul className="features">
-                <li><span className="glyphicon glyphicon-ok"></span>Люблю читать и играть на гитаре</li>
-                <li><span className="glyphicon glyphicon-ok"></span>Моя цель - захватить Мир</li>
-            </ul>
-            <button type="button" className="btn btn-success btn-lg" onClick={Login.doLogin}>
-                <span className="glyphicon glyphicon-user"></span>Login with Twitter</button>
-        </div>);
-    }
 
     render() {
 
@@ -96,20 +80,19 @@ class LockupImage extends React.Component {
             return (<WelcomeBack />);
         }
 
-        return (
-            <div id="cover-carousel" className="carousel slide" data-ride="carousel">
-            <div className="carousel-inner">
-                <div className="item active">
-                    <div className="img" style={imgStyle} id="container"></div>
-                    <div className="carousel-caption">
-                        {this.getCarouselItem(this.state.selectedUser)};
+        var content = {
+            url: ""
+        };
 
-                    </div>
-                </div>
-            </div>
-        </div>);
+        return (<WrioDocumentBody content={content} />);
+
     }
 }
+
+
+LockupImage.proptypes = {
+    data: React.PropTypes.array.isRequired
+};
 
 class WelcomeBack extends React.Component {
     render() {
@@ -150,7 +133,7 @@ class LockupScreen extends React.Component {
 }
 
 LockupScreen.proptypes = {
-
+    data: React.PropTypes.array.isRequired
 };
 
 module.exports = LockupScreen;

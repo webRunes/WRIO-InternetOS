@@ -1,6 +1,7 @@
-var Mention = require('./mention'),
-    Image = require('./image'),
-    merge = Mention.merge,
+import Mention from './mention';
+import Image from './image';
+
+var merge = Mention.merge,
     mentions = undefined,
     images = undefined;
 
@@ -74,5 +75,4 @@ var check = function(json, order) {
         });
     }
 };
-
-module.exports = check;
+export default check;
