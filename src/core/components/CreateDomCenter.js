@@ -149,7 +149,8 @@ export class CreateDomCenter extends ArticleCenter {
         CenterActions.gotAuthor.listen((author) => {
             this.getAuthor((_author) => {
                 console.log('Checking if editing allowed: ', author, _author);
-                if (UrlMixin.fixUrlProtocol(author) == UrlMixin.fixUrlProtocol(_author)) {
+                if (UrlMixin.compareProfileUrls(author,_author)) {
+                    console.log("Editing is allowed");
                     this.setState({
                         editAllowed: true
                     });

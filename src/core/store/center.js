@@ -18,6 +18,7 @@ module.exports = Reflux.createStore({
         return scripts(e.getElementsByTagName('script'));
     },
 
+
     tryCors(url,cb) {
         console.log("Trying to reach URL via CORS ",url);
         url = url.substring(0, url.indexOf('?'));

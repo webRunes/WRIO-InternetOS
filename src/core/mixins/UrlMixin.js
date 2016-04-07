@@ -49,6 +49,19 @@ var UrlMixin  = {
             url = url.substring(separatorPosition + 2, url.length);
         }
         return '//' + url;
+    },
+    compareProfileUrls(url1,url2) {
+        var url1P = this.parseUrl(url1);
+        var url2P = this.parseUrl(url2);
+
+        // compare hosts and paths, ignore search
+
+        if (url1P.host === url2P.host && (url1P.pathname == url2P.pathname)) {
+            return true;
+        }
+
+        return false;
+
     }
 };
 
