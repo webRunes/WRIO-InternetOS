@@ -189,7 +189,7 @@ if(!BrowserDetection.init()){
     var preTitterIframe = document.createElement('iframe');
     var getServiceUrl = require('./core/servicelocator').getServiceUrl;
     preTitterIframe.src = getServiceUrl('login') + '/buttons/twitter';
-    preTitterIframe.style = "display:none";
+   // preTitterIframe.style = "display:none";
     preTitterIframe.id = "loginbuttoniframe";
     // <iframe id= src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
