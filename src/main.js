@@ -18,7 +18,10 @@ import { Router, Route, Link } from 'react-router';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
 
-//Perf.start();
+/*
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
+Perf.start();*/
 
 var converter = new Showdown.Converter();
 
