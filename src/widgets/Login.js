@@ -43,7 +43,13 @@ class Login extends React.Component{
 
     }
 
+
+
     componentDidMount() {
+        this.setActions();
+    }
+
+    setActions() {
 
         var that = this;
 
