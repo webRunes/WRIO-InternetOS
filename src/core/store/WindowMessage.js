@@ -13,7 +13,14 @@ var loginMessage = false;
 module.exports = Reflux.createStore({
 
 
+    onResetLogin() {
+        loginMessage = false;
+    },
+
     init() {
+
+        this.listenTo(WindowActions.resetLogin,this.onResetLogin);
+
         window.addEventListener('message', function (e) {
             var message = e.data;
 

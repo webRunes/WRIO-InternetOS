@@ -7,12 +7,14 @@ import WindowActions from '../core/actions/WindowActions.js';
 import CenterActions from '../core/actions/center.js';
 import UserStore from '../core/store/UserStore.js';
 
+
 var domain = getDomain();
 
 class Login extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            busy: false,
             title: {
                 text: "Logged as I'm Anonymous ",
                 label: 'WRIO',
@@ -27,7 +29,7 @@ class Login extends React.Component{
                 visible: true
             },
             have: {
-                text: 'Already have an account?'
+                text: 'Login with Twitter'
             },
             twitter: {
                 url: getServiceUrl("login") + "/auth/twitter",
@@ -41,7 +43,13 @@ class Login extends React.Component{
 
     }
 
+
+
     componentDidMount() {
+        this.setActions();
+    }
+
+    setActions() {
 
         var that = this;
 
@@ -52,6 +60,9 @@ class Login extends React.Component{
             }
 
             if (jsmsg.profile) {
+
+                this.setState({busy:false});
+
                 var profile = jsmsg.profile;
                 Actions.gotWrioID(profile.id);
                 Actions.gotAuthor(profile.url);
@@ -85,7 +96,7 @@ class Login extends React.Component{
                             }
                         },
                         upgrade: {
-                            text: "Lock or switch user",
+                            text: "Log out",
                             label: profile.days + ' days left',
                             visible: false
                         }
@@ -106,25 +117,24 @@ class Login extends React.Component{
         e.stopPropagation();
     }
 
-    static logout(e) {
-        Login.doLogout();
-        Login.showLockup(e);
-        e.stopPropagation();
-
-    }
-
     static showLockup(e) {
         e.stopPropagation();
         CenterActions.showLockup.trigger(true);
     }
 
-    static doLogout() {
+    doLogout(e) {
+        e.stopPropagation();
+        WindowActions.resetLogin.trigger();
         document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
+        this.setState({busy:true});
     }
 
-    static doLogin() {
+    doLogin(e) {
+        e.stopPropagation();
+        WindowActions.resetLogin.trigger();
         document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
-        CenterActions.showLockup.trigger(false);
+        this.setState({busy:true});
+      //  CenterActions.showLockup.trigger(false);
     }
 
     changePage(){
@@ -133,6 +143,11 @@ class Login extends React.Component{
 
     render() {
         var has, upgrade, lock, that = this;
+
+        if (this.state.busy) {
+            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />);
+        }
+
         if (this.state.upgrade.visible) {
             upgrade = (<li>
                         <span onClick={Login.openAuthPopup} >
@@ -141,14 +156,14 @@ class Login extends React.Component{
                         <span className="label label-warning">{this.state.upgrade.label}</span>
                     </li>);
             has = (<li>
-                <span href="#" onClick={Login.showLockup}>
+                <span href="#" onClick={this.doLogin.bind(this)}>
                     <i className="glyphicon glyphicon-user"></i>{this.state.have.text}
                 </span>
                 </li>);
         }else{
             lock =
                 (<li>
-                    <span onClick={Login.logout}>
+                    <span onClick={this.doLogout.bind(this)}>
                         <i className="glyphicon glyphicon-lock"></i>{this.state.upgrade.text}
                     </span>
                 </li>);
@@ -169,7 +184,6 @@ class Login extends React.Component{
                             <div className="col-xs-12 col-md-6">
                                 <p>{this.state.description}</p>
                                 <ul className="actions">
-                                    {upgrade}
                                     {has}
                                     {lock}
                                 </ul>
