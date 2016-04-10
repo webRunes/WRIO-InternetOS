@@ -5,6 +5,7 @@
 import Reflux from 'reflux';
 
 export default Reflux.createActions([
+    'resetLogin',
     'titterMessage',
     'coreMessage',
     'loginMessage',
