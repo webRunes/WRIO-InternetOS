@@ -178,7 +178,6 @@ class Login extends React.Component{
                             <div className="col-xs-12 col-md-6">
                                 <p>{this.state.description}</p>
                                 <ul className="actions">
-                                    {upgrade}
                                     {has}
                                     {lock}
                                 </ul>
