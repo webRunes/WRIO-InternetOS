@@ -242,18 +242,24 @@ export class CreateDomCenter extends ArticleCenter {
         });
     }
 
-    render() {
-        var type = WrioDocument.getListType(),
-            search =  UrlMixin.searchToObject(),
-            displayTitterCondition = type === 'cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
-
-        displayTitterCondition |= WrioDocument.hasArticle();
-        var displayCore = '';
-
+    isArticleShown() {
+        var search =  UrlMixin.searchToObject();
         if (search) {
             if (search.list || search.cover) {
-                displayTitterCondition = false;
+                return false;
             }
+        }
+        return true;
+    }
+
+    render() {
+        var type = WrioDocument.getListType();
+
+        var displayTitterCondition = WrioDocument.hasArticle();
+        var displayCore = '';
+
+        if (!this.isArticleShown()) {
+            displayTitterCondition = false;
         }
 
         if (!this.state.byButton) {
