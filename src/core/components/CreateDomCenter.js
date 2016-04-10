@@ -244,12 +244,17 @@ export class CreateDomCenter extends ArticleCenter {
 
     render() {
         var type = WrioDocument.getListType(),
+            search =  UrlMixin.searchToObject(),
             displayTitterCondition = type === 'cover' || this.state.content.type === 'external' || typeof type !== 'undefined';
-
-
 
         displayTitterCondition |= WrioDocument.hasArticle();
         var displayCore = '';
+
+        if (search) {
+            if (search.list) {
+                displayTitterCondition = false;
+            }
+        }
 
         if (!this.state.byButton) {
 
