@@ -251,7 +251,7 @@ export class CreateDomCenter extends ArticleCenter {
         var displayCore = '';
 
         if (search) {
-            if (search.list) {
+            if (search.list || search.cover) {
                 displayTitterCondition = false;
             }
         }
