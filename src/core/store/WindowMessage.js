@@ -24,7 +24,7 @@ module.exports = Reflux.createStore({
         window.addEventListener('message', function (e) {
             var message = e.data;
 
-            console.log("WINDOW MESSAGE++++++++++++++++++++++++++",e.data);
+          //  console.log("WINDOW MESSAGE++++++++++++++++++++++++++",e.data);
             try {
                 var msg = JSON.parse(message);
             } catch (e) {
