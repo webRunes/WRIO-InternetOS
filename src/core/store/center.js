@@ -21,7 +21,9 @@ module.exports = Reflux.createStore({
 
     tryCors(url,cb) {
         console.log("Trying to reach URL via CORS ",url);
-        url = url.substring(0, url.indexOf('?'));
+        if (url.indexOf('?') >=0) {
+            url = url.substring(0, url.indexOf('?'));
+        }
         url = 'https://crossorigin.me/'+url;
         request.get(
             url,
@@ -38,8 +40,45 @@ module.exports = Reflux.createStore({
         );
     },
 
+    // All http requests are made in 3 sequential steps, page is tried to be accessed with current // protocol,
+    // if failed - then with alternate protocol
+    // else trying
+
+
     getHttp: function (url, cb) {
         var strippedUrl = fixUrlProtocol(url);
+
+        if (!url) {
+            return console.log("Assertion, no url specified");
+        }
+
+        request.get(
+            strippedUrl,
+            (err, result) => {
+                if (!err && (typeof result === 'object')) {
+                    result = this.getScript(result);
+                    cb.call(this, result || []);
+                } else {
+                    this.getDifferentProtocol(url,cb);
+                }
+
+            }
+        );
+    },
+
+    alternateProtocol() {
+        var currentProtocol = window.location.protocol;
+        if (currentProtocol == "http:") {
+            return "https:";
+        }
+        if (currentProtocol == "https:") {
+            return "http:";
+        }
+        return "https:";
+    },
+
+    getDifferentProtocol: function (url, cb) {
+        var strippedUrl = this.alternateProtocol() + fixUrlProtocol(url);
 
         if (!url) {
             return console.log("Assertion, no url specified");

@@ -252,6 +252,12 @@ export class CreateDomCenter extends ArticleCenter {
         return true;
     }
 
+    getEditUrl() {
+        var condition = this.state.urlParams.edit === 'undefined' ||  this.state.urlParams.edit == undefined;
+        return condition ? window.location.host : this.state.urlParams.edit;
+
+    }
+
     render() {
         var type = WrioDocument.getListType();
 
@@ -269,7 +275,7 @@ export class CreateDomCenter extends ArticleCenter {
                 this.state.editModeFromUrl = true;
                 this.state.editMode = true;
                 this.state.notDisplayCenter = true;
-                displayCore = (<Core article={(this.state.urlParams.edit === 'undefined' ? window.location.host : this.state.urlParams.edit)}/>);
+                displayCore = (<Core article={this.getEditUrl()}/>);
             }
 
         }
@@ -312,7 +318,9 @@ export class CreateDomCenter extends ArticleCenter {
                         onEditClick={ this.switchToEditMode.bind(this) }
                         onTransactionsClick={ this.switchToTransactionsMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }/>
-                    { (this.state.editMode && !this.state.editModeFromUrl) ? <iframe src={'//core.'+process.env.DOMAIN+'/edit?article=' + window.location.href} style={ this.editIframeStyles }/> : null }
+                    { (this.state.editMode && !this.state.editModeFromUrl) ?
+                        <Core article={this.getEditUrl()}/>
+                        : null }
                     { (this.state.transactionsMode && !this.state.transactionsModeFromUrl) ? <CreateTransactions /> : null }
                     {contents}
                 </div>
