@@ -254,7 +254,7 @@ export class CreateDomCenter extends ArticleCenter {
 
     getEditUrl() {
         var condition = this.state.urlParams.edit === 'undefined' ||  this.state.urlParams.edit == undefined;
-        return condition ? window.location.host : this.state.urlParams.edit;
+        return condition ? window.location.href : this.state.urlParams.edit;
 
     }
 
