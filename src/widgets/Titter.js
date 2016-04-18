@@ -225,17 +225,7 @@ var CreateTitter = React.createClass({
 
         document.getElementById('titteriframe').style.height = '240px';
 
-        WindowActions.titterMessage.listen((msg)=> {
-            if (msg.titterHeight) {
-                document.getElementById('titteriframe').style.height = msg.titterHeight+'px';
-            }
-        });
 
-        WindowActions.webGoldMessage.listen((msg)=> {
-            if (msg.webgoldHeight) {
-                document.getElementById('webgoldiframe').style.height = msg.webgoldHeight+'px';
-            }
-        });
 
         var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
@@ -337,6 +327,19 @@ var CreateTitter = React.createClass({
         if (!this.state.article) {
             return;
         }
+
+        WindowActions.titterMessage.listen((msg)=> {
+            if (msg.titterHeight) {
+                document.getElementById('titteriframe').style.height = msg.titterHeight+'px';
+            }
+        });
+
+        WindowActions.webGoldMessage.listen((msg)=> {
+            if (msg.webgoldHeight) {
+                document.getElementById('webgoldiframe').style.height = msg.webgoldHeight+'px';
+            }
+        });
+
         this.prepTwitWidget();
     },
     render: function () {
@@ -356,6 +359,7 @@ var CreateTitter = React.createClass({
         }
 
         var addCommentFundsMode;
+        var twStyle = {display:"none"};
 
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
@@ -374,9 +378,12 @@ var CreateTitter = React.createClass({
                 parts.push(
                     <section key="b">
                         <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
-                        <div id="twitter_frame_container"></div>
                     </section>
                 );
+
+                twStyle={
+                    display:"block"
+                };
             }
         } else {
           addCommentFundsMode = (
@@ -388,6 +395,7 @@ var CreateTitter = React.createClass({
           parts.push(<iframe id="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles } />);
         }
 
+        parts.push(<div id="twitter_frame_container" style={twStyle}></div>);
 
 
         return (
