@@ -231,6 +231,12 @@ var CreateTitter = React.createClass({
             }
         });
 
+        WindowActions.webGoldMessage.listen((msg)=> {
+            if (msg.webgoldHeight) {
+                document.getElementById('webgoldiframe').style.height = msg.webgoldHeight+'px';
+            }
+        });
+
         var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
         document.getElementById('twitter_frame_container').innerHTML = commentTitle + twitterTemplate;
@@ -379,7 +385,7 @@ var CreateTitter = React.createClass({
             <li className="active">Add funds</li>
             </ul>
           );
-          parts.push(<iframe src={this.state.webgoldIframeUrl } style={ this.editIframeStyles } />);
+          parts.push(<iframe id="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles } />);
         }
 
 
