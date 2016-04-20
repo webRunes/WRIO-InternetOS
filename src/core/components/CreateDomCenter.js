@@ -193,7 +193,7 @@ export class CreateDomCenter extends ArticleCenter {
 
     componentWillUnmount() {
         this.listenStoreLd();
-      //  this.listenStoreMenuSidebar();
+        this.listenStoreMenuSidebar.stop();
     }
 
     onStatusChange(x) {
@@ -225,16 +225,6 @@ export class CreateDomCenter extends ArticleCenter {
         });
     }
 
-    switchToTransactionsMode() {
-        this.setState({
-            editMode: false,
-            byButton: true,
-            transactionsMode: true,
-            actionButton: "Transactions",
-            displayTitterCondition: true,
-            notDisplayCenter: true
-        });
-    }
 
     userId(userId) {
         this.setState({
@@ -316,12 +306,10 @@ export class CreateDomCenter extends ArticleCenter {
                         actionButton={ this.state.actionButton }
                         onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
-                        onTransactionsClick={ this.switchToTransactionsMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }/>
                     { (this.state.editMode && !this.state.editModeFromUrl) ?
                         <Core article={this.getEditUrl()}/>
                         : null }
-                    { (this.state.transactionsMode && !this.state.transactionsModeFromUrl) ? <CreateTransactions /> : null }
                     {contents}
                 </div>
             </div>
@@ -344,7 +332,7 @@ CreateDomCenter.propTypes = {
 
 export class TransactionsCenter extends CreateDomCenter {
     render() {
-        this.state.actionButton = "Transactions";
+       // this.state.actionButton = "Transactions";
         this.state.transactionsModeFromUrl = true;
         return this.generateCenterWithContents (<CreateTransactions />);
 

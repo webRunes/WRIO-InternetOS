@@ -28,8 +28,8 @@ var converter = new Showdown.Converter();
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.url = UrlMixin.searchToObject();
         this.state = {
+            url:  UrlMixin.searchToObject(),
             showLockup: false,
             data: WrioDocumentStore.getDocument()
         };
@@ -57,6 +57,15 @@ export default class Main extends React.Component {
     }
 
     onDocumentChange(doc) {
+
+        console.log("Doc changed called",doc);
+
+        if (doc.urlChanged) {
+            this.setState({
+                url: doc.urlChanged
+            });
+        }
+
         this.setState({
            changed: true
         });
@@ -64,19 +73,21 @@ export default class Main extends React.Component {
 
     render() {
 
-        if (this.url.start && (window.location.origin === getServiceUrl('chess'))) {
+
+
+        if (this.state.url.start && (window.location.origin === getServiceUrl('chess'))) {
             return this.renderWithCenter(<ChessCenter converter={converter} data={this.state.data} />);
         }
 
-        if (this.url.transactions) {
+        if (this.state.url.transactions) {
            return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.state.data}/>);
         }
 
-        if (this.url.create) {
+        if (this.state.url.create) {
             return this.renderWithCenter(<CoreCreateCenter converter={converter} data={this.state.data} />);
         }
 
-        if (this.url.add_funds) {
+        if (this.state.url.add_funds) {
             return this.renderWithCenter(<WebGoldCenter converter={converter} data={this.state.data} />);
         }
 
