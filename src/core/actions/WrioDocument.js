@@ -12,5 +12,6 @@ export default Reflux.createActions([
     'changeDocumentChapter',
     'backupPage',
     'restorePage',
+    'updateUrl',
     'showLoader'
 ]);

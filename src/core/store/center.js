@@ -105,6 +105,7 @@ module.exports = Reflux.createStore({
         } else {
             window.history.pushState('page', 'params', path);
         }
+        WrioDocumentActions.updateUrl();
     },
     setUrlWithHash: function(name, isRet) {
         if (isRet) {
@@ -113,6 +114,7 @@ module.exports = Reflux.createStore({
             window.history.pushState('page', 'params', window.location.pathname);
             window.location.hash = name;
         }
+        WrioDocumentActions.updateUrl();
     },
     onExternal: function(url, name, isRet, cb) {
         var type = 'external';

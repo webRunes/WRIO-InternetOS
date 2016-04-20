@@ -1,5 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../servicelocator.js';
+import WrioDocument from '../store/WrioDocument.js';
 
 var domain = getDomain();
 
@@ -8,18 +9,26 @@ export default React.createClass({
         editMode: React.PropTypes.bool.isRequired,
         onEditClick: React.PropTypes.func.isRequired,
         onReadClick: React.PropTypes.func.isRequired,
-        onTransactionsClick: React.PropTypes.func.isRequired,
         editAllowed: React.PropTypes.bool.isRequired,
         actionButton: React.PropTypes.any
     },
+
+    clickTransactions(e) {
+        console.log("Transactions clicked");
+        WrioDocument.performPageTransaction("?transactions");
+        e.preventDefault();
+    },
+
     render: function() {
         var readEditMode;
         var transactions;
 
-        if (window.location.host === "webgold." + domain) {
+        var allowTransactions = window.location.host === "webgold." + domain || window.location.host == 'wrioos.local';
+
+        if (allowTransactions) {
             transactions = (
                 <li>
-                    <a onClick={ this.props.onTransactionsClick }>Transactions</a>
+                    <a onClick={ this.clickTransactions }>Transactions</a>
                 </li>
             );
         }
@@ -82,6 +91,7 @@ export default React.createClass({
                     </li>
                 </ul>
                 { readEditMode }
+
             </section>
         );
     }

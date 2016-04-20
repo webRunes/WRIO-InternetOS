@@ -87,6 +87,16 @@ export default Reflux.createStore({
         });
     },
 
+    performPageTransaction(path) {
+        history.pushState({},window.location.path,path);
+        this.onUpdateUrl();
+    },
+
+    onUpdateUrl() {
+        var obj = UrlMixin.searchToObject();
+        this.trigger({'urlChanged':obj});
+    },
+
 
     getDocument() {
         return this.data;
