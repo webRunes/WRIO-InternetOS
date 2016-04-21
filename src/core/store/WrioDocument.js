@@ -100,6 +100,7 @@ export default Reflux.createStore({
 
     onUpdateUrl() {
         var obj = UrlMixin.searchToObject();
+        this.url = window.location.href;
         this.trigger({'urlChanged':obj});
     },
 
