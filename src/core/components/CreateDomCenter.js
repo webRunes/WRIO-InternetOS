@@ -10,7 +10,7 @@ import {theme} from '../global';
 import CreateBreadcrumb from './CreateBreadcrumb';
 import CreateTitter from '../../widgets/Titter.js';
 import WrioDocumentBody from './WrioDocumentBody.js';
-import StoreLd from '../store/center';
+import getHttp from '../store/request.js';
 import classNames from 'classnames';
 import ActionMenu from '../../widgets/Plus/actions/menu';
 import StoreMenu from '../../widgets/Plus/stores/menu';
@@ -61,7 +61,7 @@ class ArticleCenter  extends React.Component {
     getAuthorWrioID(cb) {
         if (this.editAllowed()) {
             var url = this.formatUrl(this.state.urlParams.edit);
-            StoreLd.getHttp(url,(article) => {
+            getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
                 var id = article['author'].match(/\?wr.io=([0-9]+)$/);
                 cb(id ? id[1] : undefined);
@@ -83,7 +83,7 @@ class ArticleCenter  extends React.Component {
     getAuthor(cb) {
         if (this.editAllowed()) {
             var url = this.formatUrl(this.state.urlParams.edit);
-            StoreLd.getHttp(url,(article) => {
+            getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
                 var author = article['author'];
                 cb(author);
@@ -166,9 +166,6 @@ export class CreateDomCenter extends ArticleCenter {
 
     componentDidMount() {
         var that = this;
-        this.listenStoreLd = StoreLd.listen((state) => {
-            that.onStateChange(state);
-        });
         this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
         WindowActions.loginMessage.listen((msg)=> {
@@ -179,12 +176,6 @@ export class CreateDomCenter extends ArticleCenter {
 
     }
 
-    onStateChange(state) {
-        this.setState({
-            data: state.data
-        });
-    }
-
     onShowSidebar(data) {
         this.setState({
             active: data
@@ -192,15 +183,9 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentWillUnmount() {
-        this.listenStoreLd();
         this.listenStoreMenuSidebar.stop();
     }
 
-    onStatusChange(x) {
-        this.setState({
-            content: x
-        });
-    }
 
     redirectFromEditMode() {
         window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');

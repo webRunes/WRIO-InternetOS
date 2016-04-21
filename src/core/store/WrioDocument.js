@@ -4,7 +4,7 @@
 import {CrossStorageFactory} from './CrossStorageFactory.js';
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
-import StoreLD from '../store/center.js';
+import getHttp from '../store/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 
 var storage = CrossStorageFactory.getCrossStorage();
@@ -12,8 +12,9 @@ var storage = CrossStorageFactory.getCrossStorage();
 export default Reflux.createStore({
     listenables: WrioDocumentActions,
 
-    constructor() {
+    init() {
       this.loading = false;
+      this.lists = {};
     },
 
     getListType() {
@@ -73,7 +74,7 @@ export default Reflux.createStore({
     onLoadDocumentWithUrl(url, type) {
         this.loading = true;
         this.trigger({"loading":true});
-        StoreLD.getHttp(url,(data) => {
+        getHttp(url,(data) => {
             if (data === null) {
                 this.loading = {error: "Cannot get page"};
                 this.trigger({'error':true});
@@ -85,6 +86,11 @@ export default Reflux.createStore({
             this.loading = false;
             this.trigger({'change':true});
         });
+    },
+
+    onLoadList(name,data) {
+        this.lists[name.toLowerCase()] = data;
+        this.trigger({'change':'true'});
     },
 
     performPageTransaction(path) {
@@ -100,6 +106,10 @@ export default Reflux.createStore({
 
     getDocument() {
         return this.data;
+    },
+
+    getListItem(name) {
+        return this.lists[name.toLowerCase()];
     },
 
     onChangeDocumentChapter(type,id) {

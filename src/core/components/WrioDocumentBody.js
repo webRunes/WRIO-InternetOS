@@ -25,7 +25,7 @@ class DocumentBody extends React.Component
     
     render() {
 
-        var type = WrioDocument.getListType();
+        var search = WrioDocument.getUrlSearch();
         var data = WrioDocument.getData();
         var content = this.props.content;
 
@@ -35,30 +35,14 @@ class DocumentBody extends React.Component
             if (loading.error) {
                 return (<div>Error loading page, try again later</div>);
             }
-
         }
 
         if (loading === true) {
             return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />);
         }
 
-        switch (type) {
-            case 'cover':
-            case 'external':
-                if (!content) {
-                    content = {
-                        url: ''
-                    };
-                }
-                return <CreateArticleList data={data} id={content.url} />;
-            case 'article':
-            default:
-                return (
-                    <div>
-                        <CreateArticleList data={data} id={WrioDocument.getId()} />
-                    </div>
-                );
-        }
+        return <CreateArticleList/>;
+
 
     }
 }
