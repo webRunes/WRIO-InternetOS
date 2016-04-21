@@ -11,11 +11,9 @@ import WrioDocument from '../store/WrioDocument.js';
 
 var CreateArticleList = React.createClass({
     propTypes: {
-        data: React.PropTypes.array.isRequired,
-        id: React.PropTypes.string
     },
-    getArticles: function() {
-        var mentions = _.chain(this.props.data)
+    getArticles: function(data) {
+        var mentions = _.chain(data)
             .pluck('itemListElement').flatten()
             .pluck('mentions').flatten()
             .filter(function(item) {
@@ -32,12 +30,12 @@ var CreateArticleList = React.createClass({
             return this.getItemList();
         }
 
-        if (!this.props.data) {
-            console.log('Assertion raised, CreateArticleList this.props.data not specified!', this.props);
+        if (!data) {
+            console.log('Assertion raised, CreateArticleList data not specified!', this.props);
             return (<p>Error, cannot render article list</p>);
         }
 
-        return this.props.data
+        return data
             .map(function(o, key) {
                 if (o.url) {
                     return <CreateArticleLists data={o} key={key} />;
@@ -51,8 +49,8 @@ var CreateArticleList = React.createClass({
             });
     },
     mixins: [UrlMixin],
-    getItemList: function() {
-        return this.props.data.filter(function(o) {
+    getItemList: function(data) {
+        return data.filter(function(o) {
                 return o['@type'] === 'ItemList';
             })
             .map(function(list) {
@@ -61,8 +59,8 @@ var CreateArticleList = React.createClass({
                 });
             });
     },
-    getCoverList: function() {
-        var data = _.chain(this.props.data)
+    getCoverList: function(data) {
+        var data = _.chain(data)
             .pluck('itemListElement')
             .flatten()
             .filter(function(item) {
@@ -78,35 +76,53 @@ var CreateArticleList = React.createClass({
         );
     },
     componentDidUpdate: function() {
-        var id = this.props.id;
+/*        var id = this.props.id;
         if (id) {
             location.hash = '#' + id;
-        }
+        }*/
     },
-    getContentByName: function(params) {
 
-        if (params.cover) {
+
+    getContentByName: function(url) {
+
+
+        if (url.cover) {
+            var data = WrioDocument.getListItem('cover');
+            if (!data) {
+                return null;
+            }
             return this.getCoverList();
         }
 
-        if (typeof params.list === 'undefined') {
-            return this.getArticles();
+        if (typeof url.list === 'undefined') {
+            return this.getArticles(WrioDocument.getDocument());
         } else {
-            var name = params.list.toLowerCase();
+            var name = url.list.toLowerCase();
+            var data = WrioDocument.getListItem(name);
+            if (!data) {
+                return null;
+            }
             if (name === 'cover') {
-                return this.getCoverList();
+                return this.getCoverList(data);
             } else {
-                return this.getItemList();
+                return this.getItemList(data);
             }
         }
 
     },
     render: function() {
-        return (
-            <article>
-                {this.getContentByName(this.searchToObject(WrioDocument.getUrl()))}
-            </article>
-        );
+        var content = this.getContentByName(this.searchToObject(WrioDocument.getUrl()));
+
+        if (content == null) {
+            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />);
+        } else {
+            return (
+                <article>
+                    {content}
+                </article>
+            );
+        }
+
     }
 });
 

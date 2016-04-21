@@ -27,7 +27,7 @@ class RightBar extends React.Component {
     }
 
     onStateChange(jsonld) {
-        console.log(jsonld);
+     //   console.log(jsonld);
         this.setState({
             jsonld: jsonld
         });
@@ -46,7 +46,7 @@ class RightBar extends React.Component {
             if (pList !== undefined) {
                 pList.style.height = param;
             }
-            console.log("Got leftHeight",pList.style.height);
+         //s   console.log("Got leftHeight",pList.style.height);
 
         });
     }
