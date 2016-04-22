@@ -232,18 +232,29 @@ var CreateDomRight = React.createClass({
         }
     },
 
+    isElementOfType(currentItem,type) {
+        return  currentItem['@type'] === type || _.chain(currentItem.itemListElement)
+                .pluck('@type')
+                .contains(type)
+                .value();
+    },
+
     getArticleItems() {
-        // some dark magic down here
         var items = [];
 
         var isActive,
+            that = this,
             isActiveFirstArticle = true,
-            type = WrioDocument.getListType(),
+            listName = WrioDocument.getListType(),
             isCover = function(o) {
                 return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
             };
 
-            var listParam = type;
+            if (listName) {
+                listName = listName.toLowerCase();
+            }
+
+            var listParam = listName;
 
             if (listParam) {
                 if (listParam.toLowerCase() == 'cover') {
@@ -251,50 +262,31 @@ var CreateDomRight = React.createClass({
                 }
             }
 
+            function processItem(item,superitem) {
+                if (isCover(item)) {
+                    isActive = listName === item.name.toLowerCase();
+                    if (listName === superitem.name) {
+                        items.push(<Cover data={superitem} key={items.length} active={that.active} isActive={isActive} />);
+                    } else {
+                        items.push(<Cover data={item} key={items.length} active={that.active} isActive={isActive} />);
+                    }
+                } else {
+                    isActive = listName === item.name.toLowerCase();
+                    items.push(<External data={item} key={items.length} active={that.active} isActive={isActive} />);
+                }
+            }
+
+
             this.props.data.forEach(function add(currentItem) {
-            if (currentItem['@type'] === 'Article' || _.chain(currentItem.itemListElement)
-                    .pluck('@type')
-                    .contains('Article')
-                    .value()) {
+            if (this.isElementOfType(currentItem,"Article")) {
                 isActive = currentItem.name === window.location.hash.substring(1) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 items.push(<Article data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
             } else if (currentItem['@type'] === 'ItemList') {
-                var isContainItemList = _.chain(currentItem.itemListElement)
-                    .pluck('@type')
-                    .contains('ItemList')
-                    .value();
-                if (!isContainItemList) {
-                    isActive = (type === currentItem.name) || this.props.data.length === 1;
-                    if (isCover(currentItem)) {
-                       // center.cover(currentItem.itemListElement[0].url, false);
-                        var active = (type === currentItem.name);
-                        items.push(<Cover data={currentItem} key={items.length} active={this.active} isActive={active} />);
-                    } else {
-                        if (type === currentItem.name) {
-                        //    center.external(currentItem.url, currentItem.name);
-                        }
-                        items.push(<External data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
-                    }
+                if (!this.isElementOfType(currentItem,'ItemList')) {
+                    processItem(currentItem,currentItem);
                 } else {
-                    currentItem.itemListElement.forEach(function(item) {
-                        if (isCover(item)) {
-                            isActive = type === item.name;
-                            if (type === currentItem.name) {
-                             //   center.cover(currentItem.url, false);
-                                items.push(<Cover data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
-                            } else {
-                             //   center.cover(currentItem.itemListElement[0].url, true);
-                                items.push(<Cover data={item} key={items.length} active={this.active} isActive={isActive} />);
-                            }
-                        } else {
-                            isActive = type === item.name;
-                            if (isActive) {
-                            //    center.external(item.url, item.name);
-                            }
-                            items.push(<External data={item} key={items.length} active={this.active} isActive={isActive} />);
-                        }
-                    }, this);
+                    currentItem.itemListElement.forEach((item) => processItem(item,currentItem), this);
                 }
             }
             if (currentItem.hasPart) {
