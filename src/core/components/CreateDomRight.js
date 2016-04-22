@@ -240,7 +240,6 @@ var CreateDomRight = React.createClass({
     },
 
     getArticleItems() {
-        // some dark magic down here
         var items = [];
 
         var isActive,
