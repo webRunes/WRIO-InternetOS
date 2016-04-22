@@ -50,10 +50,8 @@ module.exports = Reflux.createStore({
                 }
 
                 if (msg.profile) {
-                    if (!loginMessage) {
-                        loginMessage = true;
                         WindowActions.loginMessage.trigger(msg); // leave only one profile message
-                    }
+                        document.getElementById('loginbuttoniframe').contentWindow.postMessage('ack', getServiceUrl('login'));
                 } else {
                     WindowActions.loginMessage.trigger(msg); // leave only one profile message
                 }
