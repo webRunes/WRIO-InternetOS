@@ -11,5 +11,6 @@ export default Reflux.createActions([
     'loginMessage',
     'chessMessage',
     'plusMessage',
-    'webGoldMessage'
+    'webGoldMessage',
+    'forceIframeReload'
 ]);

@@ -8,13 +8,12 @@ import {getServiceUrl,getDomain} from '../servicelocator.js';
 
 var domain = getDomain();
 
-var loginMessage = false;
+
 
 module.exports = Reflux.createStore({
 
 
     onResetLogin() {
-        loginMessage = false;
     },
 
     init() {
@@ -46,7 +45,7 @@ module.exports = Reflux.createStore({
                 if (msg.login === "success") {
                     console.log("Requesting page reload");
                     document.getElementById('loginbuttoniframe').contentWindow.postMessage('reload', getServiceUrl('login'));
-                    loginMessage = false;
+                    WindowActions.forceIframeReload.trigger();
                 }
 
                 if (msg.profile) {

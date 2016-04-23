@@ -340,6 +340,19 @@ var CreateTitter = React.createClass({
             }
         });
 
+        WindowActions.forceIframeReload.listen((msg)=> {
+            var tIF = document.getElementById('titteriframe');
+            var wIF = document.getElementById('webgoldiframe');
+
+            if (tIF) {
+                tIF.src = tIF.src;
+            }
+            if (wIF) {
+                wIF.src = wIF.src;
+            }
+
+        });
+
         this.prepTwitWidget();
     },
     render: function () {
