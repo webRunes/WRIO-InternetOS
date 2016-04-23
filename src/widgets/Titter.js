@@ -332,6 +332,9 @@ var CreateTitter = React.createClass({
             if (msg.titterHeight) {
                 document.getElementById('titteriframe').style.height = msg.titterHeight+'px';
             }
+            if (msg.goAddFunds) {
+                this.switchToAddFundsMode();
+            }
         });
 
         WindowActions.webGoldMessage.listen((msg)=> {
