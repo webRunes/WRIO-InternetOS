@@ -13,7 +13,7 @@ export default class CreateControlButtons extends React.Component {
     }
 
     componentWillMount() {
-        CenterActions.gotAuthor.listen((author) => {
+        CenterActions.gotProfileUrl.listen((author) => {
             if (UrlMixin.fixUrlProtocol(author) == UrlMixin.fixUrlProtocol(this.props.author)) {
                 this.setState({
                     editAllowed: true
