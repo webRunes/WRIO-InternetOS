@@ -65,7 +65,7 @@ class Login extends React.Component{
 
                 var profile = jsmsg.profile;
                 Actions.gotWrioID(profile.id);
-                Actions.gotAuthor(profile.url);
+                Actions.gotProfileUrl(profile.url);
                 if (!profile.temporary) {
                     UserStore.saveLoggedUser(profile.id,profile);
                 }

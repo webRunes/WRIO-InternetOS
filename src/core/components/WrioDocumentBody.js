@@ -25,10 +25,6 @@ class DocumentBody extends React.Component
     
     render() {
 
-        var search = WrioDocument.getUrlSearch();
-        var data = WrioDocument.getData();
-        var content = this.props.content;
-
         var loading = WrioDocument.getLoading();
 
         if (loading !== undefined) {
@@ -48,7 +44,6 @@ class DocumentBody extends React.Component
 }
 
 DocumentBody.propTypes =  {
-    content: React.PropTypes.object.isRequired
 };
 
 export default DocumentBody;

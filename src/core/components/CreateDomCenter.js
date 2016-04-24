@@ -122,13 +122,9 @@ export class CreateDomCenter extends ArticleCenter {
             width: '100%',
             border: 'none'
         };
-        var locationSearch = UrlMixin.getUrlParams();
         this.state = {
             editMode: false,
             actionButton: false,
-            content: {
-                type: (locationSearch) ? locationSearch : 'article'
-            },
             nocomments: false,
             titterDisabled: false,
             active: false,
@@ -145,15 +141,25 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
 
+    allowEdit() {
+        console.log("Editing is allowed");
+        this.setState({
+            editAllowed: true
+        });
+    }
+
     componentWillMount() {
-        CenterActions.gotAuthor.listen((author) => {
+        CenterActions.gotProfileUrl.listen((profileUrl) => {
             this.getAuthor((_author) => {
-                console.log('Checking if editing allowed: ', author, _author);
-                if (UrlMixin.compareProfileUrls(author,_author)) {
-                    console.log("Editing is allowed");
-                    this.setState({
-                        editAllowed: true
-                    });
+                console.log('Checking if editing allowed: ', profileUrl, _author);
+                if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
+                    this.allowEdit();
+                } else {
+                    var url = WrioDocument.getUrl();
+                    var exp = new RegExp(profileUrl,"g");
+                    if (url.match(exp)) {
+                        this.allowEdit();
+                    }
                 }
             });
         });
@@ -230,12 +236,9 @@ export class CreateDomCenter extends ArticleCenter {
     getEditUrl() {
         var condition = this.state.urlParams.edit === 'undefined' ||  this.state.urlParams.edit == undefined;
         return condition ? window.location.href : this.state.urlParams.edit;
-
     }
 
     render() {
-        var type = WrioDocument.getListType();
-
         var displayTitterCondition = WrioDocument.hasArticle();
         var displayCore = '';
 
@@ -306,7 +309,7 @@ export class CreateDomCenter extends ArticleCenter {
         if (this.state.notDisplayCenter) {
             return false;
         }
-        return  (<WrioDocumentBody content={this.state.content}/>);
+        return  (<WrioDocumentBody/>);
     }
 }
 
