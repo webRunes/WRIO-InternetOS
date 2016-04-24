@@ -17,7 +17,7 @@ class Item extends GenericListItem {
                 panel: true
             }),
             data = this.props.data,
-            name = data.name;
+            name = data.name||'Untitled';
         return (
             <li tabIndex="1" className={className}>
                 <a onClick={this.props.del} className="pull-right">
