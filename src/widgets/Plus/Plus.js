@@ -60,9 +60,10 @@ class RightBar extends React.Component {
     scrollHandler() {
         this.refs['scrollElement']
             .addEventListener('scroll', (event)=> {
-                if(event.target.scrollTop)
+                if(event.target.scrollTop) {
                     this.scrollPosition=event.target.scrollTop;
-            })
+                }
+            });
     }
 
     componentWillMount() {
