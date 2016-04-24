@@ -24,6 +24,7 @@ class RightBar extends React.Component {
             fixed: false,
             height:"auto"
         };
+        this.scrollPosition = 0;
     }
 
     onStateChange(jsonld) {
@@ -41,6 +42,7 @@ class RightBar extends React.Component {
     }
 
     componentDidMount() {
+        this.scrollHandler();
         ActionMenu.leftHeight.listen((param) => {
             var pList = document.getElementById('tabScrollPosition');
             if (pList !== undefined) {
@@ -51,7 +53,18 @@ class RightBar extends React.Component {
         });
     }
 
+    onScroll() {
+        this.refs['scrollElement'].scrollTop = this.scrollPosition;
+    }
 
+    scrollHandler() {
+        this.refs['scrollElement']
+            .addEventListener('scroll', (event)=> {
+                if(event.target.scrollTop) {
+                    this.scrollPosition=event.target.scrollTop;
+                }
+            });
+    }
 
     componentWillMount() {
         this.listenPlus = PlusStore.listen(this.onStateChange);
@@ -63,6 +76,7 @@ class RightBar extends React.Component {
     componentDidUpdate() {
         document.getElementById('tabScrollPosition')
             .scrollTop = Plus.checkActiveHeight(this.state.jsonld);
+        this.onScroll();
     }
 
     componentWillUnmount() {
@@ -121,7 +135,7 @@ class RightBar extends React.Component {
             'fixed': this.state.fixed
         });
         return (<nav className={className} unselectable="on">
-            <div className="navbar-header" id="tabScrollPosition">
+            <div className="navbar-header" ref="scrollElement" id="tabScrollPosition">
                 {component}
             </div>
             <PlusButton data={{ name: 'plus' }} active={activePlus} />
