@@ -241,29 +241,36 @@ export default Reflux.createStore({
         cb.call(this, o);
     },
     addCurrentPageParent: function(o, cb) {
-        getJsonldsByUrl(o.author, (jsons) => {
-            if (jsons && jsons.length !== 0) {
-                var j, name;
-                for (j = 0; j < jsons.length; j += 1) {
-                    if (jsons[j]['@type'] === 'Article') {
-                        name = jsons[j].name;
-                        j = jsons.length;
+        if(!o.author || o.author == 'unknown') {
+            cb.call(this, {
+                tab: o,
+                noAuthor: true
+            });
+        } else {
+            getJsonldsByUrl(o.author, (jsons) => {
+                if (jsons && jsons.length !== 0) {
+                    var j, name;
+                    for (j = 0; j < jsons.length; j += 1) {
+                        if (jsons[j]['@type'] === 'Article') {
+                            name = jsons[j].name;
+                            j = jsons.length;
+                        }
                     }
+                    if (!name) {
+                        console.warn('plus: author [' + o.author + '] do not have type Article');
+                    }
+                    cb.call(this, {
+                        tab: o,
+                        parent: name
+                    });
+                } else {
+                    cb.call(this, {
+                        tab: o,
+                        noAuthor: true
+                    });
                 }
-                if (!name) {
-                    console.warn('plus: author [' + o.author + '] do not have type Article');
-                }
-                cb.call(this, {
-                    tab: o,
-                    parent: name
-                });
-            } else {
-                cb.call(this, {
-                    tab: o,
-                    noAuthor: true
-                });
-            }
-        });
+            });
+        }
     },
     addCurrentPage: function(cb) {
         this.createCurrentPage((o) => {

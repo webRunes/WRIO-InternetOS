@@ -13,7 +13,7 @@ class PlusButton extends React.Component{
             userId: ''
         };
       //  this.userId = this.userId.bind(this);
-       // this.gotoUrl = this.gotoUrl.bind(this);
+       this.gotoUrl = this.gotoUrl.bind(this);
     }
 
     userId(id) {
@@ -38,10 +38,11 @@ class PlusButton extends React.Component{
     }
 
     gotoUrl(e) {
+        e.preventDefault();
         Actions.plusActive(true, 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/', () => {
             window.location = 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/';
         });
-        e.preventDefault();
+        return false;
     }
 
     render() {
