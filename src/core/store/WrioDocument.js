@@ -43,7 +43,7 @@ export default Reflux.createStore({
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
-            if (e['@type'] !== 'Article') {
+            if (e['@type'] === 'Article') {
                 r = true;
             }
         });
