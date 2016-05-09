@@ -125,7 +125,6 @@ export class CreateDomCenter extends ArticleCenter {
         this.state = {
             editMode: false,
             actionButton: false,
-            nocomments: false,
             titterDisabled: false,
             active: false,
             userId: false,
@@ -267,7 +266,7 @@ export class CreateDomCenter extends ArticleCenter {
                             {ArticleContent}
                             { displayCore }
                             <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
-                                <CreateTitter scripts={data} nocomments={ this.state.nocomments }/>
+                                <CreateTitter scripts={data} />
                             </div>
                         </div>);
 
