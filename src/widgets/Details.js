@@ -14,9 +14,6 @@ class Details extends React.Component{
         };
     }
 
-    getPath() {
-
-    }
 
     render() {
 
