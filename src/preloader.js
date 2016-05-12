@@ -17,11 +17,10 @@ var code =
     favicon,
     head = document.getElementsByTagName('head')[0],
     notSupportedBrowsers = [],
-    cssUrl = require('./core/global').cssUrl,
-    theme = require('./core/global').theme,
-    css = [
+    getResourcePath = require('./core/global').getResourcePath;
+    var css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-        cssUrl + theme + '/css/webrunes.css'
+        getResourcePath('/css/webrunes.css')
     ],
     count = css.length,
     loading,
@@ -114,7 +113,7 @@ var code =
 
 loading = document.createElement('link');
 loading.rel = 'stylesheet';
-loading.href = cssUrl + theme + '/css/loading.css';
+loading.href = getResourcePath('/css/loading.css');
 head.appendChild(loading);
 
 window.document.body.style.heigth = '100%';
@@ -183,7 +182,7 @@ if(!BrowserDetection.init()){
 
     favicon = document.createElement('link');
     favicon.rel = 'shortcut icon';
-    favicon.href = cssUrl + theme + '/ico/favicon.ico';
+    favicon.href = getResourcePath('/ico/favicon.ico');
     head.appendChild(favicon);
 
     var preTitterIframe = document.createElement('iframe');
