@@ -44,7 +44,7 @@ class _CrossStorageFactory {
         this.isInTest = typeof global.it === 'function';
         if (!this.isInTest) {
             var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
-            this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.htm', {
+            this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.html', {
                 promise: Promise
             });
         }
