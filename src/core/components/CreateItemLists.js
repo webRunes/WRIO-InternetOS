@@ -1,7 +1,5 @@
-var React = require('react'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
-
+import React from 'react';
+import {getResourcePath} from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
 
 var CreateItemLists = React.createClass({
@@ -11,7 +9,7 @@ var CreateItemLists = React.createClass({
     render: function() {
         var item = this.props.data,
             title = item.name,
-            image = cssUrl + theme + '/img/no-photo-200x200.png', //item.thumbnail,
+            image = getResourcePath('/img/no-photo-200x200.png'), //item.thumbnail,
             about = item.about,
             url = item.url,
             createdDate = item.datePublished;

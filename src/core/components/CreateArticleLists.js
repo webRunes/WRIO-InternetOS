@@ -1,7 +1,6 @@
-var React = require('react'),
-    mentions = require('../mixins/mentions'),
-    cssUrl = require('../global').cssUrl,
-    theme = require('../global').theme;
+import React from 'react';
+import mentions from '../mixins/mentions';
+import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';
 
@@ -31,7 +30,7 @@ var CreateArticleLists = React.createClass({
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                            <img className="pull-left" src={cssUrl + theme + '/img/no-photo-200x200.png'} />
+                            <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} />
                             <ul className="details">
                                 <li>Created: 22 Jun 2013</li>
                                 <li>Rating: 244</li>
