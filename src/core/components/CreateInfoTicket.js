@@ -1,18 +1,18 @@
 import React from 'react';
-import {importUrl,theme} from '../global';
+import {getResourcePath} from '../global';
 import {getJsonldsByUrl} from '../../widgets/Plus/utils/tools';
 
 export default class CreateInfoTicket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            img: importUrl + theme + '/img/no-photo-200x200.png',
+            img: getResourcePath ('/img/no-photo-200x200.png'),
             readTime: 0
         };
     }
 
     componentWillMount() {
-        var author;
+        var augor;
         if (this.props.author) {
             getJsonldsByUrl(this.props.author, (jsons) => {
                 if (jsons && jsons.length !== 0) {
