@@ -1,7 +1,13 @@
 var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
-    cssUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://webrunes.github.io/',
-    theme = 'Default-WRIO-Theme',
-    themeImportUrl = importUrl + theme + '/widget/';
+    theme,cssUrl;
+
+if (process.env.NODE_ENV === 'development') {
+    cssUrl = 'http://localhost:3000/';
+    theme = 'Default-WRIO-Theme';
+} else {
+    cssUrl = '//default.wrioos.com/';
+    theme = "";
+}
 
 if (process.env.NODE_ENV === 'dockerdev') {
     console.log("Docker production ENV detected");
@@ -9,6 +15,8 @@ if (process.env.NODE_ENV === 'dockerdev') {
     theme = 'Default-WRIO-Theme';
     themeImportUrl = importUrl + theme + '/widget/';
 }
+
+var themeImportUrl = importUrl + theme + '/widget/';
 
 module.exports = {
     importUrl: importUrl,
