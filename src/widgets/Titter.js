@@ -2,6 +2,7 @@ import React from 'react';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
 import WrioDocument from '../core/store/WrioDocument.js';
+import Login from './Login.js';
 
 var domain = getDomain();
 
@@ -96,12 +97,9 @@ var CreateTitter = React.createClass({
         if (!titteriframe) {
             return;
         }
-        if (this.props.nocomments) {
-            that.setState({nocomments: false});
-            return;
-        }
+        that.setState({nocomments: false});
         titteriframe.addEventListener('load', function () {
-            var comment, author;
+            var comment;
             var id = WrioDocument.getJsonLDProperty('comment');
             if (id === null) {
                 that.setState({nocomments: true});
@@ -115,23 +113,34 @@ var CreateTitter = React.createClass({
         height: '650px',
         border: 'none'
     },
-    getInitialState: function () {
-        var id = "";
+
+    getWrioIdFromAuthor() {
         var author = WrioDocument.getJsonLDProperty('author');
-        if (author) { // add author reference
+        if (author) {
             var reg = /\?wr\.io=([0-9]*)$/gm;
             var regResult = reg.exec(author);
             var wrioID = regResult ? regResult[1] : !1;
             if (wrioID) {
-                id = "&id=" + wrioID;
+                return wrioID;
             }
+        }
+        console.log("ERROR: failed to extract author's WRIO id");
+    },
+
+    getInitialState: function () {
+
+
+        var authorId = this.getWrioIdFromAuthor();
+        if (authorId) {
+            authorId = "&id=" + authorId;
         }
 
         return {
             addComment: 'Add comment',
             article: this.isArticle(this.props.scripts),
+            isTemporary: false,
             addFundsMode: false,
-            titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + encodeURIComponent(window.location.href) + id,
+            titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + encodeURIComponent(window.location.href) + authorId,
             webgoldIframeUrl: getServiceUrl('webgold') + "/add_funds"
         };
     },
@@ -141,6 +150,11 @@ var CreateTitter = React.createClass({
             return;
         }
 
+        this.createListeners();
+        this.prepTwitWidget();
+    },
+
+    createListeners() {
         WindowActions.titterMessage.listen((msg)=> {
             if (msg.titterHeight) {
                 document.getElementById('titteriframe').style.height = msg.titterHeight + 'px';
@@ -169,13 +183,24 @@ var CreateTitter = React.createClass({
 
         });
 
-        this.prepTwitWidget();
+        WindowActions.loginMessage.listen((msg)=> {
+            if (msg.profile) {
+                this.setState({
+                    isTemporary:msg.profile.temporary
+                });
+            }
+        });
     },
+
     render: function () {
         var parts = [];
 
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
             return <CommentsDisabled />;
+        }
+
+        if (this.state.isTemporary) {
+
         }
 
         var addCommentFundsMode;
@@ -188,17 +213,22 @@ var CreateTitter = React.createClass({
                     <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
             );
-            if (this.state.article) {
 
-                parts.push(
-                    <section key="b">
-                        <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
-                    </section>
-                );
+            if (this.state.isTemporary) {
+                parts.push(<LoginAndComment />);
+            } else {
+                if (this.state.article) {
 
-                twStyle = {
-                    display: "block"
-                };
+                    parts.push(
+                        <section key="b">
+                            <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
+                        </section>
+                    );
+
+                    twStyle = {
+                        display: "block"
+                    };
+                }
             }
         } else {
             addCommentFundsMode = (
@@ -233,6 +263,18 @@ class CommentsDisabled extends React.Component {
             <br />
             <a className="btn btn-sm btn-primary" href="#" role="button">
                 <span className="glyphicon glyphicon-comment"></span>Enable comments</a>
+        </div>);
+    }
+}
+
+class LoginAndComment extends React.Component {
+    render() {
+        return (
+            <div className="well enable-comment">
+            <h4>Start to donate and comment!</h4>
+            <p>Please login with Twitter account to be able to comment via tweets and make donations.<br />Looking forward to hearing from you!</p>
+            <br />
+            <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span className="glyphicon glyphicon-comment"></span>Join the conversation</a>
         </div>);
     }
 }
