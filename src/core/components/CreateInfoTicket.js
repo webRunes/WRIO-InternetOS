@@ -13,7 +13,7 @@ export default class CreateInfoTicket extends React.Component {
 
     componentWillMount() {
         var author;
-        if (this.props.author) {
+        if (this.props.author && this.props.author != 'unknown') {
             getJsonldsByUrl(this.props.author, (jsons) => {
                 if (jsons && jsons.length !== 0) {
                     var j, name;
