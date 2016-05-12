@@ -6,7 +6,6 @@ import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
 import CenterActions from '../core/actions/center.js';
 import UserStore from '../core/store/UserStore.js';
-import {getResourcePath} from '../core/global.js';
 
 var domain = getDomain();
 
