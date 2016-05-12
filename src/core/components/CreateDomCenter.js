@@ -287,7 +287,7 @@ export class CreateDomCenter extends ArticleCenter {
                 <div className="margin">
                     <AlertWelcome  />
                     <AlertWarning  />
-                    <Login importUrl={importUrl} theme={theme} />
+                    <Login />
                     <CreateBreadcrumb
                         converter={this.props.converter}
                         editMode={ this.state.editMode }
