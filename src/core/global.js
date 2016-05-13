@@ -1,4 +1,4 @@
-var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+export var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
 export var cssUrl;
 export var theme;
 
@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === 'dockerdev') {
     importUrl = cssUrl = 'http://wrioos.local/';
     theme = 'Default-WRIO-Theme';
 }
+
 
 export var themeImportUrl = importUrl + theme + '/widget/';
 export const isAirticlelist = false;
@@ -34,4 +35,5 @@ export function getResourcePath(filename) {
     }
 
 }
+
 

@@ -128,10 +128,14 @@ class Login extends React.Component{
         this.setState({busy:true});
     }
 
-    doLogin(e) {
-        e.stopPropagation();
+    static requestLogin() {
         WindowActions.resetLogin.trigger();
         document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+    }
+
+    doLogin(e) {
+        e.stopPropagation();
+        Login.requestLogin();
         this.setState({busy:true});
       //  CenterActions.showLockup.trigger(false);
     }
