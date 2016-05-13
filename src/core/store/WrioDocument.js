@@ -40,6 +40,24 @@ export default Reflux.createStore({
         return this.loading;
     },
 
+    getJsonLDProperty: function (field) {
+        var json = this.mainPage;
+        for (var j = 0; j < json.length; j++) {
+            var section = json[j];
+            var data = section[field];
+            if (data) {
+                return data;
+            }
+        }
+        return null;
+    },
+
+    hasCommentId() {
+        var comment = this.getJsonLDProperty('comment');
+        if (comment) return true;
+    },
+
+
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
