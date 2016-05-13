@@ -7,7 +7,6 @@ import WindowActions from '../core/actions/WindowActions.js';
 import CenterActions from '../core/actions/center.js';
 import UserStore from '../core/store/UserStore.js';
 
-
 var domain = getDomain();
 
 class Login extends React.Component{
@@ -184,7 +183,7 @@ class Login extends React.Component{
 
                     <span className="in" id="profile-element" onClick={that.changePage}>
                         <div className="media thumbnail clearfix">
-                            <Details importUrl={this.props.importUrl} theme={this.props.theme}/>
+                            <Details />
                             <div className="col-xs-12 col-md-6">
                                 <p>{this.state.description}</p>
                                 <ul className="actions">
@@ -203,8 +202,7 @@ class Login extends React.Component{
 }
 
 Login.propTypes = {
-    importUrl: React.PropTypes.string.isRequired,
-    theme: React.PropTypes.string.isRequired
+
 };
 
 module.exports = Login;
