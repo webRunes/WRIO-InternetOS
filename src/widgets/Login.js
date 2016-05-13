@@ -135,7 +135,7 @@ class Login extends React.Component{
 
     doLogin(e) {
         e.stopPropagation();
-        this.requestLogin();
+        Login.requestLogin();
         this.setState({busy:true});
       //  CenterActions.showLockup.trigger(false);
     }

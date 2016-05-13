@@ -253,19 +253,20 @@ var CreateTitter = React.createClass({
     }
 });
 
-
 class CommentsDisabled extends React.Component {
     render() {
-        return (<div className="well enable-comment">
-            <h4>Comments disabled</h4>
 
-            <p>Comments haven't been enabled by author</p>
-            <br />
-            <a className="btn btn-sm btn-primary" href="#" role="button">
-                <span className="glyphicon glyphicon-comment"></span>Enable comments</a>
-        </div>);
+        var iStyle= {
+            width: '100%',
+            height: '190px',
+            border: 'none'
+        };
+
+        var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + window.location.href;
+        return (<iframe src={frameUrl} style={ iStyle } />);
     }
 }
+
 
 class LoginAndComment extends React.Component {
     render() {
