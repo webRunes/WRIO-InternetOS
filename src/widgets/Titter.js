@@ -34,7 +34,7 @@ class TwitterWidet {
         this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
         window.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }
-    
+
 
     autoSizeTimeline() {
         if (this.$twitter.contentDocument) {
@@ -48,7 +48,7 @@ class TwitterWidet {
             if ($noMorePane) {
                 add_ht = Number(window.getComputedStyle($noMorePane).height.replace('px', ''));
             }
-            
+
             if (add_ht > 0) {
                 twitterht += add_ht;
             }
@@ -136,6 +136,7 @@ var CreateTitter = React.createClass({
         }
 
         return {
+            isAuthor: false,
             addComment: 'Add comment',
             article: this.isArticle(this.props.scripts),
             isTemporary: false,
@@ -185,8 +186,10 @@ var CreateTitter = React.createClass({
 
         WindowActions.loginMessage.listen((msg)=> {
             if (msg.profile) {
+                var auth =  (msg.profile.id === this.getWrioIdFromAuthor());
                 this.setState({
-                    isTemporary:msg.profile.temporary
+                    isTemporary: msg.profile.temporary,
+                    isAuthor: auth
                 });
             }
         });
@@ -196,7 +199,7 @@ var CreateTitter = React.createClass({
         var parts = [];
 
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
-            return <CommentsDisabled />;
+            return <CommentsDisabled isAuthor={this.state.isAuthor}/>;
         }
 
         if (this.state.isTemporary) {
@@ -256,27 +259,46 @@ var CreateTitter = React.createClass({
 class CommentsDisabled extends React.Component {
     render() {
 
-        var iStyle= {
+        var iStyle = {
             width: '100%',
             height: '190px',
             border: 'none'
         };
 
         var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + window.location.href;
-        return (<iframe src={frameUrl} style={ iStyle } />);
+        if (this.props.isAuthor) {
+            return (<iframe src={frameUrl} style={ iStyle }/>);
+        } else { // do not open iframe if it isn't author
+            return (
+                <div className="well enable-comment text-left">
+                    <h4>Comments disabled</h4>
+
+                    <p>Comments haven't been enabled by author</p>
+                    <br />
+
+                </div>);
+        }
+
     }
 }
+
+CommentsDisabled.propTypes = {
+    isAuthor: React.PropTypes.bool
+};
 
 
 class LoginAndComment extends React.Component {
     render() {
         return (
             <div className="well enable-comment">
-            <h4>Start to donate and comment!</h4>
-            <p>Please login with Twitter account to be able to comment via tweets and make donations.<br />Looking forward to hearing from you!</p>
-            <br />
-            <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span className="glyphicon glyphicon-comment"></span>Join the conversation</a>
-        </div>);
+                <h4>Start to donate and comment!</h4>
+
+                <p>Please login with Twitter account to be able to comment via tweets and make donations.<br />Looking
+                    forward to hearing from you!</p>
+                <br />
+                <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span
+                    className="glyphicon glyphicon-comment"></span>Join the conversation</a>
+            </div>);
     }
 }
 
