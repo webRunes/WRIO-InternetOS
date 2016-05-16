@@ -198,8 +198,15 @@ var CreateTitter = React.createClass({
     render: function () {
         var parts = [];
 
+
+
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
-            return <CommentsDisabled isAuthor={this.state.isAuthor}/>;
+            parts.push(
+                <ul className="breadcrumb">
+                    <li className="active">Comments</li>
+                </ul>);
+            parts.push(<CommentsDisabled isAuthor={this.state.isAuthor}/>);
+            return <div>{parts}</div>;
         }
 
         if (this.state.isTemporary) {
