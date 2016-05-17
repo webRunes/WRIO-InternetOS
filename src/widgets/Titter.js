@@ -285,7 +285,6 @@ class CommentsDisabled extends React.Component {
                     <h4>Comments disabled</h4>
 
                     <p>Comments haven't been enabled by author</p>
-                    <br />
 
                 </div>);
         }
