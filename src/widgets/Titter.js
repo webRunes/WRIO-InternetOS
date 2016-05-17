@@ -35,11 +35,15 @@ class TwitterWidet {
         window.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }
 
+    calcHeight(id) {
+        var element = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
+        return Number(window.getComputedStyle(element).height.replace('px', ''));
+    }
 
     autoSizeTimeline() {
         if (this.$twitter.contentDocument) {
             var $hfeed = this.$twitter.contentDocument.getElementsByClassName("timeline-TweetList")[0];
-            var $noMorePane = this.$twitter.contentDocument.getElementsByClassName("no-more-pane")[0];
+            var $noMorePane = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
             var twitterht = 0;
             var add_ht = 0;
             if ($hfeed) {
@@ -53,7 +57,7 @@ class TwitterWidet {
                 twitterht += add_ht;
             }
 
-            this.$twitter.style.height = twitterht + 100 + 'px';
+            this.$twitter.style.height = twitterht + 90 + 'px';
         }
     }
 
