@@ -55,7 +55,7 @@ var code =
             }
         },
         writeNoticeCode: function(){
-            window.location.href = '//wrioos.com/old_browser.htm';
+            window.location.href = '//wrioos.com/old_browser.html';
         },
         detectBrowser: function(){
             this.browser = '';
