@@ -100,7 +100,7 @@ export class AlertWarning extends React.Component {
 
         if (!this.state.hidden) {
             return (<Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick.bind(this)}>
-                <strong>Attention!</strong> This is a test project under development. <a href="wrioos.com">Stated functions</a> will be added as it progresses
+                <strong>Attention!</strong> This is an experimental project under development. <a href="https://wrioos.com">Stated functions</a> will be added as it progresses
             </Alert>);
         } else {
             return false;
