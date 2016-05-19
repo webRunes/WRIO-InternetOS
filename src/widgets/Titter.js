@@ -138,7 +138,7 @@ var CreateTitter = React.createClass({
         if (authorId) {
             authorId = "&id=" + authorId;
         } else {
-            authorId = ""
+            authorId = "";
         }
 
         return {
