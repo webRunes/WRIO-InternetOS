@@ -31,7 +31,7 @@ var CreateArticleLists = React.createClass({
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
                             {/* <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} /> */}
-                            (o.image) ? <img className="pull-left" src={o.image} : null />
+                            (o.image) ? <img className="pull-left" src={o.image} /> : null
 
                             {/*
                             <ul className="details">
