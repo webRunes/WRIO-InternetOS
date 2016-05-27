@@ -26,24 +26,30 @@ var CreateArticleLists = React.createClass({
                         <header className="col-xs-12">
                             <h2 id={articleName}>
                                 <span>{articleName}</span>
-                                <sup>{o.name}</sup>
+                                {/* <sup>{o.name}</sup> */}
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                            <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} />
+                            {/* <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} /> */}
+                            <img className="pull-left" src={o.image} />
+
+                            {/*
                             <ul className="details">
                                 <li>Created: 22 Jun 2013</li>
                                 <li>Rating: 244</li>
                                 <li>Readers: 1,634</li>
                                 <li>Access: Free</li>
                             </ul>
+                            */}
                         </div>
                         <div className="col-xs-12 col-md-6">
                             <p>{o.about}</p>
+                            {/*
                             <ul className="actions">
                                 <li><span className="glyphicon glyphicon-plus"></span>Add</li>
                                 <li><span className="glyphicon glyphicon-share"></span>Share</li>
                             </ul>
+                            */}
                             <p></p>
                         </div>
                     </div>
