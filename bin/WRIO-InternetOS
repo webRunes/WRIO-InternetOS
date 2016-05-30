@@ -1,7 +1,0 @@
-#!/usr/bin/env node
-
-var npm = require('npm');
-
-npm.load({}, function () {
-	npm.commands['run-script'](process.argv.slice(2));
-});
