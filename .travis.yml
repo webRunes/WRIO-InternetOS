@@ -1,24 +1,36 @@
 language: node_js
 
-script: "/bin/date"
+env:
+  - secure: "oNCXFPNITsVmErcmI0plopfQMrsBh9sxF0H6U6FJOGmzpejh9NWqxoluT/cCyCvKqiQd4kpsh4FfL0Mjx84fkHltLetnybuJG7dneEoA4ZKRrG8+mQPMry5tgle1uKmKcW1fMAFV75os0VffXVqp2I4IvKmvuyCVbCW1MPRsL+E="
+  - secure: "p7bQCXp+8DI/UXC4ZRgHMr+5gnGrC6worWoceBUcb3eCYXK7XywakHm/brSKkf1Yd7SmvRxX5CzVESTOWKO0Lh6iaH8NKYPAlDdDaN95zWaBcrOvfjRJ8L73E0F+ClJpV3703er2GLW3UvryEt/vKb9Zi/vUQIrLtqj8drg/Hlg="
 
 node_js:
-  - 0.10
+  - 0.12
 
-install : npm install
-script  : npm start
+install :
+  - npm install
+  - npm install -g gulp
+
+script:
+  - gulp
+  - gulp test
+  - sh compress.sh
+
+before_deploy:
+- gem install mime-types -v 2.6.2
 
 deploy:
   provider: s3
-  access_key_id: 
+  access_key_id:
     secure: PfRbnam9KEVy+l9KwXf9gBc4lNUjhd9lw3BRb8eWP8kUZsEvDkAZU3+tpCcC9aOixDD1n7au1j5nIxSApDKXdX1PfTkDgQRYzDorx8vjk/vbB+oyy4fIx6Pnmc/5mNjY9r3TImYi5pUwTqzcJ+hiNtlbMHlDANMzmbuvvoiEZ84=
-  secret_access_key: 
+  secret_access_key:
     secure: KZVb2QAc86f8TBDXp4O2DIlcdh1FfT8iF6OeNs2EhRZlyL/xfhYf0k00y4tGDyZJ/wK5VZ56jfq1q3hX+HFI3fPa0dvfEem7QtSCfPUa/bbxpz+nVRnNC6atZQbhvmHsEvcL8tY9rwdfhxZSwSo4aQmiYRE7Cc/6ZTBLTce4WZs=
-  bucket: wrio
-  upload-dir: WRIO-InternetOS
+  bucket: wrioos.com
   acl: public_read
   skip_cleanup: true
+  detect_encoding: true # <== default is false
   on:
-    all_branches: true
+      branch: production
     
-    
+after_deploy:
+  - ./travis/reset_cloudfront_cache.sh $ACCESS_KEY $SECRET_ACCESS_KEY
