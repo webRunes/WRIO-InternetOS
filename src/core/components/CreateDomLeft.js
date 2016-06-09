@@ -106,7 +106,7 @@ class CreateDomLeft extends React.Component {
 
     getHeader(classNameToggle,classNameSidebar) {
         return ( <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
-            <ul className="nav menu pull-right">
+            /*<ul className="nav menu pull-right">
                 <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
                     <a className="btn btn-link btn-sm" href="#">
                         <span className="glyphicon glyphicon-comment" />
@@ -132,8 +132,8 @@ class CreateDomLeft extends React.Component {
                         <span className="glyphicon glyphicon-transfer" />
                     </a>
                 </li>
-            </ul>
-            <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="//webrunes-contact.htm" data-original-title="Contact us"> </a>
+            </ul>*/
+            <a title="" data-placement="right" data-toggle="tooltip" className="navbar-brand" href="//wrioos.com" data-original-title="WRIO Internet OS"> </a>
         </div>);
     }
 }
