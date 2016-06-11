@@ -107,21 +107,21 @@ class CreateDomLeft extends React.Component {
     getHeader(classNameToggle,classNameSidebar) {
         return ( <div ref="navbarHeader" className="navbar-header tooltip-demo" id="topMenu 12">
             <ul className="nav menu pull-right">
-                /*<li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
-                    <a className="btn btn-link btn-sm" href="#">
-                        <span className="glyphicon glyphicon-comment" />
-                    </a>
-                </li>
-                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
-                    <a className="btn btn-link btn-sm" href="#">
-                        <span className="glyphicon glyphicon-lock" />
-                    </a>
-                </li>
-                <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
-                    <a className="btn btn-link btn-sm" href="#">
-                        <span className="glyphicon glyphicon-fullscreen" />
-                    </a>
-                </li>*/
+                //<li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Call IA">
+                //    <a className="btn btn-link btn-sm" href="#">
+                //        <span className="glyphicon glyphicon-comment" />
+                //    </a>
+                //</li>
+                //<li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Logout">
+                //    <a className="btn btn-link btn-sm" href="#">
+                //        <span className="glyphicon glyphicon-lock" />
+                //    </a>
+                //</li>
+                //<li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Full screen">
+                //    <a className="btn btn-link btn-sm" href="#">
+                //        <span className="glyphicon glyphicon-fullscreen" />
+                //    </a>
+                //</li>
                 <li title="" data-placement="bottom" data-toggle="tooltip" data-original-title="Open/close menu">
                     <a onClick={this.toggleMenuByClick} ref="toggleMenu" data-target=".navbar-collapse" data-toggle="collapse" className={classNameToggle} href="#">
                         <span className="glyphicon glyphicon-align-justify" />
