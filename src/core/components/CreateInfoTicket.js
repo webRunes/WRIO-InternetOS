@@ -52,12 +52,12 @@ export default class CreateInfoTicket extends React.Component {
                                     <li>Language: {this.props.article.inLanguage}</li>
                                     <li>Author: {this.state.author}</li>
                                     <li>Access: Free</li>
-                                    /*<li>Published: {this.props.article.datePublished}</li>
-                                    <li>Last modified: {this.props.article.dateModified}</li>
-                                    <li>Read time: {this.state.readTime} minute(s)</li>
-                                    <li>Earned: <span className="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Скрыто для получения вашей независимой оценки, будет открыто после донейта"></span></li>
-                                    <li>Views: </li>
-                                    <li>Comments: {this.props.article.commentCount}</li>*/
+                                    //<li>Published: {this.props.article.datePublished}</li>
+                                    //<li>Last modified: {this.props.article.dateModified}</li>
+                                    //<li>Read time: {this.state.readTime} minute(s)</li>
+                                    //<li>Earned: <span className="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Скрыто для получения вашей независимой оценки, будет открыто после донейта"></span></li>
+                                    //<li>Views: </li>
+                                    //<li>Comments: {this.props.article.commentCount}</li>
                                 </ul>
                             </div>
                             <div className="col-xs-12">
