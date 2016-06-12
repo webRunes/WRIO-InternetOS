@@ -14,18 +14,7 @@ var CreateArticleElement = React.createClass({
             if (o.m && o.m.articleBody && o.m.articleBody[i]) {
                 item = this.applyMentions(o.m.articleBody[i]);
             }
-            return (
-                <div className="paragraph">
-                    <div className="col-xs-12 col-md-6">
-                        <div key={i}><p>{item}</p></div>
-                    </div>
-                    <div className="col-xs-12 col-md-6">
-                        <aside>
-                            <span className="glyphicon glyphicon-comment" title="Not yet available"></span>
-                        </aside>
-                    </div>
-                </div>
-            );
+            return <div key={i}>{item}</div>;
         }, this);
     },
     render: function() {
@@ -50,7 +39,16 @@ var CreateArticleElement = React.createClass({
                     <h1 id={o.name}>{articleName}</h1> :
                     <h2 id={o.name}>{articleName}</h2>
                 }
-                {this.articleBody()}
+                <div className="paragraph">
+                    <div className="col-xs-12 col-md-6">
+                        {this.articleBody()}
+                    </div>
+                    <div className="col-xs-12 col-md-6">
+                        <aside>
+                            <span className="glyphicon glyphicon-comment" title="Not yet available" />
+                        </aside>
+                    </div>
+                </div>
                 {Parts}
             </section>
         );
