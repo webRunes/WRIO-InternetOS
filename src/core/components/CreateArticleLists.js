@@ -31,15 +31,15 @@ var CreateArticleLists = React.createClass({
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
                             { <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} /> }
-                                /*(o.image) ? <img className="pull-left" src={o.image} /> : null*/
+                                //(o.image) ? <img className="pull-left" src={o.image} /> : null
 
                             {
                             <ul className="details">
                                 <li>Language: En</li>
                                 <li>Author: </li>
-                                /*<li>Created: 22 Jun 2013</li>
-                                <li>Rating: 244</li>
-                                <li>Readers: 1,634</li>*/
+                                //<li>Created: 22 Jun 2013</li>
+                                //<li>Rating: 244</li>
+                                //<li>Readers: 1,634</li>
                                 <li>Access: Free</li>
                             </ul>
                             }
