@@ -16,26 +16,26 @@ class Login extends React.Component{
             busy: false,
             title: {
                 text: "Logged as I'm Anonymous ",
-                label: 'WRIO',
+                label: "WRIO",
                 link: {
                     url: "https://webrunes.com/",
                     text: "Profile page"
                 }
             },
             upgrade: {
-                text: 'Upgrade guest account for free',
-                label: '30 days left',
+                text: "Upgrade guest account for free",
+                label: "30 days left",
                 visible: true
             },
             have: {
-                text: 'Login with Twitter'
+                text: "Login with Twitter"
             },
             twitter: {
                 url: getServiceUrl("login") + "/auth/twitter",
                 buttontext: getServiceUrl("login") + "/auth/twitter",
                 buttonurl: getServiceUrl("login") + "/buttons/twitter"
             },
-            description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
+            description: "Information in the public profile is available to any person, even unregistered users. If you want to stay anonimous, simply don't fill it in."
         };
 
         this.changePage = this.changePage.bind(this);
@@ -74,14 +74,14 @@ class Login extends React.Component{
                     that.setState({
                         title: {
                             text: "Logged as I'm Anonymous ",
-                            label: 'WRIO',
+                            label: "WRIO",
                             link: {
                                 url: profile.url
                             }
                         },
                         upgrade: {
                             text: "Upgrade guest account for free",
-                            label: profile.days + ' days left',
+                            label: profile.days + " days left",
                             visible: true
                         }
                     });
@@ -89,14 +89,14 @@ class Login extends React.Component{
                     that.setState({
                         title: {
                             text: "Logged in as " + profile.name,
-                            label: 'WRIO',
+                            label: "WRIO",
                             link: {
                                 url: profile.url
                             }
                         },
                         upgrade: {
                             text: "Log out",
-                            label: profile.days + ' days left',
+                            label: profile.days + " days left",
                             visible: false
                         }
                     });
