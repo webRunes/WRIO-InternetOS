@@ -178,7 +178,7 @@ class Login extends React.Component{
                 <li className="panel">
                     <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
                         <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
-                        <sup>{this.state.title.label}</sup>
+                        {/*<sup>{this.state.title.label}</sup>*/}
                     </a>
 
                     <span className="in" id="profile-element" onClick={that.changePage}>
