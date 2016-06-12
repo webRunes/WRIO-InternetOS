@@ -26,9 +26,10 @@ class Details extends React.Component{
             </span>
                 <ul className="details">
                     <li>Registered: {this.state.registered}</li>
-                    <li>Rating: {this.state.rating}</li>
+                    <li>Account: Basic</li>
+                    {/*<li>Rating: {this.state.rating}</li>
                     <li>Followers: {this.state.followers}</li>
-                    <li>Posts: {this.state.posts}</li>
+                    <li>Posts: {this.state.posts}</li>*/}
                 </ul>
             </div>
         );
