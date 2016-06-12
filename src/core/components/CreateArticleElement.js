@@ -14,7 +14,7 @@ var CreateArticleElement = React.createClass({
             if (o.m && o.m.articleBody && o.m.articleBody[i]) {
                 item = this.applyMentions(o.m.articleBody[i]);
             }
-            return <div key={i}>{item}</div>;
+            return <p><div key={i}>{item}</div></p>;
         }, this);
     },
     render: function() {
@@ -41,7 +41,7 @@ var CreateArticleElement = React.createClass({
                 }
                 <div className="paragraph">
                     <div className="col-xs-12 col-md-6">
-                        <p>{this.articleBody()}</p>
+                        {this.articleBody()}
                     </div>
                     <div className="col-xs-12 col-md-6">
                         <aside>
