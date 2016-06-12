@@ -25,8 +25,7 @@ var CreateArticleElement = React.createClass({
                         </aside>
                     </div>
                 </div>
-                ;
-            )
+            );
         }, this);
     },
     render: function() {
