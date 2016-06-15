@@ -16,6 +16,7 @@ var CreateArticleLists = React.createClass({
         if (o['@type'] !== 'Article') {
             return null;
         }
+        console.log(o);
         if (o.m && o.m.name) {
             articleName = this.applyMentions(o.m.name);
         }
@@ -31,6 +32,7 @@ var CreateArticleLists = React.createClass({
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
                             <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} />
+                            <img className="pull-left" src={o.image} />
                             <ul className="details">
                                 <li>Created: 22 Jun 2013</li>
                                 <li>Rating: 244</li>
