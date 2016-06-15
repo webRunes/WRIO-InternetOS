@@ -16,7 +16,6 @@ var CreateArticleLists = React.createClass({
         if (o['@type'] !== 'Article') {
             return null;
         }
-        console.log(o);
         if (o.m && o.m.name) {
             articleName = this.applyMentions(o.m.name);
         }
