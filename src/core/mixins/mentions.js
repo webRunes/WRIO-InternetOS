@@ -27,7 +27,6 @@ module.exports = {
             Link = link(m.link),
             Image = image(m.image),
             After = m.after;
-
         var before = function(str, i) {
             i--;
             m = mentions[i];
