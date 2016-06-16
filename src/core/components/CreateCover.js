@@ -43,7 +43,7 @@ var CreateCover = React.createClass({
         var bulletList = [];
 
         function purgeList() {
-            if (bulletList !== []) {
+            if (bulletList.length !== 0) {
                 descr.push(<ul className="features">{bulletList.map(item => <li><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
                 bulletList = [];
             }
@@ -54,7 +54,7 @@ var CreateCover = React.createClass({
                 bulletList.push (this.skipAsterisk(item));
             } else {
                 purgeList();
-                descr.push(item);
+                descr.push(<div className="description">{item}</div>);
             }
 
         });
