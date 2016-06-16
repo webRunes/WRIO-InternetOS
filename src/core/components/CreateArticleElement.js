@@ -54,7 +54,7 @@ var CreateArticleElement = React.createClass({
                     <h1 id={chapter}>{articleName}</h1> :
                     <h2 id={chapter}>{articleName}</h2>
                 }
-                <div itemprop="articleBody">
+                <div itemProp="articleBody">
                     {this.articleBody()}
                 </div>
                 {Parts}
