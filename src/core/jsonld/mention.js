@@ -41,7 +41,7 @@ class Mention {
 
     warn(text) {
         text = text || 'Wrong mention: ' + this.url;
-        console.warn(text);
+     //   console.warn(text);
     }
 
     attach(paragraphText) {
@@ -58,7 +58,7 @@ class Mention {
                 after: after
             };
         }
-        //this.warn();
+        this.warn();
         return {
             before: paragraphText
         };
