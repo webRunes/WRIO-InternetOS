@@ -58,7 +58,7 @@ class Mention {
                 after: after
             };
         }
-        this.warn();
+        //this.warn();
         return {
             before: paragraphText
         };
