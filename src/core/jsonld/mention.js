@@ -5,7 +5,7 @@ import Image from './image';
 class Mention {
 
     /*
-        Creates mention from the mention URL
+        Creates mention from the mention LD+JSON
      */
 
     constructor(opts) {
