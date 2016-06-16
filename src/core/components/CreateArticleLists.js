@@ -1,5 +1,5 @@
 import React from 'react';
-import mentions from '../mixins/mentions';
+import applyMentions from '../jsonld/applyMentions.js';
 import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';
@@ -9,7 +9,6 @@ var CreateArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
-    mixins: [mentions],
 
     render: function() {
         var o = this.props.data,
@@ -19,7 +18,7 @@ var CreateArticleLists = React.createClass({
             return null;
         }
         if (o.m && o.m.name) {
-            articleName = this.applyMentions(o.m.name);
+            articleName = applyMentions(o.m.name);
         }
         return (
             <a href={UrlMixin.fixUrlProtocol(o.url)}>

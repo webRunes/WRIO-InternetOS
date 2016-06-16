@@ -1,4 +1,4 @@
-import mentions from './mentions';
+import processJsonLDmentions from './mentions';
 
 export default function(scripts) {
     var i,
@@ -19,7 +19,7 @@ export default function(scripts) {
         }
     }
     data.forEach(function(jsn) {
-        mentions(jsn);
+        processJsonLDmentions(jsn);
     });
     return data;
 };
