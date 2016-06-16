@@ -11,6 +11,11 @@ import _ from 'lodash';
 import center from '../actions/center';
 import WrioDocument from '../store/WrioDocument.js';
 
+// TODO: move to utils somewhere !!!!
+export function replaceSpaces(str) {
+    return str.replace(/ /g,'_');
+}
+
 var External = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired,
@@ -55,8 +60,11 @@ var Article = React.createClass({
         active: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool.isRequired
     },
+
+
+
     onClick: function(e) {
-        center.article(this.props.data.name);
+        center.article(this.props.data.name, replaceSpaces(this.props.data.name));
         ActionMenu.showSidebar(false);
         this.props.active(this);
         e.preventDefault();
@@ -279,7 +287,8 @@ var CreateDomRight = React.createClass({
 
             this.props.data.forEach(function add(currentItem) {
             if (this.isElementOfType(currentItem,"Article")) {
-                isActive = currentItem.name === window.location.hash.substring(1) || isActiveFirstArticle;
+                var currentHash = window.location.hash.substring(1);
+                isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 items.push(<Article data={currentItem} key={items.length} active={this.active} isActive={isActive} />);
             } else if (currentItem['@type'] === 'ItemList') {
@@ -297,4 +306,4 @@ var CreateDomRight = React.createClass({
     }
 });
 
-module.exports = CreateDomRight;
+export default CreateDomRight;
