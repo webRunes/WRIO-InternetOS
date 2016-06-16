@@ -1,5 +1,5 @@
 import React from 'react';
-import applyMentions from '../jsonld/appyMentions.js';
+import applyMentions from '../jsonld/applgyMentions.js';
 import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';

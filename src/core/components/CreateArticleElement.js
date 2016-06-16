@@ -1,5 +1,5 @@
 import React from 'react';
-import applyMentions from '../jsonld/appyMentions.js';
+import applyMentions from '../jsonld/applyMentions.js';
 import CreateArticleLists from './CreateArticleLists';
 import {replaceSpaces} from '../components/CreateDomRight.js';
 
