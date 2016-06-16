@@ -13,12 +13,11 @@ import WrioDocument from '../store/WrioDocument.js';
 
 // TODO: move to utils somewhere !!!!
 export function replaceSpaces(str) {
-    if (typeof str === "string ") {
+    if (typeof str === "string") {
         return str.replace(/ /g,'_');
     } else {
         return str;
     }
-
 }
 
 var External = React.createClass({

@@ -20,10 +20,52 @@ var CreateCover = React.createClass({
     logout() {
         Login.doLogout();
         CenterActions.showLockup(false);
-        WrioDocumentActions.changeDocumentChapter('article','');
+        WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-    render: function() {
+    isBulletItem(str) {
+        if (typeof str === "string") {
+            return str.match(/^\*/m);
+        }
+        return false;
+    },
+
+    skipAsterisk(str) {
+        if (typeof str === "string") {
+            return str.replace(/^\*/m, '');
+        }
+        return str;
+    },
+
+    coverItems(cover) {
+        var items = cover.text || [];
+        var descr = [];
+        var bulletList = [];
+
+        function purgeList() {
+            if (bulletList !== []) {
+                descr.push(<ul className="features">{bulletList.map(item => <li><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
+                bulletList = [];
+            }
+        }
+
+        items.forEach((item) => {
+            if (this.isBulletItem(item)) {
+                bulletList.push (this.skipAsterisk(item));
+            } else {
+                purgeList();
+                descr.push(item);
+            }
+
+        });
+        purgeList();
+
+
+        return descr;
+
+    },
+
+    render: function () {
         var cover = this.props.data;
         var path = cover.contentUrl; //cover.img;
         var name = cover.name;
@@ -48,20 +90,14 @@ var CreateCover = React.createClass({
         }
 
 
-
         return (
             <div className={isActive}>
                 <div className="img" style={{background: 'url(' + path + ') center center'}}></div>
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>
-                        <ul className="features">
-                            <li><span className="glyphicon glyphicon-ok"></span>подбор интересного контента на основе <a href="https://webrunes.com/blog.htm?First-url-title">ваших предпочтений</a></li>
-                            <li><span className="glyphicon glyphicon-ok"></span>отображение и организация любимых сайтов в удобном для вас виде</li>
-                            <li><span className="glyphicon glyphicon-ok"></span><a href="https://webrunes.com/blog.htm?First-url-title">единый каталог</a> всех ваших статей, книг, фото / аудио / видео материалов</li>
-                            <li><span className="glyphicon glyphicon-ok"></span>возможность поддержки ваших любимых авторов материально</li>
-                        </ul>
-                        {CenterStore.lockupShown? button : ''}
+                        {this.coverItems(cover)}
+                        {CenterStore.lockupShown ? button : ''}
                     </div>
                 </div>
             </div>
