@@ -3,6 +3,7 @@ import mentions from '../mixins/mentions';
 import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';
+import {replaceSpaces} from '../components/CreateDomRight.js';
 
 var CreateArticleLists = React.createClass({
     propTypes: {
@@ -12,7 +13,8 @@ var CreateArticleLists = React.createClass({
 
     render: function() {
         var o = this.props.data,
-            articleName = o.name;
+            articleName = o.name,
+            articleHash = replaceSpaces(articleName);
         if (o['@type'] !== 'Article') {
             return null;
         }
@@ -24,7 +26,7 @@ var CreateArticleLists = React.createClass({
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
-                            <h2 id={articleName}>
+                            <h2 id={articleHash}>
                                 <span>{articleName}</span>
                                 {/* <sup>{o.name}</sup> */}
                             </h2>
