@@ -1,6 +1,7 @@
 import React from 'react';
 import mentions from '../mixins/mentions';
 import CreateArticleLists from './CreateArticleLists';
+import {replaceSpaces} from '../components/CreateDomRight.js';
 
 var CreateArticleElement = React.createClass({
     propTypes: {
@@ -46,11 +47,14 @@ var CreateArticleElement = React.createClass({
                 }
             });
         }
+
+        var chapter = replaceSpaces(o.name);
+
         return (
             <section>
                 {(o.hasPart) ?
-                    <h1 id={o.name}>{articleName}</h1> :
-                    <h2 id={o.name}>{articleName}</h2>
+                    <h1 id={chapter}>{articleName}</h1> :
+                    <h2 id={chapter}>{articleName}</h2>
                 }
                 <div itemprop="articleBody">
                     {this.articleBody()}
