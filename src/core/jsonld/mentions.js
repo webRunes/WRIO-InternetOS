@@ -1,15 +1,14 @@
 import Mention from './mention';
 import Image from './image';
 
-var merge = Mention.merge,
-    mentions = undefined,
+var mentions = undefined,
     images = undefined;
 
+/* Finds given mention in the text */
 var attachMentionToElement = function(mention, json, order) {
     order = order || 0;
-    var i,
-        keys = Object.keys(json);
-    for (i = 0; i < keys.length; i += 1) {
+    var keys = Object.keys(json);
+    for (var i = 0; i < keys.length; i += 1) {
         var key = keys[i];
         if (['name', 'about'].indexOf(key) !== -1) {
             order += 1;
@@ -43,7 +42,8 @@ var attachMentionToElement = function(mention, json, order) {
     return false;
 };
 
-var check = function(json, order) {
+/* function reads JSON+LD mentions and attaches them to the JSONLD */
+var processJsonLDmentions = function(json, order) {
     mentions = json.mentions || mentions;
     images = json.image || images;
     if (json.image && typeof json.image === "object") {
@@ -53,26 +53,25 @@ var check = function(json, order) {
         });
     }
     if (mentions) {
-        mentions = merge(mentions);
+        mentions = Mention.merge(mentions);
         mentions.forEach(function(m) {
-            var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m),
-                ok;
+            var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
             if (mention.order > (order || 0)) {
-                ok = attachMentionToElement(mention, json, order);
-            }
-            if (ok === false) {
-                mention.warn();
+                var ok = attachMentionToElement(mention, json, order);
+                if (!ok) {
+                    mention.warn();
+                }
             }
         }, this);
     }
-    if (json.hasPart) {
+    if (json.hasPart) { // process mentions for all the parts
         var order = json.articleBody.length + 2;
         json.hasPart.forEach((part, i) => {
             if (i > 0) {
                 order += json.hasPart[i-1].articleBody ? json.hasPart[i-1].articleBody.length + 1 : 1;
             }
-            check(part, order);
+            processJsonLDmentions(part, order);
         });
     }
 };
-export default check;
+export default processJsonLDmentions;

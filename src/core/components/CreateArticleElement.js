@@ -1,5 +1,5 @@
 import React from 'react';
-import mentions from '../mixins/mentions';
+import applyMentions from '../jsonld/applyMentions.js';
 import CreateArticleLists from './CreateArticleLists';
 import {replaceSpaces} from '../components/CreateDomRight.js';
 
@@ -7,15 +7,13 @@ var CreateArticleElement = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
-    mixins: [mentions],
-
 
     articleBody () {
         var o = this.props.data;
         o.articleBody = o.articleBody || [];
         return o.articleBody.map(function (item, i) {
             if (o.m && o.m.articleBody && o.m.articleBody[i]) {
-                item = this.applyMentions(o.m.articleBody[i]);
+                item = applyMentions(o.m.articleBody[i]);
             }
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
@@ -36,7 +34,7 @@ var CreateArticleElement = React.createClass({
             articleName = o.name,
             Parts = null;
         if (o.m && o.m.name) {
-            articleName = this.applyMentions(o.m.name);
+            articleName = applyMentions(o.m.name);
         }
         if (o.hasPart) {
             Parts = o.hasPart.map(function (ϙ, key) {
@@ -56,7 +54,7 @@ var CreateArticleElement = React.createClass({
                     <h1 id={chapter}>{articleName}</h1> :
                     <h2 id={chapter}>{articleName}</h2>
                 }
-                <div itemprop="articleBody">
+                <div itemProp="articleBody">
                     {this.articleBody()}
                 </div>
                 {Parts}
