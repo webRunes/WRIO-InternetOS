@@ -21,26 +21,18 @@ var CreateItemLists = React.createClass({
                 <header className="col-xs-12">
                   <h2>
                       {title}
-                    <sup>sub_title</sup>
                   </h2>
                 </header>
                 <div className="col-xs-12 col-md-6 pull-right">
                   <img className="pull-left" src={image} />
                   <ul className="details">
                     <li>Created: {createdDate}</li>
-                    <li>Rating: rating</li>
-                    <li>Readers: readers</li>
-                    <li>Access: access</li>
+                    <li>Access: Free</li>
                   </ul>
                 </div>
 
                 <div className="col-xs-12 col-md-6">
                   <p>{about}</p>
-                  <ul className="actions">
-                    <li><span className="glyphicon glyphicon-plus"></span>Add</li>
-                    <li><span className="glyphicon glyphicon-share"></span>Share</li>
-                  </ul>
-                  <p></p>
                 </div>
               </div>
             </article>
