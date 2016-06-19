@@ -1,8 +1,18 @@
 import React from 'react';
 
 function makeLink (lnk) {
+
     if (lnk) {
-        return <a href={lnk.url}>{lnk.text}</a>;
+        var ext = "";
+        var target;
+        if (lnk.external) {
+            ext = (<sup><span className="glyphicon glyphicon-new-window"></span></sup>);
+            target="_blank"
+        }
+        return (<span>
+            <a href={lnk.url} target={target}>{lnk.text}  </a>
+            {ext}
+            </span>);
     }
     return null;
 }
@@ -33,6 +43,7 @@ export default function applyMentions(mentions) {
         i--;
         mention = mentions[i];
         if (mention) {
+
             var L = makeLink(mention.link),
                 I = makeImage(mention.image),
                 A = str.replace(mention.before + (mention.link ? mention.link.text : ''), '');

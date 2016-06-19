@@ -25,6 +25,12 @@ class Mention {
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
 
+        try {
+            this.external = positions[2] == 'external';
+        } catch (e) {
+            this.external = false;
+        };
+
     }
 
     static merge(mentions) {
@@ -41,7 +47,7 @@ class Mention {
 
     warn(text) {
         text = text || 'Wrong mention: ' + this.url;
-     //   console.warn(text);
+      //  console.warn(text);
     }
 
     attach(paragraphText) {
@@ -53,12 +59,12 @@ class Mention {
                 before: before,
                 link: {
                     text: toReplace,
-                    url: this.newUrl
+                    url: this.newUrl,
+                    external: this.external
                 },
                 after: after
             };
         }
-        this.warn();
         return {
             before: paragraphText
         };
