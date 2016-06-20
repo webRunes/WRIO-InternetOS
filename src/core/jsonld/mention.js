@@ -20,7 +20,7 @@ class Mention {
         this.name = opts.name;
         this.url = opts.url;
 
-        var hash = this._hasHash(this.url);
+        var hash = this._coming_soon(this.url);
         if (hash) {
             this.hash = hash;
         }
@@ -41,9 +41,9 @@ class Mention {
 
     }
 
-    _hasHash(url) {
+    _coming_soon(url) {
       if (url) {
-          if (url.match('#')) {
+          if (url.match(/#\?/)) {
              return true;
           }
       }
