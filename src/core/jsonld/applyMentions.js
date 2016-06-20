@@ -4,20 +4,20 @@ function makeLink (lnk) {
 
     if (lnk) {
         var ext = "";
+        var linkUrl = lnk.url;
         var target,color;
         if (lnk.external) {
             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</sup>);
             target="_blank";
+            linkUrl = lnk.externalUrl;
 
         } else {
             if (lnk.hash) {
                 color='coming-soon';
             }
         }
-
-
         return (<span>
-            <a href={lnk.url} target={target} className={color}>{lnk.text}</a>
+            <a href={linkUrl} target={target} className={color}>{lnk.text}</a>
             {ext}
             </span>);
     }

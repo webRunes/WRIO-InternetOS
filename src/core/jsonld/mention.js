@@ -34,6 +34,7 @@ class Mention {
         try {
             this.external = positions[2] == 'external';
             this.extra = positions[3]; // additional optional field for the language
+            this.externalUrl = cutUrl[0].replace('?','');
         } catch (e) {
             this.external = false;
         }
@@ -77,6 +78,7 @@ class Mention {
                     text: toReplace,
                     url: this.newUrl,
                     external: this.external,
+                    externalUrl: this.externalUrl,
                     extra: this.extra,
                     hash: this.hash
                 },
