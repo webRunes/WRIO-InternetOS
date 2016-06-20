@@ -4,13 +4,14 @@ function makeLink (lnk) {
 
     if (lnk) {
         var ext = "";
-        var target;
+        var target,color;
         if (lnk.external) {
-            ext = (<sup><a href={lnk.url} target="_blank"><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</a></sup>);
+            ext = (<sup><a href={lnk.url} target="_blank" className="coming-soon"><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</a></sup>);
             target="_blank";
+            color='coming-soon';
         }
         return (<span>
-            <a href={lnk.url} target={target}>{lnk.text}</a>
+            <a href={lnk.url} target={target} className={color}>{lnk.text}</a>
             {ext}
             </span>);
     }
