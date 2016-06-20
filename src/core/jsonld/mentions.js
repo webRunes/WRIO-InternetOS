@@ -4,10 +4,15 @@ import Image from './image';
 var mentions = undefined,
     images = undefined;
 
-/* Finds given mention in the text */
+/* Finds given mention in the text
+*
+* searches until finds mention.order chapter in the text and then searching to the corresponding word
+*
+* */
 var attachMentionToElement = function(mention, json, order) {
     order = order || 0;
     var keys = Object.keys(json);
+
     for (var i = 0; i < keys.length; i += 1) {
         var key = keys[i];
         if (['name', 'about'].indexOf(key) !== -1) {
