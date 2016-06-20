@@ -72,7 +72,7 @@ export default Reflux.createStore({
             parentName = params.parent,
             key;
         this.data = this.data || {};
-        if (o.author && !params.noAuthor) {
+        if (o.author && o.author != 'unknown'/* && !params.noAuthor*/) {
             //check parent
             key = o.author;
             Object.keys(this.data).forEach((item) => {
@@ -223,6 +223,7 @@ export default Reflux.createStore({
                         name: json.name,
                         url: window.location.href,
                         author: json.author,
+                        authorName: document.querySelector('head meta[name=author]') ? document.querySelector('head meta[name=author]').content : 'none',
                         active: true
                     };
                 }
@@ -232,6 +233,7 @@ export default Reflux.createStore({
                         name: json.name,
                         url: window.location.href,
                         author: json.author,
+                        authorName: document.querySelector('head meta[name=author]') ? document.querySelector('head meta[name=author]').content : 'none',
                         active: true
                     };
                     break;
@@ -241,36 +243,29 @@ export default Reflux.createStore({
         cb.call(this, o);
     },
     addCurrentPageParent: function(o, cb) {
-        if(!o.author || o.author == 'unknown') {
-            cb.call(this, {
-                tab: o,
-                noAuthor: true
-            });
-        } else {
-            getJsonldsByUrl(o.author, (jsons) => {
-                if (jsons && jsons.length !== 0) {
-                    var j, name;
-                    for (j = 0; j < jsons.length; j += 1) {
-                        if (jsons[j]['@type'] === 'Article') {
-                            name = jsons[j].name;
-                            j = jsons.length;
-                        }
+        getJsonldsByUrl(o.author, (jsons) => {
+            if (jsons && jsons.length !== 0) {
+                var j, name;
+                for (j = 0; j < jsons.length; j += 1) {
+                    if (jsons[j]['@type'] === 'Article') {
+                        name = jsons[j].name;
+                        j = jsons.length;
                     }
-                    if (!name) {
-                        console.warn('plus: author [' + o.author + '] do not have type Article');
-                    }
-                    cb.call(this, {
-                        tab: o,
-                        parent: name
-                    });
-                } else {
-                    cb.call(this, {
-                        tab: o,
-                        noAuthor: true
-                    });
                 }
-            });
-        }
+                if (!name) {
+                    console.warn('plus: author [' + o.author + '] do not have type Article');
+                }
+                cb.call(this, {
+                    tab: o,
+                    parent: name
+                });
+            } else {
+                cb.call(this, {
+                    tab: o,
+                    noAuthor: true
+                });
+            }
+        });
     },
     addCurrentPage: function(cb) {
         this.createCurrentPage((o) => {
