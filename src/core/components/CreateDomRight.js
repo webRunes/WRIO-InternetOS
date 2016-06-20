@@ -228,9 +228,10 @@ var CreateDomRight = React.createClass({
                     </aside> : ''}
                     {this.state.article ?
                         <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
+                    { (coverItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {coverItems}
-                    </ul>
+                    </ul>:""}
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {articleItems}
                     </ul>
