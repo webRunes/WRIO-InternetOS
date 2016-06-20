@@ -7,7 +7,7 @@ function makeLink (lnk) {
         var target;
         if (lnk.external) {
             ext = (<sup><span className="glyphicon glyphicon-new-window"></span></sup>);
-            target="_blank"
+            target="_blank";
         }
         return (<span>
             <a href={lnk.url} target={target}>{lnk.text}  </a>
