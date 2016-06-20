@@ -31,15 +31,14 @@ class SubList extends GenericListItem {
                     del = function () {
                         actions.del(list, i.url);
                     };
-                if (i.active) {
-                    this.style.height = 'auto';
-                }
+                // if (i.active) {
+                //     this.style.height = 'auto';
+                // }
                 return <Item className="panel" del={del} data={i} key={i.url} />;
             }, this);
     }
 
     render() {
-
         var data = this.props.data,
             name = data.name,
             children = data.children,
@@ -55,7 +54,10 @@ class SubList extends GenericListItem {
                 open: (children && (data.active || childrenActive))
             });
 
-        this.style.height = this.props.data.active ? 'auto' : '0px';
+        // this.style.height = this.props.data.active ? 'auto' : '0px';
+        for(var i in children) {
+            name = children[i].authorName||'none'; break;
+        }
         return (
             <li className={className}>
                 <a href={this.props.data.url} onClick={this.gotoUrl.bind(this)} className="collapsed" data-parent="#nav-accordion" data-toggle="collapse">
