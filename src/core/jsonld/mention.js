@@ -16,8 +16,14 @@ class Mention {
         //    "about": "Text inside the ticket popup.",
         //    "url": "http://webrunes.com/blog.htm?'dolor sit amet':1,104"
         //},
+
         this.name = opts.name;
         this.url = opts.url;
+
+        var hash = this._hasHash(this.url);
+        if (hash) {
+            this.hash = hash;
+        }
         var cutUrl = this.url.split('\''),
             positions = cutUrl[2].replace(':', '').split(',');
         this.linkWord = cutUrl[1];
@@ -30,7 +36,16 @@ class Mention {
             this.extra = positions[3]; // additional optional field for the language
         } catch (e) {
             this.external = false;
-        };
+        }
+
+    }
+
+    _hasHash(url) {
+      if (url) {
+          if (url.match('#')) {
+             return true;
+          }
+      }
 
     }
 
@@ -62,7 +77,8 @@ class Mention {
                     text: toReplace,
                     url: this.newUrl,
                     external: this.external,
-                    extra: this.extra
+                    extra: this.extra,
+                    hash: this.hash
                 },
                 after: after
             };
