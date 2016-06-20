@@ -6,11 +6,11 @@ function makeLink (lnk) {
         var ext = "";
         var target;
         if (lnk.external) {
-            ext = (<sup><span className="glyphicon glyphicon-new-window"></span></sup>);
+            ext = (<sup><a href={lnk.url} target="_blank"><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</a></sup>);
             target="_blank";
         }
         return (<span>
-            <a href={lnk.url} target={target}>{lnk.text}  </a>
+            <a href={lnk.url} target={target}>{lnk.text}</a>
             {ext}
             </span>);
     }
