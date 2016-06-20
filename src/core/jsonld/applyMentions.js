@@ -6,10 +6,16 @@ function makeLink (lnk) {
         var ext = "";
         var target,color;
         if (lnk.external) {
-            ext = (<sup><a href={lnk.url} target="_blank" className="coming-soon"><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</a></sup>);
+            ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{lnk.extra}</sup>);
             target="_blank";
-            color='coming-soon';
+
+        } else {
+            if (lnk.hash) {
+                color='coming-soon';
+            }
         }
+
+
         return (<span>
             <a href={lnk.url} target={target} className={color}>{lnk.text}</a>
             {ext}
