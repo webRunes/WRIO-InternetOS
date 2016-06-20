@@ -84,7 +84,38 @@ function getVersion() {
 }
 var version = getVersion();
 
-gulp.task('babel-client', function() {
+gulp.task('babel-client-main', function() {
+    var main = browserify({
+        entries: './src/main.js',
+        debug: true
+    })
+        .transform(babelify)
+        .transform(envify(envify_params))
+        .bundle()
+        .on('error', function(err) {
+            console.log('Babel client:', err.toString());
+        })
+        .pipe(source('main.js'))
+        .pipe(buffer());
+
+    if (!devmode) {
+        main = main.pipe(gulp.dest('./raw/'))
+            .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+            .pipe(uglify())
+            .pipe(headerfooter.footer(version))
+            .pipe(sourcemaps.write('./')); // writes .map file
+    } else {
+        console.log("Skip uglification...");
+    }
+    main
+        .pipe(gulp.dest('.'))
+        .pipe(notify("main.js built!!"));
+
+    return main;
+
+});
+
+gulp.task('babel-client-preloader', function() {
 
     var preloader = browserify({
         entries: './src/preloader.js',
@@ -111,35 +142,9 @@ gulp.task('babel-client', function() {
         preloader
             .pipe(gulp.dest('.'));
 
+    return preloader;
 
 
-    var main = browserify({
-            entries: './src/main.js',
-            debug: true
-        })
-        .transform(babelify)
-        .transform(envify(envify_params))
-        .bundle()
-        .on('error', function(err) {
-            console.log('Babel client:', err.toString());
-        })
-        .pipe(source('main.js'))
-        .pipe(buffer());
-
-    if (!devmode) {
-        main = main.pipe(gulp.dest('./raw/'))
-            .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-            .pipe(uglify())
-            .pipe(headerfooter.footer(version))
-            .pipe(sourcemaps.write('./')); // writes .map file
-    } else {
-        console.log("Skip uglification...");
-    }
-    main
-        .pipe(gulp.dest('.'))
-        .pipe(notify("main.js built!!"));
-
-    return merge(preloader, main);
 
 });
 
@@ -165,17 +170,17 @@ gulp.task('update-modules', function(callback) {
     }
 });
 */
-gulp.task('default', ['lint','babel-client']);
+gulp.task('default', ['lint','babel-client-preloader','babel-client-main']);
 
 gulp.task('watch', ['default'], function() {
     gulp.watch([
         'src/**/*.*',
-    ], ['babel-client']);
+    ], ['babel-client-main']);
+
+    gulp.watch([
+        'src/preloader.js','src/core/global.js','src/core/servicelocator.js'
+    ], ['babel-client-preloader']);
 });
 
-gulp.task('watchDev', ['default'], function() {
-    gulp.watch([
-        'src/**/*.*',
-    ], ['babel-client']);
-});
+gulp.task('watchDev', ['watch']);
 
