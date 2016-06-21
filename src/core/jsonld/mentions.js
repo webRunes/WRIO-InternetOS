@@ -57,6 +57,11 @@ var processJsonLDmentions = function(json, order) {
             mentions.push(i);
         });
     }
+
+    if (json.text) {
+        console.log("Trying to attach to cover");
+    }
+
     if (mentions) {
         mentions = Mention.merge(mentions);
         mentions.forEach(function(m) {
