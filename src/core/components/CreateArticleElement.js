@@ -17,7 +17,7 @@ var CreateArticleElement = React.createClass({
             }
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
-                   {item}
+                   <p>{item}</p>
                 </div>
                 <div className="col-xs-12 col-md-6">
                     {/*  <aside>

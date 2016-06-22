@@ -26,13 +26,18 @@ function makeLink (lnk) {
 
 function makeImage (img) {
     if (img) {
-        return (
-            <figure>
-                <img style={{width: '100%'}} src={img.src}/>
+        var figcaption;
+        if (img.name) {
+            figcaption = (
                 <figcaption className="callout figure-details">
                     <h5>{img.name}</h5>
                     <p>{img.description}</p>
-                </figcaption>
+                </figcaption>)
+        }
+        return (
+            <figure>
+                <img style={{width: '100%'}} src={img.src}/>
+                {figcaption}
             </figure>
         );
     }
@@ -78,7 +83,6 @@ export default function applyMentions(mentions,span) {
         return str;
     }
 
-    if (span) {
         return (
             <span>
                 {before(mention.before, i)}
@@ -86,15 +90,7 @@ export default function applyMentions(mentions,span) {
                 {After}
             </span>
         );
-    } else {
-        return (
-            <div>
-                {before(mention.before, i)}
-                {Link || Image}
-                {After}
-            </div>
-        );
-    }
+
 
 }
 
