@@ -39,8 +39,29 @@ var CreateCover = React.createClass({
         return str;
     },
 
+    skipAsteriskFromMention(mention) {
+        var tItem = _.cloneDeep(mention);// clone array
+        if (this.isBulletItem(tItem[0].before)) {
+            tItem[0].before = this.skipAsterisk(mention[0].before);
+        }
+        return tItem;
+    },
+
+    applyMentions(cover) {
+        return cover.text.map((item, i) => {
+            var appliedMention;
+            if (cover.m && cover.m.text && cover.m.text[i]) {
+                appliedMention = applyMentions(this.skipAsteriskFromMention(cover.m.text[i]),1);
+            } else {
+               return this.skipAsterisk(cover.text[i]);
+            }
+
+            return appliedMention;
+        });
+    },
+
     coverItems(cover) {
-        var items = cover.m.text || [];
+        var items = this.applyMentions(cover) || [];
         var descr = [];
         var bulletList = [];
 
@@ -51,20 +72,16 @@ var CreateCover = React.createClass({
             }
         }
 
-        items.forEach((item) => {
+        items.forEach((item,i) => {
             var bullet = false;
-            var tItem = _.cloneDeep(item);// clone array
-            if (this.isBulletItem(tItem[0].before)) {
+            if (this.isBulletItem(cover.text[i])) {
                 bullet = true;
-                tItem[0].before = this.skipAsterisk(item[0].before);
             }
-            var mentioned = applyMentions(tItem,1);
-
             if (bullet) {
-                bulletList.push (mentioned);
+                bulletList.push (item);
             } else {
                 purgeList();
-                descr.push(<div className="description">{mentioned}</div>);
+                descr.push(<div className="description">{item}</div>);
             }
 
         });
