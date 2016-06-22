@@ -5,6 +5,8 @@ import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import CenterStore from '../store/center.js';
 import CenterActions from '../actions/center.js';
+import applyMentions from '../jsonld/applyMentions.js';
+import _ from 'lodash';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -38,7 +40,7 @@ var CreateCover = React.createClass({
     },
 
     coverItems(cover) {
-        var items = cover.text || [];
+        var items = cover.m.text || [];
         var descr = [];
         var bulletList = [];
 
@@ -50,11 +52,19 @@ var CreateCover = React.createClass({
         }
 
         items.forEach((item) => {
-            if (this.isBulletItem(item)) {
-                bulletList.push (this.skipAsterisk(item));
+            var bullet = false;
+            var tItem = _.cloneDeep(item);// clone array
+            if (this.isBulletItem(tItem[0].before)) {
+                bullet = true;
+                tItem[0].before = this.skipAsterisk(item[0].before);
+            }
+            var mentioned = applyMentions(tItem,1);
+
+            if (bullet) {
+                bulletList.push (mentioned);
             } else {
                 purgeList();
-                descr.push(<div className="description">{item}</div>);
+                descr.push(<div className="description">{mentioned}</div>);
             }
 
         });

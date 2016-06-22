@@ -39,7 +39,20 @@ function makeImage (img) {
     return null;
 }
 
-export default function applyMentions(mentions) {
+/*
+
+takes as input array of mention objects, converts them to the react code
+
+each mention object contains
+
+{
+    before: "before text"
+    after: "after text"
+    link: { ... link object ...}
+}
+
+*/
+export default function applyMentions(mentions,span) {
     var i = mentions.length - 1,
         mention = mentions[i],
         Link = makeLink(mention.link),
@@ -65,12 +78,23 @@ export default function applyMentions(mentions) {
         return str;
     }
 
-    return (
-        <div>
-            {before(mention.before, i)}
-            {Link || Image}
-            {After}
-        </div>
-    );
+    if (span) {
+        return (
+            <span>
+                {before(mention.before, i)}
+                {Link || Image}
+                {After}
+            </span>
+        );
+    } else {
+        return (
+            <div>
+                {before(mention.before, i)}
+                {Link || Image}
+                {After}
+            </div>
+        );
+    }
+
 }
 

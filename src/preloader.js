@@ -149,7 +149,7 @@ function loadScripts() {
 
     }
     if (process.env.NODE_ENV === 'development') {
-        script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
+        script.setAttribute('src', 'http://localhost:3000/main.js');
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {

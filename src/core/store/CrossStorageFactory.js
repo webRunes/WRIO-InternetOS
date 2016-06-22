@@ -3,7 +3,6 @@
  */
 
 import {CrossStorageClient} from 'cross-storage';
-import {Promise} from 'es6-promise';
 
 var mockStorage = {};
 
