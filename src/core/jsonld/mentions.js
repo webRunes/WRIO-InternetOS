@@ -73,10 +73,6 @@ var processJsonLDmentions = function(json, order) {
         });
     }
 
-    if (json.text) {
-        console.log("Trying to attach to cover");
-    }
-
     if (mentions) {
         mentions = Mention.merge(mentions);
         mentions.forEach(function(m) {
@@ -100,7 +96,6 @@ var processJsonLDmentions = function(json, order) {
     }
 
     if (json["@type"] == "ItemList") {
-        console.log("Got itemlist");
         if (json.itemListElement) {
             json.itemListElement.forEach((part) => processJsonLDmentions(part,order));
         }
