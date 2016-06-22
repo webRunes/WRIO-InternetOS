@@ -1,16 +1,24 @@
 import React from 'react';
-import moment from 'moment';
+//import moment from 'moment'; // moment js have pretty heavy js footprint, get rid of
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import {getResourcePath} from '../core/global.js';
 
 var domain = getDomain();
+
+function formatDate() {
+    var d = new Date();
+
+    return d.getDate()  + " " + (d.getMonth()+1) + "-" + d.getFullYear() + " ";
+
+// 16-5-2015 9:50
+}
 
 class Details extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            registered: moment(Date.now()).format('DD MMM YYYY')
+            registered: formatDate()
         };
     }
 

@@ -18,7 +18,7 @@ class DocumentBody extends React.Component
     }
 
     onDocumentChange(doc) {
-        this.setState(doc);
+       // this.setState(doc);
     }
     
     render() {

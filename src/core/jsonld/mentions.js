@@ -25,7 +25,7 @@ var attachMentionToElement = function(mention, json, order) {
                 );
                 return true;
             }
-        } else if (key === 'articleBody') {
+        } else if (key === 'articleBody') { // to process articles
             var articleBody = json[key],
                 pos;
             if (order + articleBody.length >= mention.order) {
@@ -42,6 +42,21 @@ var attachMentionToElement = function(mention, json, order) {
             } else {
                 //order += articleBody.length;
             }
+        } else if (key=='text') {  // to process covers
+            var text = json[key],
+                pos;
+            if (order + text.length >= mention.order) {
+                pos = mention.order - order - 1;
+                json.m = json.m || {};
+                json.m[key] = json.m[key] || [];
+                json.m[key][pos] = json.m[key][pos] || [];
+                json.m[key][pos].push(
+                    mention.attach(
+                        text[pos]
+                    )
+                );
+                return true;
+            }
         }
     }
     return false;
@@ -57,6 +72,7 @@ var processJsonLDmentions = function(json, order) {
             mentions.push(i);
         });
     }
+
     if (mentions) {
         mentions = Mention.merge(mentions);
         mentions.forEach(function(m) {
@@ -77,6 +93,12 @@ var processJsonLDmentions = function(json, order) {
             }
             processJsonLDmentions(part, order);
         });
+    }
+
+    if (json["@type"] == "ItemList") {
+        if (json.itemListElement) {
+            json.itemListElement.forEach((part) => processJsonLDmentions(part,order));
+        }
     }
 };
 export default processJsonLDmentions;
