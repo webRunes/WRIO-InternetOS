@@ -10,6 +10,7 @@
     "node": ">= v0.8.0"
   },
   "devDependencies": {
+    "babel-register": "^6.9.0",
     "babel-eslint": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-polyfill": "^6.9.1",
