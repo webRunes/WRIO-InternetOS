@@ -32,7 +32,7 @@ function makeImage (img) {
                 <figcaption className="callout figure-details">
                     <h5>{img.name}</h5>
                     <p>{img.description}</p>
-                </figcaption>)
+                </figcaption>);
         }
         return (
             <figure>
