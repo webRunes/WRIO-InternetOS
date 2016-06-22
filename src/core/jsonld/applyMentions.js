@@ -26,20 +26,38 @@ function makeLink (lnk) {
 
 function makeImage (img) {
     if (img) {
-        return (
-            <figure>
-                <img style={{width: '100%'}} src={img.src}/>
+        var figcaption;
+        if (img.name) {
+            figcaption = (
                 <figcaption className="callout figure-details">
                     <h5>{img.name}</h5>
                     <p>{img.description}</p>
-                </figcaption>
+                </figcaption>);
+        }
+        return (
+            <figure>
+                <img style={{width: '100%'}} src={img.src}/>
+                {figcaption}
             </figure>
         );
     }
     return null;
 }
 
-export default function applyMentions(mentions) {
+/*
+
+takes as input array of mention objects, converts them to the react code
+
+each mention object contains
+
+{
+    before: "before text"
+    after: "after text"
+    link: { ... link object ...}
+}
+
+*/
+export default function applyMentions(mentions,span) {
     var i = mentions.length - 1,
         mention = mentions[i],
         Link = makeLink(mention.link),
@@ -65,12 +83,14 @@ export default function applyMentions(mentions) {
         return str;
     }
 
-    return (
-        <div>
-            {before(mention.before, i)}
-            {Link || Image}
-            {After}
-        </div>
-    );
+        return (
+            <span>
+                {before(mention.before, i)}
+                {Link || Image}
+                {After}
+            </span>
+        );
+
+
 }
 

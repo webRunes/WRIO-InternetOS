@@ -1,13 +1,11 @@
-require('babel/register');
+require('babel-register');
 
 var gulp = require('gulp');
 var browserify = require('browserify');
-var babel = require('gulp-babel');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
-var npm =  require("npm");
 var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
@@ -18,8 +16,6 @@ var mocha = require('gulp-mocha');
 var headerfooter = require('gulp-headerfooter');
 var fs = require('fs');
 
-var npm = require('npm'),
-package = require('./package.json');
 
 var argv = require('yargs').argv;
 
@@ -184,3 +180,20 @@ gulp.task('watch', ['default'], function() {
 
 gulp.task('watchDev', ['watch']);
 
+gulp.task("devserv", function(callback) {
+    // Start a webpack-dev-server
+    var compiler = webpack({
+        // configuration
+    });
+
+    new WebpackDevServer(compiler, {
+        // server and middleware options
+    }).listen(3000, "localhost", function(err) {
+            if(err) throw new gutil.PluginError("webpack-dev-server", err);
+            // Server listening
+            gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
+
+            // keep the server alive or continue?
+            // callback();
+        });
+});

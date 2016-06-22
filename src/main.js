@@ -1,4 +1,4 @@
-require('babel/polyfill');
+require('babel-polyfill');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Showdown from 'showdown';
@@ -14,7 +14,7 @@ import UrlMixin from './core/mixins/UrlMixin.js';
 import Lockup from './core/components/Lockup.js';
 import CenterActions from './core/actions/center';
 import {Plus,Users} from "./widgets/Plus/Plus";
-import { Router, Route, Link } from 'react-router';
+//import { Router, Route, Link } from 'react-router';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
 
@@ -60,11 +60,6 @@ export default class Main extends React.Component {
 
         console.log("Doc changed called",doc);
 
-        if (doc.urlChanged) {
-            this.setState({
-                url: doc.urlChanged
-            });
-        }
 
         this.setState({
            changed: true

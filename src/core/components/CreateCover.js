@@ -5,6 +5,8 @@ import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import CenterStore from '../store/center.js';
 import CenterActions from '../actions/center.js';
+import applyMentions from '../jsonld/applyMentions.js';
+import _ from 'lodash';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -37,8 +39,29 @@ var CreateCover = React.createClass({
         return str;
     },
 
+    skipAsteriskFromMention(mention) {
+        var tItem = _.cloneDeep(mention);// clone array
+        if (this.isBulletItem(tItem[0].before)) {
+            tItem[0].before = this.skipAsterisk(mention[0].before);
+        }
+        return tItem;
+    },
+
+    applyMentions(cover) {
+        return cover.text.map((item, i) => {
+            var appliedMention;
+            if (cover.m && cover.m.text && cover.m.text[i]) {
+                appliedMention = applyMentions(this.skipAsteriskFromMention(cover.m.text[i]),1);
+            } else {
+               return this.skipAsterisk(cover.text[i]);
+            }
+
+            return appliedMention;
+        });
+    },
+
     coverItems(cover) {
-        var items = cover.text || [];
+        var items = this.applyMentions(cover) || [];
         var descr = [];
         var bulletList = [];
 
@@ -49,9 +72,13 @@ var CreateCover = React.createClass({
             }
         }
 
-        items.forEach((item) => {
-            if (this.isBulletItem(item)) {
-                bulletList.push (this.skipAsterisk(item));
+        items.forEach((item,i) => {
+            var bullet = false;
+            if (this.isBulletItem(cover.text[i])) {
+                bullet = true;
+            }
+            if (bullet) {
+                bulletList.push (item);
             } else {
                 purgeList();
                 descr.push(<div className="description">{item}</div>);
