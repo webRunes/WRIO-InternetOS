@@ -7,6 +7,7 @@ import CenterStore from '../store/center.js';
 import CenterActions from '../actions/center.js';
 import applyMentions from '../jsonld/applyMentions.js';
 import _ from 'lodash';
+import mention from '../jsonld/mention.js';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -25,35 +26,17 @@ var CreateCover = React.createClass({
         WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-    isBulletItem(str) {
-        if (typeof str === "string") {
-            return str.match(/^\*/m);
-        }
-        return false;
-    },
-
-    skipAsterisk(str) {
-        if (typeof str === "string") {
-            return str.replace(/^\*/m, '');
-        }
-        return str;
-    },
-
-    skipAsteriskFromMention(mention) {
-        var tItem = _.cloneDeep(mention);// clone array
-        if (this.isBulletItem(tItem[0].before)) {
-            tItem[0].before = this.skipAsterisk(mention[0].before);
-        }
-        return tItem;
-    },
-
     applyMentions(cover) {
         return cover.text.map((item, i) => {
-            var appliedMention;
+            var appliedMention = {};
             if (cover.m && cover.m.text && cover.m.text[i]) {
-                appliedMention = applyMentions(this.skipAsteriskFromMention(cover.m.text[i]),1);
+                appliedMention.text = applyMentions(cover.m.text[i],1);
+                appliedMention.bullet = cover.m.text[i];
             } else {
-               return this.skipAsterisk(cover.text[i]);
+                if (mention.isBulletItem(cover.text[i])) {
+                    appliedMention.bullet = true;
+                }
+                appliedMention.text = mention.skipAsterisk(cover.text[i]);
             }
 
             return appliedMention;
@@ -73,15 +56,11 @@ var CreateCover = React.createClass({
         }
 
         items.forEach((item,i) => {
-            var bullet = false;
-            if (this.isBulletItem(cover.text[i])) {
-                bullet = true;
-            }
-            if (bullet) {
-                bulletList.push (item);
+            if (item.bullet) {
+                bulletList.push (item.text);
             } else {
                 purgeList();
-                descr.push(<div className="description">{item}</div>);
+                descr.push(<div className="description">{item.text}</div>);
             }
 
         });
@@ -96,6 +75,7 @@ var CreateCover = React.createClass({
         var cover = this.props.data;
         var path = cover.contentUrl; //cover.img;
         var name = cover.name;
+        var about = cover.about;
         var isActive = this.props.isActive ? 'item active' : 'item';
 
         if (path) {
@@ -116,6 +96,12 @@ var CreateCover = React.createClass({
                 </button>);
         }
 
+        if (cover.m) {
+
+            if (cover.m.name)  name = applyMentions(cover.m.name);
+            if (cover.m.about) about = applyMentions(cover.m.about);
+        }
+
 
         return (
             <div className={isActive}>
@@ -123,6 +109,7 @@ var CreateCover = React.createClass({
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>
+                        <h6>{about}</h6>
                         {this.coverItems(cover)}
                         {CenterStore.lockupShown ? button : ''}
                     </div>
