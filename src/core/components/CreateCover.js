@@ -31,9 +31,7 @@ var CreateCover = React.createClass({
             var appliedMention = {};
             if (cover.m && cover.m.text && cover.m.text[i]) {
                 appliedMention.text = applyMentions(cover.m.text[i],1);
-                if (appliedMention.text.bullet) {
-                    appliedMention.bullet = true;
-                }
+                appliedMention.bullet = cover.m.text[i];
             } else {
                 if (mention.isBulletItem(cover.text[i])) {
                     appliedMention.bullet = true;
@@ -77,6 +75,7 @@ var CreateCover = React.createClass({
         var cover = this.props.data;
         var path = cover.contentUrl; //cover.img;
         var name = cover.name;
+        var about = cover.about;
         var isActive = this.props.isActive ? 'item active' : 'item';
 
         if (path) {
@@ -97,6 +96,12 @@ var CreateCover = React.createClass({
                 </button>);
         }
 
+        if (cover.m) {
+
+            if (cover.m.name)  name = applyMentions(cover.m.name);
+            if (cover.m.about) about = applyMentions(cover.m.about);
+        }
+
 
         return (
             <div className={isActive}>
@@ -104,6 +109,7 @@ var CreateCover = React.createClass({
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>
+                        <h6>{about}</h6>
                         {this.coverItems(cover)}
                         {CenterStore.lockupShown ? button : ''}
                     </div>

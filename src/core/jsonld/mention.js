@@ -97,7 +97,7 @@ class Mention {
     attachBullet(paragraphText) {
 
         if (Mention.isBulletItem(paragraphText)) {
-            var r = Mention.attach(this.skipAsterisk(paragraphText));
+            var r = this.attach(Mention.skipAsterisk(paragraphText));
             r.bullet = true;
             return r;
         } else {
@@ -117,7 +117,7 @@ class Mention {
 
     static skipAsterisk(str) {
         if (typeof str === "string") {
-            return str.replace(/^\*/m, '');
+            return str.replace(/^\*/m, ' ');
         }
         return str;
     }
