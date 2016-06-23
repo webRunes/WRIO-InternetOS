@@ -51,7 +51,7 @@ var attachMentionToElement = function(mention, json, order) {
                 json.m[key] = json.m[key] || [];
                 json.m[key][pos] = json.m[key][pos] || [];
                 json.m[key][pos].push(
-                    mention.attach(
+                    mention.attachBullet(
                         text[pos]
                     )
                 );
@@ -74,7 +74,7 @@ var processJsonLDmentions = function(json, order) {
     }
 
     if (mentions) {
-        mentions = Mention.merge(mentions);
+        mentions = Mention.sortMentions(mentions);
         mentions.forEach(function(m) {
             var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
             if (mention.order > (order || 0)) {
