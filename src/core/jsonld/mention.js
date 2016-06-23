@@ -87,7 +87,7 @@ class Mention {
                 after: after
             };
         } else {
-            console.warn("Wrong linkword ",toReplace," in ",this.original);
+            //console.warn("Wrong linkword ",toReplace," in ",this.original);
         }
         return {
             before: paragraphText
