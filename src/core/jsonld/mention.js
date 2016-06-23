@@ -17,6 +17,8 @@ class Mention {
         //    "url": "http://webrunes.com/blog.htm?'dolor sit amet':1,104"
         //},
 
+        this.original = opts;
+
         this.name = opts.name;
         this.url = opts.url;
 
@@ -50,7 +52,7 @@ class Mention {
 
     }
 
-    static merge(mentions) {
+    static sortMentions(mentions) {
         return sortByOrder(mentions, [function (m) {
             var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
             return mention.order;
@@ -84,11 +86,42 @@ class Mention {
                 },
                 after: after
             };
+        } else {
+            console.warn("Wrong linkword ",toReplace," in ",this.original);
         }
         return {
             before: paragraphText
         };
     }
+
+    attachBullet(paragraphText) {
+
+        if (Mention.isBulletItem(paragraphText)) {
+            var r = Mention.attach(this.skipAsterisk(paragraphText));
+            r.bullet = true;
+            return r;
+        } else {
+            return this.attach(paragraphText);
+        }
+
+
+    }
+
+    /* functions for processing asterisks in mentions (for the lists) */
+    static isBulletItem(str) {
+        if (typeof str === "string") {
+            return str.match(/^\*/m);
+        }
+        return false;
+    }
+
+    static skipAsterisk(str) {
+        if (typeof str === "string") {
+            return str.replace(/^\*/m, '');
+        }
+        return str;
+    }
+
 }
 
 export default Mention;
