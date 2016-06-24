@@ -24,24 +24,51 @@ function isCover(o) {
     return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
 }
 
-var External = React.createClass({
-    propTypes: {
+// abstract menu button
+
+class MenuButton extends React.Component {
+    static propTypes = {
         data: React.PropTypes.object.isRequired,
         active: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool.isRequired
-    },
-    onClick: function (e) {
-        center.external(this.props.data.url, this.props.data.name);
-        ActionMenu.showSidebar(false);
+    };
+    onClick (e) {
         this.props.active(this);
         e.preventDefault();
-    },
-    getInitialState: function () {
-        return {
+    }
+    constructor (props) {
+        super(props);
+        this.state =  {
             active: false
         };
-    },
-    componentWillMount: function () {
+    }
+    componentWillMount () {
+        if (this.props.isActive) {
+            this.props.active(this);
+        }
+    }
+    render () {
+        var o = this.props.data,
+            className = this.state.active ? 'active' : '',
+            click = this.onClick.bind(this),
+            href = o.url || '#'+ o.name || "#";
+        return (
+            <li className={className} onClick={click}>
+                <a href={href} onClick={click}>{o.name}</a>
+            </li>
+        );
+    }
+}
+
+
+class ExternalButton extends MenuButton {
+    onClick (e) {
+        console.log("External button clicked");
+        center.external(this.props.data.url, this.props.data.name);
+        super.onClick(e);
+    }
+
+    componentWillMount () {
         if (this.props.isActive) {
             this.props.active(this);
         }
@@ -50,77 +77,28 @@ var External = React.createClass({
                 url: url
             });
         });
-    },
-    render: function () {
-        var o = this.props.data,
-            className = this.state.active ? 'active' : '';
-        return (
-            <li className={className}>
-                <a href={this.state.url} onClick={this.onClick}>{o.name}</a>
-            </li>
-        );
     }
-});
 
-var Article = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired,
-        isActive: React.PropTypes.bool.isRequired
-    },
+}
 
 
-    onClick: function (e) {
+
+class ArticleButton extends MenuButton{
+
+    onClick (e) {
+        console.log("Article button clicked");
         center.article(this.props.data.name, replaceSpaces(this.props.data.name));
-        ActionMenu.showSidebar(false);
-        this.props.active(this);
-        e.preventDefault();
-    },
-    getInitialState: function () {
-        return {
-            active: false
-        };
-    },
-    componentWillMount: function () {
-        if (this.props.isActive) {
-            this.props.active(this);
-            /*    center.article(this.props.data.name, true, (url) => {
-             this.setState({
-             url: url
-             });
-             });*/
-        }
-
-    },
-    render: function () {
-        var o = this.props.data,
-            className = this.state.active ? 'active' : '';
-        return (
-            <li className={className}>
-                <a href={this.state.url} onClick={this.onClick} className={o.class}>{o.name}</a>
-            </li>
-        );
+        super.onClick(e);
     }
-});
+}
 
-var Cover = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired,
-        isActive: React.PropTypes.bool.isRequired
-    },
-    onClick: function (e) {
+class CoverButton extends MenuButton {
+    onClick (e) {
+        console.log("Cover button clicked");
         center.cover(this.props.data.url);
-        ActionMenu.showSidebar(false);
-        this.props.active(this);
-        e.preventDefault();
-    },
-    getInitialState: function () {
-        return {
-            active: false
-        };
-    },
-    componentWillMount: function () {
+        super.onClick(e);
+    }
+    componentWillMount () {
         if (this.props.isActive) {
             this.props.active(this);
         }
@@ -129,17 +107,8 @@ var Cover = React.createClass({
                 url: url
             });
         });
-    },
-    render: function () {
-        var o = this.props.data,
-            className = this.state.active ? 'active' : '';
-        return (
-            <li className={className}>
-                <a href={this.state.url} onClick={this.onClick}>{o.name}</a>
-            </li>
-        );
     }
-});
+}
 
 var CreateDomRight = React.createClass({
     propTypes: {
@@ -232,12 +201,15 @@ var CreateDomRight = React.createClass({
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {coverItems}
                     </ul>:""}
+                    { (articleItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {articleItems}
-                    </ul>
+                    </ul>:""}
+                    { (externalItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {externalItems}
                     </ul>
+                        :""}
                 </div>
             </div>
         );
@@ -266,13 +238,13 @@ var CreateDomRight = React.createClass({
         if (isCover(item)) {
             var isActive = this.listName === item.name.toLowerCase();
             if (this.listName === superitem.name) {
-                this.coverItems.push(<Cover data={superitem} key={this.coveritems.length} active={this.active} isActive={isActive}/>);
+                this.coverItems.push(<CoverButton data={superitem} key={this.coveritems.length} active={this.active} isActive={isActive}/>);
             } else {
-                this.coverItems.push(<Cover data={item} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
+                this.coverItems.push(<CoverButton data={item} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
             }
         } else {
             var isActive = this.listName === item.name.toLowerCase();
-            this.externalItems.push(<External data={item} key={this.externalItems.length} active={this.active} isActive={isActive}/>);
+            this.externalItems.push(<ExternalButton data={item} key={this.externalItems.length} active={this.active} isActive={isActive}/>);
         }
     },
 
@@ -304,7 +276,7 @@ var CreateDomRight = React.createClass({
                 var currentHash = window.location.hash.substring(1);
                 var isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
                 isActiveFirstArticle = false;
-                this.articleItems.push(<Article data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
+                this.articleItems.push(<ArticleButton data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
             } else if (currentItem['@type'] === 'ItemList') {
                 if (!this.isElementOfType(currentItem, 'ItemList')) {
                     this.processItem(currentItem, currentItem);
@@ -312,7 +284,7 @@ var CreateDomRight = React.createClass({
                     currentItem.itemListElement.forEach((item) => this.processItem(item, currentItem), this);
                 }
             }
-            if (currentItem.hasPart) {
+            if (currentItem.hasPart) { // recursively process all article parts
                 currentItem.hasPart.forEach(add, this);
             }
         };
