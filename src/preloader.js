@@ -126,7 +126,18 @@ if(localStorage && !localStorage.getItem('oldUser')){
     window.document.body.innerHTML += code;
 }
 
+function decodeIncomingUrl() {
+    var href = window.location.href;
+    var decodedHref = decodeURIComponent(href);
+
+    if (href !== decodedHref) {
+        window.location = decodedHref;
+    }
+}
+
 function loadScripts() {
+
+    decodeIncomingUrl();
 
     var script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
