@@ -206,6 +206,5 @@ if(!BrowserDetection.init()){
     head.appendChild(preTitterIframe);
 
 } else {
-
     document.getElementById('preloader').style.display = 'none';
 }
