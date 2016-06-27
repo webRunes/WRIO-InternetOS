@@ -238,7 +238,7 @@ var CreateDomRight = React.createClass({
         if (isCover(item)) {
             var isActive = this.listName === item.name.toLowerCase();
             if (this.listName === superitem.name) {
-                this.coverItems.push(<CoverButton data={superitem} key={this.coveritems.length} active={this.active} isActive={isActive}/>);
+                this.coverItems.push(<CoverButton data={superitem} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
             } else {
                 this.coverItems.push(<CoverButton data={item} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
             }
