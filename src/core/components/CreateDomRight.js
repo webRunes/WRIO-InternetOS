@@ -263,7 +263,7 @@ var CreateDomRight = React.createClass({
         this.coverItems= [];
         this.articleItems = [];
         this.externalItems = [];
-
+        var currentHash = window.location.hash.substring(1);
         this.initListName();
 
         if (this.listName) {
@@ -272,8 +272,13 @@ var CreateDomRight = React.createClass({
             }
         }
         var add = (currentItem) => {
-            if (this.isElementOfType(currentItem, "Article")) {
-                var currentHash = window.location.hash.substring(1);
+            if (this.isElementOfType(currentItem, "SocialMediaPosting")) {
+                var isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
+                currentItem.name = currentItem.headline;
+                isActiveFirstArticle = false;
+                this.articleItems.push(<ArticleButton data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
+            }
+            else if (this.isElementOfType(currentItem, "Article")) {
                 var isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 this.articleItems.push(<ArticleButton data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);

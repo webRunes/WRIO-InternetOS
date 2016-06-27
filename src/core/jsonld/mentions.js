@@ -73,6 +73,9 @@ var processJsonLDmentions = function(json, order) {
         });
     }
 
+    if (json.type==="@")
+
+
     if (mentions) {
         mentions = Mention.sortMentions(mentions);
         mentions.forEach(function(m) {
