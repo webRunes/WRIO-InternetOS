@@ -13,8 +13,8 @@ var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' :
 export default Reflux.createStore({
     listenables: Actions,
     getUrl: function() {
-        var theme = 'Default-WRIO-Theme';
-        return host + theme + '/widget/defaultList.htm';
+        var plus = 'Plus-WRIO-App';
+        return host + plus + '/default/index.html';
     },
     init: function() {
         storage.onConnect()
