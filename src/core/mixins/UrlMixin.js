@@ -1,4 +1,4 @@
-var UrlMixin  = {
+const UrlMixin  = {
     getUrlParams() {
         return window.location.search.substring(1);
     },
@@ -65,4 +65,4 @@ var UrlMixin  = {
     }
 };
 
-export default UrlMixin;
+module.exports = UrlMixin;

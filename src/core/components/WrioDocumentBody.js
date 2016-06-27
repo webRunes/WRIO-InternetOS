@@ -6,9 +6,7 @@ class DocumentBody extends React.Component
 {
 
     componentDidUpdate() {
-        var hash = window.location.hash;
-        window.location.hash = '';
-        window.location.hash = hash;
+
     }
 
     componentDidMount() {
@@ -20,7 +18,7 @@ class DocumentBody extends React.Component
     }
 
     onDocumentChange(doc) {
-        this.setState(doc);
+       // this.setState(doc);
     }
     
     render() {

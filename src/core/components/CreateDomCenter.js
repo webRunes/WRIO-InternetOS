@@ -182,9 +182,9 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     onShowSidebar(data) {
-        this.setState({
+     /*   this.setState({
             active: data
-        });
+        });*/
     }
 
     componentWillUnmount() {

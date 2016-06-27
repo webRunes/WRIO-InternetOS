@@ -27,7 +27,7 @@ var CreateArticleList = React.createClass({
         var isMentions = mentions.length > 0;
 
         if (isMentions) {
-            return this.getItemList();
+            return this.getItemList(data);
         }
 
         if (!data) {
@@ -50,6 +50,7 @@ var CreateArticleList = React.createClass({
     },
     mixins: [UrlMixin],
     getItemList: function(data) {
+        data = data || [];
         return data.filter(function(o) {
                 return o['@type'] === 'ItemList';
             })

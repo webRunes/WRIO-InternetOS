@@ -3,7 +3,6 @@ import normURL from '../utils/normURL';
 import Actions from '../actions/PlusActions.js';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
-import {Promise} from 'es6-promise';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
 import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
@@ -14,8 +13,8 @@ var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' :
 export default Reflux.createStore({
     listenables: Actions,
     getUrl: function() {
-        var theme = 'Default-WRIO-Theme';
-        return host + theme + '/widget/defaultList.htm';
+        var plus = 'Plus-WRIO-App';
+        return host + plus + '/default/index.html';
     },
     init: function() {
         storage.onConnect()
@@ -141,7 +140,9 @@ export default Reflux.createStore({
                     active: active,
                     url: url || normURL(window.location.href)
                 });
-                cb();
+                if (cb) {
+                    cb();
+                }
             });
     },
     merge: function() {

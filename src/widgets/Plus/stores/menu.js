@@ -2,7 +2,7 @@ import Reflux from 'reflux';
 import tools from '../utils/tools';
 import ActionMenu from '../actions/menu.js';
 
-var storeMenu = Reflux.createStore({
+const storeMenu = Reflux.createStore({
     init: function () {
         this.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
         this.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
@@ -40,4 +40,4 @@ var storeMenu = Reflux.createStore({
     }
 });
 
-export default storeMenu;
+module.exports = storeMenu;

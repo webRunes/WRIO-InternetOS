@@ -1,36 +1,37 @@
 import React from 'react';
-import mentions from '../mixins/mentions';
+import applyMentions from '../jsonld/applyMentions.js';
 import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';
+import {replaceSpaces} from '../components/CreateDomRight.js';
 
 var CreateArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
-    mixins: [mentions],
 
     render: function() {
         var o = this.props.data,
-            articleName = o.name;
+            articleName = o.name,
+            articleHash = replaceSpaces(articleName);
         if (o['@type'] !== 'Article') {
             return null;
         }
         if (o.m && o.m.name) {
-            articleName = this.applyMentions(o.m.name);
+            articleName = applyMentions(o.m.name);
         }
         return (
             <a href={UrlMixin.fixUrlProtocol(o.url)}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
-                            <h2 id={articleName}>
+                            <h2 id={articleHash}>
                                 <span>{articleName}</span>
                                 {/* <sup>{o.name}</sup> */}
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                             <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} /> 
+                             <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} />
                              {/*(o.image) ? <img className="pull-left" src={o.image} /> : null*/}
 
                             {
