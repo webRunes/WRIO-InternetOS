@@ -17,7 +17,7 @@ var CreateArticleElement = React.createClass({
             }
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
-                   <p>{item}</p>
+                   <div>{item}</div>
                 </div>
                 <div className="col-xs-12 col-md-6">
                     {/*  <aside>
@@ -51,16 +51,13 @@ var CreateArticleElement = React.createClass({
         return (
             <section>
                 {(o.hasPart) ?
-                    <h1 id={chapter}>{articleName}</h1> :
+                    <h1 id={chapter}>{articleName}</h1>:
                     <h2 id={chapter}>{articleName}</h2>
                 }
-                <div itemProp="articleBody">
-                    {this.articleBody()}
-                </div>
+                <div itemProp="articleBody">{this.articleBody()}</div>
                 {Parts}
             </section>
         );
     }
 });
-
 module.exports = CreateArticleElement;
