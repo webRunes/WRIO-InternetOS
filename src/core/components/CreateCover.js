@@ -5,6 +5,9 @@ import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import CenterStore from '../store/center.js';
 import CenterActions from '../actions/center.js';
+import applyMentions from '../jsonld/applyMentions.js';
+import _ from 'lodash';
+import mention from '../jsonld/mention.js';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -20,13 +23,59 @@ var CreateCover = React.createClass({
     logout() {
         Login.doLogout();
         CenterActions.showLockup(false);
-        WrioDocumentActions.changeDocumentChapter('article','');
+        WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-    render: function() {
+    applyMentions(cover) {
+        return cover.text.map((item, i) => {
+            var appliedMention = {};
+            if (cover.m && cover.m.text && cover.m.text[i]) {
+                appliedMention.text = applyMentions(cover.m.text[i],1);
+                appliedMention.bullet = cover.m.text[i];
+            } else {
+                if (mention.isBulletItem(cover.text[i])) {
+                    appliedMention.bullet = true;
+                }
+                appliedMention.text = mention.skipAsterisk(cover.text[i]);
+            }
+
+            return appliedMention;
+        });
+    },
+
+    coverItems(cover) {
+        var items = this.applyMentions(cover) || [];
+        var descr = [];
+        var bulletList = [];
+
+        function purgeList() {
+            if (bulletList.length !== 0) {
+                descr.push(<ul className="features">{bulletList.map(item => <li><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
+                bulletList = [];
+            }
+        }
+
+        items.forEach((item,i) => {
+            if (item.bullet) {
+                bulletList.push (item.text);
+            } else {
+                purgeList();
+                descr.push(<div className="description">{item.text}</div>);
+            }
+
+        });
+        purgeList();
+
+
+        return descr;
+
+    },
+
+    render: function () {
         var cover = this.props.data;
         var path = cover.contentUrl; //cover.img;
         var name = cover.name;
+        var about = cover.about;
         var isActive = this.props.isActive ? 'item active' : 'item';
 
         if (path) {
@@ -47,6 +96,11 @@ var CreateCover = React.createClass({
                 </button>);
         }
 
+        if (cover.m) {
+
+            if (cover.m.name)  name = applyMentions(cover.m.name);
+            if (cover.m.about) about = applyMentions(cover.m.about);
+        }
 
 
         return (
@@ -55,13 +109,9 @@ var CreateCover = React.createClass({
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>
-                        <ul className="features">
-                            <li><span className="glyphicon glyphicon-ok"></span>подбор интересного контента на основе <a href="https://webrunes.com/blog.htm?First-url-title">ваших предпочтений</a></li>
-                            <li><span className="glyphicon glyphicon-ok"></span>отображение и организация любимых сайтов в удобном для вас виде</li>
-                            <li><span className="glyphicon glyphicon-ok"></span><a href="https://webrunes.com/blog.htm?First-url-title">единый каталог</a> всех ваших статей, книг, фото / аудио / видео материалов</li>
-                            <li><span className="glyphicon glyphicon-ok"></span>возможность поддержки ваших любимых авторов материально</li>
-                        </ul>
-                        {CenterStore.lockupShown? button : ''}
+                        <h6>{about}</h6>
+                        {this.coverItems(cover)}
+                        {CenterStore.lockupShown ? button : ''}
                     </div>
                 </div>
             </div>

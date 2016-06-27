@@ -36,6 +36,7 @@ function tryCors(url,cb) {
 
 
 export default function getHttp(url, cb) {
+    console.warn("Getting LD+JSON document from ",url,"to see graph https://wrioos.com/jsonld-vis/view/?"+url);
     var strippedUrl = fixUrlProtocol(url);
 
     if (!url) {

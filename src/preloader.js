@@ -126,7 +126,18 @@ if(localStorage && !localStorage.getItem('oldUser')){
     window.document.body.innerHTML += code;
 }
 
+function decodeIncomingUrl() {
+    var href = window.location.href;
+    var decodedHref = decodeURIComponent(href);
+
+    if (href !== decodedHref) {
+        window.location = decodedHref;
+    }
+}
+
 function loadScripts() {
+
+    decodeIncomingUrl();
 
     var script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
@@ -149,7 +160,7 @@ function loadScripts() {
 
     }
     if (process.env.NODE_ENV === 'development') {
-        script.setAttribute('src', 'http://localhost:3000/WRIO-InternetOS/main.js');
+        script.setAttribute('src', 'http://localhost:3000/main.js');
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {

@@ -56,10 +56,10 @@ module.exports = Reflux.createStore({
         });
 
     },
-    onArticle: function(id, isRet, cb) {
+    onArticle: function(id, hash, isRet, cb) {
         console.log("====OnARTICLE");
         var type = 'article';
-        cb ? cb(this.setUrlWithHash(id, isRet)) : this.setUrlWithHash(id, isRet);
+        cb ? cb(this.setUrlWithHash(hash, isRet)) : this.setUrlWithHash(hash, isRet);
         WrioDocumentActions.changeDocumentChapter.trigger(type,id);
     },
     onSwitchToEditMode: function() {
