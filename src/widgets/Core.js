@@ -10,7 +10,7 @@ class Core extends React.Component{
         this.editIframeStyles = {
             width: '100%',
             border: 'none',
-            height: '240'
+            height: 240
         };
         this.state = {
             article: this.props.article
