@@ -24,8 +24,8 @@ class Core extends React.Component{
         return (
             <div>
                 {!this.state.article ?
-                    <iframe id="coreiframe" class="core" src={getServiceUrl('core') + '/create'}/>
-                               : <iframe id="coreiframe" class="core" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
+                    <iframe id="coreiframe" src={getServiceUrl('core') + '/create'}/>
+                               : <iframe id="coreiframe" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
             </div>
         );
     }
