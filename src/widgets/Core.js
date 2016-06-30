@@ -9,8 +9,7 @@ class Core extends React.Component{
         super(props);
         this.editIframeStyles = {
             width: '100%',
-            border: 'none',
-            height: '240px'
+            border: 'none'
         };
         this.state = {
             article: this.props.article
