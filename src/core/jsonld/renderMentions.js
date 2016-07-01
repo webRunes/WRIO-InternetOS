@@ -26,14 +26,18 @@ export default function renderMentions(mentions,span) {
         i--;
         mention = mentions[i];
         if (mention) {
+            var after,obj;
+            if (mention.obj) {
+                obj = mention.obj.render();
+                var linkText = (mention.obj.className === 'link') ? mention.obj.text : "";
+                after = str.replace(mention.before + linkText,'');
+            }
 
-            var obj = mention.obj ? mention.obj.render():null,
-                A = str.replace(mention.before + (mention.link ? mention.link.text : ''), '');
             return (
                 <span>
                     {before(mention.before, i)}
                     {obj}
-                    {A}
+                    {after}
                 </span>
             );
         }
