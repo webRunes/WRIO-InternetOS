@@ -17,7 +17,7 @@ class Mention extends AbstractMention {
         //},
         super(opts);
 
-
+        this.className = "link";
         this.name = opts.name;
         this.url = opts.url;
 
@@ -104,9 +104,11 @@ class Mention extends AbstractMention {
         return str;
     }
 
+
+
      render () {
          var ext = "";
-         var linkUrl = this.linkUurl;
+         var linkUrl = this.linkUrl;
          var target, color;
          if (this.external) {
              ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);

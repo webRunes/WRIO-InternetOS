@@ -14,5 +14,6 @@ class AbstractMention {
     render() {
         console.warn("Not implemented");
     }
+
 }
 export default AbstractMention;
