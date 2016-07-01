@@ -12,7 +12,6 @@ var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' :
 
 export default Reflux.createStore({
     listenables: Actions,
-
     init: function() {
         storage.onConnect()
             .then(() =>{
