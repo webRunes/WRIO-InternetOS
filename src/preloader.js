@@ -131,7 +131,9 @@ function decodeIncomingUrl() {
     var decodedHref = decodeURIComponent(href);
 
     if (href !== decodedHref) {
-        window.location = decodedHref;
+       // window.location = decodedHref;
+        history.pushState("","",decodedHref);
+        console.warn("Reencoded url",href, " ", window.location.href);
     }
 }
 
