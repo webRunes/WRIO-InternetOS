@@ -1,5 +1,5 @@
 import React from 'react';
-import applyMentions from '../jsonld/applyMentions.js';
+import renderMentions from '../jsonld/renderMentions.js';
 import {getResourcePath} from  '../global';
 
 import UrlMixin from '../mixins/UrlMixin';
@@ -18,7 +18,7 @@ var CreateArticleLists = React.createClass({
             return null;
         }
         if (o.m && o.m.name) {
-            articleName = applyMentions(o.m.name);
+            articleName = renderMentions(o.m.name);
         }
         return (
             <a href={UrlMixin.fixUrlProtocol(o.url)}>

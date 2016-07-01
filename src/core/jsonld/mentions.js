@@ -1,5 +1,7 @@
 import Mention from './mention';
+import sortByOrder from 'lodash.sortbyorder';
 import Image from './image';
+
 
 var mentions = undefined,
     images = undefined;
@@ -62,6 +64,30 @@ var attachMentionToElement = function(mention, json, order) {
     return false;
 };
 
+function getMentionObject(m) {
+    switch (m["@type"]) {
+        case "ImageObject":
+            return new Image(m) ;
+        case "SocialMediaPosting":
+            return new Social(m);
+        default:
+            return new Mention(m);
+    }
+}
+
+function sortMentions(mentions) {
+    return sortByOrder(mentions, [function (m) {
+        var mention = getMentionObject(m);
+        return mention.order;
+    }, function (m) {
+        var mention = getMentionObject(m);
+        return mention.start;
+    }, function (m) {
+        return m["@type"];
+    }], ['asc', 'asc', 'desc']);
+}
+
+
 /* function reads JSON+LD mentions and attaches them to the JSONLD */
 var processJsonLDmentions = function(json, order) {
     mentions = json.mentions || mentions;
@@ -74,9 +100,9 @@ var processJsonLDmentions = function(json, order) {
     }
 
     if (mentions) {
-        mentions = Mention.sortMentions(mentions);
+        mentions = sortMentions(mentions);
         mentions.forEach(function(m) {
-            var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
+            var mention = getMentionObject(m);
             if (mention.order > (order || 0)) {
                 var ok = attachMentionToElement(mention, json, order);
                 if (!ok) {
@@ -99,6 +125,10 @@ var processJsonLDmentions = function(json, order) {
         if (json.itemListElement) {
             json.itemListElement.forEach((part) => processJsonLDmentions(part,order));
         }
+    }
+
+    if (json["@type"] == "SocialMediaPosting") {
+        console.log("Social");
     }
 };
 export default processJsonLDmentions;

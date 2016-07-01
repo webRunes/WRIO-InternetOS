@@ -1,13 +1,16 @@
 import {fixUrlProtocol} from '../mixins/UrlMixin';
+import AbstractMention from './abstractMention.js';
+import React from 'react';
 
-class Image {
+class Image extends AbstractMention {
     constructor(opts) {
+        super(opts);
         this.name = opts.name;
         this.description = opts.description;
         this.url = opts.contentUrl;
         var cutUrl = this.url.split('?'),
             positions = cutUrl[1].split(',');
-        this.newUrl = fixUrlProtocol(cutUrl[0]);
+        this.src = fixUrlProtocol(cutUrl[0]);
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
     }
@@ -21,14 +24,31 @@ class Image {
             after = s.substring(this.start, s.length);
         return {
             before: before,
-            image: {
-                name: this.name,
-                description: this.description,
-                src: this.newUrl
-            },
+            obj: this,
             after: after
         };
     }
+
+    render () {
+
+        var figcaption;
+        if (this.name) {
+            figcaption = (
+                <figcaption className="callout figure-details">
+                    <h5>{this.name}</h5>
+                    <p>{this.description.description}</p>
+                </figcaption>);
+        }
+        return (
+            <figure>
+                <img style={{width: '100%'}} src={this.src} />
+                {figcaption}
+            </figure>
+        );
+    }
+
+
 }
 
-module.exports = Image;
+export default Image;
+
