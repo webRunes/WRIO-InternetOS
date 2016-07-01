@@ -1,8 +1,7 @@
-import sortByOrder from 'lodash.sortbyorder';
-import Image from './image';
+import AbstractMention from './abstractMention.js';
+import React from 'react';
 
-
-class Mention {
+class Mention extends AbstractMention {
 
     /*
         Creates mention from the mention LD+JSON
@@ -16,8 +15,8 @@ class Mention {
         //    "about": "Text inside the ticket popup.",
         //    "url": "http://webrunes.com/blog.htm?'dolor sit amet':1,104"
         //},
+        super(opts);
 
-        this.original = opts;
 
         this.name = opts.name;
         this.url = opts.url;
@@ -29,7 +28,7 @@ class Mention {
         var cutUrl = this.url.split('\''),
             positions = cutUrl[2].replace(':', '').split(',');
         this.linkWord = cutUrl[1];
-        this.newUrl = cutUrl[0] + this.name.replace(/\s/g, '-');
+        this.linkUrl = cutUrl[0] + this.name.replace(/\s/g, '-');
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
 
@@ -52,18 +51,6 @@ class Mention {
 
     }
 
-    static sortMentions(mentions) {
-        return sortByOrder(mentions, [function (m) {
-            var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
-            return mention.order;
-        }, function (m) {
-            var mention = m["@type"] === "ImageObject" ? new Image(m) : new Mention(m);
-            return mention.start;
-        }, function (m) {
-            return m["@type"];
-        }], ['asc', 'asc', 'desc']);
-    }
-
     warn(text) {
         text = text || 'Wrong mention: ' + this.url;
       //  console.warn(text);
@@ -73,17 +60,12 @@ class Mention {
         var before = paragraphText.substr(0, this.start),
             toReplace = paragraphText.substr(this.start, this.linkWord.length),
             after = paragraphText.substring(this.start + this.linkWord.length, paragraphText.length);
+
+        this.text = toReplace;
         if (toReplace === this.linkWord) {
             return {
                 before: before,
-                link: {
-                    text: toReplace,
-                    url: this.newUrl,
-                    external: this.external,
-                    externalUrl: this.externalUrl,
-                    extra: this.extra,
-                    hash: this.hash
-                },
+                obj: this,
                 after: after
             };
         } else {
@@ -121,6 +103,28 @@ class Mention {
         }
         return str;
     }
+
+     render () {
+         var ext = "";
+         var linkUrl = this.linkUurl;
+         var target, color;
+         if (this.external) {
+             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
+             target = "_blank";
+             linkUrl = this.externalUrl;
+
+         } else {
+             if (this.hash) {
+                 color = 'coming-soon';
+             }
+         }
+         return (<span>
+        <a href={linkUrl} target={target} className={color}>{this.text}</a>
+             {ext}
+        </span>);
+     }
+
+
 
 }
 
