@@ -6,9 +6,9 @@ import React from 'react';
 
 class Social extends AbstractMention {
     constructor(opts) {
-        super(opts)
+        super(opts);
         this.name = opts.headline;
-        this.sharedContent = opts.sharedContent
+        this.sharedContent = opts.sharedContent;
     }
 
     warn(text) {
