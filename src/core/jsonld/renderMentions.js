@@ -1,7 +1,6 @@
 import React from 'react';
 import Mention from './mention.js';
 import Image from './image.js';
-import Social from './social.js';
 
 /*
 
