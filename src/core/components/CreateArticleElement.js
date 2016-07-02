@@ -2,7 +2,7 @@ import React from 'react';
 import renderMentions from '../jsonld/renderMentions.js';
 import CreateArticleLists from './CreateArticleLists';
 import {replaceSpaces} from './CreateDomRight.js';
-import SocialPost from "./SocialPost.js"
+import SocialPost from "./SocialPost.js";
 
 var CreateArticleElement = React.createClass({
     propTypes: {
@@ -14,7 +14,7 @@ var CreateArticleElement = React.createClass({
         o.articleBody = o.articleBody || [];
 
         if (o['@type'] === "SocialMediaPosting") {
-            return <SocialPost data={o} />
+            return <SocialPost data={o} />;
         }
 
         return o.articleBody.map(function (item, i) {

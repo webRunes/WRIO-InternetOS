@@ -34,26 +34,30 @@ class SocialPost extends React.Component {
         super(props);
         this.state = {
             html:"<img src=\"loading.gif\" />"
-        }
+        };
 
     }
 
-    componentDidMount() {
+    downloadEmebed() {
         var data = this.props.data;
         if (data.sharedContent && data.sharedContent.url) {
             request.get('https://iframely.wrioos.com/oembed?url='+data.sharedContent.url, (err, result) => {
                 if (err) {
                     console.error("Can't load embed ",data.sharedContent.url);
                 }
-               console.log(result.body.html);
-               this.setState({html:result.body.html});
+                console.log(result.body.html);
+                this.setState({html:result.body.html});
             });
         }
+    }
+
+    componentDidMount() {
+       this.downloadEmebed();
 
     }
 
     render () {
-        var htmlData = {__html: this.state.html}
+        var htmlData = {__html: this.state.html};
         return <div dangerouslySetInnerHTML={htmlData} />;
     }
 }
