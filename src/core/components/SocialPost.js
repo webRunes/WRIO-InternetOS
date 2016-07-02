@@ -4,7 +4,7 @@
 import React from 'react';
 import request from 'superagent';
 /*
-
+EXAMPLE:
  {
  "@type":"SocialMediaPosting",
  "datePublished":"2015-02-08T19:08:20.000Z",
