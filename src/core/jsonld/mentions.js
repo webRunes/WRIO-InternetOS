@@ -127,8 +127,5 @@ var processJsonLDmentions = function(json, order) {
         }
     }
 
-    if (json["@type"] == "SocialMediaPosting") {
-        console.log("Social");
-    }
 };
 export default processJsonLDmentions;
