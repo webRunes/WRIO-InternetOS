@@ -32,7 +32,9 @@ Example html file, using start.js script:
 </html>
 ```
 
-Скрипт start.js размещаяется в конце html файла, он загружает LD+JSON описание страницы из секций ```<script type="application/ld+json">``` start.js обрабатывает JSON-LD и динамически генерирует страницу.
+Скрипт start.js размещаяется в конце html файла, он загружает LD+JSON описание страницы из секций 
+```<script type="application/ld+json">```
+start.js обрабатывает JSON-LD и динамически генерирует страницу.
 
 
 
