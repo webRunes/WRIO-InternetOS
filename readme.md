@@ -38,5 +38,10 @@ Example html file, using start.js script:
 
 start.js является загрузчиком, он проверяет браузер на совместимость, производит предварительные проверки а затем загружает main.js, в котором находится основной код.
 
+# Contributing
+
+To start development theese are few useful links 
+
+[How to setup development process on local machine] (https://github.com/webRunes/WRIO-local-dev)
 
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
