@@ -25,6 +25,7 @@ Example html file, using start.js script:
         <title>webRunes example</title>
         <script type="application/ld+json">....</script>
         <script type="application/ld+json">....</script>
+        <script type="application/ld+json">....</script>
     </head>
     <body>
         <script type="text/javascript" src="https://wrioos.com/start.js"></script>
@@ -32,8 +33,10 @@ Example html file, using start.js script:
 </html>
 ```
 
-Скрипт start.js размещаяется в конце html файла, он загружает LD+JSON описание страницы из секций ```<script type="application/ld+json">```, обрабатывает JSON-LD и динамически генерирует страницу.
+Скрипт start.js размещается в конце html файла, он загружает JSON-LD описание страницы из секций ```<script type="application/ld+json">```, обрабатывает JSON-LD и динамически генерирует страницу.
+Каждый html файл может содержать до 3х JSON-LD секций.
 
+start.js является загрузчиком, он проверяет браузер на совместимость, производит предварительные проверки а затем загружает main.js, в котором находится основной код.
 
 
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
