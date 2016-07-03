@@ -26,9 +26,9 @@ Example html file, using start.js script:
         <script type="application/ld+json">....</script>
         <script type="application/ld+json">....</script>
     </head>
-<body>
-    <script type="text/javascript" src="https://wrioos.com/start.js"></script>
-</body>
+    <body>
+        <script type="text/javascript" src="https://wrioos.com/start.js"></script>
+    </body>
 </html>
 ```
 
