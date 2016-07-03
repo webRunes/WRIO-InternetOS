@@ -7,11 +7,6 @@ var domain = getDomain();
 class Core extends React.Component{
     constructor(props) {
         super(props);
-        this.editIframeStyles = {
-            width: '100%',
-            border: 'none',
-            height: 240
-        };
         this.state = {
             article: this.props.article
         };
@@ -29,10 +24,8 @@ class Core extends React.Component{
         return (
             <div>
                 {!this.state.article ?
-                    <iframe id="coreiframe" src={getServiceUrl('core') + '/create'} style={ this.editIframeStyles }/>
-                               : <iframe id="coreiframe"
-                                         src={getServiceUrl('core') + '/edit?article=' + this.state.article}
-                                         style={ this.editIframeStyles }/>}
+                    <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/create'}/>
+                               : <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
             </div>
         );
     }
