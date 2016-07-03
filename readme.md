@@ -32,4 +32,5 @@ Example html file, using start.js script:
 </html>
 ```
 
+Скрипт start.js размещаяется в конце html файла, он загружает LD+JSON описание страницы из секций ```<script type="application/ld+json">```
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
