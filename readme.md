@@ -21,13 +21,13 @@ Example html file, using start.js script:
 ```
 <!DOCTYPE html>
 <html>
-<head>
-<title>webRunes example</title>
-<script type="application/ld+json">....</script>
-<script type="application/ld+json">....</script>
+    <head>
+    <title>webRunes example</title>
+    <script type="application/ld+json">....</script>
+    <script type="application/ld+json">....</script>
 </head>
 <body>
-<script type="text/javascript" src="https://wrioos.com/start.js"></script>
+    <script type="text/javascript" src="https://wrioos.com/start.js"></script>
 </body>
 </html>
 ```
