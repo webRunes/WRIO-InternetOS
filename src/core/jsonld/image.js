@@ -36,7 +36,7 @@ class Image extends AbstractMention {
             figcaption = (
                 <figcaption className="callout figure-details">
                     <h5>{this.name}</h5>
-                    <p>{this.description.description}</p>
+                    <p>{this.description}</p>
                 </figcaption>);
         }
         return (
