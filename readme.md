@@ -39,7 +39,7 @@ start.js is a loader. It checks browsers for compatibility, runs preliminary tes
 
 # Contributing
 
-To start development theese are few useful links 
+Useful links to start
 
 [Local development of WRIO-InternetOS front end](https://github.com/webRunes/WRIO-InternetOS/wiki/Deploy-on-localhost)  
 [How to setup development process on local machine] (https://github.com/webRunes/WRIO-local-dev)  
