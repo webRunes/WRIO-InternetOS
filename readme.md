@@ -43,6 +43,6 @@ Useful links to start
 
 [Local development of WRIO-InternetOS front end](https://github.com/webRunes/WRIO-InternetOS/wiki/Deploy-on-localhost)  
 [How to setup development process on local machine] (https://github.com/webRunes/WRIO-local-dev)  
-[Описание инфраструктуры](https://github.com/webRunes/WRIO-InternetOS/wiki/Infrastructure)  
+[WRIO OS Infrastructure](https://github.com/webRunes/WRIO-InternetOS/wiki/Infrastructure)  
 
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
