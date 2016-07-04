@@ -33,10 +33,9 @@ Example html file, using start.js script:
 </html>
 ```
 
-Скрипт start.js размещается в конце html файла, он загружает JSON-LD описание страницы из секций ```<script type="application/ld+json">```, обрабатывает JSON-LD и динамически генерирует страницу.
-Каждый html файл может содержать до 3х JSON-LD секций.
+start.js script is located at the end of the .html file. It is responsible for loading JSON-LD description of the page from ```<script type="application/ld+json">``` section, for processing JSON-LD and dynamic generation of the page. Each .html file can contain up to 3 JSON-LD sections.
 
-start.js является загрузчиком, он проверяет браузер на совместимость, производит предварительные проверки а затем загружает main.js, в котором находится основной код.
+start.js is a loader. It checks browsers for compatibility, runs preliminary tests, and then loads main.js containing the main code.
 
 # Contributing
 
