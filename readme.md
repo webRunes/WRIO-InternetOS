@@ -43,5 +43,6 @@ start.js является загрузчиком, он проверяет бра
 To start development theese are few useful links 
 
 [How to setup development process on local machine] (https://github.com/webRunes/WRIO-local-dev)
+[Описание инфраструктуры](https://github.com/webRunes/WRIO-InternetOS/wiki/Infrastructure)
 
 Powered by [Open Copyright](https://opencopyright.wrioos.com)
