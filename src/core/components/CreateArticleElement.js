@@ -1,7 +1,8 @@
 import React from 'react';
-import applyMentions from '../jsonld/applyMentions.js';
+import renderMentions from '../jsonld/renderMentions.js';
 import CreateArticleLists from './CreateArticleLists';
-import {replaceSpaces} from '../components/CreateDomRight.js';
+import {replaceSpaces} from './CreateDomRight.js';
+import SocialPost from "./SocialPost.js";
 
 var CreateArticleElement = React.createClass({
     propTypes: {
@@ -11,9 +12,14 @@ var CreateArticleElement = React.createClass({
     articleBody () {
         var o = this.props.data;
         o.articleBody = o.articleBody || [];
+
+        if (o['@type'] === "SocialMediaPosting") {
+            return <SocialPost data={o} />;
+        }
+
         return o.articleBody.map(function (item, i) {
             if (o.m && o.m.articleBody && o.m.articleBody[i]) {
-                item = applyMentions(o.m.articleBody[i]);
+                item = renderMentions(o.m.articleBody[i]);
             }
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
@@ -34,7 +40,7 @@ var CreateArticleElement = React.createClass({
             articleName = o.name,
             Parts = null;
         if (o.m && o.m.name) {
-            articleName = applyMentions(o.m.name);
+            articleName = renderMentions(o.m.name);
         }
         if (o.hasPart) {
             Parts = o.hasPart.map(function (ϙ, key) {

@@ -131,7 +131,9 @@ function decodeIncomingUrl() {
     var decodedHref = decodeURIComponent(href);
 
     if (href !== decodedHref) {
-        window.location = decodedHref;
+       // window.location = decodedHref;
+        history.pushState("","",decodedHref);
+        console.warn("Reencoded url",href, " ", window.location.href);
     }
 }
 
@@ -164,7 +166,7 @@ function loadScripts() {
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-        script.setAttribute('src', '//wrioos.local/WRIO-InternetOS/main.js');
+        script.setAttribute('src', '//wrioos.local/main.js');
     }
     document.body.appendChild(script);
 }
@@ -179,12 +181,6 @@ if(!BrowserDetection.init()){
         head.appendChild(link);
     }
 
-/*    var ti = setInterval(function() {
-        if (document.styleSheets.length > css.length) {
-            loadScripts();
-            clearInterval(ti);
-        }
-    }, 10);*/
 
     document.addEventListener("DOMContentLoaded", function(event) {
         loadScripts();

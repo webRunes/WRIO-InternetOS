@@ -5,7 +5,7 @@ import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import CenterStore from '../store/center.js';
 import CenterActions from '../actions/center.js';
-import applyMentions from '../jsonld/applyMentions.js';
+import renderMentions from '../jsonld/renderMentions.js';
 import _ from 'lodash';
 import mention from '../jsonld/mention.js';
 
@@ -30,7 +30,7 @@ var CreateCover = React.createClass({
         return cover.text.map((item, i) => {
             var appliedMention = {};
             if (cover.m && cover.m.text && cover.m.text[i]) {
-                appliedMention.text = applyMentions(cover.m.text[i],1);
+                appliedMention.text = renderMentions(cover.m.text[i],1);
                 appliedMention.bullet = cover.m.text[i];
             } else {
                 if (mention.isBulletItem(cover.text[i])) {
@@ -98,8 +98,8 @@ var CreateCover = React.createClass({
 
         if (cover.m) {
 
-            if (cover.m.name)  name = applyMentions(cover.m.name);
-            if (cover.m.about) about = applyMentions(cover.m.about);
+            if (cover.m.name)  name = renderMentions(cover.m.name);
+            if (cover.m.about) about = renderMentions(cover.m.about);
         }
 
 
