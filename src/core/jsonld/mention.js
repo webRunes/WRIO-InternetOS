@@ -28,7 +28,7 @@ class Mention extends AbstractMention {
         var cutUrl = this.url.split('\''),
             positions = cutUrl[2].replace(':', '').split(',');
         this.linkWord = cutUrl[1];
-        this.linkUrl = cutUrl[0] + this.name.replace(/\s/g, '-');
+        this.linkUrl = cutUrl[0].replace(/\?$/g,'') ; //+ this.name.replace(/\s/g, '-');
         this.order = Number(positions[0]);
         this.start = Number(positions[1]);
 
