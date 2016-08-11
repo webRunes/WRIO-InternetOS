@@ -4,6 +4,7 @@
 import {CrossStorageFactory} from './CrossStorageFactory.js';
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
+import CenterActions from "../actions/center.js";
 import getHttp from '../store/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 
@@ -41,10 +42,8 @@ export default Reflux.createStore({
     },
 
     getJsonLDProperty: function (field) {
-        var json = this.mainPage;
-        for (var j = 0; j < json.length; j++) {
-            var section = json[j];
-            var data = section[field];
+        for (let section of this.mainPage) {
+            const data = section[field];
             if (data) {
                 return data;
             }
@@ -87,6 +86,13 @@ export default Reflux.createStore({
         this.mainPage = data; // backup core page
         this.setData(data,url);
         this.trigger({'change':true});
+        // Quick hack to make page jump to needed section after page have been edited
+        setTimeout(() => {
+            const orig = window.location.hash;
+            window.location.hash = orig + ' ';
+            windwon.location.hash = orig;
+
+        },500);
     },
 
     onLoadDocumentWithUrl(url, type) {

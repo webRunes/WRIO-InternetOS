@@ -59,16 +59,12 @@ export default class Main extends React.Component {
     onDocumentChange(doc) {
 
         console.log("Doc changed called",doc);
-
-
         this.setState({
            changed: true
         });
     }
 
     render() {
-
-
 
         if (this.state.url.start && (window.location.origin === getServiceUrl('chess'))) {
             return this.renderWithCenter(<ChessCenter converter={converter} data={this.state.data} />);
