@@ -128,8 +128,6 @@ class DocumentBody extends React.Component {
     }
 
     getContentByName(url) {
-
-
         if (url.cover) {
             var data = WrioDocument.getListItem('cover');
             if (!data) {
@@ -152,7 +150,6 @@ class DocumentBody extends React.Component {
                 return this.getItemList(data);
             }
         }
-
     }
 
 }
