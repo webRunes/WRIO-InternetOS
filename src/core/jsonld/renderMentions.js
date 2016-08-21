@@ -1,5 +1,6 @@
 import React from 'react';
 import Mention from './mention.js';
+import AbstractMention from './abstractMention.js';
 import Image from './image.js';
 
 /*
@@ -15,10 +16,27 @@ each mention object contains
 }
 
 */
+
+// Paragraph with mappable mantioncs
+
+
 export default function renderMentions(mentions,span) {
-    var i = mentions.length - 1,
+
+    return (<span>
+        {
+            mentions.map((mention) => {
+                if (mention instanceof AbstractMention) {
+                    return mention.render();
+                } else {
+                    return mention;
+                }
+            })
+        }
+         </span>);
+
+  /*  var i = mentions.length - 1,
         mention = mentions[i],
-        obj = mention.obj ? mention.obj.render():null,
+        obj = mention.obj ? :null,
         After = mention.after;
 
     function before (str, i) {
@@ -50,7 +68,7 @@ export default function renderMentions(mentions,span) {
             {After}
         </span>
     );
-
+*/
 
 }
 

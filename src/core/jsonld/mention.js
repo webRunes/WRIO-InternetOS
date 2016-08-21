@@ -57,23 +57,17 @@ class Mention extends AbstractMention {
     }
 
     attach(paragraphText) {
-        var before = paragraphText.substr(0, this.start),
+        const before = paragraphText.substr(0, this.start),
             toReplace = paragraphText.substr(this.start, this.linkWord.length),
             after = paragraphText.substring(this.start + this.linkWord.length, paragraphText.length);
 
         this.text = toReplace;
         if (toReplace === this.linkWord) {
-            return {
-                before: before,
-                obj: this,
-                after: after
-            };
+            return [before,this,after];
         } else {
             //console.warn("Wrong linkword ",toReplace," in ",this.original);
         }
-        return {
-            before: paragraphText
-        };
+        return [paragraphText];
     }
 
     attachBullet(paragraphText) {
@@ -85,8 +79,6 @@ class Mention extends AbstractMention {
         } else {
             return this.attach(paragraphText);
         }
-
-
     }
 
     /* functions for processing asterisks in mentions (for the lists) */

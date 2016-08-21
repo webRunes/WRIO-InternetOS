@@ -7,7 +7,7 @@ import CreateDomRight from './core/components/CreateDomRight';
 import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
 import {getServiceUrl,getDomain} from './core/servicelocator.js';
 import sendHeight  from './core/components/WindowDimensions';
-import scripts from './core/jsonld/scripts';
+import LdJsonManager from './core/jsonld/scripts';
 import domready from 'domready';
 import WindowActionStore from './core/store/WindowMessage.js';
 import UrlMixin from './core/mixins/UrlMixin.js';
@@ -114,9 +114,10 @@ function createContainer() {
 }
 
 //domready(() =>{
-    var container = createContainer();
-    var domnode = document.body.appendChild(container);
-    var docScripts = scripts(document.getElementsByTagName('script'));
+    let container = createContainer();
+    let domnode = document.body.appendChild(container);
+    let manager = new LdJsonManager(document.getElementsByTagName('script'));
+    let docScripts = manager.getBlocks();
     WrioDocumentActions.loadDocumentWithData.trigger(docScripts,window.location.href);
     ReactDOM.render(<Main />, domnode);
 //});

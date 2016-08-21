@@ -60,7 +60,7 @@ export default Reflux.createStore({
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
-            if (e['@type'] === 'Article') {
+            if (e.getType() === 'Article') {
                 r = true;
             }
         });
@@ -90,7 +90,7 @@ export default Reflux.createStore({
         setTimeout(() => {
             const orig = window.location.hash;
             window.location.hash = orig + ' ';
-            windwon.location.hash = orig;
+            window.location.hash = orig;
 
         },500);
     },
