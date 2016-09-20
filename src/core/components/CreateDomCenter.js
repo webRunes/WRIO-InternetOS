@@ -135,7 +135,6 @@ export class CreateDomCenter extends ArticleCenter {
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
         };
-        this.onShowSidebar = this.onShowSidebar.bind(this);
 
     }
 
@@ -171,7 +170,6 @@ export class CreateDomCenter extends ArticleCenter {
 
     componentDidMount() {
         var that = this;
-        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
 
         WindowActions.loginMessage.listen((msg)=> {
             if (msg.profile) {
@@ -181,14 +179,9 @@ export class CreateDomCenter extends ArticleCenter {
 
     }
 
-    onShowSidebar(data) {
-     /*   this.setState({
-            active: data
-        });*/
-    }
 
     componentWillUnmount() {
-        this.listenStoreMenuSidebar.stop();
+
     }
 
 

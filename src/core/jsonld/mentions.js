@@ -1,6 +1,4 @@
-import Mention from './mention';
-import sortByOrder from 'lodash.sortbyorder';
-import Image from './image';
+
 
 var mentions = undefined,
     images = undefined;

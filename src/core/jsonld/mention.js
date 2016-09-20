@@ -1,6 +1,58 @@
 import AbstractMention from './abstractMention.js';
 import React from 'react';
 
+
+var globalMention=0;
+var globalCursor=0;
+
+export class MappedMention {
+    constructor(text) {
+        this.before = [];
+        this.after = text;
+        this.pos = 0
+    }
+
+    applyMention(m) {
+        const start = m.start - this.pos;
+        if (start < 0) {
+            console.warn ("Wrong start offset ",start,"for mention",m);
+            return;
+        }
+
+        const before = this.after.substr(0, start),
+            toReplace = this.after.substr(start, m.linkWord.length),
+            after = this.after.substring(start + m.linkWord.length, this.after.length);
+
+        const beforeLength = before.length + toReplace.length;
+
+
+
+        if (m.linkWord != toReplace) {
+            console.warn("WARING: misplaced mention '"+this.linkWord+"' vs '"+ toReplace+"' (in the paragraph) ");
+        } else {
+            m.text = m.linkWord;
+            this.after = after;
+            this.pos += beforeLength;
+            this.before = this.before.concat([before,m]);
+        }
+
+    }
+
+    render() {
+        return (<span>
+        {
+            this.before.map((mention) => {
+                if (mention instanceof AbstractMention) {
+                    return mention.render();
+                } else {
+                    return mention;
+                }
+            })
+        } {this.after}
+         </span>);
+    }
+}
+
 class Mention extends AbstractMention {
 
     /*
@@ -56,22 +108,13 @@ class Mention extends AbstractMention {
       //  console.warn(text);
     }
 
-    attach(paragraphText) {
-        const before = paragraphText.substr(0, this.start),
-            toReplace = paragraphText.substr(this.start, this.linkWord.length),
-            after = paragraphText.substring(this.start + this.linkWord.length, paragraphText.length);
-
-        this.text = toReplace;
-        if (toReplace === this.linkWord) {
-            return [before,this,after];
-        } else {
-            //console.warn("Wrong linkword ",toReplace," in ",this.original);
-        }
-        return [paragraphText];
+    setCursor(paragraphText) {
+        globalCursor[paragraphText] = this.end;
     }
 
-    attachBullet(paragraphText) {
 
+    attachBullet(paragraphText) {
+        // TODO fix this
         if (Mention.isBulletItem(paragraphText)) {
             var r = this.attach(Mention.skipAsterisk(paragraphText));
             r.bullet = true;

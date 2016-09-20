@@ -10,17 +10,13 @@ var CreateArticleElement = React.createClass({
     },
 
     articleBody () {
-        var o = this.props.data;
-        o.articleBody = o.articleBody || [];
+        const element = this.props.data;
 
-        if (o['@type'] === "SocialMediaPosting") {
-            return <SocialPost data={o} />;
+        if (element.getType() === "SocialMediaPosting") {
+            return <SocialPost data={element} />;
         }
-
-        return o.articleBody.map(function (item, i) {
-            if (o.m && o.m.articleBody && o.m.articleBody[i]) {
-                item = renderMentions(o.m.articleBody[i]);
-            }
+        const elements = element.getBody();
+        return elements.map(function (item,i) {
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
                    <div>{item}</div>
@@ -36,27 +32,25 @@ var CreateArticleElement = React.createClass({
     },
 
     render () {
-        var o = this.props.data,
-            articleName = o.name,
-            Parts = null;
-        if (o.m && o.m.name) {
-            articleName = renderMentions(o.m.name);
-        }
-        if (o.hasPart) {
-            Parts = o.hasPart.map(function (ϙ, key) {
-                if (ϙ.url) {
-                    return <CreateArticleLists data={ϙ} key={key}/>;
+        const element = this.props.data;
+        const articleName = element.getKey('name');
+        let Parts;
+
+        if (element.hasPart()) {
+            Parts = this.props.data.children.map((child, key) => {
+                if (element.data.url) {
+                    return <CreateArticleLists data={child} key={key}/>;
                 } else {
-                    return <CreateArticleElement data={ϙ} key={key}/>;
+                    return <CreateArticleElement data={child} key={key}/>;
                 }
             });
         }
 
-        var chapter = replaceSpaces(o.name);
+        var chapter = replaceSpaces(articleName);
 
         return (
             <section>
-                {(o.hasPart) ?
+                {(element.hasPart()) ?
                     <h1 id={chapter}>{articleName}</h1>:
                     <h2 id={chapter}>{articleName}</h2>
                 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import renderMentions from '../jsonld/renderMentions.js';
 import {getResourcePath} from  '../global';
+import Article from '../jsonld/entities/Article.js';
 
 import UrlMixin from '../mixins/UrlMixin';
 import {replaceSpaces} from '../components/CreateDomRight.js';
@@ -11,23 +12,21 @@ var CreateArticleLists = React.createClass({
     },
 
     render: function() {
-        var o = this.props.data,
-            articleName = o.name,
+        var item = this.props.data,
+            articleName = item.getKey('name'),
             articleHash = replaceSpaces(articleName);
-        if (o['@type'] !== 'Article') {
+        if (! item instanceof Article) {
+            console.warn("Warning, wrong object passing to renderer");
             return null;
         }
-        if (o.m && o.m.name) {
-            articleName = renderMentions(o.m.name);
-        }
         return (
-            <a href={UrlMixin.fixUrlProtocol(o.url)}>
+            <a href={UrlMixin.fixUrlProtocol(item.url)}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
                             <h2 id={articleHash}>
                                 <span>{articleName}</span>
-                                {/* <sup>{o.name}</sup> */}
+
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
@@ -46,7 +45,7 @@ var CreateArticleLists = React.createClass({
                             }
                         </div>
                         <div className="col-xs-12 col-md-6">
-                            <p>{o.about}</p>
+                            <p>{item.about}</p>
                             {/*
                             <ul className="actions">
                                 <li><span className="glyphicon glyphicon-plus"></span>Add</li>

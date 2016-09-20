@@ -16,6 +16,7 @@ export default Reflux.createStore({
     init() {
       this.loading = false;
       this.lists = {};
+      this.updateIndex = 0;
     },
 
     getListType() {
@@ -60,7 +61,8 @@ export default Reflux.createStore({
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
-            if (e.getType() === 'Article') {
+            //if (e.getType() === 'Article') {
+            if (e['@type'] === 'Article') {
                 r = true;
             }
         });
@@ -85,6 +87,7 @@ export default Reflux.createStore({
     onLoadDocumentWithData(data,url) {
         this.mainPage = data; // backup core page
         this.setData(data,url);
+        this.updateIndex++;
         this.trigger({'change':true});
         // Quick hack to make page jump to needed section after page have been edited
         setTimeout(() => {
@@ -101,6 +104,7 @@ export default Reflux.createStore({
         getHttp(url,(data) => {
             if (data === null) {
                 this.loading = {error: "Cannot get page"};
+                this.updateIndex++;
                 this.trigger({'error':true});
                 this.data = {};
                 console.log("Error getting page");
@@ -108,13 +112,15 @@ export default Reflux.createStore({
             }
             this.setData(data, url, type);
             this.loading = false;
+            this.updateIndex++;
             this.trigger({'change':true});
         });
     },
 
     onLoadList(name,data) {
         this.lists[name.toLowerCase()] = data;
-        this.trigger({'change':'true'});
+      //  this.updateIndex++;
+      //  this.trigger({'change':'true'});
     },
 
     performPageTransaction(path) {
@@ -125,6 +131,7 @@ export default Reflux.createStore({
     onUpdateUrl() {
         var obj = UrlMixin.searchToObject();
         this.url = window.location.href;
+        this.updateIndex++;
         this.trigger({'urlChanged':obj});
     },
 
@@ -142,9 +149,14 @@ export default Reflux.createStore({
         this.type = type;
         this.id = id;
         this.setData(this.data,'',type);
+        //this.updateIndex++;
         this.trigger({'change':'true'});
-    }
 
+    },
+
+    getUpdateIndex() {
+        return this.updateIndex;
+    }
 
 
 });
