@@ -23,8 +23,6 @@ var CreateCover = React.createClass({
         WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-
-
     coverItems(cover) {
         var items = cover.getCoverItems();
         var descr = [];
