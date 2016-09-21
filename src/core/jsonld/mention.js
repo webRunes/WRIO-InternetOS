@@ -5,11 +5,13 @@ import React from 'react';
 var globalMention=0;
 var globalCursor=0;
 
+/* Class that translates paragraph text and mentions into react code */
+
 export class MappedMention {
     constructor(text) {
         this.before = [];
         this.after = text;
-        this.pos = 0
+        this.pos = 0;
     }
 
     applyMention(m) {
@@ -28,7 +30,7 @@ export class MappedMention {
 
 
         if (m.linkWord != toReplace) {
-            console.warn("WARING: misplaced mention '"+this.linkWord+"' vs '"+ toReplace+"' (in the paragraph) ");
+            console.warn(`WARING: misplaced mention ${m.url} found word '${toReplace}' instead`);
         } else {
             m.text = m.linkWord;
             this.after = after;
@@ -50,6 +52,21 @@ export class MappedMention {
             })
         } {this.after}
          </span>);
+    }
+}
+
+/* Mention inside cover, need special treatment */
+
+export class MappedCoverMention extends MappedMention {
+
+    applyMention(m) {
+        // TODO fix this
+        if (Mention.isBulletItem(this.after)) {
+            this.after = Mention.skipAsterisk(this.after);
+            this.bullet = true;
+        }
+        super.applyMention(m);
+
     }
 }
 
@@ -112,17 +129,6 @@ class Mention extends AbstractMention {
         globalCursor[paragraphText] = this.end;
     }
 
-
-    attachBullet(paragraphText) {
-        // TODO fix this
-        if (Mention.isBulletItem(paragraphText)) {
-            var r = this.attach(Mention.skipAsterisk(paragraphText));
-            r.bullet = true;
-            return r;
-        } else {
-            return this.attach(paragraphText);
-        }
-    }
 
     /* functions for processing asterisks in mentions (for the lists) */
     static isBulletItem(str) {

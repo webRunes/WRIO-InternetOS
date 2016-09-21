@@ -53,35 +53,13 @@ class ArticleCenter  extends React.Component {
         return resultUrl;
     }
 
-    editAllowed() {
+    isEditingRemotePage() {
         return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
     }
 
 
-    getAuthorWrioID(cb) {
-        if (this.editAllowed()) {
-            var url = this.formatUrl(this.state.urlParams.edit);
-            getHttp(url,(article) => {
-                article = article.filter((json) => json['@type'] == 'Article')[0];
-                var id = article['author'].match(/\?wr.io=([0-9]+)$/);
-                cb(id ? id[1] : undefined);
-            });
-        } else {
-            var data = WrioDocument.getData();
-            for (var i in data) {
-                if (data.hasOwnProperty(i)) {
-                    var element = data[i];
-                    if (element && element.author) {
-                        var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                        cb(id ? id[1] : undefined);
-                    }
-                }
-            }
-        }
-    }
-
     getAuthor(cb) {
-        if (this.editAllowed()) {
+        if (this.isEditingRemotePage()) {
             var url = this.formatUrl(this.state.urlParams.edit);
             getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
@@ -89,15 +67,9 @@ class ArticleCenter  extends React.Component {
                 cb(author);
             });
         } else {
-            var data = WrioDocument.getData();
-            for (var i in data) {
-                if (data.hasOwnProperty(i)) {
-                    var element = data[i];
-                    if (element && element.author) {
-                        var author = element.author;
-                        cb(author);
-                    }
-                }
+            let author = WrioDocument.getJsonLDProperty('author');
+            if (author) {
+                cb(author);
             }
         }
     }
@@ -169,8 +141,6 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentDidMount() {
-        var that = this;
-
         WindowActions.loginMessage.listen((msg)=> {
             if (msg.profile) {
                 this.userId(msg.profile.id);

@@ -65,6 +65,8 @@ class DocumentBody extends React.Component {
             return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>);
         }
 
+        console.log("Document redraw");
+
         var content = this.getContentByName(UrlMixin.searchToObject(WrioDocument.getUrl()));
 
         if (content == null) {

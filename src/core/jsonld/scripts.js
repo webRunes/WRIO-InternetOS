@@ -9,7 +9,7 @@ import LdJsonObject from './entities/LdJsonObject.js';
 class LdJsonManager {
     constructor(scripts) {
         this.data = this.parseScripts(scripts);
-        this.blocks =  this.mapMentions()
+        this.blocks =  this.mapMentions();
     }
     parseScripts(scripts) {
         let  data = [];

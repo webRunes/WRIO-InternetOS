@@ -43,7 +43,7 @@ export default Reflux.createStore({
 
     getJsonLDProperty: function (field) {
         for (let section of this.mainPage) {
-            const data = section[field];
+            const data = section.data[field];
             if (data) {
                 return data;
             }
@@ -53,7 +53,7 @@ export default Reflux.createStore({
 
     hasCommentId() {
         var comment = this.getJsonLDProperty('comment');
-        if (comment) return true;
+        return comment !== null;
     },
 
 
@@ -106,7 +106,6 @@ export default Reflux.createStore({
     _resetError() {
         this.updateIndex++;
         this.trigger({'error':false});
-        console.log("Error getting page");
     },
 
     onLoadDocumentWithUrl(url, type) {
@@ -127,7 +126,7 @@ export default Reflux.createStore({
 
     onLoadList(name,data) {
         this.lists[name.toLowerCase()] = data;
-      //  this.updateIndex++;
+        this.updateIndex++;
       //  this.trigger({'change':'true'});
     },
 

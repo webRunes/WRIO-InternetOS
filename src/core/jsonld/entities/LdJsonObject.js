@@ -3,7 +3,7 @@
  */
 
 import sortByOrder from 'lodash.sortbyorder';
-import Mention, {MappedMention} from '../mention';
+import Mention, {MappedMention,MappedCoverMention} from '../mention';
 import Image from '../image';
 import _ from 'lodash';
 
@@ -37,7 +37,7 @@ export default class LdJsonObject {
                 case "ImageObject":
                     return new ImageObject(json,order);
                 default:
-                    console.warn("LdJsonFactory using default object for",type);
+                    //console.warn("LdJsonFactory using default object for",type);
                     return new LdJsonObject(json,order);
 
             }
@@ -128,14 +128,16 @@ export default class LdJsonObject {
      or this.mappedMent[key]
 
      */
-    _touchMentionKey(key,value,mention,arrayPos) {
+    _touchMentionKey(key,value,mention,arrayPos,mentionType) {
+
+        mentionType = mentionType || MappedMention;
 
         if (arrayPos !== undefined) {
             this.mappedMent[key] = this.mappedMent[key] || [];
-            this.mappedMent[key][arrayPos] = this.mappedMent[key][arrayPos] || new MappedMention(value);
+            this.mappedMent[key][arrayPos] = this.mappedMent[key][arrayPos] || new mentionType(value);
             this.mappedMent[key][arrayPos].applyMention(mention);
         } else {
-            this.mappedMent[key] = this.mappedMent[key] || new MappedMention(value);
+            this.mappedMent[key] = this.mappedMent[key] || new mentionType(value);
             this.mappedMent[key].applyMention(mention);
         }
     }
@@ -166,7 +168,7 @@ export default class LdJsonObject {
                     pos;
                 if (order + text.length >= mention.order) {
                     pos = mention.order - order - 1;
-                    this._touchMentionKey(key, text[pos], mention, pos);
+                    this._touchMentionKey(key, text[pos], mention, pos, MappedCoverMention);
                     return true;
                 }
             }
@@ -176,7 +178,7 @@ export default class LdJsonObject {
 
     getKey(block) {
         if (this.mappedMent[block]) {
-            return this.mappedMent[block].render()
+            return this.mappedMent[block].render();
         } else {
             return this.data[block];
         }

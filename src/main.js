@@ -57,8 +57,6 @@ export default class Main extends React.Component {
     }
 
     onDocumentChange(doc) {
-
-        console.log("Doc changed called",doc);
         this.setState({
            changed: true
         });

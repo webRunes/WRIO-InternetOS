@@ -53,7 +53,7 @@ class MenuButton extends React.Component {
             click = this.onClick.bind(this),
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
-            <li className={className} onClick={click}>
+            <li className={className}>
                 <a href={href} onClick={click}>{o.name}</a>
             </li>
         );

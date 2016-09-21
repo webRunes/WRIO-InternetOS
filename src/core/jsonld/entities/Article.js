@@ -13,7 +13,6 @@ export default class Article extends LdJsonObject {
     }
 
     getBody() {
-
         this.data.articleBody = this.data.articleBody || [];
         const body =  this.data.articleBody.map( (item, i) => {
             if (this.mappedMent.articleBody && this.mappedMent.articleBody[i]) {
