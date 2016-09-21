@@ -1,5 +1,4 @@
 import React from 'react';
-import renderMentions from '../jsonld/renderMentions.js';
 import {getResourcePath} from  '../global';
 import Article from '../jsonld/entities/Article.js';
 

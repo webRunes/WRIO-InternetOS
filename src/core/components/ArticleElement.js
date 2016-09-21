@@ -1,5 +1,4 @@
 import React from 'react';
-import renderMentions from '../jsonld/renderMentions.js';
 import ArticleLists from './ArticleLists';
 import {replaceSpaces} from './CreateDomRight.js';
 import SocialPost from "./SocialPost.js";
