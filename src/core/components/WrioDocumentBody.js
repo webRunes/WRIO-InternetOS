@@ -1,13 +1,15 @@
 import React from 'react';
 import WrioDocument from '../store/WrioDocument.js';
-import CreateArticleLists from './CreateArticleLists';
-import CreateArticleElement from './CreateArticleElement';
+import ArticleLists from './ArticleLists';
+import ArticleElement from './ArticleElement';
 import CreateItemLists from './CreateItemLists';
 import CreateCover from './CreateCover';
 import {Carousel} from 'react-bootstrap';
 import {CarouselItem} from 'react-bootstrap';
 import _ from 'lodash';
 import UrlMixin from '../mixins/UrlMixin';
+import ItemList from '../jsonld/entities/ItemList.js';
+import Article from '../jsonld/entities/Article.js';
 
 /*
 *  Base class rendering document body
@@ -15,12 +17,25 @@ import UrlMixin from '../mixins/UrlMixin';
 
 class DocumentBody extends React.Component {
 
-    componentDidUpdate() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: false
+        };
+        this.oldError = "dummy";
+    }
 
+    shouldComponentUpdate() {
+        let updIndex = WrioDocument.getUpdateIndex();
+        let changed =  updIndex !== this.index;
+        let errorChanged = this.state.error != this.oldError;
+        // TODO add check for error message
+        return changed || errorChanged;
     }
 
     componentDidMount() {
         this.wrioStore = WrioDocument.listen(this.onDocumentChange.bind(this));
+        this.index = 0;
     }
 
     componentWillUnmount() {
@@ -28,22 +43,29 @@ class DocumentBody extends React.Component {
     }
 
     onDocumentChange(doc) {
-        // this.setState(doc);
+        if (doc.error) {
+            this.setState({error: true});
+        } else {
+            if (this.state.error) {
+                this.setState({error: false});
+            }
+        }
     }
 
     render() {
 
+        this.index = WrioDocument.getUpdateIndex(); this.oldError = this.state.error;
         var loading = WrioDocument.getLoading();
 
-        if (loading !== undefined) {
-            if (loading.error) {
+        if (this.state.error || (loading && loading.error)) {
                 return (<div>Error loading page, try again later</div>);
-            }
         }
 
         if (loading === true) {
             return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>);
         }
+
+        console.log("Document redraw");
 
         var content = this.getContentByName(UrlMixin.searchToObject(WrioDocument.getUrl()));
 
@@ -58,60 +80,58 @@ class DocumentBody extends React.Component {
         }
     }
 
-    // TODO: get this spaghetti code in order
-
-    getArticles(data) {
-        var mentions = _.chain(data)
-            .pluck('itemListElement').flatten()
-            .pluck('mentions').flatten()
-            .filter(function (item) {
-                return !_.isEmpty(item);
-            })
-            .map(function (item, index) {
-                return <CreateArticleLists data={item} key={index}/>;
-            })
-            .value();
-
-        var isMentions = mentions.length > 0;
-
-        if (isMentions) {
-            return this.getItemList(data);
+    getContentByName(url) {
+        if (url.cover) {
+            var data = WrioDocument.getListItem('cover');
+            if (!data) {
+                return null;
+            }
+            return this.getCoverList();
         }
 
-        if (!data) {
-            console.log('Assertion raised, CreateArticleList data not specified!', this.props);
-            return (<p>Error, cannot render article list</p>);
+        if (typeof url.list === 'undefined') {
+            return this.getArticleContents(WrioDocument.getDocument());
+        } else {
+            var name = url.list.toLowerCase();
+            var data = WrioDocument.getListItem(name);
+            if (!data) {
+                return null;
+            }
+            if (name === 'cover') {
+                return this.getCoverList(data);
+            } else {
+                return this.getItemList(data);
+            }
         }
+    }
 
+
+    getArticleContents(data) {
         return data
-            .map(function (o, key) {
-                if (o.url) {
-                    return <CreateArticleLists data={o} key={key}/>;
-                } else if (o['@type'] !== 'Article') {
-                    return o.itemListElement.map(function (item, index) {
-                        return <CreateArticleLists data={item} key={index}/>;
-                    });
-                } else {
-                    return <CreateArticleElement data={o} key={key}/>;
+            .map(function (element, key) {
+                if (element instanceof Article) {
+                    return <ArticleElement data={element} key={key}/>;
                 }
             });
     }
+/*
+
+ */
 
     getItemList(data) {
         data = data || [];
-        return data.filter(function (o) {
-            return o['@type'] === 'ItemList';
-        })
+        return data.filter((o) => o instanceof ItemList)
             .map(function (list) {
-                return list.itemListElement.map(function (item, key) {
+                return list.children.map(function (item, key) {
                     return <CreateItemLists data={item} key={key}/>;
                 });
             });
     }
 
+
     getCoverList(data) {
         var data = _.chain(data)
-            .pluck('itemListElement')
+            .pluck('children')
             .flatten()
             .filter(function (item) {
                 return !_.isEmpty(item);
@@ -127,30 +147,7 @@ class DocumentBody extends React.Component {
         );
     }
 
-    getContentByName(url) {
-        if (url.cover) {
-            var data = WrioDocument.getListItem('cover');
-            if (!data) {
-                return null;
-            }
-            return this.getCoverList();
-        }
 
-        if (typeof url.list === 'undefined') {
-            return this.getArticles(WrioDocument.getDocument());
-        } else {
-            var name = url.list.toLowerCase();
-            var data = WrioDocument.getListItem(name);
-            if (!data) {
-                return null;
-            }
-            if (name === 'cover') {
-                return this.getCoverList(data);
-            } else {
-                return this.getItemList(data);
-            }
-        }
-    }
 
 }
 

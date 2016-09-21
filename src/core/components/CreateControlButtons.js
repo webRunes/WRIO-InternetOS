@@ -1,5 +1,5 @@
 import React from 'react';
-import CenterActions from '../actions/center';
+import UIActions from '../actions/UI.js';
 import PlusActions from '../../widgets/Plus/actions/PlusActions.js';
 import normURL from '../../widgets/Plus/utils/normURL';
 import UrlMixin from '../mixins/UrlMixin';
@@ -13,7 +13,7 @@ export default class CreateControlButtons extends React.Component {
     }
 
     componentWillMount() {
-        CenterActions.gotProfileUrl.listen((author) => {
+        UIActions.gotProfileUrl.listen((author) => {
             if (UrlMixin.fixUrlProtocol(author) == UrlMixin.fixUrlProtocol(this.props.author)) {
                 this.setState({
                     editAllowed: true
@@ -29,7 +29,7 @@ export default class CreateControlButtons extends React.Component {
     }
 
     onEditClick() {
-        CenterActions.switchToEditMode({
+        UIActions.switchToEditMode({
             editMode: true
         });
     }

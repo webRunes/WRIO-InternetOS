@@ -7,16 +7,16 @@ import CreateDomRight from './core/components/CreateDomRight';
 import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
 import {getServiceUrl,getDomain} from './core/servicelocator.js';
 import sendHeight  from './core/components/WindowDimensions';
-import scripts from './core/jsonld/scripts';
+import LdJsonManager from './core/jsonld/scripts';
 import domready from 'domready';
 import WindowActionStore from './core/store/WindowMessage.js';
 import UrlMixin from './core/mixins/UrlMixin.js';
 import Lockup from './core/components/Lockup.js';
-import CenterActions from './core/actions/center';
 import {Plus,Users} from "./widgets/Plus/Plus";
 //import { Router, Route, Link } from 'react-router';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
+import UIActions from './core/actions/UI.js';
 
 /*
 import Perf from 'react-addons-perf';
@@ -36,7 +36,7 @@ export default class Main extends React.Component {
     }
 
     listener () {
-        CenterActions.showLockup.listen((data) => {
+        UIActions.showLockup.listen((data) => {
             this.setState({
                 showLockup:data
             });
@@ -57,8 +57,6 @@ export default class Main extends React.Component {
     }
 
     onDocumentChange(doc) {
-
-        console.log("Doc changed called",doc);
         this.setState({
            changed: true
         });
@@ -114,9 +112,10 @@ function createContainer() {
 }
 
 //domready(() =>{
-    var container = createContainer();
-    var domnode = document.body.appendChild(container);
-    var docScripts = scripts(document.getElementsByTagName('script'));
+    let container = createContainer();
+    let domnode = document.body.appendChild(container);
+    let manager = new LdJsonManager(document.getElementsByTagName('script'));
+    let docScripts = manager.getBlocks();
     WrioDocumentActions.loadDocumentWithData.trigger(docScripts,window.location.href);
     ReactDOM.render(<Main />, domnode);
 //});

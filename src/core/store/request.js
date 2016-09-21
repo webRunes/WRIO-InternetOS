@@ -1,11 +1,12 @@
 import request from 'superagent';
 import {fixUrlProtocol} from '../mixins/UrlMixin';
-import scripts from '../jsonld/scripts';
+import LdJsonManager from '../jsonld/scripts';
 
 function getScript(result) {
     var e = document.createElement('div');
     e.innerHTML = result.text;
-    return scripts(e.getElementsByTagName('script'));
+    var manager = new LdJsonManager(e.getElementsByTagName('script'));
+    return manager.getBlocks();
 }
 
 
