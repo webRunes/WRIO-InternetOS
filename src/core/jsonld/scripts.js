@@ -1,10 +1,12 @@
 import sortByOrder from 'lodash.sortbyorder';
-import Mention, {MappedMention} from './mention';
-import Image from './image';
+import Mention, {MappedMention} from './mentions/mention';
+import Image from './mentions/image';
 import _ from 'lodash';
 
 import LdJsonObject from './entities/LdJsonObject.js';
 
+
+/* Loaded class, takes <scripts> from the document, parses them and applies mentions */
 
 class LdJsonManager {
     constructor(scripts) {

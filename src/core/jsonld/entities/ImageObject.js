@@ -3,8 +3,8 @@
  */
 
 import LdJsonObject from './LdJsonObject.js';
-import Image from '../image';
-import mention from '../mention.js';
+import Image from '../mentions/image';
+import mention from '../mentions/mention.js';
 
 import _ from 'lodash';
 

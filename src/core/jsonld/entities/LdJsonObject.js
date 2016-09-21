@@ -3,8 +3,8 @@
  */
 
 import sortByOrder from 'lodash.sortbyorder';
-import Mention, {MappedMention,MappedCoverMention} from '../mention';
-import Image from '../image';
+import Mention, {MappedMention,MappedCoverMention} from '../mentions/mention';
+import Image from '../mentions/image';
 import _ from 'lodash';
 
 var Article, ItemList, ImageObject;

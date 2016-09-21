@@ -5,7 +5,7 @@ import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import renderMentions from '../jsonld/renderMentions.js';
 import _ from 'lodash';
-import mention from '../jsonld/mention.js';
+import mention from '../jsonld/mentions/mention.js';
 
 var CreateCover = React.createClass({
     propTypes: {

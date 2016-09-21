@@ -1,4 +1,4 @@
-import {fixUrlProtocol} from '../mixins/UrlMixin';
+import {fixUrlProtocol} from '../../mixins/UrlMixin';
 import AbstractMention from './abstractMention.js';
 import React from 'react';
 
