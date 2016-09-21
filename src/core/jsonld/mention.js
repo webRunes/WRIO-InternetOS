@@ -38,14 +38,14 @@ export class MappedMention {
 
     }
 
-    render() {
-        return (<span>
+    render(key) {
+        return (<span key={key}>
         {
-            this.before.map((mention) => {
+            this.before.map((mention,key) => {
                 if (mention instanceof AbstractMention) {
-                    return mention.render();
+                    return mention.render(key);
                 } else {
-                    return mention;
+                    return <span key={key}> {mention} </span>;
                 }
             })
         } {this.after}
@@ -141,12 +141,12 @@ class Mention extends AbstractMention {
 
 
 
-     render () {
+     render (key) {
          var ext = "";
          var linkUrl = this.linkUrl;
          var target, color;
          if (this.external) {
-             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
+             ext = (<sup ><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
              target = "_blank";
              linkUrl = this.externalUrl;
 
@@ -155,7 +155,7 @@ class Mention extends AbstractMention {
                  color = 'coming-soon';
              }
          }
-         return (<span>
+         return (<span  key={key}>
         <a href={linkUrl} target={target} className={color}>{this.text}</a>
              {ext}
         </span>);

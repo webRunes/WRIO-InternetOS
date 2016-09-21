@@ -6,7 +6,7 @@ import Article from '../jsonld/entities/Article.js';
 import UrlMixin from '../mixins/UrlMixin';
 import {replaceSpaces} from '../components/CreateDomRight.js';
 
-var CreateArticleLists = React.createClass({
+const ArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
@@ -15,8 +15,8 @@ var CreateArticleLists = React.createClass({
         var item = this.props.data,
             articleName = item.getKey('name'),
             articleHash = replaceSpaces(articleName);
-        if (! item instanceof Article) {
-            console.warn("Warning, wrong object passing to renderer");
+        if (item.getType() !== 'Article') {
+            // if itemlist is passed, just skip
             return null;
         }
         return (
@@ -61,4 +61,4 @@ var CreateArticleLists = React.createClass({
     }
 });
 
-module.exports = CreateArticleLists;
+export default ArticleLists;

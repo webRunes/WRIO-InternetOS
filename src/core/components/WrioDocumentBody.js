@@ -1,7 +1,7 @@
 import React from 'react';
 import WrioDocument from '../store/WrioDocument.js';
-import CreateArticleLists from './CreateArticleLists';
-import CreateArticleElement from './CreateArticleElement';
+import ArticleLists from './ArticleLists';
+import ArticleElement from './ArticleElement';
 import CreateItemLists from './CreateItemLists';
 import CreateCover from './CreateCover';
 import {Carousel} from 'react-bootstrap';
@@ -17,10 +17,20 @@ import Article from '../jsonld/entities/Article.js';
 
 class DocumentBody extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: false
+        };
+        this.oldError = "dummy";
+    }
+
     shouldComponentUpdate() {
         let updIndex = WrioDocument.getUpdateIndex();
         let changed =  updIndex !== this.index;
-        return changed;
+        let errorChanged = this.state.error != this.oldError;
+        // TODO add check for error message
+        return changed || errorChanged;
     }
 
     componentDidMount() {
@@ -33,18 +43,22 @@ class DocumentBody extends React.Component {
     }
 
     onDocumentChange(doc) {
-        // this.setState(doc);
+        if (doc.error) {
+            this.setState({error: true});
+        } else {
+            if (this.state.error) {
+                this.setState({error: false});
+            }
+        }
     }
 
     render() {
 
-        this.index = WrioDocument.getUpdateIndex();
+        this.index = WrioDocument.getUpdateIndex(); this.oldError = this.state.error;
         var loading = WrioDocument.getLoading();
 
-        if (loading !== undefined) {
-            if (loading.error) {
+        if (this.state.error || (loading && loading.error)) {
                 return (<div>Error loading page, try again later</div>);
-            }
         }
 
         if (loading === true) {
@@ -91,41 +105,10 @@ class DocumentBody extends React.Component {
 
 
     getArticleContents(data) {
-
-        var mentions = _.chain(data)
-            .pluck('itemListElement').flatten()
-            .pluck('mentions').flatten()
-            .filter(function (item) {
-                return !_.isEmpty(item);
-            })
-            .map(function (item, index) {
-                return <CreateArticleLists data={item} key={index}/>;
-            })
-            .value();
-
-        var isMentions = mentions.length > 0;
-
-        if (isMentions) {
-            return this.getItemList(data);
-        }
-
-
-        if (!data) {
-            console.log('Assertion raised, CreateArticleList data not specified!', this.props);
-            return (<p>Error, cannot render article list</p>);
-        }
-
         return data
             .map(function (element, key) {
-                if (element instanceof ItemList) {
-                    if (element.data.url) {
-                        return <CreateArticleLists data={element} key={key}/>;
-                    } else {
-                        return element.children.map((item, index) => <CreateArticleLists data={item} key={index}/>);
-                    }
-
-                } else if (element instanceof Article) {
-                    return <CreateArticleElement data={element} key={key}/>;
+                if (element instanceof Article) {
+                    return <ArticleElement data={element} key={key}/>;
                 }
             });
     }
@@ -146,7 +129,7 @@ class DocumentBody extends React.Component {
 
     getCoverList(data) {
         var data = _.chain(data)
-            .pluck('itemListElement')
+            .pluck('children')
             .flatten()
             .filter(function (item) {
                 return !_.isEmpty(item);

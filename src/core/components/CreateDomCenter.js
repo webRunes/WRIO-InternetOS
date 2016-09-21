@@ -16,12 +16,12 @@ import ActionMenu from '../../widgets/Plus/actions/menu';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
-import CenterActions from '../actions/center';
 import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';
 import WrioDocument from '../store/WrioDocument.js';
+import UIActions from '../actions/UI.js';
 
 var domain = getDomain();
 
@@ -147,7 +147,7 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentWillMount() {
-        CenterActions.gotProfileUrl.listen((profileUrl) => {
+        UIActions.gotProfileUrl.listen((profileUrl) => {
             this.getAuthor((_author) => {
                 console.log('Checking if editing allowed: ', profileUrl, _author);
                 if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
@@ -161,7 +161,7 @@ export class CreateDomCenter extends ArticleCenter {
                 }
             });
         });
-        CenterActions.switchToEditMode.listen((data) => {
+        UIActions.switchToEditMode.listen((data) => {
             if (data.editMode) {
                 this.switchToEditMode();
             }

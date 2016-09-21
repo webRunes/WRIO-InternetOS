@@ -3,8 +3,6 @@ import {fixUrlProtocol} from '../mixins/UrlMixin';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
-import CenterStore from '../store/center.js';
-import CenterActions from '../actions/center.js';
 import renderMentions from '../jsonld/renderMentions.js';
 import _ from 'lodash';
 import mention from '../jsonld/mention.js';
@@ -22,7 +20,7 @@ var CreateCover = React.createClass({
 
     logout() {
         Login.doLogout();
-        CenterActions.showLockup(false);
+        WrioDocumentActions.showLockup(false);
         WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
@@ -72,7 +70,7 @@ var CreateCover = React.createClass({
     },
 
     render: function () {
-        var cover = this.props.data;
+        var cover = this.props.data.data;
         var path = cover.contentUrl; //cover.img;
         var name = cover.name;
         var about = cover.about;
@@ -111,7 +109,7 @@ var CreateCover = React.createClass({
                         <h2>{name}</h2>
                         <h6>{about}</h6>
                         {this.coverItems(cover)}
-                        {CenterStore.lockupShown ? button : ''}
+                        {WrioDocument.lockupShown ? button : ''}
                     </div>
                 </div>
             </div>

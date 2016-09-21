@@ -12,11 +12,11 @@ import domready from 'domready';
 import WindowActionStore from './core/store/WindowMessage.js';
 import UrlMixin from './core/mixins/UrlMixin.js';
 import Lockup from './core/components/Lockup.js';
-import CenterActions from './core/actions/center';
 import {Plus,Users} from "./widgets/Plus/Plus";
 //import { Router, Route, Link } from 'react-router';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
+import UIActions from './core/actions/UI.js';
 
 /*
 import Perf from 'react-addons-perf';
@@ -36,7 +36,7 @@ export default class Main extends React.Component {
     }
 
     listener () {
-        CenterActions.showLockup.listen((data) => {
+        UIActions.showLockup.listen((data) => {
             this.setState({
                 showLockup:data
             });

@@ -8,8 +8,8 @@ import CreateControlButtons from './CreateControlButtons';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
 import _ from 'lodash';
-import center from '../actions/center';
 import WrioDocument from '../store/WrioDocument.js';
+import WrioDocumentActions from '../actions/WrioDocument.js';
 
 // TODO: move to utils somewhere !!!!
 export function replaceSpaces(str) {
@@ -64,7 +64,7 @@ class MenuButton extends React.Component {
 class ExternalButton extends MenuButton {
     onClick (e) {
         console.log("External button clicked");
-        center.external(this.props.data.url, this.props.data.name);
+        WrioDocumentActions.external(this.props.data.url, this.props.data.name);
         super.onClick(e);
     }
 
@@ -72,7 +72,7 @@ class ExternalButton extends MenuButton {
         if (this.props.isActive) {
             this.props.active(this);
         }
-        center.external(this.props.data.url, this.props.data.name, true, (url) => {
+        WrioDocumentActions.external(this.props.data.url, this.props.data.name, true, (url) => {
             this.setState({
                 url: url
             });
@@ -87,7 +87,7 @@ class ArticleButton extends MenuButton{
 
     onClick (e) {
         console.log("Article button clicked");
-        center.article(this.props.data.name, replaceSpaces(this.props.data.name));
+        WrioDocumentActions.article(this.props.data.name, replaceSpaces(this.props.data.name));
         super.onClick(e);
     }
 }
@@ -95,14 +95,14 @@ class ArticleButton extends MenuButton{
 class CoverButton extends MenuButton {
     onClick (e) {
         console.log("Cover button clicked");
-        center.cover(this.props.data.url);
+        WrioDocumentActions.cover(this.props.data.url);
         super.onClick(e);
     }
     componentWillMount () {
         if (this.props.isActive) {
             this.props.active(this);
         }
-        center.cover(this.props.data.url, null, true, (url) => {
+        WrioDocumentActions.cover(this.props.data.url, null, true, (url) => {
             this.setState({
                 url: url
             });

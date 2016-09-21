@@ -1,10 +1,10 @@
 import React from 'react';
 import renderMentions from '../jsonld/renderMentions.js';
-import CreateArticleLists from './CreateArticleLists';
+import ArticleLists from './ArticleLists';
 import {replaceSpaces} from './CreateDomRight.js';
 import SocialPost from "./SocialPost.js";
 
-var CreateArticleElement = React.createClass({
+var ArticleElement = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
@@ -38,10 +38,10 @@ var CreateArticleElement = React.createClass({
 
         if (element.hasPart()) {
             Parts = this.props.data.children.map((child, key) => {
-                if (element.data.url) {
-                    return <CreateArticleLists data={child} key={key}/>;
+                if (child.data.url) {
+                    return <ArticleLists data={child} key={key}/>;
                 } else {
-                    return <CreateArticleElement data={child} key={key}/>;
+                    return <ArticleElement data={child} key={key}/>;
                 }
             });
         }
@@ -60,4 +60,5 @@ var CreateArticleElement = React.createClass({
         );
     }
 });
-module.exports = CreateArticleElement;
+
+export default ArticleElement;

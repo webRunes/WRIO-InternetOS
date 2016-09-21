@@ -36,6 +36,10 @@ export default class LdJsonObject {
                     return new ItemList(json,order);
                 case "ImageObject":
                     return new ImageObject(json,order);
+                default:
+                    console.warn("LdJsonFactory using default object for",type);
+                    return new LdJsonObject(json,order);
+
             }
         }
     }

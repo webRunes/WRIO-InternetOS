@@ -208,10 +208,10 @@ var CreateTitter = React.createClass({
 
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
             parts.push(
-                <ul className="breadcrumb">
+                <ul className="breadcrumb" key="comm">
                     <li className="active">Comments</li>
                 </ul>);
-            parts.push(<CommentsDisabled isAuthor={this.state.isAuthor}/>);
+            parts.push(<CommentsDisabled key="comdis" isAuthor={this.state.isAuthor}/>);
             return <div>{parts}</div>;
         }
 
@@ -224,7 +224,7 @@ var CreateTitter = React.createClass({
 
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
-                <ul className="breadcrumb">
+                <ul className="breadcrumb" key="act">
                     <li className="active">{this.state.addComment}</li>
                     <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>

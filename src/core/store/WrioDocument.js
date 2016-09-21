@@ -4,7 +4,6 @@
 import {CrossStorageFactory} from './CrossStorageFactory.js';
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
-import CenterActions from "../actions/center.js";
 import getHttp from '../store/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 
@@ -61,8 +60,7 @@ export default Reflux.createStore({
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
-            //if (e.getType() === 'Article') {
-            if (e['@type'] === 'Article') {
+            if (e.getType() === 'Article') {
                 r = true;
             }
         });
@@ -98,16 +96,26 @@ export default Reflux.createStore({
         },500);
     },
 
+    _setLoadingError() {
+        this.loading = {error: "Cannot get page"};
+        this.updateIndex++;
+        this.trigger({'error':true});
+        console.log("Error getting page");
+    },
+
+    _resetError() {
+        this.updateIndex++;
+        this.trigger({'error':false});
+        console.log("Error getting page");
+    },
+
     onLoadDocumentWithUrl(url, type) {
         this.loading = true;
         this.trigger({"loading":true});
         getHttp(url,(data) => {
-            if (data === null) {
-                this.loading = {error: "Cannot get page"};
-                this.updateIndex++;
-                this.trigger({'error':true});
+            if (!data) {
+                this._setLoadingError();
                 this.data = {};
-                console.log("Error getting page");
                 return;
             }
             this.setData(data, url, type);
@@ -156,6 +164,60 @@ export default Reflux.createStore({
 
     getUpdateIndex() {
         return this.updateIndex;
+    },
+
+    // methods what was in the center.js store
+
+
+    _setUrlWithParams: function(type, name, isRet) {
+        var search = '?list=' + name,
+            path = window.location.pathname + search;
+        if (isRet) {
+            return path;
+        } else {
+            window.history.pushState('page', 'params', path);
+        }
+        this.onUpdateUrl();
+    },
+    _setUrlWithHash: function(name, isRet) {
+        if (isRet) {
+            return window.location.pathname + '#' + name;
+        } else {
+            window.history.pushState('page', 'params', window.location.pathname);
+            window.location.hash = name;
+        }
+        this.onUpdateUrl();
+    },
+
+    // this actions are called when browsing through the right menu
+
+    onExternal: function(url, name, isRet, cb) {
+        console.log("====OnEXTERNAL",name);
+        var type = 'external';
+        cb ? cb(this._setUrlWithParams(type, name, isRet)) : this._setUrlWithParams(type, name, isRet);
+        getHttp(url, (data) => {
+            this.onLoadList(name,data);
+        });
+    },
+    onCover: function(url, init, isRet, cb) {
+        console.log("====OnCOVER");
+        var type = 'cover',
+            name = 'Cover';
+        if (!init) {
+            cb ? cb(this._setUrlWithParams(type, name, isRet)) : this._setUrlWithParams(type, name, isRet);
+        }
+        //      WrioDocumentActions.loadDocumentWithUrl(url,type);
+        getHttp(url, (data) => {
+            this.onLoadList('cover',data);
+        });
+
+    },
+    onArticle: function(id, hash, isRet, cb) {
+        this._resetError();
+        console.log("====OnARTICLE");
+        var type = 'article';
+        cb ? cb(this._setUrlWithHash(hash, isRet)) : this._setUrlWithHash(hash, isRet);
+        this.onChangeDocumentChapter(type,id);
     }
 
 
