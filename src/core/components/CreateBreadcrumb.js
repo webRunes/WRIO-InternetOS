@@ -59,7 +59,7 @@ export default React.createClass({
             );
         }
 
-        if (!this.props.isEditingRemotePage) {
+        if (!this.props.editAllowed) {
             readEditMode = (
                 <ul itemProp="breadcrumb" className="breadcrumb">
                     <li className="active">
