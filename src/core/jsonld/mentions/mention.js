@@ -1,6 +1,75 @@
 import AbstractMention from './abstractMention.js';
 import React from 'react';
 
+
+var globalMention=0;
+var globalCursor=0;
+
+/* Class that translates paragraph text and mentions into react code */
+
+export class MappedMention {
+    constructor(text) {
+        this.before = [];
+        this.after = text;
+        this.pos = 0;
+    }
+
+    applyMention(m) {
+        const start = m.start - this.pos;
+        if (start < 0) {
+            console.warn ("Wrong start offset ",start,"for mention",m);
+            return;
+        }
+
+        const before = this.after.substr(0, start),
+            toReplace = this.after.substr(start, m.linkWord.length),
+            after = this.after.substring(start + m.linkWord.length, this.after.length);
+
+        const beforeLength = before.length + toReplace.length;
+
+
+
+        if (m.linkWord != toReplace) {
+            console.warn(`WARING: misplaced mention ${m.url} found word '${toReplace}' instead`);
+        } else {
+            m.text = m.linkWord;
+            this.after = after;
+            this.pos += beforeLength;
+            this.before = this.before.concat([before,m]);
+        }
+
+    }
+
+    render(key) {
+        return (<span key={key}>
+        {
+            this.before.map((mention,key) => {
+                if (mention instanceof AbstractMention) {
+                    return mention.render(key);
+                } else {
+                    return <span key={key}> {mention} </span>;
+                }
+            })
+        } {this.after}
+         </span>);
+    }
+}
+
+/* Mention inside cover, need special treatment */
+
+export class MappedCoverMention extends MappedMention {
+
+    applyMention(m) {
+        // TODO fix this
+        if (Mention.isBulletItem(this.after)) {
+            this.after = Mention.skipAsterisk(this.after);
+            this.bullet = true;
+        }
+        super.applyMention(m);
+
+    }
+}
+
 class Mention extends AbstractMention {
 
     /*
@@ -56,38 +125,10 @@ class Mention extends AbstractMention {
       //  console.warn(text);
     }
 
-    attach(paragraphText) {
-        var before = paragraphText.substr(0, this.start),
-            toReplace = paragraphText.substr(this.start, this.linkWord.length),
-            after = paragraphText.substring(this.start + this.linkWord.length, paragraphText.length);
-
-        this.text = toReplace;
-        if (toReplace === this.linkWord) {
-            return {
-                before: before,
-                obj: this,
-                after: after
-            };
-        } else {
-            //console.warn("Wrong linkword ",toReplace," in ",this.original);
-        }
-        return {
-            before: paragraphText
-        };
+    setCursor(paragraphText) {
+        globalCursor[paragraphText] = this.end;
     }
 
-    attachBullet(paragraphText) {
-
-        if (Mention.isBulletItem(paragraphText)) {
-            var r = this.attach(Mention.skipAsterisk(paragraphText));
-            r.bullet = true;
-            return r;
-        } else {
-            return this.attach(paragraphText);
-        }
-
-
-    }
 
     /* functions for processing asterisks in mentions (for the lists) */
     static isBulletItem(str) {
@@ -106,12 +147,12 @@ class Mention extends AbstractMention {
 
 
 
-     render () {
+     render (key) {
          var ext = "";
          var linkUrl = this.linkUrl;
          var target, color;
          if (this.external) {
-             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
+             ext = (<sup ><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
              target = "_blank";
              linkUrl = this.externalUrl;
 
@@ -120,7 +161,7 @@ class Mention extends AbstractMention {
                  color = 'coming-soon';
              }
          }
-         return (<span>
+         return (<span  key={key}>
         <a href={linkUrl} target={target} className={color}>{this.text}</a>
              {ext}
         </span>);

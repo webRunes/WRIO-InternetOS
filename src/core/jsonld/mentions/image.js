@@ -1,4 +1,4 @@
-import {fixUrlProtocol} from '../mixins/UrlMixin';
+import {fixUrlProtocol} from '../../mixins/UrlMixin';
 import AbstractMention from './abstractMention.js';
 import React from 'react';
 
@@ -22,11 +22,7 @@ class Image extends AbstractMention {
     attach(s) {
         var before = s.substr(0, this.start),
             after = s.substring(this.start, s.length);
-        return {
-            before: before,
-            obj: this,
-            after: after
-        };
+        return [before,this,after];
     }
 
     render () {

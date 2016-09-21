@@ -2,17 +2,19 @@ import React from 'react';
 import {getResourcePath} from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
 
+// TODO check if it is needed ?
+
 var CreateItemLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
     render: function() {
         var item = this.props.data,
-            title = item.name,
+            title = item.getKey('name'),
             image = getResourcePath('/img/no-photo-200x200.png'), //item.thumbnail,
-            about = item.about,
-            url = item.url,
-            createdDate = item.datePublished;
+            about = item.getKey('about'),
+            url = item.getKey('url'),
+            createdDate = item.getKey('datePublished');
 
         return (
             <a href={UrlMixin.fixUrlProtocol(url)}>

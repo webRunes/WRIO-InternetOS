@@ -8,8 +8,8 @@ import CreateControlButtons from './CreateControlButtons';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
 import _ from 'lodash';
-import center from '../actions/center';
 import WrioDocument from '../store/WrioDocument.js';
+import WrioDocumentActions from '../actions/WrioDocument.js';
 
 // TODO: move to utils somewhere !!!!
 export function replaceSpaces(str) {
@@ -53,7 +53,7 @@ class MenuButton extends React.Component {
             click = this.onClick.bind(this),
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
-            <li className={className} onClick={click}>
+            <li className={className}>
                 <a href={href} onClick={click}>{o.name}</a>
             </li>
         );
@@ -64,7 +64,7 @@ class MenuButton extends React.Component {
 class ExternalButton extends MenuButton {
     onClick (e) {
         console.log("External button clicked");
-        center.external(this.props.data.url, this.props.data.name);
+        WrioDocumentActions.external(this.props.data.url, this.props.data.name);
         super.onClick(e);
     }
 
@@ -72,7 +72,7 @@ class ExternalButton extends MenuButton {
         if (this.props.isActive) {
             this.props.active(this);
         }
-        center.external(this.props.data.url, this.props.data.name, true, (url) => {
+        WrioDocumentActions.external(this.props.data.url, this.props.data.name, true, (url) => {
             this.setState({
                 url: url
             });
@@ -87,7 +87,7 @@ class ArticleButton extends MenuButton{
 
     onClick (e) {
         console.log("Article button clicked");
-        center.article(this.props.data.name, replaceSpaces(this.props.data.name));
+        WrioDocumentActions.article(this.props.data.name, replaceSpaces(this.props.data.name));
         super.onClick(e);
     }
 }
@@ -95,14 +95,14 @@ class ArticleButton extends MenuButton{
 class CoverButton extends MenuButton {
     onClick (e) {
         console.log("Cover button clicked");
-        center.cover(this.props.data.url);
+        WrioDocumentActions.cover(this.props.data.url);
         super.onClick(e);
     }
     componentWillMount () {
         if (this.props.isActive) {
             this.props.active(this);
         }
-        center.cover(this.props.data.url, null, true, (url) => {
+        WrioDocumentActions.cover(this.props.data.url, null, true, (url) => {
             this.setState({
                 url: url
             });
@@ -227,12 +227,6 @@ var CreateDomRight = React.createClass({
         }
     },
 
-    isElementOfType(currentItem, type) {
-        return currentItem['@type'] === type || _.chain(currentItem.itemListElement)
-                .pluck('@type')
-                .contains(type)
-                .value();
-    },
 
     processItem(item, superitem) {
         if (isCover(item)) {
@@ -272,25 +266,26 @@ var CreateDomRight = React.createClass({
             }
         }
         var add = (currentItem) => {
-            if (this.isElementOfType(currentItem, "SocialMediaPosting")) {
-                var isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
-                currentItem.name = currentItem.headline;
+
+            if (currentItem.hasElementOfType("SocialMediaPosting")) {
+                var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
+                currentItem.data.name = currentItem.data.headline;
                 isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
+                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
             }
-            else if (this.isElementOfType(currentItem, "Article")) {
-                var isActive = replaceSpaces(currentItem.name) === currentHash || isActiveFirstArticle;
+            else if (currentItem.hasElementOfType("Article")) {
+                var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
                 isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
-            } else if (currentItem['@type'] === 'ItemList') {
-                if (!this.isElementOfType(currentItem, 'ItemList')) {
-                    this.processItem(currentItem, currentItem);
+                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
+            } else if (currentItem.getType() === 'ItemList') {
+                if (!currentItem.hasElementOfType('ItemList')) {
+                    this.processItem(currentItem.data, currentItem.data);
                 } else {
-                    currentItem.itemListElement.forEach((item) => this.processItem(item, currentItem), this);
+                    currentItem.children.forEach((item) => this.processItem(item.data, currentItem.data), this);
                 }
             }
-            if (currentItem.hasPart) { // recursively process all article parts
-                currentItem.hasPart.forEach(add, this);
+            if (currentItem.hasPart()) { // recursively process all article parts
+                currentItem.children.forEach(add, this);
             }
         };
         this.props.data.forEach(add);

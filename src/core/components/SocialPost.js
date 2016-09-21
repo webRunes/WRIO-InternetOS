@@ -33,13 +33,13 @@ class SocialPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            html:"<img src=\"loading.gif\" />"
+            html:"<span><img src=\"https://wrioos.com/Default-WRIO-Theme/img/loading.gif\" /></span>"
         };
 
     }
 
     downloadEmebed() {
-        var data = this.props.data;
+        var data = this.props.data.data;
         if (data.sharedContent && data.sharedContent.url) {
             request.get('https://iframely.wrioos.com/oembed?url='+data.sharedContent.url, (err, result) => {
                 if (err) {

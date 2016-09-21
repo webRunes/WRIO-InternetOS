@@ -72,19 +72,6 @@ var CreateTitter = React.createClass({
     componentWillUnmount: function () {
         clearInterval(window.interval);
     },
-    isArticle: function (json) {
-        var comment;
-        for (var i = 0; i < json.length; i++) {
-            comment = json[i];
-            if (comment['@type'] === 'Article') {
-                return true;
-            }
-            var hasPart = comment.hasPart;
-            if ((typeof hasPart === 'object') && (hasPart.length > 0)) {
-                return this.isArticle(hasPart);
-            }
-        }
-    },
     switchToAddCommentMode: function () {
         this.setState({
             addFundsMode: false
@@ -144,7 +131,7 @@ var CreateTitter = React.createClass({
         return {
             isAuthor: false,
             addComment: 'Add comment',
-            article: this.isArticle(this.props.scripts),
+            article: WrioDocument.hasArticle(),
             isTemporary: false,
             addFundsMode: false,
             titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + encodeURIComponent(window.location.href) + authorId,
@@ -208,10 +195,10 @@ var CreateTitter = React.createClass({
 
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
             parts.push(
-                <ul className="breadcrumb">
+                <ul className="breadcrumb" key="comm">
                     <li className="active">Comments</li>
                 </ul>);
-            parts.push(<CommentsDisabled isAuthor={this.state.isAuthor}/>);
+            parts.push(<CommentsDisabled key="comdis" isAuthor={this.state.isAuthor}/>);
             return <div>{parts}</div>;
         }
 
@@ -224,7 +211,7 @@ var CreateTitter = React.createClass({
 
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
-                <ul className="breadcrumb">
+                <ul className="breadcrumb" key="act">
                     <li className="active">{this.state.addComment}</li>
                     <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
@@ -316,187 +303,3 @@ class LoginAndComment extends React.Component {
 
 export default CreateTitter;
 
-
-/*
- var Alert = React.createClass({
- getInitialState: function() {
- return {
- text1: 'You\'ve donated 10 WRG. The author received 82%, which amounts to 8.2 WRG or 0.19 USD. Thank you!',
- text2: 'More information on donations and percentage you can find ',
- link: {
- text: 'here',
- url: '#'
- }
- };
- },
- render: function () {
- return (
- <div className="alert alert-success">
- <button type="button" className="close" data-dismiss="alert">×</button>
- {this.state.text1}<br />{this.state.text2}<a href={this.state.link.url}>{this.state.link.text}</a>
- </div>
- );
- }
- });
-
- var CurrentBalance = React.createClass({
- getInitialState: function() {
- return {
- text: 'Current balance\u00A0',
- cur1: 'WRG',
- value1: '\u00A019 135',
- cur2: 'USD',
- value2: 76.54,
- link: {
- text: 'Add funds',
- url: getServiceUrl('webgold')+'/add_funds'
- }
- };
- },
- render: function () {
- return (
- <ul className="leaders">
- <li>
- <span>{this.state.text}</span>
- <span>
- {this.state.value1}<small className="currency">{this.state.cur1}</small>
- <sup className="currency">
- {this.state.value2}
- <span className="currency">{this.state.cur2}</span>
- {'\u00b7'}
- <a href={this.state.link.url} target="_blank">{this.state.link.text}</a>
- </sup>
- </span>
- </li>
- </ul>
- );
- }
- });
-
- var InputNumber = React.createClass({
- getInitialState: function() {
- return {
- cur: 'WRG',
- value: 0,
- per: '82%',
- hint: 'The author will receive 82%, which amounts to 8.2 WRG or 0.19 USD. The bigger the donated amount, the bigger the received percentage up to 95%',
- text: 'Insufficient funds. ',
- link: {
- text: 'Add funds',
- url: getServiceUrl('webgold')+'/add_funds'
- }
- };
- },
- render: function() {
- return (
- <div className="form-group col-xs-12 col-md-4 col-lg-3 has-error">
- <div className="input-group input-group-sm tooltip-demo">
- <span className="input-group-addon">{this.state.cur}</span>
- <input type="number" className="form-control" id="inputAmount" value={this.state.value} min="0" />
- <span className="input-group-addon" data-toggle="tooltip" data-placement="top" title={this.state.hint}>{this.state.per}</span>
- </div>
- <div className="help-block">
- {this.state.text}
- <a href={this.state.link.url} target="_blank">
- {this.state.link.text}
- </a>
- </div>
- </div>
- );
- }
- });
-
- var TweetTitle = React.createClass({
- getInitialState: function() {
- var limit = 72;
- return {
- limit: limit,
- placeholder: 'Title, hashtags or mentions. Max ' + limit + ' characters',
- help: 'Max ' + limit + ' characters'
- };
- },
- render: function() {
- return (
- <div className="form-group col-xs-12 col-md-4 col-lg-7 has-error">
- <div className="input-group input-group-sm">
- <span className="input-group-addon twitter-limit">{this.state.limit}</span>
- <input id="IDtweet_title" name="tweet_title" className="form-control" maxLength={this.state.limit} placeholder={this.state.placeholder} type="text" />
- </div>
- <div className="help-block">{this.state.help}</div>
- </div>
- );
- }
- });
-
- var LetUsKnow = React.createClass({
- getInitialState: function() {
- var limit = 4096;
- return {
- placeholder: 'Let us know your thoughts! Max ' + limit + ' characters',
- help: 'Max ' + limit + ' characters'
- };
- },
- render: function() {
- return null;//TODO remove iframe auth
- //return (
- //    <div className="form-group col-xs-12 has-error">
- //        <textarea rows="3" className="form-control" placeholder={this.state.placeholder} />
- //        <div className="help-block">{this.state.help}</div>
- //    </div>
- //);
- }
- });
-
- var Photo = React.createClass({
- getInitialState: function() {
- return {
- text: 'Photo'
- };
- },
- render: function() {
- return null;
- //return (
- //    <div className="btn-group tooltip-demo">
- //        <button type="button" className="btn btn-default"><span className="glyphicon glyphicon-camera"></span>{this.state.text}</button>
- //    </div>
- //);
- }
- });
-
- var Submit = React.createClass({
- getInitialState: function() {
- return {
- label: 1024,
- text: 'Login and submit'
- };
- },
- render: function() {
- return null;//TODO remove iframe auth
- //return (
- //    <div className="pull-right">
- //        <div className="pull-right">
- //            <label className="comment-limit">{this.state.label}</label>
- //            <button type="button" className="btn btn-primary"><span className="glyphicon glyphicon-ok"></span>{this.state.text}</button>
- //        </div>
- //    </div>
- //);
- }
- });
-
- var Donate = React.createClass({
- getInitialState: function() {
- return {
- title: 'Donation'
- };
- },
- render: function () {
- return (
- <form className="margin-bottom" role="form">
- <div className="form-group">
- <Alert />
- <CurrentBalance />
- </div>
- </form>
- );
- }
- });*/

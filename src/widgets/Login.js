@@ -1,9 +1,8 @@
 import React from 'react';
-import Actions from '../core/actions/center';
 import Details from'./Details.js';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import CenterActions from '../core/actions/center.js';
+import UIActions from '../core/actions/UI.js';
 import UserStore from '../core/store/UserStore.js';
 
 var domain = getDomain();
@@ -62,8 +61,8 @@ class Login extends React.Component{
                 this.setState({busy:false});
 
                 var profile = jsmsg.profile;
-                Actions.gotWrioID(profile.id);
-                Actions.gotProfileUrl(profile.url);
+                UIActions.gotWrioID(profile.id);
+                UIActions.gotProfileUrl(profile.url);
                 if (!profile.temporary) {
                     UserStore.saveLoggedUser(profile.id,profile);
                 }
@@ -117,7 +116,7 @@ class Login extends React.Component{
 
     static showLockup(e) {
         e.stopPropagation();
-        CenterActions.showLockup.trigger(true);
+        UIActions.showLockup.trigger(true);
     }
 
     doLogout(e) {
@@ -136,7 +135,7 @@ class Login extends React.Component{
         e.stopPropagation();
         Login.requestLogin();
         this.setState({busy:true});
-      //  CenterActions.showLockup.trigger(false);
+      //  UIActions.showLockup.trigger(false);
     }
 
     changePage(){
