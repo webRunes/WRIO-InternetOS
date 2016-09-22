@@ -1,5 +1,6 @@
 import React from 'react';
 import WrioDocument from '../store/WrioDocument.js';
+import WrioDocumentActions from '../actions/WrioDocument.js';
 import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
 import CreateItemLists from './CreateItemLists';
@@ -78,6 +79,10 @@ class DocumentBody extends React.Component {
                 </article>
             );
         }
+    }
+
+    componentDidUpdate () {
+        WrioDocumentActions.postUpdateHook();
     }
 
     getContentByName(url) {
