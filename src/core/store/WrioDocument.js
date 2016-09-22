@@ -181,8 +181,6 @@ export default Reflux.createStore({
     },
 
     // methods what was in the center.js store
-
-
     _setUrlWithParams: function(type, name, isRet) {
         var search = '?list=' + name,
             path = window.location.pathname + search;
