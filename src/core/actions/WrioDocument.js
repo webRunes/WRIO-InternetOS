@@ -10,6 +10,7 @@ export default Reflux.createActions([
     'restorePage',
     'updateUrl',
     'showLoader',
+    'postUpdateHook',
 
     'external',
     'cover',
