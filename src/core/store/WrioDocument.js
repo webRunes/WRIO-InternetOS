@@ -16,6 +16,17 @@ export default Reflux.createStore({
       this.loading = false;
       this.lists = {};
       this.updateIndex = 0;
+        this.updateHook = null;
+    },
+
+    // this hook is triggered after DOM redraw, to set article hash
+    // it's needed because you can't set artcile hash before article is rendered
+
+    onPostUpdateHook() {
+        if (this.updateHook) {
+            this.updateHook();
+            this.updateHook = null;
+        }
     },
 
     getListType() {
@@ -82,18 +93,22 @@ export default Reflux.createStore({
 
     },
 
+    _forceHash() {
+        setTimeout(() => {
+            const orig = window.location.hash;
+            window.location.hash = orig + ' ';
+            window.location.hash = orig;
+
+        },100);
+    },
+
     onLoadDocumentWithData(data,url) {
         this.mainPage = data; // backup core page
         this.setData(data,url);
         this.updateIndex++;
         this.trigger({'change':true});
         // Quick hack to make page jump to needed section after page have been edited
-        setTimeout(() => {
-            const orig = window.location.hash;
-            window.location.hash = orig + ' ';
-            window.location.hash = orig;
-
-        },500);
+        this.updateHook = () => this._forceHash();
     },
 
     _setLoadingError() {
@@ -179,12 +194,9 @@ export default Reflux.createStore({
         this.onUpdateUrl();
     },
     _setUrlWithHash: function(name, isRet) {
-        if (isRet) {
-            return window.location.pathname + '#' + name;
-        } else {
-            window.history.pushState('page', 'params', window.location.pathname);
-            window.location.hash = name;
-        }
+        window.history.pushState('page', 'params', window.location.pathname);
+        window.location.hash = name;
+        this.updateHook = () => this._forceHash();
         this.onUpdateUrl();
     },
 
@@ -211,11 +223,11 @@ export default Reflux.createStore({
         });
 
     },
-    onArticle: function(id, hash, isRet, cb) {
+    onArticle: function(id, hash, isRet) {
         this._resetError();
         console.log("====OnARTICLE");
         var type = 'article';
-        cb ? cb(this._setUrlWithHash(hash, isRet)) : this._setUrlWithHash(hash, isRet);
+        this._setUrlWithHash(hash, isRet);
         this.onChangeDocumentChapter(type,id);
     }
 
