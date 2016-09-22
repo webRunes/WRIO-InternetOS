@@ -19,7 +19,7 @@ const ArticleLists = React.createClass({
             return null;
         }
         return (
-            <a href={UrlMixin.fixUrlProtocol(item.url)}>
+            <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
