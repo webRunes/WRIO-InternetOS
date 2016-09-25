@@ -21,7 +21,7 @@ export default class LdJsonObject {
         }
     }
     // factroy method to generate new LdJson objects according to its contents
-    static LdJsonFactory(json,order) {
+    static LdJsonFactory(json,order,parent) {
 
         Article = Article || require('./Article.js').default;
         ItemList = ItemList || require('./ItemList.js').default;
@@ -31,14 +31,14 @@ export default class LdJsonObject {
         if (type) {
             switch (type) {
                 case 'Article':
-                    return new Article(json,order);
+                    return new Article(json,order,parent);
                 case 'ItemList':
-                    return new ItemList(json,order);
+                    return new ItemList(json,order,parent);
                 case "ImageObject":
-                    return new ImageObject(json,order);
+                    return new ImageObject(json,order,parent);
                 default:
                     //console.warn("LdJsonFactory using default object for",type);
-                    return new LdJsonObject(json,order);
+                    return new LdJsonObject(json,order,parent);
 
             }
         }
@@ -57,10 +57,13 @@ export default class LdJsonObject {
         }], ['asc', 'asc', 'desc']);
     }
 
-    constructor(json,order) {
+    constructor(json,order,parent) {
         this.data = json;
         this.children = [];
         this.mentions = json.mentions;
+        if (parent) {
+            this.mentions = this.mentions || parent.mentions;
+        }
         this.mappedMent = {}; // mapped mentions will be placed here
         this.mentionCursor = {}; // mapped mentions will be placed here
 
@@ -79,7 +82,7 @@ export default class LdJsonObject {
     }
 
     addChild(part,order) {
-        let element = LdJsonObject.LdJsonFactory(part,order);
+        let element = LdJsonObject.LdJsonFactory(part,order,this);
         this.children.push(element);
     }
 
