@@ -9,14 +9,10 @@ import mention from '../mentions/mention.js';
 import _ from 'lodash';
 
 export default class ImageObject extends LdJsonObject {
-    constructor(json) {
-        super(json);
-        if (json.image && typeof json.image === "object") {
-            let images = json.image;
-            images.forEach((i) => {
-                this.mentions.push(i);
-            });
-        }
+    constructor(json,order,root) {
+        super(json,order,root);
+
+
     }
 
     getCoverItems() {
