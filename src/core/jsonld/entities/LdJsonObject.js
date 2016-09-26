@@ -21,24 +21,25 @@ export default class LdJsonObject {
         }
     }
     // factroy method to generate new LdJson objects according to its contents
-    static LdJsonFactory(json,order,parent) {
+    static LdJsonFactory(json,order,root) {
 
         Article = Article || require('./Article.js').default;
         ItemList = ItemList || require('./ItemList.js').default;
         ImageObject = ImageObject || require('./ImageObject.js').default;
 
+
         var type = json['@type'];
         if (type) {
             switch (type) {
                 case 'Article':
-                    return new Article(json,order,parent);
+                    return new Article(json,order,root);
                 case 'ItemList':
-                    return new ItemList(json,order,parent);
+                    return new ItemList(json,order,root);
                 case "ImageObject":
-                    return new ImageObject(json,order,parent);
+                    return new ImageObject(json,order,root);
                 default:
                     //console.warn("LdJsonFactory using default object for",type);
-                    return new LdJsonObject(json,order,parent);
+                    return new LdJsonObject(json,order,root);
 
             }
         }
@@ -57,12 +58,15 @@ export default class LdJsonObject {
         }], ['asc', 'asc', 'desc']);
     }
 
-    constructor(json,order,parent) {
+    constructor(json,order,root) {
         this.data = json;
         this.children = [];
         this.mentions = json.mentions;
-        if (parent) {
-            this.mentions = this.mentions || parent.mentions;
+        if (root) {
+            this.mentions = this.mentions || root.mentions;
+            this.root = root;
+        } else {
+            this.root = this;
         }
         this.mappedMent = {}; // mapped mentions will be placed here
         this.mentionCursor = {}; // mapped mentions will be placed here
@@ -82,13 +86,21 @@ export default class LdJsonObject {
     }
 
     addChild(part,order) {
-        let element = LdJsonObject.LdJsonFactory(part,order,this);
+        let element = LdJsonObject.LdJsonFactory(part,order,this.root);
         this.children.push(element);
     }
 
 
     /* function reads JSON+LD mentions and attaches them to the JSONLD */
     processJsonLDmentions (json, order) {
+
+        // let handle image injection into the article
+        const images = json.image || this.root.data.image;
+        if (json.image && typeof json.image === "object") {
+            images.forEach((i) => {
+                this.mentions.push(i);
+            });
+        }
 
         let mentions = this.mentions;
 
@@ -97,10 +109,7 @@ export default class LdJsonObject {
             mentions.forEach(function(m) {
                 var mention = LdJsonObject.MentionFactory(m);
                 if (mention.order > (order || 0)) {
-                    var ok = this.attachMentionToElement(mention, order);
-                    if (!ok) {
-                        mention.warn();
-                    }
+                    this.attachMentionToElement(mention, order);
                 }
             }, this);
         }
@@ -134,6 +143,12 @@ export default class LdJsonObject {
     _touchMentionKey(key,value,mention,arrayPos,mentionType) {
 
         mentionType = mentionType || MappedMention;
+
+        if (mention instanceof Image) {
+            this.mappedMent[key] = this.mappedMent[key] || [];
+            this.mappedMent[key][arrayPos] = this.mappedMent[key][arrayPos]||  mention;
+            return;
+        }
 
         if (arrayPos !== undefined) {
             this.mappedMent[key] = this.mappedMent[key] || [];

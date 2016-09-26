@@ -70,6 +70,7 @@ export class MappedCoverMention extends MappedMention {
     }
 }
 
+
 class Mention extends AbstractMention {
 
     /*
@@ -120,11 +121,6 @@ class Mention extends AbstractMention {
 
     }
 
-    warn(text) {
-        text = text || 'Wrong mention: ' + this.url;
-      //  console.warn(text);
-    }
-
     setCursor(paragraphText) {
         globalCursor[paragraphText] = this.end;
     }
@@ -144,8 +140,6 @@ class Mention extends AbstractMention {
         }
         return str;
     }
-
-
 
      render (key) {
          var ext = "";
