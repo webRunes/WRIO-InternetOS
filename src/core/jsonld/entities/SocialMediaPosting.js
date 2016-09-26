@@ -11,8 +11,8 @@ import _ from 'lodash';
 
 
 export default class SocialMediaPosting extends LdJsonObject {
-    constructor(json) {
-        super(json);
+    constructor(json,order,parent) {
+        super(json,order,parent);
     }
 
 

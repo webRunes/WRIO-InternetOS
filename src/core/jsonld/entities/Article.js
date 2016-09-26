@@ -8,8 +8,8 @@ import _ from 'lodash';
 
 
 export default class Article extends LdJsonObject {
-    constructor(json,order,parent) {
-        super(json,order,parent);
+    constructor(json,order,root) {
+        super(json,order,root);
     }
 
     getBody() {

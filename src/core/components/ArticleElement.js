@@ -45,7 +45,7 @@ var ArticleElement = React.createClass({
             });
         }
 
-        var chapter = replaceSpaces(articleName);
+        var chapter = replaceSpaces(element.data.name);
 
         return (
             <section>
