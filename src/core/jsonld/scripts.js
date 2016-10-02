@@ -15,6 +15,7 @@ class LdJsonManager {
     }
     parseScripts(scripts) {
         let  data = [];
+        scripts = [].slice.call(scripts); // to convert HtmlCollection to the Array, to adress issues on the IE and mobile Safari
         for (let script of scripts) {
             if (script.type === 'application/ld+json') {
                 let json = undefined;

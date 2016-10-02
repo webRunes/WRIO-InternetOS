@@ -14,6 +14,9 @@ class Core extends React.Component{
 
     componentDidMount() {
         WindowActions.coreMessage.listen((msg) => {
+            if (msg.coreSaved) {
+                window.location.reload();
+            }
             if (msg.coreHeight) {
                 document.getElementById('coreiframe').style.height = msg.coreHeight+'px';
             }
