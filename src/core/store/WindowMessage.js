@@ -16,59 +16,63 @@ module.exports = Reflux.createStore({
     onResetLogin() {
     },
 
+    parseMessage(e) {
+        const message = e.data;
+        if (this.debugMessages) {
+            console.log("WINDOW MESSAGE++++++++++++++++++++++++++",e.data);
+        }
+        try {
+            return JSON.parse(message);
+        } catch (e) {
+            return null;
+        }
+    },
+
+    checkForService(name,e) {
+        var httpChecker = new RegExp('^(http|https)://' + name + '.' + domain, 'i');
+        return httpChecker.test(e.origin);
+    },
+
+    messageListener(e) {
+        const msg = this.parseMessage(e);
+        if (msg === null) {
+            return;
+        }
+
+        if (this.checkForService('titter',e)) {
+            WindowActions.titterMessage.trigger(msg);
+        }
+        if (this.checkForService('core',e)) {
+            WindowActions.coreMessage.trigger(msg);
+        }
+        if (this.checkForService('login',e)) {
+            if (msg.login === "success") {
+                console.log("Requesting page reload");
+                document.getElementById('loginbuttoniframe').contentWindow.postMessage('reload', getServiceUrl('login'));
+                WindowActions.forceIframeReload.trigger();
+            }
+
+            if (msg.profile) {
+                WindowActions.loginMessage.trigger(msg); // leave only one profile message
+                document.getElementById('loginbuttoniframe').contentWindow.postMessage('ack', getServiceUrl('login'));
+            } else {
+                WindowActions.loginMessage.trigger(msg); // leave only one profile message
+            }
+        }
+
+        if (this.checkForService('webgold',e)) {
+            WindowActions.webGoldMessage.trigger(msg);
+        }
+        if (this.checkForService('chess',e)) {
+            WindowActions.chessMessage.trigger(msg);
+        }
+
+    },
+
     init() {
-
+        this.debugMessages = false;
         this.listenTo(WindowActions.resetLogin,this.onResetLogin);
-
-        window.addEventListener('message', function (e) {
-            var message = e.data;
-
-          //  console.log("WINDOW MESSAGE++++++++++++++++++++++++++",e.data);
-            try {
-                var msg = JSON.parse(message);
-            } catch (e) {
-               // console.log("Error parsing the message");
-                return;
-            }
-
-            var httpChecker = new RegExp('^(http|https)://titter.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                WindowActions.titterMessage.trigger(msg);
-            }
-
-            httpChecker = new RegExp('^(http|https)://core.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                WindowActions.coreMessage.trigger(msg);
-            }
-            httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                if (msg.login === "success") {
-                    console.log("Requesting page reload");
-                    document.getElementById('loginbuttoniframe').contentWindow.postMessage('reload', getServiceUrl('login'));
-                    WindowActions.forceIframeReload.trigger();
-                }
-
-                if (msg.profile) {
-                        WindowActions.loginMessage.trigger(msg); // leave only one profile message
-                        document.getElementById('loginbuttoniframe').contentWindow.postMessage('ack', getServiceUrl('login'));
-                } else {
-                    WindowActions.loginMessage.trigger(msg); // leave only one profile message
-                }
-
-
-
-            }
-            httpChecker = new RegExp('^(http|https)://webgold.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                WindowActions.webGoldMessage.trigger(msg);
-            }
-            httpChecker = new RegExp('^(http|https)://chess.' + domain, 'i');
-            if (httpChecker.test(e.origin)) {
-                WindowActions.chessMessage.trigger(msg);
-            }
-
-        });
-
+        window.addEventListener('message', this.messageListener);
     }
 
 });
