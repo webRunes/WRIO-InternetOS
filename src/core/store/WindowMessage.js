@@ -61,6 +61,9 @@ module.exports = Reflux.createStore({
         }
 
         if (this.checkForService('webgold',e)) {
+            if (msg.reload) {
+                window.location.reload();
+            }
             WindowActions.webGoldMessage.trigger(msg);
         }
         if (this.checkForService('chess',e)) {
