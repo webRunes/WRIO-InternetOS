@@ -15,5 +15,9 @@ class AbstractMention {
         console.warn("Not implemented");
     }
 
+    applyMention(m) {
+
+    }
+
 }
 export default AbstractMention;
