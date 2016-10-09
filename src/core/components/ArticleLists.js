@@ -13,6 +13,7 @@ const ArticleLists = React.createClass({
     render: function() {
         var item = this.props.data,
             articleName = item.getKey('name'),
+            about = item.getKey('about'),
             articleHash = replaceSpaces(articleName);
         if (item.getType() !== 'Article') {
             // if itemlist is passed, just skip
@@ -44,7 +45,7 @@ const ArticleLists = React.createClass({
                             }
                         </div>
                         <div className="col-xs-12 col-md-6">
-                            <p>{item.about}</p>
+                            <p>{about}</p>
                             {/*
                             <ul className="actions">
                                 <li><span className="glyphicon glyphicon-plus"></span>Add</li>
