@@ -4,14 +4,14 @@ import UrlMixin from '../mixins/UrlMixin';
 
 // TODO check if it is needed ?
 
-var CreateItemLists = React.createClass({
+const CreateItemLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
     render: function() {
         var item = this.props.data,
             title = item.getKey('name'),
-            image = getResourcePath('/img/no-photo-200x200.png'), //item.thumbnail,
+            image = item.data.image || getResourcePath('/img/no-photo-200x200.png'),
             about = item.getKey('about'),
             url = item.getKey('url'),
             createdDate = item.getKey('datePublished');
@@ -26,7 +26,7 @@ var CreateItemLists = React.createClass({
                   </h2>
                 </header>
                 <div className="col-xs-12 col-md-6 pull-right">
-                  <img className="pull-left" src={image} />
+                  <img className="pull-left" src={image} className="img-responsive" style={{objectFit:"contain"}}/>
                   <ul className="details">
                     <li>Created: {createdDate}</li>
                     <li>Access: Free</li>
