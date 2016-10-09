@@ -111,7 +111,26 @@ class DocumentBody extends React.Component {
     }
 
 
+    // returns default Article view
+    // if document contains article and itemlists, itemlists are not displayed in the default view
+    // if no article, then we should display itemLists in the default view
+
     getArticleContents(data) {
+        let numArticles = 0;
+        let numLists = 0;
+        for (let item of data) {
+            if (item instanceof Article) {
+                numArticles++;
+            }
+            if (item instanceof ItemList) {
+                numLists++;
+            }
+        }
+
+        if (numArticles == 0 && numLists > 0) {
+            return this.getItemList(data);
+        }
+
         return data
             .map(function (element, key) {
                 if (element instanceof Article) {
