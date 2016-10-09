@@ -3,11 +3,8 @@ import {fixUrlProtocol} from '../mixins/UrlMixin';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
-import CenterStore from '../store/center.js';
-import CenterActions from '../actions/center.js';
-import applyMentions from '../jsonld/applyMentions.js';
 import _ from 'lodash';
-import mention from '../jsonld/mention.js';
+import mention from '../jsonld/mentions/mention.js';
 
 var CreateCover = React.createClass({
     propTypes: {
@@ -22,45 +19,29 @@ var CreateCover = React.createClass({
 
     logout() {
         Login.doLogout();
-        CenterActions.showLockup(false);
+        WrioDocumentActions.showLockup(false);
         WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-    applyMentions(cover) {
-        return cover.text.map((item, i) => {
-            var appliedMention = {};
-            if (cover.m && cover.m.text && cover.m.text[i]) {
-                appliedMention.text = applyMentions(cover.m.text[i],1);
-                appliedMention.bullet = cover.m.text[i];
-            } else {
-                if (mention.isBulletItem(cover.text[i])) {
-                    appliedMention.bullet = true;
-                }
-                appliedMention.text = mention.skipAsterisk(cover.text[i]);
-            }
-
-            return appliedMention;
-        });
-    },
-
     coverItems(cover) {
-        var items = this.applyMentions(cover) || [];
+        var items = cover.getCoverItems();
         var descr = [];
         var bulletList = [];
+        var index=0;
 
         function purgeList() {
             if (bulletList.length !== 0) {
-                descr.push(<ul className="features">{bulletList.map(item => <li><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
+                descr.push(<ul key={index++} className="features">{bulletList.map(item => <li key={index++}><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
                 bulletList = [];
             }
         }
 
         items.forEach((item,i) => {
             if (item.bullet) {
-                bulletList.push (item.text);
+                bulletList.push (<span key={index++}>{item.text}</span>);
             } else {
                 purgeList();
-                descr.push(<div className="description">{item.text}</div>);
+                descr.push(<div key={index++} className="description">{item.text}</div>);
             }
 
         });
@@ -73,9 +54,9 @@ var CreateCover = React.createClass({
 
     render: function () {
         var cover = this.props.data;
-        var path = cover.contentUrl; //cover.img;
-        var name = cover.name;
-        var about = cover.about;
+        var path = cover.data.contentUrl; //cover.img;
+        var name = cover.getKey('name');
+        var about = cover.getKey('about');
         var isActive = this.props.isActive ? 'item active' : 'item';
 
         if (path) {
@@ -96,11 +77,6 @@ var CreateCover = React.createClass({
                 </button>);
         }
 
-        if (cover.m) {
-
-            if (cover.m.name)  name = applyMentions(cover.m.name);
-            if (cover.m.about) about = applyMentions(cover.m.about);
-        }
 
 
         return (
@@ -111,7 +87,7 @@ var CreateCover = React.createClass({
                         <h2>{name}</h2>
                         <h6>{about}</h6>
                         {this.coverItems(cover)}
-                        {CenterStore.lockupShown ? button : ''}
+                        {WrioDocument.lockupShown ? button : ''}
                     </div>
                 </div>
             </div>
@@ -119,4 +95,4 @@ var CreateCover = React.createClass({
     }
 });
 
-module.exports = CreateCover;
+export default CreateCover;

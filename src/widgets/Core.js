@@ -14,6 +14,9 @@ class Core extends React.Component{
 
     componentDidMount() {
         WindowActions.coreMessage.listen((msg) => {
+            if (msg.coreSaved) {
+                window.location.reload();
+            }
             if (msg.coreHeight) {
                 document.getElementById('coreiframe').style.height = msg.coreHeight+'px';
             }
@@ -24,8 +27,8 @@ class Core extends React.Component{
         return (
             <div>
                 {!this.state.article ?
-                    <iframe id="coreiframe" class="core" src={getServiceUrl('core') + '/create'}/>
-                               : <iframe id="coreiframe" class="core" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
+                    <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/create'}/>
+                               : <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
             </div>
         );
     }

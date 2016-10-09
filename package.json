@@ -59,6 +59,7 @@
     "classnames": "^2.1.2",
     "cross-storage": "^0.8.1",
     "react": "^0.14.6",
+    "es6-symbol": "3.1.0",
     "react-bootstrap": "^0.28.2",
     "reflux": "0.2.7",
     "lodash": "^3.10.1",

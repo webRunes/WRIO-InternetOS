@@ -16,12 +16,12 @@ import ActionMenu from '../../widgets/Plus/actions/menu';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
-import CenterActions from '../actions/center';
 import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';
 import WrioDocument from '../store/WrioDocument.js';
+import UIActions from '../actions/UI.js';
 
 var domain = getDomain();
 
@@ -53,35 +53,13 @@ class ArticleCenter  extends React.Component {
         return resultUrl;
     }
 
-    editAllowed() {
+    isEditingRemotePage() {
         return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
     }
 
 
-    getAuthorWrioID(cb) {
-        if (this.editAllowed()) {
-            var url = this.formatUrl(this.state.urlParams.edit);
-            getHttp(url,(article) => {
-                article = article.filter((json) => json['@type'] == 'Article')[0];
-                var id = article['author'].match(/\?wr.io=([0-9]+)$/);
-                cb(id ? id[1] : undefined);
-            });
-        } else {
-            var data = WrioDocument.getData();
-            for (var i in data) {
-                if (data.hasOwnProperty(i)) {
-                    var element = data[i];
-                    if (element && element.author) {
-                        var id = element.author.match(/\?wr.io=([0-9]+)$/);
-                        cb(id ? id[1] : undefined);
-                    }
-                }
-            }
-        }
-    }
-
     getAuthor(cb) {
-        if (this.editAllowed()) {
+        if (this.isEditingRemotePage()) {
             var url = this.formatUrl(this.state.urlParams.edit);
             getHttp(url,(article) => {
                 article = article.filter((json) => json['@type'] == 'Article')[0];
@@ -89,15 +67,9 @@ class ArticleCenter  extends React.Component {
                 cb(author);
             });
         } else {
-            var data = WrioDocument.getData();
-            for (var i in data) {
-                if (data.hasOwnProperty(i)) {
-                    var element = data[i];
-                    if (element && element.author) {
-                        var author = element.author;
-                        cb(author);
-                    }
-                }
+            let author = WrioDocument.getJsonLDProperty('author');
+            if (author) {
+                cb(author);
             }
         }
     }
@@ -135,7 +107,6 @@ export class CreateDomCenter extends ArticleCenter {
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
         };
-        this.onShowSidebar = this.onShowSidebar.bind(this);
 
     }
 
@@ -148,7 +119,7 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentWillMount() {
-        CenterActions.gotProfileUrl.listen((profileUrl) => {
+        UIActions.gotProfileUrl.listen((profileUrl) => {
             this.getAuthor((_author) => {
                 console.log('Checking if editing allowed: ', profileUrl, _author);
                 if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
@@ -162,7 +133,7 @@ export class CreateDomCenter extends ArticleCenter {
                 }
             });
         });
-        CenterActions.switchToEditMode.listen((data) => {
+        UIActions.switchToEditMode.listen((data) => {
             if (data.editMode) {
                 this.switchToEditMode();
             }
@@ -170,9 +141,6 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentDidMount() {
-        var that = this;
-        this.listenStoreMenuSidebar = StoreMenu.listenTo(ActionMenu.showSidebar, this.onShowSidebar);
-
         WindowActions.loginMessage.listen((msg)=> {
             if (msg.profile) {
                 this.userId(msg.profile.id);
@@ -181,14 +149,9 @@ export class CreateDomCenter extends ArticleCenter {
 
     }
 
-    onShowSidebar(data) {
-     /*   this.setState({
-            active: data
-        });*/
-    }
 
     componentWillUnmount() {
-        this.listenStoreMenuSidebar.stop();
+
     }
 
 

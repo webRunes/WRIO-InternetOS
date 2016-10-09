@@ -188,6 +188,7 @@ gulp.task("devserv", function(callback) {
 
     new WebpackDevServer(compiler, {
         // server and middleware options
+        headers: { "Access-Control-Allow-Origin": "*" },
     }).listen(3000, "localhost", function(err) {
             if(err) throw new gutil.PluginError("webpack-dev-server", err);
             // Server listening
