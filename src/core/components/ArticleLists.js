@@ -15,7 +15,7 @@ const ArticleLists = React.createClass({
             articleName = item.getKey('name'),
             about = item.getKey('about'),
             articleHash = replaceSpaces(articleName),
-            image = item.data.image || getResourcePath('/img/no-photo-200x200.png')
+            image = item.data.image || getResourcePath('/img/no-photo-200x200.png');
         if (item.getType() !== 'Article') {
             // if itemlist is passed, just skip
             return null;
