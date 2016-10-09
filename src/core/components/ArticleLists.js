@@ -1,37 +1,37 @@
 import React from 'react';
-import applyMentions from '../jsonld/applyMentions.js';
 import {getResourcePath} from  '../global';
+import Article from '../jsonld/entities/Article.js';
 
 import UrlMixin from '../mixins/UrlMixin';
 import {replaceSpaces} from '../components/CreateDomRight.js';
 
-var CreateArticleLists = React.createClass({
+const ArticleLists = React.createClass({
     propTypes: {
         data: React.PropTypes.object.isRequired
     },
 
     render: function() {
-        var o = this.props.data,
-            articleName = o.name,
-            articleHash = replaceSpaces(articleName);
-        if (o['@type'] !== 'Article') {
+        let item = this.props.data,
+            articleName = item.getKey('name'),
+            about = item.getKey('about'),
+            articleHash = replaceSpaces(articleName),
+            image = item.data.image || getResourcePath('/img/no-photo-200x200.png');
+        if (item.getType() !== 'Article') {
+            // if itemlist is passed, just skip
             return null;
         }
-        if (o.m && o.m.name) {
-            articleName = applyMentions(o.m.name);
-        }
         return (
-            <a href={UrlMixin.fixUrlProtocol(o.url)}>
+            <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
                 <article>
                     <div className="media thumbnail clearfix" id="plusWrp">
                         <header className="col-xs-12">
                             <h2 id={articleHash}>
                                 <span>{articleName}</span>
-                                {/* <sup>{o.name}</sup> */}
+
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                             <img className="pull-left" src={getResourcePath('/img/no-photo-200x200.png')} />
+                             <img className="pull-left" src={image} style={{objectFit:"contain"}} />
                              {/*(o.image) ? <img className="pull-left" src={o.image} /> : null*/}
 
                             {
@@ -46,7 +46,7 @@ var CreateArticleLists = React.createClass({
                             }
                         </div>
                         <div className="col-xs-12 col-md-6">
-                            <p>{o.about}</p>
+                            <p>{about}</p>
                             {/*
                             <ul className="actions">
                                 <li><span className="glyphicon glyphicon-plus"></span>Add</li>
@@ -62,4 +62,4 @@ var CreateArticleLists = React.createClass({
     }
 });
 
-module.exports = CreateArticleLists;
+export default ArticleLists;

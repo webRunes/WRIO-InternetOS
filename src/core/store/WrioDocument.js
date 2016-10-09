@@ -15,6 +15,18 @@ export default Reflux.createStore({
     init() {
       this.loading = false;
       this.lists = {};
+      this.updateIndex = 0;
+        this.updateHook = null;
+    },
+
+    // this hook is triggered after DOM redraw, to set article hash
+    // it's needed because you can't set artcile hash before article is rendered
+
+    onPostUpdateHook() {
+        if (this.updateHook) {
+            this.updateHook();
+            this.updateHook = null;
+        }
     },
 
     getListType() {
@@ -41,10 +53,8 @@ export default Reflux.createStore({
     },
 
     getJsonLDProperty: function (field) {
-        var json = this.mainPage;
-        for (var j = 0; j < json.length; j++) {
-            var section = json[j];
-            var data = section[field];
+        for (let section of this.mainPage) {
+            const data = section.data[field];
             if (data) {
                 return data;
             }
@@ -54,14 +64,14 @@ export default Reflux.createStore({
 
     hasCommentId() {
         var comment = this.getJsonLDProperty('comment');
-        if (comment) return true;
+        return comment !== null;
     },
 
 
     hasArticle() {
         var r = false;
         this.data.forEach((e) => {
-            if (e['@type'] === 'Article') {
+            if (e.getType() === 'Article') {
                 r = true;
             }
         });
@@ -83,32 +93,56 @@ export default Reflux.createStore({
 
     },
 
+    _forceHash() {
+        setTimeout(() => {
+            const orig = window.location.hash;
+            window.location.hash = orig + ' ';
+            window.location.hash = orig;
+
+        },100);
+    },
+
     onLoadDocumentWithData(data,url) {
         this.mainPage = data; // backup core page
         this.setData(data,url);
+        this.updateIndex++;
         this.trigger({'change':true});
+        // Quick hack to make page jump to needed section after page have been edited
+        this.updateHook = () => this._forceHash();
+    },
+
+    _setLoadingError() {
+        this.loading = {error: "Cannot get page"};
+        this.updateIndex++;
+        this.trigger({'error':true});
+        console.log("Error getting page");
+    },
+
+    _resetError() {
+        this.updateIndex++;
+        this.trigger({'error':false});
     },
 
     onLoadDocumentWithUrl(url, type) {
         this.loading = true;
         this.trigger({"loading":true});
         getHttp(url,(data) => {
-            if (data === null) {
-                this.loading = {error: "Cannot get page"};
-                this.trigger({'error':true});
+            if (!data) {
+                this._setLoadingError();
                 this.data = {};
-                console.log("Error getting page");
                 return;
             }
             this.setData(data, url, type);
             this.loading = false;
+            this.updateIndex++;
             this.trigger({'change':true});
         });
     },
 
     onLoadList(name,data) {
         this.lists[name.toLowerCase()] = data;
-        this.trigger({'change':'true'});
+        this.updateIndex++;
+      //  this.trigger({'change':'true'});
     },
 
     performPageTransaction(path) {
@@ -119,6 +153,7 @@ export default Reflux.createStore({
     onUpdateUrl() {
         var obj = UrlMixin.searchToObject();
         this.url = window.location.href;
+        this.updateIndex++;
         this.trigger({'urlChanged':obj});
     },
 
@@ -136,9 +171,63 @@ export default Reflux.createStore({
         this.type = type;
         this.id = id;
         this.setData(this.data,'',type);
+        //this.updateIndex++;
         this.trigger({'change':'true'});
-    }
 
+    },
+
+    getUpdateIndex() {
+        return this.updateIndex;
+    },
+
+    // methods what was in the center.js store
+    _setUrlWithParams: function(type, name, isRet) {
+        var search = '?list=' + name,
+            path = window.location.pathname + search;
+        if (isRet) {
+            return path;
+        } else {
+            window.history.pushState('page', 'params', path);
+        }
+        this.onUpdateUrl();
+    },
+    _setUrlWithHash: function(name, isRet) {
+        window.history.pushState('page', 'params', window.location.pathname);
+        window.location.hash = name;
+        this.updateHook = () => this._forceHash();
+        this.onUpdateUrl();
+    },
+
+    // this actions are called when browsing through the right menu
+
+    onExternal: function(url, name, isRet, cb) {
+        console.log("====OnEXTERNAL",name);
+        var type = 'external';
+        cb ? cb(this._setUrlWithParams(type, name, isRet)) : this._setUrlWithParams(type, name, isRet);
+        getHttp(url, (data) => {
+            this.onLoadList(name,data);
+        });
+    },
+    onCover: function(url, init, isRet, cb) {
+        console.log("====OnCOVER");
+        var type = 'cover',
+            name = 'Cover';
+        if (!init) {
+            cb ? cb(this._setUrlWithParams(type, name, isRet)) : this._setUrlWithParams(type, name, isRet);
+        }
+        //      WrioDocumentActions.loadDocumentWithUrl(url,type);
+        getHttp(url, (data) => {
+            this.onLoadList('cover',data);
+        });
+
+    },
+    onArticle: function(id, hash, isRet) {
+        this._resetError();
+        console.log("====OnARTICLE");
+        var type = 'article';
+        this._setUrlWithHash(hash, isRet);
+        this.onChangeDocumentChapter(type,id);
+    }
 
 
 });

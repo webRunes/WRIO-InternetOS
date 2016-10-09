@@ -4,6 +4,7 @@
 WRIO - webRunes Input/Output.
 (coming soon)
 
+
 ##Official Hub
 [wrioos.com](https://wrioos.com)
 
@@ -12,6 +13,36 @@ Esperanto and English are primary languages. Yet, since the project is developed
 https://
 [more coming soon]
 
+# Description
 
+Main front end repository, compiled files are start.js and main.js 
+
+Example html file, using start.js script:
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>webRunes example</title>
+        <script type="application/ld+json">....</script>
+        <script type="application/ld+json">....</script>
+        <script type="application/ld+json">....</script>
+    </head>
+    <body>
+        <script type="text/javascript" src="https://wrioos.com/start.js"></script>
+    </body>
+</html>
+```
+
+start.js script is located at the end of the .html file. It is responsible for loading JSON-LD description of the page from ```<script type="application/ld+json">``` section, for processing JSON-LD and dynamic generation of the page. Each .html file can contain up to 3 JSON-LD sections.
+
+start.js is a loader. It checks browsers for compatibility, runs preliminary tests, and then loads main.js containing the main code.
+
+# Contributing
+
+Useful links to start
+
+[Local development of WRIO-InternetOS front end](https://github.com/webRunes/WRIO-InternetOS/wiki/Deploy-on-localhost)  
+[How to setup development process on local machine] (https://github.com/webRunes/WRIO-local-dev)  
+[WRIO OS Infrastructure](https://github.com/webRunes/WRIO-InternetOS/wiki/Infrastructure)  
 
 Powered by [Open Copyright](https://opencopyright.wrioos.com)

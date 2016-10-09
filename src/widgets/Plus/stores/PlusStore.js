@@ -12,10 +12,6 @@ var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' :
 
 export default Reflux.createStore({
     listenables: Actions,
-    getUrl: function() {
-        var plus = 'Plus-WRIO-App';
-        return host + plus + '/default/index.html';
-    },
     init: function() {
         storage.onConnect()
             .then(() =>{
@@ -294,18 +290,6 @@ export default Reflux.createStore({
                 cb.call(this);
             }
         });
-    },
-    filterItemList: function(jsons) {
-        var items = [];
-        if (jsons) {
-            jsons.forEach(function(json) {
-                if ((json.itemListElement !== undefined) && (json['@type'] === 'ItemList')) {
-                    items = items.concat(json.itemListElement);
-                }
-            });
-        }
-        this.pending += items.length;
-        this.core(items);
     },
     core: function(items) {
         items.forEach(function(o, order) {
