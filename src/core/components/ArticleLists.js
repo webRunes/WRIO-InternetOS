@@ -31,7 +31,7 @@ const ArticleLists = React.createClass({
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                             <img className="pull-left" src={image} style={{objectFit:"contain"}} />
+                             <div className="img pull-left" background="{image}"></div>
                              {/*(o.image) ? <img className="pull-left" src={o.image} /> : null*/}
 
                             {
