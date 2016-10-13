@@ -26,7 +26,7 @@ const CreateItemLists = React.createClass({
                   </h2>
                 </header>
                 <div className="col-xs-12 col-md-6 pull-right">
-                  <img className="pull-left" src={image} className="img-responsive" style={{objectFit:"contain"}}/>
+                  <div className="img pull-left" style={{background:"url({image})"}}></div>
                   <ul className="details">
                     <li>Created: {createdDate}</li>
                     <li>Access: Free</li>
