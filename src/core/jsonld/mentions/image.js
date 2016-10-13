@@ -27,8 +27,8 @@ class Image extends AbstractMention {
 
     renderParagraphs(paragraphs) {
         return paragraphs.map((p,key) => {
-            return (<p key={key}>{p}</p>)
-        })
+            return (<p key={key}>{p}</p>);
+        });
     }
 
     render () {
