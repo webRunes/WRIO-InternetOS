@@ -25,14 +25,21 @@ class Image extends AbstractMention {
         return [before,this,after];
     }
 
+    renderParagraphs(paragraphs) {
+        return paragraphs.map((p,key) => {
+            return (<p key={key}>{p}</p>)
+        })
+    }
+
     render () {
 
-        var figcaption;
+        let figcaption;
         if (this.name) {
+            let desc = typeof this.description == 'object' ? this.renderParagraphs(this.description) : this.description;
             figcaption = (
                 <figcaption className="callout figure-details">
                     <h5>{this.name}</h5>
-                    <p>{this.description}</p>
+                    <p>{desc}</p>
                 </figcaption>);
         }
         return (
