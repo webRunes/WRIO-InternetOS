@@ -140,7 +140,8 @@ var CreateDomRight = React.createClass({
     },
 
     componentWillMount: function () {
-        this.props.data.forEach((o) => {
+        this.props.data.forEach((item) => {
+            let o = item.data;
             if (o['@type'] === 'Article') {
                 this.setState({
                     article: o,
