@@ -18,4 +18,5 @@ describe('mention test', () => {
         mention.start.should.be.equal(104);
         mention.order.should.be.equal(3);
     });
+
 });

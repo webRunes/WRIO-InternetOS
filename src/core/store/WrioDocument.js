@@ -139,10 +139,13 @@ export default Reflux.createStore({
         });
     },
 
-    onLoadList(name,data) {
-        this.lists[name.toLowerCase()] = data;
+    onLoadList(name,data, type) {
+        this.lists[name.toLowerCase()] = {
+            "data": data,
+            "type": type
+        };
         this.updateIndex++;
-      //  this.trigger({'change':'true'});
+        this.trigger({'change':'true'});
     },
 
     performPageTransaction(path) {
@@ -182,6 +185,7 @@ export default Reflux.createStore({
 
     // methods what was in the center.js store
     _setUrlWithParams: function(type, name, isRet) {
+        // TODO type have no meaning in current realization
         var search = '?list=' + name,
             path = window.location.pathname + search;
         if (isRet) {
@@ -208,16 +212,14 @@ export default Reflux.createStore({
             this.onLoadList(name,data);
         });
     },
-    onCover: function(url, init, isRet, cb) {
+    onCover: function(url, name, init, isRet, cb) {
         console.log("====OnCOVER");
-        var type = 'cover',
-            name = 'Cover';
         if (!init) {
-            cb ? cb(this._setUrlWithParams(type, name, isRet)) : this._setUrlWithParams(type, name, isRet);
+            this._setUrlWithParams('cover', name, isRet);
         }
         //      WrioDocumentActions.loadDocumentWithUrl(url,type);
         getHttp(url, (data) => {
-            this.onLoadList('cover',data);
+            this.onLoadList(name,data,'cover');
         });
 
     },
