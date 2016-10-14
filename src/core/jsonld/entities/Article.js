@@ -5,7 +5,7 @@
 import LdJsonObject from './LdJsonObject.js';
 import sortByOrder from 'lodash.sortbyorder';
 import _ from 'lodash';
-
+import Image from "../mentions/image.js";
 
 export default class Article extends LdJsonObject {
     constructor(json,order,root) {
@@ -14,13 +14,22 @@ export default class Article extends LdJsonObject {
 
     getBody() {
         this.data.articleBody = this.data.articleBody || [];
-        const body =  this.data.articleBody.map( (item, i) => {
+        let body = [];
+        let i = 0;
+        for (let item of this.data.articleBody) {
             if (this.mappedMent.articleBody && this.mappedMent.articleBody[i]) {
-                return this.mappedMent.articleBody[i].render(i);
+                let m = this.mappedMent.articleBody[i];
+                body.push(m.render(i));
+                if (m instanceof Image) { // do not replace text if we are dealing with images
+                    // TODO may cause problems in cases, when replaced text contains mentions too
+                    body.push(item);
+                }
+
             } else {
-                return item;
+                body.push(item);
             }
-        });
+            i++;
+        }
         return body;
     }
 
