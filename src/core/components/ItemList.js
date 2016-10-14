@@ -5,11 +5,10 @@ import Thumbnail from './misc/ListThumbnail.js';
 
 // TODO check if it is needed ?
 
-const CreateItemLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-    render: function() {
+class ItemListElement extends React.Component {
+
+
+    render() {
         var item = this.props.data,
             title = item.getKey('name'),
             image = item.data.image || getResourcePath('/img/no-photo-200x200.png'),
@@ -42,6 +41,24 @@ const CreateItemLists = React.createClass({
           </a>
         );
     }
-});
+}
 
-module.exports = CreateItemLists;
+ItemListElement.propTypes =  {
+    data: React.PropTypes.object.isRequired
+};
+
+export default class ItemList extends React.Component {
+    render () {
+        const list = this.props.data;
+
+        let r = list.children.map((item, key) => {
+            return <ItemListElement data={item} key={key}/>;
+        });
+        return r;
+    }
+}
+
+ItemList.propTypes =  {
+    data: React.PropTypes.object.isRequired
+};
+

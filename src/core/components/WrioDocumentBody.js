@@ -3,7 +3,7 @@ import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
-import CreateItemLists from './CreateItemLists';
+import CreateItemList from './ItemList.js';
 import CreateCover from './CreateCover';
 import {Carousel} from 'react-bootstrap';
 import {CarouselItem} from 'react-bootstrap';
@@ -85,6 +85,15 @@ class DocumentBody extends React.Component {
         WrioDocumentActions.postUpdateHook();
     }
 
+    getItemLists(data) {
+        return data.map((e) => {
+            data.filter((o) => o instanceof ItemList)
+                .map(function (list) {
+                    return <ItemList data={list} />
+                });
+        });
+    }
+
     getContentByName(url) {
         let listName = url.list;
         if (url.cover) {
@@ -101,7 +110,7 @@ class DocumentBody extends React.Component {
                 if (type === 'cover') {
                     return this.getCoverList(data);
                 } else {
-                    return this.getItemList(data);
+                    return this.getItemLists(data);
                 }
             }
         }
@@ -125,7 +134,7 @@ class DocumentBody extends React.Component {
         }
 
         if (numArticles == 0 && numLists > 0) {
-            return this.getItemList(data);
+            return this.getItemLists(data);
         }
 
         return data
@@ -136,15 +145,6 @@ class DocumentBody extends React.Component {
             });
     }
 
-    getItemList(data) {
-        data = data || [];
-        return data.filter((o) => o instanceof ItemList)
-            .map(function (list) {
-                return list.children.map(function (item, key) {
-                    return <CreateItemLists data={item} key={key}/>;
-                });
-            });
-    }
 
 
     getCoverList(data) {

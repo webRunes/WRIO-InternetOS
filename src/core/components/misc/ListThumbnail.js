@@ -6,7 +6,7 @@ export default class Thumbnail extends React.Component {
                 <div className="img pull-left" style={{
                     background:`url(${this.props.image})`,
                     width: "120px","height": "80px",
-                    "background-size":"cover"
+                    "backgroundSize":"cover"
                   }}></div>);
     }
 }
