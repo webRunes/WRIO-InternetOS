@@ -86,26 +86,23 @@ class DocumentBody extends React.Component {
     }
 
     getContentByName(url) {
+        let listName = url.list;
         if (url.cover) {
-            var data = WrioDocument.getListItem('cover');
-            if (!data) {
-                return null;
-            }
-            return this.getCoverList();
+            listName = 'cover';
         }
 
-        if (typeof url.list === 'undefined') {
-            return this.getArticleContents(WrioDocument.getDocument());
+        if (typeof listName === 'undefined') {
+            return this.getArticleContents(WrioDocument.getDocument()); // show document if no list specified
         } else {
-            var name = url.list.toLowerCase();
-            var data = WrioDocument.getListItem(name);
-            if (!data) {
-                return null;
-            }
-            if (name === 'cover') {
-                return this.getCoverList(data);
-            } else {
-                return this.getItemList(data);
+           listName = listName.toLowerCase();
+            let item = WrioDocument.getListItem(listName);
+            if (item) {
+                let {data, type} = item;
+                if (type === 'cover') {
+                    return this.getCoverList(data);
+                } else {
+                    return this.getItemList(data);
+                }
             }
         }
     }
@@ -138,9 +135,6 @@ class DocumentBody extends React.Component {
                 }
             });
     }
-/*
-
- */
 
     getItemList(data) {
         data = data || [];

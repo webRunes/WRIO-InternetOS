@@ -1,6 +1,7 @@
 import React from 'react';
 import {getResourcePath} from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
+import Thumbnail from './misc/ListThumbnail.js';
 
 // TODO check if it is needed ?
 
@@ -26,7 +27,7 @@ const CreateItemLists = React.createClass({
                   </h2>
                 </header>
                 <div className="col-xs-12 col-md-6 pull-right">
-                  <div className="img pull-left" style={{background:"url({image})"}}></div>
+                  <Thumbnail image={image} />
                   <ul className="details">
                     <li>Created: {createdDate}</li>
                     <li>Access: Free</li>

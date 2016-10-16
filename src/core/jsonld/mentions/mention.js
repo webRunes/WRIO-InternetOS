@@ -85,17 +85,19 @@ class Mention extends AbstractMention {
         //    "about": "Text inside the ticket popup.",
         //    "url": "http://webrunes.com/blog.htm?'dolor sit amet':1,104"
         //},
+
+        // TODO replace with regexp (.+)\?\'(.+)\':([0-9]+),([0-9]+)
         super(opts);
 
         this.className = "link";
         this.name = opts.name;
         this.url = opts.url;
 
-        var hash = this._coming_soon(this.url);
-        if (hash) {
-            this.hash = hash;
-        }
-        var cutUrl = this.url.split('\''),
+
+
+        this.hash = this._coming_soon(this.url);
+
+        let cutUrl = this.url.split('\''),
             positions = cutUrl[2].replace(':', '').split(',');
         this.linkWord = cutUrl[1];
         this.linkUrl = cutUrl[0].replace(/\?$/g,'') ; //+ this.name.replace(/\s/g, '-');

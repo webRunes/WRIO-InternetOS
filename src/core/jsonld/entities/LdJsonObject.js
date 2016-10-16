@@ -145,8 +145,13 @@ export default class LdJsonObject {
         mentionType = mentionType || MappedMention;
 
         if (mention instanceof Image) {
-            this.mappedMent[key] = this.mappedMent[key] || [];
-            this.mappedMent[key][arrayPos] = this.mappedMent[key][arrayPos]||  mention;
+            if (arrayPos !== undefined) {
+                this.mappedMent[key] = this.mappedMent[key] || [];
+                this.mappedMent[key][arrayPos] = this.mappedMent[key][arrayPos]||  mention;
+            } else {
+                this.mappedMent[key] = this.mappedMent[key] || mention;
+            }
+
             return;
         }
 
@@ -196,7 +201,11 @@ export default class LdJsonObject {
 
     getKey(block) {
         if (this.mappedMent[block]) {
-            return this.mappedMent[block].render();
+            let mention = this.mappedMent[block];
+            if (!mention) {
+                console.error("Unable to get mapped mention",block);
+            }
+            return mention.render();
         } else {
             return this.data[block];
         }

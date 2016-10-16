@@ -1,9 +1,9 @@
 import React from 'react';
 import {getResourcePath} from  '../global';
 import Article from '../jsonld/entities/Article.js';
-
 import UrlMixin from '../mixins/UrlMixin';
 import {replaceSpaces} from '../components/CreateDomRight.js';
+import Thumbnail from './misc/ListThumbnail.js';
 
 const ArticleLists = React.createClass({
     propTypes: {
@@ -31,7 +31,7 @@ const ArticleLists = React.createClass({
                             </h2>
                         </header>
                         <div className="col-xs-12 col-md-6 pull-right">
-                        <div className="img pull-left" style={{background:"url({image})"}}></div>
+                        <Thumbnail image={image} />
                              {/*(o.image) ? <img className="pull-left" src={o.image} /> : null*/}
 
                             {
