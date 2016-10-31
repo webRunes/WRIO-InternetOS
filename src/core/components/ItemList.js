@@ -54,7 +54,16 @@ export default class ItemList extends React.Component {
         let r = list.children.map((item, key) => {
             return <ItemListElement data={item} key={key}/>;
         });
-        return r;
+
+        if (list.data.name) {
+            <article />
+        }
+        return <div>
+            <div className="paragraph">
+                {list.data.description}
+            </div>
+            {r}
+        </div>;
     }
 }
 

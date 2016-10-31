@@ -86,13 +86,10 @@ class DocumentBody extends React.Component {
     }
 
     getItemLists(data) {
-        return data.map((e) => {
-            data.filter((o) => o instanceof ItemList)
-                .map(function (list) {
-                    return <ItemList data={list} />
-                });
-        });
-    }
+        data = data || [];
+        return data.filter((o) => o instanceof ItemList)
+            .map( (list,key) => <CreateItemList data={list} key={key} />);
+        }
 
     getContentByName(url) {
         let listName = url.list;
