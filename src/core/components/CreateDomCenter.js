@@ -16,6 +16,7 @@ import ActionMenu from '../../widgets/Plus/actions/menu';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
+import CreatePresale from '../../widgets/Presale.js';
 import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
@@ -285,6 +286,16 @@ export class TransactionsCenter extends CreateDomCenter {
        // this.state.actionButton = "Transactions";
         this.state.transactionsModeFromUrl = true;
         return this.generateCenterWithContents (<CreateTransactions />);
+
+    }
+}
+
+
+export class PresaleCenter extends CreateDomCenter {
+    render() {
+        // this.state.actionButton = "Transactions";
+        this.state.transactionsModeFromUrl = true;
+        return this.generateCenterWithContents (<CreatePresale />);
 
     }
 }
