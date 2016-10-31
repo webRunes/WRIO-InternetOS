@@ -55,15 +55,15 @@ export default class ItemList extends React.Component {
             return <ItemListElement data={item} key={key}/>;
         });
 
-        if (list.data.name) {
-            <article />
-        }
-        return <div>
+       // if (list.data.name) {
+       //     <article />;
+       // }
+        return (<div>
             <div className="paragraph">
                 {list.data.description}
             </div>
             {r}
-        </div>;
+        </div>);
     }
 }
 
