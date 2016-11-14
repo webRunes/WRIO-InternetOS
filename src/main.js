@@ -73,7 +73,7 @@ export default class Main extends React.Component {
            return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.state.data}/>);
         }
 
-        if (this.state.url.presale && window.location.hostname.startsWith('webgold.wrioos.')) {
+        if (this.state.url.presale && (window.location.hostname.startsWith('webgold.wrioos.') || window.location.hostname.startsWith('wrioos.local'))) {
             return this.renderWithCenter(<PresaleCenter converter={converter} data={this.state.data}/>);
         }
 
