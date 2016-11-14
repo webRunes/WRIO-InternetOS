@@ -82,22 +82,20 @@ var CreateTitter = React.createClass({
             addFundsMode: true
         });
     },
-    prepTwitWidget: function () {
-        var that = this;
+    prepTwitWidget () {
         var titteriframe = document.getElementById('titteriframe');
         if (!titteriframe) {
             return;
         }
-        that.setState({nocomments: false});
-        titteriframe.addEventListener('load', function () {
-            var comment;
-            var id = WrioDocument.getJsonLDProperty('comment');
-            if (id === null) {
-                that.setState({nocomments: true});
-            } else {
-                var twitterWidget = new TwitterWidet(id);
-            }
-        });
+        this.setState({nocomments: false});
+
+        let comment;
+        let id = WrioDocument.getJsonLDProperty('comment');
+        if (id === null) {
+            this.setState({nocomments: true});
+        } else {
+            var twitterWidget = new TwitterWidet(id);
+        }
     },
     editIframeStyles: {
         width: '100%',
@@ -191,8 +189,6 @@ var CreateTitter = React.createClass({
     render: function () {
         var parts = [];
 
-
-
         if (!WrioDocument.hasCommentId() || this.state.nocomments) {
             parts.push(
                 <ul className="breadcrumb" key="comm">
@@ -200,10 +196,6 @@ var CreateTitter = React.createClass({
                 </ul>);
             parts.push(<CommentsDisabled key="comdis" isAuthor={this.state.isAuthor}/>);
             return <div>{parts}</div>;
-        }
-
-        if (this.state.isTemporary) {
-
         }
 
         var addCommentFundsMode;
@@ -219,9 +211,12 @@ var CreateTitter = React.createClass({
 
             if (this.state.isTemporary) {
                 parts.push(<LoginAndComment />);
+                twStyle = {
+                    display: "block"
+                };
+
             } else {
                 if (this.state.article) {
-
                     parts.push(
                         <section key="b">
                             <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
