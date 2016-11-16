@@ -1,14 +1,14 @@
 import React from 'react';
 import {getResourcePath} from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
+import Thumbnail from './misc/ListThumbnail.js';
 
 // TODO check if it is needed ?
 
-const CreateItemLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-    render: function() {
+class ItemListElement extends React.Component {
+
+
+    render() {
         var item = this.props.data,
             title = item.getKey('name'),
             image = item.data.image || getResourcePath('/img/no-photo-200x200.png'),
@@ -26,7 +26,7 @@ const CreateItemLists = React.createClass({
                   </h2>
                 </header>
                 <div className="col-xs-12 col-md-6 pull-right">
-                  <img className="pull-left" src={image} className="img-responsive" style={{objectFit:"contain"}}/>
+                  <Thumbnail image={image} />
                   <ul className="details">
                     <li>Created: {createdDate}</li>
                     <li>Access: Free</li>
@@ -41,6 +41,33 @@ const CreateItemLists = React.createClass({
           </a>
         );
     }
-});
+}
 
-module.exports = CreateItemLists;
+ItemListElement.propTypes =  {
+    data: React.PropTypes.object.isRequired
+};
+
+export default class ItemList extends React.Component {
+    render () {
+        const list = this.props.data;
+
+        let r = list.children.map((item, key) => {
+            return <ItemListElement data={item} key={key}/>;
+        });
+
+       // if (list.data.name) {
+       //     <article />;
+       // }
+        return (<div>
+            <div className="paragraph">
+                {list.data.description}
+            </div>
+            {r}
+        </div>);
+    }
+}
+
+ItemList.propTypes =  {
+    data: React.PropTypes.object.isRequired
+};
+

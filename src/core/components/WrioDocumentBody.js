@@ -3,7 +3,7 @@ import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
-import CreateItemLists from './CreateItemLists';
+import CreateItemList from './ItemList.js';
 import CreateCover from './CreateCover';
 import {Carousel} from 'react-bootstrap';
 import {CarouselItem} from 'react-bootstrap';
@@ -85,27 +85,30 @@ class DocumentBody extends React.Component {
         WrioDocumentActions.postUpdateHook();
     }
 
-    getContentByName(url) {
-        if (url.cover) {
-            var data = WrioDocument.getListItem('cover');
-            if (!data) {
-                return null;
-            }
-            return this.getCoverList();
+    getItemLists(data) {
+        data = data || [];
+        return data.filter((o) => o instanceof ItemList)
+            .map( (list,key) => <CreateItemList data={list} key={key} />);
         }
 
-        if (typeof url.list === 'undefined') {
-            return this.getArticleContents(WrioDocument.getDocument());
+    getContentByName(url) {
+        let listName = url.list;
+        if (url.cover) {
+            listName = 'cover';
+        }
+
+        if (typeof listName === 'undefined') {
+            return this.getArticleContents(WrioDocument.getDocument()); // show document if no list specified
         } else {
-            var name = url.list.toLowerCase();
-            var data = WrioDocument.getListItem(name);
-            if (!data) {
-                return null;
-            }
-            if (name === 'cover') {
-                return this.getCoverList(data);
-            } else {
-                return this.getItemList(data);
+           listName = listName.toLowerCase();
+            let item = WrioDocument.getListItem(listName);
+            if (item) {
+                let {data, type} = item;
+                if (type === 'cover') {
+                    return this.getCoverList(data);
+                } else {
+                    return this.getItemLists(data);
+                }
             }
         }
     }
@@ -128,7 +131,7 @@ class DocumentBody extends React.Component {
         }
 
         if (numArticles == 0 && numLists > 0) {
-            return this.getItemList(data);
+            return this.getItemLists(data);
         }
 
         return data
@@ -138,19 +141,7 @@ class DocumentBody extends React.Component {
                 }
             });
     }
-/*
 
- */
-
-    getItemList(data) {
-        data = data || [];
-        return data.filter((o) => o instanceof ItemList)
-            .map(function (list) {
-                return list.children.map(function (item, key) {
-                    return <CreateItemLists data={item} key={key}/>;
-                });
-            });
-    }
 
 
     getCoverList(data) {

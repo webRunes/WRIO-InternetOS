@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Showdown from 'showdown';
 import CreateDomLeft from './core/components/CreateDomLeft';
 import CreateDomRight from './core/components/CreateDomRight';
-import {CreateDomCenter, TransactionsCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
+import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
 import {getServiceUrl,getDomain} from './core/servicelocator.js';
 import sendHeight  from './core/components/WindowDimensions';
 import LdJsonManager from './core/jsonld/scripts';
@@ -71,6 +71,10 @@ export default class Main extends React.Component {
 
         if (this.state.url.transactions) {
            return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.state.data}/>);
+        }
+
+        if (this.state.url.presale && (window.location.hostname.startsWith('webgold.wrioos.') || window.location.hostname.startsWith('wrioos.local'))) {
+            return this.renderWithCenter(<PresaleCenter converter={converter} data={this.state.data}/>);
         }
 
         if (this.state.url.create) {

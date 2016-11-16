@@ -95,18 +95,14 @@ class ArticleButton extends MenuButton{
 class CoverButton extends MenuButton {
     onClick (e) {
         console.log("Cover button clicked");
-        WrioDocumentActions.cover(this.props.data.url);
+        WrioDocumentActions.cover(this.props.data.url, this.props.data.name);
         super.onClick(e);
     }
     componentWillMount () {
         if (this.props.isActive) {
             this.props.active(this);
         }
-        WrioDocumentActions.cover(this.props.data.url, null, true, (url) => {
-            this.setState({
-                url: url
-            });
-        });
+        WrioDocumentActions.cover(this.props.data.url, this.props.data.name, null, true);
     }
 }
 
@@ -144,7 +140,8 @@ var CreateDomRight = React.createClass({
     },
 
     componentWillMount: function () {
-        this.props.data.forEach((o) => {
+        this.props.data.forEach((item) => {
+            let o = item.data;
             if (o['@type'] === 'Article') {
                 this.setState({
                     article: o,
