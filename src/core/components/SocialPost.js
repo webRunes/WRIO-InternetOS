@@ -33,7 +33,7 @@ class SocialPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            html:"<span><img src=\"https://wrioos.com/Default-WRIO-Theme/img/loading.gif\" /></span>"
+            html:"<img class=\"loading\" src=\"https://wrioos.com/Default-WRIO-Theme/img/loading.gif\" />"
         };
 
     }
