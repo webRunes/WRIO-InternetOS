@@ -44,8 +44,7 @@ export class AlertWelcome extends React.Component {
 
     render() {
         var alert = ( <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick.bind(this)}>
-            <h5>First time here?</h5><br/>
-
+            <h5>First time here?</h5>
             <p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>.
                 Click it to open a side menu</p>
         </Alert>);
@@ -100,7 +99,7 @@ export class AlertWarning extends React.Component {
 
         if (!this.state.hidden) {
             return (<Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick.bind(this)}>
-                <strong>Attention!</strong> This is an experimental project under development. <a href="https://www.youtube.com/watch?v=fd-wMXkJxb4">Stated functions</a> will be added as it progresses
+                <strong>Attention!</strong> This is an experimental project under development. <a href="https://www.youtube.com/watch?v=fd-wMXkJxb4" target="_blank">Stated functions</a> will be added as it progresses.
             </Alert>);
         } else {
             return false;
