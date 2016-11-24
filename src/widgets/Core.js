@@ -20,6 +20,9 @@ class Core extends React.Component{
             if (msg.coreHeight) {
                 document.getElementById('coreiframe').style.height = msg.coreHeight+'px';
             }
+            if (msg.followLink) {
+                window.location.href = msg.followLink;
+            }
         });
     }
 
