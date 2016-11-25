@@ -63,7 +63,7 @@ class DocumentBody extends React.Component {
         }
 
         if (loading === true) {
-            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>);
+            return (<img src="https://default.wrioos.com/img/loading.gif"/>);
         }
 
         console.log("Document redraw");
@@ -71,7 +71,7 @@ class DocumentBody extends React.Component {
         var content = this.getContentByName(UrlMixin.searchToObject(WrioDocument.getUrl()));
 
         if (content == null) {
-            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>);
+            return (<img src="https://default.wrioos.com/img/loading.gif"/>);
         } else {
             return (
                 <article className="article_body">

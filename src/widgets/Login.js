@@ -146,7 +146,7 @@ class Login extends React.Component{
         var has, upgrade, lock, that = this;
 
         if (this.state.busy) {
-            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />);
+            return (<img src="https://default.wrioos.com/img/loading.gif" />);
         }
 
         if (this.state.upgrade.visible) {
