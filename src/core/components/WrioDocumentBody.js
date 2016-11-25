@@ -74,7 +74,7 @@ class DocumentBody extends React.Component {
             return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>);
         } else {
             return (
-                <article>
+                <article className="article_body">
                     {content}
                 </article>
             );
