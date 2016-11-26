@@ -148,7 +148,7 @@ class Mention extends AbstractMention {
          var linkUrl = this.linkUrl;
          var target, color;
          if (this.external) {
-             ext = (<sup><span className="glyphicon glyphicon-new-window"></span> {this.extra}</sup>);
+             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
              target = "_blank";
              linkUrl = this.externalUrl;
 
