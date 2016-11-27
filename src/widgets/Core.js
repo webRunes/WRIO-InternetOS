@@ -31,7 +31,7 @@ class Core extends React.Component{
             <div>
                 {!this.state.article ?
                     <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/create'}/>
-                               : <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + this.state.article}/>}
+                               : <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + encodeURIComponent(this.state.article)}/>}
             </div>
         );
     }
