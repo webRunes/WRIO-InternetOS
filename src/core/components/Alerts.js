@@ -103,7 +103,6 @@ export class AlertWarning extends React.Component {
                 <br />
                 <p>Click "Create post" to start receiving donates!</p>
                 <br />
-                <br />
                 <a href="https://core.wrioos.com/?create" className="btn btn-sm btn-success">Create post</a>
             </Alert>);
         } else {
