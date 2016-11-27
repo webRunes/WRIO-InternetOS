@@ -99,9 +99,11 @@ export class AlertWarning extends React.Component {
 
         if (!this.state.hidden) {
             return (<Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick.bind(this)}>
-                <strong>Attention!</strong> This is an experimental project under development. <a href="https://www.youtube.com/watch?v=ntQulTFH7hk" target="_blank">Stated functions</a><span className="glyphicon glyphicon-new-window"></span> will be added as it progresses.
+                <strong>Attention!</strong> This is an experimental project under development. <a href="https://www.youtube.com/watch?v=ntQulTFH7hk" target="_blank">Stated functions</a><sup><span className="glyphicon glyphicon-new-window"></span></sup> will be added as it progresses.
                 <br />
-                Click <a href="https://core.wrioos.com/?create">here</a> to create your first post and start receiving donates!
+                Click "Create post" to create your first post and start receiving donates!
+                <br />
+                <a href="https://core.wrioos.com/?create" className="btn btn-success">Create post</a>
             </Alert>);
         } else {
             return false;
