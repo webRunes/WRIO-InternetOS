@@ -1,7 +1,7 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-
+import PlusActions from './Plus/actions/PlusActions.js';
 var domain = getDomain();
 
 class Core extends React.Component{
@@ -23,7 +23,15 @@ class Core extends React.Component{
             if (msg.followLink) {
                 window.location.href = msg.followLink;
             }
+            if (msg.closeTab) {
+                this.closeTab();
+            }
         });
+    }
+
+    closeTab() {
+        let url = window.location.href;
+        PlusActions.del(url);
     }
 
     render() {
