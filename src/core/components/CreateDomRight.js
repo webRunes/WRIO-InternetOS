@@ -21,7 +21,7 @@ export function replaceSpaces(str) {
 }
 
 function isCover(o) {
-    return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp woud be better, huh?
+    return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
 }
 
 // abstract menu button

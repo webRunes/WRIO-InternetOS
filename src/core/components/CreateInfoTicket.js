@@ -44,7 +44,7 @@ export default class CreateInfoTicket extends React.Component {
                         <span className="glyphicon glyphicon-chevron-down pull-right"></span>
                         {this.props.article.name}
                     </a>
-                    <div className="in" id="ticket-element">
+                    <div className="in hidden-xs" id="ticket-element">
                         <div className="media thumbnail">
                             <div className="col-xs-12 pull-right">
                                 <img src={this.state.img} className="pull-left"></img>
