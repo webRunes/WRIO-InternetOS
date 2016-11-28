@@ -8,9 +8,13 @@ class Core extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            article: this.props.article.replace(/#.*/,'')
+            article: this.fixArticleUrl(this.props.article)
         };
    }
+
+    fixArticleUrl(url) {
+        return url ? url.replace(/#.*/,'') : url;
+    }
 
     componentDidMount() {
         WindowActions.coreMessage.listen((msg) => {
