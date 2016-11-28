@@ -59,7 +59,7 @@ export default class ItemList extends React.Component {
        //     <article />;
        // }
         return (<div>
-            <div className="paragraph">
+            <div className="paragraph list-paragraph">
                 {list.data.description}
             </div>
             {r}
