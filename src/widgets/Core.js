@@ -8,7 +8,7 @@ class Core extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            article: this.props.article
+            article: this.props.article.replace(/#.*/,'')
         };
    }
 
