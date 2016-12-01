@@ -50,8 +50,8 @@ var ArticleElement = React.createClass({
         return (
             <section>
                 {(element.hasPart()) ?
-                    <h1 id={chapter}>{articleName}</h1>:
-                    <h2 id={chapter}>{articleName}</h2>
+                    <h1 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h1>:
+                    <h2 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h2>
                 }
                 <div itemProp="articleBody">{this.articleBody()}</div>
                 {Parts}
