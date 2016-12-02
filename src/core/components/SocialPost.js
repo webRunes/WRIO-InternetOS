@@ -58,7 +58,7 @@ class SocialPost extends React.Component {
 
     render () {
         var htmlData = {__html: this.state.html};
-        return <div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={htmlData} />;
+        return <div className="paragraph"><div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={htmlData} /></div>;
     }
 }
 

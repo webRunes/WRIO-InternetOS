@@ -18,7 +18,7 @@ var ArticleElement = React.createClass({
         return elements.map(function (item,i) {
             return (<div className="paragraph" key={i}>
                 <div className="col-xs-12 col-md-6">
-                   <div className="paragraph">{item}</div>
+                   <div>{item}</div>
                 </div>
                 <div className="col-xs-12 col-md-6">
                     {/*  <aside>
