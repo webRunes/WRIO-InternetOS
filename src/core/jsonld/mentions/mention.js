@@ -27,8 +27,6 @@ export class MappedMention {
 
         const beforeLength = before.length + toReplace.length;
 
-
-
         if (m.linkWord != toReplace) {
             console.warn(`WARING: misplaced mention ${m.url} found word '${toReplace}' instead`);
         } else {

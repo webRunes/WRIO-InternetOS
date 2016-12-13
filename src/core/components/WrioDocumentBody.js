@@ -146,7 +146,7 @@ class DocumentBody extends React.Component {
 
     getCoverList(data) {
         var data = _.chain(data)
-            .pluck('children')
+            .map('children')
             .flatten()
             .filter(function (item) {
                 return !_.isEmpty(item);
