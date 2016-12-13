@@ -40,7 +40,7 @@ class Figure extends React.Component {
                 </figcaption>);
         }
         return (
-            <figure className="col-xs-12 col-md-6" className="paragraph">
+            <figure className="col-xs-12 col-md-6">
                 {this.props.content}
                 {figcaption}
             </figure>
@@ -84,7 +84,10 @@ class SocialPost extends React.Component {
 
     render () {
         var htmlData = {__html: this.state.html};
-        return <div ><div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={htmlData} /></div>;
+        const content = <div dangerouslySetInnerHTML={htmlData} />;
+        const title = this.props.data.data.sharedContent.headline;
+        const description= this.props.data.data.sharedContent.about;
+        return <Figure content={content} title={title} description={description}/>;
     }
 }
 
