@@ -39,6 +39,7 @@ deploy:
   bucket: wrioos.com
   acl: public_read
   skip_cleanup: true
+  local_dir: build
   detect_encoding: true # <== default is false
   on:
       branch: production

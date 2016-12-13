@@ -15,7 +15,7 @@ var eslint = require('gulp-eslint');
 var mocha = require('gulp-mocha');
 var headerfooter = require('gulp-headerfooter');
 var fs = require('fs');
-
+var webpack = require('webpack');
 
 var argv = require('yargs').argv;
 
@@ -80,105 +80,22 @@ function getVersion() {
 }
 var version = getVersion();
 
-gulp.task('babel-client-main', function() {
-    var main = browserify({
-        entries: './src/main.js',
-        debug: true
-    })
-        .transform(babelify)
-        .transform(envify(envify_params))
-        .bundle()
-        .on('error', function(err) {
-            console.log('Babel client:', err.toString());
-        })
-        .pipe(source('main.js'))
-        .pipe(buffer());
+gulp.task('babel-client', function(callback) {
 
-    if (!devmode) {
-        main = main.pipe(gulp.dest('./raw/'))
-            .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-            .pipe(uglify())
-            .pipe(headerfooter.footer(version))
-            .pipe(sourcemaps.write('./')); // writes .map file
-    } else {
-        console.log("Skip uglification...");
-    }
-    main
-        .pipe(gulp.dest('.'))
-        .pipe(notify("main.js built!!"));
-
-    return main;
-
-});
-
-gulp.task('babel-client-preloader', function() {
-
-    var preloader = browserify({
-        entries: './src/preloader.js',
-        debug: true
-    })
-      .transform(babelify)
-      .transform(envify(envify_params))
-      .bundle()
-      .on('error', function(err) {
-          console.log('Babel client:', err.toString());
-      })
-      .pipe(source('start.js'))
-      .pipe(buffer());
-
-        if (!devmode) {
-            preloader = preloader.pipe(gulp.dest('./raw/'))
-                .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-                .pipe(uglify())
-                .pipe(headerfooter.footer(version))
-                .pipe(sourcemaps.write('./')); // writes .map file
-        } else {
-            console.log("Skip uglification...");
-        }
-        preloader
-            .pipe(gulp.dest('.'));
-
-    return preloader;
-
-
-
-});
-
-/*
-"optionalDependencies": {
-    "passport-signin": "git+https://git@github.com/webRunes/Login-WRIO-App.git",
-    "plus": "git+https://git@github.com/webRunes/Plus-WRIO-App.git",
-    "titter-wrio-app": "git+https://git@github.com/webRunes/Titter-WRIO-App.git"
-}
-*/
-/*
-gulp.task('update-modules', function(callback) {
-    if (argv.dev) {
-        npm.load(['./package.json'],function (er, npm) {
-            npm.commands.install([
-                'file:../Plus-WRIO-App/'
-            ],function(err,cb){
-                callback();
-            });
+    webpack(require('./webpack.config.js'),
+        function(err, stats) {
+            if(err) throw new gutil.PluginError("webpack", err);
+            console.log("[webpack]", stats.toString({
+                // output options
+            }));
+            callback();
         });
-    } else {
-        callback();
-    }
-});
-*/
-gulp.task('default', ['lint','babel-client-preloader','babel-client-main']);
 
-gulp.task('watch', ['default'], function() {
-    gulp.watch([
-        'src/**/*.*',
-    ], ['babel-client-main']);
 
-    gulp.watch([
-        'src/preloader.js','src/core/global.js','src/core/servicelocator.js'
-    ], ['babel-client-preloader']);
+
 });
 
-gulp.task('watchDev', ['watch']);
+gulp.task('default', ['lint','babel-client']);
 
 gulp.task("devserv", function(callback) {
     // Start a webpack-dev-server
