@@ -129,8 +129,8 @@ export default class LdJsonObject {
 
     hasElementOfType(type) {
         return this.data['@type'] === type || _.chain(this.data.itemListElement)
-                .pluck('@type')
-                .contains(type)
+                .map('@type')
+                .includes(type)
                 .value();
     }
 

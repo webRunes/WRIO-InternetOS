@@ -265,10 +265,10 @@ var CreateDomRight = React.createClass({
         var add = (currentItem) => {
 
             if (currentItem.hasElementOfType("SocialMediaPosting")) {
-                var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
+              /*  var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
                 currentItem.data.name = currentItem.data.headline;
                 isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
+                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);*/
             }
             else if (currentItem.hasElementOfType("Article")) {
                 var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
