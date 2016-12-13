@@ -87,7 +87,7 @@ class SocialPost extends React.Component {
         const content = <div dangerouslySetInnerHTML={htmlData} />;
         const title = this.props.data.data.sharedContent.headline;
         const description= this.props.data.data.sharedContent.about;
-        return <Figure content={content} title={title} description={description}/>
+        return <Figure content={content} title={title} description={description}/>;
     }
 }
 
