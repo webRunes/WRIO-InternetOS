@@ -7,6 +7,10 @@ env:
 node_js:
   - 6.9.2
 
+env:
+  - CXX=g++-4.8
+
+
 install :
   - npm install -g gulp yarn
   - yarn
