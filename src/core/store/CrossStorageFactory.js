@@ -16,19 +16,19 @@ class CrossStorageMock {
     }
     onConnect() {
         return new Promise((resolve,reject) => {
-            console.log("Mocking onConnect...");
+            //console.log("Mocking onConnect...");
             resolve();
         });
     }
     get (key) {
         var val = mockStorage[key];
-        console.log("GET",key,val);
+        //console.log("GET",key,val);
         return new Promise((resolve,reject) => {
             resolve(val);
         });
     }
     set (key,value) {
-        console.log("SET",key,value);
+        //console.log("SET",key,value);
         mockStorage[key] = value;
     }
     del (key,value) {

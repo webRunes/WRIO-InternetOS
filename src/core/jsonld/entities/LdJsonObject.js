@@ -5,7 +5,8 @@
 import sortByOrder from 'lodash.sortbyorder';
 import Mention, {MappedMention,MappedCoverMention} from '../mentions/mention';
 import Image from '../mentions/image';
-import _ from 'lodash';
+import _ from 'lodash/core';
+import includes from 'lodash/includes';
 
 var Article, ItemList, ImageObject;
 
@@ -128,10 +129,9 @@ export default class LdJsonObject {
     }
 
     hasElementOfType(type) {
-        return this.data['@type'] === type || _.chain(this.data.itemListElement)
+        return this.data['@type'] === type || includes(_.chain(this.data.itemListElement)
                 .map('@type')
-                .includes(type)
-                .value();
+                .value(),type);
     }
 
     /* dummy function to create mention entries

@@ -2,7 +2,7 @@
  * Created by michbil on 16.03.16.
  */
 import React from 'react';
-import {Alert} from 'react-bootstrap';
+import Alert from 'react-bootstrap/lib/Alert';
 import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 

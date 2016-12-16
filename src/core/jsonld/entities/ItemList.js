@@ -1,5 +1,4 @@
 import LdJsonObject from './LdJsonObject.js';
-import _ from 'lodash';
 
 
 export default  class ItemList extends LdJsonObject {
