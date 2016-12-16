@@ -57,7 +57,7 @@ describe('jsonld store test', () => {
        setMock(mockval);
        store.init();
        setTimeout(() => {
-           console.log("DATA:",store.data);
+           //console.log("DATA:",store.data);
            should(store.data).equal(mockval.plus);
            done();
        },1000);

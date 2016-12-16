@@ -246,7 +246,6 @@ var CreateTitter = React.createClass({
         return (
             <div>
                 { addCommentFundsMode }
-
                 {parts}
             </div>
         );

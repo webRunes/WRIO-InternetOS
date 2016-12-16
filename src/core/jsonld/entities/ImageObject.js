@@ -6,7 +6,6 @@ import LdJsonObject from './LdJsonObject.js';
 import Image from '../mentions/image';
 import mention from '../mentions/mention.js';
 
-import _ from 'lodash';
 
 export default class ImageObject extends LdJsonObject {
     constructor(json,order,root) {

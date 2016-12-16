@@ -4,7 +4,6 @@
 
 import LdJsonObject from './LdJsonObject.js';
 import sortByOrder from 'lodash.sortbyorder';
-import _ from 'lodash';
 import Image from "../mentions/image.js";
 
 export default class Article extends LdJsonObject {
