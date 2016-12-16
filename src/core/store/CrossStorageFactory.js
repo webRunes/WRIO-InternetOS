@@ -52,7 +52,7 @@ class _CrossStorageFactory {
 
     getCrossStorage() {
         if (this.isInTest) {
-            console.log("Mocking crossStorage");
+            //console.log("Mocking crossStorage");
             return new CrossStorageMock();
         } else {
            // console.log("============================================Requesting cross storage copy!!!!!!");
