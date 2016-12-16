@@ -7,7 +7,6 @@ import CreateInfoTicket from './CreateInfoTicket';
 import CreateControlButtons from './CreateControlButtons';
 import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
-import _ from 'lodash';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 
