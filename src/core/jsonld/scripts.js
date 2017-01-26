@@ -1,7 +1,6 @@
 import sortByOrder from 'lodash.sortbyorder';
 import Mention, {MappedMention} from './mentions/mention';
 import Image from './mentions/image';
-import _ from 'lodash';
 
 import LdJsonObject from './entities/LdJsonObject.js';
 

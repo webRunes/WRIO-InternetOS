@@ -5,9 +5,9 @@ import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
 import CreateItemList from './ItemList.js';
 import CreateCover from './CreateCover';
-import {Carousel} from 'react-bootstrap';
-import {CarouselItem} from 'react-bootstrap';
-import _ from 'lodash';
+import Carousel from 'react-bootstrap/lib/Carousel';
+import CarouselItem from 'react-bootstrap/lib/CarouselItem';
+import _ from 'lodash/core';
 import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
@@ -146,7 +146,7 @@ class DocumentBody extends React.Component {
 
     getCoverList(data) {
         var data = _.chain(data)
-            .pluck('children')
+            .map('children')
             .flatten()
             .filter(function (item) {
                 return !_.isEmpty(item);

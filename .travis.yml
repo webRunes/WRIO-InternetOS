@@ -5,11 +5,22 @@ env:
   - secure: "p7bQCXp+8DI/UXC4ZRgHMr+5gnGrC6worWoceBUcb3eCYXK7XywakHm/brSKkf1Yd7SmvRxX5CzVESTOWKO0Lh6iaH8NKYPAlDdDaN95zWaBcrOvfjRJ8L73E0F+ClJpV3703er2GLW3UvryEt/vKb9Zi/vUQIrLtqj8drg/Hlg="
 
 node_js:
-  - 0.12
+  - 6.9.2
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 
 install :
-  - npm install
-  - npm install -g gulp
+  - npm install -g gulp yarn
+  - yarn
+
 
 script:
   - gulp
@@ -28,6 +39,7 @@ deploy:
   bucket: wrioos.com
   acl: public_read
   skip_cleanup: true
+  local_dir: build
   detect_encoding: true # <== default is false
   on:
       branch: production

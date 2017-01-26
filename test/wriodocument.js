@@ -39,4 +39,5 @@ describe('mention test', () => {
         WrioDocumentStore.hasCommentId().should.be.true();
         WrioDocumentStore.hasArticle().should.be.true();
     });
+
 });
