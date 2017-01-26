@@ -14,7 +14,8 @@ var CreatePresale = React.createClass({
     },
     editIframeStyles: {
         width: '100%',
-        border: 'none'
+        border: 'none',
+        height: '480px'
     },
     createPresaleWidget: function() {
         var twheight = 10000;
