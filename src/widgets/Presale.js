@@ -14,12 +14,11 @@ var CreatePresale = React.createClass({
     },
     editIframeStyles: {
         width: '100%',
-        border: 'none',
-        height: '480px'
+        border: 'none'
     },
     createPresaleWidget: function() {
         var twheight = 10000;
-        document.getElementById('presaleiframe').style.height = '320px';
+        document.getElementById('presaleiframe').style.height = '480px';
         WindowActions.webGoldMessage.listen((msg)=> {
             if (msg.transactionsHeight) {
                 document.getElementById('presaleiframe').style.height = msg.transactionsHeight+'px';
