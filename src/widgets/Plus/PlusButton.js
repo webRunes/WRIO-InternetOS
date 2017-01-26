@@ -56,7 +56,7 @@ class PlusButton extends React.Component{
 
         return (
             <div className={className}>
-                <a href={'//wr.io/' + this.state.userId + '/Plus-WRIO-App/'} onClick={this.gotoUrl} style={{width: '100%'}} className="collapsed">
+                <a href={'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/'} onClick={this.gotoUrl} style={{width: '100%'}} className="collapsed">
                     <span className="glyphicon glyphicon-plus"></span>
                 </a>
             </div>

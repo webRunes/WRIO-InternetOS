@@ -40,8 +40,6 @@ class Login extends React.Component{
 
     }
 
-
-
     componentDidMount() {
         this.setActions();
     }
@@ -161,7 +159,7 @@ class Login extends React.Component{
                     <i className="glyphicon glyphicon-user"></i>{this.state.have.text}
                 </span>
                 </li>);
-        }else{
+        } else {
             lock =
                 (<li>
                     <span onClick={this.doLogout.bind(this)}>
@@ -188,7 +186,6 @@ class Login extends React.Component{
                                     {has}
                                     {lock}
                                 </ul>
-
                             </div>
                         </div>
                     </span>
