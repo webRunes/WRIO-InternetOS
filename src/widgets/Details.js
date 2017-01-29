@@ -29,8 +29,8 @@ class Details extends React.Component{
 
         return (
             <div className="col-xs-12 col-md-6 pull-right">
-            <span itemScope="" itemType="http://schema.org/ImageObject">
-                <img itemProp="thumbnail" src={img} className="pull-left"/>
+            <span itemScope="" itemType="https://schema.org/ImageObject">
+                <img itemProp="thumbnail" src={img} className="img pull-left"/>
             </span>
                 <ul className="details">
                     <li>Registered: {this.state.registered}</li>
