@@ -47,7 +47,7 @@ export default class CreateInfoTicket extends React.Component {
                     <div className="in hidden-xs" id="ticket-element">
                         <div className="media thumbnail">
                             <div className="col-xs-12 pull-right">
-                                <img src={this.state.img} className="pull-left"></img>
+                                <img src={this.state.img} className="img pull-left"></img>
                                 <ul className="details">
                                     <li>Language: {this.props.article.inLanguage}</li>
                                     <li>Published: {this.props.article.datePublished}</li>

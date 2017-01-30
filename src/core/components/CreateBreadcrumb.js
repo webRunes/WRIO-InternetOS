@@ -25,13 +25,14 @@ export default React.createClass({
 
         var allowTransactions = window.location.host === "webgold." + domain || window.location.host == 'wrioos.local';
 
+/* Uncomment to show transactions
         if (allowTransactions) {
             transactions = (
                 <li>
-                    <a onClick={ this.clickTransactions }>Transactions</a>
-                </li>
+                <a onClick={ this.clickTransactions }>Transactions</a>
+                </li> 
             );
-        }
+        }*/
 
         if (!this.props.editMode) {
             readEditMode = (

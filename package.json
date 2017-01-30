@@ -40,11 +40,15 @@
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
-  "browserify": {
-    "transform": [
-      "envify",
-      "babelify"
-    ]
+  "babel": {
+    "env": {
+      "production": {
+        "plugins": [
+          "transform-react-constant-elements",
+          "transform-react-inline-elements"
+        ]
+      }
+    }
   },
   "scripts": {
     "build": "gulp && sh compress.sh",

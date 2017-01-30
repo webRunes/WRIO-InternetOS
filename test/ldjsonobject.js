@@ -4,7 +4,7 @@ import should from 'should';
 import LdJsonObject from '../src/core/jsonld/entities/LdJsonObject';
 
 const fixture = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "Article",
     "inLanguage": "En",
     "keywords": "",
