@@ -59,6 +59,7 @@ export default class Main extends React.Component {
 
     onDocumentChange(doc) {
         this.setState({
+           url: UrlMixin.searchToObject(),
            changed: true
         });
     }
