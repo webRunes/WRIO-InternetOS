@@ -19,7 +19,7 @@ addons:
 
 install :
   - npm install -g gulp yarn@0.17
-  - yarn
+  - npm install
 
 
 script:
