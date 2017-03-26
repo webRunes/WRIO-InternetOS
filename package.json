@@ -65,7 +65,7 @@
     "domready": "^1.0.8",
     "es6-symbol": "3.1.0",
     "jsdom": "^3.0.2",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.4",
     "lodash.some": "*",
     "lodash.sortby": "^3.1.4",
     "lodash.sortbyorder": "^3.1.4",
