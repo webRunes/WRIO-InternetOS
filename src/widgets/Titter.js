@@ -286,10 +286,9 @@ class LoginAndComment extends React.Component {
     render() {
         return (
             <div className="well enable-comment">
-                <h4>Start to donate and comment!</h4>
-
-                <p>Please login with Twitter account to be able to comment via tweets and make donations.<br />Looking
-                    forward to hearing from you!</p>
+              <h4>Start donating and commenting!</h4>
+              <p>Please, login with your Twitter account to comment via tweets and to make donations.
+              Looking forward to hearing from you!</p>
                 <br />
                 <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span
                     className="glyphicon glyphicon-comment"></span>Join the conversation</a>
@@ -298,4 +297,3 @@ class LoginAndComment extends React.Component {
 }
 
 export default CreateTitter;
-
