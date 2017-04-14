@@ -40,8 +40,6 @@ class Login extends React.Component{
 
     }
 
-
-
     componentDidMount() {
         this.setActions();
     }
@@ -146,7 +144,7 @@ class Login extends React.Component{
         var has, upgrade, lock, that = this;
 
         if (this.state.busy) {
-            return (<img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />);
+            return (<img src="https://default.wrioos.com/img/loading.gif" />);
         }
 
         if (this.state.upgrade.visible) {
@@ -161,7 +159,7 @@ class Login extends React.Component{
                     <i className="glyphicon glyphicon-user"></i>{this.state.have.text}
                 </span>
                 </li>);
-        }else{
+        } else {
             lock =
                 (<li>
                     <span onClick={this.doLogout.bind(this)}>
@@ -188,7 +186,6 @@ class Login extends React.Component{
                                     {has}
                                     {lock}
                                 </ul>
-
                             </div>
                         </div>
                     </span>

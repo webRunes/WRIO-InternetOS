@@ -16,19 +16,19 @@ class CrossStorageMock {
     }
     onConnect() {
         return new Promise((resolve,reject) => {
-            console.log("Mocking onConnect...");
+            //console.log("Mocking onConnect...");
             resolve();
         });
     }
     get (key) {
         var val = mockStorage[key];
-        console.log("GET",key,val);
+        //console.log("GET",key,val);
         return new Promise((resolve,reject) => {
             resolve(val);
         });
     }
     set (key,value) {
-        console.log("SET",key,value);
+        //console.log("SET",key,value);
         mockStorage[key] = value;
     }
     del (key,value) {
@@ -52,7 +52,7 @@ class _CrossStorageFactory {
 
     getCrossStorage() {
         if (this.isInTest) {
-            console.log("Mocking crossStorage");
+            //console.log("Mocking crossStorage");
             return new CrossStorageMock();
         } else {
            // console.log("============================================Requesting cross storage copy!!!!!!");

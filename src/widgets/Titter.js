@@ -126,13 +126,15 @@ var CreateTitter = React.createClass({
             authorId = "";
         }
 
+        var origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
+
         return {
             isAuthor: false,
             addComment: 'Add comment',
             article: WrioDocument.hasArticle(),
             isTemporary: false,
             addFundsMode: false,
-            titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + encodeURIComponent(window.location.href) + authorId,
+            titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + origin + authorId,
             webgoldIframeUrl: getServiceUrl('webgold') + "/add_funds"
         };
     },
@@ -205,7 +207,7 @@ var CreateTitter = React.createClass({
             addCommentFundsMode = (
                 <ul className="breadcrumb" key="act">
                     <li className="active">{this.state.addComment}</li>
-                    <li><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
+                    <li style={{display: "none"}}><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
             );
 
@@ -244,7 +246,6 @@ var CreateTitter = React.createClass({
         return (
             <div>
                 { addCommentFundsMode }
-
                 {parts}
             </div>
         );

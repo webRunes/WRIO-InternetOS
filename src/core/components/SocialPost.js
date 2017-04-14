@@ -28,18 +28,44 @@ EXAMPLE:
 
  */
 
+
+class Figure extends React.Component {
+    render () {
+        let figcaption = "";
+        if (this.props.title) {
+            figcaption = (
+                <figcaption className="callout figure-details">
+                    <h5>{this.props.title}</h5>
+                    <p>{this.props.description}</p>
+                </figcaption>);
+        }
+        return (
+            <figure className="col-xs-12 col-md-6">
+                {this.props.content}
+                {figcaption}
+            </figure>
+        );
+    }
+}
+Figure.propTypes = {
+    title: React.PropTypes.string,
+    description: React.PropTypes.string,
+    content: React.PropTypes.object
+};
+
+
 class SocialPost extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            html:"<span><img src=\"https://wrioos.com/Default-WRIO-Theme/img/loading.gif\" /></span>"
+            html:"<img class=\"img_loading\" src=\"https://default.wrioos.com/img/loading.gif\" />"
         };
 
     }
 
     downloadEmebed() {
-        var data = this.props.data.data;
+        const data = this.props.data.data;
         if (data.sharedContent && data.sharedContent.url) {
             request.get('https://iframely.wrioos.com/oembed?url='+data.sharedContent.url, (err, result) => {
                 if (err) {
@@ -58,7 +84,10 @@ class SocialPost extends React.Component {
 
     render () {
         var htmlData = {__html: this.state.html};
-        return <div className="col-xs-12 col-md-6" dangerouslySetInnerHTML={htmlData} />;
+        const content = <div dangerouslySetInnerHTML={htmlData} />;
+        const title = this.props.data.data.sharedContent.headline;
+        const description= this.props.data.data.sharedContent.about;
+        return <Figure content={content} title={title} description={description}/>;
     }
 }
 

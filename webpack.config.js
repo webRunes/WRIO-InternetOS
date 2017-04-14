@@ -14,7 +14,7 @@ if (process.env.DOCKER_DEV) {
 } else {
     envs = {
         "process.env": {
-            NODE_ENV: JSON.stringify('development'),
+            NODE_ENV: JSON.stringify('production'),
             DOMAIN: JSON.stringify('wrioos.com')
         }
     }
@@ -26,7 +26,7 @@ var e = {
         main:'./src/main.js',
         start:'./src/preloader.js'
     },
-    output: { path: './',
+    output: { path: './build/',
         filename: '[name].js',
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
@@ -57,12 +57,17 @@ var e = {
     devtool: 'source-map',
 
     plugins: [
-        new webpack.DefinePlugin(envs)]
+        new webpack.DefinePlugin(envs),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
+    ]
 
 };
 
-var minify = false;
+var minify = !process.env.DOCKER_DEV;
 if (minify) {
+    console.log("Uglifying 😱 😱 😱 " );
     e.plugins.push(new webpack.optimize.UglifyJsPlugin({
      compress:{
      warnings: false,

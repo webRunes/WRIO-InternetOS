@@ -45,14 +45,16 @@ var ArticleElement = React.createClass({
             });
         }
 
-        var chapter = replaceSpaces(element.data.name);
+        const chapter = replaceSpaces(element.data.name);
+
+        const getHeader = () => (element.hasPart()) ?
+            <h1 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h1>:
+            <h2 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h2>;
+
 
         return (
             <section>
-                {(element.hasPart()) ?
-                    <h1 id={chapter}>{articleName}</h1>:
-                    <h2 id={chapter}>{articleName}</h2>
-                }
+                { articleName !== undefined && getHeader() }
                 <div itemProp="articleBody">{this.articleBody()}</div>
                 {Parts}
             </section>

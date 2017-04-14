@@ -18,7 +18,7 @@ var CreatePresale = React.createClass({
     },
     createPresaleWidget: function() {
         var twheight = 10000;
-        document.getElementById('presaleiframe').style.height = '1200px';
+        document.getElementById('presaleiframe').style.height = '480px';
         WindowActions.webGoldMessage.listen((msg)=> {
             if (msg.transactionsHeight) {
                 document.getElementById('presaleiframe').style.height = msg.transactionsHeight+'px';
