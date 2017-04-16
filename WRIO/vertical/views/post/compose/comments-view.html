@@ -1,0 +1,51 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li class="active">Enable comments</li>
+    </ul>
+    <div ng-show="msg['load']" class="loading"><img src="/vertical/img/loading.gif"> Loading...</div>
+
+    <div class="callout">
+        <h5>Quick tip</h5>
+        <p>Comments are based on Twitter. Click <a href="https://twitter.com/search?q=http%3A%2F%2Fdev.wr.io%2Fpost%2F085f0c25-2d50-48fc-8a33-6b3d7f5759b9&src=typd&f=realtime" target="_blank" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-original-title="Twitter" data-content="Twitter helps you create and share ideas and information instantly, without barriers. Click to open twitter.com">Get the code<sup><span class="glyphicon glyphicon-new-window"></span></sup></a> link below, Twitter search query will be opened.</p>
+        <p>
+            Click
+            <img src="/vertical/img/twitter-dots.png" />
+            <span class="glyphicon glyphicon-arrow-right btn-xs"></span><b> "Embed this search"</b>
+            to open "Create a search widget".
+        </p>
+        <p>Click <b>"Create widget"</b> button.</p>
+        <p>Copy the code and paste it into "Code" field below.</p>
+    </div>
+    <form class="form-horizontal twitter" role="form">
+        <div class="form-group">
+            <label for="id-Description" class="col-sm-4 col-md-3 control-label">Link</label>
+            <div class="col-sm-8 col-md-9">
+                <p class="form-control-static"><a ng-href="https://twitter.com/search?q=http%3A%2F%2Fdev.wr.io%2Fpost%2F{{model.Guid}}&src=typd&f=realtime" target="_blank" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-original-title="Twitter" data-content="Twitter helps you create and share ideas and information instantly, without barriers. Click to open twitter.com">Get the code<sup><span class="glyphicon glyphicon-new-window"></span></sup></a></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id-Description" class="col-sm-4 col-md-3 control-label">URL or code</label>
+            <div class="col-sm-8 col-md-9" ng-class="checkHasError()">
+                <textarea ng-change="changeTCUrl()" ng-model="post.TwitterCommentUrl" class="form-control" rows="6" maxlength="540" id="Textarea1" placeholder="Enter URL or code"></textarea>
+                <div ng-show="!isReady" class="help-block">Invalid code</div>
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <a ng-show="isCompose" ng-click="back()" href="" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
+            <div class="pull-right">
+                <a ng-click="skip()" href="#" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span>Skip</a>
+                <a ng-click="invite()" href="#" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>Submit</a>
+            </div>
+        </div>
+    </form>
+    <ul class="info nav nav-pills nav-stacked" id="help-accordion">
+        <li class="panel"><a href="#help-element" data-parent="#help-accordion" data-toggle="collapse" class=""><span class="glyphicon glyphicon-chevron-down pull-right"></span>Need help?</a>
+            <div class="in" id="help-element">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">How to add comments</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

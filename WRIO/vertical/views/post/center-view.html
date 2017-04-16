@@ -1,0 +1,24 @@
+﻿<div class="margin">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion" user-profile></ul>
+    <ul class="breadcrumb">
+        <li class="active">Read</li>
+    </ul>
+    <div ng-show="isMsg['load']" class="loading"><img src="/vertical/img/loading.gif"> Loading...</div>
+    <div class="post">
+        <div class="callout">
+            <h5>Are you the author?</h5>
+            <p>Please <a href="#">login</a> with @twitter_acc to confirm and get donations</p>
+        </div>
+        <h3 ng-bind="ticket.Title"></h3>
+        <p ng-bind="ticket.Description"></p>
+        <p></p>
+        <div ng-bind-html="link | unsafeHtml"></div>
+        <p></p>
+    </div>
+</div>
+<ul class="breadcrumb">
+    <li class="active">Add comment</li>
+</ul>
+<div ng-hide="isComments" class="alert alert-warning">Comments disabled <a ng-show="isAuthor" ng-click="enableComment()" href="#">Enable</a></div>
+<titter ng-show="isComments" model="ticket"></titter>
+<div ng-show="isComments" ng-bind-html="comment | unsafeHtml"></div>
