@@ -5,6 +5,7 @@ var envs = {};
 
 if (process.env.DOCKER_DEV) {
     console.log("Got docker dev mode");
+    var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
     envs = {
         "process.env": {
             NODE_ENV: JSON.stringify('dockerdev'),
@@ -26,7 +27,7 @@ var e = {
         main:'./src/main.js',
         start:'./src/preloader.js'
     },
-    output: { path: './build/',
+    output: { path: path.resolve(__dirname, 'build'),
         filename: '[name].js',
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
@@ -48,7 +49,6 @@ var e = {
         host: "0.0.0.0",
         port: 3000,
         contentBase: "../",
-        colors: true,
         inline:true,
         watchOptions: {
             poll: 1000 // <-- it's worth setting a timeout to prevent high CPU load
@@ -64,6 +64,11 @@ var e = {
     ]
 
 };
+
+
+if (process.env.DOCKER_DEV) {
+ //   e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
+}
 
 var minify = !process.env.DOCKER_DEV;
 if (minify) {
