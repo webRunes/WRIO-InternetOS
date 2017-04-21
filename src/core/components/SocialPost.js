@@ -72,6 +72,9 @@ class SocialPost extends React.Component {
                     console.error("Can't load embed ",data.sharedContent.url);
                 }
                 console.log(result.body.html);
+                if (result.body.provider_name == 'Twitter') {
+                    setTimeout(() => window.twttr.widgets.load(),1000); // hack to reload twitter iframes
+                }
                 this.setState({html:result.body.html});
             });
         }
