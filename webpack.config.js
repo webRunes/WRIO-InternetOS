@@ -1,12 +1,12 @@
 var path = require("path");
 var webpack = require("webpack");
-
+var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
 var envs = {};
 
 if (process.env.DOCKER_DEV) {
   console.log("Got docker dev mode");
-  var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-    .BundleAnalyzerPlugin;
+
   envs = {
     "process.env": {
       NODE_ENV: JSON.stringify("dockerdev"),
@@ -22,11 +22,22 @@ if (process.env.DOCKER_DEV) {
   };
 }
 
+let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
+    name:'commons',  // Just name it
+    filename: 'common.js', // Name of the output file
+    chunks: ['main','titter','core']
+});
+
+
 console.log(envs);
 var e = {
   entry: {
     main: "./src/main.js",
-    start: "./src/preloader.js"
+    start: "./src/preloader.js",
+    titter: './src/iframes/Titter/js/index.js',
+    core: "./src/iframes/Core/js/client.js",
+    commons: ['react','react-dom','reflux','superagent','lodash','core-js'],
+ //   webgold: './src/iframes/webGold/js/client.js'
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -57,6 +68,7 @@ var e = {
   devtool: "source-map",
 
   plugins: [
+    commonsPlugin,
     new webpack.DefinePlugin(envs),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")
@@ -64,9 +76,8 @@ var e = {
   ]
 };
 
-if (process.env.DOCKER_DEV) {
-  //   e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
-}
+
+e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
 
 var minify = !process.env.DOCKER_DEV;
 if (minify) {

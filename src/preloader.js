@@ -137,25 +137,31 @@ function decodeIncomingUrl() {
     }
 }
 
+function loadScript(url) {
+    var script = document.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+    script.setAttribute('src', url);
+    document.body.appendChild(script);
+}
+
 function loadScripts() {
 
     decodeIncomingUrl();
 
-    var script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    if (process.env.NODE_ENV === 'production') {
+    loadScript('common.js');
 
-        script.setAttribute('src', '//wrioos.com/main.js');
+    if (process.env.NODE_ENV === 'production') {
+       loadScript('//wrioos.com/main.js');
 
     }
     if (process.env.NODE_ENV === 'development') {
-        script.setAttribute('src', 'http://localhost:3000/main.js');
+        loadScript('http://localhost:3000/main.js');
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-        script.setAttribute('src', '//wrioos.local/main.js');
+        loadScript('//wrioos.local/main.js');
     }
-    document.body.appendChild(script);
+
 }
 
 if(!BrowserDetection.init()){
