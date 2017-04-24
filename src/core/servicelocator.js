@@ -3,13 +3,13 @@
  */
 
 export function getServiceUrl(service) {
-/*    var protocol = 'https://';
+    var protocol = 'https://';
     var domain = process.env.DOMAIN;
     if (domain === 'wrioos.local') {
         protocol = 'http://';
-    }*/
+    }
     var domain = process.env.DOMAIN;
-    return window.location.protocol +"//" + service + "."+domain;
+    return protocol +"//" + service + "."+domain;
 }
 
 export function getDomain() {
