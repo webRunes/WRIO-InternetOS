@@ -9,7 +9,7 @@ export function getServiceUrl(service) {
         protocol = 'http://';
     }
     var domain = process.env.DOMAIN;
-    return protocol +"//" + service + "."+domain;
+    return protocol + service + "."+domain;
 }
 
 export function getDomain() {
