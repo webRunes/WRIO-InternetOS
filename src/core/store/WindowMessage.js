@@ -40,6 +40,9 @@ module.exports = Reflux.createStore({
         }
 
         if (this.checkForService('titter',e)) {
+            if (msg.reload) {
+                WindowActions.forceIframeReload.trigger();
+            }
             WindowActions.titterMessage.trigger(msg);
         }
         if (this.checkForService('core',e)) {
