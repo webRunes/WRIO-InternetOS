@@ -93,7 +93,7 @@ class SocialPost extends React.Component {
     getContent() {
         if (this.state.type == 'link') {
             const data = this.state.object;
-            return (<a href={data.url}><img src={data.thumbnail_url} alt={data.description}/></a>)
+            return (<a href={data.url}><img src={data.thumbnail_url} alt={data.description}/></a>);
         }
         const htmlData = {__html: this.state.html};
         return  (<div dangerouslySetInnerHTML={htmlData} />);
