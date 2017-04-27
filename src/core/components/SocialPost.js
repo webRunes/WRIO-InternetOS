@@ -75,6 +75,12 @@ class SocialPost extends React.Component {
                 if (result.body.provider_name == 'Twitter') {
                     setTimeout(() => window.twttr.widgets.load(),1000); // hack to reload twitter iframes
                 }
+                if (result.body.type == 'link') {
+                    this.setState({
+                        type:"link",
+                        object: result.body
+                    });
+                }
                 this.setState({html:result.body.html});
             });
         }
@@ -82,12 +88,19 @@ class SocialPost extends React.Component {
 
     componentDidMount() {
        this.downloadEmebed();
+    }
 
+    getContent() {
+        if (this.state.type == 'link') {
+            const data = this.state.object;
+            return (<a href={data.url}><img src={data.thumbnail_url} alt={data.description}/></a>)
+        }
+        const htmlData = {__html: this.state.html};
+        return  (<div dangerouslySetInnerHTML={htmlData} />);
     }
 
     render () {
-        var htmlData = {__html: this.state.html};
-        const content = <div dangerouslySetInnerHTML={htmlData} />;
+        const content = this.getContent();
         const title = this.props.data.data.sharedContent.headline;
         const description= this.props.data.data.sharedContent.about;
         return <Figure content={content} title={title} description={description}/>;
