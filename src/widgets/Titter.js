@@ -261,7 +261,7 @@ class CommentsDisabled extends React.Component {
             border: 'none'
         };
 
-        var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + window.location.href;
+        var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + encodeURIComponent(window.location.href);
         if (this.props.isAuthor) {
             return (<iframe src={frameUrl} style={ iStyle }/>);
         } else { // do not open iframe if it isn't author
