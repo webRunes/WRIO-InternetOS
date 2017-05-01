@@ -46,6 +46,9 @@ module.exports = Reflux.createStore({
             WindowActions.titterMessage.trigger(msg);
         }
         if (this.checkForService('core',e)) {
+            if (msg.reload) {
+                window.location.reload();
+            }
             WindowActions.coreMessage.trigger(msg);
         }
         if (this.checkForService('login',e)) {
