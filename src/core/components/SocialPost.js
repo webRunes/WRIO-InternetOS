@@ -28,6 +28,17 @@ EXAMPLE:
 
  */
 
+function loadTwitterScript () {
+    var js,
+        fjs = document.getElementsByTagName('script')[0],
+        p = /^http:/.test(document.location) ? 'http' : 'https';
+
+    js = document.createElement('script');
+    js.id = 'twitter-wjs';
+    js.src = p + '://platform.twitter.com/widgets.js';
+    fjs.parentNode.insertBefore(js, fjs);
+}
+
 
 class Figure extends React.Component {
     render () {
@@ -73,6 +84,9 @@ class SocialPost extends React.Component {
                 }
                 console.log(result.body.html);
                 if (result.body.provider_name == 'Twitter') {
+                    if (!window.twttr) {
+                        loadTwitterScript();
+                    }
                     setTimeout(() => window.twttr.widgets.load(),1000); // hack to reload twitter iframes
                 }
                 if (result.body.type == 'link') {
