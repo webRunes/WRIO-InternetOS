@@ -22,7 +22,7 @@ class Core extends React.Component{
                 window.location.reload();
             }
             if (msg.coreHeight) {
-                document.getElementById('coreiframe').style.height = msg.coreHeight+'px';
+                this.refs.coreiframe.style.height = msg.coreHeight+'px';
             }
             if (msg.followLink) {
                 window.location.href = msg.followLink;
@@ -42,8 +42,8 @@ class Core extends React.Component{
         return (
             <div>
                 {!this.state.article ?
-                    <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/create'}/>
-                               : <iframe id="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + encodeURIComponent(this.state.article)}/>}
+                    <iframe id="coreiframe" ref="coreiframe" className="core" src={getServiceUrl('core') + '/create'}/>
+                   :<iframe id="coreiframe" ref="coreiframe" className="core" src={getServiceUrl('core') + '/edit?article=' + encodeURIComponent(this.state.article)}/>}
             </div>
         );
     }
