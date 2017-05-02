@@ -202,13 +202,14 @@ export class CreateDomCenter extends ArticleCenter {
 
     render() {
         var displayTitterCondition = WrioDocument.hasArticle();
+        var coreFrame="";
 
         if (!this.isArticleShown()) {
             displayTitterCondition = false;
         }
 
-        if (this.state.urlParams.edit && this.state.editAllowed) {
-            return this.generateCenterWithContents(<Core article={this.getEditUrl()}/>);
+        if ((this.state.urlParams.edit && this.state.editAllowed) ||  (this.state.editMode && !this.state.editModeFromUrl)) {
+            coreFrame = <Core article={this.getEditUrl()}/>;
         }
 
         displayTitterCondition |= this.state.displayTitterCondition;
@@ -217,6 +218,7 @@ export class CreateDomCenter extends ArticleCenter {
         var data = WrioDocument.getData();
         var contents = (<div>
                             {ArticleContent}
+                            {coreFrame}
                             { !WrioDocument.hasCommentId() ? <CommentsDisabled isAuthor={this.state.editAllowed}/> :
                             displayTitterCondition && <CreateTitter scripts={data} /> }
                         </div>);
