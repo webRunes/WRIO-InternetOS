@@ -103,7 +103,6 @@ export class CreateDomCenter extends ArticleCenter {
             active: false,
             userId: false,
             editAllowed: false,
-            notDisplayCenter: false,
             editModeFromUrl: false,
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
@@ -164,7 +163,6 @@ export class CreateDomCenter extends ArticleCenter {
         this.setState({
             editMode: false,
             editModeFromUrl: false,
-            notDisplayCenter: false,
             displayTitterCondition: false
         });
     }
@@ -172,7 +170,6 @@ export class CreateDomCenter extends ArticleCenter {
     switchToEditMode() {
         this.setState({
             editMode: true,
-            notDisplayCenter: true,
             displayTitterCondition: true
         });
     }
@@ -210,17 +207,14 @@ export class CreateDomCenter extends ArticleCenter {
 
         if ((this.state.urlParams.edit && this.state.editAllowed) ||  (this.state.editMode && !this.state.editModeFromUrl)) {
             coreFrame = <Core article={this.getEditUrl()}/>;
+            return this.generateCenterWithContents(coreFrame);
         }
 
         displayTitterCondition |= this.state.displayTitterCondition;
-
-        var ArticleContent = this.getCenter();
-        var data = WrioDocument.getData();
         var contents = (<div>
-                            {ArticleContent}
-                            {coreFrame}
+                             <WrioDocumentBody/>
                             { !WrioDocument.hasCommentId() ? <CommentsDisabled isAuthor={this.state.editAllowed}/> :
-                            displayTitterCondition && <CreateTitter scripts={data} /> }
+                            displayTitterCondition && <CreateTitter scripts={ WrioDocument.getData()} /> }
                         </div>);
 
 
@@ -253,13 +247,6 @@ export class CreateDomCenter extends ArticleCenter {
         );
     }
 
-    getCenter() {
-
-        if (this.state.notDisplayCenter) {
-            return false;
-        }
-        return  (<WrioDocumentBody/>);
-    }
 }
 
 CreateDomCenter.propTypes = {
