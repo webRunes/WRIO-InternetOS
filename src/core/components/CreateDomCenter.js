@@ -103,7 +103,6 @@ export class CreateDomCenter extends ArticleCenter {
             active: false,
             userId: false,
             editAllowed: false,
-            editModeFromUrl: false,
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
         };
@@ -160,20 +159,12 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     switchToReadMode() {
-        this.setState({
-            editMode: false,
-            editModeFromUrl: false,
-            displayTitterCondition: false
-        });
+        this.setState({editMode: false});
     }
 
     switchToEditMode() {
-        this.setState({
-            editMode: true,
-            displayTitterCondition: true
-        });
+        this.setState({editMode: true});
     }
-
 
     userId(userId) {
         this.setState({
@@ -198,20 +189,14 @@ export class CreateDomCenter extends ArticleCenter {
 
 
     render() {
-        var displayTitterCondition = WrioDocument.hasArticle();
-        var coreFrame="";
+        const displayTitterCondition = WrioDocument.hasArticle() && this.isArticleShown(); // make sure titter is hidden for covers and lists
 
-        if (!this.isArticleShown()) {
-            displayTitterCondition = false;
-        }
-
-        if ((this.state.urlParams.edit && this.state.editAllowed) ||  (this.state.editMode && !this.state.editModeFromUrl)) {
-            coreFrame = <Core article={this.getEditUrl()}/>;
+        if ((this.state.urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
+            let coreFrame = <Core article={this.getEditUrl()}/>;
             return this.generateCenterWithContents(coreFrame);
         }
 
-        displayTitterCondition |= this.state.displayTitterCondition;
-        var contents = (<div>
+        const contents = (<div>
                              <WrioDocumentBody/>
                             { !WrioDocument.hasCommentId() ? <CommentsDisabled isAuthor={this.state.editAllowed}/> :
                             displayTitterCondition && <CreateTitter scripts={ WrioDocument.getData()} /> }
