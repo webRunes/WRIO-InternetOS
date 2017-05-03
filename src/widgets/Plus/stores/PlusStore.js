@@ -205,7 +205,7 @@ export default Reflux.createStore({
         var scripts = document.getElementsByTagName('script'),
             i,
             json,
-            o;
+            result;
         for (i = 0; i < scripts.length; i += 1) {
             if (scripts[i].type === 'application/ld+json') {
                 json = undefined;
@@ -216,18 +216,18 @@ export default Reflux.createStore({
                     console.error('Your json-ld not valid: ' + exception);
                 }
                 if ((typeof json === 'object') && (json['@type'] === 'ItemList')) {
-                    o = {
+                    result = {
                         name: json.name,
-                        url: window.location.href,
+                        url: normURL(window.location.href),
                         author: json.author,
                         active: true
                     };
                 }
 
                 if ((typeof json === 'object') && (json['@type'] === 'Article')) {
-                    o = {
+                    result = {
                         name: json.name,
-                        url: window.location.href,
+                        url: normURL(window.location.href),
                         author: json.author,
                         active: true
                     };
@@ -235,7 +235,7 @@ export default Reflux.createStore({
                 }
             }
         }
-        cb.call(this, o);
+        cb.call(this, result);
     },
     addCurrentPageParent: function(o, cb) {
         if(!o.author || o.author == 'unknown') {
