@@ -17,9 +17,14 @@ var cutTail = function (url) {
     return url;
 };
 
-var cutIndex = function (url) {
+var cutIndexHtml = function (url) {
     return url.replace('/index.html', '');
 };
+
+var cutIndexHtm = function (url) {
+    return url.replace('/index.htm', '');
+};
+
 
 var cutLastSlash = function (url) {
     return url.replace(/\/+$/, '');
@@ -30,7 +35,8 @@ module.exports = function (url) {
         [
             cutZone,
             cutTail,
-            cutIndex,
+            cutIndexHtm,
+            cutIndexHtml,
             cutLastSlash
         ].forEach(function (rule) {
             url = rule(url);
