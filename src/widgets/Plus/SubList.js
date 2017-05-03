@@ -41,7 +41,7 @@ class SubList extends GenericListItem {
     render() {
 
         var data = this.props.data,
-            name = data.name,
+            name = data.name || "Untitled",
             children = data.children,
             childrenActive = some(children, function(i){
                 return i.active;
