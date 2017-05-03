@@ -35,8 +35,8 @@ module.exports = function (url) {
         [
             cutZone,
             cutTail,
-            cutIndexHtm,
             cutIndexHtml,
+            cutIndexHtm,
             cutLastSlash
         ].forEach(function (rule) {
             url = rule(url);
