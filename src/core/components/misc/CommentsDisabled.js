@@ -7,7 +7,7 @@ export default class CommentsDisabled extends React.Component {
 
         var iStyle = {
             width: '100%',
-            height: '190px',
+            height: '230px',
             border: 'none'
         };
 
