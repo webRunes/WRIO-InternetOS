@@ -242,7 +242,6 @@ var CreateTitter = React.createClass({
 
         parts.push(<div id="twitter_frame_container" style={twStyle}></div>);
 
-
         return (
             <div>
                 { addCommentFundsMode }
@@ -266,12 +265,13 @@ class CommentsDisabled extends React.Component {
             return (<iframe src={frameUrl} style={ iStyle }/>);
         } else { // do not open iframe if it isn't author
             return (
+              <div>
+                <ul className="breadcrumb"><li class="active">Comments</li></ul>
                 <div className="well enable-comment text-left">
-                    <h4>Comments disabled</h4>
-
-                    <p>Comments haven't been enabled by author</p>
-
-                </div>);
+                  <h4>Comments disabled</h4>
+                  <p>Comments haven't been enabled by author</p>
+                </div>
+              </div>);
         }
 
     }
