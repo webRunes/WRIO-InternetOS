@@ -6,7 +6,6 @@ import Login from './Login.js';
 
 var domain = getDomain();
 
-
 class TwitterTimelineWidget {
     constructor(commentId,container) {
         window.onTimelineLoad = this.onTimelineLoad.bind(this);
@@ -63,7 +62,6 @@ class TwitterTimelineWidget {
     cleanup () {
         clearInterval(this.interval);
     }
-
 
 }
 
@@ -228,7 +226,6 @@ var CreateTitter = React.createClass({
         }
 
         parts.push(<div ref="timeLineContainer" style={twStyle}></div>);
-
 
         return (
             <div>
