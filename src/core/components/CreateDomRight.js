@@ -257,19 +257,13 @@ var CreateDomRight = React.createClass({
         this.initListName();
 
         if (this.listName) {
-            if (this.listName == 'cover') {
+            if (this.listName) {
                 isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
             }
         }
         var add = (currentItem) => {
 
-            if (currentItem.hasElementOfType("SocialMediaPosting")) {
-              /*  var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
-                currentItem.data.name = currentItem.data.headline;
-                isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);*/
-            }
-            else if (currentItem.hasElementOfType("Article")) {
+            if (currentItem.hasElementOfType("Article")) {
                 var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);

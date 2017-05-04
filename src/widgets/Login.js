@@ -11,7 +11,7 @@ class Login extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            busy: false,
+            busy: true,
             title: {
                 text: "Logged as I'm Anonymous ",
                 label: "WRIO",
@@ -46,8 +46,6 @@ class Login extends React.Component{
 
     setActions() {
 
-        var that = this;
-
         WindowActions.loginMessage.listen((jsmsg) => {
             if (jsmsg.login == "success") {
                 //location.reload();
@@ -67,7 +65,7 @@ class Login extends React.Component{
 
 
                 if (profile.temporary) {
-                    that.setState({
+                    this.setState({
                         title: {
                             text: "Logged as I'm Anonymous ",
                             label: "WRIO",
@@ -82,7 +80,7 @@ class Login extends React.Component{
                         }
                     });
                 } else {
-                    that.setState({
+                    this.setState({
                         title: {
                             text: "Logged in as " + profile.name,
                             label: "WRIO",
@@ -141,7 +139,7 @@ class Login extends React.Component{
     }
 
     render() {
-        var has, upgrade, lock, that = this;
+        var has, upgrade, lock;
 
         if (this.state.busy) {
             return (<img src="https://default.wrioos.com/img/loading.gif" />);
@@ -177,7 +175,7 @@ class Login extends React.Component{
                         {/*<sup>{this.state.title.label}</sup>*/}
                     </a>
 
-                    <span className="in" id="profile-element" onClick={that.changePage}>
+                    <span className="in" id="profile-element" onClick={this.changePage}>
                         <div className="media thumbnail clearfix">
                             <Details />
                             <div className="col-xs-12 col-md-6">
