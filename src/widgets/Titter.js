@@ -6,16 +6,15 @@ import Login from './Login.js';
 
 var domain = getDomain();
 
-
-class TwitterWidet {
-    constructor(commentId) {
+class TwitterTimelineWidget {
+    constructor(commentId,container) {
         window.onTimelineLoad = this.onTimelineLoad.bind(this);
 
-        document.getElementById('titteriframe').style.height = '240px';
+        container.style.height = '240px';
 
         var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
-        document.getElementById('twitter_frame_container').innerHTML = commentTitle + twitterTemplate;
+        container.innerHTML = commentTitle + twitterTemplate;
 
         var js,
             fjs = document.getElementsByTagName('script')[0],
@@ -32,7 +31,7 @@ class TwitterWidet {
     onTimelineLoad() {
         this.$twitter = document.getElementsByClassName('twitter-timeline-rendered')[0];
         this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
-        window.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
+        this.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }
 
     calcHeight(id) {
@@ -60,7 +59,9 @@ class TwitterWidet {
             this.$twitter.style.height = twitterht + 90 + 'px';
         }
     }
-
+    cleanup () {
+        clearInterval(this.interval);
+    }
 
 }
 
@@ -69,33 +70,27 @@ var CreateTitter = React.createClass({
         scripts: React.PropTypes.array.isRequired
     },
 
-    componentWillUnmount: function () {
-        clearInterval(window.interval);
+    componentWillUnmount () {
+       this.timelinewidget.cleanup();
     },
-    switchToAddCommentMode: function () {
+    switchToAddCommentMode () {
         this.setState({
             addFundsMode: false
         });
     },
-    switchToAddFundsMode: function () {
+    switchToAddFundsMode (){
         this.setState({
             addFundsMode: true
         });
     },
-    prepTwitWidget () {
-        var titteriframe = document.getElementById('titteriframe');
-        if (!titteriframe) {
+    prepTwitterTimeline() {
+        var timeline = this.refs.timeLineContainer;
+        if (!timeline) {
             return;
         }
-        this.setState({nocomments: false});
-
-        let comment;
         let id = WrioDocument.getJsonLDProperty('comment');
-        if (id === null) {
-            this.setState({nocomments: true});
-        } else {
-            var twitterWidget = new TwitterWidet(id);
-        }
+        return new TwitterTimelineWidget(id,timeline);
+
     },
     editIframeStyles: {
         width: '100%',
@@ -116,7 +111,7 @@ var CreateTitter = React.createClass({
         console.log("ERROR: failed to extract author's WRIO id");
     },
 
-    getInitialState: function () {
+    getInitialState () {
 
 
         var authorId = this.getWrioIdFromAuthor();
@@ -139,19 +134,19 @@ var CreateTitter = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         if (!this.state.article) {
             return;
         }
 
         this.createListeners();
-        this.prepTwitWidget();
+        this.timelinewidget = this.prepTwitterTimeline();
     },
 
     createListeners() {
         WindowActions.titterMessage.listen((msg)=> {
             if (msg.titterHeight) {
-                document.getElementById('titteriframe').style.height = msg.titterHeight + 'px';
+                this.refs.titteriframe.style.height = msg.titterHeight + 'px';
             }
             if (msg.goAddFunds) {
                 this.switchToAddFundsMode();
@@ -160,13 +155,13 @@ var CreateTitter = React.createClass({
 
         WindowActions.webGoldMessage.listen((msg)=> {
             if (msg.webgoldHeight) {
-                document.getElementById('webgoldiframe').style.height = msg.webgoldHeight + 'px';
+                this.refs.webgoldiframe.style.height = msg.webgoldHeight + 'px';
             }
         });
 
         WindowActions.forceIframeReload.listen((msg)=> {
-            var tIF = document.getElementById('titteriframe');
-            var wIF = document.getElementById('webgoldiframe');
+            var tIF = this.refs.titteriframe;
+            var wIF = this.refs.webgoldiframe;
 
             if (tIF) {
                 tIF.src = tIF.src;
@@ -188,18 +183,8 @@ var CreateTitter = React.createClass({
         });
     },
 
-    render: function () {
+    render () {
         var parts = [];
-
-        if (!WrioDocument.hasCommentId() || this.state.nocomments) {
-            parts.push(
-                <ul className="breadcrumb" key="comm">
-                    <li className="active">Comments</li>
-                </ul>);
-            parts.push(<CommentsDisabled key="comdis" isAuthor={this.state.isAuthor}/>);
-            return <div>{parts}</div>;
-        }
-
         var addCommentFundsMode;
         var twStyle = {display: "none"};
 
@@ -221,7 +206,7 @@ var CreateTitter = React.createClass({
                 if (this.state.article) {
                     parts.push(
                         <section key="b">
-                            <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
+                            <iframe ref="titteriframe" id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
                         </section>
                     );
 
@@ -237,10 +222,10 @@ var CreateTitter = React.createClass({
                     <li className="active">Add funds</li>
                 </ul>
             );
-            parts.push(<iframe id="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles }/>);
+            parts.push(<iframe id="webgoldiframe" ref="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles }/>);
         }
 
-        parts.push(<div id="twitter_frame_container" style={twStyle}></div>);
+        parts.push(<div ref="timeLineContainer" style={twStyle}></div>);
 
         return (
             <div>
@@ -250,36 +235,6 @@ var CreateTitter = React.createClass({
         );
     }
 });
-
-class CommentsDisabled extends React.Component {
-    render() {
-
-        var iStyle = {
-            width: '100%',
-            height: '190px',
-            border: 'none'
-        };
-
-        var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + window.location.href;
-        if (this.props.isAuthor) {
-            return (<iframe src={frameUrl} style={ iStyle }/>);
-        } else { // do not open iframe if it isn't author
-            return (
-              <div>
-                <ul className="breadcrumb"><li class="active">Comments</li></ul>
-                <div className="well enable-comment text-left">
-                  <h4>Comments disabled</h4>
-                  <p>Comments haven't been enabled by author</p>
-                </div>
-              </div>);
-        }
-
-    }
-}
-
-CommentsDisabled.propTypes = {
-    isAuthor: React.PropTypes.bool
-};
 
 
 class LoginAndComment extends React.Component {
