@@ -80,7 +80,7 @@ var CreateCover = React.createClass({
 
         return (
             <div className={isActive}>
-                <div className="img" style={{background: 'url(' + path + ') center center'}}></div>
+              <div className="img" style={{background: 'url(' + path + ')'}}></div>
                 <div className="carousel-caption">
                     <div className="carousel-text">
                         <h2>{name}</h2>
