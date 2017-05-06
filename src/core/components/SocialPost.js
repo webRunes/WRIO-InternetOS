@@ -28,17 +28,6 @@ EXAMPLE:
 
  */
 
-function loadTwitterScript () {
-    var js,
-        fjs = document.getElementsByTagName('script')[0],
-        p = /^http:/.test(document.location) ? 'http' : 'https';
-
-    js = document.createElement('script');
-    js.id = 'twitter-wjs';
-    js.src = p + '://platform.twitter.com/widgets.js';
-    fjs.parentNode.insertBefore(js, fjs);
-}
-
 
 class Figure extends React.Component {
     render () {
@@ -84,9 +73,6 @@ class SocialPost extends React.Component {
                 }
                 console.log(result.body.html);
                 if (result.body.provider_name == 'Twitter') {
-                    if (!window.twttr) {
-                        loadTwitterScript();
-                    }
                     setTimeout(() => window.twttr.widgets.load(),1000); // hack to reload twitter iframes
                 }
                 if (result.body.type == 'link') {
@@ -95,7 +81,10 @@ class SocialPost extends React.Component {
                         object: result.body
                     });
                 }
-                this.setState({html:result.body.html});
+                const html = result.body.html;
+                this.refs.contentblock.innerHTML = html;
+                exec_body_scripts(this.refs.contentblock);
+                this.setState({html});
             });
         }
     }
@@ -110,7 +99,7 @@ class SocialPost extends React.Component {
             return (<a href={data.url}><img src={data.thumbnail_url} alt={data.description}/></a>);
         }
         const htmlData = {__html: this.state.html};
-        return  (<div dangerouslySetInnerHTML={htmlData} />);
+        return  (<div ref="contentblock" />);
     }
 
     render () {
@@ -126,3 +115,55 @@ SocialPost.propTypes = {
 };
 
 module.exports = SocialPost;
+
+function exec_body_scripts (body_el) {
+    // Finds and executes scripts in a newly added element's body.
+    // Needed since innerHTML does not run scripts.
+    //
+    // Argument body_el is an element in the dom.
+
+    function nodeName(elem, name) {
+        return elem.nodeName && elem.nodeName.toUpperCase() ===
+            name.toUpperCase();
+    };
+
+    function evalScript(elem) {
+        var data = (elem.text || elem.textContent || elem.innerHTML || "" ),
+            head = document.getElementsByTagName("head")[0] ||
+                document.documentElement,
+            script = document.createElement("script");
+
+        script.type = "text/javascript";
+        try {
+            // doesn't work on ie...
+            script.appendChild(document.createTextNode(data));
+        } catch(e) {
+            // IE has funky script nodes
+            script.text = data;
+        }
+
+        head.insertBefore(script, head.firstChild);
+        head.removeChild(script);
+    };
+
+    // main section of function
+    var scripts = [],
+        script,
+        children_nodes = body_el.childNodes,
+        child,
+        i;
+
+    for (i = 0; children_nodes[i]; i++) {
+        child = children_nodes[i];
+        if (nodeName(child, "script" ) &&
+            (!child.type || child.type.toLowerCase() === "text/javascript")) {
+            scripts.push(child);
+        }
+    }
+
+    for (i = 0; scripts[i]; i++) {
+        script = scripts[i];
+        if (script.parentNode) {script.parentNode.removeChild(script);}
+        evalScript(scripts[i]);
+    }
+};
