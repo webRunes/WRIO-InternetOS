@@ -26,7 +26,7 @@ function isCover(o) {
 const hashEquals = (itemHash) => {
     var currentHash = window.location.hash.substring(1);
     return replaceSpaces(itemHash) === currentHash;
-}
+};
 
 // abstract menu button
 
