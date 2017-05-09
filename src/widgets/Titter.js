@@ -191,7 +191,7 @@ var CreateTitter = React.createClass({
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
                 <ul className="breadcrumb" key="act">
-                    <li className="active">{this.state.addComment}</li>
+                    <li className="active" id="Comments">{this.state.addComment}</li>
                     <li style={{display: "none"}}><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
             );

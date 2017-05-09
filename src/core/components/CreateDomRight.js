@@ -23,6 +23,11 @@ function isCover(o) {
     return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
 }
 
+const hashEquals = (itemHash) => {
+    var currentHash = window.location.hash.substring(1);
+    return replaceSpaces(itemHash) === currentHash;
+};
+
 // abstract menu button
 
 class MenuButton extends React.Component {
@@ -53,7 +58,7 @@ class MenuButton extends React.Component {
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
             <li className={className}>
-                <a href={href} onClick={click}>{o.name}</a>
+                <a href={href} onClick={click} data-toggle="offcanvas">{o.name}</a>
             </li>
         );
     }
@@ -62,6 +67,7 @@ class MenuButton extends React.Component {
 
 class ExternalButton extends MenuButton {
     onClick (e) {
+        this.props.active(this);
         console.log("External button clicked");
         WrioDocumentActions.external(this.props.data.url, this.props.data.name);
         super.onClick(e);
@@ -85,6 +91,7 @@ class ExternalButton extends MenuButton {
 class ArticleButton extends MenuButton{
 
     onClick (e) {
+        this.props.active(this);
         console.log("Article button clicked");
         WrioDocumentActions.article(this.props.data.name, replaceSpaces(this.props.data.name));
         super.onClick(e);
@@ -122,6 +129,9 @@ var CreateDomRight = React.createClass({
         this.current.setState({
             active: true
         });
+        if (this.state.active) {
+            ActionMenu.showSidebar(false);
+        }
     },
 
     getInitialState: function () {
@@ -200,7 +210,11 @@ var CreateDomRight = React.createClass({
                     { (articleItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {articleItems}
+                        <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                                       active={this.active}
+                                       isActive={hashEquals('#Comments')}/>
                     </ul>:""}
+
                     { (externalItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {externalItems}
@@ -253,7 +267,6 @@ var CreateDomRight = React.createClass({
         this.coverItems= [];
         this.articleItems = [];
         this.externalItems = [];
-        var currentHash = window.location.hash.substring(1);
         this.initListName();
 
         if (this.listName) {
@@ -264,7 +277,7 @@ var CreateDomRight = React.createClass({
         var add = (currentItem) => {
 
             if (currentItem.hasElementOfType("Article")) {
-                var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
+                var isActive = hashEquals(currentItem.data.name) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
             } else if (currentItem.getType() === 'ItemList') {
