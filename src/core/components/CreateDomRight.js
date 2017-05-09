@@ -202,7 +202,7 @@ var CreateDomRight = React.createClass({
                         {articleItems}
                     </ul>:""}
                     <ul className="nav nav-pills nav-stacked" style={height}>
-                        <ArticleButton data={{name:"Comments",url:"#comments"}} active={(i)=>i++}/>
+                        <ArticleButton data={{name:"Comments",url:"#Comments"}} active={(i)=>i++}/>
                     </ul>
                     { (externalItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
