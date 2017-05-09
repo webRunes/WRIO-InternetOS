@@ -23,6 +23,11 @@ function isCover(o) {
     return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
 }
 
+const hashEquals = (itemHash) => {
+    var currentHash = window.location.hash.substring(1);
+    return replaceSpaces(itemHash) === currentHash;
+}
+
 // abstract menu button
 
 class MenuButton extends React.Component {
@@ -200,10 +205,11 @@ var CreateDomRight = React.createClass({
                     { (articleItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {articleItems}
+                        <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                                       active={this.active}
+                                       isActive={hashEquals('#Comments')}/>
                     </ul>:""}
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        <ArticleButton data={{name:"Comments",url:"#Comments"}} active={(i)=>i++}/>
-                    </ul>
+
                     { (externalItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {externalItems}
@@ -256,7 +262,6 @@ var CreateDomRight = React.createClass({
         this.coverItems= [];
         this.articleItems = [];
         this.externalItems = [];
-        var currentHash = window.location.hash.substring(1);
         this.initListName();
 
         if (this.listName) {
@@ -267,7 +272,7 @@ var CreateDomRight = React.createClass({
         var add = (currentItem) => {
 
             if (currentItem.hasElementOfType("Article")) {
-                var isActive = replaceSpaces(currentItem.data.name) === currentHash || isActiveFirstArticle;
+                var isActive = hashEquals(currentItem.data.name) || isActiveFirstArticle;
                 isActiveFirstArticle = false;
                 this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
             } else if (currentItem.getType() === 'ItemList') {
