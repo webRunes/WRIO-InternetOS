@@ -12,7 +12,7 @@ class TwitterTimelineWidget {
 
         container.style.height = '240px';
 
-        var commentTitle = '<ul class="breadcrumb twitter" id="Comments"><li class="active">Comments</li><li class="pull-right"></li></ul>';
+        var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
         container.innerHTML = commentTitle + twitterTemplate;
 
@@ -191,7 +191,7 @@ var CreateTitter = React.createClass({
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
                 <ul className="breadcrumb" key="act">
-                    <li className="active">{this.state.addComment}</li>
+                    <li className="active" id="Comments">{this.state.addComment}</li>
                     <li style={{display: "none"}}><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
             );

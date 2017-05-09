@@ -67,6 +67,7 @@ class MenuButton extends React.Component {
 
 class ExternalButton extends MenuButton {
     onClick (e) {
+        this.props.active(this);
         console.log("External button clicked");
         WrioDocumentActions.external(this.props.data.url, this.props.data.name);
         super.onClick(e);
@@ -90,6 +91,7 @@ class ExternalButton extends MenuButton {
 class ArticleButton extends MenuButton{
 
     onClick (e) {
+        this.props.active(this);
         console.log("Article button clicked");
         WrioDocumentActions.article(this.props.data.name, replaceSpaces(this.props.data.name));
         super.onClick(e);
@@ -127,6 +129,9 @@ var CreateDomRight = React.createClass({
         this.current.setState({
             active: true
         });
+        if (this.state.active) {
+            ActionMenu.showSidebar(false);
+        }
     },
 
     getInitialState: function () {
