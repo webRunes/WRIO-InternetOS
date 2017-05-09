@@ -44,9 +44,9 @@ export class AlertWelcome extends React.Component {
 
     render() {
         var alert = ( <Alert bsStyle="warning" className="callout" onDismiss={this.hideAlertWelcomeByClick.bind(this)}>
-            <h5>First time here?</h5>
-            <p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>.
-                Click it to open a side menu</p>
+          <h5>First time here?</h5>
+          <p>Pay attention to the icon above <span className="glyphicon glyphicon-transfer"></span>.
+          Click it to open a side menu</p>
         </Alert>);
 //        console.log(this.state);
 
@@ -99,14 +99,13 @@ export class AlertWarning extends React.Component {
     }
 
     render () {
-
         if (!this.state.hidden) {
             return (<Alert bsStyle="warning" onDismiss={this.hideAlertWarningByClick.bind(this)}>
-              <strong>Attention!</strong> This is an experimental project under development. <a href="https://www.youtube.com/watch?v=ntQulTFH7hk" target="_blank">Stated functions</a><sup><span className="glyphicon glyphicon-new-window"></span></sup> will be added as it progresses.
+              WRIO Internet OS is your window to the world of decentralized, semantic and secure Internet based on the blockchain technology. <a href="https://wrioos.com">Stated functions</a> will be added as it progresses.
               <br />
-              <p>Click "Create post" to <a href="https://core.wrioos.com/?list=Offer">join the first authors</a> and start receiving donations!</p>
-                <br />
-                <a href="https://core.wrioos.com/?create" className="btn btn-sm btn-success"><span className="glyphicon glyphicon-edit"></span>Create post</a>
+              <p>The platform supports creation of content-based posts from various sources: social media and services, featuring cryptocurrency donations instead of likes, and attracting new readers through a unique system of comments on the basis of tweets.</p>
+              <br />
+              <a href="https://core.wrioos.com/?create" className="btn btn-sm btn-success"><span className="glyphicon glyphicon-edit"></span>Create post</a>
             </Alert>);
         } else {
             return false;
