@@ -53,7 +53,7 @@ class MenuButton extends React.Component {
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
             <li className={className}>
-                <a href={href} onClick={click}>{o.name}</a>
+                <a href={href} onClick={click} data-toggle="offcanvas">{o.name}</a>
             </li>
         );
     }
@@ -201,6 +201,9 @@ var CreateDomRight = React.createClass({
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {articleItems}
                     </ul>:""}
+                    <ul className="nav nav-pills nav-stacked" style={height}>
+                        <ArticleButton data={{name:"Comments",url:"#Comments"}} active={(i)=>i++}/>
+                    </ul>
                     { (externalItems.length > 0) ?
                     <ul className="nav nav-pills nav-stacked" style={height}>
                         {externalItems}
