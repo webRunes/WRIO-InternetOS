@@ -187,7 +187,7 @@ export class CreateDomCenter extends ArticleCenter {
 
     render() {
         const showArticle = this.isArticleShown();
-        const displayTitterCondition = WrioDocument.hasArticle() && showArticle; // make sure titter is hidden for covers and lists
+        const displayTitterStyle = (WrioDocument.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
 
         if ((this.state.urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
             let coreFrame = <Core article={this.getEditUrl()}/>;
@@ -200,7 +200,7 @@ export class CreateDomCenter extends ArticleCenter {
                              <WrioDocumentBody/>
                             { !WrioDocument.hasCommentId() ?
                                 commentsDisabledFrame :
-                            displayTitterCondition && <CreateTitter scripts={ WrioDocument.getData()} /> }
+                             <CreateTitter scripts={ WrioDocument.getData()} style={displayTitterStyle} /> }
                         </div>);
 
 

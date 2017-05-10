@@ -82,9 +82,12 @@ class SocialPost extends React.Component {
                     });
                 }
                 const html = result.body.html;
-                this.refs.contentblock.innerHTML = html;
-                exec_body_scripts(this.refs.contentblock);
-                this.setState({html});
+                if (this.refs.contentblock) {
+                    this.refs.contentblock.innerHTML = html;
+                    console.warn("Contentblock hidden TODO: investigate if it's ok");
+                    exec_body_scripts(this.refs.contentblock);
+                    this.setState({html});
+                }
             });
         }
     }
