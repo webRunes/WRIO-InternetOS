@@ -31,11 +31,7 @@ const hashEquals = (itemHash) => {
 // abstract menu button
 
 class MenuButton extends React.Component {
-    static propTypes = {
-        data: React.PropTypes.object.isRequired,
-        active: React.PropTypes.func.isRequired,
-        isActive: React.PropTypes.bool.isRequired
-    };
+
     onClick (e) {
         this.props.active(this);
         e.preventDefault();
@@ -63,6 +59,12 @@ class MenuButton extends React.Component {
         );
     }
 }
+
+MenuButton.propTypes = {
+    data: React.PropTypes.object.isRequired,
+    active: React.PropTypes.func.isRequired,
+    isActive: React.PropTypes.bool.isRequired
+};
 
 
 class ExternalButton extends MenuButton {
