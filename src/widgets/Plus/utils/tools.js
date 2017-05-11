@@ -67,7 +67,7 @@ module.exports.getJsonldsByUrl = function (url, cb) {
         url,
         function (err, result) {
             if (!err && (typeof result === 'object')) {
-               result = parseResult(result)
+               result = parseResult(result);
             }
             cb.call(self, result || []);
         }

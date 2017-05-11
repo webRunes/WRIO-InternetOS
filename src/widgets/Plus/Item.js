@@ -4,7 +4,7 @@ import normURL from './utils/normURL';
 import {CrossStorageFactory} from '../../core/store/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 
-var storage = new CrossStorageFactory.getCrossStorage();
+var storage = CrossStorageFactory.getCrossStorage();
 
 class Item extends GenericListItem {
     constructor(props) {
@@ -31,7 +31,7 @@ class Item extends GenericListItem {
 
 Item.propTypes = {
     del: React.PropTypes.func.isRequired,
-    child: React.PropTypes.boolean
+    child: React.PropTypes.bool
 };
 
 module.exports = Item;

@@ -6,6 +6,8 @@
  */
 import normURL from './normURL';
 import {lastOrder,getNext} from './tools';
+import cloneDeep from 'lodash.clonedeep';
+
 
 export const tabsHaveKey = (tabs,key) => {
     let present = false;
@@ -22,7 +24,7 @@ export const tabsHaveKey = (tabs,key) => {
 export const addPageToTabs = (inputTabs,newPage) => {
     const tab = newPage.tab,
         parentName = newPage.parent;
-    const tabs = Object.assign({},inputTabs || {});
+    const tabs = cloneDeep(inputTabs || {});
     if (tab.author && !newPage.noAuthor) {
         // create parent tab if not created before
         let author = tab.author;
@@ -69,30 +71,30 @@ export const addPageToTabs = (inputTabs,newPage) => {
 };
 
 export const hasActive = (tabs) => {
-    let hasActive = false;
+    let res = false;
     if (Object.keys(tabs).length) {
         Object.keys(tabs).forEach((name) => {
             if (tabs[name].active) {
-                hasActive = true;
+                res = true;
             } else {
                 if (tabs[name].children) {
                     var children = tabs[name].children;
                     Object.keys(children).forEach((childName) => {
                         if (children[childName].active) {
-                            hasActive = true;
+                            res = true;
                         }
                     });
                 }
             }
         });
     }else{
-        hasActive = false;
+        res = false;
     }
-    return hasActive;
+    return res;
 };
 
 export const removeLastActive = (_tabs) => {
-    const tabs = Object.assign({},_tabs);
+    let tabs = cloneDeep(_tabs);
     function rm (obj) {
         return Object.keys(obj).forEach((key) => {
             var o = obj[key];
@@ -117,7 +119,7 @@ export const removeLastActive = (_tabs) => {
  */
 
 export const deletePageFromTabs = (inputTabs, listName,elName) => {
-    let tabs = Object.assign({},inputTabs);
+    let tabs = cloneDeep(inputTabs);
     let next;
     if (elName === undefined) {
         next = getNext(tabs, listName);
@@ -139,20 +141,21 @@ export const deletePageFromTabs = (inputTabs, listName,elName) => {
  * ?? modifies somehow pages with current url and replaces it with current url
  */
 export const modifyCurrentUrl = (_tabs) => {
-    const tabs = Object.assign({},_tabs);
+    const tabs = cloneDeep(_tabs);
+    const href = normURL(window.location.href);
     Object.keys(tabs).forEach((item) => {
-        if (normURL(item) === normURL(window.location.href)) {
+        if (normURL(item) === href) {
             var _tmp = tabs[item];
-            _tmp.url = window.location.href;
+            _tmp.url = href;
             delete tabs[item];
-            tabs[window.location.href] = _tmp;
+            tabs[href] = _tmp;
         } else if (tabs[item].children) {
             Object.keys(tabs[item].children).forEach((child) => {
-                if (normURL(child) === normURL(window.location.href)) {
+                if (normURL(child) === href) {
                     var _tmp = tabs[item].children[child];
-                    _tmp.url = window.location.href;
+                    _tmp.url = href;
                     delete tabs[item].children[child];
-                    tabs[item].children[window.location.href] = _tmp;
+                    tabs[item].children[href] = _tmp;
                 }
             });
         }

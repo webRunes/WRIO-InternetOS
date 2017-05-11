@@ -130,7 +130,7 @@ export default Reflux.createStore({
             return  {
                 tab: page,
                 noAuthor: true
-            }
+            };
         } else {
             let jsons = await getJsonldsByUrlPromised(page.author);
             if (jsons && jsons.length !== 0) {
@@ -147,7 +147,7 @@ export default Reflux.createStore({
                 return {
                     tab: page,
                     parent: name
-                }
+                };
             } else {
                 return {
                     tab: page,

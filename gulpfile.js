@@ -43,15 +43,17 @@ gulp.task('test', function() {
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(mocha({
             reporter: 'dot',
+            require: "babel-polyfill",
+            compilers: "js:babel-core/register",
             timeout: 20000
         }))
         .once('error', function (err) {
-            console.log('Tests failed for reason:',err);
+            console.log('Tests failed');
             process.exit(1);
         })
         .once('end', function () {
             process.exit();
-        });;
+        });
 });
 
 gulp.task('lint', function () {

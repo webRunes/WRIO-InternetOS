@@ -39,9 +39,6 @@ var e = {
         test: /.js?$/,
         loader: "babel-loader",
         exclude: /node_modules/,
-        query: {
-          presets: ["react", "es2015", "stage-0"]
-        }
       }
     ]
   },
@@ -63,6 +60,24 @@ var e = {
     })
   ]
 };
+
+const ES6_BROWSER = true;
+
+if (process.env.DOCKER_DEV && ES6_BROWSER) {
+  // mode for debugging native ES6 code in compatible browser
+  console.log("ES6 mode, not suitable for production!!!")
+   let options= {
+    presets: ["react"],
+    plugins: ["transform-es2015-modules-commonjs"]
+  };
+  e.module.loaders[0].options = options;
+} else {
+  // production grade transpiler settings
+  let presets = ["react", "es2015", "stage-0"];
+  e.module.loaders[0].options = {
+    presets: presets
+  };
+}
 
 if (process.env.DOCKER_DEV) {
   //   e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
