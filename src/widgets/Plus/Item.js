@@ -14,7 +14,7 @@ class Item extends GenericListItem {
     render() {
         var className = classNames({
                 active: this.props.data ? this.props.data.active : false,
-                panel: true
+                panel: !this.props.child
             }),
             data = this.props.data,
             name = data.name || 'Untitled';
@@ -30,7 +30,8 @@ class Item extends GenericListItem {
 }
 
 Item.propTypes = {
-    del: React.PropTypes.func.isRequired
+    del: React.PropTypes.func.isRequired,
+    child: React.PropTypes.boolean
 };
 
 module.exports = Item;

@@ -25,7 +25,7 @@ if (process.env.DOCKER_DEV) {
 console.log(envs);
 var e = {
   entry: {
-    main: "./src/main.js",
+    main: ['babel-polyfill',"./src/main.js"],
     start: "./src/preloader.js"
   },
   output: {
