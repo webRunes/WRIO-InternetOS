@@ -50,7 +50,7 @@ class SubList extends GenericListItem {
                 panel: true,
                 group: true,
                 active: data.active || haveActiveChildren,
-                open: haveActiveChildren
+                open: haveActiveChildren || data.active
             });
 
         return (
