@@ -248,9 +248,9 @@ export default Reflux.createStore({
             if (!plus) {
                 return;
             }
-            const _plus = modifyCurrentUrl(plus);
-            await storage.del('plus');
-            await storage.set('plus', _plus);
+            //const _plus = modifyCurrentUrl(plus);
+            //await storage.del('plus');
+            //await storage.set('plus', _plus);
             await storage.del('plusActive');
             window.location = data.url;
 
