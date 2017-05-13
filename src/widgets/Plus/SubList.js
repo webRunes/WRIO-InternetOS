@@ -44,13 +44,14 @@ class SubList extends GenericListItem {
             children = data.children,
             childrenActive = some(children, (i) => i.active),
             haveActiveChildren = (!!children && childrenActive),
+            shouldOpen =  data.active || haveActiveChildren,
             list = this.createItem(),
             rightContent = children ? Object.keys(children).length : <span onClick={this.del} className="glyphicon glyphicon-remove" />,
             className = classNames({
                 panel: true,
                 group: true,
-                active: data.active || haveActiveChildren,
-                open: haveActiveChildren || data.active
+                active: shouldOpen,
+                open: shouldOpen
             });
 
         return (
@@ -59,7 +60,7 @@ class SubList extends GenericListItem {
                     <span className="qty pull-right">{rightContent}</span>
                     <span>{name}</span>
                 </a>
-                <div className="in" style={childrenStyle(haveActiveChildren)}>
+                <div className="in" style={childrenStyle(shouldOpen)}>
                     <ul className="nav nav-pills nav-stacked sub">
                         {list}
                     </ul>
