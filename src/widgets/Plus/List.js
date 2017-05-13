@@ -40,13 +40,14 @@ class List extends React.Component {
                 return item;
             }
         }).map((item, i) => {
+            const itemKey = i+encodeURIComponent(item.url);
             if (item.children) {
-                return <SubList data={item} key={'s'+encodeURIComponent(item.url)} />;
+                return <SubList data={item} key={itemKey} />;
             }
             del = function() {
                 PlusActions.del(item.url);
             };
-            return <Item className="panel" del={del} onClick={List.clickOnItem} data={item} listName={item.name} key={encodeURIComponent(item.url)} />;
+            return <Item className="panel" del={del} onClick={List.clickOnItem} data={item} listName={item.name} key={itemKey} />;
         }, this);
     }
 
