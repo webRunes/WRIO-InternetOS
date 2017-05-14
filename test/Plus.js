@@ -5,6 +5,7 @@ import {
     hasActive,
     removeLastActive,
     deletePageFromTabs,
+    normalizeTabs,
     modifyCurrentUrl} from '../src/widgets/Plus/utils/tabTools.js';
 
 
@@ -55,7 +56,86 @@ const buggy = {
             "order": 5
         }
     }
-}
+};
+
+const nonNormalized = {
+    "//wrioos.local/hub/stevhub.html": {
+        "name": "Michael Bilenko",
+        "url": "//wrioos.local/hub/stevhub.html",
+        "order": 6,
+        "children": {
+            "//wrioos.local/hub/2.html": {
+                "name": "3",
+                "url": "//wrioos.local/hub/2.html",
+                "author": "http://wrioos.local/hub/stevhub.html",
+                "active": false,
+                "order": 0
+            }
+        },
+        "active": false
+    },
+    "http://wrioos.local/hub/stevhub.html": {
+        "name": "Michael Bilenko",
+        "url": "//wrioos.local/hub/stevhub.html",
+        "order": 6,
+        "children": {
+            "//wrioos.local/hub/2.html": {
+                "name": "3",
+                "url": "//wrioos.local/hub/2.html",
+                "author": "http://wrioos.local/hub/stevhub.html",
+                "active": false,
+                "order": 0
+            }
+        },
+        "active": false
+    },
+    "//webrunes.com": {"name": "webRunes", "url": "//webrunes.com", "author": "", "active": false, "order": 4},
+    "//wr.io/474365383130": {
+        "name": "Michael Stevens",
+        "url": "//wr.io/474365383130",
+        "order": 1,
+        "children": {
+            "//vsauce.wr.io": {
+                "name": "Vsauce",
+                "url": "//vsauce.wr.io",
+                "author": "https://wr.io/474365383130/?wr.io=474365383130",
+                "active": false,
+                "order": 1
+            },
+            "//wr.io/474365383130/Untitled": {
+                "name": "Untitled",
+                "url": "//wr.io/474365383130/Untitled",
+                "author": "https://wr.io/474365383130/?wr.io=474365383130",
+                "active": false,
+                "order": 2
+            }
+        },
+        "active": false
+    },
+    "https://wr.io/474365383130/?wr.io=474365383130": {
+        "name": "Michael Stevens",
+        "url": "//wr.io/474365383130",
+        "order": 1,
+        "children": {
+            "//vsauce.wr.io": {
+                "name": "Vsauce",
+                "url": "//vsauce.wr.io",
+                "author": "https://wr.io/474365383130/?wr.io=474365383130",
+                "active": true,
+                "order": 1
+            },
+            "//wr.io/474365383130/Untitled": {
+                "name": "Untitled",
+                "url": "//wr.io/474365383130/Untitled",
+                "author": "https://wr.io/474365383130/?wr.io=474365383130",
+                "active": false,
+                "order": 2
+            }
+        },
+        "active": false
+    }
+};
+
 
 const testPlus = {
     "//wrioos.local/hub/1.html": {
@@ -130,4 +210,10 @@ describe('Plus tab utils testing', () => {
         console.log(__tabs[testParent]);
         //__tabs[testParent].should.not.have.property("children");
     });
+
+    it("should normilize input data", () => {
+        const res = normalizeTabs(nonNormalized);
+
+        console.log(JSON.stringify(res,null,4));
+    })
 });

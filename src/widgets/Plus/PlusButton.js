@@ -38,9 +38,7 @@ class PlusButton extends React.Component{
 
     gotoUrl(e) {
         e.preventDefault();
-        PlusActions.plusActive(true, 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/', () => {
-            window.location = 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/';
-        });
+        window.location = 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/';
         return false;
     }
 

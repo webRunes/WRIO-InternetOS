@@ -22,6 +22,7 @@ import WrioDocument from '../store/WrioDocument.js';
 import UIActions from '../actions/UI.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
 
+
 var domain = getDomain();
 
 class ArticleCenter  extends React.Component {
@@ -200,7 +201,9 @@ export class CreateDomCenter extends ArticleCenter {
                              <WrioDocumentBody/>
                             { !WrioDocument.hasCommentId() ?
                                 commentsDisabledFrame :
-                             <CreateTitter scripts={ WrioDocument.getData()} style={displayTitterStyle} /> }
+                             <div style={displayTitterStyle}>
+                                 <CreateTitter scripts={ WrioDocument.getData()} />
+                             </div> }
                         </div>);
 
 
