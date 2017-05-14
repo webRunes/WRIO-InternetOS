@@ -1,16 +1,18 @@
 import Reflux from 'reflux';
-import normURL from '../utils/normURL';
+import normURL,{isPlusUrl,getPlusUrl} from '../utils/normURL';
 import PlusActions from '../actions/PlusActions.js';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../utils/tools';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
 import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
+import UIActions from '../../../core/actions/UI.js';
 import {
     addPageToTabs,
     hasActive,
     removeLastActive,
     deletePageFromTabs,
+    normalizeTabs,
     modifyCurrentUrl} from '../utils/tabTools.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
@@ -64,11 +66,18 @@ export default Reflux.createStore({
     /**
      * Get inital plus data from localStorage
      */
-    async init () {
+     async init () {
         await storage.onConnect();
-        const plus = await storage.get('plus');
-        this.data = plus || {};
-        this.merge();
+        UIActions.gotWrioID.listen(async (prof) => {
+            this.id = prof;
+            await this.initState();
+        });
+    },
+
+    async initState() {
+
+        const plus = await storage.get('plus') || {};
+        this.importPlusState(plus,!this.isPlusActive()); // don't add current page to tabs if plus active
     },
 
     getInitialState: function() {
@@ -77,7 +86,7 @@ export default Reflux.createStore({
 
     async persistPlusDataToLocalStorage(data) {
         await storage.onConnect();
-        await storage.del('plus');
+      //  await storage.del('plus');
         await storage.set('plus', data);
     },
 
@@ -85,44 +94,27 @@ export default Reflux.createStore({
      * Adds current page to plus tabs
      */
 
-    async mkNewPage() {
-        const _removed = removeLastActive(this.data);
+    async importPlusState(data, addCurrent) {
+        const _norm = normalizeTabs(data);
         let params = await this.createCurrentPage();
-        if (params) {
-            const newData = addPageToTabs(_removed,params);
-            this.trigger(newData);
+        if (params && addCurrent) {
+            const newData = addPageToTabs(_norm,params);
             await this.persistPlusDataToLocalStorage(newData);
             this.data = newData;
-        } // ?? do we need to publish data with no tab active????
+        } else {
+            this.data = _norm;
+        }
+        this.trigger(this.data);
+    },
+
+    isPlusActive() {
+        return isPlusUrl(window.location.href,this.id);
     },
 
     /**
      * This function adds current page to the plus tabs hierarchy depending on plusActive flag
      */
 
-    async merge () {
-        await storage.onConnect();
-        let plusActive = await storage.get('plusActive');
-        if (plusActive && plusActive.active) {
-            if (normURL(window.location.href) !== normURL(plusActive.url)) {
-                plusActive.active = false;
-                storage.del('plusActive');
-                storage.set('plusActive', plusActive);
-                this.mkNewPage();
-            }
-        } else if (plusActive && !plusActive.active) {
-            if (normURL(window.location.href) === normURL(plusActive.url)) { // if we on plus page dont add it to tabs
-                plusActive.active = true;
-                storage.del('plusActive');
-                storage.set('plusActive', plusActive);
-                this.trigger(this.data);
-            } else {
-                this.mkNewPage();
-            }
-        } else {
-            this.mkNewPage();
-        }
-    },
 
 
     async createCurrentPageParent (page) {
@@ -181,46 +173,18 @@ export default Reflux.createStore({
     },
 
     async onDel (listName, elName) {
-        const [newdata,next] = deletePageFromTabs(this.data,listName,elName);
+        const [newdata,next,wasActive] = deletePageFromTabs(this.data,listName,elName);
+
+
         await this.persistPlusDataToLocalStorage(newdata);
         this.data = newdata;
         this.trigger(this.data);
 
-        if (next) {
-            window.location = next;
-        } else {
-            try {
-                await storage.onConnect();
-                let plus = await storage.get('plus');
-                let plusActive = hasActive(plus);
-
-                if(!hasActive){
-                    let activeRecord = await storage.get('plusActive');
-                    if (activeRecord){
-                        window.location = plusActive.url;
-                    }else{
-                        ActionMenu.refresh();
-                    }
-                }else{
-                    return false;
-                }
-            } catch (err) {
-                console.log("Error caught during delete",err);
-            }
+        if (wasActive) {
+            window.location.href  = next ? next : getPlusUrl(this.id);
         }
     },
 
-    async onPlusActive (active, url, cb) {
-        await storage.onConnect();
-        await storage.del('plusActive');
-        await storage.set('plusActive', {
-            active: active,
-            url: url || normURL(window.location.href)
-        });
-        if (cb) {
-            cb();
-        }
-    },
 
     async onClickLink(data) {
 

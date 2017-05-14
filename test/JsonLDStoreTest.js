@@ -47,6 +47,14 @@ function setupFakeDOM() {
 
 setupFakeDOM();
 
+import UIActions from '../src/core/actions/UI.js';
+import {
+    addPageToTabs,
+    hasActive,
+    removeLastActive,
+    deletePageFromTabs,
+    normalizeTabs,
+    modifyCurrentUrl} from '../src/widgets/Plus/utils/tabTools.js';
 
 
 describe('jsonld store test', () => {
@@ -56,9 +64,10 @@ describe('jsonld store test', () => {
        var store = PlusStore;
        setMock(mockval);
        store.init();
+       UIActions.gotWrioID('558153389649'); // fake got wrio id request
        setTimeout(() => {
            //console.log("DATA:",store.data);
-           should(store.data).equal(mockval.plus);
+           should(store.data).deepEqual(normalizeTabs(mockval.plus));
            done();
        },1000);
 
