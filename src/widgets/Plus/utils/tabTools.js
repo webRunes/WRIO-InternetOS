@@ -21,13 +21,48 @@ export const tabsHaveKey = (tabs,key) => {
     return [present,tabs[foundItem]];
 };
 
+/**
+ * Normalizes imported tabs from
+ * @param _tabs
+ * @returns {*}
+ */
+export const normalizeTabs = (_tabs) => {
+   const tabs = cloneDeep(_tabs);
+   function normalize(tabs,processChildren) {
+       return Object.values(tabs).reduce((prev,item) => {
+           if (!item.url) return;
+           const newUrl = normURL(item.url);
+           const tab = item;
+           if (processChildren) {
+               if (tab.children) {
+                   tab.children = normalize(tab.children,processChildren,false);
+               }
+               if (prev[newUrl] && prev[newUrl].children) {
+                   let children = prev[newUrl].children;
+                   tab.children = Object.assign(children,tab.children);
+               }
+           }
+           prev[newUrl] = {
+               name: tab.name,
+               url: normURL(tab.url),
+               author: normURL(tab.author),
+               active: false,
+               order: tab.order,
+               children: tab.children
+           };
+           return prev;
+       },{});
+   }
+    return normalize(tabs,true);
+};
+
 export const addPageToTabs = (inputTabs,newPage) => {
     const tab = newPage.tab,
         parentName = newPage.parent;
     const tabs = cloneDeep(inputTabs || {});
     if (tab.author && !newPage.noAuthor) {
         // create parent tab if not created before
-        let author = tab.author;
+        let author = normURL(tab.author);
         let [haveAuthor,parent] = tabsHaveKey(tabs,author);
         if (!haveAuthor) {
             parent = {
@@ -121,19 +156,21 @@ export const removeLastActive = (_tabs) => {
 export const deletePageFromTabs = (inputTabs, listName,elName) => {
     let tabs = cloneDeep(inputTabs);
     let next;
+    let wasActive;
     if (elName === undefined) {
         next = getNext(tabs, listName);
+        wasActive = tabs[listName].active;
         delete tabs[listName];
     } else {
         next = getNext(tabs[listName], elName);
+        wasActive = tabs[listName].children[elName].active;
         delete tabs[listName].children[elName];
-        if (Object.keys(tabs[listName].children)
-                .length === 0) {
+        if (Object.keys(tabs[listName].children).length === 0) {
             delete tabs[listName].children;
             tabs[listName].active = true;
         }
     }
-    return [tabs,next];
+    return [tabs,next,wasActive];
 };
 
 
