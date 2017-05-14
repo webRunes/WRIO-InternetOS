@@ -198,22 +198,21 @@ describe('Plus tab utils testing', () => {
     it("Should delete tab successfully", () => {
         const testList = "//wrioos.local/hub/3.html";
         testPlus.should.have.property(testList);
-        const _tabs = deletePageFromTabs(testList);
+        let [_tabs, next, wasActive] = deletePageFromTabs(testPlus,testList);
         testPlus.should.have.property(testList); // make shure testPlus is not modified
         _tabs.should.not.have.property(testList);
         // try to delete child
         const testParent = "https://wr.io/474365383130/?wr.io=474365383130";
         const testChild = "http://wrioos.local/hub/vsauce.html#Vsauce_is...";
         testPlus[testParent].children.should.have.property(testChild);
-        const __tabs = deletePageFromTabs(testPlus, testParent, testChild);
+        let [__tabs,__next,__wasActive] = deletePageFromTabs(testPlus, testParent, testChild);
         testPlus[testParent].children.should.have.property(testChild);
-        console.log(__tabs[testParent]);
-        //__tabs[testParent].should.not.have.property("children");
+        __tabs[testParent].should.not.have.property("children");
     });
 
     it("should normilize input data", () => {
         const res = normalizeTabs(nonNormalized);
 
-        console.log(JSON.stringify(res,null,4));
+       // console.log(JSON.stringify(res,null,4));
     })
 });
