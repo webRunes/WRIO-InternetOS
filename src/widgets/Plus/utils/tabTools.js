@@ -60,7 +60,9 @@ export const addPageToTabs = (inputTabs,newPage) => {
     const tab = newPage.tab,
         parentName = newPage.parent;
     const tabs = cloneDeep(inputTabs || {});
+    console.log("Adding current page to tabs",newPage);
     if (tab.author && !newPage.noAuthor) {
+        console.log("Adding child node");
         // create parent tab if not created before
         let author = normURL(tab.author);
         let [haveAuthor,parent] = tabsHaveKey(tabs,author);
@@ -90,6 +92,7 @@ export const addPageToTabs = (inputTabs,newPage) => {
         //parent.active = true;
         return Object.assign(tabs,{[author]:parent});
     } else {
+        console.log("Adding top level node");
         let key = tab.url;
         Object.keys(tabs).forEach((item) => {
             if (normURL(item) === normURL(key)) {
@@ -175,7 +178,7 @@ export const deletePageFromTabs = (inputTabs, listName,elName) => {
 
 
 /**
- * ?? modifies somehow pages with current url and replaces it with current url
+ * ?? Modifies current URL in the plus tabs, to save last navigation status in the localstorage
  */
 export const modifyCurrentUrl = (_tabs) => {
     const tabs = cloneDeep(_tabs);

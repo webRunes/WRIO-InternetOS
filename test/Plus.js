@@ -177,6 +177,83 @@ const testPlus = {
     }
 };
 
+const vsauseNotJoined = {
+    "//wr.io/474365383130": {
+        "name": "Michael Stevens",
+        "url": "//wr.io/474365383130",
+        "active": false,
+        "order": 0,
+        "children": {
+            "//vsauce.wr.io": {
+                "name": "Vsauce",
+                "url": "//vsauce.wr.io",
+                "author": "//wr.io/474365383130",
+                "active": false,
+                "order": 0
+            }
+        }
+    },
+    "//dp.wr.io": {
+        "name": "Физика от Побединского",
+        "url": "//dp.wr.io",
+        "author": "",
+        "active": false,
+        "order": 1
+    },
+    "//vsauce.wr.io": {
+        "name": "Vsauce",
+        "url": "//vsauce.wr.io",
+        "author": "//wr.io/474365383130",
+        "active": false,
+        "order": 2
+    },
+    "//login.wrioos.local": {
+        "name": "Login",
+        "url": "//login.wrioos.local",
+        "author": "",
+        "active": false,
+        "order": 3
+    },
+    "//titter.wrioos.local": {
+        "name": "Titter",
+        "url": "//titter.wrioos.local",
+        "author": "",
+        "active": false,
+        "order": 4
+    },
+    "//webgold.wrioos.local": {
+        "name": "webGold (WRG)",
+        "url": "//webgold.wrioos.local",
+        "author": "",
+        "active": false,
+        "order": 5
+    },
+    "//storage.wrioos.local": {
+        "name": "Storage",
+        "url": "//storage.wrioos.local",
+        "author": "",
+        "active": true,
+        "order": 6
+    }
+};
+
+const msOnly = {
+    "//wr.io/474365383130": {
+        "name": "Michael Stevens",
+        "url": "//wr.io/474365383130",
+        "active": false,
+        "order": 0,
+        "children": {
+            "//vsauce.wr.io": {
+                "name": "Vsauce",
+                "url": "//vsauce.wr.io",
+                "author": "//wr.io/474365383130",
+                "active": false,
+                "order": 0
+            }
+        }
+    }
+}
 
 describe('Plus tab utils testing', () => {
     before(() => {
@@ -215,4 +292,10 @@ describe('Plus tab utils testing', () => {
 
        // console.log(JSON.stringify(res,null,4));
     })
+
+    it("should join tabs correctly", ()=> {
+        const res = normalizeTabs(vsauseNotJoined);
+
+         console.log(JSON.stringify(res,null,4));
+    });
 });

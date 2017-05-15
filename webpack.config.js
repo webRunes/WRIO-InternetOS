@@ -62,11 +62,11 @@ var e = {
   ]
 };
 
-const ES6_BROWSER = true;
+const ES6_BROWSER = false;
 
 if (process.env.DOCKER_DEV && ES6_BROWSER) {
   // mode for debugging native ES6 code in compatible browser
-  console.log("ES6 mode, not suitable for production!!!")
+  console.log("ES6 mode, not suitable for production!!!");
    let options= {
     presets: ["react"],
     plugins: ["transform-es2015-modules-commonjs"]
