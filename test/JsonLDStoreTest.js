@@ -54,7 +54,7 @@ import {
     removeLastActive,
     deletePageFromTabs,
     normalizeTabs,
-    modifyCurrentUrl} from '../src/widgets/Plus/utils/tabTools.js';
+    saveCurrentUrlToPlus} from '../src/widgets/Plus/utils/tabTools.js';
 
 
 describe('jsonld store test', () => {

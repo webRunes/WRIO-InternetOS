@@ -1,5 +1,4 @@
 import React from 'react';
-import normURL from './utils/normURL';
 import PlusActions from './actions/PlusActions.js';
 import {CrossStorageFactory} from '../../core/store/CrossStorageFactory.js';
 

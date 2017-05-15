@@ -45,6 +45,7 @@ export const normalizeTabs = (_tabs) => {
            prev[newUrl] = {
                name: tab.name,
                url: normURL(tab.url),
+               fullUrl: tab.fullUrl,
                author: normURL(tab.author),
                active: false,
                order: tab.order,
@@ -60,7 +61,9 @@ export const addPageToTabs = (inputTabs,newPage) => {
     const tab = newPage.tab,
         parentName = newPage.parent;
     const tabs = cloneDeep(inputTabs || {});
+    console.log("Adding current page to tabs",newPage);
     if (tab.author && !newPage.noAuthor) {
+        console.log("Adding child node");
         // create parent tab if not created before
         let author = normURL(tab.author);
         let [haveAuthor,parent] = tabsHaveKey(tabs,author);
@@ -90,6 +93,7 @@ export const addPageToTabs = (inputTabs,newPage) => {
         //parent.active = true;
         return Object.assign(tabs,{[author]:parent});
     } else {
+        console.log("Adding top level node");
         let key = tab.url;
         Object.keys(tabs).forEach((item) => {
             if (normURL(item) === normURL(key)) {
@@ -175,15 +179,16 @@ export const deletePageFromTabs = (inputTabs, listName,elName) => {
 
 
 /**
- * ?? modifies somehow pages with current url and replaces it with current url
+ *  Modifies current URL in the plus tabs, to save last page navigation status in the localstorage
  */
-export const modifyCurrentUrl = (_tabs) => {
+export const saveCurrentUrlToPlus = (_tabs) => {
     const tabs = cloneDeep(_tabs);
     const href = normURL(window.location.href);
     Object.keys(tabs).forEach((item) => {
         if (normURL(item) === href) {
             var _tmp = tabs[item];
             _tmp.url = href;
+            _tmp.fullUrl = window.location.href;
             delete tabs[item];
             tabs[href] = _tmp;
         } else if (tabs[item].children) {
@@ -191,6 +196,7 @@ export const modifyCurrentUrl = (_tabs) => {
                 if (normURL(child) === href) {
                     var _tmp = tabs[item].children[child];
                     _tmp.url = href;
+                    _tmp.fullUrl = window.location.href;
                     delete tabs[item].children[child];
                     tabs[item].children[href] = _tmp;
                 }
