@@ -178,9 +178,9 @@ export const deletePageFromTabs = (inputTabs, listName,elName) => {
 
 
 /**
- * ?? Modifies current URL in the plus tabs, to save last navigation status in the localstorage
+ *  Modifies current URL in the plus tabs, to save last page navigation status in the localstorage
  */
-export const modifyCurrentUrl = (_tabs) => {
+export const saveCurrentUrlToPlus = (_tabs) => {
     const tabs = cloneDeep(_tabs);
     const href = normURL(window.location.href);
     Object.keys(tabs).forEach((item) => {
