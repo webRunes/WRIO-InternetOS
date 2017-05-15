@@ -56,7 +56,7 @@ class SubList extends GenericListItem {
 
         return (
             <li className={className}>
-                <a href={this.props.data.url} onClick={this.gotoUrl.bind(this)}
+                <a href={this.props.data.fullUrl || this.props.data.url} onClick={this.gotoUrl.bind(this)}
                    className={shouldOpen ? "collapsed active" : "collapsed"} data-parent="#nav-accordion" data-toggle="collapse">
                     <span className="qty pull-right">{rightContent}</span>
                     <span>{name}</span>

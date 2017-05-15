@@ -42,6 +42,7 @@ const extractCurrentPageInformation = () => {
                 result = {
                     name: json.name,
                     url: normURL(window.location.href),
+                    fullUrl: window.location.href,
                     author: json.author,
                     active: true
                 };
@@ -51,6 +52,7 @@ const extractCurrentPageInformation = () => {
                 result = {
                     name: json.name,
                     url: normURL(window.location.href),
+                    fullUrl: window.location.href,
                     author: json.author,
                     active: true
                 };
@@ -210,7 +212,7 @@ export default Reflux.createStore({
             await storage.onConnect();
             const _plus = saveCurrentUrlToPlus(this.data);
             this.persistPlusDataToLocalStorage(_plus);
-            window.location = data.url;
+            window.location = data.fullUrl || data.url;
         } catch (e) {
             console.log("Error during gotoUrl", e);
             debugger;

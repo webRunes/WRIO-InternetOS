@@ -45,6 +45,7 @@ export const normalizeTabs = (_tabs) => {
            prev[newUrl] = {
                name: tab.name,
                url: normURL(tab.url),
+               fullUrl: tab.fullUrl,
                author: normURL(tab.author),
                active: false,
                order: tab.order,
@@ -187,6 +188,7 @@ export const saveCurrentUrlToPlus = (_tabs) => {
         if (normURL(item) === href) {
             var _tmp = tabs[item];
             _tmp.url = href;
+            _tmp.fullUrl = window.location.href;
             delete tabs[item];
             tabs[href] = _tmp;
         } else if (tabs[item].children) {
@@ -194,6 +196,7 @@ export const saveCurrentUrlToPlus = (_tabs) => {
                 if (normURL(child) === href) {
                     var _tmp = tabs[item].children[child];
                     _tmp.url = href;
+                    _tmp.fullUrl = window.location.href;
                     delete tabs[item].children[child];
                     tabs[item].children[href] = _tmp;
                 }
