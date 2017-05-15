@@ -13,7 +13,7 @@ import {
     removeLastActive,
     deletePageFromTabs,
     normalizeTabs,
-    modifyCurrentUrl} from '../utils/tabTools.js';
+    saveCurrentUrlToPlus} from '../utils/tabTools.js';
 
 var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
     storage = CrossStorageFactory.getCrossStorage();
@@ -42,6 +42,7 @@ const extractCurrentPageInformation = () => {
                 result = {
                     name: json.name,
                     url: normURL(window.location.href),
+                    fullUrl: window.location.href,
                     author: json.author,
                     active: true
                 };
@@ -51,6 +52,7 @@ const extractCurrentPageInformation = () => {
                 result = {
                     name: json.name,
                     url: normURL(window.location.href),
+                    fullUrl: window.location.href,
                     author: json.author,
                     active: true
                 };
@@ -208,16 +210,9 @@ export default Reflux.createStore({
 
         try {
             await storage.onConnect();
-            var plus = await storage.get('plus');
-            if (!plus) {
-                return;
-            }
-            //const _plus = modifyCurrentUrl(plus);
-            //await storage.del('plus');
-            //await storage.set('plus', _plus);
-            await storage.del('plusActive');
-            window.location = data.url;
-
+            const _plus = saveCurrentUrlToPlus(this.data);
+            this.persistPlusDataToLocalStorage(_plus);
+            window.location = data.fullUrl || data.url;
         } catch (e) {
             console.log("Error during gotoUrl", e);
             debugger;
