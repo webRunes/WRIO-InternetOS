@@ -16,7 +16,7 @@ var code =
         '</div>',
     favicon,
     head = document.getElementsByTagName('head')[0],
-    notSupportedBrowsers = [],
+    notSupportedBrowsers = ['MSIE'],
     getResourcePath = require('./core/global').getResourcePath;
     var css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
