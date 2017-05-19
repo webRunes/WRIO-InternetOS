@@ -63,7 +63,7 @@ var code =
 
             if(/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
                 this.browser = 'Opera';
-            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent) || !!navigator.userAgent.match(/Trident.*rv\:11\./)){
                 this.browser = 'MSIE';
             } else if(/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
                 this.browser = 'Netscape';
