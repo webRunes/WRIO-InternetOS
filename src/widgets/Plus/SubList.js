@@ -39,11 +39,11 @@ class SubList extends GenericListItem {
 
     render() {
 
-        var data = this.props.data,
+        const data = this.props.data,
             name = data.name || "Untitled",
             children = data.children,
             childrenActive = some(children, (i) => i.active),
-            haveActiveChildren = (!!children && childrenActive),
+            haveActiveChildren = (!!children && childrenActive), // when children active, not highlight parent
             shouldOpen =  data.active || haveActiveChildren,
             list = this.createItem(),
             rightContent = children ? Object.keys(children).length : <span onClick={this.del} className="glyphicon glyphicon-remove" />,
@@ -57,7 +57,7 @@ class SubList extends GenericListItem {
         return (
             <li className={className}>
                 <a href={this.props.data.fullUrl || this.props.data.url} onClick={this.gotoUrl.bind(this)}
-                   className={shouldOpen ? "collapsed active" : "collapsed"} data-parent="#nav-accordion" data-toggle="collapse">
+                   className={!haveActiveChildren ? "collapsed active" : "collapsed"} data-parent="#nav-accordion" data-toggle="collapse">
                     <span className="qty pull-right">{rightContent}</span>
                     <span>{name}</span>
                 </a>
