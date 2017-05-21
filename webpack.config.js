@@ -56,7 +56,7 @@ var e = {
 
   plugins: [
     new webpack.DefinePlugin(envs),
-    new webpack.DefinePlugin({
+    new webpack.DefinePlugin(process.env.DOCKER_DEV ? {} : {
       "process.env.NODE_ENV": JSON.stringify("production")
     })
   ]
