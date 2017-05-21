@@ -1,7 +1,7 @@
 
 // see https://github.com/react-bootstrap/react-bootstrap/issues/1914
-import React from 'react'
-import { Carousel as BootstrapCarousel } from 'react-bootstrap'
+import React from 'react';
+import { Carousel as BootstrapCarousel } from 'react-bootstrap';
 export default class Carousel extends BootstrapCarousel {
     direction(prevIndex, index) {
         if (prevIndex === index) {
