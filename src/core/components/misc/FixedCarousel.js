@@ -9,7 +9,7 @@ export default class Carousel extends BootstrapCarousel {
         }
 
         if (prevIndex === this.props.children.length - 1 && index === 0) {
-            return 'next'
+            return 'next';
         }
 
         return prevIndex > index ?  'prev' : 'next';
