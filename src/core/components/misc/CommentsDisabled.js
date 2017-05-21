@@ -17,7 +17,7 @@ export default class CommentsDisabled extends React.Component {
         } else { // do not open iframe if it isn't author
             return (
               <div>
-                <ul className="breadcrumb" id="Comments"><li class="active">Comments</li></ul>
+                <ul className="breadcrumb" id="Comments"><li className="active">Comments</li></ul>
                 <div className="well enable-comment text-left">
                   <h4>Comments disabled</h4>
                   <p>Comments haven't been enabled by author.</p>
