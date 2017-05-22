@@ -36,6 +36,9 @@ class TwitterTimelineWidget {
               width:auto;
               height:auto;
             }
+            .customisable-border {
+              overflow:hidden !important;
+            }
             .timeline-Widget {
               max-width:10000px !important;
             }
