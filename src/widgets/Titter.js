@@ -36,14 +36,14 @@ class TwitterTimelineWidget {
               width:auto;
               height:auto;
             }
-            .customisable-border {
-              overflow:hidden !important;
-            }
             .timeline-Widget {
               max-width:10000px !important;
             }
             .timeline-Widget .stream {
               overflow-y: hidden !important;
+            }
+            .timeline-Viewport {
+              overflow:hidden !important;
             }
             .timeline-Tweet-text{
               font-size: 14px !important;
