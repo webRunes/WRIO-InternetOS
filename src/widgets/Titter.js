@@ -41,22 +41,15 @@ class TwitterTimelineWidget {
 
     autoSizeTimeline() {
         if (this.$twitter.contentDocument) {
-            var $hfeed = this.$twitter.contentDocument.getElementsByClassName("timeline-TweetList")[0];
-            var $noMorePane = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
-            var twitterht = 0;
-            var add_ht = 0;
-            if ($hfeed) {
-                twitterht = Number(window.getComputedStyle($hfeed).height.replace('px', ''));
-            }
-            if ($noMorePane) {
-                add_ht = Number(window.getComputedStyle($noMorePane).height.replace('px', ''));
-            }
+            const getHeight = ($el) => !!$el ? Number(window.getComputedStyle($el).height.replace('px', '')) : 0;
+            const getElm = (name) => this.$twitter.contentDocument.getElementsByClassName(name)[0];
 
-            if (add_ht > 0) {
-                twitterht += add_ht;
-            }
+            const $hfeed = getElm("timeline-TweetList");
+            const $noMorePane = getElm("timeline-LoadMore");
+            const $header = getElm("timeline-Header");
+            const twitterht = getHeight($hfeed) + getHeight($noMorePane) + getHeight($header);
 
-            this.$twitter.style.height = twitterht + 90 + 'px';
+            this.$twitter.style.height = twitterht + 30 + 'px';
         }
     }
     cleanup () {
