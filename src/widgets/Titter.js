@@ -30,7 +30,26 @@ class TwitterTimelineWidget {
 
     onTimelineLoad() {
         this.$twitter = document.getElementsByClassName('twitter-timeline-rendered')[0];
-        this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
+        this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML +=
+            `
+            img.autosized-media {
+              width:auto;
+              height:auto;
+            }
+            .timeline-Widget {
+              max-width:10000px !important;
+            }
+            .timeline-Widget .stream {
+              overflow-y: hidden !important;
+            }
+            .timeline-Tweet-text{
+              font-size: 14px !important;
+              line-height: initial !important;
+            }
+            .timeline-InformationCircle-widgetParent {
+               display: none !important;
+            }
+            `;
         this.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }
 
@@ -47,9 +66,9 @@ class TwitterTimelineWidget {
             const $hfeed = getElm("timeline-TweetList");
             const $noMorePane = getElm("timeline-LoadMore");
             const $header = getElm("timeline-Header");
-            const twitterht = getHeight($hfeed) + getHeight($noMorePane) + getHeight($header);
+            const twitterht = getHeight($hfeed) + getHeight($noMorePane) ;
 
-            this.$twitter.style.height = twitterht + 30 + 'px';
+            this.$twitter.style.height = twitterht + 20 + 'px';
         }
     }
     cleanup () {
