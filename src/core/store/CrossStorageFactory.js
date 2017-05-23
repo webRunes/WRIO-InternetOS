@@ -3,6 +3,7 @@
  */
 
 import {CrossStorageClient} from 'cross-storage';
+import {isSafari,SafariStorage} from './SafariStorage.js';
 
 var mockStorage = {};
 
@@ -42,22 +43,22 @@ class _CrossStorageFactory {
     constructor () {
         this.isInTest = typeof global.it === 'function';
         if (!this.isInTest) {
-            var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
-            this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.html', {
-                promise: Promise
-            });
+            if /*(isSafari())*/(true) {
+                console.warn("Safari cross storage emulation mode is on");
+                this.cs = new SafariStorage();
+            } else {
+                var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+                this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.html', {
+                    promise: Promise
+                });
+            }
+
         }
 
     }
 
     getCrossStorage() {
-        if (this.isInTest) {
-            //console.log("Mocking crossStorage");
-            return new CrossStorageMock();
-        } else {
-           // console.log("============================================Requesting cross storage copy!!!!!!");
-           return this.cs;
-        }
+        return this.isInTest ? new CrossStorageMock() : this.cs;
     }
 
 }
