@@ -47,7 +47,7 @@ class TwitterTimelineWidget {
             }
             .timeline-Tweet-text{
               font-size: 14px !important;
-              line-height: initial !important;
+              line-height: 20px !important;
             }
             .timeline-InformationCircle-widgetParent {
                display: none !important;
