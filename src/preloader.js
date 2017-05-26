@@ -16,7 +16,7 @@ var code =
         </div>`,
     favicon,
     head = document.getElementsByTagName('head')[0],
-    notSupportedBrowsers = [],
+    notSupportedBrowsers = ['MSIE','MSIE11'],
     getResourcePath = require('./core/global').getResourcePath;
     var css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
@@ -63,8 +63,11 @@ var code =
 
             if(/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
                 this.browser = 'Opera';
-            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
                 this.browser = 'MSIE';
+            } else if(!!navigator.userAgent.match(/Trident.*rv\:11\./)){
+                this.browser = 'MSIE11';
+                this.browserVersion = 11;
             } else if(/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
                 this.browser = 'Netscape';
             } else if(/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)){

@@ -14,12 +14,13 @@ import classNames from 'classnames';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
 import CreatePresale from '../../widgets/Presale.js';
-import PlusStore from '../../widgets/Plus/stores/PlusStore.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';
 import WrioDocument from '../store/WrioDocument.js';
 import UIActions from '../actions/UI.js';
+import CommentsDisabled from './misc/CommentsDisabled.js';
+
 
 var domain = getDomain();
 
@@ -99,9 +100,6 @@ export class CreateDomCenter extends ArticleCenter {
             active: false,
             userId: false,
             editAllowed: false,
-            notDisplayCenter: false,
-            byButton: false,
-            editModeFromUrl: false,
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
         };
@@ -158,24 +156,12 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     switchToReadMode() {
-        this.setState({
-            editMode: false,
-            editModeFromUrl: false,
-            notDisplayCenter: false,
-            byButton: true,
-            displayTitterCondition: false
-        });
+        this.setState({editMode: false});
     }
 
     switchToEditMode() {
-        this.setState({
-            editMode: true,
-            notDisplayCenter: true,
-            byButton: true,
-            displayTitterCondition: true
-        });
+        this.setState({editMode: true});
     }
-
 
     userId(userId) {
         this.setState({userId});
@@ -196,37 +182,24 @@ export class CreateDomCenter extends ArticleCenter {
         return condition ? window.location.href : this.state.urlParams.edit;
     }
 
+
     render() {
-        var displayTitterCondition = WrioDocument.hasArticle();
-        var displayCore = '';
+        const showArticle = this.isArticleShown();
+        const displayTitterStyle = (WrioDocument.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
 
-        if (!this.isArticleShown()) {
-            displayTitterCondition = false;
+        if ((this.state.urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
+            let coreFrame = <Core article={this.getEditUrl()}/>;
+            return this.generateCenterWithContents(coreFrame);
         }
 
-        if (!this.state.byButton) {
-
-            if (this.state.urlParams.edit && this.state.editAllowed) {
-                displayTitterCondition = true;
-                this.state.editModeFromUrl = true;
-                this.state.editMode = true;
-                this.state.notDisplayCenter = true;
-                displayCore = (<Core article={this.getEditUrl()}/>);
-            }
-
-        }
-
-
-        displayTitterCondition |= this.state.displayTitterCondition;
-
-        var ArticleContent = this.getCenter();
-        var data = WrioDocument.getData();
-        var contents = (<div>
-                            {ArticleContent}
-                            { displayCore }
-                            <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
-                                {this.state.userId && <CreateTitter scripts={data} wrioID={this.state.userId}/> }
-                            </div>
+        const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
+        const contents = (<div>
+                             <WrioDocumentBody/>
+                            { !WrioDocument.hasCommentId() ?
+                                commentsDisabledFrame :
+                             <div style={displayTitterStyle}>
+                                 {this.state.userId && <CreateTitter scripts={WrioDocument.getData()} wrioID={this.state.userId}/> }
+                             </div> }
                         </div>);
 
 
@@ -253,22 +226,12 @@ export class CreateDomCenter extends ArticleCenter {
                         onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
                         onEditClick={ this.switchToEditMode.bind(this) }
                         editAllowed ={ this.state.editAllowed }/>
-                    { (this.state.editMode && !this.state.editModeFromUrl) ?
-                        <Core article={this.getEditUrl()}/>
-                        : null }
-                    {contents}
+                        {contents}
                 </div>
             </div>
         );
     }
 
-    getCenter() {
-
-        if (this.state.notDisplayCenter) {
-            return false;
-        }
-        return  (<WrioDocumentBody/>);
-    }
 }
 
 CreateDomCenter.propTypes = {

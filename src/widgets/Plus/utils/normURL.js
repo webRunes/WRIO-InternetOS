@@ -17,20 +17,26 @@ var cutTail = function (url) {
     return url;
 };
 
-var cutIndex = function (url) {
+var cutIndexHtml = function (url) {
+    return url.replace('/index.html', '');
+};
+
+var cutIndexHtm = function (url) {
     return url.replace('/index.htm', '');
 };
+
 
 var cutLastSlash = function (url) {
     return url.replace(/\/+$/, '');
 };
 
-module.exports = function (url) {
+export default function normURL(url) {
     if ((typeof url === 'string') && (url.length > 0)) {
         [
             cutZone,
             cutTail,
-            cutIndex,
+            cutIndexHtml,
+            cutIndexHtm,
             cutLastSlash
         ].forEach(function (rule) {
             url = rule(url);
@@ -38,3 +44,12 @@ module.exports = function (url) {
     }
     return url ? '//' + url : url;
 };
+
+export function getPlusUrl(id) {
+    return '//wr.io/' + id + '/Plus-WRIO-App';
+}
+
+export function isPlusUrl(url,id) {
+    const normalized = normURL(url);
+    return normalized.search(getPlusUrl(id)) == 0;
+}

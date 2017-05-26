@@ -3,9 +3,10 @@ import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
 import WrioDocument from '../core/store/WrioDocument.js';
 import Login from './Login.js';
-import TwitterWidget from './TwitterTimeline.js';
+import TwitterTimelineWidget from './TwitterTimeline.js';
 import UIActions from "../core/actions/UI.js";
 var domain = getDomain();
+
 
 
 
@@ -15,33 +16,26 @@ var CreateTitter = React.createClass({
         wrioID: React.PropTypes.string
     },
 
-    componentWillUnmount: function () {
-        clearInterval(window.interval);
+    componentWillUnmount () {
+       this.timelinewidget.cleanup();
     },
-    switchToAddCommentMode: function () {
+    switchToAddCommentMode () {
         this.setState({
             addFundsMode: false
         });
     },
-    switchToAddFundsMode: function () {
+    switchToAddFundsMode (){
         this.setState({
             addFundsMode: true
         });
     },
-    prepTwitWidget () {
-        var titteriframe = document.getElementById('titteriframe');
-        if (!titteriframe) {
+    prepTwitterTimeline() {
+        var timeline = this.refs.timeLineContainer;
+        if (!timeline) {
             return;
         }
-        this.setState({nocomments: false});
-
-        let comment;
         let id = WrioDocument.getJsonLDProperty('comment');
-        if (id === null) {
-            this.setState({nocomments: true});
-        } else {
-            var twitterWidget = new TwitterWidget(id);
-        }
+        return new TwitterTimelineWidget(id,timeline);
     },
     editIframeStyles: {
         width: '100%',
@@ -62,7 +56,7 @@ var CreateTitter = React.createClass({
         console.log("ERROR: failed to extract author's WRIO id");
     },
 
-    getInitialState: function () {
+    getInitialState () {
 
 
         const authorId = this.getWrioIdFromAuthor() || "";
@@ -79,20 +73,19 @@ var CreateTitter = React.createClass({
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount () {
         if (!this.state.article) {
             return;
         }
 
         this.createListeners();
-        this.prepTwitWidget();
-
+        this.timelinewidget = this.prepTwitterTimeline();
     },
 
     createListeners() {
         WindowActions.titterMessage.listen((msg)=> {
             if (msg.titterHeight) {
-                document.getElementById('titteriframe').style.height = msg.titterHeight + 'px';
+                this.refs.titteriframe.style.height = msg.titterHeight + 'px';
             }
             if (msg.goAddFunds) {
                 this.switchToAddFundsMode();
@@ -101,13 +94,13 @@ var CreateTitter = React.createClass({
 
         WindowActions.webGoldMessage.listen((msg)=> {
             if (msg.webgoldHeight) {
-                document.getElementById('webgoldiframe').style.height = msg.webgoldHeight + 'px';
+                this.refs.webgoldiframe.style.height = msg.webgoldHeight + 'px';
             }
         });
 
         WindowActions.forceIframeReload.listen((msg)=> {
-            var tIF = document.getElementById('titteriframe');
-            var wIF = document.getElementById('webgoldiframe');
+            var tIF = this.refs.titteriframe;
+            var wIF = this.refs.webgoldiframe;
 
             if (tIF) {
                 tIF.src = tIF.src;
@@ -129,25 +122,15 @@ var CreateTitter = React.createClass({
         });
     },
 
-    render: function () {
+    render () {
         var parts = [];
-
-        if (!WrioDocument.hasCommentId() || this.state.nocomments) {
-            parts.push(
-                <ul className="breadcrumb" key="comm">
-                    <li className="active">Comments</li>
-                </ul>);
-            parts.push(<CommentsDisabled key="comdis" isAuthor={this.state.isAuthor}/>);
-            return <div>{parts}</div>;
-        }
-
         var addCommentFundsMode;
         var twStyle = {display: "none"};
 
         if (!this.state.addFundsMode) {
             addCommentFundsMode = (
                 <ul className="breadcrumb" key="act">
-                    <li className="active">{this.state.addComment}</li>
+                    <li className="active" id="Comments">{this.state.addComment}</li>
                     <li style={{display: "none"}}><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
                 </ul>
             );
@@ -162,7 +145,7 @@ var CreateTitter = React.createClass({
                 if (this.state.article) {
                     parts.push(
                         <section key="b">
-                            <iframe id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
+                            <iframe ref="titteriframe" id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
                         </section>
                     );
 
@@ -178,11 +161,10 @@ var CreateTitter = React.createClass({
                     <li className="active">Add funds</li>
                 </ul>
             );
-            parts.push(<iframe id="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles }/>);
+            parts.push(<iframe id="webgoldiframe" ref="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles }/>);
         }
 
-        parts.push(<div id="twitter_frame_container" style={twStyle}></div>);
-
+        parts.push(<div ref="timeLineContainer" style={twStyle}></div>);
 
         return (
             <div>
@@ -192,35 +174,6 @@ var CreateTitter = React.createClass({
         );
     }
 });
-
-class CommentsDisabled extends React.Component {
-    render() {
-
-        var iStyle = {
-            width: '100%',
-            height: '190px',
-            border: 'none'
-        };
-
-        var frameUrl = getServiceUrl('core') + '/edit?comment_article=' + window.location.href;
-        if (this.props.isAuthor) {
-            return (<iframe src={frameUrl} style={ iStyle }/>);
-        } else { // do not open iframe if it isn't author
-            return (
-                <div className="well enable-comment text-left">
-                    <h4>Comments disabled</h4>
-
-                    <p>Comments haven't been enabled by author</p>
-
-                </div>);
-        }
-
-    }
-}
-
-CommentsDisabled.propTypes = {
-    isAuthor: React.PropTypes.bool
-};
 
 
 class LoginAndComment extends React.Component {

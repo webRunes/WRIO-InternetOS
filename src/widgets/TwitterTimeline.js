@@ -1,17 +1,13 @@
-/**
- * Created by michbil on 25.05.17.
- */
 
-
-export default class TwitterWidget {
-    constructor(commentId) {
+export default class TwitterTimelineWidget {
+    constructor(commentId,container) {
         window.onTimelineLoad = this.onTimelineLoad.bind(this);
 
-        document.getElementById('titteriframe').style.height = '240px';
+        container.style.height = '240px';
 
         var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
-        document.getElementById('twitter_frame_container').innerHTML = commentTitle + twitterTemplate;
+        container.innerHTML = commentTitle + twitterTemplate;
 
         var js,
             fjs = document.getElementsByTagName('script')[0],
@@ -27,8 +23,27 @@ export default class TwitterWidget {
 
     onTimelineLoad() {
         this.$twitter = document.getElementsByClassName('twitter-timeline-rendered')[0];
-        this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
-        window.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
+        this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML +=
+            `
+            img.autosized-media {
+              width:auto;
+              height:auto;
+            }
+            .timeline-Widget {
+              max-width:10000px !important;
+            }
+            .timeline-Widget .stream {
+              overflow-y: hidden !important;
+            }
+            .timeline-Tweet-text{
+              font-size: 14px !important;
+              line-height: initial !important;
+            }
+            .timeline-InformationCircle-widgetParent {
+               display: none !important;
+            }
+            `;
+        this.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }
 
     calcHeight(id) {
@@ -38,24 +53,19 @@ export default class TwitterWidget {
 
     autoSizeTimeline() {
         if (this.$twitter.contentDocument) {
-            var $hfeed = this.$twitter.contentDocument.getElementsByClassName("timeline-TweetList")[0];
-            var $noMorePane = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
-            var twitterht = 0;
-            var add_ht = 0;
-            if ($hfeed) {
-                twitterht = Number(window.getComputedStyle($hfeed).height.replace('px', ''));
-            }
-            if ($noMorePane) {
-                add_ht = Number(window.getComputedStyle($noMorePane).height.replace('px', ''));
-            }
+            const getHeight = ($el) => !!$el ? Number(window.getComputedStyle($el).height.replace('px', '')) : 0;
+            const getElm = (name) => this.$twitter.contentDocument.getElementsByClassName(name)[0];
 
-            if (add_ht > 0) {
-                twitterht += add_ht;
-            }
+            const $hfeed = getElm("timeline-TweetList");
+            const $noMorePane = getElm("timeline-LoadMore");
+            const $header = getElm("timeline-Header");
+            const twitterht = getHeight($hfeed) + getHeight($noMorePane) ;
 
-            this.$twitter.style.height = twitterht + 90 + 'px';
+            this.$twitter.style.height = twitterht + 20 + 'px';
         }
     }
-
+    cleanup () {
+        clearInterval(this.interval);
+    }
 
 }

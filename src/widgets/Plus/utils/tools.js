@@ -42,29 +42,43 @@ module.exports.getNext = function (data, current) {
     return next ? next.url : data.url;
 };
 
+function parseResult(result) {
+    var e = document.createElement('div');
+    e.innerHTML = result.text;
+    result = Array.prototype.filter.call(e.getElementsByTagName('script'), function (el) {
+        return el.type === 'application/ld+json';
+    }).map(function (el) {
+        var json;
+        try {
+            json = JSON.parse(el.textContent);
+        } catch (exception) {
+            console.error('Requested json-ld from ' + url + ' not valid: ' + exception);
+        }
+        return json;
+    }).filter(function (json) {
+        return typeof json === 'object';
+    });
+    return result;
+}
+
 module.exports.getJsonldsByUrl = function (url, cb) {
     var self = this;
     request.get(
         url,
         function (err, result) {
             if (!err && (typeof result === 'object')) {
-                var e = document.createElement('div');
-                e.innerHTML = result.text;
-                result = Array.prototype.filter.call(e.getElementsByTagName('script'), function (el) {
-                    return el.type === 'application/ld+json';
-                }).map(function (el) {
-                    var json;
-                    try {
-                        json = JSON.parse(el.textContent);
-                    } catch (exception) {
-                        console.error('Requested json-ld from ' + url + ' not valid: ' + exception);
-                    }
-                    return json;
-                }).filter(function (json) {
-                    return typeof json === 'object';
-                });
+               result = parseResult(result);
             }
             cb.call(self, result || []);
         }
     );
+};
+module.exports.getJsonldsByUrlPromised = async function (url) {
+    try {
+        let result = await request.get(url);
+        return parseResult(result);
+    }
+    catch (err) {
+        return [];
+    }
 };

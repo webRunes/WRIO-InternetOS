@@ -58,13 +58,11 @@ var e = {
         test: /.js?$/,
         loader: "babel-loader",
         exclude: /node_modules/,
-        query: {
-          presets: ["react", "es2015", "stage-0"]
-        }
       }
     ]
   },
   devServer: {
+    disableHostCheck: true,
     host: "0.0.0.0",
     overlay: true,
     port: 3000,
@@ -80,7 +78,7 @@ var e = {
   plugins: [
     commonsPlugin,
     new webpack.DefinePlugin(envs),
-    new webpack.DefinePlugin({
+    new webpack.DefinePlugin(process.env.DOCKER_DEV ? {} : {
       "process.env.NODE_ENV": JSON.stringify("production")
     }),
     // new webpack.PrefetchPlugin(['react'])
@@ -88,7 +86,28 @@ var e = {
 };
 
 
-//e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
+
+const ES6_BROWSER = false;
+
+if (process.env.DOCKER_DEV && ES6_BROWSER) {
+  // mode for debugging native ES6 code in compatible browser
+  console.log("ES6 mode, not suitable for production!!!");
+   let options= {
+    presets: ["react"],
+    plugins: ["transform-es2015-modules-commonjs"]
+  };
+  e.module.loaders[0].options = options;
+} else {
+  // production grade transpiler settings
+  let presets = ["react", "es2015", "stage-0"];
+  e.module.loaders[0].options = {
+    presets: presets
+  };
+}
+
+if (process.env.DOCKER_DEV) {
+  //   e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
+}
 
 var minify = !process.env.DOCKER_DEV;
 if (minify) {
