@@ -19,9 +19,14 @@ export function getLoginUrl() {
 }
 
 export function getWebgoldUrl() {
-
     var host = window.location.host;
+    var development = host.match(/titter_d/);
+
     host = host.replace('titter.', 'webgold.');
+    host = host.replace('titter_d.', 'webgold.');
+    if (development) { // hack to use production protocol during frontend development
+        return 'https://'+host;
+    }
     return "//" + host;
 
 }

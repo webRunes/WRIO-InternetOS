@@ -13,6 +13,12 @@ function rmTrailingHash(url) {
 
 export function sanitizePostUrl(url) {
     let posturl = rmTrailingHash(url);
+
+    // hack to prevent different links for http and https,
+    // always overwrite protocol to https://
+
+    posturl = posturl.replace('http://','https://');
+
     if (getFileName(posturl) == "") {
         posturl = posturl + "index.html";
     }

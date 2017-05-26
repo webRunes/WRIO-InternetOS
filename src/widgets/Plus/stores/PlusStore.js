@@ -6,9 +6,7 @@ import {getJsonldsByUrl,lastOrder,getNext} from '../utils/tools';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
 import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
-
-var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
-    storage = CrossStorageFactory.getCrossStorage();
+const storage = CrossStorageFactory.getCrossStorage();
 
 export default Reflux.createStore({
     listenables: Actions,

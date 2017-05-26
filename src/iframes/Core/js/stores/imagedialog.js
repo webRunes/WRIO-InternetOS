@@ -112,7 +112,7 @@ export default Reflux.createStore({
     downloadEmebed(url) {
         this._previewBusy(true);
         return new Promise((resolve, reject) => {
-            request.get('https://iframely.wrioos.com/iframely?url=' + url, (err, result) => {
+            request.get('https://iframely.wrioos.com/iframely?url=' + encodeURIComponent(url), (err, result) => {
                 if (err) {
                     this._previewBusy(false);
                     return reject(err);

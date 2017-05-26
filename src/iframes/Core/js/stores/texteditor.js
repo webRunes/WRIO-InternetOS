@@ -3,7 +3,7 @@
  */
 import Reflux from 'reflux';
 import TextActions from '../actions/texteditor.js';
-import {AtomicBlockUtils, CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier} from 'draft-js';
+import {AtomicBlockUtils, CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding, Modifier,convertToRaw} from 'draft-js';
 import LinkEntity from '../EditorEntities/LinkEntity.js';
 import ImageEntity from '../EditorEntities/ImageEntitiy.js';
 import SocialMediaEntity from '../EditorEntities/SocialMediaEntity.js';
@@ -70,7 +70,11 @@ export default Reflux.createStore({
         }
         ]);
 
+        console.log("OrderedBlocks after import:");
+
         const valuesToKeys = (hash,value)=>{
+            const e = value.block;
+            console.log("BLOCK", value.order, e.getType(),e.getText());
             let key = value['order']+1;
             hash[key] = value['block'];
             return hash;

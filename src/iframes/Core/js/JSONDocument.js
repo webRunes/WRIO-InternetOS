@@ -36,6 +36,7 @@ export const getImageObject = (url, name, description) => ({
     name
 });
 
+
 export const getSocialMediaPosting = (src,description,title) => ({
         "@type":"SocialMediaPosting",
         "sharedContent":{
@@ -58,6 +59,20 @@ const getOrderOffset = (article) => {
     return order;
 };
 
+const hasEntity = char => {
+    let entityKey = char.getEntity();
+    let entity = !!entityKey ? Entity.get(entityKey) : null;
+    return !!entity;
+};
+
+
+const blockHasEntity = (block) => {
+    let resolved = false;
+    block.findEntityRanges(hasEntity, () => {
+        resolved = true;
+    });
+    return resolved;
+};
 
 class GenericLDJsonDocument {
     constructor(article = []) {
@@ -165,7 +180,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
             this.order++;
         }
 
-        if (this.getElementOfType("Article").about) {
+        if (this.getElementOfType("Article").about !== undefined) {
             this.order++;
         }
 
@@ -174,7 +189,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
                 ['text', ' '],
                 ['key', keyGen()],
                 ['characterList', this._createMetadata(" ")],
-                ['type', 'unstyled']
+                ['type', 'atomic']
             ]),subArticle);
             return res;
         }
@@ -214,7 +229,8 @@ export default class JSONDocument extends GenericLDJsonDocument {
         let contentBlocks = this._parseArticlePart(article,false);
         // and merge it with data from the hasPart section
         contentBlocks = article.hasPart.reduce((r,subarticle) => {
-            r = r.concat(r,this._parseArticlePart(subarticle, true));
+            const chunk = this._parseArticlePart(subarticle, true);
+            r = r.concat(chunk);
             return r;
         },contentBlocks);
         this.contentBlocks = contentBlocks;
@@ -234,94 +250,143 @@ export default class JSONDocument extends GenericLDJsonDocument {
     }
 
     /**
-     * Converts current draftJS content state to LD+JSON representation
-     * @param contentState
+     * Cleanups resulting contentBlocks from empty blocks
+     * @param blocks
+     * @returns {*}
+     * @private
      */
 
-    draftToJson(contentState) {
-        let blockMap = contentState.getBlockMap(),
-            firstBlock = blockMap.first(),
-            lastBlock = blockMap.last(),
-            part;
-        let article = this.getElementOfType('Article');
+    _filterBlockMap(blocks) {
+        return blocks.filter((e,k) => {
+            const blockType = e.getType();
+            const blockText = e.getText();
+
+            const haveEntity = blockHasEntity(e);
+
+            if (haveEntity) return true; // don't delete blocks with entities
+
+            if (blockType == "atomic" && blockText == " ") {
+                console.log("Deleting technical block");
+                return false;
+            }
+
+            if (blockText == " " || blockText == "") {
+                console.log("Deleting empty block");
+                return false;
+            }
+            return true;
+        });
+    }
+
+    /**
+     * Makees initial article JSON from conentBlocks
+     * @param initialValue - initial value, took from the original editing document
+     * @param blockMap - blockmap array
+     * @private
+     */
+
+    _mkArticleJson(initialValue, blockMap) {
+        const firstBlock = blockMap.first();
+        const lastBlock = blockMap.last();
+        let article = initialValue;
         article.articleBody = [];
         article.hasPart = [];
         article.image = [];
         article.mentions = [];
         article.name = firstBlock.getText();
-        let isPart = false;
+
+        let isPart = false,
+            part; // TODO: figure out what part was meant for
+
         blockMap.forEach((e, i) => {
-            if (i !== firstBlock.getKey()) {
-                if (isPart) {
-                    if (e.getType() !== 'header-two') {
-                        part.articleBody.push(e.getText());
-                        if (i === lastBlock.getKey()) {
-                            article.hasPart.push(part);
-                        }
-                    } else {
+            const blockType = e.getType();
+            const blockText = e.getText();
+            const ordinaryParagraph = blockType !== 'header-two';
+
+            console.log("Dump BLOCK: ", i, blockType, blockText);
+
+            if (i == firstBlock.getKey()) { // skip header block
+                return;
+            }
+            if (isPart) {
+                if (ordinaryParagraph) {
+                    part.articleBody.push(blockText);
+                    if (i === lastBlock.getKey()) {
                         article.hasPart.push(part);
-                        part = getPart(e.getText());
                     }
                 } else {
-                    if (e.getType() !== 'header-two') {
-                        article.articleBody.push(e.getText());
-                    } else {
-                        isPart = true;
-                        part = getPart(e.getText());
-                    }
+                    article.hasPart.push(part);
+                    part = getPart(blockText);
+                }
+            } else {
+                if (ordinaryParagraph) {
+                    article.articleBody.push(blockText);
+                } else {
+                    isPart = true;
+                    part = getPart(blockText);
                 }
             }
         });
+        return article;
+    }
 
+
+
+
+    /**
+     * Converts current draftJS content state to LD+JSON representation
+     * @param contentState
+     */
+
+    draftToJson(contentState) {
         const formatMention = (url,text,blockIndex,offset) => `${url}?'${text}':${blockIndex},${offset}`;
+        let blockMap = contentState.getBlockMap();
+        let filteredBlockMap = this._filterBlockMap(blockMap);
+        let article = this._mkArticleJson(this.getElementOfType('Article'),filteredBlockMap);
+
         let order = getOrderOffset(article);
 
-        blockMap.toArray().forEach((block, i) => {
+        filteredBlockMap.toArray().forEach((block, i) => {
             let entity;
-
             const findEntityOfType = (type) => char => {
                 let entityKey = char.getEntity();
                 entity = !!entityKey ? Entity.get(entityKey) : null;
                 return !!entity && entity.getType() === type;
             };
-
             block.findEntityRanges(findEntityOfType("LINK"), (anchorOffset, focusOffset) => {
-                if (entity) {
-                    let data = entity.getData();
-                    let url = data.linkUrl,
-                        name = data.linkTitle || '',
-                        desc = data.linkDesc || '';
-                    const linkText = block.getText().substring(anchorOffset, focusOffset);
-                    article.mentions.push(
-                        getMention(name, "", formatMention(url,linkText,order+i,anchorOffset))
-                    );
-                }
+                let data = entity.getData();
+                let url = data.linkUrl,
+                    name = data.linkTitle || '',
+                    desc = data.linkDesc || '';
+                const linkText = block.getText().substring(anchorOffset, focusOffset);
+                article.mentions.push(
+                    getMention(name, "", formatMention(url,linkText,order+i,anchorOffset))
+                );
             });
             block.findEntityRanges(findEntityOfType("IMAGE"), (anchorOffset, focusOffset) => {
-                if (entity) {
-                    let data = entity.getData();
-                    let url = data.src,
-                        name = data.title || '',
-                        desc = data.description || '';
-                    const linkText = block.getText().substring(anchorOffset, focusOffset);
-                    article.image.push(
-                        getImageObject(`${url}?${order+i},${anchorOffset}`,name,desc)
-                    );
-                }
+                let data = entity.getData();
+                let url = data.src,
+                    name = data.title || '',
+                    desc = data.description || '';
+                const linkText = block.getText().substring(anchorOffset, focusOffset);
+                article.image.push(
+                    getImageObject(`${url}?${order+i},${anchorOffset}`,name,desc)
+                );
             });
+
             block.findEntityRanges(findEntityOfType("SOCIAL"), (anchorOffset, focusOffset) => {
-                if (entity) {
-                    let data = entity.getData();
-                    let url = data.src,
-                        desc = data.description || '',
-                        title = data.title || '';
-                    const linkText = block.getText().substring(anchorOffset, focusOffset);
-                    article.hasPart.push(
-                       getSocialMediaPosting(url,desc,title)
-                    );
-                }
+                let data = entity.getData();
+                let url = data.src,
+                    desc = data.description || '',
+                    title = data.title || '';
+                const linkText = block.getText().substring(anchorOffset, focusOffset);
+                article.hasPart.push(
+                    getSocialMediaPosting(url,desc,title)
+                );
             });
+
         });
+
     }
 
     /**

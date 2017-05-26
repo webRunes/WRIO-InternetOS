@@ -9,7 +9,7 @@ import getHttp from './getHttp.js';
 import {extractFileName, parseUrl,appendIndex} from './utils/url.js';
 
 export function urlMatch () {
-    return window.location.search.match(/\?comment_article=([\.0-9a-zA-Z%:\/?]*)/);
+    return window.location.search.match(/\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/);
 }
 
 export default class CommentSaver extends React.Component {
@@ -17,7 +17,7 @@ export default class CommentSaver extends React.Component {
         super(props);
         var editUrl = urlMatch();
         if (editUrl) {
-            editUrl = appendIndex(editUrl[1]);
+            editUrl = appendIndex(decodeURIComponent(editUrl[1]));
             console.log(editUrl);
         }
 
@@ -57,9 +57,13 @@ export default class CommentSaver extends React.Component {
                 return saveToS3(this.state.saveUrl,html);
             }).then((res) => {
                     this.setState({msg:"Success!",busy:false});
+                    parent.postMessage(JSON.stringify({reload:true}),"*");
             }).catch((err) => {
                 console.log(err);
-                this.setState({msg:"Oops... something went wrong"});
+                this.setState({
+                    msg:"Oops... something went wrong",
+                    busy: false
+                });
             });
         }).catch(error=> {
             this.setState({
@@ -79,14 +83,17 @@ export default class CommentSaver extends React.Component {
         var buttonStyle = "btn btn-sm btn-primary" + (this.state.busy?" disabled":"");
 
         return (
+          <div>
+            <ul className="breadcrumb"><li class="active">Comments</li></ul>
             <div className="well enable-comment text-left">
-                <h4>Comments disabled</h4>
-                <p>Comments haven't been enabled by author</p>
-                <br />
-                <a className={buttonStyle} href="#" role="button" onClick={this.doSave.bind(this)}>
-                    <span className="glyphicon glyphicon-comment"></span>
-                    {this.state.busy ? <span><img src="https://default.wrioos.com/img/loading.gif"/>{this.state.msg}</span>:"Enable comments"}
-                </a>
-            </div>);
+              <h4>Comments disabled</h4>
+              <p>Comments haven't been enabled by you.</p>
+              <br />
+              <a className={buttonStyle} href="#" role="button" onClick={this.doSave.bind(this)}>
+                <span className="glyphicon glyphicon-comment"></span>
+                {this.state.busy ? <span><img src="https://default.wrioos.com/img/loading.gif"/>{this.state.msg}</span>:"Enable comments"}
+              </a>
+            </div>
+          </div>);
     }
 }

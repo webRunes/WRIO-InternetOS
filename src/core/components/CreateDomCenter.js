@@ -1,6 +1,5 @@
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
-import Reflux from 'reflux';
 import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
@@ -12,8 +11,6 @@ import CreateTitter from '../../widgets/Titter.js';
 import WrioDocumentBody from './WrioDocumentBody.js';
 import getHttp from '../store/request.js';
 import classNames from 'classnames';
-import ActionMenu from '../../widgets/Plus/actions/menu';
-import StoreMenu from '../../widgets/Plus/stores/menu';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
 import CreatePresale from '../../widgets/Presale.js';
@@ -181,9 +178,7 @@ export class CreateDomCenter extends ArticleCenter {
 
 
     userId(userId) {
-        this.setState({
-            'userId': userId
-        });
+        this.setState({userId});
     }
 
     isArticleShown() {
@@ -230,7 +225,7 @@ export class CreateDomCenter extends ArticleCenter {
                             {ArticleContent}
                             { displayCore }
                             <div style={{display: displayTitterCondition ? 'block' : 'none'}}>
-                                <CreateTitter scripts={data} />
+                                {this.state.userId && <CreateTitter scripts={data} wrioID={this.state.userId}/> }
                             </div>
                         </div>);
 

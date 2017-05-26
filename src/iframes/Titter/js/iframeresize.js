@@ -32,7 +32,7 @@ window.addEventListener("optimizedResize", function() {
 
 
 window.frameReady = () => {
-    var ht = $("body").outerHeight(true);
+    var ht = $("#frame_container").outerHeight(true);
     console.log(ht);
     parent.postMessage(JSON.stringify({"titterHeight":ht}), "*"); // signal that iframe is renered and ready to go, so we can calculate it's actual height now
     return true;

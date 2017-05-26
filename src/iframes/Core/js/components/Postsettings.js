@@ -102,7 +102,7 @@ export default class PostSettings extends React.Component {
     onChangeFile(e) {
         this.setState({
             userStartedEditing: true,
-            saveFile: e.target.value
+            saveFile: prepFileName(e.target.value)
         });
     }
 
@@ -196,7 +196,7 @@ export default class PostSettings extends React.Component {
 
     goBack() {
         parent.postMessage(JSON.stringify({
-            "coreSaved": true
+            "followLink": `https://core.wrioos.com`
         }), "*");
     }
 

@@ -1,19 +1,19 @@
 var code =
-        '<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">' +
-            '<div class="preloader" style="position: fixed; top: 0; z-index: 9999; min-height: 600px; width: 100%; height: 100%; display: table; vertical-align: middle;">' +
-                '<div class="container" style="position: relative; vertical-align: middle; display: table-cell; height: 260px; text-align: center;">' +
-                    '<h1 style="font-family: BebasNeue,sans-serif; color: #eee; font-size: 32px; text-transform: uppercase; text-shadow: 2px 2px 4px #000; -webkit-font-smoothing: antialiased;">webRunes webgate</h1>' +
-                    '<p style="font-family: sans-serif;  color: #eee; font-size: 11px; font-weight: bold; text-transform: uppercase;">Alpha stage, certain issues and slow connection may be expected</p>' +
-                    '<div class="inner" style="margin: 128px auto 0; width: 135px; height: 260px;">' +
-                        '<div class="preloader-logo">' + '</div>' +
-                        '<div class="progress progress-striped active" style="height: 6px; margin: 20px 0;">' +
-                            '<div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="background-color: #0088cc !important; width: 100% !important;">' + '</div>' +
-                        '</div>' +
-                        '<p style="font-family: sans-serif;  color: #eee; font-size: 11px; font-weight: bold; text-transform: uppercase;">Loading... please wait</p>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</div>',
+        `<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">
+            <div class="preloader" style="position: fixed; top: 0; z-index: 9999; min-height: 600px; width: 100%; height: 100%; display: table; vertical-align: middle;">
+                <div class="container" style="position: relative; vertical-align: middle; display: table-cell; height: 260px; text-align: center;">
+                    <h1 style="font-family: BebasNeue,sans-serif; color: #eee; font-size: 32px; text-transform: uppercase; text-shadow: 2px 2px 4px #000; -webkit-font-smoothing: antialiased;">webRunes webgate</h1>
+                    <p style="font-family: sans-serif;  color: #eee; font-size: 11px; font-weight: bold; text-transform: uppercase;">Alpha stage, certain issues and slow connection may be expected</p>
+                    <div class="inner" style="margin: 128px auto 0; width: 135px; height: 260px;">
+                        <div class="preloader-logo"> </div>
+                        <div class="progress progress-striped active" style="height: 6px; margin: 20px 0;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="background-color: #0088cc !important; width: 100% !important;"> </div>
+                        </div>
+                        <p style="font-family: sans-serif;  color: #eee; font-size: 11px; font-weight: bold; text-transform: uppercase;">Loading... please wait</p>
+                    </div>
+                </div>
+            </div>
+        </div>`,
     favicon,
     head = document.getElementsByTagName('head')[0],
     notSupportedBrowsers = [],
@@ -137,10 +137,11 @@ function decodeIncomingUrl() {
     }
 }
 
-function loadScript(url) {
+function loadScript(url,onload) {
     var script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute('src', url);
+    script.onload = onload;
     document.body.appendChild(script);
 }
 
@@ -148,19 +149,20 @@ function loadScripts() {
 
     decodeIncomingUrl();
 
-    loadScript('common.js');
+    loadScript('/common.js', ()=> {
+        if (process.env.NODE_ENV === 'production') {
+            loadScript('//wrioos.com/main.js');
 
-    if (process.env.NODE_ENV === 'production') {
-       loadScript('//wrioos.com/main.js');
+        }
+        if (process.env.NODE_ENV === 'development') {
+            loadScript('/main.js');
+        }
 
-    }
-    if (process.env.NODE_ENV === 'development') {
-        loadScript('http://localhost:3000/main.js');
-    }
+        if (process.env.NODE_ENV === 'dockerdev') {
+            loadScript('//wrioos.local/main.js');
+        }
+    });
 
-    if (process.env.NODE_ENV === 'dockerdev') {
-        loadScript('//wrioos.local/main.js');
-    }
 
 }
 

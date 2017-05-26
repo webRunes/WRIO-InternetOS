@@ -4,9 +4,16 @@ var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
     .BundleAnalyzerPlugin;
 var envs = {};
 
-if (process.env.DOCKER_DEV) {
+if (process.env.FRONTDEV) {
+  console.log("Got front end dev mode");
+  envs = {
+    "process.env": {
+      NODE_ENV: JSON.stringify("development"),
+      DOMAIN: JSON.stringify("wrioos.com")
+    }
+  };
+} else if (process.env.DOCKER_DEV) {
   console.log("Got docker dev mode");
-
   envs = {
     "process.env": {
       NODE_ENV: JSON.stringify("dockerdev"),
@@ -25,6 +32,7 @@ if (process.env.DOCKER_DEV) {
 let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
     name:'commons',  // Just name it
     filename: 'common.js', // Name of the output file
+    minChunks: 'Infinity',
     chunks: ['main','titter','core']
 });
 
@@ -32,11 +40,11 @@ let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
 console.log(envs);
 var e = {
   entry: {
-    main: "./src/main.js",
-    start: "./src/preloader.js",
-    titter: './src/iframes/Titter/js/index.js',
-    core: "./src/iframes/Core/js/client.js",
-    commons: ['react','react-dom','reflux','superagent','lodash','core-js'],
+    main: path.resolve(__dirname,"./src/main.js"),
+    start: path.resolve(__dirname,"./src/preloader.js"),
+    titter: path.resolve(__dirname,'./src/iframes/Titter/js/index.js'),
+    core: path.resolve(__dirname,"./src/iframes/Core/js/client.js"),
+    commons: ['babel-polyfill','react','react-dom','reflux','superagent','lodash','core-js'],
  //   webgold: './src/iframes/webGold/js/client.js'
   },
   output: {
@@ -58,11 +66,13 @@ var e = {
   },
   devServer: {
     host: "0.0.0.0",
+    overlay: true,
     port: 3000,
     contentBase: "../",
     inline: true,
     watchOptions: {
-      poll: 1000 // <-- it's worth setting a timeout to prevent high CPU load
+      aggregateTimeout:300,
+      poll: true // <-- it's worth setting a timeout to prevent high CPU load
     }
   },
   devtool: "source-map",
@@ -72,12 +82,13 @@ var e = {
     new webpack.DefinePlugin(envs),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")
-    })
+    }),
+    // new webpack.PrefetchPlugin(['react'])
   ]
 };
 
 
-e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
+//e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
 
 var minify = !process.env.DOCKER_DEV;
 if (minify) {
