@@ -1,37 +1,15 @@
 // TODO legacy code, rewrite in react, get rid of globals
 
-import { sanitizePostUrl } from "./urlutils.js";
+
 import ReactDOM from 'react-dom';
 import React from 'react';
 require("./iframeresize"); // require iframe resizer middleware
 
-var files = [];
 
 
-window.posturl = sanitizePostUrl(url_params.posturl);
 
-window.keyPress = () => {
-  var comment = document.getElementById("comment").value;
-  var title = document.getElementById("IDtweet_title").value;
-  var wrg = parseInt(document.getElementById("inputAmount").value);
-  var t_limit = $("#IDtweet_title").attr("maxlength");
-  var t_delta = t_limit - title.length;
-  $("span.twitter-limit").html(t_delta);
-  var limit = $("#comment").attr("maxlength");
-  var delta = limit - comment.length;
-  $("label.comment-limit").html(delta);
-  var b_limit = parseInt($("#wrgBalance").html());
-  if (b_limit < wrg) {
-    $(".donation-form").addClass("has-error");
-    $(".help-block").show();
-  } else {
-    if ($(".donation-form").hasClass("has-error")) {
-      $(".donation-form").removeClass("has-error");
-      $(".help-block").hide();
-    }
-  }
-  frameReady();
-};
+
+
 
 window.sendComment = () => {
   var amount = document.getElementById("inputAmount").value;
@@ -41,50 +19,8 @@ window.sendComment = () => {
   sendTitterComment(amount);
 };
 
-function deactivateButton() {
-  $("#sendButton").addClass("disabled");
-  var buttonText = $("#sendButton").html();
-  buttonText = buttonText.replace("Submit", "Sending...");
-  $("#sendButton").html(buttonText);
-  $("#sendButton img").show();
-  $("#sendButton span").hide();
-}
 
-function activateButton() {
-  $("#sendButton").removeClass("disabled");
-  var buttonText = $("#sendButton").html();
-  buttonText = buttonText.replace("Sending...", "Submit");
-  $("#sendButton").html(buttonText);
-  $("#sendButton img").hide();
-  $("#sendButton span").show();
-}
 
-const genFormData = () => {
-  var comment = document.getElementById("comment").value;
-  var title = document.getElementById("IDtweet_title").value;
-  var data = new FormData();
-  var _data = {
-    text: comment,
-    title: title,
-    comment: posturl
-  };
-
-  var len = files.length;
-  if (len > 3) len = 3;
-
-  for (var i = 0; i < len; i++) {
-    data.append("images[]", files[i]);
-  }
-
-  $.each(_data, function(key, value) {
-    data.append(key, value);
-  });
-  return data;
-};
-
-const raiseUnlockPopup = function(callback) {
-  return window.open(callback, "name", "width=800,height=500");
-};
 
 window.addEventListener("message", msg => {
   // callback to listen data sent back from the popup
@@ -136,27 +72,12 @@ window.cancelUnlock = function() {
 
 };
 
-function resultMsg(text,error) {
-  let cls = error ? "alert-danger" : 'alert-success';
-  let $donatedStats = $("#donatedStats");
-  $donatedStats.show();
-  $donatedStats.attr("class", "alert "+cls);
-  window.cburl = "";
-  $("#donatedAmount").html(text);
-  frameReady();
-}
 function resultHide() {
   let $donatedStats = $("#donatedStats");
   $donatedStats.hide();
   frameReady();
 }
 
-function resetFields () {
-  document.getElementById("comment").value = "";
-  document.getElementById("IDtweet_title").value = "";
-  document.getElementById("inputAmount").value = 0;
-  activateButton();
-}
 
 function afterDonate(amount) {
   activateButton();
@@ -173,53 +94,6 @@ function afterDonate(amount) {
   frameReady();
 }
 
-function sendTitterComment(amount) {
-
-}
-
-function updateBalance(balance, rtx) {
-  $("#balancestuff").show();
-  if (balance) {
-    $("#wrgBalance").html("&nbsp" + balance);
-  }
-  $("#rtx").html("&nbsp" + rtx);
-  frameReady();
-}
-
-
-function InitTitter() {
-  loadDraft();
-
-  function hideInput() {
-    $("#inputAmount").prop("disabled", true);
-    //  $("#IDtweet_title").prop('disabled', true);
-  }
-
-  if (!recipientWrioID || recipientWrioID === "undefined") {
-    console.log(
-      "Donation recipient not specified, hiding donate form, use get parameter &id=xxxxxxxxxx"
-    );
-    hideInput();
-    $("#noAuthor").show();
-  }
-
-  if (!loggedUserID) {
-    hideInput();
-  }
-
-  if (recipientWrioID === loggedUserID) {
-    console.log("Cannot donate to yourself");
-    hideInput();
-  }
-
-  if (posturl === "undefined") {
-    hideInput();
-    throw new Error(
-      "Origin paramater not specified, use &origin=urlencode(hostname)"
-    );
-  }
-  queryBalance();
-}
 
 var faucetInterval = false;
 window.wrgFaucet = () =>
@@ -270,16 +144,11 @@ window.wrgFaucet = () =>
   })();
 
 async function watchTX(txUrl, txHash) {
-  //$("#faucetLoader").show();
-  //$("#faucetGroup").hide();
   if (faucetInterval) {
     clearInterval(faucetInterval);
   }
   const NUM_TRIES = 5;
   const TRY_DELAY = 15000;
-  /*$("#faucetMsg").html(
-    `<a href="${txUrl}">Transaction</a> processing, please wait`
-  );*/
   for (let i = 0; i < NUM_TRIES; i++) {
     await delay(TRY_DELAY);
     let txStatus = await txStatusRequest(txHash);
@@ -289,24 +158,11 @@ async function watchTX(txUrl, txHash) {
     }
   }
   await queryBalance();
-  //$("#faucetLoader").hide();
-  //$("#faucetGroup").show();
-  //$("#faucetMsg").html("");
 }
 
 
 
-/*
-$(document).ready(function() {
-  console.log("Iframe loaded");
-  InitTitter();
-  $("#fileInput").change(function() {
-    $.each(this.files, function(key, value) {
-      files.push(value);
-    });
-  });
-  frameReady();
-});*/
+
 
 window.chooseFile = () => {
 
@@ -318,3 +174,4 @@ ReactDOM.render(
     <Container />,
     document.getElementById('frame_container')
 );
+document.getElementById('loadingInd').style="display:none;";

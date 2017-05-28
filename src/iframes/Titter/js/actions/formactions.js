@@ -8,5 +8,7 @@ export default Reflux.createActions([
     'freeWRG',
     'commentChanged',
     'tagsChanged',
-    'amountChanged'
+    'amountChanged',
+    'openAuthPopup',
+    'addFile'
 ]);

@@ -34,23 +34,19 @@ export function getWebgoldUrl() {
 window.goAddFunds = () => {
     parent.postMessage(JSON.stringify({"goAddFunds":true}), "*");
 };
-
-
 export function loadDraft() {
     if (window.localStorage['draft']) {
-        document.getElementById('IDtweet_title').value = window.localStorage['draft_title'];
-        document.getElementById('comment').value = window.localStorage['draft'];
+        const title = window.localStorage['draft_title'];
+        const text= window.localStorage['draft'];
         window.localStorage.removeItem('draft_title');
         window.localStorage.removeItem('draft');
+        return [title,text];
+    } else {
+        return ['',''];
     }
-
-
 }
 
-export function saveDraft() {
-    var text = document.getElementById('comment').value;
-    var title = document.getElementById('IDtweet_title').value;
-    console.log(title);
+export function saveDraft(title,text) {
     window.localStorage['draft'] = text;
     window.localStorage['draft_title'] = title;
 }

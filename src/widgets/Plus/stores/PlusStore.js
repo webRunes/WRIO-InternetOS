@@ -6,9 +6,6 @@ import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../util
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
 import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
-<<<<<<< HEAD
-const storage = CrossStorageFactory.getCrossStorage();
-=======
 import UIActions from '../../../core/actions/UI.js';
 import {
     addPageToTabs,
@@ -18,9 +15,9 @@ import {
     normalizeTabs,
     saveCurrentUrlToPlus} from '../utils/tabTools.js';
 
-var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
-    storage = CrossStorageFactory.getCrossStorage();
->>>>>>> master
+const storage = CrossStorageFactory.getCrossStorage();
+
+
 
 /**
  * Extracts current page information from the DOM

@@ -43,11 +43,11 @@ class _CrossStorageFactory {
     constructor () {
         this.isInTest = typeof global.it === 'function';
         if (!this.isInTest) {
-            if /*(isSafari())*/(true) {
+            if (isSafari()) {
                 console.warn("Safari cross storage emulation mode is on");
                 this.cs = new SafariStorage();
             } else {
-                var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+                var host = 'https://wrioos.com/';
                 this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.html', {
                     promise: Promise
                 });

@@ -7,6 +7,8 @@ const Loading = () => <img src="https://wrioos.com/Default-WRIO-Theme/img/loadin
 import {getWebgoldUrl} from "../utils.js";
 import FormState from '../stores/formstate.js';
 import FormActions from '../actions/formactions.js';
+import DonationForm from './DonationForm.js';
+import FileEntry from './FileEntry'
 
 const FreeWRGBlock = ({haveWallet,msg,getWRG}) => {
     const callback = haveWallet ? getWRG : () => window.open(getWebgoldUrl()+'/create_wallet','name','width=800,height=500');
@@ -61,16 +63,13 @@ const ErrorBox = ({noAuthor,noAuthorWallet,noWebgold}) => {
     </div>);
 };
 
-const SendButton = ({user,busy,sendCB}) => {
+const SendButton = ({user,busy,sendCB,commentLeft}) => {
 
     let text = user ? "Send" : "Login and submit";
     if (busy) {
         text = "Sending...";
     }
-    const cb = user ? sendCB : () => {
-        saveDraft();
-        openAuthPopup();
-    };
+    const cb = user ? sendCB : () => {FormActions.openAuthPopup()};
     const btn = (<button type="button" className={`btn btn-primary ${busy ? "disabled" : ""}`} onClick={cb}>
             <span className="glyphicon glyphicon-ok"></span>
             {busy && <Loading />}
@@ -78,66 +77,19 @@ const SendButton = ({user,busy,sendCB}) => {
         </button>);
 
     return (<div className="pull-right">
-        <label className="comment-limit">1024</label>
+        <label className="comment-limit">{busy ? "Loading" : commentLeft }</label>
         {btn}
     </div>);
 
 };
 
-const DonatedAmount = ({amount}) => {
-    return (<div className="alert alert-success" id="donatedStats">
+const DonatedAmount = ({donateResultText,error}) => {
+    return (donateResultText && <div className={"alert alert-success "+error?"danger":""} id="donatedStats">
         <button type="button" className="close" data-dismiss="alert">×</button>
-        <span id="donatedAmount">{amount}</span>
+        <span>{donateResultText}</span>
     </div>);
 };
 
-class DonationForm extends React.Component {
-    render() {
-        return (<div>
-            <div
-                className="form-group send-comment-form-donation donation-form col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <div className="input-group input-group-sm tooltip-demo">
-                    <span className="input-group-addon">Donation</span>
-                    <input type="number"
-                           className="form-control"
-                           ref="inputAmount"
-                           value={this.props.amount}
-                           min="0"
-                           onChange={() => FormActions.amountChanged(this.refs.inputAmount.value)} /><span
-                    className="input-group-addon">THX</span>
-                </div>
-
-                <div className="help-block">
-                    <span>Insufficient funds</span>
-                </div>
-            </div>
-            <div className="form-group send-comment-form-donation col-xs-12 col-sm-6 col-md-4 col-lg-7">
-                <div className="input-group input-group-sm">
-                    <span className="input-group-addon twitter-limit">72</span>
-                    <input ref="title"
-                           name="tweet_title"
-                           className="form-control"
-                           maxLength="72"
-                           placeholder="Title, hashtags or mentions. Max 72 characters" type="text"
-                           value={this.props.tags}
-                           onChange={() => FormActions.tagsChanged(this.refs.title.value)}/>
-                </div>
-            </div>
-
-            <div className="form-group send-comment-form col-xs-12">
-                        <textarea maxLength="1024"
-                                  rows="3"
-                                  className="form-control"
-                                  placeholder="Let us know your thoughts! Max 1024 characters"
-                                  name="comment"
-                                  ref="comment"
-                                  value={this.props.comment}
-                                  onChange={() => FormActions.commentChanged(this.refs.comment.value)}>
-                        </textarea>
-            </div>
-        </div>);
-    }
-};
 
 class Container extends React.Component {
     constructor(props) {
@@ -161,27 +113,28 @@ class Container extends React.Component {
                     <ErrorBox noAuthor={this.state.noAuthor}
                               noWebgold={this.state.noWebgold}
                               noAuthorWallet={this.state.noAuthorWallet} />
-                    <DonationForm amount={this.state.amount} tags={this.state.tags} comment={this.state.comment}/>
+                    <DonationForm balance={this.state.balance}
+                                  donateDisabled={this.state.donateDisabled}
+                                  amount={this.state.amount}
+                                  tags={this.state.tags}
+                                  comment={this.state.comment}
+                                  left={this.state.left}/>
+                    <DonatedAmount donateResultText={this.state.donateResultText} error={this.state.donateError}/>
 
                     <div className="form-group send-comment-form col-xs-12">
-                        <div style={{height:"0px",overflow:"hidden"}}>
-                            <input type="file" accept="image/*" multiple id="fileInput" name="fileInput"/>
-                        </div>
-                        <div className="pull-left">
-                            <button type="button" className="btn btn-default" onClick={()=>{
-                             $("#fileInput").click();
-                            }}>
-                                <span className="glyphicon glyphicon-camera"></span>
-                                Photo
-                            </button>
-                        </div>
-                        <SendButton sendCB={()=>FormActions.sendComment()}/>
+                        <FileEntry />
+                        <SendButton user={this.state.user}
+                                    sendCB={()=>FormActions.sendComment()}
+                                    commentLeft={this.state.left.comment}
+                            />
                     </div>
                 </form>
             </div>
 
         );
     }
-
+    componentDidUpdate() {
+        window.frameReady();
+    }
 };
 export default Container;
