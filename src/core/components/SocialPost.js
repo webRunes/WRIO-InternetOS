@@ -72,7 +72,7 @@ class SocialPost extends React.Component {
                     console.error("Can't load embed ",data.sharedContent.url);
                 }
                 console.log(result.body.html);
-                if (result.body.provider_name == 'Twitter') {
+                if (window.twttr && result.body.provider_name == 'Twitter') {
                     setTimeout(() => window.twttr.widgets.load(),1000); // hack to reload twitter iframes
                 }
                 if (result.body.type == 'link') {
@@ -82,9 +82,13 @@ class SocialPost extends React.Component {
                     });
                 }
                 const html = result.body.html;
-                this.refs.contentblock.innerHTML = html;
-                exec_body_scripts(this.refs.contentblock);
-                this.setState({html});
+                if (this.refs.contentblock) {
+                    this.refs.contentblock.innerHTML = html;
+                    exec_body_scripts(this.refs.contentblock);
+                    this.setState({html});
+                } else {
+                    console.warn("Contentblock hidden TODO: investigate if it's ok");
+                }
             });
         }
     }
@@ -128,22 +132,33 @@ function exec_body_scripts (body_el) {
     };
 
     function evalScript(elem) {
+
+        const head = document.getElementsByTagName("head")[0] ||
+                document.documentElement;
+
+        if (elem.tagName && elem.src && elem.tagName == 'SCRIPT') {
+            let script = document.createElement('script');
+            script.src = elem.src;
+            script.onload = window.frameReady;
+            head.appendChild(script);
+            return;
+        }
+
         var data = (elem.text || elem.textContent || elem.innerHTML || "" ),
-            head = document.getElementsByTagName("head")[0] ||
-                document.documentElement,
             script = document.createElement("script");
 
         script.type = "text/javascript";
         try {
             // doesn't work on ie...
             script.appendChild(document.createTextNode(data));
+            script.onload = window.frameReady;
         } catch(e) {
             // IE has funky script nodes
             script.text = data;
         }
 
         head.insertBefore(script, head.firstChild);
-        head.removeChild(script);
+      //  head.removeChild(script);
     };
 
     // main section of function

@@ -43,15 +43,17 @@ gulp.task('test', function() {
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(mocha({
             reporter: 'dot',
+            require: "babel-polyfill",
+            compilers: "js:babel-core/register",
             timeout: 20000
         }))
         .once('error', function (err) {
-            console.log('Tests failed for reason:',err);
+            console.log('Tests failed');
             process.exit(1);
         })
         .once('end', function () {
             process.exit();
-        });;
+        });
 });
 
 gulp.task('lint', function () {
@@ -95,7 +97,7 @@ gulp.task('babel-client', function(callback) {
 
 });
 
-gulp.task('default', ['lint','babel-client']);
+gulp.task('default', ['babel-client']);
 
 gulp.task("devserv", function(callback) {
     // Start a webpack-dev-server

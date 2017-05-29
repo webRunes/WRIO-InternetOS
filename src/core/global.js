@@ -1,9 +1,9 @@
-export var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+export var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost' : 'https://wrioos.com/';
 export var cssUrl;
 export var theme;
 
 if (process.env.NODE_ENV === 'development') {
-    cssUrl = '//localhost:3000/';
+    cssUrl = '//localhost/';
     theme = 'Default-WRIO-Theme';
 } else {
     cssUrl = '//default.wrioos.com/';

@@ -6,10 +6,19 @@ export function getServiceUrl(service) {
     var protocol = 'https://';
     var domain = process.env.DOMAIN;
     if (domain === 'wrioos.local') {
-        protocol = 'http://';
+        protocol = window.location.protocol + '//';
     }
     var domain = process.env.DOMAIN;
-    return protocol + service + "."+domain;
+    var protocol = process.env.NODE_ENV == 'development' ? 'https:' : window.location.protocol;
+    if (process.env.NODE_ENV == 'development') {
+        if (service == 'core') {
+            return 'http://core_d.wrioos.com'
+        }
+        if (service == 'titter') {
+            return 'http://titter_d.wrioos.com'
+        }
+    }
+    return protocol + "//" + service + "." + domain;
 }
 
 export function getDomain() {
@@ -21,4 +30,13 @@ export function getDomain() {
         domain = process.env.DOMAIN;
     }
     return domain;
+}
+
+export function getTitterIframe() {
+
+}
+
+
+export function getCoreIframe() {
+
 }

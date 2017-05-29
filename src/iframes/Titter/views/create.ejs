@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://default.wrioos.com/css/webrunes.css" rel="stylesheet">
+    <style>
+        body {
+            height: auto !important;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var url_params = {
+            posturl: '<%= host %>'
+        }
+
+        <% if (user) { %>
+        var loggedUserID = '<%= user.wrioID %>';
+        <% } else { %>
+        var loggedUserID = null;
+        <% } %>
+        var recipientWrioID = '<%= userID %>';
+
+    </script>
+    <script src="/js/bundle.js"></script>
+</head>
+<body>
+<div id="frame_container"></div>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
