@@ -35,9 +35,12 @@ export default class TwitterTimelineWidget {
             .timeline-Widget .stream {
               overflow-y: hidden !important;
             }
+            .timeline-Viewport {
+              overflow:hidden !important;
+            }
             .timeline-Tweet-text{
               font-size: 14px !important;
-              line-height: initial !important;
+              line-height: 20px !important;
             }
             .timeline-InformationCircle-widgetParent {
                display: none !important;
