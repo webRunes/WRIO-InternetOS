@@ -8,8 +8,6 @@ import UIActions from "../core/actions/UI.js";
 var domain = getDomain();
 
 
-
-
 var CreateTitter = React.createClass({
     propTypes: {
         scripts: React.PropTypes.array.isRequired,
