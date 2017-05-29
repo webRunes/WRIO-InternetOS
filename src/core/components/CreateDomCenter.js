@@ -1,6 +1,5 @@
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
-import Reflux from 'reflux';
 import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
@@ -165,9 +164,7 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     userId(userId) {
-        this.setState({
-            'userId': userId
-        });
+        this.setState({userId});
     }
 
     isArticleShown() {
@@ -196,13 +193,12 @@ export class CreateDomCenter extends ArticleCenter {
         }
 
         const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
-
         const contents = (<div>
                              <WrioDocumentBody/>
                             { !WrioDocument.hasCommentId() ?
                                 commentsDisabledFrame :
                              <div style={displayTitterStyle}>
-                                 <CreateTitter scripts={ WrioDocument.getData()} />
+                                 {this.state.userId && <CreateTitter scripts={WrioDocument.getData()} wrioID={this.state.userId}/> }
                              </div> }
                         </div>);
 

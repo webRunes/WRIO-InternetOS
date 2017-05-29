@@ -97,7 +97,7 @@ gulp.task('babel-client', function(callback) {
 
 });
 
-gulp.task('default', ['lint','babel-client']);
+gulp.task('default', ['babel-client']);
 
 gulp.task("devserv", function(callback) {
     // Start a webpack-dev-server
