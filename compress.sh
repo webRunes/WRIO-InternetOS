@@ -8,3 +8,7 @@ echo "Gzipping scripts"
 
 gzip -9 *.js *.map
 for i in *.gz ; do mv "$i" "${i/.gz/}" ; done
+
+echo "Copying hub contents in dist folder"
+
+cp -fR ../hub/* .

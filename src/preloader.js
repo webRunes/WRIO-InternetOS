@@ -152,18 +152,22 @@ function loadScripts() {
 
     decodeIncomingUrl();
 
-    loadScript('/common.js', ()=> {
-        if (process.env.NODE_ENV === 'production') {
-            loadScript('//wrioos.com/main.js');
+    let prefix = '//wrioos.com/';
+    if (process.env.NODE_ENV === 'production') {
+        prefix = '//wrioos.com/';
 
-        }
-        if (process.env.NODE_ENV === 'development') {
-            loadScript('/main.js');
-        }
+    }
+    if (process.env.NODE_ENV === 'development') {
+       prefix = '';
+    }
 
-        if (process.env.NODE_ENV === 'dockerdev') {
-            loadScript('//wrioos.local/main.js');
-        }
+    if (process.env.NODE_ENV === 'dockerdev') {
+       prefix = '//wrioos.local';
+    }
+
+
+    loadScript(prefix+'/common.js', ()=> {
+        loadScript(prefix+'/main.js');
     });
 
 
