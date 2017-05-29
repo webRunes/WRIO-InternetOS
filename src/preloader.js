@@ -152,9 +152,9 @@ function loadScripts() {
 
     decodeIncomingUrl();
 
-    let prefix = '//wrioos.com/';
+    let prefix = '//wrioos.com';
     if (process.env.NODE_ENV === 'production') {
-        prefix = '//wrioos.com/';
+        prefix = '//wrioos.com';
 
     }
     if (process.env.NODE_ENV === 'development') {
