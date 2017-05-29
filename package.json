@@ -26,6 +26,7 @@
     "lodash.some": "*",
     "lodash.sortby": "^3.1.4",
     "lodash.sortbyorder": "^3.1.4",
+    "material-ui": "^0.18.1",
     "node-http-proxy": "^0.2.3",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.7",
@@ -87,11 +88,7 @@
   "scripts": {
     "build": "gulp && sh compress.sh",
     "start": "npm run build",
-    "buildDOCKER": "gulp",
     "devserver": "node ./src/devserver/index.js",
-    "w": "npm run watch",
-    "watch": "gulp watch",
-    "bundleDOCKER": "gulp --docker",
-    "watchDOCKER": "gulp watch --docker"
+    "dockerserver": "export DOCKER_DEV=true;node ./src/devserver/index.js"
   }
 }

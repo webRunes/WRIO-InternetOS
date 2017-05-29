@@ -162,7 +162,7 @@ function loadScripts() {
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-       prefix = '//wrioos.local';
+       prefix = 'http://localhost';
     }
 
 
