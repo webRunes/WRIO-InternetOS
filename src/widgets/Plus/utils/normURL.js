@@ -30,7 +30,7 @@ var cutLastSlash = function (url) {
     return url.replace(/\/+$/, '');
 };
 
-module.exports = function (url) {
+export default function normURL(url) {
     if ((typeof url === 'string') && (url.length > 0)) {
         [
             cutZone,
@@ -44,3 +44,12 @@ module.exports = function (url) {
     }
     return url ? '//' + url : url;
 };
+
+export function getPlusUrl(id) {
+    return '//wr.io/' + id + '/Plus-WRIO-App';
+}
+
+export function isPlusUrl(url,id) {
+    const normalized = normURL(url);
+    return normalized.search(getPlusUrl(id)) == 0;
+}

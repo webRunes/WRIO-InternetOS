@@ -5,12 +5,14 @@ import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
 import CreateItemList from './ItemList.js';
 import CreateCover from './CreateCover';
-import Carousel from 'react-bootstrap/lib/Carousel';
+import Carousel from './misc/FixedCarousel.js';
 import CarouselItem from 'react-bootstrap/lib/CarouselItem';
 import _ from 'lodash/core';
 import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
+
+
 
 /*
 *  Base class rendering document body
@@ -158,7 +160,7 @@ class DocumentBody extends React.Component {
             .value();
 
         return (
-            <Carousel>{data}</Carousel>
+            <Carousel defaultActiveIndex={0}>{data}</Carousel>
         );
     }
 

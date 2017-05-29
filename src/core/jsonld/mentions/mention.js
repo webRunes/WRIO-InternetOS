@@ -103,7 +103,7 @@ class Mention extends AbstractMention {
         this.start = Number(positions[1]);
 
         try {
-            this.external = positions[2] == 'external';
+            this.external = positions[2] == 'external'; // external means link will be open in new window
             this.extra = positions[3]; // additional optional field for the language
             this.externalUrl = cutUrl[0].replace('?','');
         } catch (e) {
@@ -145,8 +145,10 @@ class Mention extends AbstractMention {
          var ext = "";
          var linkUrl = this.linkUrl;
          var target, color;
-         if (this.external) {
-             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
+         if (this.external || this.extra) {
+             ext = (<sup>
+                 {this.external && <span className="glyphicon glyphicon-new-window"></span>}
+                 {this.extra}</sup>);
              target = "_blank";
              linkUrl = this.externalUrl;
 

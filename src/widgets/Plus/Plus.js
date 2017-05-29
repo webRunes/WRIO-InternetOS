@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Reflux from 'reflux';
 import PlusStore from './stores/PlusStore.js';
 import UserStore from '../../core/store/UserStore.js';
-import actions from './actions/PlusActions.js';
+import PlusActions from './actions/PlusActions.js';
 import ActionMenu from './actions/menu';
 import StoreMenu from './stores/menu';
 import classNames from 'classnames';
@@ -20,18 +20,16 @@ class RightBar extends React.Component {
         this.onRefresh = this.onRefresh.bind(this);
         this.state = {
             active: false,
-            jsonld: {},
+            tabs: {},
             fixed: false,
             height:"auto"
         };
         this.scrollPosition = 0;
     }
 
-    onStateChange(jsonld) {
-     //   console.log(jsonld);
-        this.setState({
-            jsonld: jsonld
-        });
+    onStateChange(tabs) {
+        console.log("PLUS TABS:\n",tabs);
+        this.setState({tabs});
     }
 
     onToggleMenu(data, fixed) {
@@ -70,12 +68,12 @@ class RightBar extends React.Component {
         this.listenPlus = PlusStore.listen(this.onStateChange);
         StoreMenu.listenTo(ActionMenu.toggleMenu, this.onToggleMenu);
         StoreMenu.listenTo(ActionMenu.refresh, this.onRefresh);
-        actions.read();
+        PlusActions.read();
     }
 
     componentDidUpdate() {
         document.getElementById('tabScrollPosition')
-            .scrollTop = Plus.checkActiveHeight(this.state.jsonld);
+            .scrollTop = Plus.checkActiveHeight(this.state.tabs);
         this.onScroll();
     }
 
@@ -119,16 +117,11 @@ class RightBar extends React.Component {
     }
 
     render() {
-
-        if (this.state === null) {
-            return null;
-        }
-
-        return this.generateLeft(this.content);
+        console.warn("Method not implemented");
     }
 
     generateLeft(component) {
-        var activePlus = Plus.checkActive(this.state.jsonld);
+        var activePlus = Plus.checkActive(this.state.tabs);
         var className = classNames({
             'navbar-collapse in unselectable': true,
             'active': this.state.active,
@@ -156,8 +149,8 @@ export class Plus extends RightBar {
         if (this.state === null) {
             return null;
         }
-        this.content = <List data={this.state.jsonld} />;
-        return this.generateLeft(this.content);
+        const content = <List data={this.state.tabs} />;
+        return this.generateLeft(content);
     }
 
 }
@@ -193,8 +186,8 @@ export class Users extends RightBar {
         if (this.state === null) {
             return null;
         }
-        this.content = <List data={this.state.users} />;
-        return this.generateLeft(this.content);
+        const content = <List data={this.state.users} />;
+        return this.generateLeft(content);
     }
 
 }
