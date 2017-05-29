@@ -41,7 +41,15 @@ class Core extends React.Component{
 
     render() {
         const url = !this.state.article ? getServiceUrl('core') + '/create' : getServiceUrl('core') + '/edit?article=' + encodeURIComponent(this.state.article);
-        return (<iframe id="coreiframe" ref="coreiframe" className="core" src={url}/>);
+        return (
+          <div>
+            <div className="callout">
+              <h5>Need help or inspiration?</h5>
+              <p>Check out <a href="https://core.wrioos.com/Get_Inspired/">Get Inspired</a> to get additional information and samples of the content that you can use in your webpages.</p>
+            </div>
+            <iframe id="coreiframe" ref="coreiframe" className="core" src={url}/>
+          </div>
+        );
     }
 }
 
