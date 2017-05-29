@@ -1,4 +1,4 @@
-var React = require('react'),
+const React = require('react'),
     ReactDOM = require('react-dom'),
     Reflux = require('reflux'),
     classNames = require('classnames'),
@@ -49,17 +49,17 @@ class CreateDomLeft extends React.Component {
 
     toggleMenuByClick() {
         this.setState({
-            toggleMenu: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active')
+            toggleMenu: !CreateDomLeft.hasClass(ReactDOM.findDOMNode(this.refs.toggleMenu), 'active')
         });
-        ActionMenu.toggleMenu(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(React.findDOMNode(this.refs.toggleMenu), 'active'));
+        ActionMenu.toggleMenu(!CreateDomLeft.hasClass(ReactDOM.findDOMNode(this.refs.toggleMenu), 'active'), !CreateDomLeft.hasClass(ReactDOM.findDOMNode(this.refs.toggleMenu), 'active'));
     }
 
     showSidebarByClick() {
         this.setState({
-            showSidebar: !CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active')
+            showSidebar: !CreateDomLeft.hasClass(ReactDOM.findDOMNode(this.refs.showSidebar), 'active')
         });
 
-        ActionMenu.showSidebar(!CreateDomLeft.hasClass(React.findDOMNode(this.refs.showSidebar), 'active'));
+        ActionMenu.showSidebar(!CreateDomLeft.hasClass(ReactDOM.findDOMNode(this.refs.showSidebar), 'active'));
         ActionMenu.toggleMenu(false);
     }
 
