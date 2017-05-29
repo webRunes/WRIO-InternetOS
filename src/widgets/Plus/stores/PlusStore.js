@@ -15,8 +15,9 @@ import {
     normalizeTabs,
     saveCurrentUrlToPlus} from '../utils/tabTools.js';
 
-var host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/',
-    storage = CrossStorageFactory.getCrossStorage();
+const storage = CrossStorageFactory.getCrossStorage();
+
+
 
 /**
  * Extracts current page information from the DOM

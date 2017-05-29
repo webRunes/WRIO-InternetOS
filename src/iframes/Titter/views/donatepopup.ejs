@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<img src="https://default.wrioos.com/img/loading.gif"/>
+<script type="text/javascript">
+    // This iframe is waiting for the message to arrive with callback address, then it redirects to callback received
+
+    var ok = false;
+
+    function parseMessage(e) {
+        var message = e.data;
+        console.log("GOT MESSAGE",message);
+        try {
+            return JSON.parse(message);
+        } catch (e) {
+            return null;
+        }
+    }
+
+   window.addEventListener('message', function (evt) {
+       var msg = parseMessage(evt);
+       if (msg && msg.callback) {
+           ok = true;
+            window.location.href = msg.callback;
+       }
+       if (msg && msg.error) {
+           window.close();
+       }
+   });
+
+    window.addEventListener("beforeunload", function(e){
+        if (!ok) {
+            window.opener.postMessage(JSON.stringify({"cancelPopup":true}),"*")
+        }
+    }, false);
+
+</script>
+
+</body>
+</html>
