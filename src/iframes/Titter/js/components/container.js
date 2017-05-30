@@ -10,27 +10,31 @@ import FormActions from '../actions/formactions.js';
 import DonationForm from './DonationForm.js';
 import FileEntry from './FileEntry'
 
-const FreeWRGBlock = ({haveWallet,msg,getWRG}) => {
-    const callback = haveWallet ? getWRG : () => window.open(getWebgoldUrl()+'/create_wallet','name','width=800,height=500');
-    const buttonText = haveWallet ? "Get free Thanks coins" : "Create wallet and get free Thanks coins";
+const FreeWRGBlock = ({haveWallet,msg,busy,minutesLeft}) => {
+    const callback = haveWallet ? FormActions.requestFreeTHX : () => window.open(getWebgoldUrl()+'/create_wallet','name','width=800,height=500');
+    let buttonText = haveWallet ? "Get free Thanks coins" : "Create wallet and get free Thanks coins";
+    buttonText = minutesLeft == 0 ? buttonText : `Wait ${minutesLeft} minutes`;
     return (
     <span id="faucetGroup">
         <span id="faucetMsg">{msg}</span>
         <a id="faucetButton"
-           className="btn btn-sm btn-success"
+           className={`btn btn-sm btn-success ${(minutesLeft !== 0 || busy) && 'disabled'}`}
            href="javascript:;"
            onClick={callback}><span
-            className="glyphicon glyphicon-thumbs-up"></span>
+            className="glyphicon glyphicon-thumbs-up "></span>
             <span id="faucetText">{buttonText}</span>
-            <Loading />
+            {busy && <Loading />}
         </a>
-        <a className="btn btn-link" href="https://wrioos.com/#Thanks_coins_(THX)" target="_parent">
+        <a className="btn btn-link"
+           onClick={()=> callback()}
+           href="https://wrioos.com/#Thanks_coins_(THX)"
+           target="_parent">
             What are Thanks coins?</a>
     </span>);
 };
 
 
-const BalancePane = ({wrg,rtx,haveWallet,faucetMsg}) => {
+const BalancePane = ({wrg,rtx,haveWallet,faucet}) => {
     return (<div className="well" id="balancePane">
         <h4 id="balancestuff">Current balance&nbsp;
             <span id="wrgBalance">{wrg}</span>
@@ -41,7 +45,9 @@ const BalancePane = ({wrg,rtx,haveWallet,faucetMsg}) => {
         <p>Rating <span id="rtx">{rtx}</span></p>
         <br />
         <FreeWRGBlock haveWallet={haveWallet}
-                      msg={faucetMsg}
+                      msg={faucet.faucetMsg}
+                      minutesLeft={faucet.minutesLeft}
+                      busy={faucet.busy}
             />
     </div>);
 };
@@ -71,8 +77,7 @@ const SendButton = ({user,busy,sendCB,commentLeft}) => {
     }
     const cb = user ? sendCB : () => {FormActions.openAuthPopup()};
     const btn = (<button type="button" className={`btn btn-primary ${busy ? "disabled" : ""}`} onClick={cb}>
-            <span className="glyphicon glyphicon-ok"></span>
-            {busy && <Loading />}
+            {busy ? <Loading /> :  <span className="glyphicon glyphicon-ok"></span> }
             {text}
         </button>);
 
@@ -83,8 +88,8 @@ const SendButton = ({user,busy,sendCB,commentLeft}) => {
 
 };
 
-const DonatedAmount = ({donateResultText,error}) => {
-    return (donateResultText && <div className={"alert alert-success "+error?"danger":""} id="donatedStats">
+const ResultMessage = ({donateResultText,error}) => {
+    return (donateResultText && <div className={"alert alert-success "+(!!error?"danger":"")} id="donatedStats">
         <button type="button" className="close" data-dismiss="alert">×</button>
         <span>{donateResultText}</span>
     </div>);
@@ -106,9 +111,13 @@ class Container extends React.Component {
     render() {
         return (
             <div id="titter-id">
+                <ResultMessage donateResultText={this.state.donateResultText} error={this.state.donateError}/>
                 <form encType="multipart/form-data" method='POST' action="/sendComment"
                       className="margin-bottom form-send-comment" role="form">
-                    {this.state.showBalance && <BalancePane wrg={this.state.balance} rtx={this.state.rtx}/>}
+                    {this.state.showBalance && <BalancePane wrg={this.state.balance}
+                                                            rtx={this.state.rtx}
+                                                            faucet={this.state.faucet}
+                                                            haveWallet={this.state.user}/>}
                     {/*<DonatedAmount amount={0}/>*/}
                     <ErrorBox noAuthor={this.state.noAuthor}
                               noWebgold={this.state.noWebgold}
@@ -119,11 +128,12 @@ class Container extends React.Component {
                                   tags={this.state.tags}
                                   comment={this.state.comment}
                                   left={this.state.left}/>
-                    <DonatedAmount donateResultText={this.state.donateResultText} error={this.state.donateError}/>
+
 
                     <div className="form-group send-comment-form col-xs-12">
                         <FileEntry />
                         <SendButton user={this.state.user}
+                                    busy={this.state.busy}
                                     sendCB={()=>FormActions.sendComment()}
                                     commentLeft={this.state.left.comment}
                             />

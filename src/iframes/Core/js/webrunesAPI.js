@@ -4,11 +4,15 @@
 
 import request from 'superagent';
 var domain = process.env.DOMAIN;
+let protocol = '';
+if (process.env.NODE_ENV == 'development') {
+    protocol = 'https:'
+}
 
 export function saveToS3(path,html) {
     return new Promise((resolve,reject) => {
         request
-            .post(`//storage.${domain}/api/save`)
+            .post(protocol+`//storage.${domain}/api/save`)
             .withCredentials()
             .set('Accept', 'application/json')
             .send({
@@ -27,7 +31,7 @@ export function saveToS3(path,html) {
 export function deleteFromS3(path) {
     return new Promise((resolve,reject) => {
         request
-            .post(`//storage.${domain}/api/delete`)
+            .post(protocol+`//storage.${domain}/api/delete`)
             .withCredentials()
             .set('Accept', 'application/json')
             .send({
@@ -44,7 +48,7 @@ export function deleteFromS3(path) {
 export function getWidgetID(url) {
     return new Promise((resolve,reject) => {
         request
-            .get(`//titter.${domain}/obtain_widget_id?query=${url}`)
+            .get(protocol+`//titter.${domain}/obtain_widget_id?query=${url}`)
             .withCredentials()
             .then(result=> {
                 resolve(result.text);
@@ -57,7 +61,7 @@ export function getWidgetID(url) {
 export function getRegistredUser() {
     return new Promise((resolve,reject) => {
         request
-            .get(`//login.${domain}/api/get_profile`)
+            .get(protocol+`//login.${domain}/api/get_profile`)
             .withCredentials()
             .then(({body})=> {
                 console.log("Get_profile finish", body);

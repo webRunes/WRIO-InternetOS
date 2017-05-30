@@ -2,24 +2,30 @@
  * Created by michbil on 06.03.17.
  */
 
-import {getLoginUrl,getWebgoldUrl} from './utils.js';
+import {getLoginUrl,getWebgoldUrl,getTitterUrl} from './utils.js';
 
 export const sendCommentRequest = (data,params) => $.ajax({
-    url: '/sendComment?' + params,
+    url: getTitterUrl()+'/sendComment?' + params,
     type: 'post',
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,
     dataType: 'json',
-    data: data
+    data: data,
+    xhrFields: {
+        withCredentials: true
+    },
 });
 
 export const sendDonateRequest = (data,params) => $.ajax({
-    url: '/requestDonate?' + params,
+    url:  '/requestDonate?' + params,
     type: 'post',
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,
     dataType: 'json',
-    data: data
+    data: data,
+    xhrFields: {
+        withCredentials: true
+    },
 });
 
 export const getBalanceRequest = () => $.ajax({
