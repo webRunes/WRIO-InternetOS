@@ -10,5 +10,9 @@ export default Reflux.createActions([
     'tagsChanged',
     'amountChanged',
     'openAuthPopup',
-    'addFile'
+    'addFile',
+    'requestFreeTHX',
+    'cancelDonate',
+    'resetFields',
+    'resultMsg'
 ]);

@@ -4,6 +4,7 @@ const connect = require('connect');
 const path = require('path');
 const fs =require('fs');
 const vhost = require('vhost');
+var proxy = require('express-http-proxy');
 
 var app = express();
 
@@ -14,6 +15,7 @@ titterService.get('/iframe', (request, response) => {
         '/titter/titteriframe.html');
 });
 titterService.use(express.static(path.join(__dirname, "./titter/")));
+titterService.use(proxy('https://titter.wrioos.com/'));
 
 
 var coreService = express();

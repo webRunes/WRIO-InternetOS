@@ -31,6 +31,10 @@ export function getWebgoldUrl() {
 
 }
 
+export function getTitterUrl() {
+    return `https://titter.${process.env.DOMAIN}`;
+}
+
 window.goAddFunds = () => {
     parent.postMessage(JSON.stringify({"goAddFunds":true}), "*");
 };
