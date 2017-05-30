@@ -15,7 +15,9 @@ https://
 
 # Description
 
-Main front end repository, compiled files are start.js and main.js 
+![WRIOInternetOS frontend diagram](https://docs.google.com/drawings/d/1LsmOHmHESih1y6L1x9030c4yGsmS2WnG8aCkNPX6xLk/pub?w=595&h=469)
+
+Main ReactJS front end repository, compiled files are start.js and main.js 
 
 Example html file, using start.js script:
 ```
@@ -33,10 +35,12 @@ Example html file, using start.js script:
 </html>
 ```
 
-start.js script is located at the end of the .html file. It is responsible for loading JSON-LD description of the page from ```<script type="application/ld+json">``` section, for processing JSON-LD and dynamic generation of the page. Each .html file can contain up to 3 JSON-LD sections.
+start.js script link is located at the end of the .html file. It is responsible for loading JSON-LD description of the page from ```<script type="application/ld+json">``` section, 
+for processing JSON-LD and dynamic generation of the page. Each .html file can contain up to 3 JSON-LD sections.
 
 start.js is a loader. It checks browsers for compatibility, runs preliminary tests, and then loads main.js containing the main code.
 
+commons.js - is commons chunk, shared between main.js bundle and iframes, used to reduce individual JS file size.
 # Contributing
 
 Useful links to start
