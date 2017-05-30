@@ -102,7 +102,7 @@ export default Reflux.createStore({
 
         this.state = this.validateParams(this.state);
 
-        this.queryBalance();
+        this.onQueryBalance();
         this.getEthereumId();
     },
     validateParams(state) {
@@ -201,6 +201,10 @@ export default Reflux.createStore({
         openAuthPopup();
     },
 
+    /**
+     * Request api for ethereum id's of the receivers
+     */
+
     async getEthereumId() {
         const getUserId = async () => {
             try {
@@ -238,7 +242,7 @@ export default Reflux.createStore({
         };
     },
 
-    async queryBalance () {
+    async onQueryBalance () {
         try {
             let data = await getBalanceRequest();
             console.log(data);
@@ -271,35 +275,40 @@ export default Reflux.createStore({
         this.state.files.push(v);
         this.trigger(v);
     },
+    /**
+     * Handler for request freeTHX
+     */
     async onRequestFreeTHX() {
         const startProgress = (timeleft) =>{
-            this.state.faucet.minutesLeft = timeleft;this.trigger(this.state);
+            console.log("Startprogeres", timeleft);
+            this.setState({faucet:{minutesLeft: timeleft,busy:true}});
             let minutes = timeleft;
             faucetInterval = setInterval(() => {
-                this.setState({faucet:{minutesLeft: minutes--}});
+                this.setState({faucet:{minutesLeft: minutes--,busy:true}});
                 if (minutes < 0)  {
-                    this.state.faucet.minutesLeft = 0;this.trigger(this.state);
+                    this.setState({faucet:{minutesLeft: 0,busy:false}});
+                    clearInterval(faucetInterval);
                 }
 
             }, 60 * 1000);
         };
         try {
-            this.setState({faucet:{busy:true}});
+            this.setState({faucet:{busy:true,minutesLeft:0}});console.log(this.state);
             let data = await freeWrgRequest();
-            this.setState({faucet:{busy:true}});
+            this.setState({faucet:{busy:false,minutesLeft:0}});
             this.resultMsg("Success! You'll get 10THX in a minute");
             startProgress(60);
             await watchTX(data.txUrl, data.txhash);
         } catch (err) {
-            this.setState({busy:false});
             if (err.responseJSON) {
                 let r = err.responseJSON;
                 if (r.reason == "wait") {
                     if (r.timeleft > 0) {
-                        startProgress(r.timeleft);
+                        startProgress(parseInt(r.timeleft));
                         return;
                     }
                 }
+                this.setState({busy:false,minutesLeft:0});
             }
             this.resultMsg(
                 "Failed to receive free THX, reason:" + err.responseText, true
@@ -342,7 +351,7 @@ async function watchTX(txUrl, txHash) {
             break;
         }
     }
-    await queryBalance();
+    FormActions.queryBalance();
 }
 
 

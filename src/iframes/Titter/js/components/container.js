@@ -13,19 +13,19 @@ import FileEntry from './FileEntry'
 const FreeWRGBlock = ({haveWallet,msg,busy,minutesLeft}) => {
     const callback = haveWallet ? FormActions.requestFreeTHX : () => window.open(getWebgoldUrl()+'/create_wallet','name','width=800,height=500');
     let buttonText = haveWallet ? "Get free Thanks coins" : "Create wallet and get free Thanks coins";
-    buttonText = minutesLeft == 0 ? buttonText : `Wait ${Math.round(minutesLeft)} minutes`;
+    buttonText = minutesLeft == 0 ? buttonText : `Wait ${minutesLeft} minutes`;
     return (
     <span id="faucetGroup">
         <span id="faucetMsg">{msg}</span>
         <a id="faucetButton"
-           className="btn btn-sm btn-success"
+           className={`btn btn-sm btn-success ${(minutesLeft !== 0 || busy) && 'disabled'}`}
            href="javascript:;"
            onClick={callback}><span
-            className="glyphicon glyphicon-thumbs-up"></span>
+            className="glyphicon glyphicon-thumbs-up "></span>
             <span id="faucetText">{buttonText}</span>
             {busy && <Loading />}
         </a>
-        <a className={`btn btn-link ${(minutesLeft !== 0 || busy) && 'disabled'}`}
+        <a className="btn btn-link"
            onClick={()=> callback()}
            href="https://wrioos.com/#Thanks_coins_(THX)"
            target="_parent">

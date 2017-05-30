@@ -14,5 +14,6 @@ export default Reflux.createActions([
     'requestFreeTHX',
     'cancelDonate',
     'resetFields',
-    'resultMsg'
+    'resultMsg',
+    'queryBalance'
 ]);
