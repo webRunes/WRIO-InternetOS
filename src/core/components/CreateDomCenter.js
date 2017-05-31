@@ -198,24 +198,26 @@ export class CreateDomCenter extends ArticleCenter {
     generateCenterWithContents(contents) {
 
         var className = classNames({
-            '': true,
+            'title col-xs-12 col-sm-7 col-md-6 col-lg-6': true,
             'active': this.state.active
         });
 
         return (
           <div>
             <div className={className} id="centerWrp">
-              <AlertWelcome />
-              <AlertWarning />
-              <Login />
-              <CreateBreadcrumb
-                converter={this.props.converter}
-                editMode={ this.state.editMode }
-                actionButton={ this.state.actionButton }
-                onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
-                onEditClick={ this.switchToEditMode.bind(this) }
-                editAllowed ={ this.state.editAllowed }/>
-              {contents}
+              <div className="card">
+                <AlertWelcome />
+                <AlertWarning />
+                <Login />
+                <CreateBreadcrumb
+                  converter={this.props.converter}
+                  editMode={ this.state.editMode }
+                  actionButton={ this.state.actionButton }
+                  onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
+                  onEditClick={ this.switchToEditMode.bind(this) }
+                  editAllowed ={ this.state.editAllowed }/>
+                {contents}
+              </div>
             </div>
           </div>
         );
