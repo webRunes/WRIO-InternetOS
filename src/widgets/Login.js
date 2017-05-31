@@ -168,25 +168,25 @@ class Login extends React.Component{
 
 
         return (
-            <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
-                <li className="panel">
-                    <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
-                        <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
-                        {/*<sup>{this.state.title.label}</sup>*/}
-                    </a>
+            <ul className="info nav nav-pills nav-stacked hidden" id="profile-accordion">
+              <li className="panel">
+                <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
+                  <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
+                  {/*<sup>{this.state.title.label}</sup>*/}
+                </a>
 
-                    <span className="in" id="profile-element" onClick={this.changePage}>
-                        <div className="media thumbnail clearfix">
-                            <Details />
-                            <div className="col-xs-12 col-md-6">
-                                <p>{this.state.description}</p>
-                                <ul className="actions">
-                                    {has}
-                                    {lock}
-                                </ul>
-                            </div>
-                        </div>
-                    </span>
+                <span className="in" id="profile-element" onClick={this.changePage}>
+                  <div className="media thumbnail clearfix">
+                    <Details />
+                    <div className="col-xs-12 col-md-6">
+                      <p>{this.state.description}</p>
+                      <ul className="actions">
+                        {has}
+                        {lock}
+                      </ul>
+                    </div>
+                  </div>
+                </span>
 
                 </li>
             </ul>

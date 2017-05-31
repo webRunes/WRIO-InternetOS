@@ -198,32 +198,33 @@ var CreateDomRight = React.createClass({
         var height = this.getHeight();
 
         return (
+          <div className="">
             <div className={className} id="sidebar">
-                <div ref="sidebar" className="sidebar-margin">
-                    {this.state.article ? <aside>
-                        <CreateInfoTicket article={this.state.article} author={this.state.author}/>
-                    </aside> : ''}
-                    {this.state.article ?
-                        <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
-                    { (coverItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {coverItems}
-                    </ul>:""}
-                    { (articleItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {articleItems}
-                        <ArticleButton data={{name:"Comments",url:"#Comments"}}
-                                       active={this.active}
-                                       isActive={hashEquals('#Comments')}/>
-                    </ul>:""}
-
-                    { (externalItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {externalItems}
-                    </ul>
-                        :""}
-                </div>
+              <div ref="sidebar" className="sidebar-margin">
+                {this.state.article ? <aside>
+                  <CreateInfoTicket article={this.state.article} author={this.state.author}/>
+                </aside> : ''}
+                {this.state.article ?
+                  <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
+                { (coverItems.length > 0) ?
+                  <ul className="nav nav-pills nav-stacked" style={height}>
+                    {coverItems}
+                  </ul>:""}
+                { (articleItems.length > 0) ?
+                  <ul className="nav nav-pills nav-stacked" style={height}>
+                    {articleItems}
+                    <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                      active={this.active}
+                      isActive={hashEquals('#Comments')}/>
+                  </ul>:""}
+                { (externalItems.length > 0) ?
+                  <ul className="nav nav-pills nav-stacked" style={height}>
+                    {externalItems}
+                  </ul>
+                :""}
+              </div>
             </div>
+          </div>
         );
     },
 
@@ -238,7 +239,6 @@ var CreateDomRight = React.createClass({
             };
         }
     },
-
 
     processItem(item, superitem) {
         if (isCover(item)) {

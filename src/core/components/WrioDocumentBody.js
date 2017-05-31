@@ -12,8 +12,6 @@ import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
 
-
-
 /*
 *  Base class rendering document body
 * */
@@ -77,7 +75,8 @@ class DocumentBody extends React.Component {
         } else {
             return (
                 <article className="article_body">
-                    {content}
+                  <p>Place a contents here after summary part, like wiki has.</p>
+                  {content}
                 </article>
             );
         }
@@ -115,7 +114,6 @@ class DocumentBody extends React.Component {
         }
     }
 
-
     // returns default Article view
     // if document contains article and itemlists, itemlists are not displayed in the default view
     // if no article, then we should display itemLists in the default view
@@ -144,8 +142,6 @@ class DocumentBody extends React.Component {
             });
     }
 
-
-
     getCoverList(data) {
         var data = _.chain(data)
             .map('children')
@@ -163,9 +159,6 @@ class DocumentBody extends React.Component {
             <Carousel defaultActiveIndex={0}>{data}</Carousel>
         );
     }
-
-
-
 }
 
 DocumentBody.propTypes = {};

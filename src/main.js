@@ -97,21 +97,36 @@ export default class Main extends React.Component {
         var plus = plus || (<Plus />);
         var data = WrioDocumentStore.getData();
         return (
-            <div className={'row row-offcanvas row-offcanvas-right '}>
+          <div>
+
+            <div className="header header-filter cover-bg hidden-xs">
+              <div className="container">
+                <div className="row">
+                  <div className="title col-xs-12 col-sm-5 col-md-6 col-lg-4">
+                    <h1>Cosmos</h1>
+                    <h4>Cosmos: A Spacetime Odyssey is a 2014 American science documentary television series. The show is a follow-up to the 1980 television series ', which was presented by Carl Sagan on the Public Broadcasting Service and is considered a milestone for scientific documentaries.</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className={'row row-offcanvas row-offcanvas-right hidden'}>
                 <CreateDomLeft list={plus} />
-                {center}
-                <CreateDomRight data={data} />
-            </div>);
-    }
+              </div>
+              {center}
+              <CreateDomRight data={data} />
+            </div>
+          </div>
+            );
+            }
 
-}
+            }
 
-Main.propTypes = {
+            Main.propTypes = {
 
-};
+            };
 
-function createContainer() {
-    var d = document.createElement('div');
+            function createContainer() {
+              var d = document.createElement('div');
     d.id = 'content';
     d.className = 'container-liquid';
     return d;
