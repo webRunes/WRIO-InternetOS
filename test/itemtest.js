@@ -18,7 +18,7 @@ describe('Item test', () => {
         const item = renderIntoDocument(
             <Item data={data} del={()=>{}}/>
         );
-
+        console.log(item.refs);
         expect(item.refs.tab.textContent).to.equal(data.name);
         expect(item.refs.tab._attributes.href._nodeValue).to.equal(data.url);
     });
