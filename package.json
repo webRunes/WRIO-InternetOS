@@ -89,6 +89,7 @@
     "start": "npm run build",
     "buildDOCKER": "gulp",
     "devserver": "node ./src/devserver/index.js",
+    "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
     "w": "npm run watch",
     "watch": "gulp watch",
     "bundleDOCKER": "gulp --docker",

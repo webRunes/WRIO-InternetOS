@@ -8,9 +8,8 @@ export function getServiceUrl(service) {
     if (domain === 'wrioos.local') {
         protocol = window.location.protocol + '//';
     }
-    var domain = process.env.DOMAIN;
-    var protocol = process.env.NODE_ENV == 'development' ? 'https:' : window.location.protocol;
     if (process.env.NODE_ENV == 'development') {
+        protocol = 'https:';
         if (service == 'core') {
             return 'http://core_d.wrioos.com'
         }
