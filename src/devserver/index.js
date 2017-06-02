@@ -55,7 +55,9 @@ function setupDevServer () {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
 
-    process.env.FRONTDEV = true;
+    if (!process.env.DOCKER_DEV) {
+        process.env.FRONTDEV = true;
+    }
     let config = require('../../webpack.config');
     const compiler = webpack(config);
 
