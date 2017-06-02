@@ -1,7 +1,7 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import {Mention,merge} from '../src/client/js/mentions/mention.js';
+import {Mention,merge} from '../../src/iframes/Core/js/mentions/mention.js';
 
 
 var stdout_write = process.stdout._write,

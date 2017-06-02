@@ -5,7 +5,7 @@ env:
   - secure: "p7bQCXp+8DI/UXC4ZRgHMr+5gnGrC6worWoceBUcb3eCYXK7XywakHm/brSKkf1Yd7SmvRxX5CzVESTOWKO0Lh6iaH8NKYPAlDdDaN95zWaBcrOvfjRJ8L73E0F+ClJpV3703er2GLW3UvryEt/vKb9Zi/vUQIrLtqj8drg/Hlg="
 
 node_js:
-  - 6.9.2
+  - 8.0.0
 
 env:
   - CXX=g++-4.8
@@ -18,7 +18,6 @@ addons:
       - g++-4.8
 
 install :
-  - npm install -g gulp yarn@0.17
   - npm install
 
 

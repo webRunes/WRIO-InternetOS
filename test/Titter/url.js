@@ -9,7 +9,7 @@ import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
 
-import {sanitizePostUrl} from '../src/clientjs/urlutils.js';
+import {sanitizePostUrl} from '../../src/iframes/Titter/js/urlutils.js';
 
 describe('test url sanitization', () => {
     it("Shoud return correct filename", async () => {

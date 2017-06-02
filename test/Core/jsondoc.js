@@ -4,10 +4,10 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import JSONDocument from '../src/client/js/JSONDocument.js';
+import JSONDocument from '../../src/iframes/Core/js/JSONDocument.js';
 import fs from 'fs';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata} from 'draft-js';
-import CoreEditor from '../src/client/js/CoreEditor.js';
+import CoreEditor from '../../src/iframes/Core/js/CoreEditor.js';
 import React from 'react';
 
 var doc;
