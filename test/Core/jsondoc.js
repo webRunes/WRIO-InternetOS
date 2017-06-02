@@ -9,12 +9,13 @@ import fs from 'fs';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata} from 'draft-js';
 import CoreEditor from '../../src/iframes/Core/js/CoreEditor.js';
 import React from 'react';
+import path from 'path'
 
 var doc;
 
 describe('LS+JSON tests test', () => {
     before(() => {
-        var file = fs.readFileSync('./test/testjson.json').toString();
+        var file = fs.readFileSync(path.join(__dirname,'./testjson.json')).toString();
         var json = JSON.parse(file);
         doc = new JSONDocument(json);
     });

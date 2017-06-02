@@ -1,25 +1,7 @@
 import {expect} from 'chai';
 import Item from '../src/widgets/Plus/Item';
-import jsdom from 'jsdom';
-
-var FAKE_DOM_HTML = `
-<html>
-<body>
-</body>
-</html>
-`;
-
-function setupFakeDOM() {
-    if (typeof document !== 'undefined') {
-        return;
-    }
-
-    global.document = jsdom.jsdom(FAKE_DOM_HTML);
-    global.window = document.defaultView;
-    global.navigator = window.navigator;
-}
-
-setupFakeDOM();
+import {JSDOM} from 'jsdom';
+require('./fakeDom');
 
 import React from 'react';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';

@@ -9,6 +9,7 @@ import LdJsonManager from '../src/core/jsonld/scripts.js';
 import fixtures from './fixtures/index.js'
 import WrioDocumentActions from '../src/core/actions/WrioDocument.js';
 import WrioDocumentStore from '../src/core/store/WrioDocument.js';
+require('./fakeDom.js');
 
 function wrapFixture(scripts) {
     return scripts.map((s) => {
@@ -20,6 +21,8 @@ function wrapFixture(scripts) {
 }
 
 var docScripts;
+
+
 
 describe('mention test', () => {
     before(() => {
