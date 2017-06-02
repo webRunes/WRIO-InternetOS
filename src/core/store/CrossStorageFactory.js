@@ -57,6 +57,7 @@ class _CrossStorageFactory {
     }
 
     getCrossStorage() {
+        console.log("Cross storage mock started");
         return this.isInTest ? new CrossStorageMock() : this.cs;
     }
 

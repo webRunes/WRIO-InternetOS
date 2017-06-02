@@ -52,6 +52,13 @@ var e = {
     filename: "[name].js",
     devtoolModuleFilenameTemplate: "[absolute-resource-path]"
   },
+  resolve: {
+    modules: [
+      'src/',
+      'node_modules'
+    ],
+    unsafeCache: true
+  },
   module: {
     loaders: [
       {

@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 
 if (process.env.NODE_ENV === 'dockerdev') {
     console.log("Docker production ENV detected");
-    importUrl = cssUrl = '//wrioos.local/';
+    importUrl = cssUrl = '//localhost/';
     theme = 'Default-WRIO-Theme';
 }
 

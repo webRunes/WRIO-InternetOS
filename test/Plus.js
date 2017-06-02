@@ -291,7 +291,7 @@ describe('Plus tab utils testing', () => {
         const res = normalizeTabs(nonNormalized);
 
        // console.log(JSON.stringify(res,null,4));
-    })
+    });
 
     it("should join tabs correctly", ()=> {
         const res = normalizeTabs(vsauseNotJoined);
