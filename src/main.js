@@ -2,7 +2,6 @@ require('babel-polyfill');
 require('es6-symbol/implement'); // FOR IE support for of iterators
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Showdown from 'showdown';
 import CreateDomLeft from './core/components/CreateDomLeft';
 import CreateDomRight from './core/components/CreateDomRight';
 import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
@@ -24,7 +23,6 @@ import Perf from 'react-addons-perf';
 window.Perf = Perf;
 Perf.start();*/
 
-var converter = new Showdown.Converter();
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -67,30 +65,30 @@ export default class Main extends React.Component {
     render() {
 
         if (this.state.url.start && (window.location.origin === getServiceUrl('chess'))) {
-            return this.renderWithCenter(<ChessCenter converter={converter} data={this.state.data} />);
+            return this.renderWithCenter(<ChessCenter  data={this.state.data} />);
         }
 
         if (this.state.url.transactions) {
-           return this.renderWithCenter(<TransactionsCenter converter={converter} data={this.state.data}/>);
+           return this.renderWithCenter(<TransactionsCenter  data={this.state.data}/>);
         }
 
         if (this.state.url.presale && (window.location.hostname.startsWith('webgold.wrioos.') || window.location.hostname.startsWith('wrioos.local'))) {
-            return this.renderWithCenter(<PresaleCenter converter={converter} data={this.state.data}/>);
+            return this.renderWithCenter(<PresaleCenter  data={this.state.data}/>);
         }
 
         if (this.state.url.create) {
-            return this.renderWithCenter(<CoreCreateCenter converter={converter} data={this.state.data} />);
+            return this.renderWithCenter(<CoreCreateCenter data={this.state.data} />);
         }
 
         if (this.state.url.add_funds) {
-            return this.renderWithCenter(<WebGoldCenter converter={converter} data={this.state.data} />);
+            return this.renderWithCenter(<WebGoldCenter data={this.state.data} />);
         }
 
         if (this.state.showLockup) {
             return this.renderWithCenter(<Lockup data={this.state.data}/>, <Users />);
         }
 
-        return this.renderWithCenter(<CreateDomCenter converter={converter} data={this.state.data} />);
+        return this.renderWithCenter(<CreateDomCenter data={this.state.data} />);
     }
 
     renderWithCenter(center,plus) {
