@@ -18,6 +18,7 @@ addons:
       - g++-4.8
 
 install :
+  - npm install -g gulp yarn@0.17
   - npm install
 
 
