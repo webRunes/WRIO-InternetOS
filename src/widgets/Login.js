@@ -124,7 +124,8 @@ class Login extends React.Component{
 
     static requestLogin() {
         WindowActions.resetLogin.trigger();
-        document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+        window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+        //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
     }
 
     doLogin(e) {
