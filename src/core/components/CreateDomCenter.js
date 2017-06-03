@@ -76,7 +76,7 @@ class ArticleCenter  extends React.Component {
 }
 
 ArticleCenter.propTypes = {
-    converter: React.PropTypes.object.isRequired
+
 };
 
 
@@ -220,7 +220,6 @@ export class CreateDomCenter extends ArticleCenter {
                     <AlertWarning  />
                     <Login />
                     <CreateBreadcrumb
-                        converter={this.props.converter}
                         editMode={ this.state.editMode }
                         actionButton={ this.state.actionButton }
                         onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
@@ -235,7 +234,7 @@ export class CreateDomCenter extends ArticleCenter {
 }
 
 CreateDomCenter.propTypes = {
-    converter: React.PropTypes.object.isRequired
+
 };
 
 
