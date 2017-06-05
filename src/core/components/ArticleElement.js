@@ -50,7 +50,7 @@ var ArticleElement = React.createClass({
             <section>
               { articleName !== undefined && getHeader() }
               <div itemProp="articleBody">{this.articleBody()}</div>
-                {Parts}
+              {Parts}
             </section>
         );
     }

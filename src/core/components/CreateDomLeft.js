@@ -96,9 +96,9 @@ class CreateDomLeft extends React.Component {
         return (
             <div className="col-xs-12 col-sm-3 col-md-2">
               <div ref="navbar" className="navbar navbar-inverse main navbar-fixed-top row-offcanvas-menu">
-                    {header}
-                    {this.props.list}
-                </div>
+                {header}
+                {this.props.list}
+              </div>
             </div>
         );
     }

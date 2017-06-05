@@ -79,7 +79,7 @@ class EthereumStats extends React.Component {
         let master = "https://ropsten.etherscan.io/address/" + this.state.masterAddr;
         return (
             <div>
-                <h1>Webgold admin</h1>
+              <h1>WebGold admin</h1>
                 <h2>Feed account stats</h2>
                 <p> Master account:<a href={master}> { this.state.ethBalance } ETH </a>  </p>
                 <p> Master account: { this.state.wrgBalance } WRG </p>
@@ -637,4 +637,3 @@ export function RenderAdmin() {
     ), document.getElementById('main'));
 
 }
-

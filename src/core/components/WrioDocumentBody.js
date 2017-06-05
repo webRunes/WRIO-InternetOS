@@ -74,10 +74,9 @@ class DocumentBody extends React.Component {
             return (<img src="https://default.wrioos.com/img/loading.gif"/>);
         } else {
             return (
-                <article className="article_body">
-                  <p>Place a contents here after summary part, like wiki has.</p>
+                <div>
                   {content}
-                </article>
+                </div>
             );
         }
     }

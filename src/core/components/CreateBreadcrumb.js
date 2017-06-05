@@ -30,7 +30,7 @@ export default React.createClass({
             transactions = (
                 <li>
                 <a onClick={ this.clickTransactions }>Transactions</a>
-                </li> 
+                </li>
             );
         }*/
 
@@ -48,9 +48,9 @@ export default React.createClass({
             );
         } else {
             readEditMode = (
-                <ul itemProp="breadcrumb" className="breadcrumb">
-                    <li>
-                        <a onClick={ this.props.onReadClick }>Read</a>
+                <ul itemProp="breadcrumb" className="hidden breadcrumb">
+                  <li>
+                    <a onClick={ this.props.onReadClick }>Read</a>
                     </li>
                     <li className="active">
                         Edit
@@ -62,7 +62,7 @@ export default React.createClass({
 
         if (!this.props.editAllowed) {
             readEditMode = (
-                <ul itemProp="breadcrumb" className="breadcrumb">
+                <ul itemProp="breadcrumb" className="hidden breadcrumb">
                     <li className="active">
                         Read
                     </li>
@@ -83,8 +83,8 @@ export default React.createClass({
 
         return (
             <section>
-                <ul className="hide breadcrumb controls tooltip-demo">
-                    <li title="Read time" data-placement="top" data-toggle="tooltip">
+              <ul className="hide breadcrumb controls tooltip-demo">
+                <li title="Read time" data-placement="top" data-toggle="tooltip">
                         <span className="glyphicon glyphicon-time"></span>4-5 minutes
                     </li>
                     <li title="Last modified" data-placement="top" data-toggle="tooltip">

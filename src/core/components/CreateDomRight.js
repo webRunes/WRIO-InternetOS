@@ -54,7 +54,10 @@ class MenuButton extends React.Component {
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
             <li className={className}>
-                <a href={href} onClick={click} data-toggle="offcanvas">{o.name}</a>
+              <a href={href} onClick={click} data-toggle="offcanvas">
+                <span className="cd-dot"></span>
+                <span className="cd-label">{o.name}</span>
+              </a>
             </li>
         );
     }
@@ -190,7 +193,7 @@ var CreateDomRight = React.createClass({
 
     render: function () {
         var className = classNames({
-            'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
+            '': true, /* removed "sidebar-offcanvas" */
             'active': this.state.active
         });
 
@@ -198,33 +201,35 @@ var CreateDomRight = React.createClass({
         var height = this.getHeight();
 
         return (
-          <div className="">
             <div className={className} id="sidebar">
               <div ref="sidebar" className="sidebar-margin">
-                {this.state.article ? <aside>
-                  <CreateInfoTicket article={this.state.article} author={this.state.author}/>
-                </aside> : ''}
-                {this.state.article ?
-                  <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
+                <div className="hidden">
+                  {this.state.article ? <aside>
+                    <CreateInfoTicket article={this.state.article} author={this.state.author}/>
+                  </aside> : ''}
+                  {this.state.article ?
+                    <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
+                </div>
                 { (coverItems.length > 0) ?
-                  <ul className="nav nav-pills nav-stacked" style={height}>
+                  <ul className="nav nav-pills nav-stacked hidden" style={height}>
                     {coverItems}
                   </ul>:""}
                 { (articleItems.length > 0) ?
-                  <ul className="nav nav-pills nav-stacked" style={height}>
-                    {articleItems}
-                    <ArticleButton data={{name:"Comments",url:"#Comments"}}
-                      active={this.active}
-                      isActive={hashEquals('#Comments')}/>
-                  </ul>:""}
+                  <nav id="cd-vertical-nav">
+                    <ul style={height}>
+                      {articleItems}
+                      <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                        active={this.active}
+                        isActive={hashEquals('#Comments')}/>
+                    </ul>
+                  </nav>:""}
                 { (externalItems.length > 0) ?
-                  <ul className="nav nav-pills nav-stacked" style={height}>
+                  <ul style={height}>
                     {externalItems}
                   </ul>
                 :""}
               </div>
             </div>
-          </div>
         );
     },
 
