@@ -20,6 +20,12 @@ titterService.use(proxy('https://titter.wrioos.com/'));
 
 var coreService = express();
 
+
+coreService.get('/create', (request, response) => {
+    response.sendFile(__dirname +
+        '/core/core.html');
+});
+
 coreService.get('/edit', (request, response) => {
     response.sendFile(__dirname +
         '/core/core.html');
@@ -37,7 +43,7 @@ webgoldService.use(express.static(path.join(__dirname, "./webgold/")));
 
 var server = require('http')
     .createServer(app)
-    .listen(80, (req, res) => {
+    .listen(3033, (req, res) => {
         app.use((req,res,next) => { console.log(req.headers.host);next()});
         app.use(vhost('titter_d.wrioos.com', titterService));
         app.use(vhost('core_d.wrioos.com',   coreService));
