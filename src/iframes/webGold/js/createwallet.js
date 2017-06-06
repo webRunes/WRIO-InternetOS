@@ -8,8 +8,7 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-import EthWallet from './components/wallet.js';
-import CreateWallet from './components/createwallet.js';
+import CreateWallet from './components/Wallet/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
 
@@ -43,7 +42,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <CreateWallet />
+                <CreateWallet wrioID={window.params.wrioID} />
             </div>
         );
     }

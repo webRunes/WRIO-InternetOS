@@ -8,7 +8,7 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-import EthWallet from './components/wallet.js';
+
 
 let SATOSHI = Const.SATOSHI;
 
@@ -19,6 +19,7 @@ function getLoginUrl() {
     return "//"+host+'/';
 }
 
+const PRESALE_PRICE = 120000.0;
 
 class Presale extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class Presale extends React.Component {
             exchangeRate: 10,
             showpending: false,
             loginUrl: getLoginUrl(),
-            btcExchangeRate: new BigNumber(0.0333333333)
+            btcExchangeRate: (new BigNumber(1000)).div(PRESALE_PRICE)
         };
 
         this.gotEmail = this.gotEmail.bind(this)

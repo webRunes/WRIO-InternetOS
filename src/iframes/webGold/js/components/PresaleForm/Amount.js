@@ -6,12 +6,8 @@ import Const from '../../../../constant.js';
 class Amount extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            BTC: new BigNumber(0.1),
-            WRG: new BigNumber(0),
-            error: null
-        };
+        this.state = this.onBTCChange("0.1");
+        this.state.error = null;
         Actions.changeAmount(this.state);
     }
     
@@ -19,35 +15,23 @@ class Amount extends React.Component {
 
         var rate = props.exchangeRate;
         if (rate) {
-            this.setState({
-                BTC: this.state.BTC,
-                WRG: this.state.BTC.mul(Const.WRG_UNIT).div(rate)
-            });
+           // this.onBTCChange(this.state.BTC);
         }
     }
 
-    formatWRG(num) {
-            var str = num.toString();
-            if (str.length >= 3) {
-                str = str.replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
-            }
-
-            return str;
-    }
 
     validateAmount(amount) {
+        amount = new BigNumber(amount);
         return !amount.gt(Const.MAX_DONATE);
     }
 
-    setAmount(BTC, wrg) {
-        var amount = {
-            BTC: BTC,
-            WRG: wrg
-        };
+    setAmount(BTC,WRG) {
+        var amount = {BTC,WRG};
 
-        if (!this.validateAmount(wrg)) {
+
+        if (!this.validateAmount(WRG)) {
             var w = new BigNumber(Const.MAX_DONATE);
-            var b = wrg.mul(this.props.exchangeRate).div(Const.WRG_UNIT);
+            var b = w.mul(this.props.exchangeRate).div(Const.WRG_UNIT);
             amount = {
                 BTC:b,
                 WRG: w
@@ -56,25 +40,29 @@ class Amount extends React.Component {
 
         this.setState(amount);
         Actions.changeAmount(amount);
+        return amount;
 
     }
     
-    onBTCChange(e) {
-        var BTC = new BigNumber(e.target.value.replace(",","."));
+    onBTCChange(v) {
+        v = v.replace(",",".");
+        var BTC = new BigNumber(v);
         var wrg = BTC.mul(Const.WRG_UNIT).div(this.props.exchangeRate);
-        this.setAmount(BTC,wrg);
+        return this.setAmount(v,wrg.toFixed(2).toString());
     }
     
-    onWRGChange(e) {
-        var wrg = new BigNumber(e.target.value.replace(",","."));
+    onWRGChange(v) {
+
+        v = v.replace(",",".");
+        var wrg = new BigNumber(v);
         var BTC = wrg.mul(this.props.exchangeRate).div(Const.WRG_UNIT);
 
-        this.setAmount(BTC,wrg);
+        return this.setAmount(BTC.toString(),v);
     }
     
     render() {
-        var BTC = this.state.BTC.toString();
-        var wrg = this.state.WRG.toFixed(2).toString();
+        var BTC = this.state.BTC;
+        var wrg = this.state.WRG;
 
         var cls = "col-xs-5 col-sm-4 col-md-4 col-lg-3" + (this.state.error ? " has-error": "");
 
@@ -85,7 +73,8 @@ class Amount extends React.Component {
                 <div className={cls}>
                     <div className="input-group">
                         <span className="input-group-addon">WRG</span>
-                        <input type="number" step="0.1" className="form-control" name="amountWRG" value={wrg} onChange={ this.onWRGChange.bind(this) } min="0" />
+                        <input type="number" step="0.1" className="form-control" name="amountWRG" value={wrg}
+                               onChange={ (e) => this.onWRGChange(e.target.value) } min="0" />
                     </div>
                     <div className="help-block"></div>
                 </div>
@@ -97,7 +86,8 @@ class Amount extends React.Component {
                  <div className={cls}>
                      <div className="input-group tooltip-demo">
                          <span className="input-group-addon">BTC</span>
-                         <input type="number" step="0.001" className="form-control" name="amount" value={BTC} onChange={ this.onBTCChange.bind(this) } min="0.1" />
+                         <input type="number" step="0.001" className="form-control" name="amount" value={BTC}
+                                onChange={ (e) => this.onBTCChange(e.target.value) } />
                      </div>
                  </div>
 
