@@ -88,13 +88,9 @@ class ExternalButton extends MenuButton {
             });
         });
     }
-
 }
 
-
-
 class ArticleButton extends MenuButton{
-
     onClick (e) {
         this.props.active(this);
         console.log("Article button clicked");
@@ -211,11 +207,11 @@ var CreateDomRight = React.createClass({
                     <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
                 </div>
                 { (coverItems.length > 0) ?
-                  <ul className="nav nav-pills nav-stacked hidden" style={height}>
+                  <ul className="nav nav-pills nav-stacked hidden" style={height}> {/* move to top of the page */}
                     {coverItems}
                   </ul>:""}
                 { (articleItems.length > 0) ?
-                  <nav id="cd-vertical-nav">
+                  <nav className="contents"> {/* add "navbar-fixed-top" and id="cd-vertical-nav" for small displays */}
                     <ul style={height}>
                       {articleItems}
                       <ArticleButton data={{name:"Comments",url:"#Comments"}}
@@ -264,7 +260,6 @@ var CreateDomRight = React.createClass({
         if (this.listName) {
             this.listName = this.listName.toLowerCase();
         }
-
     },
 
     getArticleItems() {

@@ -18,27 +18,27 @@ class ItemListElement extends React.Component {
 
         return (
             <a href={UrlMixin.fixUrlProtocol(url)}>
-            <article>
-              <div className="media thumbnail clearfix" >
-                <header className="col-xs-12">
-                  <h2>
+              <article>
+                <div className="media thumbnail clearfix" >
+                  <header className="col-xs-12">
+                    <h2>
                       {title}
-                  </h2>
-                </header>
-                <div className="col-xs-12 col-md-6 pull-right">
-                  <Thumbnail image={image} />
-                  <ul className="details">
-                    <li>Created: {createdDate}</li>
-                    <li>Access: Free</li>
-                  </ul>
-                </div>
+                    </h2>
+                  </header>
+                  <div className="col-xs-12 col-md-6 pull-right">
+                    <Thumbnail image={image} />
+                    <ul className="details">
+                      <li>Created: {createdDate}</li>
+                      <li>Access: Free</li>
+                    </ul>
+                  </div>
 
-                <div className="col-xs-12 col-md-6">
-                  <p>{about}</p>
+                  <div className="col-xs-12 col-md-6">
+                    <p>{about}</p>
+                  </div>
                 </div>
-              </div>
-            </article>
-          </a>
+              </article>
+            </a>
         );
     }
 }
@@ -72,4 +72,3 @@ export default class ItemList extends React.Component {
 ItemList.propTypes =  {
     data: React.PropTypes.object.isRequired
 };
-

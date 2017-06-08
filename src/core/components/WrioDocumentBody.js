@@ -74,9 +74,9 @@ class DocumentBody extends React.Component {
             return (<img src="https://default.wrioos.com/img/loading.gif"/>);
         } else {
             return (
-                <div>
-                  {content}
-                </div>
+              <div className="article-margin-bottom">
+                {content}
+              </div>
             );
         }
     }
@@ -150,7 +150,7 @@ class DocumentBody extends React.Component {
             })
             .map(function (item, key) {
                 return (
-                    <CarouselItem key={key}><CreateCover data={item} key={key} isActive={key === 0}/></CarouselItem>);
+                  <CarouselItem key={key}><CreateCover data={item} key={key} isActive={key === 0}/></CarouselItem>);
             })
             .value();
 

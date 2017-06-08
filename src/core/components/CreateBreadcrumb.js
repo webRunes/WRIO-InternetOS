@@ -82,8 +82,8 @@ export default React.createClass({
         }
 
         return (
-            <section>
-              <ul className="hide breadcrumb controls tooltip-demo">
+            <section className="hidden">
+              <ul className="breadcrumb controls tooltip-demo">
                 <li title="Read time" data-placement="top" data-toggle="tooltip">
                         <span className="glyphicon glyphicon-time"></span>4-5 minutes
                     </li>

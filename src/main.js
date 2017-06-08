@@ -99,34 +99,9 @@ export default class Main extends React.Component {
         return (
           <div>
 
-            <nav className="navbar navbar-wrioos navbar-fixed-top">
-              <div className="container">
-                <div className="navbar-header">
-                  <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example">
-                    <span className="sr-only">Toggle navigation</span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                  </button>
-                  <a className="navbar-brand" href="#"><i className="material-icons">apps</i> Dashboard</a>
-                </div>
-
-                <div className="collapse navbar-collapse">
-                  <ul className="nav navbar-nav navbar-right">
-                    <li>
-                      <a href="#">
-                        <i className="material-icons">message</i> Messages
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="material-icons">account_circle</i> Profile
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
+            <a href="#" className="dashboard btn btn-just-icon btn-primary btn-lg">
+              <i className="material-icons dp_big">apps</i>
+            </a>
 
             {/*<nav className="dashboard">
               <a className="navbar-brand" href="#"><i className="material-icons dp48">apps</i> Dashboard<div className="ripple-container"></div></a>
@@ -137,132 +112,147 @@ export default class Main extends React.Component {
                 <span className="icon-bar"></span>
               </button>
             </nav>*/}
-            <div className="page-header header-filter cover-bg" data-parallax="true">
-              <div className="cover col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-                  <nav className="navbar navbar-transparent">
-                    <ul className="nav navbar-nav navbar-left">
-                      <li>
-                        <a href="#">Cover</a>
-                      </li>
-                      <li>
-                        <a href="#">Offer</a>
-                      </li>
-                      <li>
-                        <a href="#">Tutorial</a>
-                      </li>
-                    </ul>
-                  </nav>
-                  <div className="title">
-                    <div className="title-text">
-                      <h1>Cosmos</h1>
-                      <h2>Cosmos: A Spacetime Odyssey is a 2014 American science documentary television series. The show is a follow-up to the 1980 television series ', which was presented by Carl Sagan on the Public Broadcasting Service and is considered a milestone for scientific documentaries.</h2>
-                    </div>
+
+            <div className="page-header">
+              <div className="row">
+                <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                  <div className="cover">
+                    <nav className="navbar navbar-transparent">
+                      <ul className="nav navbar-nav navbar-left">
+                        <li>
+                          <a href="#profile" className="active" data-toggle="tab">
+                            Cover
+                            <div className="ripple-container"></div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            Offer
+                            <div className="ripple-container"></div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            Tutorial
+                            <div className="ripple-container"></div>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
-            </div>
+              </div>
+              <div className="card card-carousel" data-parallax="true">
+                <div id="carousel-header" className="carousel slide" data-ride="carousel">
+                  <div className="carousel slide" data-ride="carousel">
 
+                    <ol className="carousel-indicators">
+                      <li data-target="#carousel-header" data-slide-to="0" className=""></li>
+                      <li data-target="#carousel-header" data-slide-to="1" className="active"></li>
+                      <li data-target="#carousel-header" data-slide-to="2" className=""></li>
+                    </ol>
 
-            <div className={'row row-offcanvas row-offcanvas-right hidden'}>
-              <CreateDomLeft list={plus} />
-            </div>
-            <div className="main col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-
-              {/*<div className="row">
-                  <div className="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-lg-4">
-                    <div className="card card-blog card-rotate">
-                      <div className="rotating-card-container manual-flip">
-                        <div className="card-image">
-                          <div className="front">
-                            <img className="img" src="http://demos.creative-tim.com/material-kit-pro/assets/img/examples/card-blog6.jpg" />
-                            <div className="btn-container">
-                              <button className="btn btn-white btn-fill btn-round btn-just-icon btn-rotate">
-                                <i className="material-icons">refresh</i>
-                                <div className="ripple-container"></div></button>
-                            </div>
-                            <div className="colored-shadow" style={{"backgroundImage": "url('http://demos.creative-tim.com/material-kit-pro/assets/img/examples/card-blog6.jpg'); opacity: 1;"}}></div>
-                          </div>
-                          <div className="back back-background" style={{"height": "220px","width": "330px", "backgroundImage": "url('http://demos.creative-tim.com/material-kit-pro/assets/img/examples/card-blog6.jpg');"}}>
-                            <div className="card-content">
-                              <h5 className="card-title">
-                                Share this article...
-                              </h5>
-                              <p className="card-description">
-                                You can share this article with your friends, family or on different networks...
-                              </p>
-                              <div className="footer text-center">
-                                <a href="#" className="btn btn-just-icon btn-round btn-white btn-twitter">
-                                  <i className="fa fa-twitter"></i>
-                                </a>
-                                <a href="#" className="btn btn-just-icon btn-round btn-white btn-pinterest">
-                                  <i className="fa fa-pinterest"></i>
-                                </a>
-                                <a href="#" className="btn btn-just-icon btn-round btn-white btn-facebook">
-                                  <i className="fa fa-facebook"></i>
-                                </a>
+                    <div className="carousel-inner">
+                      <div className="header-filter cover-bg item active">
+                        <div className="carousel-caption">
+                          <div className="row">
+                            <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                              <div className="title">
+                                <div className="title-text">
+                                  <h1>Cosmos</h1>
+                                  <h3>Cosmos: A Spacetime Odyssey is a 2014 American science documentary television series. The show is a follow-up to the 1980 television series ', which was presented by Carl Sagan on the Public Broadcasting Service and is considered a milestone for scientific documentaries.</h3>
+                                  <a href="#" className="btn btn-primary btn-lg">
+                                    <i className="material-icons">play_arrow</i>Watch video
+                                    <div className="ripple-container"></div>
+                                  </a>
+                                </div>
                               </div>
-                              <button className="btn btn-white btn-simple btn-rotate">
-                                <i className="material-icons">refresh</i> Back...
-                                <div className="ripple-container"></div></button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="card-content">
-                        <p>Manual Rotating Card. Fix height</p>
-                      </div>
                     </div>
 
+                    <a className="left carousel-control" href="#carousel-header" data-slide="prev">
+                      <i className="material-icons">keyboard_arrow_left</i>
+                    </a>
+                    <a className="right carousel-control" href="#carousel-header" data-slide="next">
+                      <i className="material-icons">keyboard_arrow_right</i>
+                    </a>
                   </div>
-                  <div className="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-lg-4">
-                    <div className="card card-blog">
-                      <div className="card-image">
-                        <img className="img" src="http://demos.creative-tim.com/material-kit-pro/assets/img/examples/blog6.jpg" />
-                        <div style={{"backgroundImage": "url(http://demos.creative-tim.com/material-kit-pro/assets/img/examples/blog6.jpg');"}}></div>
-                      </div>
-                      <div className="card-content">
-                        <h5>
-                          Autodesk looks to future of 3D printing with Project Escher
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-lg-4">
-                    <div className="card card-blog">
-                      <div className="card-image">
-                        <img className="img" src="http://demos.creative-tim.com/material-kit-pro/assets/img/examples/blog5.jpg" />
-                        <div className="colored-shadow" style={{"backgroundImage": "url(http://demos.creative-tim.com/material-kit-pro/assets/img/examples/blog5.jpg');"}}></div><div className="ripple-container"></div></div>
-                      <div className="card-content">
-                        <h5>
-                          Lyft launching cross-platform service this week
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
+                </div>
 
-              <CreateDomRight data={data} />*/}
 
+              </div>
+            </div>
+
+
+            {/*
+              <div className="page-header header-filter cover-bg col-xs-12" data-parallax="true">
+              <div className="cover col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                <nav className="navbar navbar-transparent">
+                  <ul className="nav navbar-nav navbar-left">
+                    <li>
+                      <a href="#profile" className="active" data-toggle="tab">
+                        Cover
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Offer
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Tutorial
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+                <div className="title">
+                  <div className="title-text">
+                    <h1>Cosmos</h1>
+                    <h3>Cosmos: A Spacetime Odyssey is a 2014 American science documentary television series. The show is a follow-up to the 1980 television series ', which was presented by Carl Sagan on the Public Broadcasting Service and is considered a milestone for scientific documentaries.</h3>
+                    <a href="#" className="btn btn-primary btn-raised btn-lg">
+                      <i className="material-icons">play_arrow</i>Watch video
+                      <div className="ripple-container"></div></a>
+                  </div>
+                </div>
+              </div>
+              </div>
+            */}
+
+            <div className={'hidden row row-offcanvas row-offcanvas-right'}>
+              <CreateDomLeft list={plus} />
+            </div>
+            <div className="col-sm-2 col-lg-3">
+              <CreateDomRight data={data} />
+            </div>
+            <div className="main col-xs-12 col-sm-10 col-lg-9">
               <div className="card card-nav-tabs">
-                <div className="header header-primary tmpfix">
+                <div className="header header-primary">
                   <div className="nav-tabs-navigation">
                     <div className="nav-tabs-wrapper">
                       <ul className="nav nav-tabs" data-tabs="tabs">
                         <li className="active">
-                          <a href="#profile" data-toggle="tab">
-                            <i className="material-icons">face</i>
+                          <a href="#home" data-toggle="tab">
                             Read
-                            <div className="ripple-container"></div></a>
-                        </li>
-                        <li>
-                          <a href="#messages" data-toggle="tab">
-                            <i className="material-icons">chat</i>
-                            Collections
+                            <div className="ripple-container"></div>
                           </a>
                         </li>
                         <li>
-                          <a href="#settings" data-toggle="tab">
-                            <i className="material-icons">build</i>
-                            Opened
+                          <a href="#collections" data-toggle="tab">
+                            Collections
+                            <div className="ripple-container"></div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#opened" data-toggle="tab">
+                            Opened <label>4</label>
+                            <div className="ripple-container"></div>
                           </a>
                         </li>
                       </ul>
@@ -270,21 +260,18 @@ export default class Main extends React.Component {
                   </div>
                 </div>
                 <div className="card-content">
-                  <div className="tab-content text-center">
-                    <div className="tab-pane active" id="profile">
-                      <p> I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. </p>
+                  <div className="tab-content">
+                    <div className="tab-pane active" id="home">
+                      {center}
                     </div>
-                    <div className="tab-pane" id="messages">
-                      <p> I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.</p>
+                    <div className="tab-pane" id="collections">
+                      <p>Lists</p>
                     </div>
-                    <div className="tab-pane" id="settings">
-                      <p>I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it’s supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
+                    <div className="tab-pane" id="opened">
+                      <p>Opened</p>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="page">
-                {center}
               </div>
             </div>
           </div>

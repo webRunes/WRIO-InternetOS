@@ -21,7 +21,6 @@ var ArticleElement = React.createClass({
                 <div>{item}</div>
               </div>
             </div>);
-
         }, this);
     },
 
@@ -48,8 +47,8 @@ var ArticleElement = React.createClass({
 
         return (
             <section>
-              { articleName !== undefined && getHeader() }
-              <div itemProp="articleBody">{this.articleBody()}</div>
+              {articleName !== undefined && getHeader()}
+              <div className="clear" itemProp="articleBody">{this.articleBody()}</div>
               {Parts}
             </section>
         );
