@@ -114,43 +114,44 @@ export default class Main extends React.Component {
             </nav>*/}
 
             <div className="page-header">
-              <div className="row">
-                <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-                  <div className="cover">
-                    <nav className="navbar navbar-transparent">
-                      <ul className="nav navbar-nav navbar-left">
-                        <li>
-                          <a href="#profile" className="active" data-toggle="tab">
-                            Cover
-                            <div className="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            Offer
-                            <div className="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            Tutorial
-                            <div className="ripple-container"></div>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
+              <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                <div className="cover">
+                  <nav className="navbar navbar-transparent">
+                    <ul className="nav navbar-nav navbar-left">
+                      <li>
+                        <a href="#profile" className="active" data-toggle="tab">
+                          Cover
+                          <div className="ripple-container"></div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          Offer
+                          <div className="ripple-container"></div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          Tutorial
+                          <div className="ripple-container"></div>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
               </div>
+
               <div className="card card-carousel" data-parallax="true">
                 <div id="carousel-header" className="carousel slide" data-ride="carousel">
                   <div className="carousel slide" data-ride="carousel">
 
-                    <ol className="carousel-indicators">
-                      <li data-target="#carousel-header" data-slide-to="0" className=""></li>
-                      <li data-target="#carousel-header" data-slide-to="1" className="active"></li>
-                      <li data-target="#carousel-header" data-slide-to="2" className=""></li>
-                    </ol>
+                    <div className="carousel-indicators">
+                      <ol className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                        <li data-target="#carousel-header" data-slide-to="0" className=""></li>
+                        <li data-target="#carousel-header" data-slide-to="1" className="active"></li>
+                        <li data-target="#carousel-header" data-slide-to="2" className=""></li>
+                      </ol>
+                    </div>
 
                     <div className="carousel-inner">
                       <div className="header-filter cover-bg item active">
