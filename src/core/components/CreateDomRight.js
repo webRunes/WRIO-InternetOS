@@ -211,7 +211,8 @@ var CreateDomRight = React.createClass({
                     {coverItems}
                   </ul>:""}
                 { (articleItems.length > 0) ?
-                  <nav className="contents visible-lg-block"> {/* add "navbar-fixed-top" and id="cd-vertical-nav" for small displays */}
+                  <nav className="contents visible-md-block visible-lg-block"> {/* add "navbar-fixed-top" and id="cd-vertical-nav" for small displays */}
+                    <h1>Contents</h1>
                     <ul style={height}>
                       {articleItems}
                       <ArticleButton data={{name:"Comments",url:"#Comments"}}

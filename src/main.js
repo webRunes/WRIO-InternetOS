@@ -114,7 +114,7 @@ export default class Main extends React.Component {
             </nav>*/}
 
             <div className="page-header">
-              <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+              <div className="col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
                 <div className="cover">
                   <nav className="navbar navbar-transparent">
                     <ul className="nav navbar-nav navbar-left">
@@ -146,7 +146,7 @@ export default class Main extends React.Component {
                   <div className="carousel slide" data-ride="carousel">
 
                     <div className="carousel-indicators">
-                      <ol className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                      <ol className="col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
                         <li data-target="#carousel-header" data-slide-to="0" className=""></li>
                         <li data-target="#carousel-header" data-slide-to="1" className="active"></li>
                         <li data-target="#carousel-header" data-slide-to="2" className=""></li>
@@ -157,7 +157,7 @@ export default class Main extends React.Component {
                       <div className="header-filter cover-bg item active">
                         <div className="carousel-caption">
                           <div className="row">
-                            <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                            <div className="col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
                               <div className="title">
                                 <div className="title-text">
                                   <h1>Cosmos</h1>
@@ -229,10 +229,10 @@ export default class Main extends React.Component {
             <div className={'hidden row row-offcanvas row-offcanvas-right'}>
               <CreateDomLeft list={plus} />
             </div>
-            <div className="col-sm-2 col-lg-3">
+            <div className="col-sm-3 col-lg-3">
               <CreateDomRight data={data} />
             </div>
-            <div className="main col-xs-12 col-sm-10 col-lg-9">
+            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
               <div className="card card-nav-tabs">
                 <div className="header header-primary">
                   <div className="nav-tabs-navigation">
