@@ -45,6 +45,9 @@ export default class TwitterTimelineWidget {
             .timeline-InformationCircle-widgetParent {
                display: none !important;
             }
+            .timeline-Tweet:hover {
+              background-color: transparent !important;
+            }
             `;
         this.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
     }

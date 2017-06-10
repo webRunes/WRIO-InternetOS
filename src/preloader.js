@@ -158,11 +158,11 @@ function loadScripts() {
 
     }
     if (process.env.NODE_ENV === 'development') {
-       prefix = '';
+       prefix = '//localhost:3033';
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-       prefix = '//wrioos.local';
+       prefix = '//localhost:3033';
     }
 
 
