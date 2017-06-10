@@ -17,6 +17,7 @@ import {Plus,Users} from "./widgets/Plus/Plus";
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
 import UIActions from './core/actions/UI.js';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /*
 import Perf from 'react-addons-perf';
@@ -94,12 +95,15 @@ export default class Main extends React.Component {
     renderWithCenter(center,plus) {
         var plus = plus || (<Plus />);
         var data = WrioDocumentStore.getData();
-        return (
+        return (<MuiThemeProvider>
             <div className={'row row-offcanvas row-offcanvas-right '}>
-                <CreateDomLeft list={plus} />
-                {center}
-                <CreateDomRight data={data} />
-            </div>);
+
+                    <CreateDomLeft list={plus} />
+                    {center}
+                    <CreateDomRight data={data} />
+
+            </div>
+        </MuiThemeProvider>);
     }
 
 }

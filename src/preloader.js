@@ -162,9 +162,8 @@ function loadScripts() {
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-       prefix = '//localhost:3033';
+        prefix = '//localhost:3033';
     }
-
 
     loadScript(prefix+'/common.js', ()=> {
         loadScript(prefix+'/main.js');
