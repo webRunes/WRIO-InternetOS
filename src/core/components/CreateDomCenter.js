@@ -74,7 +74,7 @@ class ArticleCenter  extends React.Component {
 }
 
 ArticleCenter.propTypes = {
-    converter: React.PropTypes.object.isRequired
+
 };
 
 export class CreateDomCenter extends ArticleCenter {
@@ -224,7 +224,7 @@ export class CreateDomCenter extends ArticleCenter {
 }
 
 CreateDomCenter.propTypes = {
-    converter: React.PropTypes.object.isRequired
+
 };
 
 

@@ -27,6 +27,7 @@ import FormActions from '../actions/formactions.js'
 import {COMMENT_LENGTH, TITLE_LENGTH} from '../constants.js';
 import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
 import {openAuthPopup} from '../auth.js'
+import {getTitterUrl} from '../utils.js';
 
 
 var frame_params = { // parameters we got from the query url
@@ -36,8 +37,10 @@ var frame_params = { // parameters we got from the query url
 };
 
 const raiseUnlockPopup = function(callback) {
-    return window.open(callback, "name", "width=800,height=500");
+    return window.open(getTitterUrl()+callback, "name", "width=800,height=500");
 };
+
+var faucetInterval;
 
 
 const genFormData = (state) => {
@@ -68,6 +71,7 @@ const genFormData = (state) => {
 export default Reflux.createStore({
     listenables: FormActions,
     init() {
+        window.addEventListener("message", messageListener);
         const [draftTitle,draftText] = loadDraft();
         this.state = {
             user: frame_params.loggedUserID,
@@ -76,6 +80,7 @@ export default Reflux.createStore({
             haveWallet: false,
             amount: 0, // amount to send
             balance: 0, // user balance
+            donateDisabled: false,
             rtx: 0,
             comment: draftText,
             tags:draftTitle,
@@ -87,13 +92,17 @@ export default Reflux.createStore({
                 comment : COMMENT_LENGTH,
                 title: TITLE_LENGTH
             },
+            faucet: {
+                busy: false,
+                minutesLeft: 0
+            },
             donateResultText: false,
-            donateError: false,
+            donateError: false
         };
 
         this.state = this.validateParams(this.state);
 
-        this.queryBalance();
+        this.onQueryBalance();
         this.getEthereumId();
     },
     validateParams(state) {
@@ -145,13 +154,12 @@ export default Reflux.createStore({
 
     async onSendComment() {
         const amount = this.state.amount;
-        this.state.busy = true;
-        this.trigger(this.state);
+        this.setState({busy: true});
         // empty /donatePopup is opened. it's waiting for the message to arrive with callback address
         let popup;
         let params = "";
-        if (amount > 0 && recipientWrioID) {
-            params = "to=" + recipientWrioID + "&amount=" + amount;
+        if (amount > 0 && frame_params.recipientWrioID) {
+            params = "to=" + frame_params.recipientWrioID + "&amount=" + amount;
             popup = raiseUnlockPopup('/donatePopup');
         }
 
@@ -159,15 +167,16 @@ export default Reflux.createStore({
         //deactivateButton();
         try {
             let command = amount > 0 ? sendDonateRequest : sendCommentRequest;
-            const data = await command(genFormData(state), params);
+            const data = await command(genFormData(this.state), params);
 
             console.log(data);
             if (data.callback) {
-                popup.postMessage(JSON.stringify({callback: data.callback}),'*');
+                setTimeout(() => popup.postMessage(JSON.stringify({callback: data.callback}),'*'),2000);
                 return;
             }
             afterDonate(amount);
         } catch (request) {
+            console.log(request);
             if (popup) {
                 popup.postMessage(JSON.stringify({error:true}),'*');
             }
@@ -185,13 +194,16 @@ export default Reflux.createStore({
             );
         }
         // activate button
-        this.state.busy = false;
-        this.trigger(this.state);
+        this.setState({busy: false});
     },
     onOpenAuthPopup() {
         saveDraft(this.state.tags,this.state.title);
         openAuthPopup();
     },
+
+    /**
+     * Request api for ethereum id's of the receivers
+     */
 
     async getEthereumId() {
         const getUserId = async () => {
@@ -230,7 +242,7 @@ export default Reflux.createStore({
         };
     },
 
-    async queryBalance () {
+    async onQueryBalance () {
         try {
             let data = await getBalanceRequest();
             console.log(data);
@@ -262,6 +274,138 @@ export default Reflux.createStore({
     onAddFile(v) {
         this.state.files.push(v);
         this.trigger(v);
+    },
+    /**
+     * Handler for request freeTHX
+     */
+    async onRequestFreeTHX() {
+        const startProgress = (timeleft) =>{
+            console.log("Startprogeres", timeleft);
+            this.setState({faucet:{minutesLeft: timeleft,busy:true}});
+            let minutes = timeleft;
+            faucetInterval = setInterval(() => {
+                this.setState({faucet:{minutesLeft: minutes--,busy:true}});
+                if (minutes < 0)  {
+                    this.setState({faucet:{minutesLeft: 0,busy:false}});
+                    clearInterval(faucetInterval);
+                }
+
+            }, 60 * 1000);
+        };
+        try {
+            this.setState({faucet:{busy:true,minutesLeft:0}});console.log(this.state);
+            let data = await freeWrgRequest();
+            this.setState({faucet:{busy:false,minutesLeft:0}});
+            this.resultMsg("Success! You'll get 10THX in a minute");
+            startProgress(60);
+            await watchTX(data.txUrl, data.txhash);
+        } catch (err) {
+            if (err.responseJSON) {
+                let r = err.responseJSON;
+                if (r.reason == "wait") {
+                    if (r.timeleft > 0) {
+                        startProgress(parseInt(r.timeleft));
+                        return;
+                    }
+                }
+                this.setState({busy:false,minutesLeft:0});
+            }
+            this.resultMsg(
+                "Failed to receive free THX, reason:" + err.responseText, true
+            );
+        }
+    },
+    onCancelDonate() {
+        this.setState({busy:false})
+    },
+    onResultMsg(text,error) {
+       this.resultMsg(text,error);
+    },
+    onResetFields() {
+        this.setState({
+           comment:'',
+            amount: 0,
+            tags: 0,
+            files: []
+        });
+    },
+    setState(state) {
+        this.state = Object.assign(this.state,state);
+        this.trigger(this.state);
     }
 
 });
+
+
+async function watchTX(txUrl, txHash) {
+    if (faucetInterval) {
+        clearInterval(faucetInterval);
+    }
+    const NUM_TRIES = 5;
+    const TRY_DELAY = 15000;
+    for (let i = 0; i < NUM_TRIES; i++) {
+        await delay(TRY_DELAY);
+        let txStatus = await txStatusRequest(txHash);
+        console.log("Status", txStatus);
+        if (txStatus.blockNumber) {
+            break;
+        }
+    }
+    FormActions.queryBalance();
+}
+
+
+var messageListener =  (msg) => {
+    // callback to listen data sent back from the popup
+    console.log("GOT message", msg);
+    try {
+        let msgdata = JSON.parse(msg.data);
+        if (msgdata.closePopup) {
+           FormActions.cancelDonate();
+        }
+        if (msgdata.cancelPopup) {
+            console.log("Canceling popup");
+            FormActions.cancelDonate();
+        }
+
+        if (msgdata.reload) {
+            console.log("Reload required");
+            window.location.reload();
+        }
+
+        if (msgdata.txId) {
+            console.log("GOT TX id to watch!", msgdata.txId);
+            FormActions.resultMsg(
+                "You've donated " +
+                window.savedAmount +
+                " THX. Thank you! It may take a few minutes before your comment is displayed."
+            );
+            afterDonate(window.savedAmount);
+            watchTX("...", msgdata.txId)
+                .then(() => {
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    FormActions.resultMsg('',
+                        "Failed to process trasaction, reason:" + err.responseText,true
+                    );
+
+                });
+        }
+    } catch (e) {}
+};
+
+
+function afterDonate(amount) {
+    FormActions.resetFields();
+    FormActions.resultMsg('Successfully sent!');
+    console.log("successfully sent");
+
+    if (amount == 0) {
+        FormActions.resultMsg("Message has been sent, it may take a few minutes before your comment is displayed.");
+    }
+
+}
+
+

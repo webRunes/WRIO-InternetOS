@@ -28,7 +28,11 @@ export function getWebgoldUrl() {
         return 'https://'+host;
     }
     return "//" + host;
+}
 
+export function getTitterUrl() {
+    const proto = process.env.DOMAIN == 'wrioos.local' ? 'http' : 'https:';
+    return `${proto}://titter.${process.env.DOMAIN}`;
 }
 
 window.goAddFunds = () => {

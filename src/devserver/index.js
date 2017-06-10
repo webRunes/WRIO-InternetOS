@@ -4,6 +4,7 @@ const connect = require('connect');
 const path = require('path');
 const fs =require('fs');
 const vhost = require('vhost');
+var proxy = require('express-http-proxy');
 
 var app = express();
 
@@ -14,9 +15,16 @@ titterService.get('/iframe', (request, response) => {
         '/titter/titteriframe.html');
 });
 titterService.use(express.static(path.join(__dirname, "./titter/")));
+titterService.use(proxy('https://titter.wrioos.com/'));
 
 
 var coreService = express();
+
+
+coreService.get('/create', (request, response) => {
+    response.sendFile(__dirname +
+        '/core/core.html');
+});
 
 coreService.get('/edit', (request, response) => {
     response.sendFile(__dirname +
@@ -35,7 +43,7 @@ webgoldService.use(express.static(path.join(__dirname, "./webgold/")));
 
 var server = require('http')
     .createServer(app)
-    .listen(80, (req, res) => {
+    .listen(3033, (req, res) => {
         app.use((req,res,next) => { console.log(req.headers.host);next()});
         app.use(vhost('titter_d.wrioos.com', titterService));
         app.use(vhost('core_d.wrioos.com',   coreService));
@@ -53,7 +61,9 @@ function setupDevServer () {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
 
-    process.env.FRONTDEV = true;
+    if (!process.env.DOCKER_DEV) {
+        process.env.FRONTDEV = true;
+    }
     let config = require('../../webpack.config');
     const compiler = webpack(config);
 
