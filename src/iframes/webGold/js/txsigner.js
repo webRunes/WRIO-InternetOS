@@ -54,8 +54,6 @@ class TxSignerView extends React.Component {
     }
 }
 
-export function RenderTxSigner() {
 
-    require('./resizeSender.js');
-    ReactDOM.render(<TxSignerView />, document.getElementById('main'));
-}
+require('./resizeSender.js');
+ReactDOM.render(<TxSignerView />, document.getElementById('main'));

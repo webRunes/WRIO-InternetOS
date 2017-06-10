@@ -621,9 +621,7 @@ class Presales extends React.Component {
 }
 
 
-export function RenderAdmin() {
 
-//console.log(Router,Route);
     ReactDOM.render((
         <Router>
             <Route path="/" component={EthereumStats} />
@@ -636,5 +634,4 @@ export function RenderAdmin() {
         </Router>
     ), document.getElementById('main'));
 
-}
 

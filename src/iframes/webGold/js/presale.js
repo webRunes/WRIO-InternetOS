@@ -62,7 +62,6 @@ class Presale extends React.Component {
     }
 }
 
-export function RenderPresale() {
-    require('./resizeSender.js');
-    ReactDOM.render(<Presale />, document.getElementById('main'));
-}
+
+require('./resizeSender.js');
+ReactDOM.render(<Presale />, document.getElementById('main'));

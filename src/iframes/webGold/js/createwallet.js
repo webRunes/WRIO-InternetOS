@@ -74,19 +74,18 @@ class App extends React.Component {
     throttle("resize", "optimizedResize");
 })();
 
-export function RenderCreateWallet() {
 
 // handle event
-    window.addEventListener("optimizedResize", function() {
-        frameReady();
-    });
+window.addEventListener("optimizedResize", function() {
+    frameReady();
+});
 
-    window.frameReady = function() {
-        var ht = $("#main").height();
-        console.log("Webgold height",ht);
-        parent.postMessage(JSON.stringify({"webgoldHeight":ht}), "*"); // signal that iframe is renered and ready to go, so we can calculate it's actual height now
-        return true;
-    };
+window.frameReady = function() {
+    var ht = $("#main").height();
+    console.log("Webgold height",ht);
+    parent.postMessage(JSON.stringify({"webgoldHeight":ht}), "*"); // signal that iframe is renered and ready to go, so we can calculate it's actual height now
+    return true;
+};
 
-    ReactDOM.render(<App />, document.getElementById('main'));
-}
+ReactDOM.render(<App />, document.getElementById('main'));
+
