@@ -229,7 +229,7 @@ export default class Main extends React.Component {
             <div className={'hidden row row-offcanvas row-offcanvas-right'}>
               <CreateDomLeft list={plus} />
             </div>
-            <div className="col-sm-3 col-lg-3">
+            <div className="col-sm-3">
               <CreateDomRight data={data} />
             </div>
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
