@@ -30,6 +30,7 @@
     "moment": "^2.18.1",
     "node-http-proxy": "^0.2.3",
     "numeral": "^2.0.6",
+    "nyc": "^11.0.2",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.5.4",
@@ -62,6 +63,7 @@
     "gulp": "^3.9.1",
     "gulp-eslint": "2.0.0",
     "gulp-headerfooter": "^1.0.3",
+    "gulp-istanbul": "^1.1.2",
     "gulp-mocha": "^4.3.1",
     "gulp-nodemon": "^2.0.3",
     "gulp-notify": "^2.2.0",
@@ -69,6 +71,7 @@
     "gulp-uglify": "^1.5.1",
     "merge-stream": "^1.0.0",
     "node-gyp": "^3.6.1",
+    "react-addons-test-utils": "^15.5.1",
     "should": "^8.1.1",
     "supertest": "^1.1.0",
     "vinyl-buffer": "^1.0.0",
@@ -96,6 +99,7 @@
     "w": "npm run watch",
     "watch": "gulp watch",
     "bundleDOCKER": "gulp --docker",
-    "watchDOCKER": "gulp watch --docker"
+    "watchDOCKER": "gulp watch --docker",
+    "test": "nyc mocha --compilers js:babel-core/register --recursive"
   }
 }
