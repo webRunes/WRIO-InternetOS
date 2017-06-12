@@ -84,7 +84,7 @@ export default class CommentSaver extends React.Component {
 
         return (
           <div>
-            <ul className="breadcrumb"><li class="active">Comments</li></ul>
+            <ul className="breadcrumb"><li className="active">Comments</li></ul>
             <div className="well enable-comment text-left">
               <h4>Comments disabled</h4>
               <p>Comments haven't been enabled by you.</p>
