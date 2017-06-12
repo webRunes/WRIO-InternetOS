@@ -8,8 +8,7 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-import EthWallet from './components/wallet.js';
-import CreateWallet from './components/createwallet.js';
+import CreateWallet from './components/Wallet/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
 
@@ -43,7 +42,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <CreateWallet />
+                <CreateWallet wrioID={window.params.wrioID} />
             </div>
         );
     }
@@ -75,19 +74,18 @@ class App extends React.Component {
     throttle("resize", "optimizedResize");
 })();
 
-export function RenderCreateWallet() {
 
 // handle event
-    window.addEventListener("optimizedResize", function() {
-        frameReady();
-    });
+window.addEventListener("optimizedResize", function() {
+    frameReady();
+});
 
-    window.frameReady = function() {
-        var ht = $("#main").height();
-        console.log("Webgold height",ht);
-        parent.postMessage(JSON.stringify({"webgoldHeight":ht}), "*"); // signal that iframe is renered and ready to go, so we can calculate it's actual height now
-        return true;
-    };
+window.frameReady = function() {
+    var ht = $("#main").height();
+    console.log("Webgold height",ht);
+    parent.postMessage(JSON.stringify({"webgoldHeight":ht}), "*"); // signal that iframe is renered and ready to go, so we can calculate it's actual height now
+    return true;
+};
 
-    ReactDOM.render(<App />, document.getElementById('main'));
-}
+ReactDOM.render(<App />, document.getElementById('main'));
+

@@ -19,7 +19,7 @@ class PaymentData extends React.Component {
                     <p>Please send <b>{this.props.amount}</b>BTC to the address <b>{this.props.adress}</b></p>
                     <br />
                     <div id="qrcode"></div>
-                    <a className="btn btn-sm btn-default" href="https://webgold.wrioos.com/offer/?cover" role="button"><span className="glyphicon glyphicon-remove"></span>Cancel</a>
+                    <a className="btn btn-sm btn-default" href="https://webgold.wrioos.com/?list=Offer" role="button"><span className="glyphicon glyphicon-remove"></span>Cancel</a>
                 </div>
             </div>
         );
