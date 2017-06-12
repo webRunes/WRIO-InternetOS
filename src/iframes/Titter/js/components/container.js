@@ -4,14 +4,14 @@
 
 import React from 'react';
 const Loading = () => <img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif"/>;
-import {getWebgoldUrl} from "../utils.js";
 import FormState from '../stores/formstate.js';
 import FormActions from '../actions/formactions.js';
 import DonationForm from './DonationForm.js';
 import FileEntry from './FileEntry'
+import {getServiceUrl} from '../../../../core/servicelocator'
 
 const FreeWRGBlock = ({haveWallet,msg,busy,minutesLeft}) => {
-    const callback = haveWallet ? FormActions.requestFreeTHX : () => window.open(getWebgoldUrl()+'/create_wallet','name','width=800,height=500');
+    const callback = haveWallet ? FormActions.requestFreeTHX : () => window.open(getServiceUrl('webgold')+'/create_wallet','name','width=800,height=500');
     let buttonText = haveWallet ? "Get free Thanks coins" : "Create wallet and get free Thanks coins";
     buttonText = minutesLeft == 0 ? buttonText : `Wait ${minutesLeft} minutes`;
     return (

@@ -2,10 +2,10 @@
  * Created by michbil on 06.03.17.
  */
 
-import {getLoginUrl,getWebgoldUrl,getTitterUrl} from './utils.js';
+import {getServiceUrl} from '../../../core/servicelocator'
 
 export const sendCommentRequest = (data,params) => $.ajax({
-    url: getTitterUrl()+'/sendComment?' + params,
+    url: getServiceUrl('titter')+'/sendComment?' + params,
     type: 'post',
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,
@@ -17,7 +17,7 @@ export const sendCommentRequest = (data,params) => $.ajax({
 });
 
 export const sendDonateRequest = (data,params) => $.ajax({
-    url:  '/requestDonate?' + params,
+    url:  getServiceUrl('titter') + '/requestDonate?' + params,
     type: 'post',
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,
@@ -29,7 +29,7 @@ export const sendDonateRequest = (data,params) => $.ajax({
 });
 
 export const getBalanceRequest = () => $.ajax({
-    url: getWebgoldUrl() + '/api/webgold/get_balance',
+    url: getServiceUrl('webgold') + '/api/webgold/get_balance',
     type: "GET",
     xhrFields: {
         withCredentials: true
@@ -40,7 +40,7 @@ export const getBalanceRequest = () => $.ajax({
 });
 
 export const getAddFundsDataRequest = () => $.ajax({
-    url: getWebgoldUrl() + '/add_funds_data',
+    url: getServiceUrl('webgold') + '/add_funds_data',
     type: "GET",
     xhrFields: {
         withCredentials: true
@@ -51,7 +51,7 @@ export const getAddFundsDataRequest = () => $.ajax({
 });
 
 export const getEthereumIdRequest = () => $.ajax({
-    url: getWebgoldUrl() + '/api/webgold/get_wallet',
+    url: getServiceUrl('webgold') + '/api/webgold/get_wallet',
     type: "GET",
     xhrFields: {
         withCredentials: true
@@ -63,7 +63,7 @@ export const getEthereumIdRequest = () => $.ajax({
 
 
 export const getUserEthereumId = (wrioID) => $.ajax({
-    url: getWebgoldUrl() + `/api/webgold/get_user_wallet?wrioID=${wrioID}`,
+    url: getServiceUrl('webgold') + `/api/webgold/get_user_wallet?wrioID=${wrioID}`,
     type: "GET",
     xhrFields: {
         withCredentials: true
@@ -74,7 +74,7 @@ export const getUserEthereumId = (wrioID) => $.ajax({
 });
 
 export const freeWrgRequest = () => $.ajax({
-    url: getWebgoldUrl() + '/api/webgold/free_wrg?amount=100',
+    url: getServiceUrl('webgold') + '/api/webgold/free_wrg?amount=100',
     type: "GET",
     xhrFields: {
         withCredentials: true
@@ -85,7 +85,7 @@ export const freeWrgRequest = () => $.ajax({
 });
 
 export const txStatusRequest = (hash) => $.ajax({
-    url: getWebgoldUrl() +`/api/webgold/tx_poll?txhash=${hash}`,
+    url: getServiceUrl('webgold') +`/api/webgold/tx_poll?txhash=${hash}`,
     type: "GET",
     xhrFields: {
         withCredentials: true

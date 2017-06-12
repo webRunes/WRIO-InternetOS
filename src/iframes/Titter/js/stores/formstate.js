@@ -7,8 +7,6 @@
 import Reflux from 'reflux';
 import {
     getCookie,
-    getLoginUrl,
-    getWebgoldUrl,
     saveDraft,
     loadDraft,
     delay
@@ -24,11 +22,10 @@ import {
     txStatusRequest
 } from "../requests.js";
 import FormActions from '../actions/formactions.js'
-import {COMMENT_LENGTH, TITLE_LENGTH} from '../constants.js';
-import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
+import {COMMENT_LENGTH, TITLE_LENGTH} from '../constants.js'
+import { sanitizePostUrl, getParameterByName } from "../urlutils.js"
 import {openAuthPopup} from '../auth.js'
-import {getTitterUrl} from '../utils.js';
-
+import {getServiceUrl} from '../../../../core/servicelocator'
 
 var frame_params = { // parameters we got from the query url
         posturl: sanitizePostUrl(getParameterByName('origin')),
@@ -37,7 +34,7 @@ var frame_params = { // parameters we got from the query url
 };
 
 const raiseUnlockPopup = function(callback) {
-    return window.open(getTitterUrl()+callback, "name", "width=800,height=500");
+    return window.open(getServiceUrl('titter')+callback, "name", "width=800,height=500");
 };
 
 var faucetInterval;

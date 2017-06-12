@@ -12,13 +12,8 @@ import CreateWallet from './components/Wallet/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
 
-function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-
-}
+import {getServiceUrl} from '../../../core/servicelocator'
+const getLoginUrl  = getServiceUrl('login');
 
 class App extends React.Component {
 
