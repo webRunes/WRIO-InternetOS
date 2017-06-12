@@ -1,8 +1,8 @@
 const {expect} = require('chai');
-const User = require('../src/client/js/components/User/index');
-const jsdom = require('jsdom');
+import User from  '../../src/iframes/webGold/js/components/User/index'
 
-require('./fakeDom');
+
+require('../fakeDom');
 
 const React = require('react');
 const {renderIntoDocument, Simulate} = require('react-addons-test-utils');
