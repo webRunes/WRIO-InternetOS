@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import assert from 'assert';
 import should from 'should';
 import {setMock} from '../src/core/store/CrossStorageFactory.js';
