@@ -117,7 +117,7 @@ class Container extends React.Component {
                     {this.state.showBalance && <BalancePane wrg={this.state.balance}
                                                             rtx={this.state.rtx}
                                                             faucet={this.state.faucet}
-                                                            haveWallet={this.state.user}/>}
+                                                            haveWallet={this.state.haveWallet}/>}
                     {/*<DonatedAmount amount={0}/>*/}
                     <ErrorBox noAuthor={this.state.noAuthor}
                               noWebgold={this.state.noWebgold}
