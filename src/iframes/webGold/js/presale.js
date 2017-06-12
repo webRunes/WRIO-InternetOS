@@ -8,16 +8,11 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-
-
+import {getServiceUrl} from '../../../core/servicelocator'
+const getLoginUrl  = getServiceUrl('login');
 let SATOSHI = Const.SATOSHI;
 
-function getLoginUrl() {
 
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-}
 
 const PRESALE_PRICE = 120000.0;
 

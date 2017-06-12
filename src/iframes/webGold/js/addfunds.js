@@ -10,13 +10,8 @@ import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
 
 let SATOSHI = Const.SATOSHI;
-function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-
-}
+import {getServiceUrl} from '../../../core/servicelocator'
+const getLoginUrl  = getServiceUrl('login');
 
 class AddFunds extends React.Component {
 

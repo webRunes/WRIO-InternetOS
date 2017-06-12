@@ -10,31 +10,6 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('titter.', 'login.');
-    return "//" + host;
-
-}
-
-export function getWebgoldUrl() {
-    var host = window.location.host;
-    var development = host.match(/titter_d/);
-
-    host = host.replace('titter.', 'webgold.');
-    host = host.replace('titter_d.', 'webgold.');
-    if (development) { // hack to use production protocol during frontend development
-        return 'https://'+host;
-    }
-    return "//" + host;
-}
-
-export function getTitterUrl() {
-    const proto = process.env.DOMAIN == 'wrioos.local' ? 'http' : 'https:';
-    return `${proto}://titter.${process.env.DOMAIN}`;
-}
-
 window.goAddFunds = () => {
     parent.postMessage(JSON.stringify({"goAddFunds":true}), "*");
 };
