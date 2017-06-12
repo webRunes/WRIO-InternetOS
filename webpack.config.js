@@ -104,14 +104,15 @@ if (process.env.DOCKER_DEV && ES6_BROWSER) {
   console.log("ES6 mode, not suitable for production!!!");
    let options= {
     presets: ["react"],
-    plugins: ["transform-es2015-modules-commonjs"]
+    plugins: ["transform-es2015-modules-commonjs","transform-flow-strip-types"]
   };
   e.module.loaders[0].options = options;
 } else {
   // production grade transpiler settings
   let presets = ["react", "es2015", "stage-0"];
   e.module.loaders[0].options = {
-    presets: presets
+    presets: presets,
+    plugins:["transform-flow-strip-types"]
   };
 }
 
