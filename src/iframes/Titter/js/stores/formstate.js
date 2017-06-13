@@ -267,11 +267,11 @@ export default Reflux.createStore({
             }
         };
         const getTargetId = async () => {
-            if (!recipientWrioID) {
+            if (!frame_params.recipientWrioID) {
                 return false;
             }
             try {
-                const userId = await getUserEthereumId(recipientWrioID);
+                const userId = await getUserEthereumId(frame_params.recipientWrioID);
                 console.log("GOT target ethereum id's", userId);
                 if (!userId.wallet) {
                    this.state.noAuthorWallet = true;
@@ -283,6 +283,7 @@ export default Reflux.createStore({
                 return false;
             }
         };
+        return await Promise.all([getTargetId(),getUserId()])
     },
 
     async onQueryBalance () {
