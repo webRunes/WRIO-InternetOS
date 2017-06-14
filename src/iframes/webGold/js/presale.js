@@ -9,8 +9,7 @@ import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
 import {getServiceUrl} from '../../../core/servicelocator'
-const getLoginUrl  = getServiceUrl('login');
-let SATOSHI = Const.SATOSHI;
+
 
 
 
@@ -24,7 +23,6 @@ class Presale extends React.Component {
             username: null,
             exchangeRate: 10,
             showpending: false,
-            loginUrl: getLoginUrl(),
             btcExchangeRate: (new BigNumber(1000)).div(PRESALE_PRICE)
         };
 
@@ -51,8 +49,7 @@ class Presale extends React.Component {
     render() {
         return (
                 <PresaleForm
-                    exchangeRate={ this.state.btcExchangeRate }
-                    loginUrl={ this.state.loginUrl } />
+                    exchangeRate={ this.state.btcExchangeRate }/>
         );
     }
 }

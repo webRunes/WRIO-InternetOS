@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import QRCode from '../../3rdparty/qrcode'
 
 class PaymentData extends React.Component {
 

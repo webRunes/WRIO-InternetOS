@@ -165,7 +165,6 @@ export default class PresaleForm extends React.Component {
     }
 }
 PresaleForm.propTypes = {
-    loginUrl: React.PropTypes.string.isRequired,
     exchangeRate: React.PropTypes.object
 };
 
