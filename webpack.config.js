@@ -45,8 +45,8 @@ var e = {
     titter: path.resolve(__dirname,'./src/iframes/Titter/js/index.js'),
     core: path.resolve(__dirname,"./src/iframes/Core/js/client.js"),
     commons: ['babel-polyfill','react','react-dom','reflux','superagent','lodash','core-js'],
-    admin: './src/iframes/webGold/js/admin.js',
-    presale: './src/iframes/webGold/js/presale.js',
+    admin: './src/iframes/webGold/js/admin/index.js',
+    presale: ['./src/iframes/webGold/js/presale.js'],
     createwallet: './src/iframes/webGold/js/createwallet.js',
     txsigner: './src/iframes/webGold/js/txsigner.js'
   },

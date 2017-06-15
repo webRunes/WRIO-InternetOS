@@ -10,8 +10,6 @@ import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
 
 let SATOSHI = Const.SATOSHI;
-import {getServiceUrl} from '../../../core/servicelocator'
-const getLoginUrl  = getServiceUrl('login');
 
 class AddFunds extends React.Component {
 
@@ -28,7 +26,6 @@ class AddFunds extends React.Component {
 
 
     componentWillMount() {
-        this.state.loginUrl = getLoginUrl();
         request
             .get('/add_funds_data')
             .end((err, res) => {
@@ -38,7 +35,6 @@ class AddFunds extends React.Component {
 
                 this.setState({
                     username: res.body.username,
-                    loginUrl: res.body.loginUrl,
                     balance: res.body.balance,
                     exchangeRate: res.body.exchangeRate,
                     btcExchangeRate: new BigNumber(res.body.btcExchangeRate).div(SATOSHI)
@@ -71,8 +67,7 @@ class AddFunds extends React.Component {
                 <Info />
 
                 <PaymentForm
-                    exchangeRate={ this.state.btcExchangeRate }
-                    loginUrl={ this.state.loginUrl } />
+                    exchangeRate={ this.state.btcExchangeRate } />
 
                 <a href="javascript:;" onClick={expand}>See pending payments</a>
                 { this.state.showpending ? <PaymentHistory /> : "" }
