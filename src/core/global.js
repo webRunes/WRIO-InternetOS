@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'dockerdev') {
 export var themeImportUrl = importUrl + theme + '/widget/';
 export const isAirticlelist = false;
 
-export function getResourcePath(filename) {
+export function getResourcePath(filename : string) : string {
 
     if (filename) {
         if (filename[0] === '/') {

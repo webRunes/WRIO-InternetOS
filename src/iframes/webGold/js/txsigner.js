@@ -13,20 +13,13 @@ import EthWallet from './components/Wallet/wallet.js';
 
 let SATOSHI = Const.SATOSHI;
 
+// send message to parent upon popup closing
 window.okGO = false;
 window.addEventListener("beforeunload", function(e){
     if (!okGO) {
         window.opener.postMessage(JSON.stringify({"cancelPopup":true}),"*")
     }
 }, false);
-
-function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-
-}
 
 
 class TxSignerView extends React.Component {

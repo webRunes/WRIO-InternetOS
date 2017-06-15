@@ -8,16 +8,10 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
+import {getServiceUrl} from '../../../core/servicelocator'
 
 
-let SATOSHI = Const.SATOSHI;
 
-function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-}
 
 const PRESALE_PRICE = 120000.0;
 
@@ -29,7 +23,6 @@ class Presale extends React.Component {
             username: null,
             exchangeRate: 10,
             showpending: false,
-            loginUrl: getLoginUrl(),
             btcExchangeRate: (new BigNumber(1000)).div(PRESALE_PRICE)
         };
 
@@ -56,8 +49,7 @@ class Presale extends React.Component {
     render() {
         return (
                 <PresaleForm
-                    exchangeRate={ this.state.btcExchangeRate }
-                    loginUrl={ this.state.loginUrl } />
+                    exchangeRate={ this.state.btcExchangeRate }/>
         );
     }
 }

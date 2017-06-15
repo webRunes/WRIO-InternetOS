@@ -1,8 +1,9 @@
 import React from 'react';
+import {getServiceUrl} from '../../../../../../core/servicelocator'
 
 class LoginButton extends React.Component {
     openAuthPopup() {
-        var loginUrl = this.props.loginUrl;
+        var loginUrl = getServiceUrl('login');
         var callbackurl = window.location.protocol + '//' + window.location.host + '/callback';
         window.open(loginUrl + 'authapi?callback=' + encodeURIComponent(callbackurl), "Login", "height=500,width=700");
     }
@@ -16,7 +17,7 @@ class LoginButton extends React.Component {
     }
 }
 LoginButton.propTypes = {
-    loginUrl: React.PropTypes.string.isRequired
+
 };
 
 
