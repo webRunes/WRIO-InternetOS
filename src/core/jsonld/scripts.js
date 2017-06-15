@@ -45,4 +45,3 @@ class LdJsonManager {
 
 // this functions gets LD+JSON script array(got from html document) parses it and attaches mentions to the text
 export default LdJsonManager;
-

@@ -56,7 +56,6 @@ var CreateTitter = React.createClass({
 
     getInitialState () {
 
-
         const authorId = this.getWrioIdFromAuthor() || "";
         const origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
 

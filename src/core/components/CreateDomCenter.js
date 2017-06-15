@@ -21,7 +21,6 @@ import WrioDocument from '../store/WrioDocument.js';
 import UIActions from '../actions/UI.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
 
-
 var domain = getDomain();
 
 class ArticleCenter  extends React.Component {
@@ -56,7 +55,6 @@ class ArticleCenter  extends React.Component {
         return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
     }
 
-
     getAuthor(cb) {
         if (this.isEditingRemotePage()) {
             var url = this.formatUrl(this.state.urlParams.edit);
@@ -78,8 +76,6 @@ class ArticleCenter  extends React.Component {
 ArticleCenter.propTypes = {
 
 };
-
-
 
 export class CreateDomCenter extends ArticleCenter {
 
@@ -103,9 +99,7 @@ export class CreateDomCenter extends ArticleCenter {
             transactionsModeFromUrl: false,
             urlParams: UrlMixin.searchToObject()
         };
-
     }
-
 
     allowEdit() {
         console.log("Editing is allowed");
@@ -142,14 +136,10 @@ export class CreateDomCenter extends ArticleCenter {
                 this.userId(msg.profile.id);
             }
         });
-
     }
-
 
     componentWillUnmount() {
-
     }
-
 
     redirectFromEditMode() {
         window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
@@ -194,14 +184,13 @@ export class CreateDomCenter extends ArticleCenter {
 
         const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
         const contents = (<div>
-                             <WrioDocumentBody/>
-                            { !WrioDocument.hasCommentId() ?
+          <WrioDocumentBody/>
+          { !WrioDocument.hasCommentId() ?
                                 commentsDisabledFrame :
-                             <div style={displayTitterStyle}>
-                                 {this.state.userId && <CreateTitter scripts={WrioDocument.getData()} wrioID={this.state.userId}/> }
-                             </div> }
-                        </div>);
-
+                                  <div style={displayTitterStyle}>
+                                    {this.state.userId && <CreateTitter scripts={WrioDocument.getData()} wrioID={this.state.userId}/> }
+                                  </div> }
+        </div>);
 
         return this.generateCenterWithContents(contents);
     }
@@ -209,25 +198,26 @@ export class CreateDomCenter extends ArticleCenter {
     generateCenterWithContents(contents) {
 
         var className = classNames({
-            'col-xs-12 col-sm-5 col-md-7 content content-offcanvas': true,
+            '': true,
             'active': this.state.active
         });
 
         return (
+          <div>
             <div className={className} id="centerWrp">
-                <div className="margin">
-                    <AlertWelcome  />
-                    <AlertWarning  />
-                    <Login />
-                    <CreateBreadcrumb
-                        editMode={ this.state.editMode }
-                        actionButton={ this.state.actionButton }
-                        onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
-                        onEditClick={ this.switchToEditMode.bind(this) }
-                        editAllowed ={ this.state.editAllowed }/>
-                        {contents}
-                </div>
+              <AlertWelcome />
+              <AlertWarning />
+              <Login />
+              <CreateBreadcrumb
+                converter={this.props.converter}
+                editMode={ this.state.editMode }
+                actionButton={ this.state.actionButton }
+                onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
+                onEditClick={ this.switchToEditMode.bind(this) }
+                editAllowed ={ this.state.editAllowed }/>
+              {contents}
             </div>
+          </div>
         );
     }
 
@@ -282,4 +272,3 @@ export class WebGoldCenter extends CreateDomCenter {
 
     }
 }
-

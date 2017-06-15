@@ -40,14 +40,9 @@ export default class CreateControlButtons extends React.Component {
     render() {
         return (
             <div className="margin-bottom">
-                {this.state.editAllowed && <RaisedButton lable="Edit"
-                                                         icon={<EditIcon />}
-                                                         onClick={this.onEditClick} /> }
-
-                <RaisedButton label="Close"
-                              icon={<CloseIcon />}
-                              onClick={this.onCloseClick.bind(this)}
-                    />
+              {this.state.editAllowed ? <button type="button" onClick={this.onEditClick} className="btn btn-default btn-block"><span className="glyphicon glyphicon-pencil"></span>Edit</button> : ''}
+              {/*<button type="button" className="btn btn-success btn-block"><span className="glyphicon glyphicon-plus"></span>Added</button>*/}
+              <button type="button" onClick={this.onCloseClick.bind(this)} className="btn btn-default btn-block"><span className="glyphicon glyphicon-remove"></span>Close</button>
             </div>
         );
     }

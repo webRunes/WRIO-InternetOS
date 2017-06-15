@@ -54,7 +54,10 @@ class MenuButton extends React.Component {
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
             <li className={className}>
-                <a href={href} onClick={click} data-toggle="offcanvas">{o.name}</a>
+              <a href={href} onClick={click} data-toggle="offcanvas">
+                <span className="cd-dot"></span>
+                <span className="cd-label">{o.name}</span>
+              </a>
             </li>
         );
     }
@@ -85,13 +88,9 @@ class ExternalButton extends MenuButton {
             });
         });
     }
-
 }
 
-
-
 class ArticleButton extends MenuButton{
-
     onClick (e) {
         this.props.active(this);
         console.log("Article button clicked");
@@ -190,7 +189,7 @@ var CreateDomRight = React.createClass({
 
     render: function () {
         var className = classNames({
-            'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
+            '': true, /* removed "sidebar-offcanvas" */
             'active': this.state.active
         });
 
@@ -199,30 +198,34 @@ var CreateDomRight = React.createClass({
 
         return (
             <div className={className} id="sidebar">
-                <div ref="sidebar" className="sidebar-margin">
-                    {this.state.article ? <aside>
-                        <CreateInfoTicket article={this.state.article} author={this.state.author}/>
-                    </aside> : ''}
-                    {this.state.article ?
-                        <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
-                    { (coverItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {coverItems}
-                    </ul>:""}
-                    { (articleItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {articleItems}
-                        <ArticleButton data={{name:"Comments",url:"#Comments"}}
-                                       active={this.active}
-                                       isActive={hashEquals('#Comments')}/>
-                    </ul>:""}
-
-                    { (externalItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {externalItems}
-                    </ul>
-                        :""}
+              <div ref="sidebar" className="sidebar-margin">
+                <div className="hidden">
+                  {this.state.article ? <aside>
+                    <CreateInfoTicket article={this.state.article} author={this.state.author}/>
+                  </aside> : ''}
+                  {this.state.article ?
+                    <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
                 </div>
+                { (coverItems.length > 0) ?
+                  <ul className="nav nav-pills nav-stacked hidden" style={height}> {/* move to top of the page */}
+                    {coverItems}
+                  </ul>:""}
+                { (articleItems.length > 0) ?
+                  <nav className="contents visible-md-block visible-lg-block"> {/* add "navbar-fixed-top" and id="cd-vertical-nav" for small displays */}
+                    <h1>Contents</h1>
+                    <ul style={height}>
+                      {articleItems}
+                      <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                        active={this.active}
+                        isActive={hashEquals('#Comments')}/>
+                    </ul>
+                  </nav>:""}
+                { (externalItems.length > 0) ?
+                  <ul style={height}>
+                    {externalItems}
+                  </ul>
+                :""}
+              </div>
             </div>
         );
     },
@@ -238,7 +241,6 @@ var CreateDomRight = React.createClass({
             };
         }
     },
-
 
     processItem(item, superitem) {
         if (isCover(item)) {
@@ -259,7 +261,6 @@ var CreateDomRight = React.createClass({
         if (this.listName) {
             this.listName = this.listName.toLowerCase();
         }
-
     },
 
     getArticleItems() {

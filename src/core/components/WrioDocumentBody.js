@@ -12,8 +12,6 @@ import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
 
-
-
 /*
 *  Base class rendering document body
 * */
@@ -76,9 +74,9 @@ class DocumentBody extends React.Component {
             return (<img src="https://default.wrioos.com/img/loading.gif"/>);
         } else {
             return (
-                <article className="article_body">
-                    {content}
-                </article>
+              <div className="article-margin-bottom">
+                {content}
+              </div>
             );
         }
     }
@@ -115,7 +113,6 @@ class DocumentBody extends React.Component {
         }
     }
 
-
     // returns default Article view
     // if document contains article and itemlists, itemlists are not displayed in the default view
     // if no article, then we should display itemLists in the default view
@@ -144,8 +141,6 @@ class DocumentBody extends React.Component {
             });
     }
 
-
-
     getCoverList(data) {
         var data = _.chain(data)
             .map('children')
@@ -155,7 +150,7 @@ class DocumentBody extends React.Component {
             })
             .map(function (item, key) {
                 return (
-                    <CarouselItem key={key}><CreateCover data={item} key={key} isActive={key === 0}/></CarouselItem>);
+                  <CarouselItem key={key}><CreateCover data={item} key={key} isActive={key === 0}/></CarouselItem>);
             })
             .value();
 
@@ -163,9 +158,6 @@ class DocumentBody extends React.Component {
             <Carousel defaultActiveIndex={0}>{data}</Carousel>
         );
     }
-
-
-
 }
 
 DocumentBody.propTypes = {};

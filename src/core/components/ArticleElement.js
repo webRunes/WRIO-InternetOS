@@ -17,16 +17,10 @@ var ArticleElement = React.createClass({
         const elements = element.getBody();
         return elements.map(function (item,i) {
             return (<div className="paragraph" key={i}>
-                <div className="col-xs-12 col-md-6">
-                   <div>{item}</div>
-                </div>
-                <div className="col-xs-12 col-md-6">
-                    {/*  <aside>
-                        <span className="glyphicon glyphicon-comment" title="Not yet available"></span>
-                    </aside> */}
-                </div>
+              <div className="col-xs-12">
+                <div>{item}</div>
+              </div>
             </div>);
-
         }, this);
     },
 
@@ -48,15 +42,14 @@ var ArticleElement = React.createClass({
         const chapter = replaceSpaces(element.data.name);
 
         const getHeader = () => (element.hasPart()) ?
-            <h1 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h1>:
-            <h2 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h2>;
-
+            <h1 className="col-xs-12" id={chapter}>{articleName}</h1>:
+            <h2 className="col-xs-12" id={chapter}>{articleName}</h2>;
 
         return (
             <section>
-                { articleName !== undefined && getHeader() }
-                <div itemProp="articleBody">{this.articleBody()}</div>
-                {Parts}
+              {articleName !== undefined && getHeader()}
+              <div className="clear" itemProp="articleBody">{this.articleBody()}</div>
+              {Parts}
             </section>
         );
     }
