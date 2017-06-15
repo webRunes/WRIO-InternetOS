@@ -27,11 +27,8 @@
     "lodash.some": "*",
     "lodash.sortby": "^3.1.4",
     "lodash.sortbyorder": "^3.1.4",
-<<<<<<< HEAD
     "moment": "^2.18.1",
-=======
     "material-ui": "^0.18.1",
->>>>>>> alexey/material-ui
     "node-http-proxy": "^0.2.3",
     "numeral": "^2.0.6",
     "react": "^15.5.4",
