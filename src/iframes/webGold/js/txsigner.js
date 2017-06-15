@@ -21,8 +21,6 @@ window.addEventListener("beforeunload", function(e){
     }
 }, false);
 
-import {getServiceUrl} from '../../../core/servicelocator'
-const getLoginUrl  = getServiceUrl('login');
 
 class TxSignerView extends React.Component {
 

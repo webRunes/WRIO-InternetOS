@@ -12,8 +12,6 @@ import CreateWallet from './components/Wallet/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
 
-import {getServiceUrl} from '../../../core/servicelocator'
-const getLoginUrl  = getServiceUrl('login');
 
 class App extends React.Component {
 
