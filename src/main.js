@@ -97,10 +97,14 @@ export default class Main extends React.Component {
         return (
           <div>
 
-            <a href="#" className="dashboard btn btn-just-icon btn-primary btn-lg">
+            {/*<a href="#" className="dashboard btn btn-just-icon btn-primary btn-lg">
               <i className="material-icons dp_big">apps</i>
-            </a>
-
+            </a>*/}
+            <div className="right-nav">
+              <a href="#" className="btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">highlight_off</i></a>
+              <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
+              <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">share</i></a>
+            </div>
             {/*<nav className="dashboard">
               <a className="navbar-brand" href="#"><i className="material-icons dp48">apps</i> Dashboard<div className="ripple-container"></div></a>
               <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-transparent">
@@ -112,31 +116,54 @@ export default class Main extends React.Component {
             </nav>*/}
 
             <div className="page-header">
-              <div className="col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
-                <div className="cover">
-                  <nav className="navbar navbar-transparent">
-                    <ul className="nav navbar-nav navbar-left">
-                      <li>
-                        <a href="#profile" className="active" data-toggle="tab">
-                          Cover
-                          <div className="ripple-container"></div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Offer
-                          <div className="ripple-container"></div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Tutorial
-                          <div className="ripple-container"></div>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
+              <div className="cover col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
+                <div className="cover-left">
+                  <div className="card card-profile card-plain">
+                    <div className="card-image">
+                      <a href="#" className="img">
+                        <img src="https://default.wrioos.com/img/logo.png" />
+                      </a>
+                    </div>
+                    <div className="hidden">
+                      <a href="#" className="author">By User Name</a>
+                      <h6>Followers: 188</h6>
+                    </div>
+                  </div>
                 </div>
+                {/*<div className="cover-right">
+                  <div className="card card-profile card-plain">
+                    <div className="card-image">
+                      <a href="#">
+                        <img className="img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAA2tAAAAJDMxMTViYTgyLTg2NDQtNDYxNy1hZWFmLTA4YzQ1ZDI4N2ZhNw.jpg" />
+                      </a>
+                    </div>
+                    <div className="card-content">
+                      <h4 className="card-title">By Alexey Anshakov</h4>
+                    </div>
+                  </div>
+                </div>*/}
+                <nav className="navbar navbar-transparent">
+                  <ul className="nav navbar-nav navbar-left">
+                    <li>
+                      <a href="#profile" className="active" data-toggle="tab">
+                        Cover
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Offer
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Tutorial
+                        <div className="ripple-container"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
 
               <div className="card card-carousel" data-parallax="true">
@@ -160,10 +187,6 @@ export default class Main extends React.Component {
                                 <div className="title-text">
                                   <h1>Cosmos</h1>
                                   <h3>Cosmos: A Spacetime Odyssey is a 2014 American science documentary television series. The show is a follow-up to the 1980 television series ', which was presented by Carl Sagan on the Public Broadcasting Service and is considered a milestone for scientific documentaries.</h3>
-                                  <a href="#" className="btn btn-primary btn-lg">
-                                    <i className="material-icons">play_arrow</i>Watch video
-                                    <div className="ripple-container"></div>
-                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -238,7 +261,7 @@ export default class Main extends React.Component {
                       <ul className="nav nav-tabs" data-tabs="tabs">
                         <li className="active">
                           <a href="#home" data-toggle="tab">
-                            Read
+                            Home
                             <div className="ripple-container"></div>
                           </a>
                         </li>
@@ -249,8 +272,8 @@ export default class Main extends React.Component {
                           </a>
                         </li>
                         <li>
-                          <a href="#opened" data-toggle="tab">
-                            Opened <label>4</label>
+                          <a href="#read_later" data-toggle="tab">
+                            Read later <label>4</label>
                             <div className="ripple-container"></div>
                           </a>
                         </li>

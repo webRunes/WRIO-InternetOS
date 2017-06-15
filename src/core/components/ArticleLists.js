@@ -29,10 +29,11 @@ const ArticleLists = React.createClass({
                   <Thumbnail image={image} />
                   <div className="arrow-more"><i className="material-icons">more_horiz</i></div>
                   <div className="gradient"></div>
-                  <h2 id={articleHash}>
+                  <h3 className="visible-xs-block" id={articleHash}>
                     {articleName}
-                  </h2>
-                  {about}
+                  </h3>
+                  <h2 className="hidden-xs">{articleName}</h2>
+                  <p>{about}</p>
                 </div>
                 <div className="footer">
                   <div className="author">

@@ -37,13 +37,13 @@ export default React.createClass({
         if (!this.props.editMode) {
             readEditMode = (
                 <ul itemProp="breadcrumb" className="breadcrumb">
-                    <li className="active">
-                        Read
-                    </li>
-                    <li>
-                        <a onClick={ this.props.onEditClick }>Edit</a>
-                    </li>
-                    {transactions}
+                  <li className="active">
+                    Read
+                  </li>
+                  <li>
+                    <a onClick={ this.props.onEditClick }>Edit</a>
+                  </li>
+                  {transactions}
                 </ul>
             );
         } else {
