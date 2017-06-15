@@ -22,9 +22,9 @@ const UsersTable = ({data,showModal}) => {
         </thead>
         <tbody>
         {
-            data.map(function (item) {
+            data.map((item,i) => {
                 var explorerLink = "https://ropsten.etherscan.io/address/"+item.ethWallet;
-                return  (<tr>
+                return  (<tr key={i}>
                     <td>{ item.wrioID }</td>
                     <td>{ item.name }</td>
                     <td><a href={explorerLink}>{ item.ethWallet}</a></td>
@@ -34,7 +34,8 @@ const UsersTable = ({data,showModal}) => {
                     <td>{ item.rtxBalance}</td>
 
                 </tr>);
-            }.bind(this))}
+            })
+        }
 
         </tbody>
     </table>);
