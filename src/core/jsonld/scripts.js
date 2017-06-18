@@ -1,20 +1,21 @@
-import sortByOrder from 'lodash.sortbyorder';
-import Mention, {MappedMention} from './mentions/mention';
-import Image from './mentions/image';
-
+/* @flow */
 import LdJsonObject from './entities/LdJsonObject.js';
-
 
 /* Loaded class, takes <scripts> from the document, parses them and applies mentions */
 
+type LdJsonObjects = Array<LdJsonObject>
+
 class LdJsonManager {
-    constructor(scripts) {
+    blocks: LdJsonObjects;
+    data: Array<Object>;
+
+    constructor(scripts: HTMLCollection<HTMLElement>) {
         this.data = this.parseScripts(scripts);
         this.blocks =  this.mapMentions();
     }
-    parseScripts(scripts) {
-        let  data = [];
-        scripts = [].slice.call(scripts); // to convert HtmlCollection to the Array, to adress issues on the IE and mobile Safari
+    parseScripts(scripts : HTMLCollection<HTMLElement>) : Array<Object> {
+        let  data :  Array<Object> = [];
+        const scriptsArray : Array<HTMLElement> = [].slice.call(scripts); // to convert HtmlCollection to the Array, to address issues on the IE and mobile Safari
         for (let script of scripts) {
             if (script.type === 'application/ld+json') {
                 let json = undefined;
@@ -31,14 +32,11 @@ class LdJsonManager {
         }
         return data;
     }
-    mapMentions() {
-        const r =  this.data.map(function(jsn) {
-            return LdJsonObject.LdJsonFactory(jsn);
-        });
-        return r;
+    mapMentions() : LdJsonObjects {
+        return this.data.map((jsn) => LdJsonObject.LdJsonFactory(jsn));
     }
 
-    getBlocks() {
+    getBlocks() : LdJsonObjects {
         return this.blocks;
     }
 }

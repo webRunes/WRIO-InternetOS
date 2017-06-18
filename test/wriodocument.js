@@ -23,12 +23,14 @@ function wrapFixture(scripts) {
 var docScripts;
 
 
-
+let s;
 describe('mention test', () => {
     before(() => {
         let fix = wrapFixture(fixtures);
         let manager = new LdJsonManager(fix);
+        s = new WrioDocumentStore();
         docScripts = manager.getBlocks();
+        global.window = {location:{hash:"",href:"webrunes.com"}};// TODO: make explicit passing of window.location
         WrioDocumentActions.loadDocumentWithData.trigger(docScripts,'https://wrioos.com');
     });
 
@@ -38,9 +40,11 @@ describe('mention test', () => {
 
     it("Shoud  be able to properly extract document comment id", () => {
         docScripts.length.should.be.equal(2);
-        WrioDocumentStore.getJsonLDProperty('comment').should.be.equal('746095521694089216');
-        WrioDocumentStore.hasCommentId().should.be.true();
-        WrioDocumentStore.hasArticle().should.be.true();
+        console.log(s.state.toc);
+        s.state.toc.covers.length.should.be.equal(2);
+        s.getJsonLDProperty('comment').should.be.equal('746095521694089216');
+        s.hasCommentId().should.be.true();
+        s.hasArticle().should.be.true();
     });
 
 });

@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-plugin-syntax-flow": "^6.18.0",
     "bignumber.js": "2.4.0",
+    "bower": "^1.8.0",
     "classnames": "^2.1.2",
     "cross-storage": "^0.8.1",
     "domready": "^1.0.8",
@@ -29,8 +30,8 @@
     "lodash.some": "*",
     "lodash.sortby": "^3.1.4",
     "lodash.sortbyorder": "^3.1.4",
-    "moment": "^2.18.1",
     "material-ui": "^0.18.1",
+    "moment": "^2.18.1",
     "node-http-proxy": "^0.2.3",
     "numeral": "^2.0.6",
     "nyc": "^11.0.2",
@@ -40,7 +41,7 @@
     "react-modal": "^1.4.0",
     "react-prop-types": "0.4.0",
     "react-router-dom": "^4.1.1",
-    "reflux": "0.2.7",
+    "reflux": "^6.4.1",
     "superagent": "^1.2.0",
     "vhost": "^3.0.2",
     "yargs": "^3.23.0"

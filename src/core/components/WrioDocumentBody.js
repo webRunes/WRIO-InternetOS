@@ -1,13 +1,8 @@
 import React from 'react';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
-import ArticleLists from './ArticleLists';
 import ArticleElement from './ArticleElement';
 import CreateItemList from './ItemList.js';
-import CreateCover from './CreateCover';
-import Carousel from './misc/FixedCarousel.js';
-import CarouselItem from 'react-bootstrap/lib/CarouselItem';
-import _ from 'lodash/core';
 import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
@@ -141,23 +136,7 @@ class DocumentBody extends React.Component {
             });
     }
 
-    getCoverList(data) {
-        var data = _.chain(data)
-            .map('children')
-            .flatten()
-            .filter(function (item) {
-                return !_.isEmpty(item);
-            })
-            .map(function (item, key) {
-                return (
-                  <CarouselItem key={key}><CreateCover data={item} key={key} isActive={key === 0}/></CarouselItem>);
-            })
-            .value();
 
-        return (
-            <Carousel defaultActiveIndex={0}>{data}</Carousel>
-        );
-    }
 }
 
 DocumentBody.propTypes = {};

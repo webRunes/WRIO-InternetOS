@@ -1,5 +1,6 @@
 .idea
 build/
+bower_components/*
 node_modules/*
 Thumbs.db
 #Ignore files build by Visual Studio

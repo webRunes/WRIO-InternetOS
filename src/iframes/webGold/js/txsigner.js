@@ -34,7 +34,6 @@ class TxSignerView extends React.Component {
     }
 
     render() {
-        var that = this;
         return (
             <div className="container">
                 <EthWallet ethID={window.params.ethID}

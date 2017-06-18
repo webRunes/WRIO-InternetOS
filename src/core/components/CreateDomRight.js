@@ -19,14 +19,6 @@ export function replaceSpaces(str) {
     }
 }
 
-function isCover(o) {
-    return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
-}
-
-const hashEquals = (itemHash) => {
-    var currentHash = window.location.hash.substring(1);
-    return replaceSpaces(itemHash) === currentHash;
-};
 
 // abstract menu button
 
@@ -242,61 +234,7 @@ var CreateDomRight = React.createClass({
         }
     },
 
-    processItem(item, superitem) {
-        if (isCover(item)) {
-            var isActive = this.listName === item.name.toLowerCase();
-            if (this.listName === superitem.name) {
-                this.coverItems.push(<CoverButton data={superitem} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
-            } else {
-                this.coverItems.push(<CoverButton data={item} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
-            }
-        } else {
-            var isActive = this.listName === item.name.toLowerCase();
-            this.externalItems.push(<ExternalButton data={item} key={this.externalItems.length} active={this.active} isActive={isActive}/>);
-        }
-    },
 
-    initListName() {
-        this.listName = WrioDocument.getListType();
-        if (this.listName) {
-            this.listName = this.listName.toLowerCase();
-        }
-    },
-
-    getArticleItems() {
-
-        var isActiveFirstArticle = true;
-
-        this.coverItems= [];
-        this.articleItems = [];
-        this.externalItems = [];
-        this.initListName();
-
-        if (this.listName) {
-            if (this.listName) {
-                isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
-            }
-        }
-        var add = (currentItem) => {
-
-            if (currentItem.hasElementOfType("Article")) {
-                var isActive = hashEquals(currentItem.data.name) || isActiveFirstArticle;
-                isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
-            } else if (currentItem.getType() === 'ItemList') {
-                if (!currentItem.hasElementOfType('ItemList')) {
-                    this.processItem(currentItem.data, currentItem.data);
-                } else {
-                    currentItem.children.forEach((item) => this.processItem(item.data, currentItem.data), this);
-                }
-            }
-            if (currentItem.hasPart()) { // recursively process all article parts
-                currentItem.children.forEach(add, this);
-            }
-        };
-        this.props.data.forEach(add);
-        return [this.coverItems,this.articleItems,this.externalItems];
-    }
 });
 
 export default CreateDomRight;

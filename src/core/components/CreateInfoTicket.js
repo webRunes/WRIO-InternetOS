@@ -1,8 +1,6 @@
 import React from 'react';
 import {getResourcePath} from '../global';
 import {getJsonldsByUrl} from '../../widgets/Plus/utils/tools';
-import {Card,CardHeader,CardMedia,CardText} from 'material-ui/Card';
-
 
 export default class CreateInfoTicket extends React.Component {
     constructor(props) {
@@ -40,10 +38,12 @@ export default class CreateInfoTicket extends React.Component {
 
     render() {
         return (
-            <Card >
-                <CardHeader title={this.props.article.name}
-                    avatar={this.state.img}/>
-                <CardText>
+            <ul className="info nav nav-pills nav-stacked" id="ticket-accordion">
+                <li className="panel">
+                    <a href="#ticket-element" data-parent="#ticket-accordion" ref="name" data-toggle="collapse">
+                        <span className="glyphicon glyphicon-chevron-down pull-right"></span>
+                        {this.props.article.name}
+                    </a>
                     <div className="in hidden-xs" id="ticket-element">
                         <div className="media thumbnail">
                             <div className="col-xs-12 pull-right">
@@ -67,9 +67,8 @@ export default class CreateInfoTicket extends React.Component {
                             </div>
                         </div>
                     </div>
-                </CardText>
-            </Card>
-
+                </li>
+            </ul>
         );
     }
 };

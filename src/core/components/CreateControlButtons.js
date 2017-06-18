@@ -3,9 +3,6 @@ import UIActions from '../actions/UI.js';
 import PlusActions from '../../widgets/Plus/actions/PlusActions.js';
 import normURL from '../../widgets/Plus/utils/normURL';
 import UrlMixin from '../mixins/UrlMixin';
-import RaisedButton from 'material-ui/RaisedButton'
-import CloseIcon from 'material-ui/svg-icons/navigation/close.js'
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit.js'
 
 export default class CreateControlButtons extends React.Component {
     constructor(props) {
@@ -40,9 +37,9 @@ export default class CreateControlButtons extends React.Component {
     render() {
         return (
             <div className="margin-bottom">
-              {this.state.editAllowed ? <button type="button" onClick={this.onEditClick} className="btn btn-default btn-block"><span className="glyphicon glyphicon-pencil"></span>Edit</button> : ''}
-              {/*<button type="button" className="btn btn-success btn-block"><span className="glyphicon glyphicon-plus"></span>Added</button>*/}
-              <button type="button" onClick={this.onCloseClick.bind(this)} className="btn btn-default btn-block"><span className="glyphicon glyphicon-remove"></span>Close</button>
+                {this.state.editAllowed ? <button type="button" onClick={this.onEditClick} className="btn btn-default btn-block"><span className="glyphicon glyphicon-pencil"></span>Edit</button> : ''}
+                {/*<button type="button" className="btn btn-success btn-block"><span className="glyphicon glyphicon-plus"></span>Added</button>*/}
+                <button type="button" onClick={this.onCloseClick.bind(this)} className="btn btn-default btn-block"><span className="glyphicon glyphicon-remove"></span>Close</button>
             </div>
         );
     }
