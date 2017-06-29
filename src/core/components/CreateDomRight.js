@@ -9,15 +9,7 @@ import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
-
-// TODO: move to utils somewhere !!!!
-export function replaceSpaces(str) {
-    if (typeof str === "string") {
-        return str.replace(/ /g, '_');
-    } else {
-        return str;
-    }
-}
+import {replaceSpaces} from '../mixins/UrlMixin';
 
 
 // abstract menu button

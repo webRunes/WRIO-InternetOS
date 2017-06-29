@@ -1,11 +1,11 @@
 import React from 'react';
-import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import ArticleElement from './ArticleElement';
 import CreateItemList from './ItemList.js';
 import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
+import LdJsonDocument from '../jsonld/LdJsonDocument'
 
 /*
 *  Base class rendering document body
@@ -18,52 +18,22 @@ class DocumentBody extends React.Component {
         this.state = {
             error: false
         };
-        this.oldError = "dummy";
     }
 
-    shouldComponentUpdate() {
-        let updIndex = WrioDocument.getUpdateIndex();
-        let changed =  updIndex !== this.index;
-        let errorChanged = this.state.error != this.oldError;
-        // TODO add check for error message
-        return changed || errorChanged;
-    }
+    props: {
+        document: LdJsonDocument,
+        url : string
+    };
 
     componentDidMount() {
-        this.wrioStore = WrioDocument.listen(this.onDocumentChange.bind(this));
-        this.index = 0;
     }
 
-    componentWillUnmount() {
-        this.wrioStore();
-    }
-
-    onDocumentChange(doc) {
-        if (doc.error) {
-            this.setState({error: true});
-        } else {
-            if (this.state.error) {
-                this.setState({error: false});
-            }
-        }
-    }
 
     render() {
-
-        this.index = WrioDocument.getUpdateIndex(); this.oldError = this.state.error;
-        var loading = WrioDocument.getLoading();
-
-        if (this.state.error || (loading && loading.error)) {
-                return (<div>Error loading page, try again later</div>);
-        }
-
-        if (loading === true) {
-            return (<img src="https://default.wrioos.com/img/loading.gif"/>);
-        }
-
+        const document = this.props.document;
         console.log("Document redraw");
 
-        var content = this.getContentByName(UrlMixin.searchToObject(WrioDocument.getUrl()));
+        var content = this.getContentByName(document,UrlMixin.searchToObject(this.props.url));
 
         if (content == null) {
             return (<img src="https://default.wrioos.com/img/loading.gif"/>);
@@ -86,15 +56,16 @@ class DocumentBody extends React.Component {
             .map( (list,key) => <CreateItemList data={list} key={key} />);
         }
 
-    getContentByName(url) {
+    getContentByName(document,url) {
         let listName = url.list;
         if (url.cover) {
             listName = 'cover';
         }
 
         if (typeof listName === 'undefined') {
-            return this.getArticleContents(WrioDocument.getDocument()); // show document if no list specified
+            return this.getArticleContents(document.getBlocks()); // show document if no list specified
         } else {
+            // handle lists
            listName = listName.toLowerCase();
             let item = WrioDocument.getListItem(listName);
             if (item) {

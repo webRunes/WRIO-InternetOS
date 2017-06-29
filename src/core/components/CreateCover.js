@@ -22,34 +22,7 @@ var CreateCover = React.createClass({
         WrioDocumentActions.changeDocumentChapter('article', '');
     },
 
-    coverItems(cover) {
-        var items = cover.getCoverItems();
-        var descr = [];
-        var bulletList = [];
-        var index=0;
 
-        function purgeList() {
-            if (bulletList.length !== 0) {
-                descr.push(<ul key={index++} className="features">{bulletList.map(item => <li key={index++}><span className="glyphicon glyphicon-ok"></span>{item}</li>)}</ul>);
-                bulletList = [];
-            }
-        }
-
-        items.forEach((item,i) => {
-            if (item.bullet) {
-                bulletList.push (<span key={index++}>{item.text}</span>);
-            } else {
-                purgeList();
-                descr.push(<div key={index++} className="description">{item.text}</div>);
-            }
-
-        });
-        purgeList();
-
-
-        return descr;
-
-    },
 
     render: function () {
         var cover = this.props.data;

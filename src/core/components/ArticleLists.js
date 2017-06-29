@@ -2,7 +2,7 @@ import React from 'react';
 import {getResourcePath} from  '../global';
 import Article from '../jsonld/entities/Article.js';
 import UrlMixin from '../mixins/UrlMixin';
-import {replaceSpaces} from '../components/CreateDomRight.js';
+import {replaceSpaces} from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
 
 const ArticleLists = React.createClass({

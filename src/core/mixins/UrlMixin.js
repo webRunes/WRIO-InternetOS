@@ -64,7 +64,43 @@ const UrlMixin  = {
             return true;
         }
         return false;
+    },
+
+    replaceSpaces(str : string) : string {
+        if (typeof str === "string") {
+            return str.replace(/ /g, '_');
+        } else {
+            return str;
+        }
+    },
+
+
+    formatUrl(url : string) : string {
+        var splittedUrl = url.split('://');
+        var host;
+        var path;
+        if (splittedUrl.length == 2) {
+            host = splittedUrl[0];
+            path = splittedUrl[1];
+        } else {
+            host = 'http';
+            path = url;
+        }
+
+        var splittedPath = path.split('/');
+        var lastNode = splittedPath[splittedPath.length - 1];
+        if (splittedPath.length > 1 && lastNode) {
+            if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
+                path += '/';
+            }
+        } else if (splittedPath.length == 1) {
+            path += '/';
+        }
+        var resultUrl = host + '://' + path;
+
+        return resultUrl;
     }
+
 };
 
 module.exports = UrlMixin;

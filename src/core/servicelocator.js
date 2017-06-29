@@ -1,3 +1,4 @@
+/* @flow */
 /**
  * Created by michbil on 09.01.16.
  */
@@ -5,6 +6,11 @@
 export function getServiceUrl(service: string) : string {
     var protocol = 'https://';
     var domain = process.env.DOMAIN;
+
+    if (!domain) {
+        throw new Error("Domain is not defined!")
+    }
+
     if (domain === 'wrioos.local') {
         protocol = window.location.protocol + '//';
     }

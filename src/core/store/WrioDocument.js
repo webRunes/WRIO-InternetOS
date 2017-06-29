@@ -3,11 +3,16 @@
  * Created by michbil on 30.03.16.
  */
 import {CrossStorageFactory} from './CrossStorageFactory.js';
+// $FlowFixMe
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
+import UIActions from "../actions/UI"
 import getHttp from '../store/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
+import LdJsonDocument from '../jsonld/LdJsonDocument'
+import TableOfContents from './tocnavigation'
+import {replaceSpaces} from '../mixins/UrlMixin'
 
 
 
@@ -17,22 +22,23 @@ import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
 class WrioDocument extends Reflux.Store {
 
-    data: Array<LdJsonObject>;
-    mainPage: Array<LdJsonObject>;
-    type: string;
-    url: string;
-    lists: {[string]: Object};
+    state: {
+        editAllowed : boolean,
+        mainPage: LdJsonDocument;
+        lists: Array<LdJsonDocument>,
+        toc : Object;
+        url: string;
+    };
 
     constructor () {
         super();
-        this.listenables = WrioDocumentActions
+        this.listenables = WrioDocumentActions;
         this.loading = false;
         this.lists = {};
         this.updateHook = null;
         this.state = {
-            mainPage: [],
-            covers: {},
-            externals: {},
+            editAllowed: false,
+            lists: [],
             toc: {
                 covers: [],
                 chapters: [],
@@ -49,23 +55,38 @@ class WrioDocument extends Reflux.Store {
      * @param url
      */
 
-    onLoadDocumentWithData(data: Array<LdJsonObject>, url : string) {
-        this.mainPage = data; // backup core page
-        this.setData(data, url);
+    onLoadDocumentWithData(data: LdJsonDocument, url : string) {
         // Quick hack to make page jump to needed section after page have been edited
         this.updateHook = () => this._forceHash();
-        this.extractPageNavigation(data);
-        this.setState({mainPage: data});
+
+        const toc = this.extractPageNavigation(data);
+        this.setState({mainPage: data,url,toc});
+
+        toc.covers.map(async (cover : Object) => {
+            console.log(cover);
+            if (cover.url) {
+                try {
+                    const doc : LdJsonDocument = await getHttp(cover.url);
+                    let lists = this.state.lists;
+                    lists.push(Object.assign(cover, {data: doc.getBlocks()[0]}));
+                    this.setState({lists});
+                } catch (err) {
+                    console.log(`Unable to download cover ${cover.url}`);
+                    return;
+                }
+
+            }
+        });
     }
 
-    extractPageNavigation(data: Array<LdJsonObject>) {
+    extractPageNavigation(data: LdJsonDocument) {
         const toc = new TableOfContents();
-        const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,this.type,data);
-        this.setState({toc: {
+        const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,this.type,data.getBlocks());
+        return {
             covers: coverItems,
             chapters: articleItems,
             external: externalItems
-        }});
+        };
     }
 
     // this hook is triggered after DOM redraw, to set article hash
@@ -79,61 +100,6 @@ class WrioDocument extends Reflux.Store {
     }
 
 
-    getUrlSearch() {
-        UrlMixin.searchToObject(this.url);
-    }
-
-    getData() {
-        return this.data;
-    }
-
-    getUrl() {
-        return this.url;
-    }
-
-
-
-    getJsonLDProperty (field: string) {
-        let ret = null;
-        this.mainPage.forEach((section : LdJsonObject) => {
-            const data = section.data[field];
-            if (data) {
-                ret = data;
-            }
-        });
-        return ret;
-    }
-
-    hasCommentId() {
-        var comment = this.getJsonLDProperty('comment');
-        return comment !== null;
-    }
-
-
-    hasArticle() {
-        var r = false;
-        this.data.forEach((e : LdJsonObject) => {
-            if (e.getType() === 'Article') {
-                r = true;
-            }
-        });
-        return r;
-    }
-
-    setData(data: Array<LdJsonObject>, url:string, type?: string) {
-        this.url = url;
-        this.data = data;
-        if (!type) {
-            this.type = UrlMixin.searchToObject(url).list;
-            if (typeof this.type == 'string') {
-                this.type = this.type.toLowerCase();
-            }
-        } else {
-            this.type = type;
-        }
-
-    }
-
     _forceHash() {
         setTimeout(() => {
             const orig = window.location.hash;
@@ -144,66 +110,17 @@ class WrioDocument extends Reflux.Store {
     }
 
 
-    _setLoadingError() {
-        this.loading = {error: "Cannot get page"};
-        this.trigger({'error':true});
-        console.log("Error getting page");
-    }
-
-    _resetError() {
-        this.trigger({'error':false});
-    }
-
-    onLoadDocumentWithUrl(url: string, type: string) {
-        this.loading = true;
-        this.trigger({"loading":true});
-        getHttp(url,(data) => {
-            if (!data) {
-                this._setLoadingError();
-                this.data = [];
-                return;
-            }
-            this.setData(data, url, type);
-            this.loading = false;
-            this.trigger({'change':true});
-        });
-    }
-
-    onLoadList(name: string,data: Object, type?: string) {
-        this.lists[name.toLowerCase()] = {
-            "data": data,
-            "type": type
-        };
-        this.trigger({'change':'true'});
-    }
-
     performPageTransaction(path: string) {
         history.pushState({},window.location.path,path);
-        this.onUpdateUrl();
-    }
-
-    onUpdateUrl() {
-        var obj = UrlMixin.searchToObject();
-        this.url = window.location.href;
-        this.trigger({'urlChanged':obj});
     }
 
 
-    getDocument() {
-        return this.data;
-    }
+
 
     getListItem(name: string) {
-        return this.lists[name.toLowerCase()];
+        return this.state.lists[name.toLowerCase()];
     }
 
-    onChangeDocumentChapter(type : string, id: string) {
-        this.data = this.mainPage;
-        this.type = type;
-        this.setData(this.data,'',type);
-        this.trigger({'change':'true'});
-
-    }
 
 
     // methods what was in the center.js store
@@ -216,14 +133,15 @@ class WrioDocument extends Reflux.Store {
         } else {
             window.history.pushState('page', 'params', path);
         }
-        this.onUpdateUrl();
     }
 
     _setUrlWithHash (name:string, isRet: boolean) {
         window.history.pushState('page', 'params', window.location.pathname);
         window.location.hash = name;
+        const toc = this.extractPageNavigation(this.state.mainPage);
+        this.setState({toc});
+
         this.updateHook = () => this._forceHash();
-        this.onUpdateUrl();
     }
 
     // this actions are called when browsing through the right menu
@@ -241,105 +159,40 @@ class WrioDocument extends Reflux.Store {
         }
     }
     onArticle (id: string, hash: string, isRet: boolean) {
-        this._resetError();
         console.log("====OnARTICLE");
         var type = 'article';
         this._setUrlWithHash(hash, isRet);
-        this.onChangeDocumentChapter(type,id);
     }
 
-};
-
-
-
-function isCover(o: Object) : boolean {
-    return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
-}
-
-const hashEquals = (location: Object) => (itemHash : string) : boolean => {
-    var currentHash = location.hash.substring(1);
-    return replaceSpaces(itemHash) === currentHash;
-};
-
-// TODO: move to utils somewhere !!!!
-export function replaceSpaces(str : string) : string {
-    if (typeof str === "string") {
-        return str.replace(/ /g, '_');
-    } else {
-        return str;
+    isEditingRemotePage() : boolean {
+        const urlParams = UrlMixin.searchToObject(this.state.url);
+        return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
     }
-}
 
-class MenuItem {
-    name: string;
-    url: string;
-    active: boolean;
 
-    constructor(name: string,url: string, active: boolean) {
-        this.name =name;
-        this.url = url;
-        this.active = active;
+    // Listen to the login iframe messages
+
+    async onGotProfileUrl(profileUrl : Object) {
+        const _author = await this.getAuthor();
+        console.log('Checking if editing allowed: ', profileUrl, _author);
+        if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
+            this.setState({editAllowed: true})
+        }
     }
-}
 
-class TableOfContents  {
-    coverItems : Array<MenuItem>;
-    articleItems : Array<MenuItem>;
-    externalItems: Array<MenuItem>;
-    listName: string;
 
-    processItem(item: Object, superitem: Object) {
-        if (isCover(item)) {
-            var isActive = this.listName === item.name.toLowerCase();
-            if (this.listName === superitem.name) {
-                this.coverItems.push(new MenuItem(superitem.name,superitem.url,isActive));
-            } else {
-                this.coverItems.push(new MenuItem(item.name,item.url,isActive));
-            }
+    async getAuthor() {
+        if (this.isEditingRemotePage()) {
+            var url = this.formatUrl(this.state.urlParams.edit);
+            const doc: LdJsonDocument = await getHttp(url);
+            return doc.getJsonLDProperty('author');
         } else {
-            var isActive = this.listName === item.name.toLowerCase();
-            this.externalItems.push(new MenuItem(item.name,item.url,isActive));
+            let author = this.mainPage.getJsonLDProperty('author');
+            return author;
         }
     }
 
+};
 
-    getArticleItems(location: Object, listName? : string, data : Array<LdJsonObject>) : Array<mixed> {
-        const hashEq : Function = hashEquals(location);
-        let isActiveFirstArticle : boolean = true;
-
-        this.coverItems= [];
-        this.articleItems = [];
-        this.externalItems = [];
-
-        if (typeof listName == "string") {
-            this.listName = listName.toLowerCase();
-            if (this.listName) {
-                isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
-            }
-        }
-        var add = (currentItem) => {
-
-            if (currentItem.hasElementOfType("Article")) {
-                var isActive = hashEq(currentItem.data.name) || isActiveFirstArticle;
-                isActiveFirstArticle = false;
-                this.articleItems.push(new MenuItem(
-                    currentItem.data.name,
-                    '#'+replaceSpaces(currentItem.data.name)
-                    ,isActive));
-            } else if (currentItem.getType() === 'ItemList') {
-                if (!currentItem.hasElementOfType('ItemList')) {
-                    this.processItem(currentItem.data, currentItem.data);
-                } else {
-                    currentItem.children.forEach((item) => this.processItem(item.data, currentItem.data), this);
-                }
-            }
-            if (currentItem.hasPart()) { // recursively process all article parts
-                currentItem.children.forEach(add, this);
-            }
-        };
-        data.forEach(add);
-        return [this.coverItems,this.articleItems,this.externalItems];
-    }
-}
 
 export default WrioDocument;

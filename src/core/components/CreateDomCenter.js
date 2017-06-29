@@ -1,11 +1,10 @@
+
+
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
 import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
-import Details from '../../widgets/Details.js';
-import {importUrl} from '../global';
-import {theme} from '../global';
 import CreateBreadcrumb from './CreateBreadcrumb';
 import CreateTitter from '../../widgets/Titter.js';
 import WrioDocumentBody from './WrioDocumentBody.js';
@@ -17,78 +16,25 @@ import CreatePresale from '../../widgets/Presale.js';
 import WindowActions from '../actions/WindowActions.js';
 import {AlertWelcome, AlertWarning} from './Alerts.js';
 import UserStore from '../store/UserStore.js';
-import WrioDocument from '../store/WrioDocument.js';
 import UIActions from '../actions/UI.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
+import LdJsonDocument from '../jsonld/LdJsonDocument';
+
 
 var domain = getDomain();
 
-class ArticleCenter  extends React.Component {
 
-    formatUrl(url) {
-        var splittedUrl = url.split('://');
-        var host;
-        var path;
-        if (splittedUrl.length == 2) {
-            host = splittedUrl[0];
-            path = splittedUrl[1];
-        } else {
-            host = 'http';
-            path = url;
-        }
 
-        var splittedPath = path.split('/');
-        var lastNode = splittedPath[splittedPath.length - 1];
-        if (splittedPath.length > 1 && lastNode) {
-            if (!endsWith(lastNode, '.htm') && !endsWith(lastNode, '.html')) {
-                path += '/';
-            }
-        } else if (splittedPath.length == 1) {
-            path += '/';
-        }
-        var resultUrl = host + '://' + path;
+export class CreateDomCenter extends React.Component {
 
-        return resultUrl;
-    }
-
-    isEditingRemotePage() {
-        return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
-    }
-
-    getAuthor(cb) {
-        if (this.isEditingRemotePage()) {
-            var url = this.formatUrl(this.state.urlParams.edit);
-            getHttp(url,(article) => {
-                article = article.filter((json) => json['@type'] == 'Article')[0];
-                var author = article['author'];
-                cb(author);
-            });
-        } else {
-            let author = WrioDocument.getJsonLDProperty('author');
-            if (author) {
-                cb(author);
-            }
-        }
-    }
-
-}
-
-ArticleCenter.propTypes = {
-
-};
-
-export class CreateDomCenter extends ArticleCenter {
+    propTypes: {
+        data : LdJsonDocument,
+        url : string
+    };
 
     constructor(props) {
         super(props);
-        this.editIframeStyles = {
-            width: '100%',
-            border: 'none'
-        };
-        this.startIframeStyles = {
-            width: '100%',
-            border: 'none'
-        };
+
         this.state = {
             editMode: false,
             actionButton: false,
@@ -109,25 +55,7 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
     componentWillMount() {
-        UIActions.gotProfileUrl.listen((profileUrl) => {
-            this.getAuthor((_author) => {
-                console.log('Checking if editing allowed: ', profileUrl, _author);
-                if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
-                    this.allowEdit();
-                } else {
-                    var url = WrioDocument.getUrl();
-                    var exp = new RegExp(profileUrl,"g");
-                    if (url.match(exp)) {
-                        this.allowEdit();
-                    }
-                }
-            });
-        });
-        UIActions.switchToEditMode.listen((data) => {
-            if (data.editMode) {
-                this.switchToEditMode();
-            }
-        });
+
     }
 
     componentDidMount() {
@@ -174,8 +102,9 @@ export class CreateDomCenter extends ArticleCenter {
 
 
     render() {
+        const document = this.props.data;
         const showArticle = this.isArticleShown();
-        const displayTitterStyle = (WrioDocument.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
+        const displayTitterStyle = (document.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
 
         if ((this.state.urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
             let coreFrame = <Core article={this.getEditUrl()}/>;
@@ -184,11 +113,14 @@ export class CreateDomCenter extends ArticleCenter {
 
         const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
         const contents = (<div>
-          <WrioDocumentBody/>
-          { !WrioDocument.hasCommentId() ?
+          <WrioDocumentBody
+              document={document}
+              url={this.props.url}
+          />
+          { !document.hasCommentId() ?
                                 commentsDisabledFrame :
                                   <div style={displayTitterStyle}>
-                                    {this.state.userId && <CreateTitter scripts={WrioDocument.getData()} wrioID={this.state.userId}/> }
+                                    {this.state.userId && <CreateTitter scripts={document.getData()} wrioID={this.state.userId}/> }
                                   </div> }
         </div>);
 
@@ -222,10 +154,6 @@ export class CreateDomCenter extends ArticleCenter {
     }
 
 }
-
-CreateDomCenter.propTypes = {
-
-};
 
 
 export class TransactionsCenter extends CreateDomCenter {
@@ -264,10 +192,15 @@ export class CoreCreateCenter extends CreateDomCenter {
     }
 }
 
+const editIframeStyles = {
+    width: '100%',
+    border: 'none'
+};
+
 export class WebGoldCenter extends CreateDomCenter {
     render() {
         this.state.actionButton = "Start";
-        var wg = (<iframe src={getServiceUrl('webgold')+'/add_funds'} style={ this.editIframeStyles }/>);
+        var wg = (<iframe src={getServiceUrl('webgold')+'/add_funds'} style={ editIframeStyles }/>);
         return this.generateCenterWithContents (wg);
 
     }

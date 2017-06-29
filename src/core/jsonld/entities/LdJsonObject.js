@@ -4,11 +4,13 @@
  * Created by michbil on 13.09.16.
  */
 
-
+// $FlowFixMe
 import sortByOrder from 'lodash.sortbyorder';
 import Mention, {MappedMention,MappedCoverMention} from '../mentions/mention';
 import Image from '../mentions/image';
+// $FlowFixMe
 import _ from 'lodash/core';
+// $FlowFixMe
 import includes from 'lodash/includes';
 
 var Article, ItemList, ImageObject;

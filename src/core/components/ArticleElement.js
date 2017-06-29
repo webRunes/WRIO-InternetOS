@@ -1,6 +1,6 @@
 import React from 'react';
 import ArticleLists from './ArticleLists';
-import {replaceSpaces} from './CreateDomRight.js';
+import {replaceSpaces} from '../mixins/UrlMixin';
 import SocialPost from "./SocialPost.js";
 
 var ArticleElement = React.createClass({
