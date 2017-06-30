@@ -14,38 +14,109 @@ import UrlMixin from './core/mixins/UrlMixin.js';
 import {Plus} from "./widgets/Plus/Plus";
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
+import {Tab,Tabs, Row, Col, Nav, NavItem} from 'react-bootstrap'
 
 import CoverHeader from './core/material-components/CoverHeader'
 
 
+const ArticleTabs = ({center}) => {
+        return (<div className="card card-nav-tabs">
 
-const ArticleTabs = () => {
-    return (<div className="header header-primary">
-        <div className="nav-tabs-navigation">
-            <div className="nav-tabs-wrapper">
-                <ul className="nav nav-tabs" data-tabs="tabs">
-                    <li className="active">
-                        <a href="#home" data-toggle="tab">
-                            Home
-                            <div className="ripple-container"></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#collections" data-toggle="tab">
-                            Collections
-                            <div className="ripple-container"></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#read_later" data-toggle="tab">
-                            Read later <label>4</label>
-                            <div className="ripple-container"></div>
-                        </a>
-                    </li>
-                </ul>
+            <div className="header headerprimary">
+                <div className="navtabsnavigation">
+                    <div className="navtabswrapper">
+                        <ul className="nav navtabs" datatabs="tabs">
+                            <li className="active">
+                                <a href="#home" datatoggle="tab">
+                                    Home
+                                    <div className="ripplecontainer"></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#collections" datatoggle="tab">
+                                    Collections
+                                    <div className="ripplecontainer"></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#read_later" datatoggle="tab">
+                                    Read later <label>4</label>
+                                    <div className="ripplecontainer"></div>
+                                </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
             </div>
-        </div>
-    </div>);
+
+            <div className="card-content">
+                <div className="tab-content">
+                    <div className="tab-pane active" id="home">
+                        {center}
+                    </div>
+                    <div className="tab-pane" id="collections">
+                        <p>Lists</p>
+                    </div>
+                    <div className="tab-pane" id="opened">
+                        <p>Opened</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>);
+};
+
+
+const ArticleTabsNew = ({center}) => {
+    const handleSelect = (e) => console.log(e);
+    const activeKey = 1;
+    return (
+        <Tab.Container id="left-tabs-example" defaultActiveKey="home">
+        <Row className="clearfix">
+            <div className="header header-primary">
+                <div className="nav-tabs-navigation">
+                    <div className="nav-tabs-wrapper">
+                        <Nav bsStyle="tabs">
+                            <NavItem eventKey="home" >
+                                <a href="#home" data-toggle="tab">
+                                    Home
+                                    <div className="ripple-container"></div>
+                                </a>
+                            </NavItem>
+                            <NavItem eventKey="collections">
+                                <a href="#collections" data-toggle="tab">
+                                    Collections
+                                    <div className="ripple-container"></div>
+                                </a>
+                            </NavItem>
+                            <NavItem eventKey="ReadLater">
+                                <a href="#read_later" data-toggle="tab">
+                                    Read later <label>4</label>
+                                    <div className="ripple-container"></div>
+                                </a>
+                            </NavItem>
+                        </Nav>
+                    </div>
+                </div>
+            </div>
+
+
+            <Tab.Content animation>
+                <Tab.Pane eventKey="home">
+                    {center}
+                </Tab.Pane>
+                <Tab.Pane eventKey="collections">
+                    Tab 2 content
+                </Tab.Pane>
+                <Tab.Pane eventKey="ReadLater">
+                    Tab 2 content
+                </Tab.Pane>
+            </Tab.Content>
+        </Row>
+    </Tab.Container>);
+
+
 };
 
 
@@ -66,22 +137,7 @@ const NewUI = ({center, coverData, chapters}) => {
                   <ArticleTableOfContents articleItems={chapters} />
             </div>
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
-                <div className="card card-nav-tabs">
-                    <ArticleTabs />
-                    <div className="card-content">
-                        <div className="tab-content">
-                            <div className="tab-pane active" id="home">
-                                {center}
-                            </div>
-                            <div className="tab-pane" id="collections">
-                                <p>Lists</p>
-                            </div>
-                            <div className="tab-pane" id="opened">
-                                <p>Opened</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <ArticleTabs center={center}/>
             </div>
         </div>
     );
