@@ -8,6 +8,7 @@ import LdJsonDocument from '../jsonld/LdJsonDocument'
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import ItemList from '../jsonld/entities/ItemList'
 import ImageObject from '../jsonld/entities/ImageObject'
+// $FlowFixMe
 import {CarouselItem} from 'react-bootstrap'
 import Carousel from '../components/misc/FixedCarousel'
 
@@ -21,7 +22,7 @@ const prevIcon = ( <i className="material-icons">keyboard_arrow_left</i>);
  * @constructor
  */
 
-const CoverText = ({cover}) => {
+const CoverText = ({cover} : {cover : ImageObject}) => {
 
         console.log("cover", cover);
         var items = cover.getCoverItems();
@@ -61,7 +62,7 @@ const CoverText = ({cover}) => {
 };
 
 
-const RenderCover = ({cover}) => {
+const RenderCover = ({cover} : {cover : LdJsonObject}) => {
     const image : ImageObject = cover.children[0];
 
     var path = image.getKey('contentUrl'); //cover.img;
@@ -104,7 +105,7 @@ const RenderCover = ({cover}) => {
  * @constructor
  */
 
-const CoverNavigationButtons = ({items}) => {
+const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
     return (<nav className="navbar navbar-transparent">
         <ul className="nav navbar-nav navbar-left">
             {items.map((r,key)=>{
@@ -121,7 +122,7 @@ const CoverNavigationButtons = ({items}) => {
     </nav>);
 };
 
-const CoverHeader = ({coverData}) => {
+const CoverHeader = ({coverData} : {coverData : Array<Object>}) => {
 
     console.log("RENDERING", coverData);
     return (

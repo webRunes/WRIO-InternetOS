@@ -15,7 +15,7 @@ const UrlMixin  = {
         if (url) {
             url = this.parseUrl(url).search;
         } else {
-            url = window.location.search;
+            throw new Error("Search to object without parameter is deprecated!!");
         }
         var pairs = url.substring(1).split('&'),
             obj = {};

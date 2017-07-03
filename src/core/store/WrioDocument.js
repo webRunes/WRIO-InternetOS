@@ -33,12 +33,13 @@ class WrioDocument extends Reflux.Store {
     constructor () {
         super();
         this.listenables = WrioDocumentActions;
-        this.loading = false;
-        this.lists = {};
         this.updateHook = null;
         this.state = {
             editAllowed: false,
             lists: [],
+            url: window.location.href,
+            // $FlowFixMe
+            mainPage: null,
             toc: {
                 covers: [],
                 chapters: [],
@@ -68,10 +69,26 @@ class WrioDocument extends Reflux.Store {
                 try {
                     const doc : LdJsonDocument = await getHttp(cover.url);
                     let lists = this.state.lists;
-                    lists.push(Object.assign(cover, {data: doc.getBlocks()[0]}));
+                    lists.push(Object.assign(cover, {data: doc.getBlocks()[0],type:'cover'}));
                     this.setState({lists});
                 } catch (err) {
                     console.log(`Unable to download cover ${cover.url}`);
+                    return;
+                }
+
+            }
+        });
+
+        toc.external.map(async (externalDoc : Object) => {
+            console.log(externalDoc);
+            if (externalDoc.url) {
+                try {
+                    const doc : LdJsonDocument = await getHttp(externalDoc.url);
+                    let lists = this.state.lists;
+                    lists.push(Object.assign(externalDoc, {data: doc.getBlocks()[0],type:'external'}));
+                    this.setState({lists});
+                } catch (err) {
+                    console.log(`Unable to download external ${externalDoc.url}`);
                     return;
                 }
 
@@ -117,9 +134,9 @@ class WrioDocument extends Reflux.Store {
 
 
 
-    getListItem(name: string) {
-        return this.state.lists[name.toLowerCase()];
-    }
+   // getListItem(name: string) {
+    //    return this.state.lists[name.toLowerCase()];
+   // }
 
 
 
@@ -166,7 +183,7 @@ class WrioDocument extends Reflux.Store {
 
     isEditingRemotePage() : boolean {
         const urlParams = UrlMixin.searchToObject(this.state.url);
-        return this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined';
+        return urlParams.edit && urlParams.edit !== 'undefined';
     }
 
 
@@ -182,8 +199,9 @@ class WrioDocument extends Reflux.Store {
 
 
     async getAuthor() {
+        const urlParams = UrlMixin.searchToObject(this.state.url);
         if (this.isEditingRemotePage()) {
-            var url = this.formatUrl(this.state.urlParams.edit);
+            var url = this.formatUrl(urlParams.edit);
             const doc: LdJsonDocument = await getHttp(url);
             return doc.getJsonLDProperty('author');
         } else {

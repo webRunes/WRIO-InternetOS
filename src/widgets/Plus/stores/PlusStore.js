@@ -107,6 +107,7 @@ export default Reflux.createStore({
         } else {
             this.data = _norm;
         }
+        console.log(this.data);
         this.trigger(this.data);
     },
 

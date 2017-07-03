@@ -30,6 +30,11 @@ EXAMPLE:
 
 
 class Figure extends React.Component {
+    props: {
+        title: string,
+        description: string,
+        content: Object
+    };
     render () {
         let figcaption = "";
         if (this.props.title) {
@@ -40,19 +45,13 @@ class Figure extends React.Component {
                 </figcaption>);
         }
         return (
-            <figure className="col-xs-12 col-md-6">
+            <figure className="col-xs-12 col-md-12">
                 {this.props.content}
                 {figcaption}
             </figure>
         );
     }
 }
-Figure.propTypes = {
-    title: React.PropTypes.string,
-    description: React.PropTypes.string,
-    content: React.PropTypes.object
-};
-
 
 class SocialPost extends React.Component {
 

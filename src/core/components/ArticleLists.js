@@ -1,17 +1,15 @@
+/* @flow */
 import React from 'react';
 import {getResourcePath} from  '../global';
 import Article from '../jsonld/entities/Article.js';
 import UrlMixin from '../mixins/UrlMixin';
 import {replaceSpaces} from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
+import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
-const ArticleLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+const ArticleLists = ({data} : {data : LdJsonObject}) => {
 
-    render: function() {
-        let item = this.props.data,
+        let item = data,
             articleName = item.getKey('name'),
             about = item.getKey('about'),
             articleHash = replaceSpaces(articleName),
@@ -51,7 +49,7 @@ const ArticleLists = React.createClass({
           </a>
         </div>
       );
-    }
-});
+
+};
 
 export default ArticleLists;

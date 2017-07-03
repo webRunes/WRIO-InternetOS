@@ -1,14 +1,11 @@
-/**
- * Created by michbil on 26.06.17.
- */
+/* @flow */
 
 import React from 'react';
-import classNames from 'classnames';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import {replaceSpaces} from '../mixins/UrlMixin';
 
 
-const MenuButton = ({active,name,url}) => {
+const MenuButton = ({active,name,url} : {active: boolean, name: string, url: string}) => {
     const className = active ? 'active' : '',
         click = () => {
             WrioDocumentActions.article(name, replaceSpaces(name));
@@ -27,7 +24,7 @@ const MenuButton = ({active,name,url}) => {
 
 
 
-const ArticleTableOfContents  = ({articleItems}) => {
+const ArticleTableOfContents  = ({articleItems} : {articleItems : Array<Object>} ) => {
 
 
 
@@ -39,9 +36,10 @@ const ArticleTableOfContents  = ({articleItems}) => {
                             <h1>Contents</h1>
                             <ul>
                                 {articleItems.map((i,key) => {
-                                    return (<MenuButton active={i.active} name={i.name} url={i.url} />)
+                                    return (<MenuButton active={i.active} name={i.name} url={i.url} key={key} />)
                                 })}
                                 <MenuButton name="Comments"
+                                            key="CMMTS"
                                             url="#Comments"
                                                active={false}/>
                             </ul>

@@ -1,92 +1,57 @@
-
+/* @flow */
 
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
 import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
-import CreateBreadcrumb from './CreateBreadcrumb';
 import CreateTitter from '../../widgets/Titter.js';
 import WrioDocumentBody from './WrioDocumentBody.js';
-import getHttp from '../store/request.js';
+// $FlowFixMe
 import classNames from 'classnames';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
 import CreatePresale from '../../widgets/Presale.js';
 import WindowActions from '../actions/WindowActions.js';
-import {AlertWelcome, AlertWarning} from './Alerts.js';
-import UserStore from '../store/UserStore.js';
-import UIActions from '../actions/UI.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 
 
-var domain = getDomain();
+var domain : string= getDomain();
 
 
 
 export class CreateDomCenter extends React.Component {
 
-    propTypes: {
+    props: {
         data : LdJsonDocument,
         url : string
     };
 
-    constructor(props) {
-        super(props);
+    state: {
+        editMode: boolean,
+        titterDisabled: boolean,
+        active: boolean,
+        userId: boolean,
+        editAllowed: boolean,
+    };
 
+    constructor(props : {
+        data : LdJsonDocument,
+        url : string
+    }) {
+        super(props);
         this.state = {
             editMode: false,
-            actionButton: false,
+            editAllowed: false,
             titterDisabled: false,
             active: false,
             userId: false,
-            editAllowed: false,
-            transactionsModeFromUrl: false,
-            urlParams: UrlMixin.searchToObject()
         };
     }
 
-    allowEdit() {
-        console.log("Editing is allowed");
-        this.setState({
-            editAllowed: true
-        });
-    }
-
-    componentWillMount() {
-
-    }
-
-    componentDidMount() {
-        WindowActions.loginMessage.listen((msg)=> {
-            if (msg.profile) {
-                this.userId(msg.profile.id);
-            }
-        });
-    }
-
-    componentWillUnmount() {
-    }
-
-    redirectFromEditMode() {
-        window.location.replace(this.formatUrl(this.state.urlParams.edit) + '?edit');
-    }
-
-    switchToReadMode() {
-        this.setState({editMode: false});
-    }
-
-    switchToEditMode() {
-        this.setState({editMode: true});
-    }
-
-    userId(userId) {
-        this.setState({userId});
-    }
-
     isArticleShown() {
-        var search =  UrlMixin.searchToObject();
+        const search = UrlMixin.searchToObject(this.props.url);
         if (search) {
             if (search.list || search.cover) {
                 return false;
@@ -96,17 +61,18 @@ export class CreateDomCenter extends React.Component {
     }
 
     getEditUrl() {
+        const urlParams = UrlMixin.searchToObject(this.props.url);
         var condition = this.state.urlParams.edit === 'undefined' ||  this.state.urlParams.edit == undefined;
-        return condition ? window.location.href : this.state.urlParams.edit;
+        return condition ? window.location.href : urlParams.edit;
     }
 
-
     render() {
+        const urlParams = UrlMixin.searchToObject(this.props.url);
         const document = this.props.data;
         const showArticle = this.isArticleShown();
         const displayTitterStyle = (document.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
 
-        if ((this.state.urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
+        if ((urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
             let coreFrame = <Core article={this.getEditUrl()}/>;
             return this.generateCenterWithContents(coreFrame);
         }
@@ -120,7 +86,7 @@ export class CreateDomCenter extends React.Component {
           { !document.hasCommentId() ?
                                 commentsDisabledFrame :
                                   <div style={displayTitterStyle}>
-                                    {this.state.userId && <CreateTitter scripts={document.getData()} wrioID={this.state.userId}/> }
+                                    {this.state.userId && <CreateTitter scripts={document.data} wrioID={this.state.userId}/> }
                                   </div> }
         </div>);
 
@@ -137,16 +103,7 @@ export class CreateDomCenter extends React.Component {
         return (
           <div>
             <div className={className} id="centerWrp">
-              <AlertWelcome />
-              <AlertWarning />
               <Login />
-              <CreateBreadcrumb
-                converter={this.props.converter}
-                editMode={ this.state.editMode }
-                actionButton={ this.state.actionButton }
-                onReadClick={ this.state.urlParams.edit && this.state.urlParams.edit !== 'undefined' ? this.redirectFromEditMode.bind(this) : this.switchToReadMode.bind(this) }
-                onEditClick={ this.switchToEditMode.bind(this) }
-                editAllowed ={ this.state.editAllowed }/>
               {contents}
             </div>
           </div>
@@ -158,8 +115,6 @@ export class CreateDomCenter extends React.Component {
 
 export class TransactionsCenter extends CreateDomCenter {
     render() {
-       // this.state.actionButton = "Transactions";
-        this.state.transactionsModeFromUrl = true;
         return this.generateCenterWithContents (<CreateTransactions />);
 
     }
@@ -168,8 +123,6 @@ export class TransactionsCenter extends CreateDomCenter {
 
 export class PresaleCenter extends CreateDomCenter {
     render() {
-        // this.state.actionButton = "Transactions";
-        this.state.transactionsModeFromUrl = true;
         return this.generateCenterWithContents (<CreatePresale />);
 
     }
@@ -177,8 +130,8 @@ export class PresaleCenter extends CreateDomCenter {
 
 export class ChessCenter extends CreateDomCenter {
     render() {
-        this.state.actionButton = "Start";
-        return this.generateCenterWithContents (<Chess uuid={this.state.urlParams.start}/>);
+        const urlParams = UrlMixin.searchToObject(this.props.url);
+        return this.generateCenterWithContents (<Chess uuid={urlParams.start}/>);
 
     }
 }
@@ -186,9 +139,7 @@ export class ChessCenter extends CreateDomCenter {
 
 export class CoreCreateCenter extends CreateDomCenter {
     render() {
-
         return this.generateCenterWithContents (<Core />);
-
     }
 }
 
@@ -199,7 +150,6 @@ const editIframeStyles = {
 
 export class WebGoldCenter extends CreateDomCenter {
     render() {
-        this.state.actionButton = "Start";
         var wg = (<iframe src={getServiceUrl('webgold')+'/add_funds'} style={ editIframeStyles }/>);
         return this.generateCenterWithContents (wg);
 

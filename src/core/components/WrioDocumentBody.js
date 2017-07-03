@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import ArticleElement from './ArticleElement';
@@ -6,28 +7,20 @@ import UrlMixin from '../mixins/UrlMixin';
 import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument'
+import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
 /*
 *  Base class rendering document body
 * */
 
+type PropType = {
+    document: LdJsonDocument,
+    url : string
+};
+
 class DocumentBody extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: false
-        };
-    }
-
-    props: {
-        document: LdJsonDocument,
-        url : string
-    };
-
-    componentDidMount() {
-    }
-
+    props: PropType;
 
     render() {
         const document = this.props.document;
@@ -50,40 +43,17 @@ class DocumentBody extends React.Component {
         WrioDocumentActions.postUpdateHook();
     }
 
-    getItemLists(data) {
-        data = data || [];
-        return data.filter((o) => o instanceof ItemList)
-            .map( (list,key) => <CreateItemList data={list} key={key} />);
-        }
 
-    getContentByName(document,url) {
-        let listName = url.list;
-        if (url.cover) {
-            listName = 'cover';
-        }
-
-        if (typeof listName === 'undefined') {
-            return this.getArticleContents(document.getBlocks()); // show document if no list specified
-        } else {
-            // handle lists
-           listName = listName.toLowerCase();
-            let item = WrioDocument.getListItem(listName);
-            if (item) {
-                let {data, type} = item;
-                if (type === 'cover') {
-                    return this.getCoverList(data);
-                } else {
-                    return this.getItemLists(data);
-                }
-            }
-        }
+    getContentByName(document : LdJsonDocument, url : string) {
+        return this.getArticleContents(document); // show document if no list specified
     }
 
     // returns default Article view
     // if document contains article and itemlists, itemlists are not displayed in the default view
     // if no article, then we should display itemLists in the default view
 
-    getArticleContents(data) {
+    getArticleContents(document : LdJsonDocument) {
+        const data = document.getBlocks();
         let numArticles = 0;
         let numLists = 0;
         for (let item of data) {
@@ -107,9 +77,13 @@ class DocumentBody extends React.Component {
             });
     }
 
+    getItemLists(data : Array<LdJsonObject>) {
+        data = data || [];
+        return data.filter((o) => o instanceof ItemList)
+            .map((list, key) => <CreateItemList data={list} key={key}/>);
+    }
 
 }
 
-DocumentBody.propTypes = {};
 
 export default DocumentBody;

@@ -1,12 +1,14 @@
+/* @flow */
 import React from 'react';
 import ArticleLists from './ArticleLists';
 import {replaceSpaces} from '../mixins/UrlMixin';
 import SocialPost from "./SocialPost.js";
+import ArticleEntity from '../jsonld/entities/Article'
 
-var ArticleElement = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+class ArticleElement extends React.Component{
+    props: {
+        data: ArticleEntity
+    };
 
     articleBody () {
         const element = this.props.data;
@@ -15,14 +17,14 @@ var ArticleElement = React.createClass({
             return <SocialPost data={element} />;
         }
         const elements = element.getBody();
-        return elements.map(function (item,i) {
+        return elements.map((item,i) => {
             return (<div className="paragraph" key={i}>
               <div className="col-xs-12">
                 <div>{item}</div>
               </div>
             </div>);
-        }, this);
-    },
+        });
+    }
 
     render () {
         const element = this.props.data;
@@ -53,6 +55,6 @@ var ArticleElement = React.createClass({
             </section>
         );
     }
-});
+};
 
 export default ArticleElement;

@@ -1,10 +1,6 @@
-/**
- * Created by michbil on 25.06.17.
- */
-
 /* @flow */
-
 import React from 'react';
+// $FlowFixMe
 import Reflux from 'reflux'
 import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
 import ArticleTableOfContents from './core/material-components/ArticleNavgiation'
@@ -14,110 +10,10 @@ import UrlMixin from './core/mixins/UrlMixin.js';
 import {Plus} from "./widgets/Plus/Plus";
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
-import {Tab,Tabs, Row, Col, Nav, NavItem} from 'react-bootstrap'
+
 
 import CoverHeader from './core/material-components/CoverHeader'
-
-
-const ArticleTabs = ({center}) => {
-        return (<div className="card card-nav-tabs">
-
-            <div className="header headerprimary">
-                <div className="navtabsnavigation">
-                    <div className="navtabswrapper">
-                        <ul className="nav navtabs" datatabs="tabs">
-                            <li className="active">
-                                <a href="#home" datatoggle="tab">
-                                    Home
-                                    <div className="ripplecontainer"></div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#collections" datatoggle="tab">
-                                    Collections
-                                    <div className="ripplecontainer"></div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#read_later" datatoggle="tab">
-                                    Read later <label>4</label>
-                                    <div className="ripplecontainer"></div>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
-                    </div>
-            </div>
-
-            <div className="card-content">
-                <div className="tab-content">
-                    <div className="tab-pane active" id="home">
-                        {center}
-                    </div>
-                    <div className="tab-pane" id="collections">
-                        <p>Lists</p>
-                    </div>
-                    <div className="tab-pane" id="opened">
-                        <p>Opened</p>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>);
-};
-
-
-const ArticleTabsNew = ({center}) => {
-    const handleSelect = (e) => console.log(e);
-    const activeKey = 1;
-    return (
-        <Tab.Container id="left-tabs-example" defaultActiveKey="home">
-        <Row className="clearfix">
-            <div className="header header-primary">
-                <div className="nav-tabs-navigation">
-                    <div className="nav-tabs-wrapper">
-                        <Nav bsStyle="tabs">
-                            <NavItem eventKey="home" >
-                                <a href="#home" data-toggle="tab">
-                                    Home
-                                    <div className="ripple-container"></div>
-                                </a>
-                            </NavItem>
-                            <NavItem eventKey="collections">
-                                <a href="#collections" data-toggle="tab">
-                                    Collections
-                                    <div className="ripple-container"></div>
-                                </a>
-                            </NavItem>
-                            <NavItem eventKey="ReadLater">
-                                <a href="#read_later" data-toggle="tab">
-                                    Read later <label>4</label>
-                                    <div className="ripple-container"></div>
-                                </a>
-                            </NavItem>
-                        </Nav>
-                    </div>
-                </div>
-            </div>
-
-
-            <Tab.Content animation>
-                <Tab.Pane eventKey="home">
-                    {center}
-                </Tab.Pane>
-                <Tab.Pane eventKey="collections">
-                    Tab 2 content
-                </Tab.Pane>
-                <Tab.Pane eventKey="ReadLater">
-                    Tab 2 content
-                </Tab.Pane>
-            </Tab.Content>
-        </Row>
-    </Tab.Container>);
-
-
-};
+import Tabs from './core/material-components/Tabs'
 
 
 const RightNav = () => {
@@ -128,7 +24,7 @@ const RightNav = () => {
     </div>);
 };
 
-const NewUI = ({center, coverData, chapters}) => {
+const NewUI = ({center, coverData, chapters, externals}) => {
     return (
         <div>
             <RightNav />
@@ -137,7 +33,7 @@ const NewUI = ({center, coverData, chapters}) => {
                   <ArticleTableOfContents articleItems={chapters} />
             </div>
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
-                    <ArticleTabs center={center}/>
+                    <Tabs center={center} externals={externals}/>
             </div>
         </div>
     );
@@ -146,10 +42,6 @@ const NewUI = ({center, coverData, chapters}) => {
 class Main extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            url:  UrlMixin.searchToObject(),
-            mainPage : this.props.document
-        };
         this.store = WrioDocumentStore;
     }
 
@@ -166,41 +58,45 @@ class Main extends Reflux.Component {
 
 
     render() {
-        const url = this.props.url;
+        const url : string = this.state.url;
+        const urlDecoded = UrlMixin.searchToObject(url);
 
-        if (this.state.url.start && (window.location.origin === getServiceUrl('chess'))) {
-            return this.renderWithCenter(<ChessCenter  data={this.state.mainPage} url={url} />);
+        if (urlDecoded.start && (window.location.origin === getServiceUrl('chess'))) {
+            return this.renderWithCenter(<ChessCenter  data={this.props.document} url={url} />);
         }
 
-        if (this.state.url.transactions) {
-            return this.renderWithCenter(<TransactionsCenter  data={this.state.mainPage} url={url}/>);
+        if (urlDecoded.transactions) {
+            return this.renderWithCenter(<TransactionsCenter  data={this.props.document} url={url}/>);
         }
 
-        if (this.state.url.presale && (window.location.hostname.startsWith('webgold.wrioos.') || window.location.hostname.startsWith('wrioos.local'))) {
-            return this.renderWithCenter(<PresaleCenter  data={this.state.mainPage} url={url} />);
+        if (urlDecoded.presale && (window.location.hostname.startsWith('webgold.wrioos.') ||
+            window.location.hostname.startsWith('wrioos.local'))) {
+            return this.renderWithCenter(<PresaleCenter  data={this.props.document} url={url} />);
         }
 
-        if (this.state.url.create) {
-            return this.renderWithCenter(<CoreCreateCenter data={this.state.mainPage} url={url} />);
+        if (urlDecoded.create) {
+            return this.renderWithCenter(<CoreCreateCenter data={this.props.document} url={url} />);
         }
 
-        if (this.state.url.add_funds) {
-            return this.renderWithCenter(<WebGoldCenter data={this.state.mainPage} url={url} />);
+        if (urlDecoded.add_funds) {
+            return this.renderWithCenter(<WebGoldCenter data={this.props.document} url={url} />);
         }
 
 
-        return this.renderWithCenter(<CreateDomCenter data={this.state.mainPage} url={url} />);
+        return this.renderWithCenter(<CreateDomCenter data={this.props.document} url={url} />);
     }
 
     renderWithCenter(center) {
-        let data : LdJsonDocument = this.state.mainPage;
-        let coverData = this.state.lists;
+        let data : LdJsonDocument = this.props.document;
+        let coverData = this.state.lists.filter(list => list.type == 'cover');
+        let externals = this.state.lists.filter(list => list.type == 'external');
 
         return (<NewUI
             chapters={this.state.toc.chapters}
             data={data}
             center={center}
             coverData={coverData}
+            externals={externals}
         />)}
 
 }
