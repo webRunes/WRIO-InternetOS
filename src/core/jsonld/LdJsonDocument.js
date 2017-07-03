@@ -5,6 +5,18 @@ import LdJsonObject from './entities/LdJsonObject.js';
 
 type LdJsonObjects = Array<LdJsonObject>
 
+
+function extractAuthorWrioID (author : string) : string {
+    var reg = /\?wr\.io=([0-9]*)$/gm;
+    var regResult = reg.exec(author);
+    var wrioID = regResult ? regResult[1] : !1;
+    if (wrioID) {
+        return wrioID;
+    } else {
+        throw new Error("Unable to extract author id");
+    }
+}
+
 class LdJsonDocument {
     blocks: LdJsonObjects;
     data: Array<Object>;
@@ -50,6 +62,20 @@ class LdJsonDocument {
         });
         return ret;
     }
+
+    getAuthorWrioId() {
+        var author = this.getJsonLDProperty('author');
+        try {
+            if (author) {
+                return extractAuthorWrioID(author)
+            }
+        } catch (e) {
+            console.log(e);
+            return undefined;
+        }
+
+    }
+
 
     hasCommentId() {
         var comment = this.getJsonLDProperty('comment');

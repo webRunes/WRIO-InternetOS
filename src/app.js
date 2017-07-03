@@ -83,7 +83,7 @@ class Main extends Reflux.Component {
         }
 
 
-        return this.renderWithCenter(<CreateDomCenter data={this.props.document} url={url} />);
+        return this.renderWithCenter(<CreateDomCenter data={this.props.document} url={url} profile={this.state.profile} />);
     }
 
     renderWithCenter(center) {

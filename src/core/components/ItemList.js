@@ -25,7 +25,7 @@ class ItemListElement extends React.Component {
                       {title}
                     </h2>
                   </header>
-                  <div className="col-xs-12 col-md-6 pull-right">
+                  <div className="col-xs-12 col-md-3 pull-right">
                     <Thumbnail image={image} />
                     <ul className="details">
                       <li>Created: {createdDate}</li>
@@ -33,7 +33,7 @@ class ItemListElement extends React.Component {
                     </ul>
                   </div>
 
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-9">
                     <p>{about}</p>
                   </div>
                 </div>

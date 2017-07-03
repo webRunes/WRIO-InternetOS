@@ -7,6 +7,7 @@ import {CrossStorageFactory} from './CrossStorageFactory.js';
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
 import UIActions from "../actions/UI"
+import WindowActions from "../actions/WindowActions"
 import getHttp from '../store/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
@@ -28,11 +29,13 @@ class WrioDocument extends Reflux.Store {
         lists: Array<LdJsonDocument>,
         toc : Object;
         url: string;
+        wrioID: ?string; // current logged in user WRIO-ID
+        profile: ?Object;
     };
 
     constructor () {
         super();
-        this.listenables = WrioDocumentActions;
+        this.listenables = [WrioDocumentActions, WindowActions];
         this.updateHook = null;
         this.state = {
             editAllowed: false,
@@ -40,6 +43,7 @@ class WrioDocument extends Reflux.Store {
             url: window.location.href,
             // $FlowFixMe
             mainPage: null,
+            profile: null,
             toc: {
                 covers: [],
                 chapters: [],
@@ -186,15 +190,32 @@ class WrioDocument extends Reflux.Store {
         return urlParams.edit && urlParams.edit !== 'undefined';
     }
 
-
     // Listen to the login iframe messages
 
     async onGotProfileUrl(profileUrl : Object) {
-        const _author = await this.getAuthor();
-        console.log('Checking if editing allowed: ', profileUrl, _author);
-        if (UrlMixin.compareProfileUrls(profileUrl,_author)) {
-            this.setState({editAllowed: true})
+
+    }
+
+    async onLoginMessage (jsmsg) {
+        console.log("LoginMessage arrived");
+        if (jsmsg.profile) {
+
+            this.setState({busy: false});
+
+            var profile = jsmsg.profile;
+            UIActions.gotWrioID(profile.id);
+            UIActions.gotProfileUrl(profile.url);
+            this.setState({wrioID: profile.id,profile});
+
+            const _author = await this.getAuthor();
+            console.log('Checking if editing allowed: ', profile.url, _author);
+            if (UrlMixin.compareProfileUrls(profile.url,_author)) {
+                this.setState({editAllowed: true})
+            }
+
+
         }
+
     }
 
 
@@ -205,12 +226,14 @@ class WrioDocument extends Reflux.Store {
             const doc: LdJsonDocument = await getHttp(url);
             return doc.getJsonLDProperty('author');
         } else {
-            let author = this.mainPage.getJsonLDProperty('author');
+            let author = this.state.mainPage.getJsonLDProperty('author');
             return author;
         }
     }
 
 };
+
+
 
 
 export default WrioDocument;

@@ -17,7 +17,6 @@ import CommentsDisabled from './misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 
 
-var domain : string= getDomain();
 
 
 
@@ -25,6 +24,7 @@ export class CreateDomCenter extends React.Component {
 
     props: {
         data : LdJsonDocument,
+        profile : ?Object,
         url : string
     };
 
@@ -32,7 +32,6 @@ export class CreateDomCenter extends React.Component {
         editMode: boolean,
         titterDisabled: boolean,
         active: boolean,
-        userId: boolean,
         editAllowed: boolean,
     };
 
@@ -46,8 +45,12 @@ export class CreateDomCenter extends React.Component {
             editAllowed: false,
             titterDisabled: false,
             active: false,
-            userId: false,
+            wrioID: props.wrioID
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({profile: nextProps.profile})
     }
 
     isArticleShown() {
@@ -78,7 +81,7 @@ export class CreateDomCenter extends React.Component {
         }
 
         const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
-        const contents = (<div>
+        const contents = (<div id="centerWrp">
           <WrioDocumentBody
               document={document}
               url={this.props.url}
@@ -86,27 +89,19 @@ export class CreateDomCenter extends React.Component {
           { !document.hasCommentId() ?
                                 commentsDisabledFrame :
                                   <div style={displayTitterStyle}>
-                                    {this.state.userId && <CreateTitter scripts={document.data} wrioID={this.state.userId}/> }
+                                    <CreateTitter document={document} profile={this.state.profile}/>
                                   </div> }
         </div>);
 
-        return this.generateCenterWithContents(contents);
+        return contents;
     }
 
     generateCenterWithContents(contents) {
 
-        var className = classNames({
-            '': true,
-            'active': this.state.active
-        });
-
         return (
-          <div>
-            <div className={className} id="centerWrp">
-              <Login />
+            <div id="centerWrp">
               {contents}
             </div>
-          </div>
         );
     }
 

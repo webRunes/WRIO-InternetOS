@@ -40,63 +40,41 @@ class Login extends React.Component{
 
     }
 
-    componentDidMount() {
-        this.setActions();
-    }
 
-    setActions() {
 
-        WindowActions.loginMessage.listen((jsmsg) => {
-            if (jsmsg.login == "success") {
-                //location.reload();
-
-            }
-
-            if (jsmsg.profile) {
-
-                this.setState({busy:false});
-
-                var profile = jsmsg.profile;
-                UIActions.gotWrioID(profile.id);
-                UIActions.gotProfileUrl(profile.url);
-                if (!profile.temporary) {
-                    UserStore.saveLoggedUser(profile.id,profile);
+    setTemporoary(temporary) {
+        if (temporary) {
+            this.setState({
+                title: {
+                    text: "Logged as I'm Anonymous ",
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Upgrade guest account for free",
+                    label: profile.days + " days left",
+                    visible: true
                 }
-
-
-                if (profile.temporary) {
-                    this.setState({
-                        title: {
-                            text: "Logged as I'm Anonymous ",
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Upgrade guest account for free",
-                            label: profile.days + " days left",
-                            visible: true
-                        }
-                    });
-                } else {
-                    this.setState({
-                        title: {
-                            text: "Logged in as " + profile.name,
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Log out",
-                            label: profile.days + " days left",
-                            visible: false
-                        }
-                    });
+            });
+        } else {
+            this.setState({
+                title: {
+                    text: "Logged in as " + profile.name,
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Log out",
+                    label: profile.days + " days left",
+                    visible: false
                 }
-            }
-        });
+            });
+        }
+
     }
 
     static openAuthPopup(e) {
@@ -145,6 +123,8 @@ class Login extends React.Component{
         if (this.state.busy) {
             return (<img src="https://default.wrioos.com/img/loading.gif" />);
         }
+
+
 
         if (this.state.upgrade.visible) {
             upgrade = (<li>
