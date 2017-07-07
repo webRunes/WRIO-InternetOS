@@ -6,5 +6,6 @@ module.exports = Reflux.createActions([
     'update',
     'del',
     'plusActive',
-    'clickLink'
+    'clickLink',
+    'gotWrioID'
 ]);

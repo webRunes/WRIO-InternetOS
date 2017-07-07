@@ -15,6 +15,8 @@ import Carousel from '../components/misc/FixedCarousel'
 const nextIcon = ( <i className="material-icons">keyboard_arrow_right</i>);
 const prevIcon = ( <i className="material-icons">keyboard_arrow_left</i>);
 
+const defaultBg = "https://default.wrioos.com/img/default-cover-bg.png";
+
 /**
  * Renders cover text contents
  * @param cover
@@ -49,7 +51,7 @@ const CoverText = ({cover} : {cover : ImageObject}) => {
                 bulletList.push(<span key={index++}>{item.text}</span>);
             } else {
                 purgeList();
-                descr.push(<div key={index++} className="description">{item.text}</div>);
+                descr.push(<div key={index++} >{item.text}</div>);
             }
 
         });
@@ -61,6 +63,17 @@ const CoverText = ({cover} : {cover : ImageObject}) => {
 
 };
 
+const carouselStyle = (path,height) => {
+    return {
+        background: `url('${path}') no-repeat center center fixed`,
+        WebkitBackgroundSize:"cover",
+        MozBackgroundSize:"cover",
+        OBackgroundSize:"cover",
+        BackgroundSize:"cover",
+        transform: "translate3d(0px, 0px, 0px)",
+        minHeight:height
+    }
+};
 
 const RenderCover = ({cover} : {cover : LdJsonObject}) => {
     const image : ImageObject = cover.children[0];
@@ -69,17 +82,9 @@ const RenderCover = ({cover} : {cover : LdJsonObject}) => {
     var name = image.getKey('name');
     var about = image.getKey('about');
 
-    const carouselStyle = {
-        background: `url('${path}') no-repeat center center fixed`,
-        WebkitBackgroundSize:"cover",
-        MozBackgroundSize:"cover",
-        OBackgroundSize:"cover",
-        BackgroundSize:"cover",
-        transform: "translate3d(0px, 0px, 0px)",
-        minHeight:"100vh"
-    };
 
-    return (<div style={carouselStyle} className="cover-bg">
+
+    return (<div style={carouselStyle(path,"100vh")} className="cover-bg">
         <div className="carousel-caption">
             <div className="carousel-caption">
                 <div className="row">
@@ -125,12 +130,13 @@ const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
 const CoverHeader = ({coverData} : {coverData : Array<Object>}) => {
 
     console.log("RENDERING", coverData);
+    const headerStyle = (coverData.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
     return (
-        <div className="page-header">
+        <div className="page-header" style={headerStyle}>
             <div className="cover col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
                 <div className="cover-left">
                     <div className="card card-profile card-plain">
-                        <div className="card-image">
+                        <div className="card-image hidden">
                             <a href="#" className="img">
                                 <img src="https://default.wrioos.com/img/logo.png"/>
                             </a>
@@ -143,14 +149,15 @@ const CoverHeader = ({coverData} : {coverData : Array<Object>}) => {
                 </div>
                 <CoverNavigationButtons items={coverData}/>
             </div>
-
+            {(coverData.length != 0) ?
             <Carousel defaultActiveIndex={0} nextIcon={nextIcon} prevIcon={prevIcon}>
             {coverData.map((item, key)=> {
                 return (<CarouselItem key={key}>
                     <RenderCover cover={item.data} />
                 </CarouselItem>)
             })}
-            </Carousel>
+            </Carousel> : <div style={carouselStyle(defaultBg,"120px")} className="cover-bg" />
+            }
 
         </div>);
 

@@ -9,6 +9,7 @@ import { AppContainer } from 'react-hot-loader';
 import Redbox from 'redbox-react'
 import WindowMessage from './core/store/WindowMessage' // it's not unused import! required to initiialize window message bus
 
+
 function createContainer() : HTMLElement {
     var d = document.createElement('div');
     d.id = 'content';

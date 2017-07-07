@@ -14,7 +14,7 @@ import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import LdJsonDocument from '../jsonld/LdJsonDocument'
 import TableOfContents from './tocnavigation'
 import {replaceSpaces} from '../mixins/UrlMixin'
-
+import PlusActions from '../../widgets/Plus/actions/PlusActions'
 
 
 /**
@@ -44,6 +44,7 @@ class WrioDocument extends Reflux.Store {
             // $FlowFixMe
             mainPage: null,
             profile: null,
+            tabKey: "home",
             toc: {
                 covers: [],
                 chapters: [],
@@ -127,7 +128,7 @@ class WrioDocument extends Reflux.Store {
             window.location.hash = orig + ' ';
             window.location.hash = orig;
 
-        },100);
+        },1000);
     }
 
 
@@ -182,7 +183,9 @@ class WrioDocument extends Reflux.Store {
     onArticle (id: string, hash: string, isRet: boolean) {
         console.log("====OnARTICLE");
         var type = 'article';
+        this.trigger({tabKey: "home"});
         this._setUrlWithHash(hash, isRet);
+
     }
 
     isEditingRemotePage() : boolean {
@@ -190,11 +193,6 @@ class WrioDocument extends Reflux.Store {
         return urlParams.edit && urlParams.edit !== 'undefined';
     }
 
-    // Listen to the login iframe messages
-
-    async onGotProfileUrl(profileUrl : Object) {
-
-    }
 
     async onLoginMessage (jsmsg) {
         console.log("LoginMessage arrived");
@@ -204,6 +202,7 @@ class WrioDocument extends Reflux.Store {
 
             var profile = jsmsg.profile;
             UIActions.gotWrioID(profile.id);
+            PlusActions.gotWrioID(profile.id);
             UIActions.gotProfileUrl(profile.url);
             this.setState({wrioID: profile.id,profile});
 
@@ -229,6 +228,13 @@ class WrioDocument extends Reflux.Store {
             let author = this.state.mainPage.getJsonLDProperty('author');
             return author;
         }
+    }
+
+    // Manage tabs!
+
+    onTabClick(key) {
+        console.log("TK", key);
+        this.trigger({tabKey: key});
     }
 
 };

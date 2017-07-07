@@ -7,10 +7,9 @@ import ArticleTableOfContents from './core/material-components/ArticleNavgiation
 import {getServiceUrl,getDomain} from './core/servicelocator.js';
 import LdJsonDocument from './core/jsonld/LdJsonDocument';
 import UrlMixin from './core/mixins/UrlMixin.js';
-import {Plus} from "./widgets/Plus/Plus";
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
-
+import PlusStore from './widgets/Plus/stores/PlusStore'
 
 import CoverHeader from './core/material-components/CoverHeader'
 import Tabs from './core/material-components/Tabs'
@@ -24,7 +23,9 @@ const RightNav = () => {
     </div>);
 };
 
-const NewUI = ({center, coverData, chapters, externals}) => {
+
+
+const NewUI = ({center, coverData, chapters, externals,editAllowed,RIL,tabKey}) => {
     return (
         <div>
             <RightNav />
@@ -33,7 +34,12 @@ const NewUI = ({center, coverData, chapters, externals}) => {
                   <ArticleTableOfContents articleItems={chapters} />
             </div>
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
-                    <Tabs center={center} externals={externals}/>
+                    <Tabs center={center}
+                          externals={externals}
+                          editAllowed={editAllowed}
+                          RIL={RIL}
+                          tabKey={tabKey}
+                    />
             </div>
         </div>
     );
@@ -42,7 +48,7 @@ const NewUI = ({center, coverData, chapters, externals}) => {
 class Main extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.store = WrioDocumentStore;
+        this.stores = [WrioDocumentStore,PlusStore];
     }
 
     propTypes: {
@@ -92,11 +98,14 @@ class Main extends Reflux.Component {
         let externals = this.state.lists.filter(list => list.type == 'external');
 
         return (<NewUI
+            editAllowed={this.state.editAllowed}
             chapters={this.state.toc.chapters}
             data={data}
             center={center}
             coverData={coverData}
             externals={externals}
+            RIL={this.state.readItLater}
+            tabKey={this.state.tabKey}
         />)}
 
 }

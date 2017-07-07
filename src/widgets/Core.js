@@ -47,7 +47,16 @@ class Core extends React.Component{
               <h5>Need help or inspiration?</h5>
               <p>Check out <a href="https://core.wrioos.com/Get_Inspired/">Get Inspired</a> to get additional information and samples of the content that you can use in your webpages.</p>
             </div>
-            <iframe id="coreiframe" ref="coreiframe" className="core" src={url}/>
+            <iframe id="coreiframe"
+                    ref="coreiframe"
+                    className="core"
+                    src={url}
+                style={
+                {border:"none",
+                  minHeight:"240px",
+                  height:"240px",
+                  width:"100%"
+                }} />
           </div>
         );
     }

@@ -63,11 +63,7 @@ export class CreateDomCenter extends React.Component {
         return true;
     }
 
-    getEditUrl() {
-        const urlParams = UrlMixin.searchToObject(this.props.url);
-        var condition = this.state.urlParams.edit === 'undefined' ||  this.state.urlParams.edit == undefined;
-        return condition ? window.location.href : urlParams.edit;
-    }
+
 
     render() {
         const urlParams = UrlMixin.searchToObject(this.props.url);
@@ -75,10 +71,6 @@ export class CreateDomCenter extends React.Component {
         const showArticle = this.isArticleShown();
         const displayTitterStyle = (document.hasArticle() && showArticle) ? {display:"block"} : {display:"none"}; // make sure titter is hidden for covers and lists
 
-        if ((urlParams.edit && this.state.editAllowed) ||  this.state.editMode) {
-            let coreFrame = <Core article={this.getEditUrl()}/>;
-            return this.generateCenterWithContents(coreFrame);
-        }
 
         const commentsDisabledFrame = showArticle &&  <CommentsDisabled isAuthor={this.state.editAllowed}/>;
         const contents = (<div id="centerWrp">

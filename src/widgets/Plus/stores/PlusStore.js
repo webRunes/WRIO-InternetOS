@@ -5,8 +5,8 @@ import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../utils/tools';
 import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
 import UserActions from '../../../core/actions/UserActions.js';
-import WrioDocumentStore from '../../../core/actions/WrioDocument.js';
-import UIActions from '../../../core/actions/UI.js';
+import WrioDocumentStore from '../../../core/store/WrioDocument.js';
+//import UIActions from '../../../core/actions/UI.js';
 import {
     addPageToTabs,
     hasActive,
@@ -64,17 +64,47 @@ const extractCurrentPageInformation = () => {
     return result;
 };
 
+
+function getActiveTab(data) {
+    var hasActive, childActive=[];
+    const getChildren = (data) => {
+        if (typeof data == 'object') {
+            return Object.values(data);
+        } else {
+            return []
+        }
+    }
+    if (data) {
+        Object.keys(data).forEach((name) => {
+            if (data[name].active) {
+                hasActive = true;
+                childActive = getChildren(data[name].children);
+                console.log("Active plus branch", data[name])
+            }
+        });
+
+    }
+    return childActive;
+}
+
 export default Reflux.createStore({
     listenables: PlusActions,
     /**
      * Get inital plus data from localStorage
      */
      async init () {
+
+    },
+
+    async onGotWrioID(wrioID) {
+        console.log("GWR",wrioID);
+        if (this.id) {
+            return;
+        }
         await storage.onConnect();
-        UIActions.gotWrioID.listen(async (prof) => {
-            this.id = prof;
-            await this.initState();
-        });
+        this.id = wrioID;
+        console.log("PLUS store got wrioID",this.id);
+        await this.initState();
     },
 
     async initState() {
@@ -107,8 +137,15 @@ export default Reflux.createStore({
         } else {
             this.data = _norm;
         }
-        console.log(this.data);
-        this.trigger(this.data);
+        this.setState(this.data);
+
+    },
+
+    setState(data) {
+
+        const d = {plusTabs:data, readItLater: getActiveTab(data)};
+        console.log(d);
+        this.trigger(d);
     },
 
     isPlusActive() {
@@ -182,7 +219,7 @@ export default Reflux.createStore({
 
         await this.persistPlusDataToLocalStorage(newdata);
         this.data = newdata;
-        this.trigger(this.data);
+        this.setState(this.data);
 
         if (wasActive) {
             window.location.href  = next ? next : getPlusUrl(this.id);
@@ -207,8 +244,6 @@ export default Reflux.createStore({
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
         }
 
-        // uncomment for loading page in the same tab
-        // return WrioDocumentStore.loadDocumentWithUrl.trigger(data.url);
 
         try {
             await storage.onConnect();
