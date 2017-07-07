@@ -68,28 +68,52 @@ class Main extends Reflux.Component {
         const urlDecoded = UrlMixin.searchToObject(url);
 
         if (urlDecoded.start && (window.location.origin === getServiceUrl('chess'))) {
-            return this.renderWithCenter(<ChessCenter  data={this.props.document} url={url} />);
+            return this.renderWithCenter(<ChessCenter  data={this.props.document}
+                                                       url={url}
+                                                       profile={this.state.profile}
+                                                       wrioID={this.state.wrioID}
+            />);
         }
 
         if (urlDecoded.transactions) {
-            return this.renderWithCenter(<TransactionsCenter  data={this.props.document} url={url}/>);
+            return this.renderWithCenter(<TransactionsCenter  data={this.props.document}
+                                                              url={url}
+                                                              profile={this.state.profile}
+                                                              wrioID={this.state.wrioID}
+            />);
         }
 
         if (urlDecoded.presale && (window.location.hostname.startsWith('webgold.wrioos.') ||
             window.location.hostname.startsWith('wrioos.local'))) {
-            return this.renderWithCenter(<PresaleCenter  data={this.props.document} url={url} />);
+            return this.renderWithCenter(<PresaleCenter  data={this.props.document}
+                                                         url={url}
+                                                         profile={this.state.profile}
+                                                         wrioID={this.state.wrioID}
+            />);
         }
 
         if (urlDecoded.create) {
-            return this.renderWithCenter(<CoreCreateCenter data={this.props.document} url={url} />);
+            return this.renderWithCenter(<CoreCreateCenter data={this.props.document}
+                                                           url={url}
+                                                           profile={this.state.profile}
+                                                           wrioID={this.state.wrioID}
+            />);
         }
 
         if (urlDecoded.add_funds) {
-            return this.renderWithCenter(<WebGoldCenter data={this.props.document} url={url} />);
+            return this.renderWithCenter(<WebGoldCenter data={this.props.document}
+                                                        url={url}
+                                                        profile={this.state.profile}
+                                                        wrioID={this.state.wrioID}
+            />);
         }
 
 
-        return this.renderWithCenter(<CreateDomCenter data={this.props.document} url={url} profile={this.state.profile} />);
+        return this.renderWithCenter(<CreateDomCenter data={this.props.document}
+                                                      url={url}
+                                                      profile={this.state.profile}
+                                                      wrioID={this.state.wrioID}
+        />);
     }
 
     renderWithCenter(center) {

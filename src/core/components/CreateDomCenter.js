@@ -17,40 +17,42 @@ import CommentsDisabled from './misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 
 
-
+type CenterProps = {
+    data : LdJsonDocument,
+    profile : ?Object,
+    url : string,
+    wrioID: ?string
+};
 
 
 export class CreateDomCenter extends React.Component {
 
-    props: {
-        data : LdJsonDocument,
-        profile : ?Object,
-        url : string
-    };
+    props: CenterProps;
 
     state: {
         editMode: boolean,
         titterDisabled: boolean,
         active: boolean,
         editAllowed: boolean,
+        profile: ?Object,
+        wrioID: ?string
     };
 
-    constructor(props : {
-        data : LdJsonDocument,
-        url : string
-    }) {
+    constructor(props : CenterProps) {
         super(props);
         this.state = {
             editMode: false,
             editAllowed: false,
             titterDisabled: false,
             active: false,
-            wrioID: props.wrioID
+            wrioID: props.wrioID,
+            profile: null
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({profile: nextProps.profile})
+    componentWillReceiveProps(nextProps : CenterProps) {
+        this.setState({profile: nextProps.profile,
+                        wrioID:nextProps.wrioID});
     }
 
     isArticleShown() {
@@ -81,7 +83,10 @@ export class CreateDomCenter extends React.Component {
           { !document.hasCommentId() ?
                                 commentsDisabledFrame :
                                   <div style={displayTitterStyle}>
-                                    <CreateTitter document={document} profile={this.state.profile}/>
+                                    <CreateTitter document={document}
+                                                  profile={this.state.profile}
+                                                  wrioID={this.state.wrioID}
+                                    />
                                   </div> }
         </div>);
 

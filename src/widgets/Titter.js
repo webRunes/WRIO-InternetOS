@@ -10,7 +10,8 @@ var domain = getDomain();
 
 type TitterProps = {
     document: LdJsonDocument,
-    profile: ?Object
+    profile: ?Object,
+    wrioID: ?string
 };
 
 class TitterWidget extends React.Component {
@@ -30,20 +31,21 @@ class TitterWidget extends React.Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps : TitterProps) {
         this.initProps(nextProps);
     }
 
-    initProps(props) {
+    initProps(props : TitterProps) {
         const authorId = this.props.document.getAuthorWrioId();
         const origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
 
+        const id =
 
         this.state =  {
             profile: props.profile,
             addComment: 'Add comment',
             article: this.props.document.hasArticle(),
-            titterFrameUrl: `${getServiceUrl('titter')}/iframe/?origin=${origin}&author=${authorId}&userID=${this.props.wrioID}`,
+            titterFrameUrl: `${getServiceUrl('titter')}/iframe/?origin=${origin}&author=${authorId || ""}&userID=${this.props.wrioID || ""}`,
         };
     }
 

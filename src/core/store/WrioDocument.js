@@ -45,6 +45,7 @@ class WrioDocument extends Reflux.Store {
             mainPage: null,
             profile: null,
             tabKey: "home",
+            wrioID: null,
             toc: {
                 covers: [],
                 chapters: [],
@@ -194,7 +195,7 @@ class WrioDocument extends Reflux.Store {
     }
 
 
-    async onLoginMessage (jsmsg) {
+    async onLoginMessage (jsmsg : Object) {
         console.log("LoginMessage arrived");
         if (jsmsg.profile) {
 
@@ -232,7 +233,7 @@ class WrioDocument extends Reflux.Store {
 
     // Manage tabs!
 
-    onTabClick(key) {
+    onTabClick(key : string) {
         console.log("TK", key);
         this.trigger({tabKey: key});
     }

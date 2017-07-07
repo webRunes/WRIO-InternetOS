@@ -22,7 +22,7 @@ function wrapFixture(scripts) {
 
 var docScripts;
 
-
+/*
 let s,doc;
 describe('mention test', () => {
     before(() => {
@@ -45,4 +45,4 @@ describe('mention test', () => {
 
     });
 
-});
+});*/
