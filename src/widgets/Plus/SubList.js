@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import sortBy from 'lodash.sortby';
 import some from 'lodash.some';
 import normURL from './utils/normURL';
-import {CrossStorageFactory} from '../../core/store/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../core/utils/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 
 var storage = CrossStorageFactory.getCrossStorage();

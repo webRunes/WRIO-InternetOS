@@ -2,20 +2,19 @@
 /**
  * Created by michbil on 30.03.16.
  */
-import {CrossStorageFactory} from './CrossStorageFactory.js';
+import {CrossStorageFactory} from '../utils/CrossStorageFactory.js';
 // $FlowFixMe
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
-import UIActions from "../actions/UI"
 import WindowActions from "../actions/WindowActions"
-import getHttp from '../store/request.js';
+import getHttp from '../utils/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import LdJsonDocument from '../jsonld/LdJsonDocument'
-import TableOfContents from './tocnavigation'
+import TableOfContents from '../utils/tocnavigation'
 import {replaceSpaces} from '../mixins/UrlMixin'
 import PlusActions from '../../widgets/Plus/actions/PlusActions'
-
+import CoverActions from '../actions/CoverActions'
 
 /**
  * Store that handles state of entire WRIO-document
@@ -70,13 +69,10 @@ class WrioDocument extends Reflux.Store {
         this.setState({mainPage: data,url,toc});
 
         toc.covers.map(async (cover : Object) => {
-            console.log(cover);
             if (cover.url) {
                 try {
                     const doc : LdJsonDocument = await getHttp(cover.url);
-                    let lists = this.state.lists;
-                    lists.push(Object.assign(cover, {data: doc.getBlocks()[0],type:'cover'}));
-                    this.setState({lists});
+                    CoverActions.addCover(cover, doc);
                 } catch (err) {
                     console.log(`Unable to download cover ${cover.url}`);
                     return;
@@ -202,9 +198,7 @@ class WrioDocument extends Reflux.Store {
             this.setState({busy: false});
 
             var profile = jsmsg.profile;
-            UIActions.gotWrioID(profile.id);
             PlusActions.gotWrioID(profile.id);
-            UIActions.gotProfileUrl(profile.url);
             this.setState({wrioID: profile.id,profile});
 
             const _author = await this.getAuthor();

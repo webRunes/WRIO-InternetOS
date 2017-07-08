@@ -10,26 +10,45 @@ import UrlMixin from './core/mixins/UrlMixin.js';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
 import PlusStore from './widgets/Plus/stores/PlusStore'
-
+import Login from './widgets/Login.js';
 import CoverHeader from './core/material-components/CoverHeader'
 import Tabs from './core/material-components/Tabs'
-
+import CoverStore from './core/store/CoverStore'
 
 const RightNav = () => {
     return ( <div className="right-nav">
-        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">highlight_off</i></a>
+        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right"><i className="material-icons dp_big">highlight_off</i></a>
         <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
         <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">share</i></a>
+
     </div>);
 };
 
+const LoginBar = ({profile}) => {
+    const loginStyle = {
+        margin: "1em 4.2em",
+        position: "absolute",
+        right: 0,
+        zIndex: 120
+    };
+    return (<div style={loginStyle}>
+        {!!profile && <Login profile={profile}/>}
+    </div>);
+}
 
 
-const NewUI = ({center, coverData, chapters, externals,editAllowed,RIL,tabKey}) => {
+const NewUI = ({center,
+    chapters,
+    externals,
+    editAllowed,
+    RIL,
+    profile,
+    tabKey}) => {
     return (
         <div>
+            <LoginBar profile={profile}/>
             <RightNav />
-            <CoverHeader coverData={coverData} />
+            <CoverHeader />
             <div className="col-sm-3">
                   <ArticleTableOfContents articleItems={chapters} />
             </div>
@@ -118,7 +137,6 @@ class Main extends Reflux.Component {
 
     renderWithCenter(center) {
         let data : LdJsonDocument = this.props.document;
-        let coverData = this.state.lists.filter(list => list.type == 'cover');
         let externals = this.state.lists.filter(list => list.type == 'external');
 
         return (<NewUI
@@ -126,8 +144,8 @@ class Main extends Reflux.Component {
             chapters={this.state.toc.chapters}
             data={data}
             center={center}
-            coverData={coverData}
             externals={externals}
+            profile={this.state.profile}
             RIL={this.state.readItLater}
             tabKey={this.state.tabKey}
         />)}

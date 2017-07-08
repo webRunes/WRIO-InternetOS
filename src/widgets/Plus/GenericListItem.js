@@ -1,6 +1,6 @@
 import React from 'react';
 import PlusActions from './actions/PlusActions.js';
-import {CrossStorageFactory} from '../../core/store/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../core/utils/CrossStorageFactory.js';
 
 var storage = CrossStorageFactory.getCrossStorage();
 

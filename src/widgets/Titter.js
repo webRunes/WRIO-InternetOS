@@ -5,7 +5,6 @@ import WindowActions from '../core/actions/WindowActions.js';
 import Login from './Login.js';
 import TwitterTimelineWidget from './TwitterTimeline.js';
 import LdJsonDocument from '../core/jsonld/LdJsonDocument'
-import UIActions from "../core/actions/UI.js";
 var domain = getDomain();
 
 type TitterProps = {

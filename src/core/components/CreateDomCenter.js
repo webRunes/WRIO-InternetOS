@@ -2,7 +2,6 @@
 
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
-import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
 import CreateTitter from '../../widgets/Titter.js';
@@ -12,7 +11,6 @@ import classNames from 'classnames';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
 import CreatePresale from '../../widgets/Presale.js';
-import WindowActions from '../actions/WindowActions.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 
