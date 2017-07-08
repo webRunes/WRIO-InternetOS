@@ -153,7 +153,10 @@ const CoverHeader = ({coverData} : {coverData : Array<ItemList>}) => {
                 <CoverNavigationButtons items={coverData}/>
             </div>
             {(coverData.length != 0) ?
-            <Carousel defaultActiveIndex={0} nextIcon={nextIcon} prevIcon={prevIcon}>
+            <Carousel defaultActiveIndex={0}
+                      interval={8000}
+                      nextIcon={nextIcon}
+                      prevIcon={prevIcon}>
             {extractCovers(coverData).map((image : ImageObject, key : number)=> {
                 return (<CarouselItem key={key}>
                     <RenderCover image={image} />
