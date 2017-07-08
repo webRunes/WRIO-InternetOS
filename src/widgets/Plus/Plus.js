@@ -1,14 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
 import PlusStore from './stores/PlusStore.js';
-import UserStore from '../../core/store/UserStore.js';
 import PlusActions from './actions/PlusActions.js';
 import ActionMenu from './actions/menu';
 import StoreMenu from './stores/menu';
 import classNames from 'classnames';
 import List from './List';
-import sortBy from 'lodash.sortby';
 import PlusButton from './PlusButton.js';
 
 
@@ -159,39 +155,3 @@ Plus.propTypes = {
 
 };
 
-
-export class Users extends RightBar {
-
-    constructor(props) {
-        super(props);
-        this.state.users = {};
-    }
-
-    componentWillMount() {
-        this.listenStore = UserStore.listen(this.onStateChange);
-    }
-
-
-    componentWillUnmount() {
-        this.listenStore();
-    }
-
-    onStateChange(usersState) {
-        this.setState({
-            users: usersState.users
-        });
-    }
-
-    render() {
-        if (this.state === null) {
-            return null;
-        }
-        const content = <List data={this.state.users} />;
-        return this.generateLeft(content);
-    }
-
-}
-
-Users.propTypes = {
-
-};

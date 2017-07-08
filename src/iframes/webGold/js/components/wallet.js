@@ -129,13 +129,12 @@ export default class EthWallet extends React.Component {
             </div>);
         }
         return (<div>
-            <h1> Unlock your account </h1>
-            {this.state.error !== ""? <h5 className="breadcrumb danger">{this.state.error} </h5> : ""}
-            <div className="input-group">
-                { this.savedKeystore? "" : <input className="form-control" type="text" ref="seed" placeholder="Enter 12 word wallet" size="80"></input> }
-                <button className="btn btn-default" onClick={this.checkCreds.bind(this)}>Load wallet</button>
-            </div>
-
+          <h1>Unlock your account</h1>
+          {this.state.error !== ""? <h5 className="breadcrumb danger">{this.state.error} </h5> : ""}
+          <div className="input-group">
+            { this.savedKeystore? "" : <input className="form-control" type="text" ref="seed" placeholder="Enter 12 word wallet" size="80"></input> }
+            <button className="btn btn-default" onClick={this.checkCreds.bind(this)}>Load wallet</button>
+          </div>
         </div>);
     }
 

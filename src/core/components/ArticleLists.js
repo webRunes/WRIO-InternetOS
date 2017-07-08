@@ -1,17 +1,15 @@
+/* @flow */
 import React from 'react';
 import {getResourcePath} from  '../global';
 import Article from '../jsonld/entities/Article.js';
 import UrlMixin from '../mixins/UrlMixin';
-import {replaceSpaces} from '../components/CreateDomRight.js';
+import {replaceSpaces} from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
+import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
-const ArticleLists = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+const ArticleLists = ({data} : {data : LdJsonObject}) => {
 
-    render: function() {
-        let item = this.props.data,
+        let item = data,
             articleName = item.getKey('name'),
             about = item.getKey('about'),
             articleHash = replaceSpaces(articleName),
@@ -21,45 +19,37 @@ const ArticleLists = React.createClass({
             return null;
         }
         return (
-            <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
-                <article>
-                    <div className="media thumbnail clearfix" id="plusWrp">
-                        <header className="col-xs-12">
-                            <h2 id={articleHash}>
-                                <span>{articleName}</span>
+        <div>
+          <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
+            <div className="card ticket card-blog card-atv">
+              <div className="card-content">
+                <div className="card-text">
+                  <Thumbnail image={image} />
+                  <div className="arrow-more"><i className="material-icons">more_horiz</i></div>
+                  <div className="gradient"></div>
+                  <h3 className="visible-xs-block" id={articleHash}>
+                    {articleName}
+                  </h3>
+                  <h2 className="hidden-xs">{articleName}</h2>
+                  <p>{about}</p>
+                </div>
+                <div className="footer">
+                  <div className="author">
+                    <a href="#">
+                      <img src="https://d1qb2nb5cznatu.cloudfront.net/startups/i/2451505-51a29f6e9299fda6472b55c1477f799f-medium_jpg.jpg" alt="..." className="avatar" />
+                      <span>WRIO OS</span>
+                    </a>
+                  </div>
+                  <div className="stats">
+                    <i className="material-icons">schedule</i> 5 min read
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      );
 
-                            </h2>
-                        </header>
-                        <div className="col-xs-12 col-md-6 pull-right">
-                        <Thumbnail image={image} />
-                             {/*(o.image) ? <img className="pull-left" src={o.image} /> : null*/}
-
-                            {
-                            <ul className="details">
-                                <li>Language: En</li>
-                                <li>Author: </li>
-                                {/*<li>Created: 22 Jun 2013</li>
-                                <li>Rating: 244</li>
-                                <li>Readers: 1,634</li>*/}
-                                <li>Access: Free</li>
-                            </ul>
-                            }
-                        </div>
-                        <div className="col-xs-12 col-md-6">
-                            <p>{about}</p>
-                            {/*
-                            <ul className="actions">
-                                <li><span className="glyphicon glyphicon-plus"></span>Add</li>
-                                <li><span className="glyphicon glyphicon-share"></span>Share</li>
-                            </ul>
-                            */}
-                            <p></p>
-                        </div>
-                    </div>
-                </article>
-            </a>
-        );
-    }
-});
+};
 
 export default ArticleLists;

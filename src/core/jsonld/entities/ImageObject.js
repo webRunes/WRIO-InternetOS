@@ -10,12 +10,9 @@ import mention from '../mentions/mention.js';
 export default class ImageObject extends LdJsonObject {
     constructor(json,order,root) {
         super(json,order,root);
-
-
     }
 
     getCoverItems() {
-
         return this.data.text.map((item, i) => {
             let appliedMention = {};
             if (this.mappedMent.text && this.mappedMent.text[i]) {

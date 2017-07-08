@@ -3,9 +3,7 @@ export default class TwitterTimelineWidget {
     constructor(commentId,container) {
         window.onTimelineLoad = this.onTimelineLoad.bind(this);
 
-        container.style.height = '240px';
-
-        var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
+        var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li></ul>';
         var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
         container.innerHTML = commentTitle + twitterTemplate;
 

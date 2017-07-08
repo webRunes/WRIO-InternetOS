@@ -49,7 +49,7 @@ class _CrossStorageFactory {
             } else {
                 var host = 'https://wrioos.com/';
                 this.cs =  new CrossStorageClient(host + 'Plus-WRIO-App/widget/storageHub.html', {
-                    promise: Promise
+                    promise: Promise,
                 });
             }
         }

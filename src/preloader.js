@@ -20,7 +20,13 @@ var code =
     getResourcePath = require('./core/global').getResourcePath;
     var css = [
         'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-        getResourcePath('/css/webrunes.css')
+        'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
+        /*getResourcePath('/css/bootstrap-material-design.min.css'),
+        getResourcePath('/css/webrunes.css'),*/
+        getResourcePath('/css/material-kit.min.css'),
+        getResourcePath('/css/ripples.min.css'),
+        getResourcePath('/css/vertical-nav.css'),
+        getResourcePath('/css/wrioos.css')
     ],
     count = css.length,
     loading,
@@ -162,9 +168,8 @@ function loadScripts() {
     }
 
     if (process.env.NODE_ENV === 'dockerdev') {
-       prefix = '//localhost:3033';
+        prefix = '//localhost:3033';
     }
-
 
     loadScript(prefix+'/common.js', ()=> {
         loadScript(prefix+'/main.js');
