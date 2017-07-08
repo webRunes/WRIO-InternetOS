@@ -14,7 +14,7 @@ import LdJsonDocument from '../jsonld/LdJsonDocument'
 import TableOfContents from '../utils/tocnavigation'
 import {replaceSpaces} from '../mixins/UrlMixin'
 import PlusActions from '../../widgets/Plus/actions/PlusActions'
-
+import CoverActions from '../actions/CoverActions'
 
 /**
  * Store that handles state of entire WRIO-document
@@ -69,13 +69,10 @@ class WrioDocument extends Reflux.Store {
         this.setState({mainPage: data,url,toc});
 
         toc.covers.map(async (cover : Object) => {
-            console.log(cover);
             if (cover.url) {
                 try {
                     const doc : LdJsonDocument = await getHttp(cover.url);
-                    let lists = this.state.lists;
-                    lists.push(Object.assign(cover, {data: doc.getBlocks()[0],type:'cover'}));
-                    this.setState({lists});
+                    CoverActions.addCover(cover, doc);
                 } catch (err) {
                     console.log(`Unable to download cover ${cover.url}`);
                     return;

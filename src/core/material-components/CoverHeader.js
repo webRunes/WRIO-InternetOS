@@ -2,11 +2,13 @@
 /**
  * Created by michbil on 17.06.17.
  */
-
+// $FlowFixMe
+import Reflux from 'reflux'
 import React from 'react';
 import ItemList from '../jsonld/entities/ItemList'
 import ImageObject from '../jsonld/entities/ImageObject'
-import WrioDocumentActions from '../actions/WrioDocument'
+import CoverActions from '../actions/CoverActions'
+import CoverStore from '../store/CoverStore'
 // $FlowFixMe
 import {CarouselItem} from 'react-bootstrap'
 import Carousel from '../components/misc/FixedCarousel'
@@ -99,6 +101,8 @@ const RenderCover = ({image} : {image : ImageObject}) => {
     </div>);
 };
 
+const hasIndex = (array,index) => array.reduce((res,item) => res || (item == index),false);
+
 /**
  * Navigation buttons pane
  * @param items
@@ -106,13 +110,21 @@ const RenderCover = ({image} : {image : ImageObject}) => {
  * @constructor
  */
 
-const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
+const CoverNavigationButtons = ({items,currentCover} : {items: Array<Object>,currentCover: number}) => {
     return (<nav className="navbar navbar-transparent">
         <ul className="nav navbar-nav navbar-left">
             {items.map((r,key)=>{
+                let cls = hasIndex(r.carouselIndexes,currentCover) ? "active" : "";
+
                 return (
                     <li key={key}>
-                    <a href={r.segueUrl} className="active" data-toggle="tab">
+                    <a href={r.segueUrl}
+                       onClick={(e) => {
+                           e.preventDefault();
+                           CoverActions.pressCoverButton(r);
+                       }}
+                       className={cls}
+                       data-toggle="tab">
                         {r.name}
                         <div className="ripple-container"></div>
                     </a>
@@ -123,32 +135,23 @@ const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
     </nav>);
 };
 
-type CoverMetaData = {
-    image : ImageObject,
-    index : number,
-    listName: string
-}
-
-const extractCovers = (coverData : Array<ItemList>) : Array<ImageObject> => {
-    return coverData.reduce((acc : Array<ImageObject>, value : ItemList) => {
-        return acc.concat(value.data.children);
-    },[]);
-}
-
 /**
  * Stateless component for overall cover block
- * @param coverData
+ * @param covers
  * @param onCoverChanged
  * @returns {XML}
  * @constructor
  */
 
-const CoverBlock = ({coverData,currentCover,onCoverChanged} : {coverData : Array<ItemList>,currentCover: number,onCoverChanged : Function}) => {
+const CoverBlock = ({covers,images,currentCover,onCoverChanged}
+: {covers : Array<ItemList>,
+    images : Array<ImageObject>,
+    currentCover: number,
+    onCoverChanged : Function}) => {
 
-    const covers = extractCovers(coverData)
 
-    console.log("RENDERING", coverData);
-    const headerStyle = (coverData.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
+    console.log("RENDERING", covers);
+    const headerStyle = (covers.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
     return (
         <div className="page-header" style={headerStyle}>
             <div className="cover col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
@@ -165,15 +168,16 @@ const CoverBlock = ({coverData,currentCover,onCoverChanged} : {coverData : Array
                         </div>
                     </div>
                 </div>
-                <CoverNavigationButtons items={coverData}/>
+                <CoverNavigationButtons items={covers} currentCover={currentCover}/>
             </div>
-            {(coverData.length != 0) ?
+            {(covers.length != 0) ?
             <Carousel defaultActiveIndex={0}
+                      activeIndex={currentCover}
                       onSelect={(e) => onCoverChanged(e)}
                       interval={8000}
                       nextIcon={nextIcon}
                       prevIcon={prevIcon}>
-            {covers.map((image : ImageObject, key : number)=> {
+            {images.map((image : ImageObject, key : number)=> {
                 return (<CarouselItem key={key}>
                     <RenderCover image={image} />
                 </CarouselItem>)
@@ -186,24 +190,25 @@ const CoverBlock = ({coverData,currentCover,onCoverChanged} : {coverData : Array
 };
 
 type CoverContainerProps =  {
-    coverData : Array<ItemList>
 }
 
-class CoverContainer extends React.Component {
+class CoverContainer extends Reflux.Component {
     props: CoverContainerProps;
 
     constructor(props : CoverContainerProps) {
         super (props);
-        this.state = {
-            current: 0,
-        }
+        this.stores = [CoverStore];
     }
 
     render () {
-        return <CoverBlock coverData={this.props.coverData}
-                           currentCover={this.state.current}
+        if (!this.state) {
+            return null;
+        }
+        return <CoverBlock covers={this.state.covers}
+                           images={this.state.images}
+                           currentCover={this.state.selected}
                            onCoverChanged={current => {
-                                this.setState({current})
+                                CoverActions.selectCover(current)
                            }}
         />
     }
