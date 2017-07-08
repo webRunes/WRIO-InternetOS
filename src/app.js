@@ -13,7 +13,7 @@ import PlusStore from './widgets/Plus/stores/PlusStore'
 import Login from './widgets/Login.js';
 import CoverHeader from './core/material-components/CoverHeader'
 import Tabs from './core/material-components/Tabs'
-
+import CoverStore from './core/store/CoverStore'
 
 const RightNav = () => {
     return ( <div className="right-nav">
@@ -26,7 +26,7 @@ const RightNav = () => {
 
 const LoginBar = ({profile}) => {
     const loginStyle = {
-        margin: "0.5em 0.5em",
+        margin: "1em 4.2em",
         position: "absolute",
         right: 0,
         zIndex: 120
@@ -38,7 +38,6 @@ const LoginBar = ({profile}) => {
 
 
 const NewUI = ({center,
-    coverData,
     chapters,
     externals,
     editAllowed,
@@ -49,7 +48,7 @@ const NewUI = ({center,
         <div>
             <LoginBar profile={profile}/>
             <RightNav />
-            <CoverHeader coverData={coverData} />
+            <CoverHeader />
             <div className="col-sm-3">
                   <ArticleTableOfContents articleItems={chapters} />
             </div>
@@ -138,7 +137,6 @@ class Main extends Reflux.Component {
 
     renderWithCenter(center) {
         let data : LdJsonDocument = this.props.document;
-        let coverData = this.state.lists.filter(list => list.type == 'cover');
         let externals = this.state.lists.filter(list => list.type == 'external');
 
         return (<NewUI
@@ -146,7 +144,6 @@ class Main extends Reflux.Component {
             chapters={this.state.toc.chapters}
             data={data}
             center={center}
-            coverData={coverData}
             externals={externals}
             profile={this.state.profile}
             RIL={this.state.readItLater}

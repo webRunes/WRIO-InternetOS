@@ -31,7 +31,7 @@ var mockval = {
 require('./fakeDom.js');
 
 
-import UIActions from '../src/core/actions/UI.js';
+import WindowActions from "../src/core/actions/WindowActions"
 import {
     addPageToTabs,
     hasActive,
@@ -48,7 +48,7 @@ describe('jsonld store test', () => {
        var store = PlusStore;
        setMock(mockval);
        store.init();
-       UIActions.gotWrioID('558153389649'); // fake got wrio id request
+       WindowActions.loginMessage({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
        setTimeout(() => {
            //console.log("DATA:",store.data);
            //should(store.data).deepEqual(normalizeTabs(mockval.plus));
