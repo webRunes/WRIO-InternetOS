@@ -2,17 +2,16 @@
 /**
  * Created by michbil on 30.03.16.
  */
-import {CrossStorageFactory} from './CrossStorageFactory.js';
+import {CrossStorageFactory} from '../utils/CrossStorageFactory.js';
 // $FlowFixMe
 import Reflux from 'reflux';
 import WrioDocumentActions from "../actions/WrioDocument.js";
-import UIActions from "../actions/UI"
 import WindowActions from "../actions/WindowActions"
-import getHttp from '../store/request.js';
+import getHttp from '../utils/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import LdJsonDocument from '../jsonld/LdJsonDocument'
-import TableOfContents from './tocnavigation'
+import TableOfContents from '../utils/tocnavigation'
 import {replaceSpaces} from '../mixins/UrlMixin'
 import PlusActions from '../../widgets/Plus/actions/PlusActions'
 
@@ -202,9 +201,7 @@ class WrioDocument extends Reflux.Store {
             this.setState({busy: false});
 
             var profile = jsmsg.profile;
-            UIActions.gotWrioID(profile.id);
             PlusActions.gotWrioID(profile.id);
-            UIActions.gotProfileUrl(profile.url);
             this.setState({wrioID: profile.id,profile});
 
             const _author = await this.getAuthor();

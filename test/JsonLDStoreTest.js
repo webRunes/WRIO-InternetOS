@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import assert from 'assert';
 import should from 'should';
-import {setMock} from '../src/core/store/CrossStorageFactory.js';
+import {setMock} from '../src/core/utils/CrossStorageFactory.js';
 import PlusStore from '../src/widgets/Plus/stores/PlusStore.js';
 
 var mockval = {

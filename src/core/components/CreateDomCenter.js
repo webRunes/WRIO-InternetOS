@@ -11,7 +11,6 @@ import classNames from 'classnames';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../../widgets/Transactions.js';
 import CreatePresale from '../../widgets/Presale.js';
-import WindowActions from '../actions/WindowActions.js';
 import CommentsDisabled from './misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 

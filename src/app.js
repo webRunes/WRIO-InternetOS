@@ -10,24 +10,44 @@ import UrlMixin from './core/mixins/UrlMixin.js';
 import WrioDocumentActions from './core/actions/WrioDocument.js';
 import WrioDocumentStore from './core/store/WrioDocument.js';
 import PlusStore from './widgets/Plus/stores/PlusStore'
-
+import Login from './widgets/Login.js';
 import CoverHeader from './core/material-components/CoverHeader'
 import Tabs from './core/material-components/Tabs'
 
 
 const RightNav = () => {
     return ( <div className="right-nav">
-        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">highlight_off</i></a>
+        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right"><i className="material-icons dp_big">highlight_off</i></a>
         <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
         <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">share</i></a>
+
     </div>);
 };
 
+const LoginBar = ({profile}) => {
+    const loginStyle = {
+        margin: "0.5em 0.5em",
+        position: "absolute",
+        right: 0,
+        zIndex: 120
+    };
+    return (<div style={loginStyle}>
+        {!!profile && <Login profile={profile}/>}
+    </div>);
+}
 
 
-const NewUI = ({center, coverData, chapters, externals,editAllowed,RIL,tabKey}) => {
+const NewUI = ({center,
+    coverData,
+    chapters,
+    externals,
+    editAllowed,
+    RIL,
+    profile,
+    tabKey}) => {
     return (
         <div>
+            <LoginBar profile={profile}/>
             <RightNav />
             <CoverHeader coverData={coverData} />
             <div className="col-sm-3">
@@ -128,6 +148,7 @@ class Main extends Reflux.Component {
             center={center}
             coverData={coverData}
             externals={externals}
+            profile={this.state.profile}
             RIL={this.state.readItLater}
             tabKey={this.state.tabKey}
         />)}

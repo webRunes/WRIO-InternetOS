@@ -2,12 +2,43 @@ import React from 'react';
 import Details from'./Details.js';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import UIActions from '../core/actions/UI.js';
-import UserStore from '../core/store/UserStore.js';
-
+import {Dropdown,MenuItem,Glyphicon} from 'react-bootstrap'
 var domain = getDomain();
 
-class Login extends React.Component{
+const LoginButton = ({onLogin}) => {
+    return (
+        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
+            <i className="material-icons dp_big">account_circle</i>
+            Login
+        </a>
+    )
+};
+
+const Login = ({profile}) => {
+    return (<Dropdown id="dropdown-custom-1" pullRight >
+        <Dropdown.Toggle className="btn-just-icon btn-simple btn-default btn-lg btn-flat">
+            <i className="material-icons dp_big">account_circle</i> {profile.name}
+        </Dropdown.Toggle>
+        <Dropdown.Menu >
+            <MenuItem eventKey="1"><i className="material-icons dp_big">perm_identity</i>Profile</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey="2"><i className="material-icons dp_big">exit_to_app</i>Logout</MenuItem>
+        </Dropdown.Menu>
+    </Dropdown>);
+    return (<span className="pull-right">
+        <ul id="dropdown2" className="dropdown-content">
+            <li><a href={profile.url}>Profile<span className="badge">1</span></a></li>
+            <li><a href="#!">Logout<span className="new badge">1</span></a></li>
+          </ul>
+  <a className="btn dropdown-button "
+     href="#!"
+     data-activates="dropdown2">
+
+      </a>
+    </span>);
+}
+
+class OldLogin extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +121,6 @@ class Login extends React.Component{
 
     static showLockup(e) {
         e.stopPropagation();
-        UIActions.showLockup.trigger(true);
     }
 
     doLogout(e) {
@@ -110,7 +140,6 @@ class Login extends React.Component{
         e.stopPropagation();
         Login.requestLogin();
         this.setState({busy:true});
-      //  UIActions.showLockup.trigger(false);
     }
 
     changePage(){
