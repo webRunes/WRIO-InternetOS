@@ -4,10 +4,9 @@
  */
 
 import React from 'react';
-import LdJsonDocument from '../jsonld/LdJsonDocument'
-import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import ItemList from '../jsonld/entities/ItemList'
 import ImageObject from '../jsonld/entities/ImageObject'
+import WrioDocumentActions from '../actions/WrioDocument'
 // $FlowFixMe
 import {CarouselItem} from 'react-bootstrap'
 import Carousel from '../components/misc/FixedCarousel'
@@ -124,13 +123,29 @@ const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
     </nav>);
 };
 
+type CoverMetaData = {
+    image : ImageObject,
+    index : number,
+    listName: string
+}
+
 const extractCovers = (coverData : Array<ItemList>) : Array<ImageObject> => {
     return coverData.reduce((acc : Array<ImageObject>, value : ItemList) => {
         return acc.concat(value.data.children);
     },[]);
 }
 
-const CoverHeader = ({coverData} : {coverData : Array<ItemList>}) => {
+/**
+ * Stateless component for overall cover block
+ * @param coverData
+ * @param onCoverChanged
+ * @returns {XML}
+ * @constructor
+ */
+
+const CoverBlock = ({coverData,currentCover,onCoverChanged} : {coverData : Array<ItemList>,currentCover: number,onCoverChanged : Function}) => {
+
+    const covers = extractCovers(coverData)
 
     console.log("RENDERING", coverData);
     const headerStyle = (coverData.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
@@ -154,10 +169,11 @@ const CoverHeader = ({coverData} : {coverData : Array<ItemList>}) => {
             </div>
             {(coverData.length != 0) ?
             <Carousel defaultActiveIndex={0}
+                      onSelect={(e) => onCoverChanged(e)}
                       interval={8000}
                       nextIcon={nextIcon}
                       prevIcon={prevIcon}>
-            {extractCovers(coverData).map((image : ImageObject, key : number)=> {
+            {covers.map((image : ImageObject, key : number)=> {
                 return (<CarouselItem key={key}>
                     <RenderCover image={image} />
                 </CarouselItem>)
@@ -169,4 +185,28 @@ const CoverHeader = ({coverData} : {coverData : Array<ItemList>}) => {
 
 };
 
-export default CoverHeader;
+type CoverContainerProps =  {
+    coverData : Array<ItemList>
+}
+
+class CoverContainer extends React.Component {
+    props: CoverContainerProps;
+
+    constructor(props : CoverContainerProps) {
+        super (props);
+        this.state = {
+            current: 0,
+        }
+    }
+
+    render () {
+        return <CoverBlock coverData={this.props.coverData}
+                           currentCover={this.state.current}
+                           onCoverChanged={current => {
+                                this.setState({current})
+                           }}
+        />
+    }
+}
+
+export default CoverContainer;

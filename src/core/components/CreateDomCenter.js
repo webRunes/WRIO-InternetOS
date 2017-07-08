@@ -2,7 +2,6 @@
 
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
-import Login from '../../widgets/Login.js';
 import Chess from '../../widgets/Chess.js';
 import Core from '../../widgets/Core.js';
 import CreateTitter from '../../widgets/Titter.js';
