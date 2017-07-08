@@ -57,9 +57,7 @@ const CoverText = ({cover} : {cover : ImageObject}) => {
         });
         purgeList();
 
-        const r = <span>{descr}</span>;
-        console.log(r);
-        return r;
+        return  <span>{descr}</span>;
 
 };
 
@@ -75,8 +73,7 @@ const carouselStyle = (path,height) => {
     }
 };
 
-const RenderCover = ({cover} : {cover : LdJsonObject}) => {
-    const image : ImageObject = cover.children[0];
+const RenderCover = ({image} : {image : ImageObject}) => {
 
     var path = image.getKey('contentUrl'); //cover.img;
     var name = image.getKey('name');
@@ -84,7 +81,7 @@ const RenderCover = ({cover} : {cover : LdJsonObject}) => {
 
 
 
-    return (<div style={carouselStyle(path,"100vh")} className="cover-bg">
+    return (<div style={carouselStyle(path,"100vh")} className="cover-bg header header-filter">
         <div className="carousel-caption">
             <div className="carousel-caption">
                 <div className="row">
@@ -127,7 +124,13 @@ const CoverNavigationButtons = ({items} : {items: Array<Object>}) => {
     </nav>);
 };
 
-const CoverHeader = ({coverData} : {coverData : Array<Object>}) => {
+const extractCovers = (coverData : Array<ItemList>) : Array<ImageObject> => {
+    return coverData.reduce((acc : Array<ImageObject>, value : ItemList) => {
+        return acc.concat(value.data.children);
+    },[]);
+}
+
+const CoverHeader = ({coverData} : {coverData : Array<ItemList>}) => {
 
     console.log("RENDERING", coverData);
     const headerStyle = (coverData.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
@@ -151,9 +154,9 @@ const CoverHeader = ({coverData} : {coverData : Array<Object>}) => {
             </div>
             {(coverData.length != 0) ?
             <Carousel defaultActiveIndex={0} nextIcon={nextIcon} prevIcon={prevIcon}>
-            {coverData.map((item, key)=> {
+            {extractCovers(coverData).map((image : ImageObject, key : number)=> {
                 return (<CarouselItem key={key}>
-                    <RenderCover cover={item.data} />
+                    <RenderCover image={image} />
                 </CarouselItem>)
             })}
             </Carousel> : <div style={carouselStyle(defaultBg,"120px")} className="cover-bg" />
