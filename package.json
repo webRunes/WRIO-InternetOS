@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-plugin-syntax-flow": "^6.18.0",
     "bignumber.js": "2.4.0",
+    "bower": "^1.8.0",
     "classnames": "^2.1.2",
     "cross-storage": "^0.8.1",
     "domready": "^1.0.8",
@@ -29,18 +30,21 @@
     "lodash.some": "*",
     "lodash.sortby": "^3.1.4",
     "lodash.sortbyorder": "^3.1.4",
+    "material-ui": "^0.18.1",
     "moment": "^2.18.1",
     "node-http-proxy": "^0.2.3",
     "numeral": "^2.0.6",
     "nyc": "^11.0.2",
-    "react": "^15.5.4",
+    "react": "^15.6.1",
     "react-bootstrap": "^0.30.7",
-    "react-dom": "^15.5.4",
+    "react-dom": "^15.6.1",
+    "react-hot-loader": "next",
     "react-modal": "^1.4.0",
     "react-prop-types": "0.4.0",
     "react-router-dom": "^4.1.1",
-    "reflux": "0.2.7",
-    "superagent": "^1.2.0",
+    "redbox-react": "^1.4.2",
+    "reflux": "^6.4.1",
+    "superagent": "^3.5.2",
     "vhost": "^3.0.2",
     "yargs": "^3.23.0"
   },
@@ -97,13 +101,9 @@
   "scripts": {
     "build": "gulp && sh compress.sh",
     "start": "npm run build",
-    "buildDOCKER": "gulp",
     "devserver": "node ./src/devserver/index.js",
     "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
-    "w": "npm run watch",
-    "watch": "gulp watch",
-    "bundleDOCKER": "gulp --docker",
-    "watchDOCKER": "gulp watch --docker",
-    "test": "nyc mocha --compilers js:babel-core/register --recursive"
+    "test": "nyc mocha --compilers js:babel-core/register --recursive",
+    "flow": "flow check"
   }
 }

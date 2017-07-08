@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Reflux from 'reflux';
 import PlusStore from './stores/PlusStore.js';
 import UserStore from '../../core/store/UserStore.js';
 import PlusActions from './actions/PlusActions.js';

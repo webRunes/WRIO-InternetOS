@@ -40,63 +40,41 @@ class Login extends React.Component{
 
     }
 
-    componentDidMount() {
-        this.setActions();
-    }
 
-    setActions() {
 
-        WindowActions.loginMessage.listen((jsmsg) => {
-            if (jsmsg.login == "success") {
-                //location.reload();
-
-            }
-
-            if (jsmsg.profile) {
-
-                this.setState({busy:false});
-
-                var profile = jsmsg.profile;
-                UIActions.gotWrioID(profile.id);
-                UIActions.gotProfileUrl(profile.url);
-                if (!profile.temporary) {
-                    UserStore.saveLoggedUser(profile.id,profile);
+    setTemporoary(temporary) {
+        if (temporary) {
+            this.setState({
+                title: {
+                    text: "Logged as I'm Anonymous ",
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Upgrade guest account for free",
+                    label: profile.days + " days left",
+                    visible: true
                 }
-
-
-                if (profile.temporary) {
-                    this.setState({
-                        title: {
-                            text: "Logged as I'm Anonymous ",
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Upgrade guest account for free",
-                            label: profile.days + " days left",
-                            visible: true
-                        }
-                    });
-                } else {
-                    this.setState({
-                        title: {
-                            text: "Logged in as " + profile.name,
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Log out",
-                            label: profile.days + " days left",
-                            visible: false
-                        }
-                    });
+            });
+        } else {
+            this.setState({
+                title: {
+                    text: "Logged in as " + profile.name,
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Log out",
+                    label: profile.days + " days left",
+                    visible: false
                 }
-            }
-        });
+            });
+        }
+
     }
 
     static openAuthPopup(e) {
@@ -146,6 +124,8 @@ class Login extends React.Component{
             return (<img src="https://default.wrioos.com/img/loading.gif" />);
         }
 
+
+
         if (this.state.upgrade.visible) {
             upgrade = (<li>
                         <span onClick={Login.openAuthPopup} >
@@ -169,25 +149,25 @@ class Login extends React.Component{
 
 
         return (
-            <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
-                <li className="panel">
-                    <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
-                        <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
-                        {/*<sup>{this.state.title.label}</sup>*/}
-                    </a>
+            <ul className="info nav nav-pills nav-stacked hidden" id="profile-accordion">
+              <li className="panel">
+                <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
+                  <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
+                  {/*<sup>{this.state.title.label}</sup>*/}
+                </a>
 
-                    <span className="in" id="profile-element" onClick={this.changePage}>
-                        <div className="media thumbnail clearfix">
-                            <Details />
-                            <div className="col-xs-12 col-md-6">
-                                <p>{this.state.description}</p>
-                                <ul className="actions">
-                                    {has}
-                                    {lock}
-                                </ul>
-                            </div>
-                        </div>
-                    </span>
+                <span className="in" id="profile-element" onClick={this.changePage}>
+                  <div className="media thumbnail clearfix">
+                    <Details />
+                    <div className="col-xs-12 col-md-6">
+                      <p>{this.state.description}</p>
+                      <ul className="actions">
+                        {has}
+                        {lock}
+                      </ul>
+                    </div>
+                  </div>
+                </span>
 
                 </li>
             </ul>

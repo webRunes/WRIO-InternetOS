@@ -1,91 +1,70 @@
-import request from 'superagent';
-import {fixUrlProtocol} from '../mixins/UrlMixin';
-import LdJsonManager from '../jsonld/scripts';
+/* @flow */
+// $FlowFixMe
+import request from 'superagent'
+import {fixUrlProtocol} from '../mixins/UrlMixin'
+import LdJsonDocument from '../jsonld/LdJsonDocument'
+import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
-function getScript(result) {
+
+function convertScript(result : Object) : LdJsonDocument {
     var e = document.createElement('div');
     e.innerHTML = result.text;
-    var manager = new LdJsonManager(e.getElementsByTagName('script'));
-    return manager.getBlocks();
+    return new LdJsonDocument(e.getElementsByTagName('script'));
 }
 
 
-function tryCors(url,cb) {
+async function tryCrossoriginRequest(url : string) : Promise<Object> {
     console.log("Trying to reach URL via CORS ",url);
     if (url.indexOf('?') >=0) {
         url = url.substring(0, url.indexOf('?'));
     }
     url = 'https://crossorigin.me/'+url;
-    request.get(
-        url,
-        (err, result) => {
-            if (!err && (typeof result === 'object')) {
-                console.log("CORS proxy request succeeded");
-                result = getScript(result);
-                cb.call(this, result || []);
-            } else {
-                cb.call(this,null);
-            }
-
-        }
-    );
+    return await request.get(url);
 }
 
-// All http requests are made in 3 sequential steps, page is tried to be accessed with current // protocol,
-// if failed  1- then with alternate protocol
-// else trying
 
-
-export default function getHttp(url, cb) {
-    console.warn("Getting LD+JSON document from ",url,"to see graph https://wrioos.com/jsonld-vis/view/?"+url);
-    var strippedUrl = fixUrlProtocol(url);
-
-    if (!url) {
-        return console.log("Assertion, no url specified");
-    }
-
-    request.get(
-        strippedUrl,
-        (err, result) => {
-            if (!err && (typeof result === 'object')) {
-                result = getScript(result);
-                cb.call(this, result || []);
-            } else {
-                getDifferentProtocol(url,cb);
-            }
-
-        }
-    );
-}
-
-function alternateProtocol() {
+function alternateProtocol() : ?string {
     var currentProtocol = window.location.protocol;
-    if (currentProtocol == "http:") {
-        return "https:";
-    }
-    if (currentProtocol == "https:") {
-        return "http:";
-    }
-    return "https:";
+    return (currentProtocol == "http:") ? "https:" : null;
 }
 
-function getDifferentProtocol (url, cb) {
-    var strippedUrl = alternateProtocol() + fixUrlProtocol(url);
+
+/**
+ * Tries do download remote LD+JSON page, supports both allbacks and promises
+ * @param url
+ * @param cb
+ * @returns {Promise.<Array.<LdJsonObject>>}
+ */
+export default async function getHttp (url : string) : Promise<LdJsonDocument> {
 
     if (!url) {
-        return console.log("Assertion, no url specified");
+        throw new Error("Assertion, no url specified");
     }
 
-    request.get(
-        strippedUrl,
-        (err, result) => {
-            if (!err && (typeof result === 'object')) {
-                result = getScript(result);
-                cb.call(this, result || []);
+    let result = [];
+    try {
+        console.warn("Getting LD+JSON document from ",url,"to see graph https://wrioos.com/jsonld-vis/view/?"+url);
+        result = await request.get(fixUrlProtocol(url)).redirects(1);
+    } catch (err) {
+        try {
+            const prot = alternateProtocol();
+            if (!prot) {
+                console.log(err);
+                result = await tryCrossoriginRequest(url);
             } else {
-                tryCors(url,cb);
+                result = await request.get(prot + fixUrlProtocol(url)).redirects(1);
             }
-
+        } catch (err) {
+            console.log(err);
+            result = await tryCrossoriginRequest(url);
         }
-    );
+    }
+
+    if (typeof result === 'object') {
+        return convertScript(result || []);
+    } else {
+        throw new Error('Got wrong response from the serever');
+    }
+
 }
+
