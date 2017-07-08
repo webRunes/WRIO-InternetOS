@@ -8,17 +8,8 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-import EthWallet from './components/wallet.js';
-import CreateWallet from './components/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
-function getLoginUrl() {
-
-    var host = window.location.host;
-    host = host.replace('webgold.','login.');
-    return "//"+host+'/';
-
-}
 
 class AddFunds extends React.Component {
 
@@ -35,7 +26,6 @@ class AddFunds extends React.Component {
 
 
     componentWillMount() {
-        this.state.loginUrl = getLoginUrl();
         request
             .get('/add_funds_data')
             .end((err, res) => {
@@ -45,7 +35,6 @@ class AddFunds extends React.Component {
 
                 this.setState({
                     username: res.body.username,
-                    loginUrl: res.body.loginUrl,
                     balance: res.body.balance,
                     exchangeRate: res.body.exchangeRate,
                     btcExchangeRate: new BigNumber(res.body.btcExchangeRate).div(SATOSHI)
@@ -78,8 +67,7 @@ class AddFunds extends React.Component {
                 <Info />
 
                 <PaymentForm
-                    exchangeRate={ this.state.btcExchangeRate }
-                    loginUrl={ this.state.loginUrl } />
+                    exchangeRate={ this.state.btcExchangeRate } />
 
                 <a href="javascript:;" onClick={expand}>See pending payments</a>
                 { this.state.showpending ? <PaymentHistory /> : "" }

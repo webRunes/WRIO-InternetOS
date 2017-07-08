@@ -79,7 +79,7 @@ class EthereumStats extends React.Component {
         let master = "https://ropsten.etherscan.io/address/" + this.state.masterAddr;
         return (
             <div>
-                <h1>Webgold admin</h1>
+              <h1>WebGold admin</h1>
                 <h2>Feed account stats</h2>
                 <p> Master account:<a href={master}> { this.state.ethBalance } ETH </a>  </p>
                 <p> Master account: { this.state.wrgBalance } WRG </p>
@@ -621,20 +621,15 @@ class Presales extends React.Component {
 }
 
 
-export function RenderAdmin() {
 
-//console.log(Router,Route);
-    ReactDOM.render((
-        <Router>
-            <Route path="/" component={EthereumStats} />
-            <Route path="/balances" component={Balances}/>
-            <Route path="/etherfeeds" component={EtherFeeds}/>
-            <Route path="/donations" component={Donations}/>
-            <Route path="/emissions" component={Emissions}/>
-            <Route path="/invoices" component={Invoices}/>
-            <Route path="/presales" component={Presales}/>
-        </Router>
-    ), document.getElementById('main'));
-
-}
-
+ReactDOM.render((
+    <Router>
+        <Route path="/" component={EthereumStats} />
+        <Route path="/balances" component={Balances}/>
+        <Route path="/etherfeeds" component={EtherFeeds}/>
+        <Route path="/donations" component={Donations}/>
+        <Route path="/emissions" component={Emissions}/>
+        <Route path="/invoices" component={Invoices}/>
+        <Route path="/presales" component={Presales}/>
+    </Router>
+), document.getElementById('main'));

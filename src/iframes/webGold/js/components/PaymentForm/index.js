@@ -93,14 +93,13 @@ class PaymentForm extends React.Component {
               { this.state.payment_data ? "" :
                   <div>
                     <Amount exchangeRate={ this.props.exchangeRate } />
-                    <AddFunds loginUrl={ this.props.loginUrl } />
+                    <AddFunds  />
                   </div>}
             </form>
         );
     }
 }
 PaymentForm.propTypes = {
-    loginUrl: React.PropTypes.string.isRequired,
     exchangeRate: React.PropTypes.object
 };
 

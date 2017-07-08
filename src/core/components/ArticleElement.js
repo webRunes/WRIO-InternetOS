@@ -1,12 +1,14 @@
+/* @flow */
 import React from 'react';
 import ArticleLists from './ArticleLists';
-import {replaceSpaces} from './CreateDomRight.js';
+import {replaceSpaces} from '../mixins/UrlMixin';
 import SocialPost from "./SocialPost.js";
+import ArticleEntity from '../jsonld/entities/Article'
 
-var ArticleElement = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
+class ArticleElement extends React.Component{
+    props: {
+        data: ArticleEntity
+    };
 
     articleBody () {
         const element = this.props.data;
@@ -15,20 +17,14 @@ var ArticleElement = React.createClass({
             return <SocialPost data={element} />;
         }
         const elements = element.getBody();
-        return elements.map(function (item,i) {
+        return elements.map((item,i) => {
             return (<div className="paragraph" key={i}>
-                <div className="col-xs-12 col-md-6">
-                   <div>{item}</div>
-                </div>
-                <div className="col-xs-12 col-md-6">
-                    {/*  <aside>
-                        <span className="glyphicon glyphicon-comment" title="Not yet available"></span>
-                    </aside> */}
-                </div>
+              <div className="col-xs-12">
+                <div>{item}</div>
+              </div>
             </div>);
-
-        }, this);
-    },
+        });
+    }
 
     render () {
         const element = this.props.data;
@@ -48,18 +44,17 @@ var ArticleElement = React.createClass({
         const chapter = replaceSpaces(element.data.name);
 
         const getHeader = () => (element.hasPart()) ?
-            <h1 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h1>:
-            <h2 className="col-xs-12 col-md-6" id={chapter}>{articleName}</h2>;
-
+            <h1 className="col-xs-12" id={chapter}>{articleName}</h1>:
+            <h2 className="col-xs-12" id={chapter}>{articleName}</h2>;
 
         return (
             <section>
-                { articleName !== undefined && getHeader() }
-                <div itemProp="articleBody">{this.articleBody()}</div>
-                {Parts}
+              {articleName !== undefined && getHeader()}
+              <div className="clear" itemProp="articleBody">{this.articleBody()}</div>
+              {Parts}
             </section>
         );
     }
-});
+};
 
 export default ArticleElement;

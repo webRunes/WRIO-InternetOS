@@ -23,8 +23,9 @@ install :
 
 
 script:
+  - npm run flow
   - gulp
-  - gulp test
+  - npm run test
   - bash compress.sh
 
 before_deploy:

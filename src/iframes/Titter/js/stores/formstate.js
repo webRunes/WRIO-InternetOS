@@ -7,8 +7,6 @@
 import Reflux from 'reflux';
 import {
     getCookie,
-    getLoginUrl,
-    getWebgoldUrl,
     saveDraft,
     loadDraft,
     delay
@@ -24,11 +22,10 @@ import {
     txStatusRequest
 } from "../requests.js";
 import FormActions from '../actions/formactions.js'
-import {COMMENT_LENGTH, TITLE_LENGTH} from '../constants.js';
-import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
+import {COMMENT_LENGTH, TITLE_LENGTH} from '../constants.js'
+import { sanitizePostUrl, getParameterByName } from "../urlutils.js"
 import {openAuthPopup} from '../auth.js'
-import {getTitterUrl} from '../utils.js';
-
+import {getServiceUrl} from '../../../../core/servicelocator'
 
 var frame_params = { // parameters we got from the query url
         posturl: sanitizePostUrl(getParameterByName('origin')),
@@ -37,10 +34,55 @@ var frame_params = { // parameters we got from the query url
 };
 
 const raiseUnlockPopup = function(callback) {
-    return window.open(getTitterUrl()+callback, "name", "width=800,height=500");
+    return window.open(getServiceUrl('titter')+callback, "name", "width=800,height=500");
 };
 
 var faucetInterval;
+
+
+var messageListener =  (msg) => {
+    // callback to listen data sent back from the popup
+    console.log("GOT message", msg);
+    try {
+        let msgdata = JSON.parse(msg.data);
+        if (msgdata.closePopup) {
+            FormActions.cancelDonate();
+        }
+        if (msgdata.cancelPopup) {
+            console.log("Canceling popup");
+            FormActions.cancelDonate();
+        }
+
+        if (msgdata.reload) {
+            console.log("Reload required");
+            window.location.reload();
+        }
+
+        if (msgdata.txId) {
+            console.log("GOT TX id to watch!", msgdata.txId);
+            FormActions.resultMsg(
+                "You've donated " +
+                window.savedAmount +
+                " THX. Thank you! It may take a few minutes before your comment is displayed."
+            );
+            afterDonate(window.savedAmount);
+            watchTX("...", msgdata.txId)
+                .then(() => {
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    FormActions.resultMsg('',
+                        "Failed to process trasaction, reason:" + err.responseText,true
+                    );
+
+                });
+        }
+    } catch (e) {}
+};
+
+
+
 
 
 const genFormData = (state) => {
@@ -71,6 +113,7 @@ const genFormData = (state) => {
 export default Reflux.createStore({
     listenables: FormActions,
     init() {
+        console.log("Setting iframe message listener");
         window.addEventListener("message", messageListener);
         const [draftTitle,draftText] = loadDraft();
         this.state = {
@@ -224,11 +267,11 @@ export default Reflux.createStore({
             }
         };
         const getTargetId = async () => {
-            if (!recipientWrioID) {
+            if (!frame_params.recipientWrioID) {
                 return false;
             }
             try {
-                const userId = await getUserEthereumId(recipientWrioID);
+                const userId = await getUserEthereumId(frame_params.recipientWrioID);
                 console.log("GOT target ethereum id's", userId);
                 if (!userId.wallet) {
                    this.state.noAuthorWallet = true;
@@ -240,6 +283,7 @@ export default Reflux.createStore({
                 return false;
             }
         };
+        return await Promise.all([getTargetId(),getUserId()])
     },
 
     async onQueryBalance () {
@@ -353,49 +397,6 @@ async function watchTX(txUrl, txHash) {
     }
     FormActions.queryBalance();
 }
-
-
-var messageListener =  (msg) => {
-    // callback to listen data sent back from the popup
-    console.log("GOT message", msg);
-    try {
-        let msgdata = JSON.parse(msg.data);
-        if (msgdata.closePopup) {
-           FormActions.cancelDonate();
-        }
-        if (msgdata.cancelPopup) {
-            console.log("Canceling popup");
-            FormActions.cancelDonate();
-        }
-
-        if (msgdata.reload) {
-            console.log("Reload required");
-            window.location.reload();
-        }
-
-        if (msgdata.txId) {
-            console.log("GOT TX id to watch!", msgdata.txId);
-            FormActions.resultMsg(
-                "You've donated " +
-                window.savedAmount +
-                " THX. Thank you! It may take a few minutes before your comment is displayed."
-            );
-            afterDonate(window.savedAmount);
-            watchTX("...", msgdata.txId)
-                .then(() => {
-
-                })
-                .catch(err => {
-                    console.log(err);
-                    FormActions.resultMsg('',
-                        "Failed to process trasaction, reason:" + err.responseText,true
-                    );
-
-                });
-        }
-    } catch (e) {}
-};
-
 
 function afterDonate(amount) {
     FormActions.resetFields();

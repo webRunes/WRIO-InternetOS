@@ -9,24 +9,8 @@ import StoreMenu from '../../widgets/Plus/stores/menu';
 import Reflux from 'reflux';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
+import {replaceSpaces} from '../mixins/UrlMixin';
 
-// TODO: move to utils somewhere !!!!
-export function replaceSpaces(str) {
-    if (typeof str === "string") {
-        return str.replace(/ /g, '_');
-    } else {
-        return str;
-    }
-}
-
-function isCover(o) {
-    return o.url && (typeof o.url === 'string') && (o.url.indexOf('?cover') === o.url.length - 6); // TODO: maybe regexp would be better, huh?
-}
-
-const hashEquals = (itemHash) => {
-    var currentHash = window.location.hash.substring(1);
-    return replaceSpaces(itemHash) === currentHash;
-};
 
 // abstract menu button
 
@@ -54,7 +38,10 @@ class MenuButton extends React.Component {
             href = replaceSpaces(o.url || '#'+ o.name || "#");
         return (
             <li className={className}>
-                <a href={href} onClick={click} data-toggle="offcanvas">{o.name}</a>
+              <a href={href} onClick={click} data-toggle="offcanvas">
+                <span className="cd-dot"></span>
+                <span className="cd-label">{o.name}</span>
+              </a>
             </li>
         );
     }
@@ -85,13 +72,9 @@ class ExternalButton extends MenuButton {
             });
         });
     }
-
 }
 
-
-
 class ArticleButton extends MenuButton{
-
     onClick (e) {
         this.props.active(this);
         console.log("Article button clicked");
@@ -190,7 +173,7 @@ var CreateDomRight = React.createClass({
 
     render: function () {
         var className = classNames({
-            'col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas': true,
+            '': true, /* removed "sidebar-offcanvas" */
             'active': this.state.active
         });
 
@@ -199,30 +182,34 @@ var CreateDomRight = React.createClass({
 
         return (
             <div className={className} id="sidebar">
-                <div ref="sidebar" className="sidebar-margin">
-                    {this.state.article ? <aside>
-                        <CreateInfoTicket article={this.state.article} author={this.state.author}/>
-                    </aside> : ''}
-                    {this.state.article ?
-                        <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
-                    { (coverItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {coverItems}
-                    </ul>:""}
-                    { (articleItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {articleItems}
-                        <ArticleButton data={{name:"Comments",url:"#Comments"}}
-                                       active={this.active}
-                                       isActive={hashEquals('#Comments')}/>
-                    </ul>:""}
-
-                    { (externalItems.length > 0) ?
-                    <ul className="nav nav-pills nav-stacked" style={height}>
-                        {externalItems}
-                    </ul>
-                        :""}
+              <div ref="sidebar" className="sidebar-margin">
+                <div className="hidden">
+                  {this.state.article ? <aside>
+                    <CreateInfoTicket article={this.state.article} author={this.state.author}/>
+                  </aside> : ''}
+                  {this.state.article ?
+                    <CreateControlButtons article={this.state.article} author={this.state.author}/> : null}
                 </div>
+                { (coverItems.length > 0) ?
+                  <ul className="nav nav-pills nav-stacked hidden" style={height}> {/* move to top of the page */}
+                    {coverItems}
+                  </ul>:""}
+                { (articleItems.length > 0) ?
+                  <nav className="contents visible-md-block visible-lg-block"> {/* add "navbar-fixed-top" and id="cd-vertical-nav" for small displays */}
+                    <h1>Contents</h1>
+                    <ul style={height}>
+                      {articleItems}
+                      <ArticleButton data={{name:"Comments",url:"#Comments"}}
+                        active={this.active}
+                        isActive={hashEquals('#Comments')}/>
+                    </ul>
+                  </nav>:""}
+                { (externalItems.length > 0) ?
+                  <ul style={height}>
+                    {externalItems}
+                  </ul>
+                :""}
+              </div>
             </div>
         );
     },
@@ -240,62 +227,6 @@ var CreateDomRight = React.createClass({
     },
 
 
-    processItem(item, superitem) {
-        if (isCover(item)) {
-            var isActive = this.listName === item.name.toLowerCase();
-            if (this.listName === superitem.name) {
-                this.coverItems.push(<CoverButton data={superitem} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
-            } else {
-                this.coverItems.push(<CoverButton data={item} key={this.coverItems.length} active={this.active} isActive={isActive}/>);
-            }
-        } else {
-            var isActive = this.listName === item.name.toLowerCase();
-            this.externalItems.push(<ExternalButton data={item} key={this.externalItems.length} active={this.active} isActive={isActive}/>);
-        }
-    },
-
-    initListName() {
-        this.listName = WrioDocument.getListType();
-        if (this.listName) {
-            this.listName = this.listName.toLowerCase();
-        }
-
-    },
-
-    getArticleItems() {
-
-        var isActiveFirstArticle = true;
-
-        this.coverItems= [];
-        this.articleItems = [];
-        this.externalItems = [];
-        this.initListName();
-
-        if (this.listName) {
-            if (this.listName) {
-                isActiveFirstArticle = false; // if we have ?list=cover parameter in command line, don't highlight first article
-            }
-        }
-        var add = (currentItem) => {
-
-            if (currentItem.hasElementOfType("Article")) {
-                var isActive = hashEquals(currentItem.data.name) || isActiveFirstArticle;
-                isActiveFirstArticle = false;
-                this.articleItems.push(<ArticleButton data={currentItem.data} key={this.articleItems.length} active={this.active} isActive={isActive}/>);
-            } else if (currentItem.getType() === 'ItemList') {
-                if (!currentItem.hasElementOfType('ItemList')) {
-                    this.processItem(currentItem.data, currentItem.data);
-                } else {
-                    currentItem.children.forEach((item) => this.processItem(item.data, currentItem.data), this);
-                }
-            }
-            if (currentItem.hasPart()) { // recursively process all article parts
-                currentItem.children.forEach(add, this);
-            }
-        };
-        this.props.data.forEach(add);
-        return [this.coverItems,this.articleItems,this.externalItems];
-    }
 });
 
 export default CreateDomRight;

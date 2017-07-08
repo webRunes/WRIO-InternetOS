@@ -33,7 +33,7 @@ class AddFunds extends React.Component {
                     <div className="pull-right">
                         { this.state.user !== null ? 
                             <AddFundsButton /> : 
-                            <LoginButton loginUrl={ this.props.loginUrl } /> }
+                            <LoginButton /> }
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@ class AddFunds extends React.Component {
     }
 }
 AddFunds.propTypes = {
-    loginUrl: React.PropTypes.string.isRequired
+
 };
 
 export default AddFunds;

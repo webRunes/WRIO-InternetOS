@@ -7,7 +7,7 @@ import PaymentData from "./PaymentData";
 import request from 'superagent';
 import Const from '../../../../constant.js';
 import EmailEntry from './EmailEntry.js';
-import CreateWallet, {Disclaimer} from '../createwallet.js';
+import CreateWallet, {Disclaimer} from '../Wallet/createwallet.js';
 
 let SATOSHI = Const.SATOSHI;
 var recapEvent = null;
@@ -15,7 +15,7 @@ var recapEvent = null;
 export default class PresaleForm extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             alert: null,
             payment_data: null,
@@ -32,10 +32,7 @@ export default class PresaleForm extends React.Component {
     }
 
     componentDidMount() {
-        var that = this;
-        this.unsubscribe = PaymentStore.listen(function onStatusChange(status) {
-            that.changeAmount(status);
-        });
+        this.unsubscribe = PaymentStore.listen( status => this.changeAmount(status));
     }
     componentWillUnmount() {
         this.unsubscribe();
@@ -55,7 +52,7 @@ export default class PresaleForm extends React.Component {
 
     addFunds(e) {
         e.preventDefault();
-        
+
         let form = e.target;
 
         request
@@ -88,10 +85,10 @@ export default class PresaleForm extends React.Component {
                 });
             });
     }
-    
+
     onAlertClose() {
         this.setState({
-            alert: null 
+            alert: null
         });
     }
 
@@ -119,13 +116,13 @@ export default class PresaleForm extends React.Component {
         }
 
         return (
-          <form name="presaleForm"  onSubmit={this.addFunds.bind(this)}>
+          <form name="presaleForm" onSubmit={this.addFunds.bind(this)}>
 
               {this.state.stage == 0 && <div className="well enable-comment">
                   <h4>Get your first crypto currency wallet!</h4>
                   <p>Press "Create Wallet" to get your first crypto-wallet that will open a door into the world of financial independence. No control, ID or verification will be required of you.</p>
                   <br />
-                  <a className="btn btn-sm btn-success" onClick={()=>this.showCaptcha()}><span className="glyphicon glyphicon-record"></span>Create wallet</a>
+                  <a className="btn btn-sm btn-success" onClick={()=>this.showCaptcha()}><span className="glyphicon glyphicon-ok-sign"></span>Create wallet</a>
               </div>}
 
               {this.state.stage == 1 && <div className="col-xs-12" >
@@ -168,7 +165,6 @@ export default class PresaleForm extends React.Component {
     }
 }
 PresaleForm.propTypes = {
-    loginUrl: React.PropTypes.string.isRequired,
     exchangeRate: React.PropTypes.object
 };
 

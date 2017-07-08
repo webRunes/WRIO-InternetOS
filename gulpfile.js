@@ -12,10 +12,10 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var eslint = require('gulp-eslint');
-var mocha = require('gulp-mocha');
 var headerfooter = require('gulp-headerfooter');
 var fs = require('fs');
 var webpack = require('webpack');
+
 
 var argv = require('yargs').argv;
 
@@ -37,24 +37,6 @@ if (argv.dev) {
     envify_params['NODE_ENV'] = 'development';
     devmode = true;
 }
-
-gulp.task('test', function() {
-    return gulp.src('test/**/*.js', {read: false})
-        // gulp-mocha needs filepaths so you can't have any plugins before it
-        .pipe(mocha({
-            reporter: 'dot',
-            require: "babel-polyfill",
-            compilers: "js:babel-core/register",
-            timeout: 20000
-        }))
-        .once('error', function (err) {
-            console.log('Tests failed');
-            process.exit(1);
-        })
-        .once('end', function () {
-            process.exit();
-        });
-});
 
 gulp.task('lint', function () {
     // ESLint ignores files with "node_modules" paths.

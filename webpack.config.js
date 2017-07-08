@@ -40,12 +40,15 @@ let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
 console.log(envs);
 var e = {
   entry: {
-    main: path.resolve(__dirname,"./src/main.js"),
-    start: path.resolve(__dirname,"./src/preloader.js"),
-    titter: path.resolve(__dirname,'./src/iframes/Titter/js/index.js'),
-    core: path.resolve(__dirname,"./src/iframes/Core/js/client.js"),
+    main: [path.resolve(__dirname,"./src/main.js")],
+    start: [path.resolve(__dirname,"./src/preloader.js")],
+    titter: [path.resolve(__dirname,'./src/iframes/Titter/js/index.js')],
+    core: [path.resolve(__dirname,"./src/iframes/Core/js/client.js")],
     commons: ['babel-polyfill','react','react-dom','reflux','superagent','lodash','core-js'],
- //   webgold: './src/iframes/webGold/js/client.js'
+    admin: './src/iframes/webGold/js/admin/index.js',
+    presale: ['./src/iframes/webGold/js/presale.js'],
+    createwallet: './src/iframes/webGold/js/createwallet.js',
+    txsigner: './src/iframes/webGold/js/txsigner.js'
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -68,18 +71,7 @@ var e = {
       }
     ]
   },
-  devServer: {
-    disableHostCheck: true,
-    host: "0.0.0.0",
-    overlay: true,
-    port: 3000,
-    contentBase: "../",
-    inline: true,
-    watchOptions: {
-      aggregateTimeout:300,
-      poll: true // <-- it's worth setting a timeout to prevent high CPU load
-    }
-  },
+
   devtool: "source-map",
 
   plugins: [
@@ -94,29 +86,33 @@ var e = {
 
 
 
-const ES6_BROWSER = false;
+const ES6_BROWSER = true;
 
-if (process.env.DOCKER_DEV && ES6_BROWSER) {
+if ((process.env.FRONTDEV || process.env.DOCKER_DEV) && ES6_BROWSER) {
   // mode for debugging native ES6 code in compatible browser
   console.log("ES6 mode, not suitable for production!!!");
    let options= {
     presets: ["react"],
-    plugins: ["transform-es2015-modules-commonjs"]
+    plugins: ["transform-es2015-modules-commonjs","transform-flow-strip-types"]
   };
   e.module.loaders[0].options = options;
 } else {
   // production grade transpiler settings
   let presets = ["react", "es2015", "stage-0"];
   e.module.loaders[0].options = {
-    presets: presets
+    presets: presets,
+    plugins:["transform-flow-strip-types"]
   };
 }
+
+e.plugins.push(new webpack.HotModuleReplacementPlugin());
+e.plugins.push(new webpack.NamedModulesPlugin());
 
 if (process.env.DOCKER_DEV) {
   //   e.plugins.push(new BundleAnalyzerPlugin({analyzerHost: '0.0.0.0'}));
 }
 
-var minify = !process.env.DOCKER_DEV;
+var minify = !(process.env.DOCKER_DEV || process.env.FRONTDEV);
 if (minify) {
   console.log("Uglifying 😱 😱 😱 ");
   e.plugins.push(

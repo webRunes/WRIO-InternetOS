@@ -2,10 +2,11 @@
  * Created by michbil on 05.03.17.
  */
 
-import {getCookie,getLoginUrl,getWebgoldUrl} from './utils.js';
+import {getCookie} from './utils.js';
+import {getServiceUrl} from '../../../core/servicelocator'
 
 export function openAuthPopup() {
-    var loginUrl = getLoginUrl();
+    var loginUrl = getServiceUrl('login');
     var callbackurl = "//" + window.location.host + '/callback';
     window.open(loginUrl + '/authapi?callback=' + encodeURIComponent(callbackurl), "Login", "height=500,width=700");
 }

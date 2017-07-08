@@ -1,8 +1,7 @@
 import Reflux from 'reflux';
 import Actions from '../actions/center';
-import getHttp from './request.js';
 import UrlMixin from '../mixins/UrlMixin';
-import scripts from '../jsonld/scripts';
+import scripts from '../jsonld/LdJsonDocument';
 import {fixUrlProtocol} from '../mixins/UrlMixin';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 
