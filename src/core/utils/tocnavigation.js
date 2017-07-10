@@ -1,10 +1,13 @@
+/* @flow */
 /**
  * Created by michbil on 22.06.17.
  */
 
 import {replaceSpaces} from '../mixins/UrlMixin';
+import LdJsonObject from '../jsonld/entities/LdJsonObject'
+import LdJsonDocument from '../jsonld/LdJsonDocument'
 
-class MenuItem {
+export class MenuItem {
     name: string;
     url: string;
     active: boolean;
@@ -55,7 +58,7 @@ export default class TableOfContents  {
     }
 
 
-    getArticleItems(location: Object, listName? : string, data : Array<LdJsonObject>) : Array<mixed> {
+    getArticleItems(location: Object, listName? : string, data : Array<LdJsonObject>) : Array<Array<MenuItem>> {
         const hashEq : Function = hashEquals(location);
         let isActiveFirstArticle : boolean = true;
 

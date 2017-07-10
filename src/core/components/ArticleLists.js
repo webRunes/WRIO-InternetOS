@@ -27,10 +27,10 @@ const ArticleLists = ({data} : {data : LdJsonObject}) => {
                   <Thumbnail image={image} />
                   <div className="arrow-more"><i className="material-icons">more_horiz</i></div>
                   <div className="gradient"></div>
-                  <h3 className="visible-xs-block" id={articleHash}>
+                  <h3 className="visible-xs-block" >
                     {articleName}
                   </h3>
-                  <h2 className="hidden-xs">{articleName}</h2>
+                  <h2 className="hidden-xs" id={articleHash}>{articleName}</h2>
                   <p>{about}</p>
                 </div>
                 <div className="footer">
