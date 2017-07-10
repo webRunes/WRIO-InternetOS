@@ -2,7 +2,7 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import Login from './Login.js';
+import {performLogin} from './Login.js';
 import TwitterTimelineWidget from './TwitterTimeline.js';
 import LdJsonDocument from '../core/jsonld/LdJsonDocument'
 var domain = getDomain();
@@ -155,7 +155,7 @@ class LoginAndComment extends React.Component {
               <p>Please, login with your Twitter account to comment via tweets and to make donations.
               Looking forward to hearing from you!</p>
                 <br />
-                <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span
+                <a className="btn btn-sm btn-success" href="#" role="button" onClick={performLogin}><span
                     className="glyphicon glyphicon-comment"></span>Join the conversation</a>
             </div>);
     }

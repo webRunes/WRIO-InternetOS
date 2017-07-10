@@ -17,13 +17,13 @@ const LoginButton = ({onLogin}) => {
 const performLogout = () => {
     WindowActions.resetLogin.trigger();
     document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
-}
+};
 
-const performLogin  = () => {
+export const performLogin  = () => {
     WindowActions.resetLogin.trigger();
     window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
     //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
-}
+};
 
 const Login = ({profile}) => {
     return (<Dropdown id="dropdown-custom-1" pullRight >
@@ -216,4 +216,4 @@ Login.propTypes = {
 
 }; */
 
-module.exports = Login;
+export default Login;
