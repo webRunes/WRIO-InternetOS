@@ -11,7 +11,7 @@ import getHttp from '../utils/request.js';
 import UrlMixin from '../mixins/UrlMixin';
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
 import LdJsonDocument from '../jsonld/LdJsonDocument'
-import TableOfContents from '../utils/tocnavigation'
+import TableOfContents,{MenuItem} from '../utils/tocnavigation'
 import {replaceSpaces} from '../mixins/UrlMixin'
 import PlusActions from '../../widgets/Plus/actions/PlusActions'
 import CoverActions from '../actions/CoverActions'
@@ -20,13 +20,19 @@ import CoverActions from '../actions/CoverActions'
  * Store that handles state of entire WRIO-document
  */
 
+type ContentsType = {
+    covers: Array<MenuItem>,
+    chapters: Array<MenuItem>,
+    external: Array<MenuItem>
+}
+
 class WrioDocument extends Reflux.Store {
 
     state: {
         editAllowed : boolean,
         mainPage: LdJsonDocument;
         lists: Array<LdJsonDocument>,
-        toc : Object;
+        toc : ContentsType,
         url: string;
         wrioID: ?string; // current logged in user WRIO-ID
         profile: ?Object;
