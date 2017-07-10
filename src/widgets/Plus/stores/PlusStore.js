@@ -7,8 +7,7 @@ import {CrossStorageFactory} from '../../../core/utils/CrossStorageFactory.js';
 import WrioDocumentStore from '../../../core/store/WrioDocument.js';
 import {
     addPageToTabs,
-    hasActive,
-    removeLastActive,
+    getActiveElement,
     deletePageFromTabs,
     normalizeTabs,
     saveCurrentUrlToPlus} from '../utils/tabTools.js';
@@ -221,6 +220,15 @@ export default Reflux.createStore({
 
         if (wasActive) {
             window.location.href  = next ? next : getPlusUrl(this.id);
+        }
+    },
+
+    onCloseTab() {
+        const [listName,elName] = getActiveElement(this.data);
+        if (listName) {
+            this.onDel(listName,elName)
+        } else {
+            console.error("Cannot find current tab while closing tab!")
         }
     },
 
