@@ -132,6 +132,31 @@ export const hasActive = (tabs) => {
     return res;
 };
 
+export const getActiveElement = (tabs) => {
+    let listName;
+    let elName;
+    if (Object.keys(tabs).length) {
+        Object.keys(tabs).forEach((name) => {
+            if (tabs[name].active) {
+                listName = name;
+            } else {
+                if (tabs[name].children) {
+                    var children = tabs[name].children;
+                    Object.keys(children).forEach((childName) => {
+                        if (children[childName].active) {
+                            listName = name;
+                            elName = childName
+                        }
+                    });
+                }
+            }
+        });
+    }else{
+        return [undefined,undefined];
+    }
+    return [listName,elName];
+};
+
 export const removeLastActive = (_tabs) => {
     let tabs = cloneDeep(_tabs);
     function rm (obj) {

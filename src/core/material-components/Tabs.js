@@ -33,10 +33,10 @@ const ArticleTabs = ({center,externals,editAllowed,RIL,tabKey}) => {
                                     <div className="ripple-container"></div>
                                 </NavItem>}
 
-                                <NavItem eventKey="collections" disabled={externalsDisabled} className={externalsDisabled ? "disabled": "" }>
+                                {(!externalsDisabled) && <NavItem eventKey="collections" disabled={externalsDisabled} className={externalsDisabled ? "disabled": "" }>
                                     Collections
                                     <div className="ripple-container"></div>
-                                </NavItem>
+                                </NavItem>}
                                 {(RIL && (RIL.length > 0)) && <NavItem eventKey="ReadLater">
                                     Read later <label>{RIL.length}</label>
                                     <div className="ripple-container"></div>
