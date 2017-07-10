@@ -34,13 +34,13 @@ const ArticleLists = ({data} : {data : LdJsonObject}) => {
                   <p>{about}</p>
                 </div>
                 <div className="footer">
-                  <div className="author">
+                  <div className="author hidden">
                     <a href="#">
                       <img src="https://d1qb2nb5cznatu.cloudfront.net/startups/i/2451505-51a29f6e9299fda6472b55c1477f799f-medium_jpg.jpg" alt="..." className="avatar" />
                       <span>WRIO OS</span>
                     </a>
                   </div>
-                  <div className="stats">
+                  <div className="stats hidden">
                     <i className="material-icons">schedule</i> 5 min read
                   </div>
                 </div>
