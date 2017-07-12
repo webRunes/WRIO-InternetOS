@@ -83,10 +83,10 @@ const RenderCover = ({image} : {image : ImageObject}) => {
 
 
     return (<div style={carouselStyle(path,"100vh")} className="cover-bg header header-filter">
+      <div className="carousel-caption">
         <div className="carousel-caption">
-            <div className="carousel-caption">
-                <div className="row">
-                    <div className="col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
+          <div className="row">
+            <div className="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
                         <div className="title">
                             <div className="title-text">
                                 <h1>{name}</h1>
@@ -154,7 +154,7 @@ const CoverBlock = ({covers,images,currentCover,onCoverChanged}
     const headerStyle = (covers.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
     return (
         <div className="page-header" style={headerStyle}>
-            <div className="cover col-xs-8 col-xs-offset-2 col-lg-9 col-lg-offset-3">
+          <div className="cover col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
                 <div className="cover-left">
                     <div className="card card-profile card-plain">
                         <div className="card-image hidden">
@@ -214,4 +214,3 @@ class CoverContainer extends Reflux.Component {
     }
 }
 
-export default CoverContainer;
