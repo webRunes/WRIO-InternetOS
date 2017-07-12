@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {getServiceUrl,getDomain} from '../../core/servicelocator.js';
-import Actions from './actions/PlusActions.js';
+import PlusActions from './actions/PlusActions.js';
 import WindowActions from '../../core/actions/WindowActions.js';
 
 var domain = getDomain();
@@ -12,7 +12,6 @@ class PlusButton extends React.Component{
         this.state = {
             userId: ''
         };
-      //  this.userId = this.userId.bind(this);
        this.gotoUrl = this.gotoUrl.bind(this);
     }
 
@@ -26,7 +25,7 @@ class PlusButton extends React.Component{
     getProfile(jsmsg) {
         console.log("PLUS GOT PROFILE:",jsmsg);
         if (jsmsg.profile) {
-            Actions.plusActive(false, 'https://wr.io/' + jsmsg.profile.id + '/Plus-WRIO-App/');
+            PlusActions.plusActive(false, 'https://wr.io/' + jsmsg.profile.id + '/Plus-WRIO-App/');
             this.userId(jsmsg.profile.id);
         }
     }
@@ -39,9 +38,7 @@ class PlusButton extends React.Component{
 
     gotoUrl(e) {
         e.preventDefault();
-        Actions.plusActive(true, 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/', () => {
-            window.location = 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/';
-        });
+        window.location = 'https://wr.io/' + this.state.userId + '/Plus-WRIO-App/';
         return false;
     }
 

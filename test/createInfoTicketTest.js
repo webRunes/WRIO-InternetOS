@@ -1,28 +1,11 @@
 import {expect} from 'chai';
 import CreateInfoTicket from '../src/core/components/CreateInfoTicket';
-import jsdom from 'jsdom';
 
-var FAKE_DOM_HTML = `
-<html>
-<body>
-</body>
-</html>
-`;
+require('./fakeDom.js');
 
-function setupFakeDOM() {
-    if (typeof document !== 'undefined') {
-        return;
-    }
-
-    global.document = jsdom.jsdom(FAKE_DOM_HTML);
-    global.window = document.defaultView;
-    global.navigator = window.navigator;
-}
-
-setupFakeDOM();
 
 import React from 'react';
-import {renderIntoDocument, Simulate} from 'react-addons-test-utils';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 
 const TEST_DATA = {
     name: 'test',

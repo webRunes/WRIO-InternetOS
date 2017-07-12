@@ -1,18 +1,32 @@
+/* @flow */
 /**
  * Created by michbil on 09.01.16.
  */
 
-export function getServiceUrl(service) {
+export function getServiceUrl(service: string) : string {
     var protocol = 'https://';
     var domain = process.env.DOMAIN;
-    if (domain === 'wrioos.local') {
-        protocol = 'http://';
+
+    if (!domain) {
+        throw new Error("Domain is not defined!")
     }
-    var domain = process.env.DOMAIN;
-    return protocol + service + "."+domain;
+
+    if (domain === 'wrioos.local') {
+        protocol = window.location.protocol + '//';
+    }
+    if (process.env.NODE_ENV == 'development') {
+        protocol = 'https:';
+        if (service == 'core') {
+            return 'http://core_d.wrioos.com:3033'
+        }
+        if (service == 'titter') {
+            return 'http://titter_d.wrioos.com:3033'
+        }
+    }
+    return protocol + "//" + service + "." + domain;
 }
 
-export function getDomain() {
+export function getDomain() : string {
     var domain = '';
 
     if (process.env.DOMAIN == undefined) {
@@ -21,4 +35,13 @@ export function getDomain() {
         domain = process.env.DOMAIN;
     }
     return domain;
+}
+
+export function getTitterIframe() {
+
+}
+
+
+export function getCoreIframe() {
+
 }

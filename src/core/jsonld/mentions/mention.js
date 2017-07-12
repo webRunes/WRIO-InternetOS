@@ -1,20 +1,26 @@
+/* @flow */
 import AbstractMention from './abstractMention.js';
 import React from 'react';
 
 
-var globalMention=0;
-var globalCursor=0;
 
 /* Class that translates paragraph text and mentions into react code */
 
 export class MappedMention {
-    constructor(text) {
+
+    bullet: boolean; // bullet flag for the text
+    before: Array<mixed>;
+    after : string;
+    pos : number;
+
+
+    constructor(text : string) {
         this.before = [];
         this.after = text;
         this.pos = 0;
     }
 
-    applyMention(m) {
+    applyMention(m : Mention) {
         const start = m.start - this.pos;
         if (start < 0) {
             console.warn ("Wrong start offset ",start,"for mention",m);
@@ -38,7 +44,7 @@ export class MappedMention {
 
     }
 
-    render(key) {
+    render(key : string) {
         return (<span key={key}>
         {
             this.before.map((mention,key) => {
@@ -57,7 +63,7 @@ export class MappedMention {
 
 export class MappedCoverMention extends MappedMention {
 
-    applyMention(m) {
+    applyMention(m : Mention) {
         // TODO fix this
         if (Mention.isBulletItem(this.after)) {
             this.after = Mention.skipAsterisk(this.after);
@@ -75,7 +81,16 @@ class Mention extends AbstractMention {
         Creates mention from the mention LD+JSON
      */
 
-    constructor(opts) {
+    className : string;
+    name : string;
+    url : string;
+    hash : boolean; // hash flag, for links, marked as coming soon
+    linkWord : string;
+    linkUrl : string;
+    order : number;
+    start : number;
+
+    constructor(opts : Object) {
         // Example:
         //{
         //    "@type": "Article",
@@ -103,7 +118,7 @@ class Mention extends AbstractMention {
         this.start = Number(positions[1]);
 
         try {
-            this.external = positions[2] == 'external';
+            this.external = positions[2] == 'external'; // external means link will be open in new window
             this.extra = positions[3]; // additional optional field for the language
             this.externalUrl = cutUrl[0].replace('?','');
         } catch (e) {
@@ -112,41 +127,41 @@ class Mention extends AbstractMention {
 
     }
 
-    _coming_soon(url) {
+    _coming_soon(url : string) : boolean {
       if (url) {
           if (url.match(/#\?/)) {
              return true;
           }
       }
+      return false;
 
     }
 
-    setCursor(paragraphText) {
-        globalCursor[paragraphText] = this.end;
-    }
 
 
     /* functions for processing asterisks in mentions (for the lists) */
-    static isBulletItem(str) {
+    static isBulletItem(str : string) : boolean{
         if (typeof str === "string") {
-            return str.match(/^\*/m);
+            return !!str.match(/^\*/m);
         }
         return false;
     }
 
-    static skipAsterisk(str) {
+    static skipAsterisk(str : string) : string{
         if (typeof str === "string") {
             return str.replace(/^\*/m, ' ');
         }
         return str;
     }
 
-     render (key) {
+     render (key : string) {
          var ext = "";
          var linkUrl = this.linkUrl;
          var target, color;
-         if (this.external) {
-             ext = (<sup><span className="glyphicon glyphicon-new-window"></span>{this.extra}</sup>);
+         if (this.external || this.extra) {
+             ext = (<sup>
+                 {this.external && <span className="glyphicon glyphicon-new-window"></span>}
+                 {this.extra}</sup>);
              target = "_blank";
              linkUrl = this.externalUrl;
 

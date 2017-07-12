@@ -39,13 +39,13 @@ module.exports = Reflux.createStore({
             return;
         }
 
-        if (this.checkForService('titter',e)) {
+        if (this.checkForService('titter',e) || this.checkForService('titter_d',e)) {
             if (msg.reload) {
                 WindowActions.forceIframeReload.trigger();
             }
             WindowActions.titterMessage.trigger(msg);
         }
-        if (this.checkForService('core',e)) {
+        if (this.checkForService('core',e) || this.checkForService('core_d',e)) {
             if (msg.reload) {
                 window.location.reload();
             }

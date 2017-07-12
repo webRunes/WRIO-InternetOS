@@ -2,12 +2,51 @@ import React from 'react';
 import Details from'./Details.js';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import UIActions from '../core/actions/UI.js';
-import UserStore from '../core/store/UserStore.js';
-
+import {Dropdown,MenuItem,Glyphicon} from 'react-bootstrap'
 var domain = getDomain();
 
-class Login extends React.Component{
+const LoginButton = ({onLogin}) => {
+    return (
+        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
+            <i className="material-icons dp_big">account_circle</i>
+            Login
+        </a>
+    )
+};
+
+const performLogout = () => {
+    WindowActions.resetLogin.trigger();
+    document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
+};
+
+export const performLogin  = () => {
+    WindowActions.resetLogin.trigger();
+    window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+    //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+};
+
+const Login = ({profile}) => {
+    return (<Dropdown id="dropdown-custom-1" pullRight >
+        <Dropdown.Toggle className="btn-just-icon btn-simple btn-default btn-lg btn-flat">
+            <i className="material-icons dp_big">account_circle</i> {profile.temporary ? "Temporary account" : profile.name}
+        </Dropdown.Toggle>
+        <Dropdown.Menu >
+            <MenuItem eventKey="1" href={profile.url}>
+                <i className="material-icons dp_big">perm_identity</i>Profile
+            </MenuItem>
+            <MenuItem divider />
+            {!profile.temporary ? <MenuItem eventKey="2" onClick={performLogout}>
+                <i className="material-icons dp_big">exit_to_app</i>Logout
+            </MenuItem> :
+            <MenuItem eventKey="2" onClick={performLogin}>
+                <i className="material-icons dp_big">exit_to_app</i>Login
+            </MenuItem>}
+        </Dropdown.Menu>
+    </Dropdown>);
+}
+
+/*
+class OldLogin extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -40,63 +79,41 @@ class Login extends React.Component{
 
     }
 
-    componentDidMount() {
-        this.setActions();
-    }
 
-    setActions() {
 
-        WindowActions.loginMessage.listen((jsmsg) => {
-            if (jsmsg.login == "success") {
-                //location.reload();
-
-            }
-
-            if (jsmsg.profile) {
-
-                this.setState({busy:false});
-
-                var profile = jsmsg.profile;
-                UIActions.gotWrioID(profile.id);
-                UIActions.gotProfileUrl(profile.url);
-                if (!profile.temporary) {
-                    UserStore.saveLoggedUser(profile.id,profile);
+    setTemporoary(temporary) {
+        if (temporary) {
+            this.setState({
+                title: {
+                    text: "Logged as I'm Anonymous ",
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Upgrade guest account for free",
+                    label: profile.days + " days left",
+                    visible: true
                 }
-
-
-                if (profile.temporary) {
-                    this.setState({
-                        title: {
-                            text: "Logged as I'm Anonymous ",
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Upgrade guest account for free",
-                            label: profile.days + " days left",
-                            visible: true
-                        }
-                    });
-                } else {
-                    this.setState({
-                        title: {
-                            text: "Logged in as " + profile.name,
-                            label: "WRIO",
-                            link: {
-                                url: profile.url
-                            }
-                        },
-                        upgrade: {
-                            text: "Log out",
-                            label: profile.days + " days left",
-                            visible: false
-                        }
-                    });
+            });
+        } else {
+            this.setState({
+                title: {
+                    text: "Logged in as " + profile.name,
+                    label: "WRIO",
+                    link: {
+                        url: profile.url
+                    }
+                },
+                upgrade: {
+                    text: "Log out",
+                    label: profile.days + " days left",
+                    visible: false
                 }
-            }
-        });
+            });
+        }
+
     }
 
     static openAuthPopup(e) {
@@ -112,7 +129,6 @@ class Login extends React.Component{
 
     static showLockup(e) {
         e.stopPropagation();
-        UIActions.showLockup.trigger(true);
     }
 
     doLogout(e) {
@@ -124,14 +140,14 @@ class Login extends React.Component{
 
     static requestLogin() {
         WindowActions.resetLogin.trigger();
-        document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+        window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+        //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
     }
 
     doLogin(e) {
         e.stopPropagation();
         Login.requestLogin();
         this.setState({busy:true});
-      //  UIActions.showLockup.trigger(false);
     }
 
     changePage(){
@@ -144,6 +160,8 @@ class Login extends React.Component{
         if (this.state.busy) {
             return (<img src="https://default.wrioos.com/img/loading.gif" />);
         }
+
+
 
         if (this.state.upgrade.visible) {
             upgrade = (<li>
@@ -168,25 +186,25 @@ class Login extends React.Component{
 
 
         return (
-            <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
-                <li className="panel">
-                    <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
-                        <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
-                        {/*<sup>{this.state.title.label}</sup>*/}
-                    </a>
+            <ul className="info nav nav-pills nav-stacked hidden" id="profile-accordion">
+              <li className="panel">
+                <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
+                  <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
 
-                    <span className="in" id="profile-element" onClick={this.changePage}>
-                        <div className="media thumbnail clearfix">
-                            <Details />
-                            <div className="col-xs-12 col-md-6">
-                                <p>{this.state.description}</p>
-                                <ul className="actions">
-                                    {has}
-                                    {lock}
-                                </ul>
-                            </div>
-                        </div>
-                    </span>
+                </a>
+
+                <span className="in" id="profile-element" onClick={this.changePage}>
+                  <div className="media thumbnail clearfix">
+                    <Details />
+                    <div className="col-xs-12 col-md-6">
+                      <p>{this.state.description}</p>
+                      <ul className="actions">
+                        {has}
+                        {lock}
+                      </ul>
+                    </div>
+                  </div>
+                </span>
 
                 </li>
             </ul>
@@ -196,6 +214,6 @@ class Login extends React.Component{
 
 Login.propTypes = {
 
-};
+}; */
 
-module.exports = Login;
+export default Login;

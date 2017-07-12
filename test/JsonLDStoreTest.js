@@ -1,8 +1,9 @@
+import 'babel-polyfill'
+
 import assert from 'assert';
 import should from 'should';
-import {setMock} from '../src/core/store/CrossStorageFactory.js';
+import {setMock} from '../src/core/utils/CrossStorageFactory.js';
 import PlusStore from '../src/widgets/Plus/stores/PlusStore.js';
-import jsdom from 'jsdom';
 
 var mockval = {
     "plus":{
@@ -22,31 +23,22 @@ var mockval = {
             "author": "webrunes.com",
             "order": 2,
             "active": true
-        },
+        }
     }
 };
 
 
+require('./fakeDom.js');
 
-var FAKE_DOM_HTML = `
-<html>
-<body>
-</body>
-</html>
-`;
 
-function setupFakeDOM() {
-    if (typeof document !== 'undefined') {
-        return;
-    }
-
-    global.document = jsdom.jsdom(FAKE_DOM_HTML);
-    global.window = document.defaultView;
-    global.navigator = window.navigator;
-}
-
-setupFakeDOM();
-
+import WindowActions from "../src/core/actions/WindowActions"
+import {
+    addPageToTabs,
+    hasActive,
+    removeLastActive,
+    deletePageFromTabs,
+    normalizeTabs,
+    saveCurrentUrlToPlus} from '../src/widgets/Plus/utils/tabTools.js';
 
 
 describe('jsonld store test', () => {
@@ -56,9 +48,10 @@ describe('jsonld store test', () => {
        var store = PlusStore;
        setMock(mockval);
        store.init();
+       WindowActions.loginMessage({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
        setTimeout(() => {
            //console.log("DATA:",store.data);
-           should(store.data).equal(mockval.plus);
+           //should(store.data).deepEqual(normalizeTabs(mockval.plus));
            done();
        },1000);
 

@@ -1,140 +1,52 @@
+/* @flow */
 import React from 'react';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import WrioDocument from '../core/store/WrioDocument.js';
-import Login from './Login.js';
-
+import {performLogin} from './Login.js';
+import TwitterTimelineWidget from './TwitterTimeline.js';
+import LdJsonDocument from '../core/jsonld/LdJsonDocument'
 var domain = getDomain();
 
+type TitterProps = {
+    document: LdJsonDocument,
+    profile: ?Object,
+    wrioID: ?string
+};
 
-class TwitterTimelineWidget {
-    constructor(commentId,container) {
-        window.onTimelineLoad = this.onTimelineLoad.bind(this);
+class TitterWidget extends React.Component {
+    props: TitterProps;
 
-        container.style.height = '240px';
+    state: {
+        addComment: string,
+        article: boolean,
+        titterFrameUrl: string,
 
-        var commentTitle = '<ul class="breadcrumb twitter"><li class="active">Comments</li><li class="pull-right"></li></ul>';
-        var twitterTemplate = '<a class="twitter-timeline" href="https://twitter.com/search?q=' + window.location.href + '" data-widget-id="' + commentId + '" width="' + window.innerWidth + '" data-chrome="nofooter">Tweets about ' + window.location.href + '</a>';
-        container.innerHTML = commentTitle + twitterTemplate;
+    };
+    timelinewidget : TwitterTimelineWidget;
 
-        var js,
-            fjs = document.getElementsByTagName('script')[0],
-            p = /^http:/.test(document.location) ? 'http' : 'https';
-
-        js = document.createElement('script');
-        js.id = 'twitter-wjs';
-        js.src = p + '://platform.twitter.com/widgets.js';
-        js.setAttribute('onload', 'twttr.events.bind("rendered",window.onTimelineLoad);');
-        fjs.parentNode.insertBefore(js, fjs);
+    constructor (props : TitterProps) {
+        super(props);
+        this.initProps(props);
 
     }
 
-    onTimelineLoad() {
-        this.$twitter = document.getElementsByClassName('twitter-timeline-rendered')[0];
-        this.$twitter.contentDocument.getElementsByTagName('style')[0].innerHTML += 'img.autosized-media {width:auto;height:auto;}\n.timeline-Widget {max-width:10000px !important;}\n.timeline-Widget .stream {overflow-y: hidden !important;}';
-        this.interval = setInterval(this.autoSizeTimeline.bind(this), 1000);
+    componentWillReceiveProps(nextProps : TitterProps) {
+        this.initProps(nextProps);
     }
 
-    calcHeight(id) {
-        var element = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
-        return Number(window.getComputedStyle(element).height.replace('px', ''));
-    }
+    initProps(props : TitterProps) {
+        const authorId = this.props.document.getAuthorWrioId();
+        const origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
 
-    autoSizeTimeline() {
-        if (this.$twitter.contentDocument) {
-            var $hfeed = this.$twitter.contentDocument.getElementsByClassName("timeline-TweetList")[0];
-            var $noMorePane = this.$twitter.contentDocument.getElementsByClassName("timeline-LoadMore")[0];
-            var twitterht = 0;
-            var add_ht = 0;
-            if ($hfeed) {
-                twitterht = Number(window.getComputedStyle($hfeed).height.replace('px', ''));
-            }
-            if ($noMorePane) {
-                add_ht = Number(window.getComputedStyle($noMorePane).height.replace('px', ''));
-            }
+        const id =
 
-            if (add_ht > 0) {
-                twitterht += add_ht;
-            }
-
-            this.$twitter.style.height = twitterht + 90 + 'px';
-        }
-    }
-    cleanup () {
-        clearInterval(this.interval);
-    }
-
-
-}
-
-var CreateTitter = React.createClass({
-    propTypes: {
-        scripts: React.PropTypes.array.isRequired
-    },
-
-    componentWillUnmount () {
-       this.timelinewidget.cleanup();
-    },
-    switchToAddCommentMode () {
-        this.setState({
-            addFundsMode: false
-        });
-    },
-    switchToAddFundsMode (){
-        this.setState({
-            addFundsMode: true
-        });
-    },
-    prepTwitterTimeline() {
-        var timeline = this.refs.timeLineContainer;
-        if (!timeline) {
-            return;
-        }
-        let id = WrioDocument.getJsonLDProperty('comment');
-        return new TwitterTimelineWidget(id,timeline);
-
-    },
-    editIframeStyles: {
-        width: '100%',
-        height: '650px',
-        border: 'none'
-    },
-
-    getWrioIdFromAuthor() {
-        var author = WrioDocument.getJsonLDProperty('author');
-        if (author) {
-            var reg = /\?wr\.io=([0-9]*)$/gm;
-            var regResult = reg.exec(author);
-            var wrioID = regResult ? regResult[1] : !1;
-            if (wrioID) {
-                return wrioID;
-            }
-        }
-        console.log("ERROR: failed to extract author's WRIO id");
-    },
-
-    getInitialState () {
-
-
-        var authorId = this.getWrioIdFromAuthor();
-        if (authorId) {
-            authorId = "&id=" + authorId;
-        } else {
-            authorId = "";
-        }
-
-        var origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
-
-        return {
-            isAuthor: false,
+        this.state =  {
+            profile: props.profile,
             addComment: 'Add comment',
-            article: WrioDocument.hasArticle(),
-            isTemporary: false,
-            addFundsMode: false,
-            titterFrameUrl: getServiceUrl('titter') + '/iframe/?origin=' + origin + authorId,
-            webgoldIframeUrl: getServiceUrl('webgold') + "/add_funds"
+            article: this.props.document.hasArticle(),
+            titterFrameUrl: `${getServiceUrl('titter')}/iframe/?origin=${origin}&author=${authorId || ""}&userID=${this.props.wrioID || ""}`,
         };
-    },
+    }
 
     componentDidMount () {
         if (!this.state.article) {
@@ -143,15 +55,27 @@ var CreateTitter = React.createClass({
 
         this.createListeners();
         this.timelinewidget = this.prepTwitterTimeline();
-    },
+    }
+
+    componentWillUnmount () {
+       this.timelinewidget.cleanup();
+    }
+
+    prepTwitterTimeline() {
+        var timeline = this.refs.timeLineContainer;
+        if (!timeline) {
+            return;
+        }
+        let id = this.props.document.getJsonLDProperty('comment');
+        return new TwitterTimelineWidget(id,timeline);
+    }
+
+
 
     createListeners() {
         WindowActions.titterMessage.listen((msg)=> {
             if (msg.titterHeight) {
                 this.refs.titteriframe.style.height = msg.titterHeight + 'px';
-            }
-            if (msg.goAddFunds) {
-                this.switchToAddFundsMode();
             }
         });
 
@@ -174,71 +98,54 @@ var CreateTitter = React.createClass({
 
         });
 
-        WindowActions.loginMessage.listen((msg)=> {
-            if (msg.profile) {
-                var auth =  (msg.profile.id === this.getWrioIdFromAuthor());
-                this.setState({
-                    isTemporary: msg.profile.temporary,
-                    isAuthor: auth
-                });
-            }
-        });
-    },
+    }
+
 
     render () {
-        var parts = [];
-        var addCommentFundsMode;
-        var twStyle = {display: "none"};
+        let body = null;
+        let showTimeline = false;
 
-        if (!this.state.addFundsMode) {
-            addCommentFundsMode = (
-                <ul className="breadcrumb" key="act">
-                    <li className="active">{this.state.addComment}</li>
-                    <li style={{display: "none"}}><a onClick={ this.switchToAddFundsMode }>Add funds</a></li>
-                </ul>
-            );
+        if (!this.state.profile) {
+           body =  <img src="https://default.wrioos.com/img/loading.gif"/>
+        } else {
 
-            if (this.state.isTemporary) {
-                parts.push(<LoginAndComment />);
-                twStyle = {
-                    display: "block"
-                };
+            if (this.state.profile.temporary) {
+                body = (<LoginAndComment />);
+                showTimeline = true;
 
             } else {
                 if (this.state.article) {
-                    parts.push(
+                    body = (
                         <section key="b">
                             <iframe ref="titteriframe" id="titteriframe" src={this.state.titterFrameUrl} frameBorder="no" scrolling="no"/>
                         </section>
                     );
-
-                    twStyle = {
-                        display: "block"
-                    };
+                    showTimeline = true;
                 }
             }
-        } else {
-            addCommentFundsMode = (
-                <ul className="breadcrumb">
-                    <li><a onClick={ this.switchToAddCommentMode }>{this.state.addComment}</a></li>
-                    <li className="active">Add funds</li>
-                </ul>
-            );
-            parts.push(<iframe id="webgoldiframe" ref="webgoldiframe" src={this.state.webgoldIframeUrl } style={ this.editIframeStyles }/>);
         }
-
-        parts.push(<div ref="timeLineContainer" style={twStyle}></div>);
-
 
         return (
             <div>
-                { addCommentFundsMode }
-                {parts}
+                <ul className="breadcrumb" key="act">
+                    <li className="active" id="Comments">{this.state.addComment}</li>
+                </ul>
+                {body}
+                <div ref="timeLineContainer" style={showTimeline ? {display:"block"} : {display:"none"}}></div>
             </div>
         );
     }
-});
+};
 
+const addFundsIfrmame = () => {
+    const editIframeStyles= {
+        width: '100%',
+            height: '650px',
+            border: 'none'
+    }
+    const webgoldIframeUrl = getServiceUrl('webgold') + "/add_funds";
+    return (<iframe id="webgoldiframe" ref="webgoldiframe" src={webgoldIframeUrl } style={ editIframeStyles }/>);
+};
 
 class LoginAndComment extends React.Component {
     render() {
@@ -248,10 +155,10 @@ class LoginAndComment extends React.Component {
               <p>Please, login with your Twitter account to comment via tweets and to make donations.
               Looking forward to hearing from you!</p>
                 <br />
-                <a className="btn btn-sm btn-success" href="#" role="button" onClick={Login.requestLogin}><span
+                <a className="btn btn-sm btn-success" href="#" role="button" onClick={performLogin}><span
                     className="glyphicon glyphicon-comment"></span>Join the conversation</a>
             </div>);
     }
 }
 
-export default CreateTitter;
+export default TitterWidget;

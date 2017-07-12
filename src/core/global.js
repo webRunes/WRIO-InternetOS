@@ -1,9 +1,9 @@
-export var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/' : 'https://wrioos.com/';
+export var importUrl = (process.env.NODE_ENV === 'development') ? 'http://localhost' : 'https://wrioos.com/';
 export var cssUrl;
 export var theme;
 
 if (process.env.NODE_ENV === 'development') {
-    cssUrl = '//localhost:3000/';
+    cssUrl = '//localhost:3033/';
     theme = 'Default-WRIO-Theme';
 } else {
     cssUrl = '//default.wrioos.com/';
@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 
 if (process.env.NODE_ENV === 'dockerdev') {
     console.log("Docker production ENV detected");
-    importUrl = cssUrl = '//wrioos.local/';
+    importUrl = cssUrl = '//localhost:3033/';
     theme = 'Default-WRIO-Theme';
 }
 
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'dockerdev') {
 export var themeImportUrl = importUrl + theme + '/widget/';
 export const isAirticlelist = false;
 
-export function getResourcePath(filename) {
+export function getResourcePath(filename : string) : string {
 
     if (filename) {
         if (filename[0] === '/') {
