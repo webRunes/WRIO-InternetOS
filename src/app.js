@@ -51,11 +51,20 @@ const NewUI = ({center,
     tabKey}) => {
     return (
         <div>
+            <div id="cd-vertical-nav">
+                <ArticleTableOfContents articleItems={chapters}
+                />
+            </div>
             <LoginBar profile={profile}/>
             <RightNav />
             <CoverHeader />
             <div className="col-sm-3">
-                  <ArticleTableOfContents articleItems={chapters} />
+                <div id="sidebar">
+                    <div className="sidebar-margin">
+                        <h1>Contents</h1>
+                        <ArticleTableOfContents articleItems={chapters} cls="contents visible-md-block visible-lg-block"/>
+                    </div>
+                </div>
             </div>
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
                     <Tabs center={center}
@@ -65,6 +74,7 @@ const NewUI = ({center,
                           tabKey={tabKey}
                     />
             </div>
+
         </div>
     );
 };
