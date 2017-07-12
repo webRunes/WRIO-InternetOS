@@ -28,12 +28,12 @@ const RightNav = () => {
 const NewUI = ({center, coverData, chapters, externals,editAllowed,RIL,tabKey}) => {
     return (
         <div>
-            <RightNav />
-            <CoverHeader coverData={coverData} />
-            <div className="col-sm-3">
-                  <ArticleTableOfContents articleItems={chapters} />
-            </div>
-            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
+          <RightNav />
+          <CoverHeader coverData={coverData} />
+          <div className="col-sm-3">
+            <ArticleTableOfContents articleItems={chapters} />
+          </div>
+          <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                     <Tabs center={center}
                           externals={externals}
                           editAllowed={editAllowed}
