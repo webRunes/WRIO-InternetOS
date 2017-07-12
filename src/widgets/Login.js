@@ -2,12 +2,51 @@ import React from 'react';
 import Details from'./Details.js';
 import {getServiceUrl,getDomain} from '../core/servicelocator.js';
 import WindowActions from '../core/actions/WindowActions.js';
-import UIActions from '../core/actions/UI.js';
-import UserStore from '../core/store/UserStore.js';
-
+import {Dropdown,MenuItem,Glyphicon} from 'react-bootstrap'
 var domain = getDomain();
 
-class Login extends React.Component{
+const LoginButton = ({onLogin}) => {
+    return (
+        <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
+            <i className="material-icons dp_big">account_circle</i>
+            Login
+        </a>
+    )
+};
+
+const performLogout = () => {
+    WindowActions.resetLogin.trigger();
+    document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
+};
+
+export const performLogin  = () => {
+    WindowActions.resetLogin.trigger();
+    window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+    //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
+};
+
+const Login = ({profile}) => {
+    return (<Dropdown id="dropdown-custom-1" pullRight >
+        <Dropdown.Toggle className="btn-just-icon btn-simple btn-default btn-lg btn-flat">
+            <i className="material-icons dp_big">account_circle</i> {profile.temporary ? "Temporary account" : profile.name}
+        </Dropdown.Toggle>
+        <Dropdown.Menu >
+            <MenuItem eventKey="1" href={profile.url}>
+                <i className="material-icons dp_big">perm_identity</i>Profile
+            </MenuItem>
+            <MenuItem divider />
+            {!profile.temporary ? <MenuItem eventKey="2" onClick={performLogout}>
+                <i className="material-icons dp_big">exit_to_app</i>Logout
+            </MenuItem> :
+            <MenuItem eventKey="2" onClick={performLogin}>
+                <i className="material-icons dp_big">exit_to_app</i>Login
+            </MenuItem>}
+        </Dropdown.Menu>
+    </Dropdown>);
+}
+
+/*
+class OldLogin extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +129,6 @@ class Login extends React.Component{
 
     static showLockup(e) {
         e.stopPropagation();
-        UIActions.showLockup.trigger(true);
     }
 
     doLogout(e) {
@@ -110,7 +148,6 @@ class Login extends React.Component{
         e.stopPropagation();
         Login.requestLogin();
         this.setState({busy:true});
-      //  UIActions.showLockup.trigger(false);
     }
 
     changePage(){
@@ -153,7 +190,7 @@ class Login extends React.Component{
               <li className="panel">
                 <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
                   <i className="glyphicon glyphicon-chevron-down pull-right"></i>{this.state.title.text}
-                  {/*<sup>{this.state.title.label}</sup>*/}
+
                 </a>
 
                 <span className="in" id="profile-element" onClick={this.changePage}>
@@ -177,6 +214,6 @@ class Login extends React.Component{
 
 Login.propTypes = {
 
-};
+}; */
 
-module.exports = Login;
+export default Login;

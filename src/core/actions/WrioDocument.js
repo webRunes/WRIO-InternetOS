@@ -16,7 +16,8 @@ export default Reflux.createActions([
     'cover',
     'article',
 
-    'tabClick'
+    'tabClick',
+    'coverChanged'
 
 
 ]);

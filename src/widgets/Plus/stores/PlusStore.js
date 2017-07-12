@@ -3,14 +3,11 @@ import normURL,{isPlusUrl,getPlusUrl} from '../utils/normURL';
 import PlusActions from '../actions/PlusActions.js';
 import ActionMenu from '../actions/menu';
 import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../utils/tools';
-import {CrossStorageFactory} from '../../../core/store/CrossStorageFactory.js';
-import UserActions from '../../../core/actions/UserActions.js';
+import {CrossStorageFactory} from '../../../core/utils/CrossStorageFactory.js';
 import WrioDocumentStore from '../../../core/store/WrioDocument.js';
-//import UIActions from '../../../core/actions/UI.js';
 import {
     addPageToTabs,
-    hasActive,
-    removeLastActive,
+    getActiveElement,
     deletePageFromTabs,
     normalizeTabs,
     saveCurrentUrlToPlus} from '../utils/tabTools.js';
@@ -226,6 +223,15 @@ export default Reflux.createStore({
         }
     },
 
+    onCloseTab() {
+        const [listName,elName] = getActiveElement(this.data);
+        if (listName) {
+            this.onDel(listName,elName)
+        } else {
+            console.error("Cannot find current tab while closing tab!")
+        }
+    },
+
 
     async onClickLink(data) {
 
@@ -236,9 +242,6 @@ export default Reflux.createStore({
             return;
         }
 
-        if (data && (data.temporary !== undefined)) {
-            return UserActions.selectUser.trigger(data);
-        }
 
         if (window.localStorage) {
             localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);

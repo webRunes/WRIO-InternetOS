@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import normURL from './utils/normURL';
-import {CrossStorageFactory} from '../../core/store/CrossStorageFactory.js';
+import {CrossStorageFactory} from '../../core/utils/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
 
 var storage = CrossStorageFactory.getCrossStorage();
