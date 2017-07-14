@@ -5,10 +5,10 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import LdJsonDocument from '../src/core/jsonld/LdJsonDocument.js';
+import LdJsonDocument from '../src/base/jsonld/LdJsonDocument.js';
 import fixtures from './fixtures/index.js'
-import WrioDocumentActions from '../src/core/actions/WrioDocument.js';
-import WrioDocumentStore from '../src/core/store/WrioDocument.js';
+import WrioDocumentActions from '../src/base/actions/WrioDocument.js';
+import WrioDocumentStore from '../src/base/store/WrioDocument.js';
 require('./fakeDom.js');
 
 function wrapFixture(scripts) {
