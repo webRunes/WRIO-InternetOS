@@ -62,7 +62,7 @@ export class StayOnTopElement extends React.Component {
         }
         const sz1 = elem.getAttribute('data-top') - elem.offsetHeight ;
         const sz2 = scrollTop() - elem.offsetHeight;
-        console.log(`${sz1} <= ${sz2}`);
+        //console.log(`${sz1} <= ${sz2}`);
         if (sz1 <= sz2) {
             addClass(elem,'navbar-fixed-top');
             addClass(elem,'col-sm-3');

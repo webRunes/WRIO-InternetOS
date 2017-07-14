@@ -214,3 +214,4 @@ class CoverContainer extends Reflux.Component {
     }
 }
 
+export default CoverContainer;
