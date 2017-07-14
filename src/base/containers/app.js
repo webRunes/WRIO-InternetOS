@@ -39,7 +39,10 @@ const LoginBar = ({profile}) => {
     return (<div style={loginStyle}>
         {!!profile && <Login profile={profile}/>}
     </div>);
+<<<<<<< HEAD
 }
+=======
+>>>>>>> f2264cce654ab50ea3fcb4b03be88ac9191e3d05
 
 let numRender = 0;
 class Main extends Reflux.Component {
