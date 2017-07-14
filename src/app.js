@@ -3,7 +3,7 @@ import React from 'react';
 // $FlowFixMe
 import Reflux from 'reflux'
 import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './core/components/CreateDomCenter';
-import ArticleTableOfContents from './core/material-components/ArticleNavgiation'
+import {VerticalNav,ArticleTableOfContents} from './core/material-components/ArticleNavgiation'
 import {getServiceUrl,getDomain} from './core/servicelocator.js';
 import LdJsonDocument from './core/jsonld/LdJsonDocument';
 import UrlMixin from './core/mixins/UrlMixin.js';
@@ -39,46 +39,9 @@ const LoginBar = ({profile}) => {
     return (<div style={loginStyle}>
         {!!profile && <Login profile={profile}/>}
     </div>);
-}
-
-
-const NewUI = ({center,
-    chapters,
-    externals,
-    editAllowed,
-    RIL,
-    profile,
-    tabKey}) => {
-    return (
-        <div>
-            <div id="cd-vertical-nav">
-                <ArticleTableOfContents articleItems={chapters}
-                />
-            </div>
-            <LoginBar profile={profile}/>
-            <RightNav />
-            <CoverHeader />
-            <div className="col-sm-3">
-                <div id="sidebar">
-                    <div className="sidebar-margin">
-                        <h1>Contents</h1>
-                        <ArticleTableOfContents articleItems={chapters} cls="contents visible-md-block visible-lg-block"/>
-                    </div>
-                </div>
-            </div>
-            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
-                    <Tabs center={center}
-                          externals={externals}
-                          editAllowed={editAllowed}
-                          RIL={RIL}
-                          tabKey={tabKey}
-                    />
-            </div>
-
-        </div>
-    );
 };
 
+let numRender = 0;
 class Main extends Reflux.Component {
     constructor(props) {
         super(props);
@@ -96,6 +59,33 @@ class Main extends Reflux.Component {
         WrioDocumentActions.loadDocumentWithData.trigger(this.props.document,window.location.href);
     }
 
+    renderWithCenter(center) {
+        let data: LdJsonDocument = this.props.document;
+        let externals = this.state.lists.filter(list => list.type == 'external');
+
+        console.log(`RENDERING state!!!!!!!!!!! ${numRender++}`, this.state);
+
+        return ( <div>
+
+            <VerticalNav vertical={true} articleItems={this.state.toc.chapters}/>
+            <LoginBar profile={this.state.profile}/>
+            <RightNav />
+            <CoverHeader />
+            <LeftNav articleItems={this.state.toc.chapters} />
+
+            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
+                <Tabs center={center}
+                      externals={externals}
+                      editAllowed={this.state.editAllowed}
+                      RIL={this.state.readItLater}
+                      tabKey={this.state.tabKey}
+                />
+            </div>
+
+            <div className="col-sm-3" > &nbsp </div>
+
+        </div>);
+    }
 
     render() {
         const url : string = this.state.url;
@@ -150,20 +140,7 @@ class Main extends Reflux.Component {
         />);
     }
 
-    renderWithCenter(center) {
-        let data : LdJsonDocument = this.props.document;
-        let externals = this.state.lists.filter(list => list.type == 'external');
 
-        return (<NewUI
-            editAllowed={this.state.editAllowed}
-            chapters={this.state.toc.chapters}
-            data={data}
-            center={center}
-            externals={externals}
-            profile={this.state.profile}
-            RIL={this.state.readItLater}
-            tabKey={this.state.tabKey}
-        />)}
 
 }
 

@@ -44,7 +44,14 @@ var e = {
     start: [path.resolve(__dirname,"./src/preloader.js")],
     titter: [path.resolve(__dirname,'./src/iframes/Titter/js/index.js')],
     core: [path.resolve(__dirname,"./src/iframes/Core/js/client.js")],
-    commons: ['babel-polyfill','react','react-dom','reflux','superagent','lodash','core-js'],
+    commons: [
+        'babel-polyfill',
+        'react',
+        'react-dom',
+        'reflux',
+        'superagent',
+        'lodash',
+        'core-js'],
     admin: './src/iframes/webGold/js/admin/index.js',
     presale: ['./src/iframes/webGold/js/presale.js'],
     createwallet: './src/iframes/webGold/js/createwallet.js',
@@ -76,6 +83,10 @@ var e = {
 
   plugins: [
     commonsPlugin,
+      new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      }),
     new webpack.DefinePlugin(envs),
     new webpack.DefinePlugin(process.env.DOCKER_DEV ? {} : {
       "process.env.NODE_ENV": JSON.stringify("production")
