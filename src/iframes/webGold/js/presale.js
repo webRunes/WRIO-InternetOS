@@ -8,7 +8,7 @@ import PaymentHistory from './components/PaymentHistory';
 import EthereumClient from './components/EthereumClient';
 import BigNumber from 'bignumber.js';
 import Const from '../../constant.js';
-import {getServiceUrl} from '../../../core/servicelocator'
+import {getServiceUrl} from '../../../base/servicelocator'
 
 
 

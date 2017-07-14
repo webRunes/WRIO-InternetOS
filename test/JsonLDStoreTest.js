@@ -2,8 +2,8 @@ import 'babel-polyfill'
 
 import assert from 'assert';
 import should from 'should';
-import {setMock} from '../src/core/utils/CrossStorageFactory.js';
-import PlusStore from '../src/widgets/Plus/stores/PlusStore.js';
+import {setMock} from '../src/base/utils/CrossStorageFactory.js';
+import PlusStore from '../src/base/Plus/stores/PlusStore.js';
 
 var mockval = {
     "plus":{
@@ -31,14 +31,14 @@ var mockval = {
 require('./fakeDom.js');
 
 
-import WindowActions from "../src/core/actions/WindowActions"
+import WindowActions from "../src/base/actions/WindowActions"
 import {
     addPageToTabs,
     hasActive,
     removeLastActive,
     deletePageFromTabs,
     normalizeTabs,
-    saveCurrentUrlToPlus} from '../src/widgets/Plus/utils/tabTools.js';
+    saveCurrentUrlToPlus} from '../src/base/Plus/utils/tabTools.js';
 
 
 describe('jsonld store test', () => {
