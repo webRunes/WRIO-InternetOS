@@ -104,7 +104,7 @@ class WrioDocument extends Reflux.Store {
         });
     }
 
-    extractPageNavigation(data: LdJsonDocument,firstActive : Boolean) {
+    extractPageNavigation(data: LdJsonDocument,firstActive : boolean) {
         const toc = new TableOfContents();
         const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,this.type,data.getBlocks(),firstActive);
         return {

@@ -2,6 +2,8 @@
  * Created by michbil on 14.07.17.
  */
 
+import React from 'react'
+
 export const scrollTop = () => (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 export function getElementOffset(element)
 {
@@ -31,4 +33,44 @@ export const removeClass = (el,className) => {
         el.classList.remove(className);
     else
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+}
+
+export class StayOnTopElement extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+        this.handleScroll();
+    }
+    componentDidUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+
+    handleScroll() {
+        var elem = this.refs.subcontainer;
+        const windowHt = document.body.clientHeight;
+
+        if (!elem.getAttribute('data-top')) {
+            if (hasClass(elem,'navbar-fixed-top'))
+                return;
+            var offset = getElementOffset(elem);
+            elem.setAttribute('data-top', windowHt);
+        }
+        const sz1 = elem.getAttribute('data-top') - elem.offsetHeight ;
+        const sz2 = scrollTop() - elem.offsetHeight;
+        console.log(`${sz1} <= ${sz2}`);
+        if (sz1 <= sz2) {
+            addClass(elem,'navbar-fixed-top');
+            addClass(elem,'col-sm-3');
+        }
+        else {
+            removeClass(elem,'navbar-fixed-top');
+            removeClass(elem,'col-sm-3');
+        }
+    }
+
 }

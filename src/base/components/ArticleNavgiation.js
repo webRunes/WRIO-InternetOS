@@ -3,7 +3,7 @@
 import React from 'react';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import {replaceSpaces} from '../mixins/UrlMixin';
-import {scrollTop, getElementOffset, hasClass, addClass,removeClass} from './utils/domutils'
+import {scrollTop, getElementOffset, StayOnTopElement} from './utils/domutils'
 
 const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string, hasLabel: boolean, url: string}) => {
     const className = active ? 'active' : '',
@@ -24,37 +24,20 @@ const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string,
 
 };
 
-
-export const ArticleTableOfContents  = ({articleItems,elId} : {articleItems : Array<Object>,elId: string} ) => {
-        return  (articleItems.length > 0) ?
-            (<nav id={elId}>
-                    <ul>
-                        {articleItems.map((i,key) => {
-                            return (<MenuButton active={i.active} name={i.name} url={i.url} key={key} />)
-                        })}
-                        <MenuButton name="Comments"
-                                    key="CMMTS"
-                                    url="#Comments"
-                                       active={false}/>
-                    </ul>
-                </nav>) : null;
-
+type VNProps = {
+    articleItems : Array<Object>,
+    vertical : boolean
 };
 
-
-
-
 export class VerticalNav extends React.Component {
-    props: {
-        articleItems : Array<Object>,
-        vertical : boolean
-    };
-    constructor(props) {
+    props: VNProps;
+    constructor(props: VNProps) {
         super(props);
         this.state = {items: this.props.articleItems};
+    // $FlowFixMe
         this.handleScroll = this.handleScroll.bind(this);
     }
-    componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps : VNProps) {
         this.setState({items:newProps.articleItems});
     }
     componentDidMount() {
@@ -69,6 +52,7 @@ export class VerticalNav extends React.Component {
 
             const articleChapter = document.getElementById(item.url.replace('#',''));
             const chapterSize = getElementOffset(articleChapter);
+            // $FlowFixMe
             const windowHt = document.body.clientHeight;
             if ( ( chapterSize.top -  windowHt/2 < scrollTop() ) &&
                 ( chapterSize.top + chapterSize.height - windowHt/2 > scrollTop() ) ) {
@@ -77,7 +61,7 @@ export class VerticalNav extends React.Component {
             }
         });
     }
-    setActive(index) {
+    setActive(index : number) {
         const newItems = this.state.items.map((item,i) => {
             const newItem = item;
             item.active = index == i;
@@ -105,47 +89,16 @@ export class VerticalNav extends React.Component {
     }
 }
 
-export class LeftNav extends React.Component {
+export class LeftNav extends StayOnTopElement {
     props: {
         articleItems:  Array<Object>
     };
 
-    constructor(props) {
+    constructor(props : {articleItems:  Array<Object>}) {
         super(props);
         this.handleScroll = this.handleScroll.bind(this);
     }
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll);
-        this.handleScroll();
-    }
-    componentDidUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-    }
-
-    handleScroll() {
-        var elem = this.refs.subcontainer;
-        const windowHt = document.body.clientHeight;
-
-
-        if (!elem.getAttribute('data-top')) {
-            if (hasClass(elem,'navbar-fixed-top'))
-                return;
-            var offset = getElementOffset(elem);
-            elem.setAttribute('data-top', windowHt);
-        }
-        const sz1 = elem.getAttribute('data-top') - elem.offsetHeight ;
-        const sz2 = scrollTop() - elem.offsetHeight;
-        console.log(`${sz1} <= ${sz2}`);
-        if (sz1 <= sz2) {
-            addClass(elem,'navbar-fixed-top');
-            addClass(elem,'col-sm-3');
-        }
-        else {
-            removeClass(elem,'navbar-fixed-top');
-            removeClass(elem,'col-sm-3');
-        }
-    }
 
     render () {
         return (<div ref="container" className="col-sm-3">

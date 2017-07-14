@@ -8,63 +8,75 @@ import Externals from './Externals'
 import Core from './widgets/Core'
 import ReadItLater from './ReadItLater'
 import Actions from '../actions/WrioDocument'
+import {StayOnTopElement} from '../components/utils/domutils'
 
-const ArticleTabs = ({center,externals,editAllowed,RIL,tabKey}) => {
-    const handleSelect = (e) => console.log(e);
-    const externalsDisabled = externals.length == 0;
-    return (
-        <Tab.Container id="left-tabs-example"
-                       defaultActiveKey="home"
-                       activeKey={tabKey}
-                       onSelect={(key) => Actions.tabClick(key)}
-        >
-            <Row className="card card-nav-tabs">
-                <div className="header header-primary">
-                    <div className="nav-tabs-navigation">
-                        <div className="nav-tabs-wrapper">
-                            <Nav bsStyle="tabs">
-                                <NavItem eventKey="home" >
+class ArticleTabs extends React.Component {// StayOnTopElement {
+    render () {
+        const center = this.props.center,
+        externals = this.props.externals,
+        editAllowed = this.props.editAllowed,
+        RIL = this.props.RIL,
+        tabKey = this.props.tabKey;
 
-                                    Home
-                                    <div className="ripple-container"></div>
-                                </NavItem>
-                                {editAllowed && <NavItem eventKey="edit">
-                                    <i className="material-icons">edit</i>Edit
-                                    <div className="ripple-container"></div>
-                                </NavItem>}
+        const handleSelect = (e) => console.log(e);
+        const externalsDisabled = externals.length == 0;
+        return (
+            <Tab.Container id="left-tabs-example"
+                           defaultActiveKey="home"
+                           activeKey={tabKey}
+                           onSelect={(key) => Actions.tabClick(key)}
+            >
+                <Row className="card card-nav-tabs">
+                    <div className="header header-primary" ref="subcontainer">
+                        <div className="nav-tabs-navigation">
+                            <div className="nav-tabs-wrapper">
+                                <Nav bsStyle="tabs">
+                                    <NavItem eventKey="home">
 
-                                {(!externalsDisabled) && <NavItem eventKey="collections" disabled={externalsDisabled} className={externalsDisabled ? "disabled": "" }>
-                                    Collections
-                                    <div className="ripple-container"></div>
-                                </NavItem>}
-                                {(RIL && (RIL.length > 0)) && <NavItem eventKey="ReadLater">
-                                    Read later <label>{RIL.length}</label>
-                                    <div className="ripple-container"></div>
-                                </NavItem>}
-                            </Nav>
+                                        Home
+                                        <div className="ripple-container"></div>
+                                    </NavItem>
+                                    {editAllowed && <NavItem eventKey="edit">
+                                        <i className="material-icons">edit</i>Edit
+                                        <div className="ripple-container"></div>
+                                    </NavItem>}
+
+                                    {(!externalsDisabled) &&
+                                    <NavItem eventKey="collections" disabled={externalsDisabled}
+                                             className={externalsDisabled ? "disabled": "" }>
+                                        Collections
+                                        <div className="ripple-container"></div>
+                                    </NavItem>}
+                                    {(RIL && (RIL.length > 0)) && <NavItem eventKey="ReadLater">
+                                        Read later <label>{RIL.length}</label>
+                                        <div className="ripple-container"></div>
+                                    </NavItem>}
+                                </Nav>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-                <Tab.Content animation className="card-content">
-                    <Tab.Pane eventKey="home">
-                        {center}
-                    </Tab.Pane>
-                    {editAllowed && <Tab.Pane eventKey="edit">
-                        <Core article={window.location.href}/>
-                    </Tab.Pane>}
-                    <Tab.Pane eventKey="collections">
-                        <Externals data={externals}/>
-                    </Tab.Pane>
-                    {(RIL && (RIL.length > 0)) && <Tab.Pane eventKey="ReadLater">
-                        <ReadItLater RIL={RIL}/>
-                    </Tab.Pane>}
-                </Tab.Content>
-            </Row>
-        </Tab.Container>);
-
+                    <Tab.Content animation className="card-content">
+                        <Tab.Pane eventKey="home">
+                            {center}
+                        </Tab.Pane>
+                        {editAllowed && <Tab.Pane eventKey="edit">
+                            <Core article={window.location.href}/>
+                        </Tab.Pane>}
+                        <Tab.Pane eventKey="collections">
+                            <Externals data={externals}/>
+                        </Tab.Pane>
+                        {(RIL && (RIL.length > 0)) && <Tab.Pane eventKey="ReadLater">
+                            <ReadItLater RIL={RIL}/>
+                        </Tab.Pane>}
+                    </Tab.Content>
+                </Row>
+            </Tab.Container>);
+    }
 
 };
+
+
 
 export default ArticleTabs
