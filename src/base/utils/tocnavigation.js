@@ -58,9 +58,8 @@ export default class TableOfContents  {
     }
 
 
-    getArticleItems(location: Object, listName? : string, data : Array<LdJsonObject>) : Array<Array<MenuItem>> {
+    getArticleItems(location: Object, listName? : string, articleChapters : Array<LdJsonObject>,isActiveFirstArticle : boolean) : Array<Array<MenuItem>> {
         const hashEq : Function = hashEquals(location);
-        let isActiveFirstArticle : boolean = true;
 
         this.coverItems= [];
         this.articleItems = [];
@@ -92,7 +91,8 @@ export default class TableOfContents  {
                 currentItem.children.forEach(add, this);
             }
         };
-        data.forEach(add);
+        const withComments = articleChapters.concat([new LdJsonObject({"@type":"Article",name: "Comments"})]); // add fake element for comments section
+        withComments.forEach(add);
         return [this.coverItems,this.articleItems,this.externalItems];
     }
 }

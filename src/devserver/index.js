@@ -86,8 +86,7 @@ function setupDevServer () {
         inline: true,
         hot: true,
         watchOptions: {
-            aggregateTimeout: 300,
-            poll: true // <-- it's worth setting a timeout to prevent high CPU load
+
         }
     } );
 

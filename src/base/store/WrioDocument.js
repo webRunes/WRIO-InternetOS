@@ -71,7 +71,7 @@ class WrioDocument extends Reflux.Store {
         // Quick hack to make page jump to needed section after page have been edited
         this.updateHook = () => this._forceHash();
 
-        const toc = this.extractPageNavigation(data);
+        const toc = this.extractPageNavigation(data,true);
         this.setState({mainPage: data,url,toc});
 
         toc.covers.map(async (cover : Object) => {
@@ -104,9 +104,9 @@ class WrioDocument extends Reflux.Store {
         });
     }
 
-    extractPageNavigation(data: LdJsonDocument) {
+    extractPageNavigation(data: LdJsonDocument,firstActive : Boolean) {
         const toc = new TableOfContents();
-        const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,this.type,data.getBlocks());
+        const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,this.type,data.getBlocks(),firstActive);
         return {
             covers: coverItems,
             chapters: articleItems,
@@ -163,7 +163,7 @@ class WrioDocument extends Reflux.Store {
     _setUrlWithHash (name:string, isRet: boolean) {
         window.history.pushState('page', 'params', window.location.pathname);
         window.location.hash = name;
-        const toc = this.extractPageNavigation(this.state.mainPage);
+        const toc = this.extractPageNavigation(this.state.mainPage,false);
         this.setState({toc});
 
         this.updateHook = () => this._forceHash();

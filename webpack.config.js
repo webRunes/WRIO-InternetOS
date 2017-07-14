@@ -83,10 +83,6 @@ var e = {
 
   plugins: [
     commonsPlugin,
-      new webpack.ProvidePlugin({
-          $: "jquery",
-          jQuery: "jquery"
-      }),
     new webpack.DefinePlugin(envs),
     new webpack.DefinePlugin(process.env.DOCKER_DEV ? {} : {
       "process.env.NODE_ENV": JSON.stringify("production")
