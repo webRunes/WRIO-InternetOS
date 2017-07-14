@@ -39,7 +39,6 @@ const LoginBar = ({profile}) => {
     return (<div style={loginStyle}>
         {!!profile && <Login profile={profile}/>}
     </div>);
-};
 
 let numRender = 0;
 class Main extends Reflux.Component {
@@ -73,7 +72,7 @@ class Main extends Reflux.Component {
             <CoverHeader />
             <LeftNav articleItems={this.state.toc.chapters} />
 
-            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-9">
+            <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={center}
                       externals={externals}
                       editAllowed={this.state.editAllowed}
