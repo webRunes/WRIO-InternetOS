@@ -29,7 +29,9 @@ const UpButton = ({showUp}) => {
               data-toggle="tab"
               style={{marginTop:"54px",height:"36px"}}
               onClick={() => {
+                  // $FlowFixMe
                    document.body.scrollTop = 0; // For Chrome, Safari and Opera
+                   // $FlowFixMe
                    document.documentElement.scrollTop = 0; // For IE and Firefox
               }}
     >
@@ -115,6 +117,7 @@ export class LeftNav extends StayOnTopElement {
 
     constructor(props : {articleItems:  Array<Object>}) {
         super(props);
+        // $FlowFixMe
         this.handleScroll = this.handleScroll.bind(this);
         this.state={showUp:false};
         this.detached = false;
