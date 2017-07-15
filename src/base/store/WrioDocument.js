@@ -131,7 +131,7 @@ class WrioDocument extends Reflux.Store {
             window.location.hash = orig + ' ';
             window.location.hash = orig;
 
-        },1000);
+        },100);
     }
 
 
