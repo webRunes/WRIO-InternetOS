@@ -3,7 +3,7 @@
 import React from 'react';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import {replaceSpaces} from '../mixins/UrlMixin';
-import {scrollTop, getElementOffset, StayOnTopElement} from './utils/domutils'
+import {scrollTop, getElementDimensions, StayOnTopElement,pageEltHt,addClass,removeClass} from './utils/domutils'
 
 const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string, hasLabel: boolean, url: string}) => {
     const className = active ? 'active' : '',
@@ -24,9 +24,23 @@ const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string,
 
 };
 
+const UpButton = ({showUp}) => {
+    return(<a href="#"
+              data-toggle="tab"
+              style={{marginTop:"54px",height:"36px"}}
+              onClick={() => {
+                   document.body.scrollTop = 0; // For Chrome, Safari and Opera
+                   document.documentElement.scrollTop = 0; // For IE and Firefox
+              }}
+    >
+        {showUp && <i className="material-icons dp_big invert-icon-v visib2le-xs-block">file_download</i>}
+    </a>);
+}
+
 type VNProps = {
     articleItems : Array<Object>,
-    vertical : boolean
+    vertical : boolean,
+    showUp: boolean
 };
 
 export class VerticalNav extends React.Component {
@@ -38,26 +52,30 @@ export class VerticalNav extends React.Component {
         this.handleScroll = this.handleScroll.bind(this);
     }
     componentWillReceiveProps(newProps : VNProps) {
-        this.setState({items:newProps.articleItems});
+        this.setState({
+            items:newProps.articleItems,
+            showUp:newProps.showUp
+        });
     }
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
         this.handleScroll();
     }
-    componentDidUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
     }
     handleScroll() {
         this.props.articleItems.forEach((item,i) => {
 
             const articleChapter = document.getElementById(item.url.replace('#',''));
-            const chapterSize = getElementOffset(articleChapter);
+            const chapterSize = getElementDimensions(articleChapter);
             // $FlowFixMe
             const windowHt = document.body.clientHeight;
             if ( ( chapterSize.top -  windowHt/2 < scrollTop() ) &&
                 ( chapterSize.top + chapterSize.height - windowHt/2 > scrollTop() ) ) {
                 //console.log("ACTIVE",i);
                 this.setActive(i);
+
             }
         });
     }
@@ -74,7 +92,8 @@ export class VerticalNav extends React.Component {
         return (<nav ref='nav'
                      id={vertical ? "cd-vertical-nav" : ""}
                      className={!vertical ? "contents visible-md-block visible-lg-block" : ""} >
-            {!vertical && <h1>Contents</h1>}
+            {!vertical && (<UpButton showUp={this.props.showUp} ref="up"/>)}
+            {!vertical && (<h1 style={{paddingTop: "0px"}}>Contents</h1>)}
             <ul>
                 {this.state.items.map((i,key) => {
                     return (<MenuButton active={i.active}
@@ -97,6 +116,30 @@ export class LeftNav extends StayOnTopElement {
     constructor(props : {articleItems:  Array<Object>}) {
         super(props);
         this.handleScroll = this.handleScroll.bind(this);
+        this.state={showUp:false};
+        this.detached = false;
+    }
+
+    handleScroll() {
+        var elem = this.refs.subcontainer;
+
+        const sz1 = pageEltHt('page-header') - elem.offsetHeight ;
+        const sz2 = scrollTop() - elem.offsetHeight;
+        //console.log(`${sz1} <= ${sz2}`);
+        if (sz1 <= sz2) {
+            if (this.detached) return;
+            addClass(elem,'navbar-fixed-top');
+            addClass(elem,'col-sm-3');
+            this.setState({showUp:true});
+            this.detached = true;
+        }
+        else {
+            if (!this.detached) return;
+            removeClass(elem,'navbar-fixed-top');
+            removeClass(elem,'col-sm-3');
+            this.setState({showUp:false});
+            this.detached = false;
+        }
     }
 
 
@@ -106,7 +149,9 @@ export class LeftNav extends StayOnTopElement {
                  id="sidebar"
                  className="col-sm-3">
                 <div className="sidebar-margin">
-                    <VerticalNav vertical={false} articleItems={this.props.articleItems}
+                    <VerticalNav vertical={false}
+                                 showUp={this.state.showUp}
+                                 articleItems={this.props.articleItems}
                                  cls="contents visible-md-block visible-lg-block"/>
                 </div>
             </div>

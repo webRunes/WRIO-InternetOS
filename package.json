@@ -42,6 +42,7 @@
     "react-hot-loader": "next",
     "react-modal": "^1.4.0",
     "react-prop-types": "0.4.0",
+    "react-ripples": "^0.4.0",
     "react-router-dom": "^4.1.1",
     "redbox-react": "^1.4.2",
     "reflux": "^6.4.1",
