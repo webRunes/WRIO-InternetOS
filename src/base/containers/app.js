@@ -67,7 +67,10 @@ class Main extends Reflux.Component {
 
         return ( <div>
 
-            <VerticalNav vertical={true} articleItems={this.state.toc.chapters}/>
+            <VerticalNav vertical={true}
+                         articleItems={this.state.toc.chapters}
+                         showUp={false}
+            />
             <LoginBar profile={this.state.profile}/>
             <RightNav />
             <CoverHeader />

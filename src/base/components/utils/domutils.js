@@ -5,13 +5,13 @@
 import React from 'react'
 
 export const scrollTop = () => (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-export function getElementOffset(element)
+export function getElementDimensions(element)
 {
     var de = document.documentElement;
     var box = element.getBoundingClientRect();
     var top = box.top + window.pageYOffset - de.clientTop;
     var left = box.left + window.pageXOffset - de.clientLeft;
-    return { top: top, left: left , height: box.height };
+    return { top: top, left: left , height: box.height, width: box.width};
 }
 
 export const hasClass = (el, className) => {
@@ -35,6 +35,8 @@ export const removeClass = (el,className) => {
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
+export const pageEltHt = (elt) => getElementDimensions(document.getElementsByClassName(elt)[0]).height;
+
 export class StayOnTopElement extends React.Component {
 
     constructor(props) {
@@ -46,21 +48,14 @@ export class StayOnTopElement extends React.Component {
         window.addEventListener('scroll', this.handleScroll);
         this.handleScroll();
     }
-    componentDidUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
     }
 
     handleScroll() {
         var elem = this.refs.subcontainer;
-        const windowHt = document.body.clientHeight;
 
-        if (!elem.getAttribute('data-top')) {
-            if (hasClass(elem,'navbar-fixed-top'))
-                return;
-            var offset = getElementOffset(elem);
-            elem.setAttribute('data-top', windowHt);
-        }
-        const sz1 = elem.getAttribute('data-top') - elem.offsetHeight ;
+        const sz1 = pageEltHt('page-header') - elem.offsetHeight ;
         const sz2 = scrollTop() - elem.offsetHeight;
         //console.log(`${sz1} <= ${sz2}`);
         if (sz1 <= sz2) {
