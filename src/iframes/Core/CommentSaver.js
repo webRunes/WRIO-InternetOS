@@ -5,8 +5,8 @@
 import JSONDocument from './JSONDocument.js';
 import {saveToS3,getWidgetID} from './webrunesAPI.js';
 import React from 'react';
-import getHttp from './getHttp.js';
 import {extractFileName, parseUrl,appendIndex} from './utils/url.js';
+import getHttp from '../../base/utils/request';
 
 export function urlMatch () {
     return window.location.search.match(/\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/);

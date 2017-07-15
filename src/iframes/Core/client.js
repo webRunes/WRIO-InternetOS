@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import ReactDom from 'react-dom';
 import request from 'superagent';
 import {applyMentions} from './mixins/mentions';
-import getHttp from './getHttp';
+import getHttp from '../../base/utils/request';
 import CoreEditor from './CoreEditor.js';
 import {ContentBlock, CharacterMetadata} from 'draft-js';
 import Immutable from 'immutable';
@@ -86,9 +86,9 @@ class Client extends Component {
             });
         } else {
             try {
-                const article = await getHttp(this.state.editUrl);
+                const inDoc = await getHttp(this.state.editUrl);
                 setTimeout(window.frameReady, 300);
-                var doc = new JSONDocument(article);
+                var doc = new JSONDocument(inDoc.data);
                 this.setState({
                     doc: doc,
                 });

@@ -166,7 +166,7 @@ class CoreEditor extends React.Component {
 
         return (
             <div className="clearfix">
-            <div className="col-xs-12">
+            <div >
                 { this.state.error && <Alert type="danger" message="There is an error saving your file, please try again later" /> }
 
                 {false && <div className="well">
@@ -511,10 +511,9 @@ const styles = {
         padding: 3,
     },
     editor: {
-        border: '1px solid #ccc',
         cursor: 'text',
         minHeight: 80,
-        padding: 10,
+        padding: 0,
     },
     button: {
         marginTop: 10,
