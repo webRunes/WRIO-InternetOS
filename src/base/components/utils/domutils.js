@@ -35,6 +35,8 @@ export const removeClass = (el,className) => {
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
+const pageHeaderHt = () => getElementOffset(document.getElementsByClassName('page-header')[0]).height;
+
 export class StayOnTopElement extends React.Component {
 
     constructor(props) {
@@ -54,13 +56,13 @@ export class StayOnTopElement extends React.Component {
         var elem = this.refs.subcontainer;
         const windowHt = document.body.clientHeight;
 
-        if (!elem.getAttribute('data-top')) {
+       /* if (!elem.getAttribute('data-top')) {
             if (hasClass(elem,'navbar-fixed-top'))
                 return;
             var offset = getElementOffset(elem);
             elem.setAttribute('data-top', windowHt);
-        }
-        const sz1 = elem.getAttribute('data-top') - elem.offsetHeight ;
+        }*/
+        const sz1 = pageHeaderHt() - elem.offsetHeight ;
         const sz2 = scrollTop() - elem.offsetHeight;
         //console.log(`${sz1} <= ${sz2}`);
         if (sz1 <= sz2) {
