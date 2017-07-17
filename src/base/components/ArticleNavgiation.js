@@ -26,8 +26,7 @@ const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string,
 
 const UpButton = ({showUp}) => {
     return(<a href="#"
-              data-toggle="tab"
-              style={{marginTop:"54px",height:"36px"}}
+      data-toggle="tab" className="to-top"
               onClick={() => {
                   // $FlowFixMe
                    document.body.scrollTop = 0; // For Chrome, Safari and Opera
