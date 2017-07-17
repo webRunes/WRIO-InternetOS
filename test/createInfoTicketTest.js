@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import CreateInfoTicket from '../src/core/components/CreateInfoTicket';
+import CreateInfoTicket from '../src/base/components/CreateInfoTicket';
 
 require('./fakeDom.js');
 

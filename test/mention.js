@@ -1,8 +1,8 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import Mention from '../src/core/jsonld/mentions/mention.js';
-import ImageObject from '../src/core/jsonld/mentions/image.js';
+import Mention from '../src/base/jsonld/mentions/mention.js';
+import ImageObject from '../src/base/jsonld/mentions/image.js';
 
 describe('mention test', () => {
     before(() => {

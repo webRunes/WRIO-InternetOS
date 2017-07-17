@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import Item from '../src/widgets/Plus/Item';
+import Item from '../src/base/Plus/components/Item';
 import {JSDOM} from 'jsdom';
 require('./fakeDom');
 

@@ -6,7 +6,7 @@ import {
     removeLastActive,
     deletePageFromTabs,
     normalizeTabs,
-    saveCurrentUrlToPlus} from '../src/widgets/Plus/utils/tabTools.js';
+    saveCurrentUrlToPlus} from '../src/base/Plus/utils/tabTools.js';
 
 
 const buggy = {

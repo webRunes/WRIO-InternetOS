@@ -8,7 +8,7 @@ import FormState from '../stores/formstate.js';
 import FormActions from '../actions/formactions.js';
 import DonationForm from './DonationForm.js';
 import FileEntry from './FileEntry'
-import {getServiceUrl} from '../../../../core/servicelocator'
+import {getServiceUrl} from '../../../../base/servicelocator'
 
 const FreeWRGBlock = ({haveWallet,msg,busy,minutesLeft}) => {
     const callback = haveWallet ? FormActions.requestFreeTHX : () => window.open(getServiceUrl('webgold')+'/create_wallet','name','width=800,height=500');
