@@ -386,6 +386,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
             });
 
         });
+        return article;
 
     }
 
@@ -398,16 +399,15 @@ export default class JSONDocument extends GenericLDJsonDocument {
      */
 
     draftToHtml(contentState, author, commentID) {
-        return new Promise((resolve, reject) => {
-            contentState = contentState || {};
-            this.draftToJson(contentState);
-            var article = this.getElementOfType("Article");
-            article.comment = commentID;
-            resolve({
-                    html: this.toHtml(),
-                    json: this.jsonBlocks
-                });
-        });
+
+        contentState = contentState || {};
+        this.draftToJson(contentState);
+        var article = this.getElementOfType("Article");
+        article.comment = commentID;
+        return {
+                html: this.toHtml(),
+                json: this.jsonBlocks
+            }
     }
 
     /**

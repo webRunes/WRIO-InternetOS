@@ -42,8 +42,13 @@
     "react-hot-loader": "next",
     "react-modal": "^1.4.0",
     "react-prop-types": "0.4.0",
+    "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redbox-react": "^1.4.2",
+    "redux": "^3.7.2",
+    "redux-connect": "^5.1.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "reflux": "^6.4.1",
     "superagent": "^3.5.2",
     "vhost": "^3.0.2",
@@ -69,6 +74,7 @@
     "envify": "^3.4.0",
     "eslint-plugin-ideal": "^0.1.2",
     "eslint-plugin-react": "^3.1.0",
+    "expect": "^1.20.2",
     "fsevents": "^1.1.2",
     "gulp": "^3.9.1",
     "gulp-eslint": "2.0.0",
@@ -105,7 +111,7 @@
     "start": "npm run build",
     "devserver": "node ./src/devserver/index.js",
     "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
-    "test": "nyc mocha --compilers js:babel-core/register --recursive",
+    "test": "nyc mocha --compilers js:babel-core/register --require babel-polyfill --recursive",
     "flow": "flow check"
   }
 }

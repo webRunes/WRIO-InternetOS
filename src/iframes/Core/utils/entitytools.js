@@ -7,6 +7,9 @@ import {getImageObject} from '../JSONDocument.js';
 
 var linkEditCallback;
 var imageEditCallback;
+import LinkEntity from '../EditorEntities/LinkEntity.js';
+import ImageEntity from '../EditorEntities/ImageEntitiy.js';
+import SocialMediaEntity from '../EditorEntities/SocialMediaEntity.js';
 
 const isImageLink = (filename) => (/\.(gif|jpg|jpeg|tiff|png)$/i).test(filename);
 
@@ -186,3 +189,100 @@ const findEntitiesOfType = (type) => (contentBlock, callback) => {
 export const findLinkEntities   = findEntitiesOfType('LINK');
 export const findImageEntities  = findEntitiesOfType('IMAGE');
 export const findSocialEntities = findEntitiesOfType('SOCIAL');
+
+
+export function createEditorState(metaBlocks, mentions, images) {
+    const decorator = new CompositeDecorator([{
+        strategy: findLinkEntities,
+        component: LinkEntity
+    },{
+        strategy: findImageEntities,
+        component: ImageEntity
+    },
+        {
+            strategy: findSocialEntities,
+            component: SocialMediaEntity
+        }
+    ]);
+
+    console.log("OrderedBlocks after import:");
+
+    const valuesToKeys = (hash,value)=>{
+        const e = value.block;
+        console.log("BLOCK", value.order, e.getType(),e.getText());
+        let key = value['order']+1;
+        hash[key] = value['block'];
+        return hash;
+    };
+    const orderedBlocks = metaBlocks.reduce(valuesToKeys,{});
+
+    //console.log(orderedBlocks);
+    const contentBlocks = metaBlocks.map(x => x.block);
+
+    let editorState = contentBlocks.length > 0 ?
+        EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks), decorator) :
+        EditorState.createEmpty(decorator);
+
+    editorState = metaBlocks.reduce((editorState,metaBlock) => metaBlock.data ? EntityTools.constructSocial(editorState,metaBlock) : editorState, editorState);
+    if (images) {
+        editorState = images.reduce((editorState,mention) => EntityTools.constructImage(editorState,orderedBlocks,mention),editorState);
+    }
+
+    return mentions.reduce((editorState,mention) => EntityTools.constructMention(editorState,orderedBlocks,mention),editorState);
+
+}
+
+
+function appendHttp(url) {
+    if (!/^https?:\/\//i.test(url)) {
+        return 'http://' + url;
+    }
+    return url;
+}
+
+
+export function createNewLink(editorState, titleValue,urlValue,descValue) {
+
+    urlValue = appendHttp(urlValue);
+
+    const entityKey = EntityTools.createLinkEntity(titleValue,urlValue,descValue);
+
+    const e = Entity.get(entityKey).getData();
+    console.log(e);
+
+    let _editorState = RichUtils.toggleLink(
+        editorState,
+        editorState.getSelection(),
+        entityKey
+    );
+    return _editorState;
+}
+
+export function createNewImage (editorState,url,description,title) {
+    const entityKey = EntityTools.createImageSocialEntity(url,description,title);
+    return EntityTools.insertEntityKey(editorState,entityKey);
+}
+
+
+export function removeEntity(editorState,entityKeyToRemove) {
+    let newState = null;
+
+    editorState.getCurrentContent().getBlockMap().map(block => {
+        block.findEntityRanges(char => {
+            let entityKey = char.getEntity();
+            return !!entityKey && entityKey === entityKeyToRemove;
+        }, (anchorOffset, focusOffset) => {
+            let _editorState = RichUtils.toggleLink(
+                editorState,
+                SelectionState.createEmpty(block.getKey()).merge({
+                    anchorOffset,
+                    focusKey: block.getKey(),
+                    focusOffset
+                }),
+                null
+            );
+            newState = _editorState;
+        });
+    });
+    return newState;
+}
