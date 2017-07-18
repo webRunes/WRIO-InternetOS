@@ -127,8 +127,9 @@ class TitterWidget extends React.Component {
 
         return (
             <div>
-                <ul className="breadcrumb" key="act">
-                    <li className="active" id="Comments">{this.state.addComment}</li>
+              <div id="Comments"></div>
+              <ul className="breadcrumb" key="act">
+                <li className="active">{this.state.addComment}</li>
                 </ul>
                 {body}
                 <div ref="timeLineContainer" style={showTimeline ? {display:"block"} : {display:"none"}}></div>

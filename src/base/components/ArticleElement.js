@@ -44,8 +44,14 @@ class ArticleElement extends React.Component{
         const chapter = replaceSpaces(element.data.name);
 
         const getHeader = () => (element.hasPart()) ?
-            <h1 className="col-xs-12" id={chapter}>{articleName}</h1>:
-            <h2 className="col-xs-12" id={chapter}>{articleName}</h2>;
+        <div>
+          <h1 id={chapter}></h1>
+          <div className="col-xs-12"><h1>{articleName}</h1></div>
+        </div>:
+            <div>
+              <h2 id={chapter}></h2>
+              <div className="col-xs-12"><h2>{articleName}</h2></div>
+            </div>;
 
         return (
             <section>
