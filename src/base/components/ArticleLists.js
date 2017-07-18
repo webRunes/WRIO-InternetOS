@@ -20,10 +20,11 @@ const ArticleLists = ({data} : {data : LdJsonObject}) => {
         }
         return (
         <div>
+          <div id={articleHash}></div>
           <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
             <div className="card ticket card-blog card-atv">
               <div className="card-content">
-                <div className="card-text" id={articleHash}>
+                <div className="card-text">
                   <Thumbnail image={image} />
                   <div className="arrow-more"><i className="material-icons">more_horiz</i></div>
                   <div className="gradient"></div>
