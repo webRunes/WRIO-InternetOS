@@ -43,7 +43,7 @@ var e = {
     main: [path.resolve(__dirname,"./src/main.js")],
     start: [path.resolve(__dirname,"./src/preloader.js")],
     titter: [path.resolve(__dirname,'./src/iframes/Titter/js/index.js')],
-    core: [path.resolve(__dirname,"./src/iframes/Core/js/client.js")],
+    core: [path.resolve(__dirname,"./src/iframes/Core/client.js")],
     commons: [
         'babel-polyfill',
         'react',

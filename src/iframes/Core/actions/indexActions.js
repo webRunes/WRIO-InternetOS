@@ -1,12 +1,13 @@
-/**
- * Created by michbil on 15.07.17.
- */
+import getHttp from '../../../base/utils/request';
+import { getRegistredUser,getWidgetID} from '../webrunesAPI.js';
+import JSONDocument from '../JSONDocument'
 
 
 export const REQUEST_DOCUMENT = 'REQUEST_DOCUMENT';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const CREATE_DOCUMENT = "CREATE_DOCUMENT";
+
 export const GOT_ERROR = 'GOT_ERROR';
 export const EDITOR_CHANGED = 'EDITOR_CHANGED';
 export const CREATE_NEW_LINK = 'CREATE_NEW_LINK';
@@ -15,11 +16,7 @@ export const REMOVE_ENTITY = 'REMOVE_LINK';
 export const EDIT_LINK = 'REMOVE_LINK';
 export const EDIT_IMAGE = 'REMOVE_LINK';
 
-export const PUBLISH_DOCUMENT = 'PUBLISH_DOCUMENT';
-export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 
-import getHttp from '../../../base/utils/request';
-import { getRegistredUser} from '../webrunesAPI.js';
 
 export function requestDocument() {
     return {
@@ -49,18 +46,27 @@ function gotError(error) {
 }
 
 export function fetchDocument(url) {
-    return dispatch => {
+    return (dispatch,state) => {
+        //if (state.document.document.getCommentID())
         dispatch(requestDocument());
         return getHttp(url)
             .then(doc => doc.data)
-            .then(data => dispatch(receiveDocument(data)))
+            .then(data => {
+                const doc = JSONDocument();
+                const about = doc.getElementOfType('Article').about || "";
+                dispatch({TYPE: "DESC_CHANGED", text: about});
+                dispatch(receiveDocument(data))
+            })
             .catch(err => dispatch(gotError(err)))
     }
 }
 
 export function fetchUserData() {
     return dispatch => {
-        return getRegistredUser().then((user)=> dispatch(receiveUserData(user))
+        return getRegistredUser().then((user)=>  {
+            const data = user.body;
+            dispatch(receiveUserData({wrioID: data.id}));
+            }
         ).catch((e)=> {
             console.error("Error obtaining user data", e.stack);
             dispatch(gotError("User not registred"))
@@ -133,16 +139,3 @@ export function editImage(src,description,title,linkEntityKey) {
    return {type:EDIT_LINK}
 
 }
-
-export function publishDocument() {
-    return (dispatch,getState) => {
-        console.log(getState());
-    }
-}
-
-export function deleteDocument() {
-    return (dispatch,getState) => {
-        console.log(getState());
-    }
-}
-

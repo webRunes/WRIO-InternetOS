@@ -40,10 +40,11 @@ class Core extends React.Component{
     }
 
     render() {
-        const url = !this.state.article ? getServiceUrl('core') + '/create' : getServiceUrl('core') + '/edit?article=' + encodeURIComponent(this.state.article);
+        const url = !this.state.article ? `${getServiceUrl('core')}/create` :
+            `${getServiceUrl('core')}/edit?article=${encodeURIComponent(this.state.article)}`;
         return (
           <div>
-            <div className="callout">
+            <div className="callout hidden">
               <h5>Need help or inspiration?</h5>
               <p>Check out <a href="https://core.wrioos.com/Get_Inspired/">Get Inspired</a> to get additional information and samples of the content that you can use in your webpages.</p>
             </div>
@@ -63,7 +64,8 @@ class Core extends React.Component{
 }
 
 Core.propTypes = {
-    article: React.PropTypes.string
+    article: PropTypes.string,
+    wrioID: PropTypes.string
 };
 
 module.exports = Core;

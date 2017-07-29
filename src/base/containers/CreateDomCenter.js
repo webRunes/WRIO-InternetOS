@@ -129,7 +129,7 @@ export class ChessCenter extends CreateDomCenter {
 
 export class CoreCreateCenter extends CreateDomCenter {
     render() {
-        return this.generateCenterWithContents (<Core />);
+        return this.generateCenterWithContents (<Core wrioID={this.state.wrioID}/>);
     }
 }
 

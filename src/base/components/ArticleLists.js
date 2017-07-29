@@ -12,7 +12,7 @@ const ArticleLists = ({data} : {data : LdJsonObject}) => {
         let item = data,
             articleName = item.getKey('name'),
             about = item.getKey('about'),
-            articleHash = replaceSpaces(articleName),
+            articleHash = replaceSpaces(articleName), // getting react compponent instead of text on this!
             image = item.data.image || getResourcePath('/img/no-photo-200x200.png');
         if (item.getType() !== 'Article') {
             // if itemlist is passed, just skip

@@ -3,23 +3,17 @@
  */
 
 import React from 'react';
-import {parseEditingUrl, extractFileName, parseUrl, appendIndex} from '../utils/url.js';
-import WrioStore from '../stores/wrio.js';
-import CommentEnabler from './CommentEnabler.js';
+import {parseEditingUrl} from '../utils/url.js';
+import CommentEnabler from '../components/CommentEnabler.js';
+import Modal from '../components/Modal'
 
-function prepFileName(name) {
-    let res = name.replace(/ /g,'_');
-    return res.substring(0,120);
-}
-
-const createMode = () => window.location.pathname === "/create";
 
 
 const WillBeLive = (props) => {
     return (<div className="form-group">
         <label className="col-xs-12 col-sm-4 col-md-3 control-label hidden-xs">&nbsp;</label>
         <div className="col-xs-12 col-sm-8 col-md-9">
-            <div className="help-block">Your page will be live at {props.savePath}</div>
+            <div>Your page will be live at {props.savePath}</div>
         </div>
     </div>);
 };
@@ -27,7 +21,9 @@ WillBeLive.propTypes = {
     savePath:  React.PropTypes.string
 };
 
-export default class PostSettings extends React.Component {
+const MAX_LENGTH = 515;
+
+class PostSettings extends React.Component {
     constructor(props) {
         super(props);
         this.source = 'save';
@@ -37,8 +33,6 @@ export default class PostSettings extends React.Component {
         };
         const [editUrl, saveRelativePath] = parseEditingUrl();
         this.state = {
-            maxLength: 512,
-            saveFile: "Untitled",
             dropdownSource: this.dropdownSources['save'],
             editUrl,
             saveRelativePath,
@@ -49,13 +43,6 @@ export default class PostSettings extends React.Component {
         Object.assign(this.state,this.applyDescription(props.description));
     }
 
-    componentDidMount() {
-        this.listener = WrioStore.listen(this.storeListener.bind(this));
-    }
-
-    componentWillUnmount() {
-        this.listener();
-    }
 
     storeListener(state) {
         this.setState({busy: state.busy});
@@ -66,12 +53,6 @@ export default class PostSettings extends React.Component {
                 });
             }
         }
-    }
-
-
-
-    publish() {
-        this.props.onPublish(this.source,this.fileSavePattern(), this.getSaveUrl(),this.state.description);
     }
 
     setSource(src) {
@@ -86,7 +67,7 @@ export default class PostSettings extends React.Component {
     }
 
     applyDescription(value) {
-        if (value.length >= this.state.maxLength) {
+        if (value.length >= MAX_LENGTH) {
             return({
                 exceedLength: true,
                 description: value
@@ -99,12 +80,6 @@ export default class PostSettings extends React.Component {
         }
     }
 
-    onChangeFile(e) {
-        this.setState({
-            userStartedEditing: true,
-            saveFile: prepFileName(e.target.value)
-        });
-    }
 
     genDropdownSource(name) {
         const active = this.state.dropdownSource == this.dropdownSources[name];
@@ -115,26 +90,10 @@ export default class PostSettings extends React.Component {
         </li>);
     }
 
-    fileSavePattern() {
-        if (this.props.saveUrl) {
-            const exp = /[0-9]+\/(.+)/;
-            const m = this.props.saveUrl.match(exp);
-            if (m[1]) {
-                return m[1];
-            }
-        } else {
-            return `${this.state.saveFile}/index.html`;
-        }
-
-    }
-
-    getSaveUrl() {
-        return this.props.saveUrl || `https://wr.io/${WrioStore.getWrioID()}/${this.fileSavePattern()}`;
-    }
 
     render () {
         const loading = <img src="https://default.wrioos.com/img/loading.gif" style={{color: "red",margin:"0 4px 0"}}  />;
-        let savePath = this.getSaveUrl();
+
         const className ="form-group" +  (this.state.exceedLength ? " has-error" : "");
         return (<div className="form-horizontal col-xs-12">
           <div className={className}>
@@ -144,10 +103,10 @@ export default class PostSettings extends React.Component {
                 cols="40"
                 rows="6"
                 placeholder="Optional. Max 512 characters"
-                value={this.state.description}
-                onChange={this.onChangeDescr.bind(this)} />
+                value={this.props.description}
+                onChange={(e) => this.props.onEditDescription(e.target.value)} />
               <div className="help-block">
-                {this.state.exceedLength && <span>Max {this.state.maxLength} characters</span>}
+                {this.state.exceedLength && <span>Max {MAX_LENGTH} characters</span>}
               </div>
             </div>
           </div>
@@ -164,27 +123,26 @@ export default class PostSettings extends React.Component {
                 </ul>
               </div>
             </div>
-           {!this.props.saveUrl && <div className="col-xs-6 col-sm-4 col-md-5">
+           {this.props.createMode && <div className="col-xs-6 col-sm-4 col-md-5">
                   <input type="text"
                          className="form-control"
                          id="File-name"
                          placeholder="Untitled"
-                         value={this.state.saveFile}
-                         onChange={this.onChangeFile.bind(this)}
+                         value={this.props.saveFile}
+                         onChange={(e) => this.props.onEditText(e.target.value)}
                       />
               </div>}
           </div>
-            <WillBeLive savePath={savePath} />
-            <CommentEnabler commentID={this.props.commentID}
-                            author={this.props.author}
-                            editUrl={this.getSaveUrl()}
+            <WillBeLive savePath={this.props.saveUrl} />
+            <CommentEnabler isChecked={false}
+                            onCheck={this.props.onEnableComments}
                             />
             <div className="col-xs-12">
                 <div className="pull-right">
                     {/* -Temp delete removing-!createMode() &&
                     <button type="button" className="btn btn-danger" onClick={() => this.setState({alert: true})} ><span className="glyphicon glyphicon-trash" ></span>Delete</button>*/}
                     <button type="button" className="btn btn-default" onClick={this.goBack.bind(this)}><span className="glyphicon glyphicon-remove"></span>Cancel</button>
-                    <a href="#" className="btn btn-success" onClick={this.publish.bind(this)}>
+                    <a href="#" className="btn btn-success" onClick={this.props.onPublish}>
                         {this.state.busy ? loading : <span className="glyphicon glyphicon-open" />}
                        Publish</a>
                        <br /><br /><br /><br />
@@ -201,10 +159,6 @@ export default class PostSettings extends React.Component {
         }), "*");
     }
 
-    deleteHandler () {
-        this.setState({alert: false});
-        this.props.onDelete(this.fileSavePattern());
-    }
 }
 
 PostSettings.propTypes = {
@@ -216,49 +170,31 @@ PostSettings.propTypes = {
     author:React.PropTypes.string
 };
 
-class Modal extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.onOk = this.onOk.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-    }
+import { connect } from 'react-redux'
+import * as pubAct from '../actions/publishActions'
 
-    componentDidMount() {
-        $('#confirm-delete').show();
-    }
+function mapStateToProps(state) {
+    const {publish} = state;
 
-    onOk () {
-        this.props.onOk();
-        $('#confirm-delete').hide();
-    }
-
-    onCancel() {
-        $('#confirm-delete').hide();
-        this.props.onCancel();
-    }
-
-    render() {
-        return (<div className="modal" id="confirm-delete" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h4 className="modal-title">Delete</h4>
-                    </div>
-                    <div className="modal-body">
-                        Are you sure you want to delete?
-                    </div>
-                    <div className="modal-footer">
-                        <a className="btn btn-danger btn-ok" onClick={this.onOk}><span className="glyphicon glyphicon-trash" ></span>Delete</a>
-                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.onCancel}><span className="glyphicon glyphicon-remove"></span>Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>);
+    return {
+        createMode: publish.editParams.createMode,
+        saveUrl:publish.saveUrl,
+        saveFile:publish.filename,
+        description: publish.description,
+        commentID: publish.commentId,
+        author: publish.author
     }
 }
 
-Modal.propTypes = {
-    onOk: React.PropTypes.func,
-    onCancel: React.PropTypes.func
-};
+function mapDispatchToProps(dispatch) {
+    return {
+        onEditText: (text) => dispatch(pubAct.filenameChanged(text)),
+        onEditDescription: (text) => dispatch(pubAct.descChanged(text)),
+        onPublish: (doc) => dispatch(pubAct.publishDocument(doc)),
+        onDelete: () => dispatch(pubAct.deleteDocument()),
+        onEnableComments: (v) => dispatch(pubAct.enableComments(v))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(PostSettings)

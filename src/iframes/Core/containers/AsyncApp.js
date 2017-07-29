@@ -3,37 +3,16 @@ import {applyMentions} from '../mixins/mentions';
 import CoreEditor from './CoreEditor.js';
 import {ContentBlock, CharacterMetadata} from 'draft-js';
 
-import {parseEditingUrl, extractFileName, parseUrl, appendIndex} from '../utils/url.js';
-import WrioStore from '../stores/wrio.js';
-
-var domain = process.env.DOMAIN;
-
-class Loading extends Component {
-    render () {
-        return (<div>
-            Loading editor <img src="https://default.wrioos.com/img/loading.gif" id="loadingInd"/>
-        </div>);
-    }
-}
-
-class LoadingError extends Component {
-    render () {
-        return (<div className="alert alert-danger">
-            Oops, something went wrong... Please try again
-        </div>);
-    }
-}
-
-
-import {fetchDocument,createNewDocument,fetchUserData} from '../actions/index.js'
-const [editUrl, saveRelativePath] = parseEditingUrl();
-function formatAuthor(id) {
-    return id ? `https://wr.io/${id}/?wr.io=${id}` : 'unknown';
-}
-
 import {openLinkDialog} from '../actions/linkdialog'
 import {openImageDialog} from '../actions/imagedialog'
 import EntityTools from '../utils/entitytools'
+import {Loading, LoadingError} from '../components/loading'
+import {fetchDocument,createNewDocument,fetchUserData} from '../actions/indexActions.js'
+import {gotUrlParams} from '../actions/publishActions.js'
+
+import {parseEditingUrl} from '../utils/url.js';
+const CREATE_MODE = window.location.pathname === "/create";
+const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
 
 function initCallbacks(dispatch) {
     const openEditPrompt = (action) =>  (titleValue, urlValue, descValue, linkEntityKey) => {
@@ -49,6 +28,7 @@ function initCallbacks(dispatch) {
 class AsyncApp extends React.Component {
     componentDidMount() {
         const dispatch = this.props.dispatch;
+        dispatch(gotUrlParams(CREATE_MODE,EDIT_URL,EDIT_RELATIVE_PATH)); // pass initial editing params to the store
         initCallbacks(this.props.dispatch);
         if (window.location.pathname === "/create") {
             dispatch(createNewDocument())
@@ -69,11 +49,8 @@ class AsyncApp extends React.Component {
                 {this.props.error ? <LoadingError /> : ""}
                 {!this.props.isFetching ? <CoreEditor
                                                  editorState={this.props.editorState}
-                                                 doc={this.props.document}
                                                  dispatch={this.props.dispatch}
-                                                 saveRelativePath={saveRelativePath}
-                                                 editUrl={editUrl}
-                                                 author={formatAuthor(this.props.wrioID)}/> :
+                                                 /> :
                     <Loading /> }
 
             </div>

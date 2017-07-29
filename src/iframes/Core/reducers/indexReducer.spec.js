@@ -1,32 +1,25 @@
 /**
  * Created by michbil on 13.05.16.
  */
-import request from 'supertest';
-import assert from 'assert';
-import expect from 'expect';
-import JSONDocument from '../../src/iframes/Core/JSONDocument.js';
 import fs from 'fs';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata} from 'draft-js';
 import React from 'react';
 import path from 'path'
-import reducer from '../../src/iframes/Core/reducers/index'
+import reducer from './indexReducer'
 import {receiveDocument,
     createNewDocument,
     createNewImage,
-    createNewLink} from '../../src/iframes/Core/actions/index'
+    createNewLink} from '../actions/indexActions'
 
-import {openLinkDialog,closeDialog} from '../../src/iframes/Core/actions/linkdialog'
-import {openImageDialog,closeDialog as closeDialogImg} from '../../src/iframes/Core/actions/imagedialog'
+import {openLinkDialog,closeDialog} from '../actions/linkdialog'
+import {openImageDialog,closeDialog as closeDialogImg} from '../actions/imagedialog'
 
 var doc;
-var file = fs.readFileSync(path.join(__dirname,'./testjson.json')).toString();
-var json = JSON.parse(file);
+let file = require('../fixtures/fixture.js')
 
 describe('LS+JSON tests test', () => {
-    before(() => {
-    });
 
-    it('Should be able to import document and convert it back to JSON', () => {
+    test('Should be able to import document and convert it back to JSON', () => {
         const s1 = reducer(undefined,{});
         console.log(s1);
         expect(s1.document.isFetching).toEqual(true);
@@ -41,7 +34,7 @@ describe('LS+JSON tests test', () => {
 
     });
 
-    it('should be able to create new document, import image and convert it to JSON', () => {
+    test('should be able to create new document, import image and convert it to JSON', () => {
        const s1 = reducer(undefined,createNewDocument('1234567890'));
         console.log(s1);
         let s2 = reducer(s1,createNewImage("Hello",'https://sample.host/catty1.jpg',"image 1"));
@@ -53,7 +46,7 @@ describe('LS+JSON tests test', () => {
         expect(JSON.author).toEqual('https://wr.io/1234567890/?wr.io=1234567890')
     });
 
-    it('should be able to open link dialog',() => {
+    test('should be able to open link dialog',() => {
         const s1 = reducer(undefined,createNewDocument('1234567890'));
         expect(s1.linkDialog.showDialog).toEqual(false);
         expect(s1.imageDialog.showDialog).toEqual(false);
@@ -65,7 +58,7 @@ describe('LS+JSON tests test', () => {
         expect(s3.imageDialog.showDialog).toEqual(false);
     })
 
-    it('should be able to open image dialog',() => {
+    test('should be able to open image dialog',() => {
         const s1 = reducer(undefined,createNewDocument('1234567890'));
         expect(s1.imageDialog.showDialog).toEqual(false);
         expect(s1.linkDialog.showDialog).toEqual(false);

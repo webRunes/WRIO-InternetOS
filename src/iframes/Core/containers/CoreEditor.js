@@ -1,18 +1,17 @@
 import React from 'react';
 import Reflux from 'reflux';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier, convertToRaw} from 'draft-js';
-import SaveActions from '../saveActions';
 import {deleteFromS3} from '../webrunesAPI.js';
 
 import Alert from '../components/Alert.js';
 
 import LinkUrlDialog from '../containers/LinkUrlDialog.js';
 import ImageUrlDialog from '../containers/ImageUrlDialog.js';
-import PostSettings from '../components/Postsettings.js';
+import PostSettings from '../containers/Postsettings.js';
 import EntityTools,{getSelection} from '../utils/entitytools'
 
 import {BlockStyleControls,InlineStyleControls,ActionButton} from '../components/EditorControls'
-import {editorChanged,publishDocument,deleteDocument} from '../actions/index'
+import {editorChanged,publishDocument,deleteDocument} from '../actions/indexActions'
 
 
 
@@ -112,10 +111,6 @@ class CoreEditor extends React.Component {
             }
         }
 
-        const about = this.props.doc.getElementOfType('Article').about || "";
-
-
-
         return (
             <div className="clearfix">
             <div >
@@ -154,13 +149,7 @@ class CoreEditor extends React.Component {
                       keyBindingFn={this.myKeyBindingFn}
                     />
                   </div>
-                     <PostSettings saveUrl={this.props.editUrl}
-                     onPublish={() => this.props.dispatch(publishDocument())}
-                     onDelete={() => this.props.dispatch(deleteDocument())}
-                     description={about}
-                     commentID={this.props.commentID}
-                     author={this.props.author}
-                     />
+                     <PostSettings />
                 </div>
                 </div>
 
@@ -175,10 +164,8 @@ class CoreEditor extends React.Component {
 }
 
 CoreEditor.propTypes = {
-    doc: React.PropTypes.object,
-    saveRelativePath: React.PropTypes.string,
-    editUrl: React.PropTypes.string,
-    author: React.PropTypes.string,
+    editorState: React.PropTypes.object,
+    dispatch: React.PropTypes.func,
 };
 
 
@@ -250,72 +237,3 @@ function waitPopupClosed(cb) {
     }, false);
 }
 
-/**
- * Pulish file to store
- * @param action 'save' or 'saveas'
- * @param storageRelativePath relative path to the user's directory
- * @param url - absolute save path, needed for widget url creation
- * @param desc - description of the document
- */
-function _publish(action,storageRelativePath,url,desc) {
-    console.log(storageRelativePath,desc);
-
-    const saveAction = (commentId) => SaveActions.execSave(
-        this.state.editorState,
-        action,
-        storageRelativePath,
-        this.state.author,
-        commentId,
-        this.state.doc,
-        desc,
-        url
-    );
-
-    const doSave = (id) => saveAction(id).then(()=>{
-        WrioActions.busy(false);
-        this.setState({error: false});
-    }).catch((err)=> {
-        WrioActions.busy(false);
-        this.setState({error: true});
-        console.log(err);
-    });
-
-    let commentID = this.state.commentID;
-    if (this.state.commentID) { // don't request comment id, if it already stored in the document
-        if (!WrioStore.areCommentsEnabled()) {
-            commentID = ''; // delete comment id if comments not enabled
-        }
-        doSave(commentID);
-    } else {
-        WrioActions.busy(true);
-        WrioStore.requestCommentId(url,(err,id) => {
-            doSave(id);
-        });
-    }
-
-
-
-}
-
-/**
- * Deletes current document
- */
-
-function _deleteDocument(storageRelativePath) {
-    WrioActions.busy(true);
-    deleteFromS3(storageRelativePath).then((res)=>{
-        WrioActions.busy(false);
-        this.setState({
-            error: false
-        });
-        parent.postMessage(JSON.stringify({
-            "followLink": `https://wr.io/${WrioStore.getWrioID()}/Plus-WRIO-App/index.html`
-        }), "*");
-    }).catch((err)=>{
-        WrioActions.busy(false);
-        this.setState({
-            error: true
-        });
-        console.log(err);
-    });
-}

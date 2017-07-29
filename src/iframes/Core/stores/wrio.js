@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
-import WrioActions from '../actions/wrio.js';
+
 import { getRegistredUser} from '../webrunesAPI.js';
 import {getWidgetID} from '../webrunesAPI.js';
 

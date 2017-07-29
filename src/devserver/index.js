@@ -45,6 +45,11 @@ var server = require('http')
     .createServer(app)
     .listen(3033, (req, res) => {
         //app.use((req,res,next) => { console.log(req.headers.host);next()});
+        app.use(function(req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+        });
         app.use(vhost('titter_d.wrioos.com', titterService));
         app.use(vhost('core_d.wrioos.com',   coreService));
         app.use(vhost('webgold_d.wrioos.com',webgoldService));

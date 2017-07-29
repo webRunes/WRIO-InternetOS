@@ -6,7 +6,7 @@ import {
     closeDialog
 } from '../actions/imagedialog'
 
-import {createNewImage,editImage,removeEntity} from '../actions/index'
+import {createNewImage,editImage,removeEntity} from '../actions/indexActions'
 import EntityDialog from '../components/EntityDialog'
 
 

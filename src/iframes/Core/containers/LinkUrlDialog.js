@@ -1,6 +1,5 @@
 import React from 'react';
-import Modal from 'react-modal';
-import TextEditorActions from '../actions/texteditor.js';
+
 import {
    titleChange,
     descChange,
@@ -8,7 +7,7 @@ import {
     closeDialog
 } from '../actions/linkdialog'
 
-import {createNewLink,editLink,removeEntity} from '../actions/index'
+import {createNewLink,editLink,removeEntity} from '../actions/indexActions'
 import EntityDialog from '../components/EntityDialog'
 
 /*

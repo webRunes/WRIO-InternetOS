@@ -9,12 +9,14 @@ import {
     CREATE_NEW_LINK,
     EDITOR_CHANGED,
     REMOVE_ENTITY
-} from '../actions/index'
+} from '../actions/indexActions'
 import JSONDocument from '../JSONDocument.js';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier, convertToRaw} from 'draft-js';
 import {createEditorState,createNewLink,createNewImage,removeEntity} from '../utils/entitytools'
 import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
+import PostSettingsReducer from './publish'
+import {mkDoc,extractHeader} from './docUtils'
 
 const defaultState = {
     document: null,
@@ -24,11 +26,13 @@ const defaultState = {
     editorState: null
 };
 
+
+
+
+
 export function document(state = defaultState, action) {
     console.log("got action", action);
     switch (action.type) {
-        case RECEIVE_USER_DATA:
-            return {...state,userData: action.data};
         case CREATE_DOCUMENT:
             const newDoc = new JSONDocument();
             newDoc.createArticle(action.author, "");
@@ -43,11 +47,7 @@ export function document(state = defaultState, action) {
         case EDITOR_CHANGED:
             const editorState = action.editorState;
             const header = JSONDocument.getTitle(editorState.getCurrentContent());
-           /* if (header != this.oldHeader) { // makeItWork
-                WrioActions.headerChanged(header);
-            }
-            this.oldHeader = header;*/
-            return {...state,editorState: editorState,header: header};
+            return extractHeader({...state,editorState: editorState});
         case CREATE_NEW_IMAGE:
             return {...state, editorState: createNewImage(state.editorState,action.title,action.url,action.desc)};
         case CREATE_NEW_LINK:
@@ -59,23 +59,42 @@ export function document(state = defaultState, action) {
     }
 }
 
-const rootReducer = combineReducers({
+const combinedReducer = combineReducers({
     document,
+    publish: PostSettingsReducer,
     imageDialog: ImageDialogReducer,
     linkDialog: LinkDialogReducer,
 });
 
-export default rootReducer;
+/**
+ * Inject header to the publish reducer
+ * @param state
+ * @param action
+ * @returns {*}
+ */
+function crossSliceReducer(state, action) {
+    switch(action.type) {
+        case "CREATE_DOCUMENT" :
+        case "RECEIVE_DOCUMENT":
+        case "EDITOR_CHANGED":
+            const docState =  document(state.document, action); // inject header to the action hack
+            const modAction = action;
+            modAction.header = docState.header;
+            return {
+                document : docState,
+                publish : PostSettingsReducer(state.publish, modAction),
+                imageDialog : ImageDialogReducer(state.imageDialog, action),
+                linkDialog: LinkDialogReducer(state.linkDialog,action)
+            }
 
-function mkDoc(state,doc) {
-    doc.toDraft();
-    const contentBlocks = doc.contentBlocks;
-    const mentions = doc.mentions;
-    return {...state,
-        isFetching: false,
-        document: doc,
-        editorState: EditorState.moveFocusToEnd (createEditorState(contentBlocks,mentions,doc.images))
-    };
-
+        default : return state;
+    }
 }
 
+function rootReducer(state, action) {
+    const intermediateState = combinedReducer(state, action);
+    const finalState = crossSliceReducer(intermediateState, action);
+    return finalState;
+}
+
+export default rootReducer;
