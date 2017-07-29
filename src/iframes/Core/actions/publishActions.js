@@ -1,6 +1,7 @@
 /* @flow */
 import {Entity} from 'draft-js';
 import {saveToS3,getWidgetID} from '../webrunesAPI.js';
+import {formatAuthor} from '../utils/url.js'
 
 export const DESC_CHANGED = "DESC_CHANGED";
 export const FILENAME_CHANGED = 'FILENAME_CHANGED';
@@ -13,27 +14,7 @@ export const ENABLE_COMMENTS = 'ENABLE_COMMENTS';
 
 export const GOT_URLPARAMS = 'GOT_URLPARAMS';
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
-
-
-
-
-export function _ss(state) {
-    if (!state) {
-        return enableComments(false);
-    }
-    return (dispatch,state) => {
-        console.log("getCommentid started");
-        dispatch(requestCommentId());
-        getWidgetID(url).then((id)=> {
-            console.log("Get widget id succeded", id);
-            dispatch(receiveCommentId(id))
-        }).catch((e) => {
-            console.log("Failed to obtain widget ID");
-            dispatch({type:COMMENTID_ERROR});
-        });
-    }
-
-}
+export const PICK_SAVE_SOURCE = 'PICK_SAVE_SOURCE';
 
 
 export function gotUrlParams(createMode : boolean,editURL : ?string, editPath: ?string) {
@@ -45,29 +26,40 @@ export function gotUrlParams(createMode : boolean,editURL : ?string, editPath: ?
     }
 }
 
+/**
+ * Publish logic
+ * requests commentID from the server, if not supplied
+ */
 export function publishDocument() {
     return async (dispatch : Function,getState : Function) => {
         dispatch({"type":PUBLISH_DOCUMENT});
         try {
         const state : Object = getState();
-        console.log(state);
         const {document,editorState} = state.document;
         let commentId : string = document.getCommentID();
-        const {commentsEnabled,savePath,saveUrl,saveSource} = state.publish;
-        console.log(document);
+        const {commentsEnabled,savePath,saveUrl,saveSource,wrioID, description} = state.publish;
         if (commentsEnabled && commentId == "") {
-            commentId = await getWidgetID(saveUrl);
+            commentId = (await getWidgetID(saveUrl)).text;
             console.log("Get widget id succeded", commentId);
         }
         if (!commentsEnabled) {
             commentId = ""
         }
+        document.setAbout(description);
         
-        const res = document.draftToHtml(editorState.getCurrentContent(), document.getA,commentId);
+        const res = document.draftToHtml(editorState.getCurrentContent(), formatAuthor(wrioID),commentId);
         let {json, html} = res;
-        const saveRes = await saveToS3(savePath,html);
+        console.log("JSON",json)
+        if (saveSource == "S3") {
+            const saveRes = await saveToS3(savePath,html);
+        } else {
+            let name = json[0].name;
+            let fileName = (name === '' ? 'untitled' : name.split(' ').join('_')) + '.html';
+            saveAs(fileName,html);
+        }
+      
 
-        dispatch({"type":PUBLISH_FINISH});
+        dispatch({"type":PUBLISH_FINISH,json:json});
         // post parent follow URL
         parent.postMessage(JSON.stringify({ 
          "followLink": saveUrl
@@ -76,6 +68,13 @@ export function publishDocument() {
             console.error("Caught error during publish",err);
              dispatch({"type":"GOT_ERROR"});
         }
+    }
+}
+
+export function pickSaveSource(source : string ) {
+    return {
+        type: PICK_SAVE_SOURCE,
+        source
     }
 }
 
@@ -109,32 +108,11 @@ export function filenameChanged(text : string) {
 }
 
 
-const saveAction = async (editorState, author, saveRelativePath, commentID,doc,description,saveAbs) => {
-    doc.setAbout(description);
-    
-
-    WrioActions.busy(false);
-    
-    return true;
-
-};
-
-const saveAsAction = async (editorState, author,commentID,doc, description) => {
-    doc.setAbout(description);
-    const res = doc.draftToHtml(editorState.getCurrentContent(), author, commentID);
-    let json = doc.getElementOfType('Article');
-    let html = res.html;
-    let fileName = (json.name === '' ? 'untitled' : json.name.split(' ').join('_')) + '.html';
-    saveAs(fileName,html);
-    return true;
-
-};
-
-const destroyClickedLink = (event) => {
-    document.body.removeChild(event.target);
-};
-
 function saveAs(fileName,html) {
+     const destroyClickedLink = (event) => {
+        document.body.removeChild(event.target);
+    };
+
     let ie = navigator.userAgent.match(/MSIE\s([\d.]+)/),
         ie11 = navigator.userAgent.match(/Trident\/7.0/) && navigator.userAgent.match(/rv:11/),
         ieEDGE = navigator.userAgent.match(/Edge/g),
@@ -163,59 +141,15 @@ function saveAs(fileName,html) {
         document.body.appendChild(downloadLink);
         downloadLink.click();
     }
-}
-
-
-/**
- * Pulish file to store
- * @param action 'save' or 'saveas'
- * @param storageRelativePath relative path to the user's directory
- * @param url - absolute save path, needed for widget url creation
- * @param desc - description of the document
- */
-async function _publish(action,storageRelativePath,url,desc) {
-    console.log(storageRelativePath,desc);
-
-    const saveAction = (commentId) => SaveActions.execSave(
-        this.state.editorState,
-        action,
-        storageRelativePath,
-        this.state.author,
-        commentId,
-        this.state.doc,
-        desc,
-        url
-    );
-
-    const doSave = (id) => saveAction(id).then(()=>{
-        WrioActions.busy(false);
-        this.setState({error: false});
-    }).catch((err)=> {
-        WrioActions.busy(false);
-        this.setState({error: true});
-        console.log(err);
-    });
-
-    let commentID = this.state.commentID;
-    if (this.state.commentID) { // don't request comment id, if it already stored in the document
-        if (!WrioStore.areCommentsEnabled()) {
-            commentID = ''; // delete comment id if comments not enabled
-        }
-        doSave(commentID);
-    } else {
-        WrioActions.busy(true);
-        WrioStore.requestCommentId(url,(err,id) => {
-            doSave(id);
-        });
-    }
-
-
+   
 
 }
+
+
 
 /**
  * Deletes current document
- */
+
 
 function _deleteDocument(storageRelativePath) {
     WrioActions.busy(true);
@@ -235,3 +169,6 @@ function _deleteDocument(storageRelativePath) {
         console.log(err);
     });
 }
+ */
+
+

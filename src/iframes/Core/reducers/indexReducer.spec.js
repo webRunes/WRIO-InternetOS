@@ -15,7 +15,7 @@ import {openLinkDialog,closeDialog} from '../actions/linkdialog'
 import {openImageDialog,closeDialog as closeDialogImg} from '../actions/imagedialog'
 
 var doc;
-let file = require('../fixtures/fixture.js')
+let json = require('../fixtures/fixture.js').default;
 
 describe('LS+JSON tests test', () => {
 
@@ -28,9 +28,9 @@ describe('LS+JSON tests test', () => {
         expect(s2.document.isFetching).toEqual(false);
         expect(typeof  s2.document.document).toEqual("object");
 
-        const JSON = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
-        expect(JSON.name).toEqual('webRunes');
-        console.log(JSON);
+        const j = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
+        expect(j.name).toEqual('webRunes');
+        console.log(j);
 
     });
 
@@ -41,9 +41,9 @@ describe('LS+JSON tests test', () => {
         s2 = reducer(s2,createNewImage("Hello",'https://sample.host/catty2.jpg',"image 2"));
         s2 = reducer(s2,createNewLink("Link",'https://sample.host/catty.html',"link"));
 
-        const JSON = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
-        console.log(JSON);
-        expect(JSON.author).toEqual('https://wr.io/1234567890/?wr.io=1234567890')
+        const j = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
+        console.log(j);
+        expect(j.author).toEqual('https://wr.io/1234567890/?wr.io=1234567890')
     });
 
     test('should be able to open link dialog',() => {

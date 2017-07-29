@@ -11,8 +11,12 @@ const mockStore = configureMockStore(middlewares)
 
 process.env = {
     DOMAIN: "wrioos.com",
-    NODE_ENV: "production"
+    NODE_ENV: "development"
 }
+
+const MOCK_COMMENT_ID = "99991234567890";
+const WRIO_ID = "558153389649";
+const ARTICLE_DESCRIPTION = "Lorem ipsum.....";
 
 describe('async actions', () => {
   afterEach(() => {
@@ -21,16 +25,17 @@ describe('async actions', () => {
 
   it('should publish document correctly', () => {
       //
-     nock('https://titter.${domain}/')
-      .get('/obtain_widget_id')
-      .reply(200, "1234567890")
+     nock('https://titter.wrioos.com/')
+      .get(/\/obtain_widget_id.*/)
+      .reply(200, MOCK_COMMENT_ID)
 
     nock('https://storage.wrioos.com/')
-      .get('/api/save')
+      .post('/api/save')
       .reply(200, { result: "success" } )
 
     const expectedActions = [
-          {"type":"PUBLISH_DOCUMENT"},{"type":"PUBLISH_FINISH"}
+          {"type":"PUBLISH_DOCUMENT"},
+          {"type":"PUBLISH_FINISH",json: []}
     ]
     
     const store = mockStore(mockState);
@@ -39,13 +44,21 @@ describe('async actions', () => {
       // return of async actions
       const resActions = store.getActions();
 
-      expect(resActions).toEqual(expectedActions);
+      expect(resActions[0].type).toEqual('PUBLISH_DOCUMENT');
+      expect(resActions[1].type).toEqual('PUBLISH_FINISH');
+
+      const {json} = resActions[1];
+      console.log(json);
+      expect(json[0].author).toEqual('https://wr.io/558153389649/?wr.io=558153389649')
+      expect(json[0].about).toEqual(ARTICLE_DESCRIPTION)
+      expect(json[0].comment).toEqual(MOCK_COMMENT_ID)
+      
     })
   })
 })
 
 const doc = new JSONDocument();
-doc.createArticle("https://wr.io/0123456789/?wr.io=0123456789", "")
+doc.createArticle(WRIO_ID, "")
 const mockState = {
   "document": mkDoc({},doc),
   "publish": {
@@ -54,15 +67,15 @@ const mockState = {
       "initEditURL": null,
       "initEditPath": null
     },
-    "description": "",
-    "commentsEnabled": false,
+    "description": ARTICLE_DESCRIPTION,
+    "commentsEnabled": true,
     "filename": "Untitled",
     "savePath": "Untitled/index.html",
     "saveURL": "",
     "userStartedEditingFilename": false,
     "saveSource": "S3",
     "saveUrl": "https://wr.io/558153389649/Untitled/index.html",
-    "wrioID": "558153389649",
+    "wrioID": WRIO_ID,
     "busy": false
   }
 }

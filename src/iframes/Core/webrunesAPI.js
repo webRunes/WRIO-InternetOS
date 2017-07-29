@@ -3,15 +3,14 @@
  */
 
 import request from 'superagent';
-var domain = process.env.DOMAIN;
-let protocol = '';
-if (process.env.NODE_ENV == 'development') {
-    protocol = 'https:'
-}
+const domain = () => process.env.DOMAIN;
+const protocol = () => (process.env.NODE_ENV == 'development') ? 'https:' : ''
 
 export function saveToS3(path,html) {
+    const uri = protocol() + `//storage.${domain()}/api/save`
+    console.log(uri)
     return request
-        .post(protocol + `//storage.${domain}/api/save`)
+        .post(uri)
         .withCredentials()
         .set('Accept', 'application/json')
         .send({
@@ -23,7 +22,7 @@ export function saveToS3(path,html) {
 
 export function deleteFromS3(path) {
         return request
-            .post(protocol+`//storage.${domain}/api/delete`)
+            .post(protocol()+`//storage.${domain()}/api/delete`)
             .withCredentials()
             .set('Accept', 'application/json')
             .send({
@@ -32,19 +31,15 @@ export function deleteFromS3(path) {
 }
 
 export function getWidgetID(url) {
+    const uri = protocol()+`//titter.${domain()}/obtain_widget_id?query=${url}`
     return request
-            .get(protocol+`//titter.${domain}/obtain_widget_id?query=${url}`)
-            .withCredentials()
-            .then(result=> {
-                resolve(result.text);
-            }, (err)=> {
-                reject(err);
-            });
+            .get(uri)
+            .withCredentials();
 }
 
 export function getRegistredUser() {
         return request
-            .get(protocol+`//login.${domain}/api/get_profile`)
+            .get(protocol()+`//login.${domain()}/api/get_profile`)
             .withCredentials();
 
 }

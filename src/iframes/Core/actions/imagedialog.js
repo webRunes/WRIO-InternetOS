@@ -1,4 +1,4 @@
-
+import request from 'superagent'
 /* image dialog */
 
 export const IMAGE_DIALOG_OPEN = 'IMAGE_DIALOG_OPEN';
@@ -7,6 +7,8 @@ export const IMAGE_DIALOG_TITLE_CHANGE = 'IMAGE_DIALOG_TITLE_CHANGE';
 export const IMAGE_DIALOG_DESC_CHANGE = 'IMAGE_DIALOG_DESC_CHANGE';
 export const IMAGE_DIALOG_URL_CHANGE = 'IMAGE_DIALOG_URL_CHANGE';
 export const REQUEST_PREVIEW = 'REQUEST_PREVIEW';
+
+export const PREVIEW_BUSY = 'PREVIEW_BUSY';
 
 export function openImageDialog(titleValue, urlValue, descValue,linkEntityKey=null) {
     return {
@@ -24,8 +26,32 @@ export function closeDialog() {
     }
 }
 
+export function previewBusy(busy) {
+    return {
+        type: PREVIEW_BUSY,
+        busy
+    }
+}
+
 export const titleChange = (titleValue) => ({type:IMAGE_DIALOG_TITLE_CHANGE,titleValue});
-export const urlChange = (urlValue) => ({type:IMAGE_DIALOG_URL_CHANGE,urlValue});
+export const urlChange = (urlValue) => {
+    return dispatch => {
+        dispatch({type:IMAGE_DIALOG_URL_CHANGE,urlValue});
+        checkTimeout().then(()=>{
+            dispatch(previewBusy(true));
+            return downloadEmebed(urlValue);
+        }).then((parsedData)=>{
+            dispatch(descChange(parsedData.description));
+            dispatch(titleChange(parsedData.title));
+             dispatch(previewBusy(false));
+        }).catch((err)=> {
+            dispatch(previewBusy(false));
+            console.log(err);
+        });
+        
+    }
+  
+}
 export const descChange = (descValue) => ({type:IMAGE_DIALOG_DESC_CHANGE,descValue});
 
 
@@ -52,32 +78,8 @@ const checkTimeout = () => new Promise((resolve,reject) => {
 });
 
 
-function onRequestIframelyPreview(url) {
-    checkTimeout().then(()=>{
-        return this.downloadEmebed(url);
-    }).then((parsedData)=>{
-        this.onDescChange(parsedData.description);
-        this.onTitleChange(parsedData.title);
-    }).catch((err)=> {
-        console.log(err);
-    });
-}
 
-function _previewBusy(busy) {
-    this.state.previewBusy = busy;
-    this.trigger(this.state);
-}
-
-function downloadEmebed(url) {
-    this._previewBusy(true);
-    return new Promise((resolve, reject) => {
-        request.get('https://iframely.wrioos.com/iframely?url=' + encodeURIComponent(url), (err, result) => {
-            if (err) {
-                this._previewBusy(false);
-                return reject(err);
-            }
-            this._previewBusy(false);
-            resolve(result.body.meta);
-        });
-    });
+async function downloadEmebed(url) {
+    const res = await request.get('https://iframely.wrioos.com/iframely?url=' + encodeURIComponent(url));
+    return res.body.meta;
 }

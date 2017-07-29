@@ -404,6 +404,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
         this.draftToJson(contentState);
         var article = this.getElementOfType("Article");
         article.comment = commentID;
+        article.author = author;
         return {
                 html: this.toHtml(),
                 json: this.jsonBlocks

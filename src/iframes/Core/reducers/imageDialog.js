@@ -8,7 +8,8 @@ import {
     IMAGE_DIALOG_TITLE_CHANGE,
     IMAGE_DIALOG_URL_CHANGE,
     IMAGE_DIALOG_OPEN,
-    IMAGE_DIALOG_CLOSE
+    IMAGE_DIALOG_CLOSE,
+    PREVIEW_BUSY
 } from '../actions/imagedialog'
 
 
@@ -32,6 +33,8 @@ export function imageDialogReducer(state = defaultState, action) {
                 descValue,
                 linkEntityKey};
 
+        case PREVIEW_BUSY:
+                return {...state, previewBusy: action.busy}
         case IMAGE_DIALOG_CLOSE:
             return {...state,showDialog:false};
         case IMAGE_DIALOG_DESC_CHANGE:

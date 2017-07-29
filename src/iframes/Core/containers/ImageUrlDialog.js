@@ -13,8 +13,9 @@ import EntityDialog from '../components/EntityDialog'
 import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
-    let { showDialog, titleValue, urlValue, descValue, linkEntityKey} = state.imageDialog;
+    let { showDialog, titleValue, urlValue, descValue, linkEntityKey,previewBusy} = state.imageDialog;
     return { showDialog,
+        previewBusy,
         titleValue,
         urlValue,
         descValue,

@@ -205,11 +205,11 @@ export function createEditorState(metaBlocks, mentions, images) {
         }
     ]);
 
-    console.log("OrderedBlocks after import:");
+//    console.log("OrderedBlocks after import:");
 
     const valuesToKeys = (hash,value)=>{
         const e = value.block;
-        console.log("BLOCK", value.order, e.getType(),e.getText());
+  //      console.log("BLOCK", value.order, e.getType(),e.getText());
         let key = value['order']+1;
         hash[key] = value['block'];
         return hash;

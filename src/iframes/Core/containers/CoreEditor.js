@@ -12,8 +12,8 @@ import EntityTools,{getSelection} from '../utils/entitytools'
 
 import {BlockStyleControls,InlineStyleControls,ActionButton} from '../components/EditorControls'
 import {editorChanged,publishDocument,deleteDocument} from '../actions/indexActions'
-
-
+import {openImageDialog} from '../actions/imagedialog'
+import {openLinkDialog} from '../actions/linkdialog'
 
 class CoreEditor extends React.Component {
     constructor(props) {
@@ -42,7 +42,10 @@ class CoreEditor extends React.Component {
     }
 
     focus() {
-        this.refs.editor.focus();
+        if (this.refs.editor) {
+            this.refs.editor.focus();
+        }
+       
     }
     onFocus()
     {
@@ -104,6 +107,9 @@ class CoreEditor extends React.Component {
         // If the user changes block type before entering any text, we can
         // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
+        if (!this.props.editorState) {
+            return null;
+        }
         var contentState = this.props.editorState.getCurrentContent();
         if (!contentState.hasText()) {
             if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -157,8 +163,7 @@ class CoreEditor extends React.Component {
         );
     }
 
-
-
+    
 
 
 }
@@ -180,60 +185,3 @@ function getBlockStyle(block) {
 
 
 export default CoreEditor;
-/*
-// hack to supppress warnings
-console.error = (function() {
-    var error = console.error;
-
-    return function(exception) {
-        if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-            error.apply(console, arguments);
-        }
-    };
-})();
-*/
-
-/*
-if (this.state.registerPopup) {
-    return (<div className="well">
-        <h4> To enable comments, you need to create ethereum wallet. Please do it in the popup window.</h4>
-        <button className="btn btn-success" onClick={()=>this.setState({ registerPopup: false})}> Back </button>
-    </div>);
-}*/
-
-
-
-function shouldOpenPopup() {
-    const haveEthId = typeof WrioStore.getUser().ethereumWallet !== "undefined";
-    return !haveEthId && WrioStore.areCommentsEnabled();
-}
-
-function openCreateWalletPopup() {
-    const domain = process.env.DOMAIN;
-    const webGoldUrl = `//webgold.${domain}`;
-    if (this.shouldOpenPopup()) {
-        window.open(webGoldUrl+'/create_wallet','name','width=800,height=500');
-        this.setState({
-            registerPopup: true
-        });
-        this.waitPopupClosed(() => {
-            WrioStore.getUser().ethereumWallet="new"; // TODO fix hack
-            this.setState({
-                registerPopup: false
-            });
-        });
-    }
-}
-
-function waitPopupClosed(cb) {
-    if (!this.shouldOpenPopup()) {
-        return cb();
-    }
-    window.addEventListener("message", (msg) => {
-        const data = JSON.parse(msg.data);
-        if (data.reload) {
-            cb();
-        }
-    }, false);
-}
-

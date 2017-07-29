@@ -47,17 +47,21 @@ function gotError(error) {
 
 export function fetchDocument(url) {
     return (dispatch,state) => {
-        //if (state.document.document.getCommentID())
+        console.log(url)
         dispatch(requestDocument());
-        return getHttp(url)
+        getHttp(url)
             .then(doc => doc.data)
             .then(data => {
-                const doc = JSONDocument();
+                const doc = new JSONDocument(data);
                 const about = doc.getElementOfType('Article').about || "";
-                dispatch({TYPE: "DESC_CHANGED", text: about});
+                dispatch({type: "DESC_CHANGED", text: about});
                 dispatch(receiveDocument(data))
             })
-            .catch(err => dispatch(gotError(err)))
+            .catch(err => {
+                dispatch(gotError(err));
+                console.error("Error during download of source document",err);
+            }
+        )
     }
 }
 
@@ -129,7 +133,7 @@ export function editLink(titleValue,urlValue,descValue,linkEntityKey) {
 
 }
 
-export function editImage(src,description,title,linkEntityKey) {
+export function editImage(title,src,description,linkEntityKey) {
     Entity.mergeData(linkEntityKey, {
         src,
         title,

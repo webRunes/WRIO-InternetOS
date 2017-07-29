@@ -49,9 +49,9 @@ export function document(state = defaultState, action) {
             const header = JSONDocument.getTitle(editorState.getCurrentContent());
             return extractHeader({...state,editorState: editorState});
         case CREATE_NEW_IMAGE:
-            return {...state, editorState: createNewImage(state.editorState,action.title,action.url,action.desc)};
+            return {...state, editorState: createNewImage(state.editorState,action.url,action.desc,action.title)};
         case CREATE_NEW_LINK:
-            return {...state, editorState: createNewLink(state.editorState,action.title,action.url,action.desc)};
+            return {...state, editorState: createNewLink(state.editorState,action.url,action.desc,action.title)};
         case REMOVE_ENTITY:
             return {...state, editorState: removeEntity(state.editorState,action.key)};
         default:

@@ -33,7 +33,7 @@ class AsyncApp extends React.Component {
         if (window.location.pathname === "/create") {
             dispatch(createNewDocument())
         } else {
-            dispatch(fetchDocument(editUrl));
+            dispatch(fetchDocument(EDIT_URL));
         }
         dispatch(fetchUserData())
         document.getElementById("loadingInd").setAttribute('style','display:none;');
@@ -56,6 +56,10 @@ class AsyncApp extends React.Component {
             </div>
         );
     }
+
+
+
+
 }
 
 import { connect } from 'react-redux'
@@ -70,5 +74,41 @@ function mapStateToProps(state) {
         error: state.document.error
     }
 }
+
+
+function shouldOpenPopup(user,commentsEnabled) {
+    const haveEthId = user.ethereumWallet !== "undefined";
+    return !haveEthId && commentsEnabled;
+}
+
+function openPopup() {
+    const domain = process.env.DOMAIN;
+    const webGoldUrl = `//webgold.${domain}`;
+    if (this.shouldOpenPopup()) {
+        window.open(webGoldUrl+'/create_wallet','name','width=800,height=500');
+        this.setState({
+            registerPopup: true
+        });
+        this.waitPopupClosed(() => {
+            WrioStore.getUser().ethereumWallet="new"; // TODO fix hack
+            this.setState({
+                registerPopup: false
+            });
+        });
+    }
+}
+
+function waitPopupClosed(cb) {
+    if (!this.shouldOpenPopup()) {
+        return cb();
+    }
+    window.addEventListener("message", (msg) => {
+        const data = JSON.parse(msg.data);
+        if (data.reload) {
+            cb();
+        }
+    }, false);
+}
+
 
 export default connect(mapStateToProps)(AsyncApp)

@@ -5,7 +5,10 @@ import {
     DESC_CHANGED,
     HEADER_CHANGED,
     FILENAME_CHANGED,
-    ENABLE_COMMENTS
+    ENABLE_COMMENTS,
+    PUBLISH_DOCUMENT,
+    PUBLISH_FINISH,
+    PICK_SAVE_SOURCE
 } from '../actions/publishActions'
 import {EDITOR_CHANGED,CREATE_DOCUMENT,RECEIVE_DOCUMENT} from '../actions/indexActions'
 import JSONDocument from '../JSONDocument'
@@ -27,6 +30,8 @@ const defaultState =  {
     wrioID: null,
     busy:false
 };
+
+const MAX_DESCR_LENGTH = 515;
 
 
 export function publishReducer(state = defaultState, action) {
@@ -56,7 +61,12 @@ export function publishReducer(state = defaultState, action) {
             return {...state,wrioID: action.data.wrioID};
 
         case DESC_CHANGED:
-            return {...state,description: action.text};
+            
+            return {...state,description: action.text.substring(0,MAX_DESCR_LENGTH)};
+
+        case ENABLE_COMMENTS:
+            return {...state,commentsEnabled:action.state}     
+
         case FILENAME_CHANGED:
             if (!createMode) {
                 return {...state,
@@ -78,6 +88,12 @@ export function publishReducer(state = defaultState, action) {
                 }
             }
             return state;
+        case PUBLISH_DOCUMENT:
+            return {...state,busy: true}
+        case PUBLISH_FINISH:
+            return {...state,busy: false}  
+        case PICK_SAVE_SOURCE:
+            return {...state,saveSource: action.source}
         default:
             return state
     }
@@ -91,11 +107,12 @@ export function publishReducer(state = defaultState, action) {
  */
 function calcResultingPath(state,filename) {
     const path = prepFileName(filename);
+   const {createMode,initEditURL,initEditPath} = state.editParams;
     return {
         ...state,
         filename,
-        savePath: path,
-        saveUrl: getSaveUrl(state.wrioID,path)
+        savePath: createMode ? path : initEditPath, // fallback to predefined path if we just editing file
+        saveUrl: createMode ? getSaveUrl(state.wrioID,path) : initEditPath
     }
 }
 
