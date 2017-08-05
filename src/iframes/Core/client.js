@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import ReactDom from 'react-dom';
 import {ContentBlock, CharacterMetadata} from 'draft-js';
 import CommentSaver from './containers/CommentSaver.js';
-import Root from './containers/Root'
+import Root from './containers/Editor.js'
 import {urlMatch as CommentSaverUrlMatch} from './containers/CommentSaver.js';
 
 

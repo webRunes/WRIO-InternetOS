@@ -1,4 +1,4 @@
-/* @flow */
+
 import {Entity} from 'draft-js';
 import {saveToS3,getWidgetID} from '../webrunesAPI.js';
 import {formatAuthor} from '../utils/url.js'

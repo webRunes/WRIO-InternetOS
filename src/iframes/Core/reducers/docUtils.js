@@ -9,8 +9,8 @@ export function extractHeader(state) {
 }
 
 export function mkDoc(state,doc) {
-    doc.toDraft();
-    const contentBlocks = doc.contentBlocks;
+   
+    const contentBlocks = doc.toDraft();
     const mentions = doc.mentions;
     return extractHeader({...state,
         isFetching: false,

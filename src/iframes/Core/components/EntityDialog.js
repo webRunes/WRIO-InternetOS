@@ -71,7 +71,7 @@ const EntityDialog = ({
                         <span className="glyphicon glyphicon-remove">
 
                         </span>Cancel</button>
-                    <button onClick={isEditLink ? () => onEditLink(titleValue, urlValue, descValue) :
+                    <button onClick={isEditLink ? () => onEditLink(titleValue, urlValue, descValue,linkEntityKey) :
                                                   () => onConfirmLink(titleValue, urlValue, descValue, linkEntityKey)} className="btn btn-primary btn-sm">
                         <span className="glyphicon glyphicon-ok"></span>Submit</button>
                 </div>

@@ -35,7 +35,7 @@ export default class ImageEntity extends React.Component {
     }
     render() {
         return (
-            <article style={{width: '50%'}} onClick={this.onLinkEdit}>
+            <article onClick={this.onLinkEdit}>
         <figure>
             <img src={this.state.src} />
             <figcaption className="callout figure-details">

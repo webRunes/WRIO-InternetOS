@@ -1,9 +1,11 @@
+
 /**
  * Created by michbil on 20.12.16.
  */
 
 import {AtomicBlockUtils, CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier,convertToRaw} from 'draft-js';
 import {getImageObject} from '../JSONDocument.js';
+import insertAtomicBlock from './insertAtomicBlock.js'
 
 var linkEditCallback;
 var imageEditCallback;
@@ -12,6 +14,8 @@ import ImageEntity from '../EditorEntities/ImageEntitiy.js';
 import SocialMediaEntity from '../EditorEntities/SocialMediaEntity.js';
 
 const isImageLink = (filename) => (/\.(gif|jpg|jpeg|tiff|png)$/i).test(filename);
+const TECHNICAL_BLOCK_ID = '[TECHNICAL_BLOCK_PLEASE_DONT_SHOW_IT]'
+
 
 export default class EntityTools {
 
@@ -29,7 +33,7 @@ export default class EntityTools {
      * @param desc
      * @returns {LINK}
      */
-    static createLinkEntity(title,url,desc) {
+    static createLinkEntity(title : string, url : string,desc : string) {
         return Entity.create('LINK', 'MUTABLE', {
             linkTitle: title,
             linkUrl: url,
@@ -45,7 +49,7 @@ export default class EntityTools {
      * @param title
      * @returns {urlType}
      */
-    static createImageSocialEntity(url,description,title) {
+    static createImageSocialEntity(url : string,description: string,title: string) {
         const urlType = isImageLink(url) ? 'IMAGE' : 'SOCIAL';
         const entityKey = Entity.create(urlType, 'IMMUTABLE',
             {
@@ -57,23 +61,22 @@ export default class EntityTools {
         return entityKey;
     }
 
-    static insertEntityKey(editorState, entityKey) {
-        // AtomicBlockUtils is adding extra paragraph, TODO: make workaround without it
-        const newEditorState = AtomicBlockUtils.insertAtomicBlock( // TODO: first point of redundant empty block creation
-            editorState,
+    /** 
+     * inserts entity key into editorState */
+    static insertEntityKeyIntoAtomicBlock(editorState : EditorState, entityKey : string, insertEmpty: boolean) {
+        const key = editorState.getSelection().getAnchorKey();
+        const newEditorState = insertAtomicBlock( 
+            editorState, // its added because of facebook issue https://github.com/facebook/draft-js/issues/203
             entityKey,
-            ' '
+            TECHNICAL_BLOCK_ID,
+            key,
+            insertEmpty
         );
-        const _s =  EditorState.forceSelection(
-            newEditorState,
-            editorState.getCurrentContent().getSelectionAfter()
-        );
-
-        return _s;
+        return newEditorState;
     }
 
 
-    static _getMentionContentBlock(contentBlocks,mention) {
+    static _getMentionContentBlock(contentBlocks : Map<string,ContentBlock>,mention : Object) {
         const block = contentBlocks[mention.block];
 
         if (!block) {
@@ -83,10 +86,11 @@ export default class EntityTools {
         return block;
     }
 
-    static _constructEntity(entityKey,editorState,contentBlocks,mention) {
-
+    static _constructEntity(entityKey : string, editorState : EditorState, contentBlocks : Map<string,ContentBlock>,mention: Object) {
+        console.log(entityKey,mention)
         try {
             const key = this._getMentionContentBlock(contentBlocks,mention).getKey();
+            console.log("mention paragraph key", key)
             return RichUtils.toggleLink(
                 editorState,
                 SelectionState.createEmpty(key).merge({
@@ -110,7 +114,7 @@ export default class EntityTools {
      * @returns {*} new editorState
      */
 
-    static constructMention(editorState, contentBlocks, mention) {
+    static constructMention(editorState : EditorState, contentBlocks, mention) {
         const entityKey = this.createLinkEntity(mention.linkWord,mention.url,mention.linkDesc);
         return this._constructEntity(entityKey,editorState,contentBlocks,mention);
     }
@@ -123,12 +127,11 @@ export default class EntityTools {
      * @returns {*} new editorState
      */
 
-    static constructImage(editorState, contentBlocks, mention) {
-        const metaData = {
-            block: this._getMentionContentBlock(contentBlocks,mention),
-            data: getImageObject(mention.src,mention.name,mention.description)
-        };
-        return this.constructSocial(editorState,metaData);
+    static constructImage(editorState, contentBlocks, mention, insertEmpty) {
+        const blockKey = this._getMentionContentBlock(contentBlocks,mention).getKey();
+        const blockData = getImageObject(mention.src,mention.name,mention.description);
+       
+        return this.constructSocial(editorState,blockKey,blockData,insertEmpty);
     }
 
     /**
@@ -138,18 +141,16 @@ export default class EntityTools {
      * @returns {*} new editorState
      */
 
-    static constructSocial(editorState,metaBlock) {
-        const contentBlock = metaBlock.block;
-        const blockData = metaBlock.data;
+    static constructSocial(editorState,blockKey,blockData,insertEmpty=true) {
+       
         let entityKey;
         if (blockData["@type"] == "ImageObject") {
             entityKey = this.createImageSocialEntity(blockData.contentUrl,blockData.name,blockData.description);
         } else {
             entityKey = this.createImageSocialEntity(blockData.sharedContent.url,blockData.sharedContent.headline,blockData.sharedContent.about);
         }
-        const key = contentBlock.getKey();
-        const _editorState = EditorState.forceSelection(editorState,SelectionState.createEmpty(key));
-        return EntityTools.insertEntityKey(_editorState,entityKey);
+        const _editorState = EditorState.forceSelection(editorState,SelectionState.createEmpty(blockKey)); // We are creating entity in wrong place!!!
+        return EntityTools.insertEntityKeyIntoAtomicBlock(_editorState,entityKey,insertEmpty);
     }
 }
 
@@ -170,7 +171,7 @@ export const getSelection = (editorState) => {
 };
 
 
-// helper function
+// helper function that finds entities in contentblocks
 const findEntitiesOfType = (type) => (contentBlock, callback) => {
     contentBlock.findEntityRanges(
         (character) => {
@@ -190,8 +191,14 @@ export const findLinkEntities   = findEntitiesOfType('LINK');
 export const findImageEntities  = findEntitiesOfType('IMAGE');
 export const findSocialEntities = findEntitiesOfType('SOCIAL');
 
-
-export function createEditorState(metaBlocks, mentions, images) {
+/**
+ * !!!!!!!!!! IMPORTER !!!!!!!!!!!!!!!!
+ * Main fuction, that constructs EditorState from LD+JSON data
+ * @param {*} contentBlock wrapped content blocks with
+ * @param {*} mentions 
+ * @param {*} images 
+ */
+export function createEditorState({contentBlocks, mentions, images, socials,blockKeyToOrderMap}) {
     const decorator = new CompositeDecorator([{
         strategy: findLinkEntities,
         component: LinkEntity
@@ -199,33 +206,30 @@ export function createEditorState(metaBlocks, mentions, images) {
         strategy: findImageEntities,
         component: ImageEntity
     },
-        {
-            strategy: findSocialEntities,
-            component: SocialMediaEntity
-        }
+    {
+        strategy: findSocialEntities,
+        component: SocialMediaEntity
+    }
     ]);
 
 //    console.log("OrderedBlocks after import:");
-
-    const valuesToKeys = (hash,value)=>{
-        const e = value.block;
+    console.log(socials)
+    const valuesToKeys = (hash,block : ContentBlock)=>{
   //      console.log("BLOCK", value.order, e.getType(),e.getText());
-        let key = value['order']+1;
-        hash[key] = value['block'];
+        let key =  blockKeyToOrderMap[block['key']]+1;
+        hash[key] = block;
         return hash;
     };
-    const orderedBlocks = metaBlocks.reduce(valuesToKeys,{});
+    const orderedBlocks = contentBlocks.reduce(valuesToKeys,{});
+    console.log(orderedBlocks);
 
-    //console.log(orderedBlocks);
-    const contentBlocks = metaBlocks.map(x => x.block);
-
-    let editorState = contentBlocks.length > 0 ?
+    let editorState = contentBlocks.length > 0 ? // so let's create new EditorState there!!!
         EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks), decorator) :
         EditorState.createEmpty(decorator);
 
-    editorState = metaBlocks.reduce((editorState,metaBlock) => metaBlock.data ? EntityTools.constructSocial(editorState,metaBlock) : editorState, editorState);
+    editorState = socials.reduce((editorState,social) => EntityTools.constructSocial(editorState,social.key,social.data,false) , editorState);
     if (images) {
-        editorState = images.reduce((editorState,mention) => EntityTools.constructImage(editorState,orderedBlocks,mention),editorState);
+        editorState = images.reduce((editorState,mention) => EntityTools.constructImage(editorState,orderedBlocks,mention,false),editorState);
     }
 
     return mentions.reduce((editorState,mention) => EntityTools.constructMention(editorState,orderedBlocks,mention),editorState);
@@ -258,14 +262,15 @@ export function createNewLink(editorState, titleValue,urlValue,descValue) {
     return _editorState;
 }
 
-export function createNewImage (editorState,url,description,title) {
+export function createNewImage (editorState,url,description,title,insertEmpty) {
     const entityKey = EntityTools.createImageSocialEntity(url,description,title);
-    return EntityTools.insertEntityKey(editorState,entityKey);
+    return EntityTools.insertEntityKeyIntoAtomicBlock(editorState,entityKey,insertEmpty);
 }
 
 
 export function removeEntity(editorState,entityKeyToRemove) {
-    let newState = null;
+    let newState = editorState;
+    console.warn("Functions seems to be working not quite right, please check if everything is ok")
 
     editorState.getCurrentContent().getBlockMap().map(block => {
         block.findEntityRanges(char => {

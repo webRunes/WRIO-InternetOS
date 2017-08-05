@@ -14,7 +14,7 @@ class Figure extends React.Component {
                 </figcaption>);
         }
         return (
-            <figure  style={{width:"50%"}}>
+            <figure >
                 {this.props.content}
                 {figcaption}
             </figure>

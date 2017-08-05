@@ -12,9 +12,9 @@ export const GOT_ERROR = 'GOT_ERROR';
 export const EDITOR_CHANGED = 'EDITOR_CHANGED';
 export const CREATE_NEW_LINK = 'CREATE_NEW_LINK';
 export const CREATE_NEW_IMAGE = 'CREATE_NEW_IMAGE';
-export const REMOVE_ENTITY = 'REMOVE_LINK';
-export const EDIT_LINK = 'REMOVE_LINK';
-export const EDIT_IMAGE = 'REMOVE_LINK';
+export const REMOVE_ENTITY = 'REMOVE_ENTIRY';
+export const EDIT_LINK = 'EDIT_ENTITY';
+export const EDIT_IMAGE = 'EDIT_IMAGE';
 
 
 

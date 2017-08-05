@@ -13,10 +13,9 @@ import {receiveDocument,
 
 import {openLinkDialog,closeDialog} from '../actions/linkdialog'
 import {openImageDialog,closeDialog as closeDialogImg} from '../actions/imagedialog'
-
+import getFixture from '../fixtures/fixture.js'
+let json = getFixture('testjson');
 var doc;
-let json = require('../fixtures/fixture.js').default;
-
 describe('LS+JSON tests test', () => {
 
     test('Should be able to import document and convert it back to JSON', () => {
