@@ -71,6 +71,7 @@ export class VerticalNav extends React.Component {
 
             const articleChapter = document.getElementById(item.url.replace('#',''));
             const chapterSize = getElementDimensions(articleChapter);
+            if (!chapterSize) return;
             // $FlowFixMe
             const windowHt = document.body.clientHeight;
             if ( ( chapterSize.top -  windowHt/2 < scrollTop() ) &&

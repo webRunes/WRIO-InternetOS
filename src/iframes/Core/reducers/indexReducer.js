@@ -12,7 +12,7 @@ import {
 } from '../actions/indexActions'
 import JSONDocument from '../JSONDocument.js';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier, convertToRaw} from 'draft-js';
-import {createEditorState,createNewLink,createNewImage,removeEntity} from '../utils/entitytools'
+import {createEditorState,createNewLink,createNewImage,removeEntity,extractTableOfContents} from '../utils/entitytools'
 import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
 import PostSettingsReducer from './publish'

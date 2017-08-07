@@ -10,31 +10,6 @@ import {
 import {createNewLink,editLink,removeEntity} from '../actions/indexActions'
 import EntityDialog from '../components/EntityDialog'
 
-/*
-    onEditLink(e) {
-        const {titleValue, urlValue, descValue, linkEntityKey} = this.props;
-        TextEditorActions.editLink(titleValue, urlValue, descValue, linkEntityKey);
-        this.props.dispatch(closeDialog());
-    }
-
-    onConfirmLink(e) {
-        const {titleValue, urlValue, descValue} = this.props;
-        TextEditorActions.createNewLink(titleValue, urlValue, descValue);
-        this.props.actions.closeDialog();
-    }
-
-    onCancelLink(e) {
-        this.props.dispatch(closeDialog());
-
-    }
-
-    onRemoveLink(e) {
-        e.preventDefault();
-        const {linkEntityKey} = this.props;
-        TextEditorActions.removeEntity(linkEntityKey);
-        this.props.dispatch(closeDialog());
-    }
-*/
 
 
 import { connect } from 'react-redux'

@@ -213,7 +213,7 @@ export function createEditorState({contentBlocks, mentions, images, socials,bloc
     ]);
 
 //    console.log("OrderedBlocks after import:");
-    console.log(socials)
+  //  console.log(socials)
     const valuesToKeys = (hash,block : ContentBlock)=>{
   //      console.log("BLOCK", value.order, e.getType(),e.getText());
         let key =  blockKeyToOrderMap[block['key']]+1;
@@ -221,7 +221,7 @@ export function createEditorState({contentBlocks, mentions, images, socials,bloc
         return hash;
     };
     const orderedBlocks = contentBlocks.reduce(valuesToKeys,{});
-    console.log(orderedBlocks);
+    //console.log(orderedBlocks);
 
     let editorState = contentBlocks.length > 0 ? // so let's create new EditorState there!!!
         EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks), decorator) :
@@ -265,6 +265,11 @@ export function createNewLink(editorState, titleValue,urlValue,descValue) {
 export function createNewImage (editorState,url,description,title,insertEmpty) {
     const entityKey = EntityTools.createImageSocialEntity(url,description,title);
     return EntityTools.insertEntityKeyIntoAtomicBlock(editorState,entityKey,insertEmpty);
+}
+
+export function extractTableOfContents (editorState) {
+  const blockMap : OrderedMap = editorState.getCurrentContent().getBlockMap()
+  return blockMap.filter(block => block.type == 'header-two').map(block => block.text).toArray();
 }
 
 

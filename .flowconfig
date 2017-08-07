@@ -5,6 +5,10 @@
 <PROJECT_ROOT>/build/.*
 <PROJECT_ROOT>/hub/.*
 [include]
+./node_modules/react
+./node_modules/fbjs/lib
+./node_modules/draft-js
+./node_modules/immutable
 [libs]
 
 [options]

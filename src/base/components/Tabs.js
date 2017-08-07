@@ -5,7 +5,6 @@
 import React from 'react';
 import {Tab,Tabs, Row, Col, Nav, NavItem} from 'react-bootstrap'
 import Externals from './Externals'
-import Core from './widgets/Core'
 import ReadItLater from './ReadItLater'
 import Actions from '../actions/WrioDocument'
 import {StayOnTopElement} from '../components/utils/domutils'
@@ -91,7 +90,7 @@ class ArticleTabs extends StayOnTopElement {
                             {center}
                         </Tab.Pane>
                         {editAllowed && <Tab.Pane eventKey="edit">
-                            <Core article={window.location.href}/>
+                           
                         </Tab.Pane>}
                         <Tab.Pane eventKey="collections">
                             <Externals data={externals}/>

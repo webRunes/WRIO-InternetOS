@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
 import Login from './Login.js';
 import request from 'superagent';
@@ -132,5 +133,5 @@ export default class Chess extends React.Component {
 }
 
 Chess.propTypes = {
-    uuid: React.PropTypes.string.isRequired
+    uuid: PropTypes.string.isRequired
 };

@@ -6,13 +6,18 @@ import CoverHeader from '../../../base/components/CoverHeader'
 import Tabs from '../../../base/components/Tabs'
 import CoverStore from '../../../base/store/CoverStore'
 import AsyncApp from './AsyncApp.js'
+import PlusActions from '../../../base/Plus/actions/PlusActions'
+import Login from '../../../base/components/widgets/Login.js';
+import configureStore from '../configureStore'
+import { Provider , connect} from 'react-redux'
+import {fromList} from '../../../base/utils/tocnavigation';
 
 
 const RightNav = () => {
     return ( <div className="right-nav">
         <a href="#" onClick={(evt) => {
             evt.preventDefault();
-            PlusActions.closeTab();
+           // PlusActions.closeTab();
         }} className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
             <i className="material-icons dp_big">highlight_off</i></a>
         <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
@@ -33,10 +38,13 @@ const LoginBar = ({profile}) => {
     </div>);
 }
 
-let numRender = 0;
 
-export default class EditorMain extends React.Component {
-    constructor(props) {
+const store = configureStore();
+
+
+let numRender = 0;
+class EditorMain extends React.Component {
+    constructor(props : Object) {
         super(props);
         this.state = {
             toc: {
@@ -46,15 +54,6 @@ export default class EditorMain extends React.Component {
             editAllowed: false,
             readItLater: [],
         }
-    }
-
-
-
-    componentDidMount() {
-        // hide preloader
-        const preloader = document.getElementById('preloader');
-        preloader ? preloader.style.display = 'none' : true;
-        WrioDocumentActions.loadDocumentWithData.trigger(this.props.document,window.location.href);
     }
 
     render () {
@@ -69,7 +68,7 @@ export default class EditorMain extends React.Component {
             <LoginBar profile={this.state.profile}/>
             <RightNav />
             <CoverHeader />
-            <LeftNav articleItems={this.state.toc.chapters} />
+            {!!this.props.toc && <LeftNav articleItems={fromList(this.props.toc)} /> }
 
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={(<AsyncApp />)}
@@ -80,8 +79,24 @@ export default class EditorMain extends React.Component {
                 />
             </div>
 
-
-        </div>);
+        </div>
+       );
     }
 
 }
+
+function mapStateToProps(state) {
+    const {toc} = state.document;
+    return {toc};
+}
+
+const EditorMapped = connect(mapStateToProps)(EditorMain)
+
+
+const Wrapper = () => {
+    return (<Provider store={store}>
+        <EditorMapped/>
+        </Provider>);
+}
+
+export default Wrapper;

@@ -1,4 +1,5 @@
 import {mkDoc} from '../reducers/docUtils'
+import * as EntityTools from './entitytools'
 import getFixture from '../fixtures/fixture.js'
 import JSONDocument from '../JSONDocument'
 let json = getFixture('social');
@@ -13,4 +14,11 @@ test('Should IMPORT document with social media entity without extra newlines', (
     blockMap.forEach((block,key)=> {
         console.log(`blockk ${key} type: ${block.type} text: <<<${block.text}>>>`)
     })
+})
+
+test('Should extract table of contents correctly', () => {
+     const doc = new JSONDocument(json);
+    const {editorState}  = mkDoc({},doc);
+    const toc = EntityTools.extractTableOfContents(editorState);
+    expect(toc).toEqual(['Untitledsd']) 
 })

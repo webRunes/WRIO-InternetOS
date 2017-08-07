@@ -235,7 +235,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
         lastKey = res.lastKey;
         // and merge it with data from the hasPart section
         contentBlocks = article.hasPart.reduce((r,subarticle) => {
-            const res = this._parseArticlePart(subarticle, true,lastKey,socials);
+            const res = this._parseArticlePart(subarticle, true,lastKey,socials,blockKeyToOrderMap);
             lastKey = res.lastKey;
             r = r.concat(res.contentBlocks);
             return r;

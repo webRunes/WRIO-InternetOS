@@ -79,7 +79,7 @@ var e = {
     ]
   },
 
-  devtool: "source-map",
+  devtool: "eval-source-map",
 
   plugins: [
     commonsPlugin,

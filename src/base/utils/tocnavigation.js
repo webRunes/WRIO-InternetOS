@@ -37,6 +37,14 @@ const hashEquals = (location: Object) => (itemHash : string) : boolean => {
     return replaceSpaces(itemHash) === currentHash;
 };
 
+/**
+ * Simple stub function that wraps list of strings into MenuItem class 
+ * @param {*} list 
+ */
+export function fromList(list : Array<string>) {
+    return list.map(str => new MenuItem(str,'#'+str,false));
+}
+
 export default class TableOfContents  {
     coverItems : Array<MenuItem>;
     articleItems : Array<MenuItem>;

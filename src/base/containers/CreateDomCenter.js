@@ -3,7 +3,6 @@
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import React from 'react';
 import Chess from '../components/widgets/Chess.js';
-import Core from '../components/widgets/Core.js';
 import CreateTitter from '../components/widgets/Titter.js';
 import WrioDocumentBody from '../components/WrioDocumentBody.js';
 // $FlowFixMe

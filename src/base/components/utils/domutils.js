@@ -7,6 +7,7 @@ import React from 'react'
 export const scrollTop = () => (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 export function getElementDimensions(element)
 {
+    if (!element) return null;
     var de = document.documentElement;
     var box = element.getBoundingClientRect();
     var top = box.top + window.pageYOffset - de.clientTop;
