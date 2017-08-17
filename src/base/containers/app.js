@@ -2,7 +2,7 @@
 import React from 'react';
 // $FlowFixMe
 import Reflux from 'reflux'
-import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, CoreCreateCenter, WebGoldCenter} from './CreateDomCenter';
+import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, WebGoldCenter} from './CreateDomCenter';
 import {VerticalNav,LeftNav} from '../components/ArticleNavgiation'
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
@@ -41,7 +41,7 @@ const LoginBar = ({profile}) => {
     </div>);
 }
 
-let numRender = 0;
+
 class Main extends Reflux.Component {
     constructor(props) {
         super(props);
@@ -63,7 +63,6 @@ class Main extends Reflux.Component {
         let data: LdJsonDocument = this.props.document;
         let externals = this.state.lists.filter(list => list.type == 'external');
 
-        console.log(`RENDERING state!!!!!!!!!!! ${numRender++}`, this.state);
 
         return ( <div>
 
@@ -115,14 +114,6 @@ class Main extends Reflux.Component {
                                                          url={url}
                                                          profile={this.state.profile}
                                                          wrioID={this.state.wrioID}
-            />);
-        }
-
-        if (urlDecoded.create) {
-            return this.renderWithCenter(<CoreCreateCenter data={this.props.document}
-                                                           url={url}
-                                                           profile={this.state.profile}
-                                                           wrioID={this.state.wrioID}
             />);
         }
 

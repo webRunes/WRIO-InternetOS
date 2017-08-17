@@ -1,6 +1,5 @@
 /* @flow */
 import React from 'react';
-// $FlowFixMe
 import {VerticalNav,LeftNav} from '../../../base/components/ArticleNavgiation'
 import CoverHeader from '../../../base/components/CoverHeader'
 import Tabs from '../../../base/components/Tabs'
@@ -9,6 +8,7 @@ import AsyncApp from './AsyncApp.js'
 import PlusActions from '../../../base/Plus/actions/PlusActions'
 import Login from '../../../base/components/widgets/Login.js';
 import configureStore from '../configureStore'
+// $FlowFixMe
 import { Provider , connect} from 'react-redux'
 import {fromList} from '../../../base/utils/tocnavigation';
 
@@ -44,6 +44,17 @@ const store = configureStore();
 
 let numRender = 0;
 class EditorMain extends React.Component {
+
+    state: {
+        toc : {
+            chapters: Array<Object>
+        },
+        editAllowed: boolean,
+        readItLater: Array<mixed>,
+        tabKey: string,
+        profile: Object,
+    }
+
     constructor(props : Object) {
         super(props);
         this.state = {
@@ -53,6 +64,8 @@ class EditorMain extends React.Component {
             },
             editAllowed: false,
             readItLater: [],
+            profile: {},
+            tabKey: "Home"
         }
     }
 

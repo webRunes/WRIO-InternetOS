@@ -151,7 +151,7 @@ export class LeftNav extends StayOnTopElement {
         return (<div ref="container" className="col-sm-3">
             <div ref="subcontainer"
                  id="sidebar"
-                 className="col-sm-3">
+                 >
                 <div className="sidebar-margin">
                     <VerticalNav vertical={false}
                                  showUp={this.state.showUp}

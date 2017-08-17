@@ -11,9 +11,6 @@ process.stdout._write = stdout_write;
 process.stderr._write = stderr_write;
 
 describe('mention test', () => {
-    before(() => {
-
-    });
     it("Should determine correct mention start and order", () => {
         var mention = new Mention({
             "@type": "Article",

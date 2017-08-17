@@ -10,6 +10,7 @@ import Actions from '../actions/WrioDocument'
 import {StayOnTopElement} from '../components/utils/domutils'
 import {pageEltHt,scrollTop,addClass,removeClass,getElementDimensions} from './utils/domutils'
 import {findDOMNode} from 'react-dom'
+import {getServiceUrl} from '../servicelocator.js'
 
 const HEADER_PADDING = 15; // variable set in CSS
 
@@ -63,7 +64,10 @@ class ArticleTabs extends StayOnTopElement {
                                         Home
                                         <div className="ripple-container"></div>
                                     </NavItem>
-                                    {editAllowed && <NavItem eventKey="edit">
+                                    {editAllowed && <NavItem eventKey="edit" onClick={()=>{
+                                            // go to standalone editor URL
+                                            window.location.href = `${getServiceUrl('core')}/edit?article=${encodeURIComponent(window.location.href)}`;
+                                        }}>
                                         <i className="material-icons">edit</i>Edit
                                         <div className="ripple-container"></div>
                                     </NavItem>}

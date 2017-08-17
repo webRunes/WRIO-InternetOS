@@ -17,6 +17,7 @@ function extractAuthorWrioID (author : string) : string {
     }
 }
 
+let id = 0;
 class LdJsonDocument {
     blocks: LdJsonObjects;
     data: Array<Object>;
@@ -24,6 +25,7 @@ class LdJsonDocument {
     constructor(scripts: HTMLCollection<HTMLScriptElement>) {
         this.data = this.parseScripts(scripts);
         this.blocks =  this.mapMentions();
+        this.id = id++;
     }
     parseScripts(scripts : HTMLCollection<HTMLScriptElement>) : Array<Object> {
         let  data :  Array<Object> = [];

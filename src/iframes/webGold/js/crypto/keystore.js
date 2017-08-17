@@ -1,15 +1,6 @@
 import lightwallet from 'eth-lightwallet'
 const keyStore = lightwallet.keystore;
 
-// monkeypatch (see: bitpay/bitcore-lib#34)
-import crypto from 'crypto'
-const sourceCreateHash = crypto.createHash;
-crypto.createHash = function createHash(alg) {
-    if (alg === 'ripemd160') {
-        alg = 'rmd160'
-    }
-    return sourceCreateHash(alg)
-};
 
 export default class KeyStore {
 

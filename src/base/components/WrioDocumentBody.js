@@ -24,8 +24,6 @@ class DocumentBody extends React.Component {
 
     render() {
         const document = this.props.document;
-        console.log("Document redraw");
-
         var content = this.getContentByName(document,UrlMixin.searchToObject(this.props.url));
 
         if (content == null) {
@@ -37,6 +35,14 @@ class DocumentBody extends React.Component {
               </div>
             );
         }
+    }
+
+    // prevent unneeded updates and rerender of the article!
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.url != nextProps.url) return true;
+        if (this.props.document.id != nextProps.document.id) return true;
+       
+        return false;
     }
 
     componentDidUpdate () {

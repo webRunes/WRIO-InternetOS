@@ -27,7 +27,7 @@ const defaultBg = "https://default.wrioos.com/img/default-cover-bg.png";
 
 const CoverText = ({cover} : {cover : ImageObject}) => {
 
-        console.log("cover", cover);
+      //  console.log("cover", cover);
         var items = cover.getCoverItems();
         var descr = [];
         var bulletList = [];
@@ -150,7 +150,7 @@ const CoverBlock = ({covers,images,currentCover,onCoverChanged}
     onCoverChanged : Function}) => {
 
 
-    console.log("RENDERING", covers);
+  //  console.log("RENDERING", covers);
     const headerStyle = (covers.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
     return (
         <div className="page-header" style={headerStyle}>
