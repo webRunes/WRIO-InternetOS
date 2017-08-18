@@ -1,7 +1,7 @@
 import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
-import LdJsonObject from '../src/core/jsonld/entities/LdJsonObject';
+import LdJsonObject from '../src/base/jsonld/entities/LdJsonObject';
 
 const fixture = {
     "@context": "https://schema.org",
