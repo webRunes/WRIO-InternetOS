@@ -18,20 +18,19 @@ import CoverStore from '../store/CoverStore'
 
 const RightNav = () => {
     return ( <div className="right-nav">
-        <a href="#" onClick={(evt) => {
-            evt.preventDefault();
-            PlusActions.closeTab();
-        }} className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
-            <i className="material-icons dp_big">highlight_off</i></a>
-        <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
-        <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">share</i></a>
-
+      <a href="#" onClick={(evt) => {
+        evt.preventDefault();
+        PlusActions.closeTab();
+      }} className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
+        <i className="material-icons dp_big">highlight_off</i></a>
+      <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">bookmark</i></a>
+      <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg"><i className="material-icons dp_big">share</i></a>
     </div>);
 };
 
 const LoginBar = ({profile}) => {
     const loginStyle = {
-        margin: "1em 4.2em",
+        margin: "20px 110px",
         position: "absolute",
         right: 0,
         zIndex: 120
