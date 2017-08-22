@@ -8,7 +8,7 @@ var domain = getDomain();
 const LoginButton = ({onLogin}) => {
     return (
         <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
-            <i className="material-icons dp_big">account_circle</i>
+          <i className="material-icons dp_big">account_circle</i>
             Login
         </a>
     )
@@ -27,8 +27,8 @@ export const performLogin  = () => {
 
 const Login = ({profile}) => {
     return (<Dropdown id="dropdown-custom-1" pullRight >
-        <Dropdown.Toggle className="btn-just-icon btn-simple btn-default btn-lg btn-flat">
-            <i className="material-icons dp_big">account_circle</i> {profile.temporary ? "Temporary account" : profile.name}
+      <Dropdown.Toggle className="btn-simple btn-default btn-lg btn-flat">
+        <i className="material-icons dp_big">account_circle</i> {profile.temporary ? "Temporary account" : profile.name}
         </Dropdown.Toggle>
         <Dropdown.Menu >
             <MenuItem eventKey="1" href={profile.url}>
