@@ -1,5 +1,5 @@
 import React from 'react';
-import {getServiceUrl} from '../../../../../../base/servicelocator'
+import {getServiceUrl} from 'base/servicelocator'
 
 class LoginButton extends React.Component {
     openAuthPopup() {

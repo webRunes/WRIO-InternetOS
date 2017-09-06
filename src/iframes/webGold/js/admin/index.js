@@ -13,7 +13,7 @@ import Emissions from './Emissions'
 import Invoices from './Invoices'
 import Presales from './Presales'
 import {requestStats} from './requests'
-import {getServiceUrl} from '../../../../base/servicelocator'
+import {getServiceUrl} from 'base/servicelocator'
 
 const Admin = () => {
         return (

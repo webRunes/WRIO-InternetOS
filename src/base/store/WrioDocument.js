@@ -212,10 +212,7 @@ class WrioDocument extends Reflux.Store {
             if (UrlMixin.compareProfileUrls(profile.url,_author)) {
                 this.setState({editAllowed: true})
             }
-
-
         }
-
     }
 
 

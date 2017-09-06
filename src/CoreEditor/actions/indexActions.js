@@ -1,4 +1,4 @@
-import getHttp from '../../../base/utils/request';
+import getHttp from 'base/utils/request';
 
 import { getRegistredUser,getWidgetID} from '../webrunesAPI.js';
 import JSONDocument from '../JSONDocument'

@@ -3,7 +3,7 @@
  */
 
 import {getCookie} from './utils.js';
-import {getServiceUrl} from '../../../base/servicelocator'
+import {getServiceUrl} from 'base/servicelocator'
 
 export function openAuthPopup() {
     var loginUrl = getServiceUrl('login');

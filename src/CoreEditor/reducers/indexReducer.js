@@ -17,7 +17,7 @@ import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
 import PostSettingsReducer from './publish'
 import {mkDoc,extractHeader} from './docUtils'
-import headerReducer from './headerReducer'
+import headerReducer from './headerReducer.js'
 
 const defaultState = {
     document: null,
@@ -84,6 +84,7 @@ function crossSliceReducer(state, action) {
             modAction.header = docState.header;
             return {
                 document : docState,
+                header: headerReducer(state.header,action),
                 publish : PostSettingsReducer(state.publish, modAction),
                 imageDialog : ImageDialogReducer(state.imageDialog, action),
                 linkDialog: LinkDialogReducer(state.linkDialog,action)

@@ -2,7 +2,7 @@
  * Created by michbil on 06.03.17.
  */
 
-import {getServiceUrl} from '../../../base/servicelocator'
+import {getServiceUrl} from 'base/servicelocator'
 
 export const sendCommentRequest = (data,params) => $.ajax({
     url: getServiceUrl('titter')+'/sendComment?' + params,

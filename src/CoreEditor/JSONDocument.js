@@ -3,7 +3,7 @@
  * Created by michbil on 09.05.16.
  */
 
-import LdJsonDocument from '../../base/jsonld/LdJsonDocument';
+import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import {extractMentions} from './mentions/mention';
 import Immutable from 'immutable';
 import {ContentBlock, CharacterMetadata, Entity} from 'draft-js';

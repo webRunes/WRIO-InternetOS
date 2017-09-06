@@ -1,16 +1,16 @@
 /* @flow */
 import React from 'react';
-import {VerticalNav,LeftNav} from '../../../base/components/ArticleNavgiation'
-import CoverHeader from '../../../base/components/CoverHeader'
-import Tabs from '../../../base/components/Tabs'
-import CoverStore from '../../../base/store/CoverStore'
+import {VerticalNav,LeftNav} from 'base/components/ArticleNavgiation'
+import CoverHeader from '../containers/CoverHeaderContainer'
+import Tabs from 'base/components/Tabs'
+import CoverStore from 'base/store/CoverStore'
 import EditorContainer from './EditorContainer.js'
-import PlusActions from '../../../base/Plus/actions/PlusActions'
-import Login from '../../../base/components/widgets/Login.js';
+import PlusActions from 'base/Plus/actions/PlusActions'
+import Login from 'base/components/widgets/Login.js';
 import configureStore from '../configureStore'
 // $FlowFixMe
 import { Provider , connect} from 'react-redux'
-import {fromList} from '../../../base/utils/tocnavigation';
+import {fromList} from 'base/utils/tocnavigation';
 
 
 const RightNav = () => {
