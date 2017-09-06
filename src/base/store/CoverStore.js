@@ -8,8 +8,6 @@ import {replaceSpaces} from '../mixins/UrlMixin'
 import ImageObject from '../jsonld/entities/ImageObject'
 import ItemList from '../jsonld/entities/ItemList'
 
-
-
 /**
  * Store that state of covers carousel
  */

@@ -22,9 +22,14 @@ class LdJsonDocument {
     blocks: LdJsonObjects;
     data: Array<Object>;
 
-    constructor(scripts: HTMLCollection<HTMLScriptElement>) {
-        this.data = this.parseScripts(scripts);
-        this.blocks =  this.mapMentions();
+    constructor(scripts: HTMLCollection<HTMLScriptElement> | Object) {
+        if (typeof scripts == "HTMLCollection") {
+            this.data = this.parseScripts(scripts);
+        } else {
+            this.data = scripts
+        }
+       
+        this.blocks =  this.mapMentions(this.data);
         this.id = id++;
     }
     parseScripts(scripts : HTMLCollection<HTMLScriptElement>) : Array<Object> {
@@ -46,8 +51,8 @@ class LdJsonDocument {
         }
         return data;
     }
-    mapMentions() : LdJsonObjects {
-        return this.data.map((jsn) => LdJsonObject.LdJsonFactory(jsn));
+    mapMentions(data) : LdJsonObjects {
+        return data.map((jsn) => LdJsonObject.LdJsonFactory(jsn));
     }
 
     getBlocks() : LdJsonObjects {

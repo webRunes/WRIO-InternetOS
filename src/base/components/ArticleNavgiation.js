@@ -148,7 +148,8 @@ export class LeftNav extends StayOnTopElement {
 
 
     render () {
-        return (<div ref="container" className="col-sm-3">
+        return (
+        <div ref="container" className="col-sm-3">
             <div ref="subcontainer"
                  id="sidebar"
                  >

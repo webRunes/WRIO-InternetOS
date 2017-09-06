@@ -3,6 +3,7 @@
  * Created by michbil on 09.05.16.
  */
 
+import LdJsonDocument from '../../base/jsonld/LdJsonDocument';
 import {extractMentions} from './mentions/mention';
 import Immutable from 'immutable';
 import {ContentBlock, CharacterMetadata, Entity} from 'draft-js';
@@ -78,9 +79,9 @@ const blockHasEntity = (block) => {
     return resolved;
 };
 
-class GenericLDJsonDocument {
+class GenericLDJsonDocument extends LdJsonDocument{
     constructor(article = []) {
-        this.jsonBlocks = article;
+       super(article)
     }
 
     /**
@@ -90,7 +91,7 @@ class GenericLDJsonDocument {
      */
     getElementOfType(type) {
         var rv;
-        this.jsonBlocks.forEach((element) => {
+        this.data.forEach((element) => {
             if (element["@type"] === type) {
                 rv = element;
             }
@@ -134,7 +135,7 @@ class GenericLDJsonDocument {
         if (this.getElementOfType("Article")) {
             console.log("Failed to create article, it already exists");
         } else {
-            this.jsonBlocks.push(this.makeArticle("En", "", author, commentID,about));
+            this.data.push(this.makeArticle("En", "", author, commentID,about));
         }
     }
     getCommentID() {
@@ -146,7 +147,7 @@ class GenericLDJsonDocument {
 }
 
 
-export default class JSONDocument extends GenericLDJsonDocument {
+export default class EditableJSONDocument extends GenericLDJsonDocument {
     constructor(article) {
         super(article);
         this.comment = '';
@@ -424,7 +425,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
         article.author = author;
         return {
                 html: this.toHtml(),
-                json: this.jsonBlocks
+                json: this.data
             }
     }
 
@@ -437,7 +438,7 @@ export default class JSONDocument extends GenericLDJsonDocument {
         var scrStart = '<script type="application/ld+json">';
         var scrEnd = '</script>';
         var scripts = "";
-        this.jsonBlocks.forEach((item) => {
+        this.data.forEach((item) => {
             scripts +=  scrStart + JSON.stringify(item,null," ") + scrEnd + '\n';
         });
         return cleshe.replace('|BODY|',scripts)

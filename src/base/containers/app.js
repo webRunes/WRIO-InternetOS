@@ -12,7 +12,7 @@ import WrioDocumentStore from '../store/WrioDocument.js';
 import PlusStore from '../Plus/stores/PlusStore'
 import PlusActions from '../Plus/actions/PlusActions'
 import Login from '../components/widgets/Login.js';
-import CoverHeader from '../components/CoverHeader'
+import CoverHeader from '../containers/CoverHeaderContainer'
 import Tabs from '../components/Tabs'
 import CoverStore from '../store/CoverStore'
 

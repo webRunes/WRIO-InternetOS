@@ -17,6 +17,7 @@ import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
 import PostSettingsReducer from './publish'
 import {mkDoc,extractHeader} from './docUtils'
+import headerReducer from './headerReducer'
 
 const defaultState = {
     document: null,
@@ -61,6 +62,7 @@ export function document(state = defaultState, action) {
 
 const combinedReducer = combineReducers({
     document,
+    header: headerReducer,
     publish: PostSettingsReducer,
     imageDialog: ImageDialogReducer,
     linkDialog: LinkDialogReducer,
