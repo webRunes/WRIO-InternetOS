@@ -1,20 +1,18 @@
 /* @flow */
 import React from 'react';
 // $FlowFixMe
-import Reflux from 'reflux'
 import {CreateDomCenter, TransactionsCenter, PresaleCenter, ChessCenter, WebGoldCenter} from './CreateDomCenter';
-import {VerticalNav,LeftNav} from '../components/ArticleNavgiation'
+import {VerticalNav,LeftNav} from 'base/containers/ArticleNavigationContainer'
 import {getServiceUrl,getDomain} from '../servicelocator.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 import UrlMixin from '../mixins/UrlMixin.js';
-import WrioDocumentActions from '../actions/WrioDocument.js';
-import WrioDocumentStore from '../store/WrioDocument.js';
-import PlusStore from '../Plus/stores/PlusStore'
 import PlusActions from '../Plus/actions/PlusActions'
 import Login from '../components/widgets/Login.js';
 import CoverHeader from '../containers/CoverHeaderContainer'
 import Tabs from '../components/Tabs'
-import CoverStore from '../store/CoverStore'
+import { Provider , connect} from 'react-redux'
+import {loadDocumentWithData} from 'base/actions/actions'
+import configureStore from '../configureStore'
 
 const RightNav = () => {
     return ( <div className="right-nav">
@@ -42,10 +40,9 @@ const LoginBar = ({profile}) => {
 }
 
 
-class Main extends Reflux.Component {
+class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.stores = [WrioDocumentStore,PlusStore];
     }
 
     propTypes: {
@@ -56,31 +53,30 @@ class Main extends Reflux.Component {
         // hide preloader
         const preloader = document.getElementById('preloader');
         preloader ? preloader.style.display = 'none' : true;
-        WrioDocumentActions.loadDocumentWithData.trigger(this.props.document,window.location.href);
+        this.props.dispatch(loadDocumentWithData(this.props.document,window.location.href));
     }
 
     renderWithCenter(center) {
         let data: LdJsonDocument = this.props.document;
-        let externals = this.state.lists.filter(list => list.type == 'external');
+        let externals = this.props.lists.filter(list => list.type == 'external');
 
 
         return ( <div>
 
             <VerticalNav vertical={true}
-                         articleItems={this.state.toc.chapters}
                          showUp={false}
             />
-            <LoginBar profile={this.state.profile}/>
+            <LoginBar profile={this.props.profile}/>
             <RightNav />
             <CoverHeader />
-            <LeftNav articleItems={this.state.toc.chapters} />
+            <LeftNav />
 
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={center}
                       externals={externals}
-                      editAllowed={this.state.editAllowed}
-                      RIL={this.state.readItLater}
-                      tabKey={this.state.tabKey}
+                      editAllowed={this.props.editAllowed}
+                      RIL={this.props.readItLater}
+                      tabKey={this.props.tabKey}
                 />
             </div>
 
@@ -89,22 +85,22 @@ class Main extends Reflux.Component {
     }
 
     render() {
-        const url : string = this.state.url;
+        const url : string = this.props.url;
         const urlDecoded = UrlMixin.searchToObject(url);
 
         if (urlDecoded.start && (window.location.origin === getServiceUrl('chess'))) {
             return this.renderWithCenter(<ChessCenter  data={this.props.document}
                                                        url={url}
-                                                       profile={this.state.profile}
-                                                       wrioID={this.state.wrioID}
+                                                       profile={this.props.profile}
+                                                       wrioID={this.props.wrioID}
             />);
         }
 
         if (urlDecoded.transactions) {
             return this.renderWithCenter(<TransactionsCenter  data={this.props.document}
                                                               url={url}
-                                                              profile={this.state.profile}
-                                                              wrioID={this.state.wrioID}
+                                                              profile={this.props.profile}
+                                                              wrioID={this.props.wrioID}
             />);
         }
 
@@ -112,24 +108,24 @@ class Main extends Reflux.Component {
             window.location.hostname.startsWith('wrioos.local'))) {
             return this.renderWithCenter(<PresaleCenter  data={this.props.document}
                                                          url={url}
-                                                         profile={this.state.profile}
-                                                         wrioID={this.state.wrioID}
+                                                         profile={this.props.profile}
+                                                         wrioID={this.props.wrioID}
             />);
         }
 
         if (urlDecoded.add_funds) {
             return this.renderWithCenter(<WebGoldCenter data={this.props.document}
                                                         url={url}
-                                                        profile={this.state.profile}
-                                                        wrioID={this.state.wrioID}
+                                                        profile={this.props.profile}
+                                                        wrioID={this.props.wrioID}
             />);
         }
 
 
         return this.renderWithCenter(<CreateDomCenter data={this.props.document}
                                                       url={url}
-                                                      profile={this.state.profile}
-                                                      wrioID={this.state.wrioID}
+                                                      profile={this.props.profile}
+                                                      wrioID={this.props.wrioID}
         />);
     }
 
@@ -137,11 +133,29 @@ class Main extends Reflux.Component {
 
 }
 
+const mapStateToProps = state => (
+    {
+        url: state.document.url,
+        profile: state.login.profile,
+        wrioID: state.login.wrioID,
+        editAllowed: state.document.editAllowed,
+        toc: state.document.toc,
+        lists: state.document.lists,
+
+    }
+)
+
+const MainMapped = connect(mapStateToProps)(Main)
 
 let doc = new LdJsonDocument(document.getElementsByTagName('script'));
+const store = configureStore();
 
-export  default  class App extends React.Component {
+export default class App extends React.Component {
     render () {
-        return <Main document={doc}/>
+        return (<Provider store={store}>
+                <MainMapped document={doc}/>
+            </Provider>
+            ) 
     }
 }
+

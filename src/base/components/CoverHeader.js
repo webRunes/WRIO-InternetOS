@@ -7,8 +7,6 @@ import Reflux from 'reflux'
 import React from 'react';
 import ItemList from '../jsonld/entities/ItemList'
 import ImageObject from '../jsonld/entities/ImageObject'
-import CoverActions from '../actions/CoverActions'
-import CoverStore from '../store/CoverStore'
 // $FlowFixMe
 import {CarouselItem} from 'react-bootstrap'
 import Carousel from './misc/FixedCarousel'
@@ -110,7 +108,8 @@ const hasIndex = (array,index) => array.reduce((res,item) => res || (item == ind
  * @constructor
  */
 
-const CoverNavigationButtons = ({items,currentCover} : {items: Array<Object>,currentCover: number}) => {
+const CoverNavigationButtons = ({items,currentCover,onCoverButtonPressed} : 
+    {items: Array<Object>,currentCover: number}) => {
     return (<nav className="navbar navbar-transparent">
         <ul className="nav navbar-nav navbar-left">
             {items.map((r,key)=>{
@@ -121,7 +120,7 @@ const CoverNavigationButtons = ({items,currentCover} : {items: Array<Object>,cur
                     <a href={r.segueUrl}
                        onClick={(e) => {
                            e.preventDefault();
-                           CoverActions.pressCoverButton(r);
+                           onCoverButtonPressed(r);
                        }}
                        className={cls}
                        data-toggle="tab">
@@ -143,7 +142,7 @@ const CoverNavigationButtons = ({items,currentCover} : {items: Array<Object>,cur
  * @constructor
  */
 
-const CoverBlock = ({covers,images,currentCover,onCoverChanged}
+const CoverBlock = ({covers,images,currentCover,onCoverChanged,onCoverButtonPressed}
 : {covers : Array<ItemList>,
     images : Array<ImageObject>,
     currentCover: number,
@@ -168,7 +167,10 @@ const CoverBlock = ({covers,images,currentCover,onCoverChanged}
                         </div>
                     </div>
                 </div>
-                <CoverNavigationButtons items={covers} currentCover={currentCover}/>
+                <CoverNavigationButtons items={covers} 
+                                        currentCover={currentCover}
+                                        onCoverButtonPressed={onCoverButtonPressed}
+                                        />
             </div>
             {(covers.length != 0) ?
             <Carousel defaultActiveIndex={0}

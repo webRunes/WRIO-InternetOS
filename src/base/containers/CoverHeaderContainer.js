@@ -1,31 +1,24 @@
-import Reflux from 'reflux'
-import CoverBlock from '../components/CoverHeader'
-import CoverActions from '../actions/CoverActions'
-import CoverStore from '../store/CoverStore'
+import { connect } from 'react-redux'
+import CoverHeader from 'base/components/CoverHeader'
+import * as actions from '../actions/actions'
 
-type CoverContainerProps =  {
-}
-
-class CoverContainer extends Reflux.Component {
-    props: CoverContainerProps;
-
-    constructor(props : CoverContainerProps) {
-        super (props);
-        this.stores = [CoverStore];
-    }
-
-    render () {
-        if (!this.state) {
-            return null;
+function mapStateToProps(state) {
+        return {
+           covers: state.header.covers,
+           images: state.header.images,
+           currentCover: state.header.selected
         }
-        return <CoverBlock covers={this.state.covers}
-                           images={this.state.images}
-                           currentCover={this.state.selected}
-                           onCoverChanged={current => {
-                                CoverActions.selectCover(current)
-                           }}
-        />
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        onCoverChanged: current => {
+            dispatch(actions.selectCover(current))
+        },
+        onCoverButtonPressed: 
+            cover => dispatch(actions.pressCoverButton(cover))
     }
 }
 
-export default CoverContainer;
+    
+export default connect(mapStateToProps,mapDispatchToProps)(CoverHeader);

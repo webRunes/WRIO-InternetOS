@@ -17,13 +17,22 @@ function extractAuthorWrioID (author : string) : string {
     }
 }
 
+function isNodeList(nodes) {
+    var stringRepr = Object.prototype.toString.call(nodes);
+
+    return typeof nodes === 'object' &&
+        /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
+        (typeof nodes.length === 'number') &&
+        (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
+}
+
 let id = 0;
 class LdJsonDocument {
     blocks: LdJsonObjects;
     data: Array<Object>;
 
     constructor(scripts: HTMLCollection<HTMLScriptElement> | Object) {
-        if (typeof scripts == "HTMLCollection") {
+        if (isNodeList(scripts)) {
             this.data = this.parseScripts(scripts);
         } else {
             this.data = scripts

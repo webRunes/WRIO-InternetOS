@@ -1,10 +1,11 @@
 /* @flow */
 import React from 'react';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
-import WindowActions from '../../actions/WindowActions.js';
+import {titterHeight,webgoldHeight,forceIframeReload,getHeight} from 'base/actions/WindowMessage'
 import {performLogin} from './Login.js';
 import TwitterTimelineWidget from './TwitterTimeline.js';
 import LdJsonDocument from '../../jsonld/LdJsonDocument'
+
 var domain = getDomain();
 
 type TitterProps = {
@@ -73,29 +74,26 @@ class TitterWidget extends React.Component {
 
 
     createListeners() {
-        WindowActions.titterMessage.listen((msg)=> {
-            if (msg.titterHeight) {
-                this.refs.titteriframe.style.height = msg.titterHeight + 'px';
-            }
+        titterHeight.subscribe(ht=> {
+                this.refs.titteriframe.style.height = ht + 'px';
         });
 
-        WindowActions.webGoldMessage.listen((msg)=> {
-            if (msg.webgoldHeight) {
-                this.refs.webgoldiframe.style.height = msg.webgoldHeight + 'px';
-            }
+        webgoldHeight.subscribe(ht=> {
+                this.refs.webgoldiframe.style.height = ht + 'px';
         });
 
-        WindowActions.forceIframeReload.listen((msg)=> {
-            var tIF = this.refs.titteriframe;
-            var wIF = this.refs.webgoldiframe;
-
-            if (tIF) {
-                tIF.src = tIF.src;
+        forceIframeReload.subscribe((reload)=> {
+            if (reload == true) {
+                var tIF = this.refs.titteriframe;
+                var wIF = this.refs.webgoldiframe;
+    
+                if (tIF) {
+                    tIF.src = tIF.src;
+                }
+                if (wIF) {
+                    wIF.src = wIF.src;
+                }
             }
-            if (wIF) {
-                wIF.src = wIF.src;
-            }
-
         });
 
     }

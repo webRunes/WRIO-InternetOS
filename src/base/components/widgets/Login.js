@@ -1,7 +1,6 @@
 import React from 'react';
 import Details from'./Details.js';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
-import WindowActions from '../../actions/WindowActions.js';
 import {Dropdown,MenuItem,Glyphicon} from 'react-bootstrap'
 var domain = getDomain();
 
@@ -15,17 +14,15 @@ const LoginButton = ({onLogin}) => {
 };
 
 const performLogout = () => {
-    WindowActions.resetLogin.trigger();
     document.getElementById('loginbuttoniframe').contentWindow.postMessage('logout', getServiceUrl('login'));
 };
 
 export const performLogin  = () => {
-    WindowActions.resetLogin.trigger();
     window.open(getServiceUrl('login')+'/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
     //document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
 };
 
-const Login = ({profile}) => {
+const Login = ({profile,onLogout,onLogin}) => {
     return (<Dropdown id="dropdown-custom-1" pullRight >
         <Dropdown.Toggle className="btn-just-icon btn-simple btn-default btn-lg btn-flat">
             <i className="material-icons dp_big">account_circle</i> {profile.temporary ? "Temporary account" : profile.name}

@@ -1,5 +1,4 @@
 import React from 'react';
-import PlusActions from '../actions/PlusActions.js';
 import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
 
 var storage = CrossStorageFactory.getCrossStorage();
@@ -11,7 +10,7 @@ class GenericListItem extends React.Component {
 
     gotoUrl(e) {
         e.preventDefault();
-        PlusActions.clickLink.trigger(this.props.data);
+        this.props.onClick(this.props.data);
     }
 
 }

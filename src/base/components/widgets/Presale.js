@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
-import WindowActions from '../../actions/WindowActions.js';
+import {webgoldHeight} from 'base/actions/WindowMessage'
 var domain = getDomain();
 
 var CreatePresale = React.createClass({
@@ -19,10 +19,8 @@ var CreatePresale = React.createClass({
     createPresaleWidget: function() {
         var twheight = 10000;
         document.getElementById('presaleiframe').style.height = '480px';
-        WindowActions.webGoldMessage.listen((msg)=> {
-            if (msg.transactionsHeight) {
-                document.getElementById('presaleiframe').style.height = msg.transactionsHeight+'px';
-            }
+        webgoldHeight.subscribe(ht=> {
+                document.getElementById('presaleiframe').style.height = ht+'px';
         });
 
     },

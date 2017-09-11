@@ -1,6 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
-import WindowActions from '../../actions/WindowActions.js';
+import {transactionsHeight} from 'base/actions/WindowMessage'
 var domain = getDomain();
 
 var CreateTransactions = React.createClass({
@@ -16,10 +16,8 @@ var CreateTransactions = React.createClass({
     createTransactionsWidget: function() {
         var twheight = 10000;
         document.getElementById('transactionsiframe').style.height = '240px';
-        WindowActions.webGoldMessage.listen((msg)=> {
-            if (msg.transactionsHeight) {
-                document.getElementById('transactionsiframe').style.height = msg.transactionsHeight+'px';
-            }
+        webGoldMessage.subscribe(ht=> {
+                document.getElementById('transactionsiframe').style.height = ht+'px';
         });
 
     },

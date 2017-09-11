@@ -28,7 +28,8 @@ var mockval = {
 
 
 
-import WindowActions from "../../actions/WindowActions"
+import {loginMessage} from 'base/actions/WindowMessage'
+
 import {
     addPageToTabs,
     hasActive,
@@ -44,7 +45,7 @@ describe('jsonld store test', () => {
        var store = PlusStore;
        setMock(mockval);
        store.init();
-       WindowActions.loginMessage({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
+       loginMessage.onNext({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
        setTimeout(() => {
            //console.log("DATA:",store.data);
            //should(store.data).deepEqual(normalizeTabs(mockval.plus));

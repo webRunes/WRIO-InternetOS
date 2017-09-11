@@ -6,7 +6,6 @@ import React from 'react';
 import {Tab,Tabs, Row, Col, Nav, NavItem} from 'react-bootstrap'
 import Externals from './Externals'
 import ReadItLater from './ReadItLater'
-import Actions from '../actions/WrioDocument'
 import {StayOnTopElement} from '../components/utils/domutils'
 import {pageEltHt,scrollTop,addClass,removeClass,getElementDimensions} from './utils/domutils'
 import {findDOMNode} from 'react-dom'

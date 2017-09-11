@@ -104,3 +104,14 @@ export default class TableOfContents  {
         return [this.coverItems,this.articleItems,this.externalItems];
     }
 }
+
+
+export function extractPageNavigation(data: LdJsonDocument,firstActive : boolean) {
+    const toc = new TableOfContents();
+    const [coverItems,articleItems,externalItems] = toc.getArticleItems(window.location,undefined,data.getBlocks(),firstActive);
+    return {
+        covers: coverItems,
+        chapters: articleItems,
+        external: externalItems
+    };
+}

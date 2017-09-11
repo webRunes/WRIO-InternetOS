@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
 import Login from './Login.js';
 import request from 'superagent';
-import WindowActions from '../../actions/WindowActions.js';
+import {loginMessage} from 'base/actions/WindowMessage'
+
 
 var domain = getDomain();
 
@@ -39,7 +40,7 @@ export default class Chess extends React.Component {
     }
 
     componentWillMount() {
-        WindowActions.loginMessage.listen((jsmsg) => {
+        loginMessage.subscribe((jsmsg) => {
                 if (jsmsg.login == "success") {
                     location.reload();
                 }

@@ -1,9 +1,9 @@
-import Reflux from 'reflux';
+import actions from 'base/actions/actions'
 import normURL,{isPlusUrl,getPlusUrl} from '../utils/normURL';
 import PlusActions from '../actions/PlusActions.js';
 import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../utils/tools';
 import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
-import WrioDocumentStore from '../../store/WrioDocument.js';
+
 import {
     addPageToTabs,
     getActiveElement,
@@ -83,78 +83,59 @@ function getActiveTab(data) {
     return childActive;
 }
 
-export default Reflux.createStore({
-    listenables: PlusActions,
-    /**
-     * Get inital plus data from localStorage
-     */
-     async init () {
 
-    },
 
-    async onGotWrioID(wrioID) {
-        console.log("GWR",wrioID);
-        if (this.id) {
-            return;
-        }
-        await storage.onConnect();
-        this.id = wrioID;
-        console.log("PLUS store got wrioID",this.id);
-        await this.initState();
-    },
+module.exports = Reflux.createActions([
+    'create',
+    'read',
+    'update',
+    'del',
+    'closeTab',
+    'plusActive',
+    'clickLink',
+    'gotWrioID'
+]);
 
-    async initState() {
+function isPlusActive(wrioID) {
+    return isPlusUrl(window.location.href,wrioID);
+},
 
-        const plus = await storage.get('plus') || {};
-        this.importPlusState(plus,!this.isPlusActive()); // don't add current page to tabs if plus active
-    },
+function plusReducer(state = defaultState,action) {
 
-    getInitialState: function() {
-        return this.data;
-    },
+    switch(action.type) {
+        case PlusActions.GOT_PLUS_DATA:
+            const state = importPlusState(action.plus,!isPlusActive(action.wrioID)); // don't add current page to tabs if plus active
+            return {
+                plusTabs:state,
+                readItLater: getActiveTab(state)
+            }
+            break;
+       
+    }
 
-    async persistPlusDataToLocalStorage(data) {
-        await storage.onConnect();
-      //  await storage.del('plus');
-        await storage.set('plus', data);
-    },
+}
 
-    /**
-     * Adds current page to plus tabs
-     */
+async function importPlusState(data, addCurrent) {
+    const _norm = normalizeTabs(data);
+    let params = await this.createCurrentPage();
+    if (params && addCurrent) {
+        const newData = addPageToTabs(_norm,params);
+        await this.persistPlusDataToLocalStorage(newData);
+        return newData;
+    } else {
+        return _norm;
+    }
+}
 
-    async importPlusState(data, addCurrent) {
-        const _norm = normalizeTabs(data);
-        let params = await this.createCurrentPage();
-        if (params && addCurrent) {
-            const newData = addPageToTabs(_norm,params);
-            await this.persistPlusDataToLocalStorage(newData);
-            this.data = newData;
-        } else {
-            this.data = _norm;
-        }
-        this.setState(this.data);
-
-    },
-
-    setState(data) {
-
-        const d = {plusTabs:data, readItLater: getActiveTab(data)};
-        console.log(d);
-        this.trigger(d);
-    },
-
-    isPlusActive() {
-        return isPlusUrl(window.location.href,this.id);
-    },
-
-    /**
-     * This function adds current page to the plus tabs hierarchy depending on plusActive flag
-     */
+async function persistPlusDataToLocalStorage(data) {
+    await storage.onConnect();
+    await storage.set('plus', data);
+},
 
 
 
-    async createCurrentPageParent (page) {
+
+    async function createCurrentPageParent (page) {
         if(!page.author || page.author == 'unknown') {
             return  {
                 tab: page,
@@ -185,8 +166,9 @@ export default Reflux.createStore({
             }
 
         }
-    },
-    async createCurrentPage () {
+    }
+
+    async function createCurrentPage () {
         let pageData = extractCurrentPageInformation();
         if (pageData) {
             if (pageData.author && typeof pageData.author === 'string' && (normURL(pageData.author) !== normURL(pageData.url))) {
@@ -199,15 +181,7 @@ export default Reflux.createStore({
             }
         }
 
-    },
-
-    /* =========================
-    Action handlers
-     ============================*/
-
-    onRead: function() {
-       console.warn("Dummy onRead call, all data manipulation moved to init() function");
-    },
+    }
 
     async onDel (listName, elName) {
         const [newdata,next,wasActive] = deletePageFromTabs(this.data,listName,elName);
@@ -220,7 +194,7 @@ export default Reflux.createStore({
         if (wasActive) {
             window.location.href  = next ? next : getPlusUrl(this.id);
         }
-    },
+    }
 
     onCloseTab() {
         const [listName,elName] = getActiveElement(this.data);
@@ -229,7 +203,7 @@ export default Reflux.createStore({
         } else {
             console.error("Cannot find current tab while closing tab!")
         }
-    },
+    }
 
 
     async onClickLink(data) {
@@ -256,27 +230,4 @@ export default Reflux.createStore({
             console.log("Error during gotoUrl", e);
             debugger;
         }
-    },
-
-    /*                     */
-
-    storageGetKey(key, cb){
-        storage.onConnect().then(function () {
-            return storage.get(key);
-        }).then(function (res) {
-            if(res){
-                cb(key);
-            }else{
-                cb(false);
-            }
-        });
-    },
-
-    storageSetKey(key,value){
-        storage.onConnect().then(function () {
-            storage.set(key, value);
-        });
     }
-
-
-});

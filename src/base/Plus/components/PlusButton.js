@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
 import PlusActions from '../actions/PlusActions.js';
-import WindowActions from '../../actions/WindowActions.js';
+
 
 var domain = getDomain();
 
@@ -31,9 +31,9 @@ class PlusButton extends React.Component{
     }
 
     componentDidMount () {
-       WindowActions.loginMessage.listen((jsmsg) => {
+     /*  WindowActions.loginMessage.listen((jsmsg) => {
            this.getProfile(jsmsg);
-        });
+        });*/
     }
 
     gotoUrl(e) {

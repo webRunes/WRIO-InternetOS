@@ -7,7 +7,7 @@ import App from "./base/containers/app.js"
 import LdJsonDocument from './base/jsonld/LdJsonDocument';
 import { AppContainer } from 'react-hot-loader';
 import Redbox from 'redbox-react'
-import WindowMessage from './base/store/WindowMessage' // it's not unused import! required to initiialize window message bus
+import WindowMessage from './base/actions/WindowMessage' // it's not unused import! required to initiialize window message bus
 
 
 function createContainer() : HTMLElement {

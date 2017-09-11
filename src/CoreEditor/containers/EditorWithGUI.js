@@ -1,9 +1,8 @@
 /* @flow */
 import React from 'react';
-import {VerticalNav,LeftNav} from 'base/components/ArticleNavgiation'
+import {VerticalNav,LeftNav} from 'base/containers/ArticleNavigationContainer'
 import CoverHeader from '../containers/CoverHeaderContainer'
 import Tabs from 'base/components/Tabs'
-import CoverStore from 'base/store/CoverStore'
 import EditorContainer from './EditorContainer.js'
 import PlusActions from 'base/Plus/actions/PlusActions'
 import Login from 'base/components/widgets/Login.js';
@@ -72,13 +71,12 @@ class EditorWithGUI extends React.Component {
     render () {
         return ( <div>
             <VerticalNav vertical={true}
-                         articleItems={this.state.toc.chapters}
                          showUp={false}
             />
             <LoginBar profile={this.state.profile}/>
             <RightNav />
             <CoverHeader />
-            {!!this.props.toc && <LeftNav articleItems={fromList(this.props.toc)} /> }
+            {!!this.props.toc && <LeftNav /> }
 
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={(<EditorContainer />)}
