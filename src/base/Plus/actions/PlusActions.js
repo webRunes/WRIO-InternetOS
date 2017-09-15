@@ -1,4 +1,10 @@
 import {loginMessage} from 'base/actions/WindowMessage'
+import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
+
+
+
+
+const storage = CrossStorageFactory.getCrossStorage();
 /*
     'create',
     'read',
@@ -17,16 +23,16 @@ export function getPlusData() {
     return async(dispatch) => {
         await storage.onConnect();
         const plus = await storage.get('plus') || {};
+        console.log("Got plus data",plus)
         // wait until we have user wrioID
         loginMessage.filter(msg=>(!!msg && !!msg.profile)).
                     first().
                     subscribe((msg) => {
+                         console.log("got user id, dispatching")
                          dispatch({type:GOT_PLUS_DATA,plus,wrioID:msg.profile.id})
                     });
        
     }
-   
-    
 }
 
 

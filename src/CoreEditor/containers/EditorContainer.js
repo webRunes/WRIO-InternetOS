@@ -106,10 +106,10 @@ function mapStateToProps(state) {
     
     
         return {
-            document: state.document.document,
-            editorState: state.document.editorState,
-            isFetching: state.document.isFetching,
-            error: state.document.error
+            document: state.editorDocument.document,
+            editorState: state.editorDocument.editorState,
+            isFetching: state.editorDocument.isFetching,
+            error: state.editorDocument.error
         }
     }
     

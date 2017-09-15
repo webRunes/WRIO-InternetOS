@@ -13,6 +13,7 @@ import TableOfContents,{MenuItem,extractPageNavigation} from '../utils/tocnaviga
 import {replaceSpaces} from '../mixins/UrlMixin'
 import PlusActions from '../Plus/actions/PlusActions'
 import * as actions from 'base/actions/actions'
+import * as coreActions from 'CoreEditor/actions/indexActions'
 
 /**
  * Store that handles state of entire WRIO-document
@@ -26,6 +27,7 @@ type ContentsType = {
 
 type DocumentState = {
     editAllowed : boolean,
+    // $FlowFixMe
     mainPage: LdJsonDocument;
     lists: Array<LdJsonDocument>,
     toc : ContentsType,
@@ -38,7 +40,6 @@ const defaultState : DocumentState = {
     editAllowed: false,
     lists: [],
     url: window.location.href,
-    // $FlowFixMe
     mainPage: null,
     profile: null,
     tabKey: "home",
@@ -52,7 +53,7 @@ const defaultState : DocumentState = {
 
 
 
-function DocumentReducer(state : DocumentState = defaultState,action) {
+function DocumentReducer(state : DocumentState = defaultState,action : Object) {
     switch(action.type) {
         case actions.GOT_JSON_LD_DOCUMENT:
             return {
@@ -61,16 +62,21 @@ function DocumentReducer(state : DocumentState = defaultState,action) {
                 url: action.url,
                 toc: action.toc
             }
-        break;
+        case coreActions.RECEIVE_DOCUMENT: // when document received from CoreEditor
+            return {
+                ...state,
+                mainPage: action.document,
+                toc: extractPageNavigation(action.document, true)
+            }
         case actions.GOT_EXTERNAL:
             return {
                 ...state,
                 lists: action.lists
             }
         case action.LOGIN_MESSAGE: 
-            if (jsmsg.profile) {
-                var profile = jsmsg.profile;
-                const _author = getAuthor(state.mainPage,state.url);
+            if (actions.msg.profile) {
+                var profile = actions.msg.profile;
+                const _author = getAuthor(state.url,state.mainPage);
                 console.log('Checking if editing allowed: ', profile.url, _author);
                 const editAllowed = UrlMixin.compareProfileUrls(profile.url,_author)
                 return {
@@ -94,7 +100,7 @@ function DocumentReducer(state : DocumentState = defaultState,action) {
     }
 }
 
-function getAuthor(url,mainPage) {
+function getAuthor(url : string,mainPage : LdJsonDocument) : ?string {
     const urlParams = UrlMixin.searchToObject(url);
     let author = mainPage.getJsonLDProperty('author');
     return author;

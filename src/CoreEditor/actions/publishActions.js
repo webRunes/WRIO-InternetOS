@@ -35,7 +35,7 @@ export function publishDocument() {
         dispatch({"type":PUBLISH_DOCUMENT});
         try {
         const state : Object = getState();
-        const {document,editorState} = state.document;
+        const {document,editorState} = state.editorDocument;
         let commentId : string = document.getCommentID();
         const {commentsEnabled,savePath,saveUrl,saveSource,wrioID, description} = state.publish;
         if (commentsEnabled && commentId == "") {

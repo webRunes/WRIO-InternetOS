@@ -17,7 +17,7 @@ function extractAuthorWrioID (author : string) : string {
     }
 }
 
-function isNodeList(nodes) {
+function isNodeList(nodes : HTMLCollection<HTMLScriptElement> | Array<Object>) : boolean {
     var stringRepr = Object.prototype.toString.call(nodes);
 
     return typeof nodes === 'object' &&
@@ -30,12 +30,13 @@ let id = 0;
 class LdJsonDocument {
     blocks: LdJsonObjects;
     data: Array<Object>;
+    id: number;
 
-    constructor(scripts: HTMLCollection<HTMLScriptElement> | Object) {
+    constructor(scripts: HTMLCollection<HTMLScriptElement> | Array<Object>) {
         if (isNodeList(scripts)) {
             this.data = this.parseScripts(scripts);
         } else {
-            this.data = scripts
+            this.data = scripts;
         }
        
         this.blocks =  this.mapMentions(this.data);
@@ -60,7 +61,7 @@ class LdJsonDocument {
         }
         return data;
     }
-    mapMentions(data) : LdJsonObjects {
+    mapMentions(data : Array<Object>) : LdJsonObjects {
         return data.map((jsn) => LdJsonObject.LdJsonFactory(jsn));
     }
 
@@ -68,7 +69,7 @@ class LdJsonDocument {
         return this.blocks;
     }
 
-    getJsonLDProperty (field: string) {
+    getJsonLDProperty (field: string) : ?string {
         let ret = null;
         this.blocks.forEach((section : LdJsonObject) => {
             const data = section.data[field];

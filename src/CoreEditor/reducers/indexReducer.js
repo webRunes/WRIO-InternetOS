@@ -17,7 +17,9 @@ import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
 import PostSettingsReducer from './publish'
 import {mkDoc,extractHeader} from './docUtils'
-import headerReducer from './headerReducer.js'
+import headerReducer from 'base/reducers/headerReducer'
+import loginReducer from 'base/reducers/loginReducer'
+import documentReducer from 'base/reducers/documentReducer'
 
 const defaultState = {
     document: null,
@@ -31,7 +33,7 @@ const defaultState = {
 
 
 
-export function document(state = defaultState, action) {
+export function edtorDocumentReducer(state = defaultState, action) {
     console.log("got action", action);
     switch (action.type) {
         case CREATE_DOCUMENT:
@@ -61,8 +63,10 @@ export function document(state = defaultState, action) {
 }
 
 const combinedReducer = combineReducers({
-    document,
+    editorDocument: edtorDocumentReducer,
+    document: documentReducer,
     header: headerReducer,
+    login: loginReducer,
     publish: PostSettingsReducer,
     imageDialog: ImageDialogReducer,
     linkDialog: LinkDialogReducer,
@@ -79,11 +83,12 @@ function crossSliceReducer(state, action) {
         case "CREATE_DOCUMENT" :
         case "RECEIVE_DOCUMENT":
         case "EDITOR_CHANGED":
-            const docState =  document(state.document, action); // inject header to the action hack
+            const docState =  edtorDocumentReducer(state.editorDocument, action); // inject header to the action hack
             const modAction = action;
             modAction.header = docState.header;
             return {
-                document : docState,
+                editorDocument : docState,
+                document: documentReducer(state.document,action),
                 header: headerReducer(state.header,action),
                 publish : PostSettingsReducer(state.publish, modAction),
                 imageDialog : ImageDialogReducer(state.imageDialog, action),

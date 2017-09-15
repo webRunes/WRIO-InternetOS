@@ -1,7 +1,7 @@
 import assert from 'assert';
 import should from 'should';
 import {setMock} from '../../utils/CrossStorageFactory.js';
-import PlusStore from './PlusStore.js';
+import plusReducer from './plusReducer.js';
 
 var mockval = {
     "plus":{
@@ -39,19 +39,13 @@ import {
     saveCurrentUrlToPlus} from '../utils/tabTools.js';
 
 
-describe('jsonld store test', () => {
 
-    it("Should create jsonld store, and get plus from crossStorage", (done) => {
-       var store = PlusStore;
-       setMock(mockval);
-       store.init();
-       loginMessage.onNext({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
-       setTimeout(() => {
-           //console.log("DATA:",store.data);
-           //should(store.data).deepEqual(normalizeTabs(mockval.plus));
-           done();
-       },1000);
 
-    });
+it("Should create jsonld store, and get plus from crossStorage", (done) => {
+    setMock(mockval);
+    //loginMessage.onNext({wrioID:'558153389649',temporary:false,profile: {}}); // fake got wrio id request
+    const state = plusReducer(undefined,{type:"DUMMY_ACTION"})
+    expect(state).not.toEqual(undefined)
+   
 });
 

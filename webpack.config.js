@@ -87,6 +87,9 @@ var e = {
     new webpack.DefinePlugin(process.env.DOCKER_DEV ? {} : {
       "process.env.NODE_ENV": JSON.stringify("production")
     }),
+   
+      new webpack.optimize.ModuleConcatenationPlugin()
+   
     // new webpack.PrefetchPlugin(['react'])
   ]
 };

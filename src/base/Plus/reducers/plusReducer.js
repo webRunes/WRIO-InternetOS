@@ -1,6 +1,6 @@
 import actions from 'base/actions/actions'
 import normURL,{isPlusUrl,getPlusUrl} from '../utils/normURL';
-import PlusActions from '../actions/PlusActions.js';
+import * as PlusActions from '../actions/PlusActions.js';
 import {getJsonldsByUrl,getJsonldsByUrlPromised,lastOrder,getNext} from '../utils/tools';
 import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
 
@@ -85,7 +85,7 @@ function getActiveTab(data) {
 
 
 
-module.exports = Reflux.createActions([
+const oldActions = [
     'create',
     'read',
     'update',
@@ -94,30 +94,36 @@ module.exports = Reflux.createActions([
     'plusActive',
     'clickLink',
     'gotWrioID'
-]);
+];
 
 function isPlusActive(wrioID) {
     return isPlusUrl(window.location.href,wrioID);
-},
+}
 
-function plusReducer(state = defaultState,action) {
+const defaultState = {
+    plusTabs: {},
+    readItLater: []
+}
 
+export default function plusReducer(state = defaultState,action) {
+    console.log("ST",state)
     switch(action.type) {
         case PlusActions.GOT_PLUS_DATA:
-            const state = importPlusState(action.plus,!isPlusActive(action.wrioID)); // don't add current page to tabs if plus active
+            const _tabs = importPlusState(action.plus,!isPlusActive(action.wrioID)); // don't add current page to tabs if plus active
             return {
-                plusTabs:state,
+                plusTabs:_tabs,
                 readItLater: getActiveTab(state)
             }
-            break;
-       
+        default:
+            return state;
     }
+    return state;
 
 }
 
 async function importPlusState(data, addCurrent) {
     const _norm = normalizeTabs(data);
-    let params = await this.createCurrentPage();
+    let params = createCurrentPage();
     if (params && addCurrent) {
         const newData = addPageToTabs(_norm,params);
         await this.persistPlusDataToLocalStorage(newData);
@@ -130,104 +136,104 @@ async function importPlusState(data, addCurrent) {
 async function persistPlusDataToLocalStorage(data) {
     await storage.onConnect();
     await storage.set('plus', data);
-},
+}
 
 
 
 
-    async function createCurrentPageParent (page) {
-        if(!page.author || page.author == 'unknown') {
-            return  {
+async function createCurrentPageParent (page) {
+    if(!page.author || page.author == 'unknown') {
+        return  {
+            tab: page,
+            noAuthor: true
+        };
+    } else {
+        let jsons = await getJsonldsByUrlPromised(page.author);
+        if (jsons && jsons.length !== 0) {
+            var j, name;
+            for (j = 0; j < jsons.length; j += 1) {
+                if (jsons[j]['@type'] === 'Article') {
+                    name = jsons[j].name;
+                    j = jsons.length;
+                }
+            }
+            if (!name) {
+                console.warn('plus: author [' + page.author + '] do not have type Article');
+            }
+            return {
+                tab: page,
+                parent: name
+            };
+        } else {
+            return {
                 tab: page,
                 noAuthor: true
             };
+        }
+
+    }
+}
+
+async function createCurrentPage () {
+    let pageData = extractCurrentPageInformation();
+    if (pageData) {
+        if (pageData.author && typeof pageData.author === 'string' && (normURL(pageData.author) !== normURL(pageData.url))) {
+            return this.createCurrentPageParent(pageData);
         } else {
-            let jsons = await getJsonldsByUrlPromised(page.author);
-            if (jsons && jsons.length !== 0) {
-                var j, name;
-                for (j = 0; j < jsons.length; j += 1) {
-                    if (jsons[j]['@type'] === 'Article') {
-                        name = jsons[j].name;
-                        j = jsons.length;
-                    }
-                }
-                if (!name) {
-                    console.warn('plus: author [' + page.author + '] do not have type Article');
-                }
-                return {
-                    tab: page,
-                    parent: name
-                };
-            } else {
-                return {
-                    tab: page,
-                    noAuthor: true
-                };
-            }
-
+            return {
+                tab: pageData,
+                noAuthor: true
+            };
         }
     }
 
-    async function createCurrentPage () {
-        let pageData = extractCurrentPageInformation();
-        if (pageData) {
-            if (pageData.author && typeof pageData.author === 'string' && (normURL(pageData.author) !== normURL(pageData.url))) {
-                return await this.createCurrentPageParent(pageData);
-            } else {
-               return {
-                    tab: pageData,
-                    noAuthor: true
-                };
-            }
-        }
+}
 
+async function onDel (listName, elName) {
+    const [newdata,next,wasActive] = deletePageFromTabs(this.data,listName,elName);
+
+
+    await this.persistPlusDataToLocalStorage(newdata);
+    this.data = newdata;
+    this.setState(this.data);
+
+    if (wasActive) {
+        window.location.href  = next ? next : getPlusUrl(this.id);
     }
+}
 
-    async onDel (listName, elName) {
-        const [newdata,next,wasActive] = deletePageFromTabs(this.data,listName,elName);
-
-
-        await this.persistPlusDataToLocalStorage(newdata);
-        this.data = newdata;
-        this.setState(this.data);
-
-        if (wasActive) {
-            window.location.href  = next ? next : getPlusUrl(this.id);
-        }
+function onCloseTab() {
+    const [listName,elName] = getActiveElement(this.data);
+    if (listName) {
+        this.onDel(listName,elName)
+    } else {
+        console.error("Cannot find current tab while closing tab!")
     }
+}
 
-    onCloseTab() {
-        const [listName,elName] = getActiveElement(this.data);
-        if (listName) {
-            this.onDel(listName,elName)
-        } else {
-            console.error("Cannot find current tab while closing tab!")
-        }
+
+async function onClickLink(data) {
+
+    console.log("Link clicked",data);
+
+    if (data.children && data.children.length > 0) {
+
+        return;
     }
 
 
-    async onClickLink(data) {
-
-        console.log("Link clicked",data);
-
-        if (data.children && data.children.length > 0) {
-
-            return;
-        }
-
-
-        if (window.localStorage) {
-            localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
-        }
-
-
-        try {
-            await storage.onConnect();
-            const _plus = saveCurrentUrlToPlus(this.data);
-            this.persistPlusDataToLocalStorage(_plus);
-            window.location = data.fullUrl || data.url;
-        } catch (e) {
-            console.log("Error during gotoUrl", e);
-            debugger;
-        }
+    if (window.localStorage) {
+        localStorage.setItem('tabScrollPosition', document.getElementById('tabScrollPosition').scrollTop);
     }
+
+
+    try {
+        await storage.onConnect();
+        const _plus = saveCurrentUrlToPlus(this.data);
+        this.persistPlusDataToLocalStorage(_plus);
+        window.location = data.fullUrl || data.url;
+    } catch (e) {
+        console.log("Error during gotoUrl", e);
+        debugger;
+    }
+}

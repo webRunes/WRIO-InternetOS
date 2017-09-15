@@ -50,6 +50,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reflux": "^6.4.1",
+    "rxjs": "^5.4.3",
     "superagent": "^3.5.2",
     "vhost": "^3.0.2",
     "yargs": "^3.23.0"
@@ -112,8 +113,11 @@
     }
   },
   "jest": {
-     "collectCoverage": true,
-     "coverageFormats": ["json", "html"]
+    "collectCoverage": true,
+    "coverageFormats": [
+      "json",
+      "html"
+    ]
   },
   "scripts": {
     "build": "gulp && sh compress.sh",

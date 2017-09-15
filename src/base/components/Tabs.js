@@ -48,6 +48,7 @@ class ArticleTabs extends StayOnTopElement {
         const externalsDisabled = externals.length == 0;
         return (
             <Tab.Container ref="container"
+                            id="container"
                            defaultActiveKey="home"
                            activeKey={tabKey}
                            onSelect={(key) => Actions.tabClick(key)}

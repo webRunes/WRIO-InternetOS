@@ -3,6 +3,8 @@ import LdJsonDocument from 'base/jsonld/LdJsonDocument'
 import TableOfContents,{MenuItem,extractPageNavigation} from 'base/utils/tocnavigation'
 import getHttp from 'base/utils/request'
 import {requestHashUpdate} from 'base/actions/hashUpdateHook'
+import {getJsonldsByUrlPromised} from '../utils/tools';
+
 
 export const ADD_COVER = "ADD_COVER"
 export const SELECT_COVER = "SELECT_COVER"
@@ -13,6 +15,7 @@ export const GOT_EXTERNAL = "GOT_EXTERNAL"
 export const LOGIN_MESSAGE = "LOGIN_MESSAGE"
 export const TAB_CLICK = "TAB_CLICK"
 export const NAVIGATE_ARTICLE_HASH = "NAVIGATE_ARTICLE_HASH"
+export const GET_AUTHOR = "GET_AUTHOR"
 
 export function addCover(coverObj : Object, coverDoc : LdJsonDocument) {
     return {
@@ -59,13 +62,28 @@ export function gotExternal(lists) {
     }
 }
 export function gotJSON_LD_Document(data: LdJsonDocument, url : string,toc : TableOfContents) {
-    return {
-        type: GOT_JSON_LD_DOCUMENT,
-        data,
-        url,
-        toc
+    return dispatch => {
+        dispatch({
+            type: GOT_JSON_LD_DOCUMENT,
+            data,
+            url,
+            toc
+        });
+        dispatch(getAuthor(data.getAuthor()))
     }
 }
+
+export function getAuthor(author) {
+    return async dispatch => {
+        const remoteDocument = await getJsonldsByUrlPromised(author);
+        
+        dispatch({
+            type: GET_AUTHOR,
+            author: 
+        })
+    }
+}
+
 
 
 export function loadDocumentWithData(data: LdJsonDocument, url : string) {
