@@ -56,7 +56,7 @@ export function fetchDocument(url) {
                 const doc = new JSONDocument(data);
                 const about = doc.getElementOfType('Article').about || "";
                 dispatch({type: "DESC_CHANGED", text: about});
-                dispatch(receiveDocument(data))
+                dispatch(receiveDocument(doc))
             })
             .catch(err => {
                 dispatch(gotError(err));

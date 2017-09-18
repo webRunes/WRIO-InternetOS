@@ -7,7 +7,6 @@ import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument'
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
-import {postUpdateHook} from 'base/actions/hashUpdateHook'
 
 /*
 *  Base class rendering document body
@@ -45,9 +44,6 @@ class DocumentBody extends React.Component {
         return false;
     }
 
-    componentDidUpdate () {
-        postUpdateHook();
-    }
 
 
     getContentByName(document : LdJsonDocument, url : string) {

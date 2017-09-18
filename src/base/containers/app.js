@@ -7,12 +7,15 @@ import {getServiceUrl,getDomain} from '../servicelocator.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 import UrlMixin from '../mixins/UrlMixin.js';
 import PlusActions from '../Plus/actions/PlusActions'
+import * as Actions from 'base/actions/actions'
 import Login from '../components/widgets/Login.js';
 import CoverHeader from '../containers/CoverHeaderContainer'
 import Tabs from '../components/Tabs'
 import { Provider , connect} from 'react-redux'
 import {loadDocumentWithData} from 'base/actions/actions'
 import configureStore from '../configureStore'
+import {postUpdateHook} from 'base/actions/hashUpdateHook'
+
 
 const RightNav = () => {
     return ( <div className="right-nav">
@@ -56,6 +59,10 @@ class Main extends React.Component {
         this.props.dispatch(loadDocumentWithData(this.props.document,window.location.href));
     }
 
+    componentDidUpdate () {
+        postUpdateHook();
+    }
+
     renderWithCenter(center) {
         let data: LdJsonDocument = this.props.document;
         let externals = this.props.lists.filter(list => list.type == 'external');
@@ -77,6 +84,7 @@ class Main extends React.Component {
                       editAllowed={this.props.editAllowed}
                       RIL={this.props.readItLater}
                       tabKey={this.props.tabKey}
+                      tabClick={tab =>this.props.dispatch(Actions.tabClick(tab))}
                 />
             </div>
 
@@ -141,7 +149,8 @@ const mapStateToProps = state => (
         editAllowed: state.document.editAllowed,
         toc: state.document.toc,
         lists: state.document.lists,
-
+        readItLater: state.plusReducer.readItLater,
+        tabKey: state.document.tabKey
     }
 )
 

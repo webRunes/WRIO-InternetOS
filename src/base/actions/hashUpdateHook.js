@@ -15,7 +15,7 @@ function forceHash() {
 const listener = new Rx.Subject()
 let updateRequested = false;
 
-listener.subscribe(m => {
+listener.delay(100).subscribe(m => {
     if (updateRequested) {
         forceHash();
         updateRequested = false;

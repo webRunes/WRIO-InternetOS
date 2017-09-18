@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import {VerticalNav,LeftNav} from 'base/containers/ArticleNavigationContainer'
-import CoverHeader from '../containers/CoverHeaderContainer'
+import CoverHeader from 'base/containers/CoverHeaderContainer'
 import Tabs from 'base/components/Tabs'
 import EditorContainer from './EditorContainer.js'
 import PlusActions from 'base/Plus/actions/PlusActions'
@@ -93,11 +93,15 @@ class EditorWithGUI extends React.Component {
 
 }
 
-function mapStateToProps(state) {
-    const {toc} = state.document;
-    return {toc};
-}
-
+const mapStateToProps = state => (
+    {
+        url: state.document.url,
+        editAllowed: state.document.editAllowed,
+        toc: state.document.toc,
+        lists: state.document.lists,
+        tabKey: state.document.tabKey
+    }
+)
 const EditorMapped = connect(mapStateToProps)(EditorWithGUI)
 
 

@@ -51,7 +51,7 @@ class ArticleTabs extends StayOnTopElement {
                             id="container"
                            defaultActiveKey="home"
                            activeKey={tabKey}
-                           onSelect={(key) => Actions.tabClick(key)}
+                           onSelect={(key) => this.props.tabClick(key)}
             >
                 <Row className="card card-nav-tabs">
                     <div className="header header-primary" ref="subcontainer" style={{display:"block"}}>

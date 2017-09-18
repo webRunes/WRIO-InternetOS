@@ -155,6 +155,7 @@ export class LeftNav extends StayOnTopElement {
                  >
                 <div className="sidebar-margin">
                     <VerticalNav vertical={false}
+                                 onNavigateArticleHash={this.props.onNavigateArticleHash}
                                  showUp={this.state.showUp}
                                  articleItems={this.props.articleItems}
                                  cls="contents visible-md-block visible-lg-block"/>

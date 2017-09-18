@@ -3,7 +3,6 @@ import LdJsonDocument from 'base/jsonld/LdJsonDocument'
 import TableOfContents,{MenuItem,extractPageNavigation} from 'base/utils/tocnavigation'
 import getHttp from 'base/utils/request'
 import {requestHashUpdate} from 'base/actions/hashUpdateHook'
-import {getJsonldsByUrlPromised} from '../utils/tools';
 
 
 export const ADD_COVER = "ADD_COVER"
@@ -15,7 +14,7 @@ export const GOT_EXTERNAL = "GOT_EXTERNAL"
 export const LOGIN_MESSAGE = "LOGIN_MESSAGE"
 export const TAB_CLICK = "TAB_CLICK"
 export const NAVIGATE_ARTICLE_HASH = "NAVIGATE_ARTICLE_HASH"
-export const GET_AUTHOR = "GET_AUTHOR"
+export const GET_AUTHOR_DATA = "GET_AUTHOR_DATA"
 
 export function addCover(coverObj : Object, coverDoc : LdJsonDocument) {
     return {
@@ -69,18 +68,26 @@ export function gotJSON_LD_Document(data: LdJsonDocument, url : string,toc : Tab
             url,
             toc
         });
-        dispatch(getAuthor(data.getAuthor()))
+        const author = data.getJsonLDProperty('author');
+        if (author) {
+            dispatch(getAuthor(author))
+        } else {
+            dispatch({ // dispatch with undefined, so we know that page has no author
+                type: GET_AUTHOR_DATA,
+                noAuthor: true
+            })
+        }
+       
     }
 }
 
-export function getAuthor(author) {
+export function getAuthor(author : string) {
     return async dispatch => {
-        const remoteDocument = await getJsonldsByUrlPromised(author);
-        
+        const remoteDocument = await getHttp(author);
         dispatch({
-            type: GET_AUTHOR,
-            author: 
-        })
+            type: GET_AUTHOR_DATA,
+            authorData: remoteDocument
+        });
     }
 }
 

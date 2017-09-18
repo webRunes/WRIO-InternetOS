@@ -105,15 +105,29 @@ const defaultState = {
     readItLater: []
 }
 
+function checkHaveEverything(state) {
+    if ((state.authorData || state.noAuthor) && state.plusData) {
+        const _tabs = importPlusState(state.plusData,!isPlusActive(state.wrioID),state.authorData); // don't add current page to tabs if plus active
+        delete state.plusData;
+        return {
+            ...state,
+            plusTabs: _tabs,
+            readItLater: getActiveTab(_tabs)
+        }
+    }
+    return state;
+}
+
 export default function plusReducer(state = defaultState,action) {
     console.log("ST",state)
+    let _state;
     switch(action.type) {
+        case "GET_AUTHOR_DATA":
+            _state = checkHaveEverything({...state,authorData: action.authorData,noAuthor:action.noAuthor});
+            return _state;
         case PlusActions.GOT_PLUS_DATA:
-            const _tabs = importPlusState(action.plus,!isPlusActive(action.wrioID)); // don't add current page to tabs if plus active
-            return {
-                plusTabs:_tabs,
-                readItLater: getActiveTab(state)
-            }
+            _state = checkHaveEverything({...state,plusData: action.plus,wrioID: action.wrioID})
+            return _state;
         default:
             return state;
     }
@@ -121,12 +135,12 @@ export default function plusReducer(state = defaultState,action) {
 
 }
 
-async function importPlusState(data, addCurrent) {
+function importPlusState(data, addCurrent,author) {
     const _norm = normalizeTabs(data);
-    let params = createCurrentPage();
+    let params = createCurrentPage(author);
     if (params && addCurrent) {
         const newData = addPageToTabs(_norm,params);
-        await this.persistPlusDataToLocalStorage(newData);
+        persistPlusDataToLocalStorage(newData);
         return newData;
     } else {
         return _norm;
@@ -141,44 +155,27 @@ async function persistPlusDataToLocalStorage(data) {
 
 
 
-async function createCurrentPageParent (page) {
-    if(!page.author || page.author == 'unknown') {
+function createCurrentPageParent (page : Object,author: LdJsonDocument) {
+    console.log("CCPT",page,author)
+    if(!page.author || page.author == 'unknown' || !author ) {
         return  {
             tab: page,
             noAuthor: true
         };
     } else {
-        let jsons = await getJsonldsByUrlPromised(page.author);
-        if (jsons && jsons.length !== 0) {
-            var j, name;
-            for (j = 0; j < jsons.length; j += 1) {
-                if (jsons[j]['@type'] === 'Article') {
-                    name = jsons[j].name;
-                    j = jsons.length;
-                }
-            }
-            if (!name) {
-                console.warn('plus: author [' + page.author + '] do not have type Article');
-            }
-            return {
-                tab: page,
-                parent: name
-            };
-        } else {
-            return {
-                tab: page,
-                noAuthor: true
-            };
-        }
+        return {
+            tab: page,
+            parent: author.getJsonLDProperty('author')
+        };
 
     }
 }
 
-async function createCurrentPage () {
+function createCurrentPage (author) {
     let pageData = extractCurrentPageInformation();
     if (pageData) {
         if (pageData.author && typeof pageData.author === 'string' && (normURL(pageData.author) !== normURL(pageData.url))) {
-            return this.createCurrentPageParent(pageData);
+            return createCurrentPageParent(pageData,author);
         } else {
             return {
                 tab: pageData,
