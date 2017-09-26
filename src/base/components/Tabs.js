@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Tab,Tabs, Row, Col, Nav, NavItem} from 'react-bootstrap'
+import {Tab,Tabs, Row, Col, Nav, NavItem,Button} from 'react-bootstrap'
 import Externals from './Externals'
 import ReadItLater from './ReadItLater'
 import {StayOnTopElement} from '../components/utils/domutils'
@@ -45,7 +45,7 @@ class ArticleTabs extends StayOnTopElement {
         tabKey = this.props.tabKey;
 
         const handleSelect = (e) => console.log(e);
-        const externalsDisabled = externals.length == 0;
+        const externalsEnabled = this.props.forceExternals || (externals.length > 0);
         return (
             <Tab.Container ref="container"
                             id="container"
@@ -72,9 +72,9 @@ class ArticleTabs extends StayOnTopElement {
                                         <div className="ripple-container"></div>
                                     </NavItem>}
 
-                                    {(!externalsDisabled) &&
-                                    <NavItem eventKey="collections" disabled={externalsDisabled}
-                                             className={externalsDisabled ? "disabled": "" }>
+                                    {externalsEnabled &&
+                                    <NavItem eventKey="collections" disabled={!externalsEnabled}
+                                             className={!externalsEnabled ? "disabled": "" }>
                                         Collections
                                         <div className="ripple-container"></div>
                                     </NavItem>}
@@ -98,6 +98,7 @@ class ArticleTabs extends StayOnTopElement {
                         </Tab.Pane>}
                         <Tab.Pane eventKey="collections">
                             <Externals data={externals}/>
+                            {this.props.editMode && <Button onClick={this.props.addExternal}> + Add item </Button>}
                         </Tab.Pane>
                         {(RIL && (RIL.length > 0)) && <Tab.Pane eventKey="ReadLater">
                             <ReadItLater RIL={RIL}/>

@@ -60,13 +60,7 @@ function DocumentReducer(state : DocumentState = defaultState,action : Object) {
                 ...state,
                 mainPage: action.data,
                 url: action.url,
-                toc: action.toc
-            }
-        case coreActions.RECEIVE_DOCUMENT: // when document received from CoreEditor
-            return {
-                ...state,
-                mainPage: action.document,
-                toc: extractPageNavigation(action.document, true)
+                toc: action.toc || extractPageNavigation(action.document, true)
             }
         case actions.GOT_EXTERNAL:
             return {

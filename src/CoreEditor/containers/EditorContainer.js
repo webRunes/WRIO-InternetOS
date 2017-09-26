@@ -12,6 +12,11 @@ import {gotUrlParams} from '../actions/publishActions.js'
 import { connect } from 'react-redux'
 import {parseEditingUrl} from '../utils/url.js';
 
+import LinkUrlDialog from '../containers/LinkUrlDialog.js';
+import ImageUrlDialog from '../containers/ImageUrlDialog.js';
+import CoverEditingDialog from './CoverEditingDialogContainer.js'
+import PostSettings from '../containers/Postsettings.js';
+
 const CREATE_MODE = window.location.pathname === "/create";
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
 
@@ -45,13 +50,29 @@ class EditorContainer extends React.Component {
     }
 
     render () {
+        const error = false;
         return (
             <div className="clearfix">
                 {this.props.error ? <LoadingError /> : ""}
-                {!this.props.isFetching ? <EditorComponent
-                                                 editorState={this.props.editorState}
-                                                 dispatch={this.props.dispatch}
-                                                 /> : <Loading /> }
+                {!this.props.isFetching ? <div>
+                    {false && <div className="well">
+                    <h4>You are not logged in</h4>
+                    <p>You can still create posts. However, you need to be logged in to save access path to the post and to received donates.</p>
+                    <br />
+                    <a className="btn btn-sm btn-primary" href="#" role="button"><span
+                        className="glyphicon glyphicon-user"></span>Login with Twitter</a>
+                     </div>}
+                    <EditorComponent
+                        editorState={this.props.editorState}
+                        dispatch={this.props.dispatch}/>
+
+                        <PostSettings />
+
+                        <LinkUrlDialog />
+                        <ImageUrlDialog />
+                        <CoverEditingDialog />
+
+                         </div> : <Loading /> }
 
             </div>
         );

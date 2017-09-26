@@ -13,6 +13,7 @@ import {receiveDocument,
 
 import {openLinkDialog,closeDialog} from '../actions/linkdialog'
 import {openImageDialog,closeDialog as closeDialogImg} from '../actions/imagedialog'
+
 import getFixture from '../fixtures/fixture.js'
 let json = getFixture('testjson');
 var doc;

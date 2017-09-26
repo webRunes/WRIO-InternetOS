@@ -10,7 +10,7 @@ import configureStore from '../configureStore'
 // $FlowFixMe
 import { Provider , connect} from 'react-redux'
 import {fromList} from 'base/utils/tocnavigation';
-
+import * as Actions from 'base/actions/actions'
 
 const RightNav = () => {
     return ( <div className="right-nav">
@@ -80,10 +80,13 @@ class EditorWithGUI extends React.Component {
 
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={(<EditorContainer />)}
+                      editMode={true}
                       externals={[]}
-                      editAllowed={this.state.editAllowed}
+                      forceExternals={true}
+                      editAllowed={this.props.editAllowed}
                       RIL={this.state.readItLater}
-                      tabKey={this.state.tabKey}
+                      tabKey={this.props.tabKey}
+                      tabClick={tab =>this.props.dispatch(Actions.tabClick(tab))}
                 />
             </div>
 

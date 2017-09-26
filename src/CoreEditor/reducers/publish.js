@@ -10,8 +10,9 @@ import {
     PUBLISH_FINISH,
     PICK_SAVE_SOURCE
 } from '../actions/publishActions'
-import {EDITOR_CHANGED,CREATE_DOCUMENT,RECEIVE_DOCUMENT} from '../actions/indexActions'
+import {EDITOR_CHANGED,CREATE_DOCUMENT} from '../actions/indexActions'
 import JSONDocument from '../JSONDocument'
+import {GOT_JSON_LD_DOCUMENT} from 'base/actions/actions'
 
 const defaultState =  {
     editParams: { // initial parameters, got from iframe
@@ -47,7 +48,7 @@ export function publishReducer(state = defaultState, action) {
             }};
 
         case EDITOR_CHANGED:
-        case RECEIVE_DOCUMENT:
+        case GOT_JSON_LD_DOCUMENT:
         case CREATE_DOCUMENT:
             if (!action.header) { // action.header is injected from the document store from middleware
                 return state;

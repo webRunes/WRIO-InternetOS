@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import {
     REQUEST_DOCUMENT,
-    RECEIVE_DOCUMENT,
     RECEIVE_USER_DATA,
     CREATE_DOCUMENT,
     GOT_ERROR,
@@ -15,11 +14,14 @@ import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, E
 import {createEditorState,createNewLink,createNewImage,removeEntity,extractTableOfContents} from '../utils/entitytools'
 import LinkDialogReducer from './linkDialog'
 import ImageDialogReducer from './imageDialog'
+import coverDialogReducer from './coverDialogReducer'
 import PostSettingsReducer from './publish'
 import {mkDoc,extractHeader} from './docUtils'
 import headerReducer from 'base/reducers/headerReducer'
 import loginReducer from 'base/reducers/loginReducer'
 import documentReducer from 'base/reducers/documentReducer'
+import {GOT_JSON_LD_DOCUMENT} from 'base/actions/actions'
+import { reducer as formReducer } from 'redux-form'
 
 const defaultState = {
     document: null,
@@ -44,8 +46,8 @@ export function edtorDocumentReducer(state = defaultState, action) {
             return {...state,isFetching:true};
         case GOT_ERROR:
             return {...state,isFetching: false,error: action.error};
-        case RECEIVE_DOCUMENT:
-            const doc =  action.document;
+        case GOT_JSON_LD_DOCUMENT:
+            const doc =  action.data;
             return mkDoc(state,doc);
         case EDITOR_CHANGED:
             const editorState = action.editorState;
@@ -70,6 +72,8 @@ const combinedReducer = combineReducers({
     publish: PostSettingsReducer,
     imageDialog: ImageDialogReducer,
     linkDialog: LinkDialogReducer,
+    coverDialog: coverDialogReducer,
+    form : formReducer
 });
 
 /**
@@ -81,7 +85,7 @@ const combinedReducer = combineReducers({
 function crossSliceReducer(state, action) {
     switch(action.type) {
         case "CREATE_DOCUMENT" :
-        case "RECEIVE_DOCUMENT":
+        case "GOT_JSON_LD_DOCUMENT":
         case "EDITOR_CHANGED":
             const docState =  edtorDocumentReducer(state.editorDocument, action); // inject header to the action hack
             const modAction = action;
@@ -92,7 +96,9 @@ function crossSliceReducer(state, action) {
                 header: headerReducer(state.header,action),
                 publish : PostSettingsReducer(state.publish, modAction),
                 imageDialog : ImageDialogReducer(state.imageDialog, action),
-                linkDialog: LinkDialogReducer(state.linkDialog,action)
+                linkDialog: LinkDialogReducer(state.linkDialog,action),
+                coverDialog: coverDialogReducer(state.coverDialog,action),
+                form: formReducer(state.form, action)
             }
 
         default : return state;

@@ -47,6 +47,7 @@
     "redbox-react": "^1.4.2",
     "redux": "^3.7.2",
     "redux-connect": "^5.1.0",
+    "redux-form": "^7.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reflux": "^6.4.1",
@@ -122,7 +123,7 @@
   "scripts": {
     "build": "gulp && sh compress.sh",
     "start": "npm run build",
-    "devserver": "node ./src/devserver/index.js",
+    "devserver": "node --max_old_space_size=8000 ./src/devserver/index.js",
     "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
     "test": "nyc mocha --compilers js:babel-core/register --require babel-polyfill --recursive",
     "flow": "flow check"

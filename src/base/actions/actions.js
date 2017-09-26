@@ -98,7 +98,7 @@ export function loadDocumentWithData(data: LdJsonDocument, url : string) {
         // Quick hack to make page jump to needed section after page have been edited
         requestHashUpdate();
         const toc = extractPageNavigation(data,true);
-        dispatch(gotJSON_LD_Document(data, url, toc))
+        dispatch(gotJSON_LD_Document(data, url, toc));
        
         toc.covers.map(async (cover : Object) => {
             if (cover.url) {

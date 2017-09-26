@@ -2,7 +2,7 @@ import getHttp from 'base/utils/request';
 
 import { getRegistredUser,getWidgetID} from '../webrunesAPI.js';
 import JSONDocument from '../JSONDocument'
-
+import {loadDocumentWithData} from 'base/actions/actions'
 
 export const REQUEST_DOCUMENT = 'REQUEST_DOCUMENT';
 export const RECEIVE_DOCUMENT = 'RECEIVE_DOCUMENT';
@@ -56,7 +56,8 @@ export function fetchDocument(url) {
                 const doc = new JSONDocument(data);
                 const about = doc.getElementOfType('Article').about || "";
                 dispatch({type: "DESC_CHANGED", text: about});
-                dispatch(receiveDocument(doc))
+                //dispatch(receiveDocument(doc))
+                dispatch(loadDocumentWithData(doc,url));
             })
             .catch(err => {
                 dispatch(gotError(err));

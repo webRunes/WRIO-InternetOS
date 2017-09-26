@@ -5,9 +5,7 @@ import {deleteFromS3} from '../webrunesAPI.js';
 
 import Alert from '../components/Alert.js';
 
-import LinkUrlDialog from '../containers/LinkUrlDialog.js';
-import ImageUrlDialog from '../containers/ImageUrlDialog.js';
-import PostSettings from '../containers/Postsettings.js';
+
 import EntityTools,{getSelection} from '../utils/entitytools'
 
 import {BlockStyleControls,InlineStyleControls,ActionButton} from '../components/EditorControls'
@@ -18,10 +16,6 @@ import {openLinkDialog} from '../actions/linkdialog'
 class EditorComponent extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            error:false
-        };
 
 
         this.handleKeyCommand   = this.handleKeyCommand.bind(this);
@@ -91,11 +85,6 @@ class EditorComponent extends React.Component {
         )));
     }
 
-
-    componentDidUpdate () {
-        window.frameReady();
-    }
-
     myKeyBindingFn(e) {
       if (e.keyCode === 13) {
         window.frameReady();
@@ -120,15 +109,6 @@ class EditorComponent extends React.Component {
         return (
             <div className="clearfix">
             <div >
-                { this.state.error && <Alert type="danger" message="There is an error saving your file, please try again later" /> }
-
-                {false && <div className="well">
-                    <h4>You are not logged in</h4>
-                    <p>You can still create posts. However, you need to be logged in to save access path to the post and to received donates.</p>
-                    <br />
-                    <a className="btn btn-sm btn-primary" href="#" role="button"><span
-                        className="glyphicon glyphicon-user"></span>Login with Twitter</a>
-                </div>}
                 <div className="RichEditor-root form-group">
                   <BlockStyleControls
                     editorState={this.props.editorState}
@@ -141,8 +121,7 @@ class EditorComponent extends React.Component {
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
                   />}
-                  <LinkUrlDialog />
-                  <ImageUrlDialog />
+                 
                   <div className={className} onClick={()=>this.focus}>
                     <Editor
                       blockStyleFn={getBlockStyle}
@@ -155,7 +134,7 @@ class EditorComponent extends React.Component {
                       keyBindingFn={this.myKeyBindingFn}
                     />
                   </div>
-                     <PostSettings />
+                   
                 </div>
                 </div>
 
