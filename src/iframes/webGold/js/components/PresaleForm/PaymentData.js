@@ -1,5 +1,6 @@
 import React from 'react';
 import QRCode from '../../3rdparty/qrcode'
+import PropTypes from 'prop-types'
 
 class PaymentData extends React.Component {
 
@@ -27,8 +28,8 @@ class PaymentData extends React.Component {
     }
 }
 PaymentData.propTypes = {
-    adress: React.PropTypes.string,
-    amount:React.PropTypes.string
+    adress: PropTypes.string,
+    amount:PropTypes.string
 };
 
 export default PaymentData;

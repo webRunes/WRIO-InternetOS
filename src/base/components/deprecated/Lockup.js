@@ -2,6 +2,7 @@ import React from 'react';
 import UserStore from '../store/UserStore.js';
 import Login from '../../widgets/Login.js';
 import WrioDocumentBody from './WrioDocumentBody.js';
+import PropTypes from 'prop-types'
 
 var imgStyle = {
     background: "url('//default.wrioos.com/img/animated.jpg') center center",
@@ -91,7 +92,7 @@ class LockupImage extends React.Component {
 
 
 LockupImage.proptypes = {
-    data: React.PropTypes.array.isRequired
+    data: PropTypes.array.isRequired
 };
 
 class WelcomeBack extends React.Component {
@@ -133,7 +134,7 @@ class LockupScreen extends React.Component {
 }
 
 LockupScreen.proptypes = {
-    data: React.PropTypes.array.isRequired
+    data: PropTypes.array.isRequired
 };
 
 module.exports = LockupScreen;

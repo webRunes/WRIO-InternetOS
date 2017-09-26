@@ -1,6 +1,6 @@
 import React from 'react';
 import {getServiceUrl,getDomain} from '../../servicelocator.js';
-
+import PropTypes from 'prop-types'
 
 export default class CommentsDisabled extends React.Component {
     render() {
@@ -29,5 +29,5 @@ export default class CommentsDisabled extends React.Component {
 }
 
 CommentsDisabled.propTypes = {
-    isAuthor: React.PropTypes.bool
+    isAuthor: PropTypes.bool
 };

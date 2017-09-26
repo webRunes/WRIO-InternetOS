@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export default class Thumbnail extends React.Component {
     render () {
@@ -13,5 +14,5 @@ export default class Thumbnail extends React.Component {
 }
 
 Thumbnail.propTypes =  {
-    image: React.PropTypes.string.isRequired
+    image: PropTypes.string.isRequired
 };

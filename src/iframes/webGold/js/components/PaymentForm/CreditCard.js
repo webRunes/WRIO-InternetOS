@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 class CreditCard extends React.Component {
     render() {
@@ -85,10 +86,10 @@ class CreditCard extends React.Component {
 }
 
 CreditCard.propTypes = {
-    creditCard: React.PropTypes.number,
-    month: React.PropTypes.number,
-    year: React.PropTypes.number,
-    cvv: React.PropTypes.number
+    creditCard: PropTypes.number,
+    month: PropTypes.number,
+    year: PropTypes.number,
+    cvv: PropTypes.number
 };
 
 CreditCard.defaultProps = {

@@ -8,6 +8,7 @@ import request from 'superagent';
 import Const from '../../../../constant.js';
 import EmailEntry from './EmailEntry.js';
 import CreateWallet, {Disclaimer} from '../Wallet/createwallet.js';
+import PropTypes from 'prop-types'
 
 let SATOSHI = Const.SATOSHI;
 var recapEvent = null;
@@ -165,6 +166,6 @@ export default class PresaleForm extends React.Component {
     }
 }
 PresaleForm.propTypes = {
-    exchangeRate: React.PropTypes.object
+    exchangeRate: PropTypes.object
 };
 

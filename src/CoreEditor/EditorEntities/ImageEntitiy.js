@@ -1,6 +1,6 @@
 import React from 'react';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier} from 'draft-js';
-
+import PropTypes from 'prop-types'
 
 // image template component for the editor
 
@@ -46,6 +46,6 @@ export default class ImageEntity extends React.Component {
     }}
 
 ImageEntity.propTypes = {
-    entityKey: React.PropTypes.string,
-    children: React.PropTypes.array
+    entityKey: PropTypes.string,
+    children: PropTypes.array
 };

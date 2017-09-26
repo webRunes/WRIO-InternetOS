@@ -7,6 +7,7 @@ import PaymentStore from '../../stores/PaymentStore';
 import PaymentData from "./PaymentData";
 import request from 'superagent';
 import Const from '../../../../constant.js';
+import PropTypes from 'prop-types'
 
 let SATOSHI = Const.SATOSHI;
 
@@ -100,7 +101,7 @@ class PaymentForm extends React.Component {
     }
 }
 PaymentForm.propTypes = {
-    exchangeRate: React.PropTypes.object
+    exchangeRate: PropTypes.object
 };
 
 export default PaymentForm;

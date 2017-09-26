@@ -7,7 +7,7 @@ import {parseEditingUrl} from '../utils/url.js';
 import CommentEnabler from '../components/CommentEnabler.js';
 import Modal from '../components/Modal'
 import {Radio, FormGroup,CheckBox} from 'react-bootstrap'
-
+import PropTypes from 'prop-types'
 
 const WillBeLive = (props) => {
     return (<div className="form-group">
@@ -18,7 +18,7 @@ const WillBeLive = (props) => {
     </div>);
 };
 WillBeLive.propTypes = {
-    savePath:  React.PropTypes.string
+    savePath:  PropTypes.string
 };
 
 const MAX_LENGTH = 515;
@@ -129,12 +129,12 @@ class PostSettings extends React.Component {
 }
 
 PostSettings.propTypes = {
-    saveUrl: React.PropTypes.string,
-    description: React.PropTypes.string,
-    onPublish: React.PropTypes.func,
-    onDelete: React.PropTypes.func,
-    commentID:React.PropTypes.string,
-    author:React.PropTypes.string
+    saveUrl: PropTypes.string,
+    description: PropTypes.string,
+    onPublish: PropTypes.func,
+    onDelete: PropTypes.func,
+    commentID:PropTypes.string,
+    author:PropTypes.string
 };
 
 

@@ -2,6 +2,7 @@
  * Created by michbil on 18.04.16.
  */
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export default class BalanceLine extends React.Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class BalanceLine extends React.Component {
 }
 
 BalanceLine.propTypes = {
-    label: React.PropTypes.string,
-    wrg: React.PropTypes.any,
-    usd: React.PropTypes.any
+    label: PropTypes.string,
+    wrg: PropTypes.any,
+    usd: PropTypes.any
 };

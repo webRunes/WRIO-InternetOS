@@ -1,5 +1,6 @@
 import React from 'react';
 import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
+import PropTypes from 'prop-types'
 
 var storage = CrossStorageFactory.getCrossStorage();
 
@@ -16,7 +17,7 @@ class GenericListItem extends React.Component {
 }
 
 GenericListItem.propTypes = {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
 };
 
 module.exports = GenericListItem;

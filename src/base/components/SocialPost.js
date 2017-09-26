@@ -3,6 +3,7 @@
 */
 import React from 'react';
 import request from 'superagent';
+import PropTypes from 'prop-types'
 /*
 EXAMPLE:
  {
@@ -114,7 +115,7 @@ class SocialPost extends React.Component {
 }
 
 SocialPost.propTypes = {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
 };
 
 module.exports = SocialPost;

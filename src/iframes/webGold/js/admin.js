@@ -10,7 +10,7 @@ import { Router,Route, Link } from 'react-router';
 import moment from 'moment';
 import {Modal,Button} from 'react-bootstrap';
 import Const from '../../constant.js';
-
+import PropTypes from 'prop-types'
 import numeral from 'numeral';
 const SATOSHI = Const.SATOSHI;
 
@@ -477,7 +477,7 @@ class PrePayments extends React.Component {
 }
 
 PrePayments.propTypes = {
-    data: React.PropTypes.object
+    data: PropTypes.object
 };
 
 class Invoices extends React.Component {

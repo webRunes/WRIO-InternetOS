@@ -1,6 +1,7 @@
 import React from 'react';
 import {getResourcePath} from '../global';
 import {getJsonldsByUrl} from '../Plus/utils/tools';
+import PropTypes from 'prop-types'
 
 export default class CreateInfoTicket extends React.Component {
     constructor(props) {
@@ -74,6 +75,6 @@ export default class CreateInfoTicket extends React.Component {
 };
 
 CreateInfoTicket.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    author: React.PropTypes.string
+    article: PropTypes.object.isRequired,
+    author: PropTypes.string
 };

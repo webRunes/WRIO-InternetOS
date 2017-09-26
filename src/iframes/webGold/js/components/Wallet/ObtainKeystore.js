@@ -4,6 +4,7 @@
 import React from 'react'
 import KeyStore from '../../crypto/keystore.js'
 import lightwallet from 'eth-lightwallet'
+import PropTypes from 'prop-types'
 
 async function saveToLocalStorage(id,seed,password) {
     let store = new KeyStore();
@@ -125,9 +126,9 @@ export default class ObtainKeystore extends React.Component {
 }
 
 ObtainKeystore.propTypes = {
-    id: React.PropTypes.string,
-    header: React.PropTypes.any,
-    backCallback: React.PropTypes.func,
-    confirmCallback: React.PropTypes.func,
-    verifyFunc: React.PropTypes.func
+    id: PropTypes.string,
+    header: PropTypes.any,
+    backCallback: PropTypes.func,
+    confirmCallback: PropTypes.func,
+    verifyFunc: PropTypes.func
 };

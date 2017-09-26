@@ -3,6 +3,7 @@ import UIActions from '../actions/UI.js';
 import PlusActions from '../../widgets/Plus/actions/PlusActions.js';
 import normURL from '../../widgets/Plus/utils/normURL';
 import UrlMixin from '../mixins/UrlMixin';
+import PropTypes from 'prop-types'
 
 export default class CreateControlButtons extends React.Component {
     constructor(props) {
@@ -46,6 +47,6 @@ export default class CreateControlButtons extends React.Component {
 };
 
 CreateControlButtons.propTypes = {
-    article: React.PropTypes.object.isRequired,
-    author: React.PropTypes.string.isRequired
+    article: PropTypes.object.isRequired,
+    author: PropTypes.string.isRequired
 };

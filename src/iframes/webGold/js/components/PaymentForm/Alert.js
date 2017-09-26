@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types'
 class Alert extends React.Component {
     render() {
         return (
@@ -16,9 +16,9 @@ Alert.defaultProps = {
     message: 'Default message'
 };
 Alert.propTypes = {
-    type: React.PropTypes.string,
-    message: React.PropTypes.string,
-    onClose: React.PropTypes.func
+    type: PropTypes.string,
+    message: PropTypes.string,
+    onClose: PropTypes.func
 };
 
 export default Alert;

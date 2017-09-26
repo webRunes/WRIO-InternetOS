@@ -2,7 +2,7 @@
  * Created by michbil on 29.04.16.
  */
 import React from 'react';
-
+import PropTypes from 'prop-types'
 
 var domain = process.env.DOMAIN;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier, convertToRaw} from 'draft-js';
 import {deleteFromS3} from '../webrunesAPI.js';
-
+import PropTypes from 'prop-types'
 import Alert from '../components/Alert.js';
 
 
@@ -148,8 +148,8 @@ class EditorComponent extends React.Component {
 }
 
 EditorComponent.propTypes = {
-    editorState: React.PropTypes.object,
-    dispatch: React.PropTypes.func,
+    editorState: PropTypes.object,
+    dispatch: PropTypes.func,
 };
 
 

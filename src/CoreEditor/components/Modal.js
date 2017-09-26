@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Modal extends React.Component {
 
@@ -52,6 +53,6 @@ export default class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-    onOk: React.PropTypes.func,
-    onCancel: React.PropTypes.func
+    onOk: PropTypes.func,
+    onCancel: PropTypes.func
 };

@@ -3,6 +3,7 @@ import UserInfo from './UserInfo';
 import request from 'superagent';
 import BigNumber from 'bignumber.js';
 import Const from '../../../../constant.js';
+import PropTypes from 'prop-types'
 
 class User extends React.Component {
     constructor(props) {
@@ -63,9 +64,9 @@ class User extends React.Component {
 }
 
 User.propTypes = {
-    username: React.PropTypes.string.isRequired,
-    btcExchangeRate: React.PropTypes.object,
-    exchangeRate: React.PropTypes.object
+    username: PropTypes.string.isRequired,
+    btcExchangeRate: PropTypes.object,
+    exchangeRate: PropTypes.object
 };
 
 export default User;

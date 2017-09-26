@@ -5,6 +5,7 @@ const React = require('react'),
     ActionMenu = require('../../widgets/Plus/actions/menu'),
     StoreMenu = require('../../widgets/Plus/stores/menu');
 
+import PropTypes from 'prop-types'
 
 class CreateDomLeft extends React.Component {
 
@@ -123,7 +124,7 @@ class CreateDomLeft extends React.Component {
 }
 
 CreateDomLeft.propTypes = {
-    list: React.PropTypes.any
+    list: PropTypes.any
 };
 
 module.exports = CreateDomLeft;

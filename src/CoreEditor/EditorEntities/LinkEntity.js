@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier} from 'draft-js';
-
+import PropTypes from 'prop-types'
 
 // link template component for the editor
 
@@ -43,6 +43,6 @@ export default class Link extends React.Component {
 }
 
 Link.propTypes = {
-    entityKey: React.PropTypes.string,
-    children: React.PropTypes.array
+    entityKey: PropTypes.string,
+    children: PropTypes.array
 };

@@ -10,7 +10,7 @@ import Reflux from 'reflux';
 import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import {replaceSpaces} from '../mixins/UrlMixin';
-
+import PropTypes from 'prop-types'
 
 // abstract menu button
 
@@ -48,9 +48,9 @@ class MenuButton extends React.Component {
 }
 
 MenuButton.propTypes = {
-    data: React.PropTypes.object.isRequired,
-    active: React.PropTypes.func.isRequired,
-    isActive: React.PropTypes.bool.isRequired
+    data: PropTypes.object.isRequired,
+    active: PropTypes.func.isRequired,
+    isActive: PropTypes.bool.isRequired
 };
 
 
@@ -99,7 +99,7 @@ class CoverButton extends MenuButton {
 
 var CreateDomRight = React.createClass({
     propTypes: {
-        data: React.PropTypes.array.isRequired
+        data: PropTypes.array.isRequired
     },
 
     mixins: [UrlMixin],

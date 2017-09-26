@@ -2,6 +2,7 @@ import React from 'react';
 import Actions from '../../stores/PaymentActions';
 import BigNumber from 'bignumber.js';
 import Const from '../../../../constant.js';
+import PropTypes from 'prop-types'
 
 class Amount extends React.Component {
     constructor(props) {
@@ -97,7 +98,7 @@ class Amount extends React.Component {
 }
 
 Amount.propTypes = {
-    exchangeRate: React.PropTypes.object
+    exchangeRate: PropTypes.object
 };
 
 export default Amount;

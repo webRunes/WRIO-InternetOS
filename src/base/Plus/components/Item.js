@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import normURL from '../utils/normURL';
 import {CrossStorageFactory} from '../../utils/CrossStorageFactory.js';
 import GenericListItem from './GenericListItem';
+import PropTypes from 'prop-types'
 
 var storage = CrossStorageFactory.getCrossStorage();
 
@@ -30,8 +31,8 @@ class Item extends GenericListItem {
 }
 
 Item.propTypes = {
-    del: React.PropTypes.func.isRequired,
-    child: React.PropTypes.bool
+    del: PropTypes.func.isRequired,
+    child: PropTypes.bool
 };
 
 module.exports = Item;

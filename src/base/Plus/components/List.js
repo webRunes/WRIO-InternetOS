@@ -6,6 +6,7 @@ import sortBy from 'lodash.sortby';
 import SubList from './SubList';
 import StoreMenu from './stores/menu';
 import ActionMenu from './actions/menu';
+import PropTypes from 'prop-types'
 
 class List extends React.Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
 };
 
 module.exports = List;

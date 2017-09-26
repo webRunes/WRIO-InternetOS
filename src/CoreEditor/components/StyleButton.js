@@ -2,6 +2,7 @@
  * Created by michbil on 07.08.16.
  */
 import React from 'react';
+import PropTypes from 'prop-types'
 
 
 export default class StyleButton extends React.Component {
@@ -27,8 +28,8 @@ export default class StyleButton extends React.Component {
 }
 
 StyleButton.propTypes = {
-    onToggle: React.PropTypes.func,
-    style: React.PropTypes.string,
-    active: React.PropTypes.bool,
-    label: React.PropTypes.string
+    onToggle: PropTypes.func,
+    style: PropTypes.string,
+    active: PropTypes.bool,
+    label: PropTypes.string
 };

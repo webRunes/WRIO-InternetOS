@@ -2,6 +2,7 @@ import React from 'react';
 import {getResourcePath} from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
+import PropTypes from 'prop-types'
 
 // TODO check if it is needed ?
 
@@ -44,7 +45,7 @@ class ItemListElement extends React.Component {
 }
 
 ItemListElement.propTypes =  {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
 };
 
 export default class ItemList extends React.Component {
@@ -70,5 +71,5 @@ export default class ItemList extends React.Component {
 }
 
 ItemList.propTypes =  {
-    data: React.PropTypes.object.isRequired
+    data: PropTypes.object.isRequired
 };

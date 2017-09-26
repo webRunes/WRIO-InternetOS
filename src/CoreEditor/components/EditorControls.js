@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import StyleButton from './StyleButton.js';
+import PropTypes from 'prop-types'
 
 const BLOCK_TYPES = [
     {
@@ -72,10 +73,10 @@ export const BlockStyleControls = (props) => {
 };
 
 BlockStyleControls.propTypes = {
-    editorState: React.PropTypes.object,
-    onToggle: React.PropTypes.func,
-    onLinkToggle: React.PropTypes.func,
-    onImageToggle: React.PropTypes.func
+    editorState: PropTypes.object,
+    onToggle: PropTypes.func,
+    onLinkToggle: PropTypes.func,
+    onImageToggle: PropTypes.func
 };
 
 var INLINE_STYLES = [
@@ -115,8 +116,8 @@ export const InlineStyleControls = (props) => {
 };
 
 InlineStyleControls.propTypes = {
-    editorState: React.PropTypes.object,
-    onToggle: React.PropTypes.func
+    editorState: PropTypes.object,
+    onToggle: PropTypes.func
 };
 
 export class ActionButton extends React.Component {
@@ -139,9 +140,9 @@ export class ActionButton extends React.Component {
 }
 
 ActionButton.propTypes = {
-    onToggle: React.PropTypes.func,
-    label: React.PropTypes.string,
-    action: React.PropTypes.string
+    onToggle: PropTypes.func,
+    label: PropTypes.string,
+    action: PropTypes.string
 };
 
 const styles = {

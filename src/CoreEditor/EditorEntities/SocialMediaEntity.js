@@ -1,7 +1,7 @@
 import React from 'react';
 import {CompositeDecorator, ContentState, SelectionState, Editor, EditorState, Entity, RichUtils, CharacterMetadata, getDefaultKeyBinding,  Modifier} from 'draft-js';
 import request from 'superagent';
-
+import PropTypes from 'prop-types'
 
 class Figure extends React.Component {
     render () {
@@ -22,9 +22,9 @@ class Figure extends React.Component {
     }
 }
 Figure.propTypes = {
-    title: React.PropTypes.string,
-    description: React.PropTypes.string,
-    content: React.PropTypes.object
+    title: PropTypes.string,
+    description: PropTypes.string,
+    content: PropTypes.object
 };
 
 // image template component for the editor
@@ -119,8 +119,8 @@ export default class SocialMediaEntity extends React.Component {
 }
 
 SocialMediaEntity.propTypes = {
-    entityKey: React.PropTypes.string,
-    children: React.PropTypes.array
+    entityKey: PropTypes.string,
+    children: PropTypes.array
 };
 
 

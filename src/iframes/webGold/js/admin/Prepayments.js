@@ -4,6 +4,7 @@
 import React from 'react';
 import moment from 'moment';
 import Const from '../../../constant.js';
+import PropTypes from 'prop-types'
 const SATOSHI = Const.SATOSHI;
 
 
@@ -55,5 +56,5 @@ export default class PrePayments extends React.Component {
 }
 
 PrePayments.propTypes = {
-    data: React.PropTypes.object
+    data: PropTypes.object
 };

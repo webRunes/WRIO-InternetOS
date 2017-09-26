@@ -4,11 +4,12 @@ import WrioDocument from '../store/WrioDocument.js';
 import WrioDocumentActions from '../actions/WrioDocument.js';
 import Login from '../../widgets/Login.js';
 import mention from '../jsonld/mentions/mention.js';
+import PropTypes from 'prop-types'
 
 var CreateCover = React.createClass({
     propTypes: {
-        data: React.PropTypes.object.isRequired,
-        isActive: React.PropTypes.bool.isRequired
+        data: PropTypes.object.isRequired,
+        isActive: PropTypes.bool.isRequired
     },
 
     componentDidMount: () => {
