@@ -27,7 +27,7 @@ export function requestDocument() {
 
 export function receiveDocument(document) {
     return {
-        type: RECEIVE_DOCUMENT,
+        type: "GOT_JSON_LD_DOCUMENT",
         document
     }
 }
@@ -46,25 +46,22 @@ function gotError(error) {
     }
 }
 
-export function fetchDocument(url) {
-    return (dispatch,state) => {
+export const fetchDocument = (url) => async (dispatch,state) => {
+
         console.log(url)
         dispatch(requestDocument());
-        getHttp(url)
-            .then(doc => doc.data)
-            .then(data => {
-                const doc = new JSONDocument(data);
-                const about = doc.getElementOfType('Article').about || "";
-                dispatch({type: "DESC_CHANGED", text: about});
-                //dispatch(receiveDocument(doc))
-                dispatch(loadDocumentWithData(doc,url));
-            })
-            .catch(err => {
-                dispatch(gotError(err));
-                console.error("Error during download of source document",err);
-            }
-        )
-    }
+        try {
+            const {data} = await getHttp(url);
+            const doc = new JSONDocument(data);
+            const about = doc.getElementOfType('Article').about || "";
+            dispatch({type: "DESC_CHANGED", text: about});
+            //dispatch(receiveDocument(doc))
+            dispatch(loadDocumentWithData(doc,url));
+        } catch (err) {
+            dispatch(gotError(err));
+            console.error("Error during download of source document",err);
+        }
+          
 }
 
 export function fetchUserData() {

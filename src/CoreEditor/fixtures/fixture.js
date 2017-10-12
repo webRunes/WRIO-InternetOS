@@ -6,5 +6,10 @@ const getFixture = (fixturename : string) : Object => {
     return  JSON.parse(file);
 }
 
+export const getHtml =  (fixturename : string) : Object => {
+    var file = fs.readFileSync(path.join(__dirname,`../fixtures/${fixturename}.html`)).toString();
+    return file;
+}
+
 export default getFixture;
 

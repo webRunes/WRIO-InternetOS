@@ -83,11 +83,16 @@ export function gotJSON_LD_Document(data: LdJsonDocument, url : string,toc : Tab
 
 export function getAuthor(author : string) {
     return async dispatch => {
-        const remoteDocument = await getHttp(author);
-        dispatch({
-            type: GET_AUTHOR_DATA,
-            authorData: remoteDocument
-        });
+        try {
+            const remoteDocument = await getHttp(author);
+            dispatch({
+                type: GET_AUTHOR_DATA,
+                authorData: remoteDocument
+            });
+        } catch (e) {
+            dispatch({type:"ERROR_NO_AUTHOR"});
+        }
+       
     }
 }
 

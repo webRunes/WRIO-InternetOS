@@ -42,15 +42,9 @@ export class CreateDomCenter extends React.Component {
             editAllowed: false,
             titterDisabled: false,
             active: false,
-            wrioID: props.wrioID,
-            profile: null
         };
     }
 
-    componentWillReceiveProps(nextProps : CenterProps) {
-        this.setState({profile: nextProps.profile,
-                        wrioID:nextProps.wrioID});
-    }
 
     isArticleShown() {
         const search = UrlMixin.searchToObject(this.props.url);
@@ -81,8 +75,8 @@ export class CreateDomCenter extends React.Component {
                                 commentsDisabledFrame :
                                   <div style={displayTitterStyle}>
                                     <CreateTitter document={document}
-                                                  profile={this.state.profile}
-                                                  wrioID={this.state.wrioID}
+                                                  profile={this.props.profile}
+                                                  wrioID={this.props.wrioID}
                                     />
                                   </div> }
         </div>);

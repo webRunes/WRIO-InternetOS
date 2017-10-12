@@ -5,6 +5,8 @@ import {fixUrlProtocol} from '../mixins/UrlMixin'
 import LdJsonDocument from '../jsonld/LdJsonDocument'
 import LdJsonObject from '../jsonld/entities/LdJsonObject'
 
+const isInTest = typeof global.it === 'function';
+const fixUrlProtocolFunc = isInTest ? e => e : fixUrlProtocol
 
 function convertScript(result : Object) : LdJsonDocument {
     var e = document.createElement('div');
@@ -44,7 +46,7 @@ export default async function getHttp (url : string) : Promise<LdJsonDocument> {
     let result = [];
     try {
         console.warn("Getting LD+JSON document from ",url,"to see graph https://wrioos.com/jsonld-vis/view/?"+url);
-        result = await request.get(fixUrlProtocol(url)).redirects(1);
+        result = await request.get(fixUrlProtocolFunc(url)).redirects(1);
     } catch (err) {
         try {
             const prot = alternateProtocol();

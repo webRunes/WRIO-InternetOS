@@ -46,8 +46,9 @@ export function edtorDocumentReducer(state = defaultState, action) {
             return {...state,isFetching:true};
         case GOT_ERROR:
             return {...state,isFetching: false,error: action.error};
-        case GOT_JSON_LD_DOCUMENT:
-            const doc =  action.data;
+        case "GOT_JSON_LD_DOCUMENT":
+            console.log("GJSN",action);
+            const doc = action.data;
             return mkDoc(state,doc);
         case EDITOR_CHANGED:
             const editorState = action.editorState;

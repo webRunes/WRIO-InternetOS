@@ -8,7 +8,8 @@ import LdJsonDocument from './base/jsonld/LdJsonDocument';
 import { AppContainer } from 'react-hot-loader';
 import Redbox from 'redbox-react'
 import WindowMessage from './base/actions/WindowMessage' // it's not unused import! required to initiialize window message bus
-
+import configureStore from './base/configureStore'
+import { Provider } from 'react-redux'
 
 function createContainer() : HTMLElement {
     var d = document.createElement('div');
@@ -20,10 +21,19 @@ function createContainer() : HTMLElement {
 let container = createContainer();
 let domnode = document.body.appendChild(container);
 
+
+const store = configureStore();
+
 const render = () =>
     ReactDOM.render(
         (<AppContainer errorReporter={Redbox}>
-        <App />
+            <Provider store={store}>
+                 <App />
+            </Provider>
     </AppContainer>), domnode);
 render();
-if (module.hot) module.hot.accept('./base/containers/app', () => render(App));
+
+if (module.hot) module.hot.accept('./base/containers/app', () => {
+    console.log("HOT damnit")
+    return render(App)
+});

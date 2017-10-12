@@ -67,10 +67,11 @@ function DocumentReducer(state : DocumentState = defaultState,action : Object) {
                 ...state,
                 lists: action.lists
             }
-        case action.LOGIN_MESSAGE: 
-            if (actions.msg.profile) {
-                var profile = actions.msg.profile;
-                const _author = getAuthor(state.url,state.mainPage);
+        case actions.LOGIN_MESSAGE: 
+            if (action.msg.profile) {
+                var profile = action.msg.profile;
+                const _author = getAuthor(state.mainPage);
+                console.log(state.mainPage)
                 console.log('Checking if editing allowed: ', profile.url, _author);
                 const editAllowed = UrlMixin.compareProfileUrls(profile.url,_author)
                 return {
@@ -94,10 +95,13 @@ function DocumentReducer(state : DocumentState = defaultState,action : Object) {
     }
 }
 
-function getAuthor(url : string,mainPage : LdJsonDocument) : ?string {
-    const urlParams = UrlMixin.searchToObject(url);
-    let author = mainPage.getJsonLDProperty('author');
-    return author;
+/**
+ * 
+ * @param {*} url 
+ * @param {*} mainPage 
+ */
+export function getAuthor(doc : LdJsonDocument) : ?string {
+    return doc.getJsonLDProperty('author');
 }
 
 /*

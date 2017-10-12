@@ -52,10 +52,10 @@ var e = {
         'superagent',
         'lodash',
         'core-js'],
-    admin: './src/iframes/webGold/js/admin/index.js',
-    presale: ['./src/iframes/webGold/js/presale.js'],
-    createwallet: './src/iframes/webGold/js/createwallet.js',
-    txsigner: './src/iframes/webGold/js/txsigner.js'
+   // admin: './src/iframes/webGold/js/admin/index.js',
+   // presale: ['./src/iframes/webGold/js/presale.js'],
+   // createwallet: './src/iframes/webGold/js/createwallet.js',
+   // txsigner: './src/iframes/webGold/js/txsigner.js'
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -79,7 +79,7 @@ var e = {
     ]
   },
 
-  devtool: "eval-source-map",
+  devtool: "cheap-module-source-map",
 
   plugins: [
     commonsPlugin,

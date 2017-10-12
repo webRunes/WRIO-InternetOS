@@ -24,11 +24,14 @@ export default function configureStore(preloadedState) {
 }
 
 function dispatchLoginMessages(store) {
+  
     store.dispatch(getPlusData())
     loginMessage.
         filter((msg) => (!! msg) && (!! msg.profile)).
         distinct().
         subscribe(msg => {
-            store.dispatch(actions.loginMessage(msg))
+            const action = actions.loginMessage(msg);
+            console.log("LGNACTION",action);
+            store.dispatch(action);
         });
 }

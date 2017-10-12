@@ -6,22 +6,6 @@ import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
 import LdJsonDocument from '../jsonld/LdJsonDocument.js';
-//import fixtures from './fixtures/index.js'
-import WrioDocumentActions from '../actions/WrioDocument.js';
-import WrioDocumentStore from './WrioDocument.js';
-//require('./fakeDom.js');
-
-function wrapFixture(scripts) {
-    return scripts.map((s) => {
-        return {
-            textContent: JSON.stringify(s),
-            type: 'application/ld+json'
-        }
-    } )
-}
-
-var docScripts;
-
 it('You should make new test for this later', ()=>{})
 
 /*

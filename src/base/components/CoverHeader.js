@@ -50,7 +50,7 @@ const CoverText = ({cover} : {cover : ImageObject}) => {
                 bulletList.push(<span key={index++}>{item.text}</span>);
             } else {
                 purgeList();
-                descr.push(<div key={index++} >{item.text}</div>);
+                descr.push(<div key={index++}>{item.text}</div>);
             }
 
         });
@@ -58,18 +58,6 @@ const CoverText = ({cover} : {cover : ImageObject}) => {
 
         return  <span>{descr}</span>;
 
-};
-
-const carouselStyle = (path,height) => {
-    return {
-        background: `url('${path}') no-repeat center center fixed`,
-        WebkitBackgroundSize:"cover",
-        MozBackgroundSize:"cover",
-        OBackgroundSize:"cover",
-        BackgroundSize:"cover",
-        transform: "translate3d(0px, 0px, 0px)",
-        minHeight:height
-    }
 };
 
 const RenderCover = ({image} : {image : ImageObject}) => {
@@ -109,7 +97,11 @@ const hasIndex = (array,index) => array.reduce((res,item) => res || (item == ind
  */
 
 const CoverNavigationButtons = ({items,currentCover,onCoverButtonPressed} : 
-    {items: Array<Object>,currentCover: number}) => {
+    {
+        items: Array<Object>,
+        currentCover: number,
+        onCoverButtonPressed : Function
+    }) => {
     return (<nav className="navbar navbar-transparent">
         <ul className="nav navbar-nav navbar-left">
             {items.map((r,key)=>{
@@ -142,14 +134,13 @@ const CoverNavigationButtons = ({items,currentCover,onCoverButtonPressed} :
  * @constructor
  */
 
-const CoverBlock = ({covers,images,currentCover,onCoverChanged,onCoverButtonPressed}
+const CoverCarousel = ({covers,images,currentCover,onCoverChanged,onCoverButtonPressed}
 : {covers : Array<ItemList>,
     images : Array<ImageObject>,
     currentCover: number,
-    onCoverChanged : Function}) => {
-
-
-  //  console.log("RENDERING", covers);
+    onCoverChanged : Function,
+    onCoverButtonPressed: Function
+}) => {
     const headerStyle = (covers.length == 0) ? {height:"auto",minHeight:"120px"} : {height:"auto",minHeight:"100vh"};
     return (
         <div className="page-header" style={headerStyle}>
@@ -179,11 +170,11 @@ const CoverBlock = ({covers,images,currentCover,onCoverChanged,onCoverButtonPres
                       interval={8000}
                       nextIcon={nextIcon}
                       prevIcon={prevIcon}>
-            {images.map((image : ImageObject, key : number)=> {
-                return (<CarouselItem key={key}>
-                    <RenderCover image={image} />
-                </CarouselItem>)
-            })}
+                {images.map((image : ImageObject, key : number)=> {
+                    return (<CarouselItem key={key}>
+                        <RenderCover image={image} />
+                    </CarouselItem>)
+                })}
             </Carousel> : <div style={carouselStyle(defaultBg,"120px")} className="cover-bg" />
             }
 
@@ -191,4 +182,18 @@ const CoverBlock = ({covers,images,currentCover,onCoverChanged,onCoverButtonPres
 
 };
 
-export default CoverBlock;
+
+const carouselStyle = (path,height) => {
+    return {
+        background: `url('${path}') no-repeat center center fixed`,
+        WebkitBackgroundSize:"cover",
+        MozBackgroundSize:"cover",
+        OBackgroundSize:"cover",
+        BackgroundSize:"cover",
+        transform: "translate3d(0px, 0px, 0px)",
+        minHeight:height
+    }
+};
+
+
+export default CoverCarousel;

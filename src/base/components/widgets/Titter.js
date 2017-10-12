@@ -14,6 +14,8 @@ type TitterProps = {
     wrioID: ?string
 };
 
+const addComment = 'Add comment';
+
 class TitterWidget extends React.Component {
     props: TitterProps;
 
@@ -28,7 +30,7 @@ class TitterWidget extends React.Component {
     constructor (props : TitterProps) {
         super(props);
         this.initProps(props);
-
+        this.state = {}
     }
 
     componentWillReceiveProps(nextProps : TitterProps) {
@@ -39,14 +41,15 @@ class TitterWidget extends React.Component {
         const authorId = this.props.document.getAuthorWrioId();
         const origin = encodeURIComponent(window.location.href.replace(/#.+$/m,"")); // strip url hash at the end
 
-        const id =
+        if (!props.profile) {
+            console.log("PROFILE not ready yet");
+            return;
+        }
 
-        this.state =  {
-            profile: props.profile,
-            addComment: 'Add comment',
+        this.setState({
             article: this.props.document.hasArticle(),
             titterFrameUrl: `${getServiceUrl('titter')}/iframe/?origin=${origin}&author=${authorId || ""}&userID=${this.props.wrioID || ""}`,
-        };
+        });
     }
 
     componentDidMount () {
@@ -103,11 +106,11 @@ class TitterWidget extends React.Component {
         let body = null;
         let showTimeline = false;
 
-        if (!this.state.profile) {
+        if (!this.props.profile) {
            body =  <img src="https://default.wrioos.com/img/loading.gif"/>
         } else {
 
-            if (this.state.profile.temporary) {
+            if (this.props.profile.temporary) {
                 body = (<LoginAndComment />);
                 showTimeline = true;
 
@@ -126,7 +129,7 @@ class TitterWidget extends React.Component {
         return (
             <div>
                 <ul className="breadcrumb" key="act">
-                    <li className="active" id="Comments">{this.state.addComment}</li>
+                    <li className="active" id="Comments">{addComment}</li>
                 </ul>
                 {body}
                 <div ref="timeLineContainer" style={showTimeline ? {display:"block"} : {display:"none"}}></div>

@@ -13,6 +13,7 @@ import {receiveDocument,
 
 import {openLinkDialog,closeDialog} from '../actions/linkdialog'
 import {openImageDialog,closeDialog as closeDialogImg} from '../actions/imagedialog'
+import LdJsonDocument from '../JSONDocument.js'
 
 import getFixture from '../fixtures/fixture.js'
 let json = getFixture('testjson');
@@ -22,13 +23,13 @@ describe('LS+JSON tests test', () => {
     test('Should be able to import document and convert it back to JSON', () => {
         const s1 = reducer(undefined,{});
         console.log(s1);
-        expect(s1.document.isFetching).toEqual(true);
-        const s2 = reducer(s1,receiveDocument(json));
+        expect(s1.editorDocument.isFetching).toEqual(true);
+        const s2 = reducer(s1,receiveDocument(new LdJsonDocument(json)));
         console.dir(s2);
-        expect(s2.document.isFetching).toEqual(false);
-        expect(typeof  s2.document.document).toEqual("object");
+        expect(s2.editorDocument.isFetching).toEqual(false);
+        expect(typeof  s2.editorDocument.document).toEqual("object");
 
-        const j = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
+        const j = s2.editorDocument.document.draftToJson(s2.editorDocument.editorState.getCurrentContent());
         expect(j.name).toEqual('webRunes');
         console.log(j);
 
@@ -41,7 +42,7 @@ describe('LS+JSON tests test', () => {
         s2 = reducer(s2,createNewImage("Hello",'https://sample.host/catty2.jpg',"image 2"));
         s2 = reducer(s2,createNewLink("Link",'https://sample.host/catty.html',"link"));
 
-        const j = s2.document.document.draftToJson(s2.document.editorState.getCurrentContent());
+        const j = s2.editorDocument.document.draftToJson(s2.editorDocument.editorState.getCurrentContent());
         console.log(j);
         expect(j.author).toEqual('https://wr.io/1234567890/?wr.io=1234567890')
     });

@@ -6,7 +6,7 @@ import React from 'react';
 import {parseEditingUrl} from '../utils/url.js';
 import CommentEnabler from '../components/CommentEnabler.js';
 import Modal from '../components/Modal'
-import {Radio, FormGroup,CheckBox} from 'react-bootstrap'
+import {Radio, FormGroup,CheckBox, DropdownButton, MenuItem} from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 const WillBeLive = (props) => {
@@ -51,7 +51,7 @@ class PostSettings extends React.Component {
 
         const className ="form-group" +  (exceedLength ? " has-error" : "");
         return (<div>
-          <div className={className}>
+          {false && <div className={className}>
             <label htmlFor="id-Description" className="col-sm-4 col-md-3 control-label">Description</label>
             <div className="col-sm-8 col-md-9">
               <textarea className="form-control" type="text" maxLength="512"
@@ -64,7 +64,7 @@ class PostSettings extends React.Component {
                 {exceedLength && <span>Max {MAX_LENGTH} characters</span>}
               </div>
             </div>
-            </div>
+            </div> }
 
             <div className={className}>
             <label className="col-sm-4 col-md-3 control-label">Save Destination</label>
@@ -108,6 +108,10 @@ class PostSettings extends React.Component {
                     {/* -Temp delete removing-!createMode() &&
                     <button type="button" className="btn btn-danger" onClick={() => this.setState({alert: true})} ><span className="glyphicon glyphicon-trash" ></span>Delete</button>*/}
                     <button type="button" className="btn btn-default" onClick={this.goBack.bind(this)}><span className="glyphicon glyphicon-remove"></span>Cancel</button>
+                    <DropdownButton title="Dropdown" id="bg-vertical-dropdown-1">
+                        <MenuItem eventKey="1">Publish</MenuItem>
+                        <MenuItem eventKey="2">SaveAs</MenuItem>
+                    </DropdownButton>
                     <a href="#" className="btn btn-success" onClick={this.props.onPublish}>
                         {this.props.busy ? loading : <span className="glyphicon glyphicon-open" />}
                        Publish</a>

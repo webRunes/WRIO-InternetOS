@@ -13,7 +13,7 @@ import CoverHeader from '../containers/CoverHeaderContainer'
 import Tabs from '../components/Tabs'
 import { Provider , connect} from 'react-redux'
 import {loadDocumentWithData} from 'base/actions/actions'
-import configureStore from '../configureStore'
+import RedBox from 'redbox-react'
 import {postUpdateHook} from 'base/actions/hashUpdateHook'
 
 
@@ -46,6 +46,7 @@ const LoginBar = ({profile}) => {
 class Main extends React.Component {
     constructor(props) {
         super(props);
+       
     }
 
     propTypes: {
@@ -63,13 +64,13 @@ class Main extends React.Component {
         postUpdateHook();
     }
 
+ 
     renderWithCenter(center) {
         let data: LdJsonDocument = this.props.document;
         let externals = this.props.lists.filter(list => list.type == 'external');
 
 
         return ( <div>
-
             <VerticalNav vertical={true}
                          showUp={false}
             />
@@ -77,7 +78,7 @@ class Main extends React.Component {
             <RightNav />
             <CoverHeader />
             <LeftNav />
-
+        
             <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
                 <Tabs center={center}
                       externals={externals}
@@ -93,6 +94,7 @@ class Main extends React.Component {
     }
 
     render() {
+
         const url : string = this.props.url;
         const urlDecoded = UrlMixin.searchToObject(url);
 
@@ -157,14 +159,11 @@ const mapStateToProps = state => (
 const MainMapped = connect(mapStateToProps)(Main)
 
 let doc = new LdJsonDocument(document.getElementsByTagName('script'));
-const store = configureStore();
+
 
 export default class App extends React.Component {
     render () {
-        return (<Provider store={store}>
-                <MainMapped document={doc}/>
-            </Provider>
-            ) 
+        return (<MainMapped document={doc}/>);
     }
 }
 

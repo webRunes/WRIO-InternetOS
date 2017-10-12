@@ -11,6 +11,7 @@ import configureStore from '../configureStore'
 import { Provider , connect} from 'react-redux'
 import {fromList} from 'base/utils/tocnavigation';
 import * as Actions from 'base/actions/actions'
+import PostSettings from '../containers/Postsettings.js';
 
 const RightNav = () => {
     return ( <div className="right-nav">
@@ -88,8 +89,11 @@ class EditorWithGUI extends React.Component {
                       tabKey={this.props.tabKey}
                       tabClick={tab =>this.props.dispatch(Actions.tabClick(tab))}
                 />
+             
             </div>
-
+            <div className="col-xs-12 card">
+                <PostSettings />
+            </div>
         </div>
        );
     }

@@ -15,7 +15,7 @@ import {parseEditingUrl} from '../utils/url.js';
 import LinkUrlDialog from '../containers/LinkUrlDialog.js';
 import ImageUrlDialog from '../containers/ImageUrlDialog.js';
 import CoverEditingDialog from './CoverEditingDialogContainer.js'
-import PostSettings from '../containers/Postsettings.js';
+
 
 const CREATE_MODE = window.location.pathname === "/create";
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
@@ -65,8 +65,6 @@ class EditorContainer extends React.Component {
                     <EditorComponent
                         editorState={this.props.editorState}
                         dispatch={this.props.dispatch}/>
-
-                        <PostSettings />
 
                         <LinkUrlDialog />
                         <ImageUrlDialog />
