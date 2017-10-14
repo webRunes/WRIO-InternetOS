@@ -1,4 +1,4 @@
-var code =
+const code =
         `<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">
             <div class="preloader" style="position: fixed; top: 0; z-index: 9999; min-height: 600px; width: 100%; height: 100%; display: table; vertical-align: middle;">
                 <div class="container" style="position: relative; vertical-align: middle; display: table-cell; height: 260px; text-align: center;">
@@ -13,56 +13,55 @@ var code =
                     </div>
                 </div>
             </div>
-        </div>`,
-    favicon,
-    head = document.getElementsByTagName('head')[0],
-    notSupportedBrowsers = ['MSIE','MSIE11'],
-    getResourcePath = require('./base/global').getResourcePath;
-    var css = [
-        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-        'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
-        /*getResourcePath('/css/bootstrap-material-design.min.css'),
-        getResourcePath('/css/webrunes.css'),*/
-        getResourcePath('/css/material-kit.min.css'),
-        getResourcePath('/css/ripples.min.css'),
-        getResourcePath('/css/vertical-nav.css'),
-        getResourcePath('/css/wrioos.css')
-    ],
-    count = css.length,
-    loading,
-    BrowserDetection = {
-        init: function(){
-            if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
-                notSupportedBrowsers = this.defaultNotSupportedBrowsers;
-            }
+        </div>`;
+const head = document.getElementsByTagName('head')[0];
+const notSupportedBrowsers = ['MSIE','MSIE11'];
+const getResourcePath = require('./base/global').getResourcePath;
+const css = [
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
+    'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
+    /*getResourcePath('/css/bootstrap-material-design.min.css'),
+    getResourcePath('/css/webrunes.css'),*/
+    getResourcePath('/css/material-kit.min.css'),
+    getResourcePath('/css/ripples.min.css'),
+    getResourcePath('/css/vertical-nav.css'),
+    getResourcePath('/css/wrioos.css')
+]
+let loading;
 
-            this.detectBrowser();
-            this.detectOS();
+class BrowserDetection {
+    init {
+        if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
+            notSupportedBrowsers = this.defaultNotSupportedBrowsers;
+        }
 
-            if(this.browser == '' || this.browser == 'Unknown' || this.os == '' || this.os == 'Unknown' || this.browserVersion == '' || this.browserVersion == 0){
-                return;
-            }
+        this.detectBrowser();
+        this.detectOS();
 
-            var oldBrowser = false;
-            for(var i = 0; i < notSupportedBrowsers.length; i++){
-                if(notSupportedBrowsers[i].os == 'Any' || notSupportedBrowsers[i].os == this.os){
-                    if(notSupportedBrowsers[i].browser == 'Any' || notSupportedBrowsers[i].browser == this.browser){
-                        if(notSupportedBrowsers[i].version == 'Any' || this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)){
-                            oldBrowser = true;
-                            break;
-                        }
+        if(this.browser == '' || this.browser == 'Unknown' || this.os == '' || this.os == 'Unknown' || this.browserVersion == '' || this.browserVersion == 0){
+            return;
+        }
+
+        let oldBrowser = false;
+        for(let i = 0; i < notSupportedBrowsers.length; i++){
+            if(notSupportedBrowsers[i].os == 'Any' || notSupportedBrowsers[i].os == this.os){
+                if(notSupportedBrowsers[i].browser == 'Any' || notSupportedBrowsers[i].browser == this.browser){
+                    if(notSupportedBrowsers[i].version == 'Any' || this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)){
+                        oldBrowser = true;
+                        break;
                     }
                 }
             }
-            if(oldBrowser){
-                this.writeNoticeCode();
-            }else{
-                return false;
-            }
-        },
+        }
+        if(oldBrowser){
+            this.writeNoticeCode();
+        }else{
+            return false;
+        }
+    }
         writeNoticeCode: function(){
             window.location.href = '//wrioos.com/old_browser.html';
-        },
+        }
         detectBrowser: function(){
             this.browser = '';
             this.browserVersion = 0;
@@ -91,36 +90,37 @@ var code =
             } else if(this.browserVersion == 0) {
                 this.browserVersion = parseFloat(new Number(RegExp.$1));
             }
-        },
-        detectOS: function(){
-            for(var i = 0; i < this.operatingSystems.length; i++){
-                if(this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) != -1){
-                    this.os = this.operatingSystems[i].name;
-                    return;
-                }
+        }
+        
+    detectOS (){
+        for(let i = 0; i < this.operatingSystems.length; i++){
+            if(this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) != -1){
+                this.os = this.operatingSystems[i].name;
+                return;
             }
+        }
 
-            this.os = 'Unknown';
-        },
-        noticeHeight: 0,
-        browser: '',
-        os: '',
-        browserVersion: '',
-        operatingSystems: [
-            { 'searchString': navigator.platform, 'name': 'Windows', 'subStr': 'Win' },
-            { 'searchString': navigator.platform, 'name': 'Mac', 'subStr': 'Mac' },
-            { 'searchString': navigator.platform, 'name': 'Linux', 'subStr': 'Linux' },
-            { 'searchString': navigator.userAgent, 'name': 'iPhone', 'subStr': 'iPhone/iPod' }
-        ],
-        defaultNotSupportedBrowsers: [
-            {'os': 'Any', 'browser': 'MSIE', 'version': 6},
-            {'os': 'Any', 'browser': 'MSIE', 'version': 7},
-            {'os': 'Any', 'browser': 'MSIE', 'version': 8},
-            {'os': 'Any', 'browser': 'MSIE', 'version': 9},
-        ]
-    };
+        this.os = 'Unknown';
+    }
+    noticeHeight: 0,
+    browser: '',
+    os: '',
+    browserVersion: '',
+    operatingSystems: [
+        { 'searchString': navigator.platform, 'name': 'Windows', 'subStr': 'Win' },
+        { 'searchString': navigator.platform, 'name': 'Mac', 'subStr': 'Mac' },
+        { 'searchString': navigator.platform, 'name': 'Linux', 'subStr': 'Linux' },
+        { 'searchString': navigator.userAgent, 'name': 'iPhone', 'subStr': 'iPhone/iPod' }
+    ],
+    defaultNotSupportedBrowsers: [
+        {'os': 'Any', 'browser': 'MSIE', 'version': 6},
+        {'os': 'Any', 'browser': 'MSIE', 'version': 7},
+        {'os': 'Any', 'browser': 'MSIE', 'version': 8},
+        {'os': 'Any', 'browser': 'MSIE', 'version': 9},
+    ]
+};
 
-loading = document.createElement('link');
+let loading = document.createElement('link');
 loading.rel = 'stylesheet';
 loading.href = getResourcePath('/css/loading.css');
 head.appendChild(loading);
@@ -136,8 +136,8 @@ if(localStorage && !localStorage.getItem('oldUser')){
 }
 
 function decodeIncomingUrl() {
-    var href = window.location.href;
-    var decodedHref = decodeURIComponent(href);
+    let href = window.location.href;
+    let decodedHref = decodeURIComponent(href);
 
     if (href !== decodedHref) {
        // window.location = decodedHref;
@@ -180,7 +180,7 @@ function loadScripts() {
 
 if(!BrowserDetection.init()){
 
-    for(var i = 0; i < count; i++){
+    for(var i = 0; i < css.length; i++){
         var link;
         link = document.createElement('link');
         link.rel = 'stylesheet';
@@ -194,7 +194,7 @@ if(!BrowserDetection.init()){
         console.log("DOM fully loaded and parsed");
     });
 
-    favicon = document.createElement('link');
+    let favicon = document.createElement('link');
     favicon.rel = 'shortcut icon';
     favicon.href = getResourcePath('/ico/favicon.ico');
     head.appendChild(favicon);

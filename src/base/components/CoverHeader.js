@@ -71,18 +71,18 @@ const RenderCover = ({image} : {image : ImageObject}) => {
     return (<div style={carouselStyle(path,"100vh")} className="cover-bg header header-filter">
       <div className="carousel-caption">
         <div className="carousel-caption">
-          <div className="row">
-            <div className="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
-                        <div className="title">
-                            <div className="title-text">
-                                <h1>{name}</h1>
-                                <h3>{about}</h3>
-                                <h3><CoverText cover={image}/></h3>
-                            </div>
-                        </div>
+            <div className="row">
+                <div className="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
+                    <div className="title">
+                        <div className="title-text">
+                        <h1>{name}</h1>
+                        <h3>{about}</h3>
+                        <h3><CoverText cover={image}/></h3>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
     </div>);
 };
