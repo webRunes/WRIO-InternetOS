@@ -2,11 +2,11 @@
  * Created by michbil on 21.09.16.
  */
 
-import request from 'supertest';
-import assert from 'assert';
-import should from 'should';
-import LdJsonDocument from '../jsonld/LdJsonDocument.js';
-it('You should make new test for this later', ()=>{})
+import request from "supertest";
+import assert from "assert";
+import should from "should";
+import LdJsonDocument from "../jsonld/LdJsonDocument.js";
+it("You should make new test for this later", () => {});
 
 /*
 let s,doc;

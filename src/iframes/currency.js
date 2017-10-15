@@ -1,9 +1,9 @@
 /**
  * Created by michbil on 25.10.16.
  */
-const BigNumber = require('bignumber.js');
-const Const = require('./constant.js');
-const nconf = require('nconf');
+const BigNumber = require("bignumber.js");
+const Const = require("./constant.js");
+const nconf = require("nconf");
 
 const SATOSHI = Const.SATOSHI;
 
@@ -19,19 +19,21 @@ class CurrencyConverter {
   }
 
   _constructor(grammPrice) {
-    if (typeof window === 'undefined') {
-      const rate = nconf.get('payment:grammPriceUSD');
-      this.presalePrice = nconf.get('payment:presaleBTCPrice');
+    if (typeof window === "undefined") {
+      const rate = nconf.get("payment:grammPriceUSD");
+      this.presalePrice = nconf.get("payment:presaleBTCPrice");
       if (!rate) {
-        throw new Error('Cannot get rate from config!');
+        throw new Error("Cannot get rate from config!");
       }
-      console.log('RATE', rate);
+      console.log("RATE", rate);
       this.grammPriceUSD = new BigNumber(rate);
       //  1000 WRG = 1g of gold (grammPriceUSD)
-      console.log(`Wrg exchange ${Const.WRG_UNIT} WRG = ${this.grammPriceUSD.toString()} USD`);
+      console.log(
+        `Wrg exchange ${Const.WRG_UNIT} WRG = ${this.grammPriceUSD.toString()} USD`
+      );
     } else {
       if (!grammPrice) {
-        throw new Error('Price of 1g of gold not specified!');
+        throw new Error("Price of 1g of gold not specified!");
       }
       this.grammPriceUSD = grammPrice;
     }

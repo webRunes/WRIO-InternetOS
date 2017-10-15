@@ -1,11 +1,10 @@
-import crypto from 'crypto'
-import nacl from 'tweetnacl';
-import KeyStore from  './keystore';
-jest.mock('tweetnacl')
+import crypto from "crypto";
+import nacl from "tweetnacl";
+import KeyStore from "./keystore";
+jest.mock("tweetnacl");
 
-
-const {expect} = require('chai');
-const lightwallet = require('eth-lightwallet');
+const { expect } = require("chai");
+const lightwallet = require("eth-lightwallet");
 /*
 const {UnSignTransaction} = require('../../src/server/ethereum/DonateProcessor');
 it(' should be able to test if source transaction matches signed transaction', async ()=> {
@@ -19,18 +18,20 @@ it(' should be able to test if source transaction matches signed transaction', a
 
 //jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
 
-const SAMPLETX = 'f86a03850df8475800830651cf9497538850ad45948d983a66c3bb26e39b0b00603a80b844e69d849d000000000000000000000000f3ac2c9940735f4cee1fd46581573d1b4a5b41ae000000000000000000000000000000000000000000000000000000000000044c1c8080';
-const SEED = "eagle today cause tenant buffalo whisper half nest safe private index solid";
+const SAMPLETX =
+  "f86a03850df8475800830651cf9497538850ad45948d983a66c3bb26e39b0b00603a80b844e69d849d000000000000000000000000f3ac2c9940735f4cee1fd46581573d1b4a5b41ae000000000000000000000000000000000000000000000000000000000000044c1c8080";
+const SEED =
+  "eagle today cause tenant buffalo whisper half nest safe private index solid";
 
-describe(': should allow keystore changes',() => {
+describe(": should allow keystore changes", () => {
   // TOOD find out why this test stalls
-  it('dymmy test',() => console.log('dummy'));
-   it('should generate seed using entropy string',() => {
-        let seed = KeyStore.generateSeed('123');
-        let wordnr = seed.split(' ');
-        expect(wordnr.length).to.equal(12);
-    });
-/*
+  it("dymmy test", () => console.log("dummy"));
+  it("should generate seed using entropy string", () => {
+    let seed = KeyStore.generateSeed("123");
+    let wordnr = seed.split(" ");
+    expect(wordnr.length).to.equal(12);
+  });
+  /*
     it('seed should generate exact ethereum address', (done)=> {
        let ks = new KeyStore();
         ks.extractKey(SEED,'123').
@@ -80,4 +81,3 @@ describe(': should allow keystore changes',() => {
     });
 */
 });
-

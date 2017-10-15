@@ -1,54 +1,64 @@
-import React from 'react';
+import React from "react";
 import {
-    titleChange,
-    descChange,
-    urlChange,
-    closeDialog
-} from '../actions/imagedialog'
+  titleChange,
+  descChange,
+  urlChange,
+  closeDialog
+} from "../actions/imagedialog";
 
-import {createNewImage,editImage,removeEntity} from '../actions/indexActions'
-import EntityDialog from '../components/EntityDialog'
+import {
+  createNewImage,
+  editImage,
+  removeEntity
+} from "../actions/indexActions";
+import EntityDialog from "../components/EntityDialog";
 
-
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
 function mapStateToProps(state) {
-    let { showDialog, titleValue, urlValue, descValue, linkEntityKey,previewBusy} = state.imageDialog;
-    return { showDialog,
-        previewBusy,
-        titleValue,
-        urlValue,
-        descValue,
-        linkEntityKey,
-        showTitle:true, // customize settings
-        showDescription:true, // customize settings
-        isEditLink: false
-    }
+  let {
+    showDialog,
+    titleValue,
+    urlValue,
+    descValue,
+    linkEntityKey,
+    previewBusy
+  } = state.imageDialog;
+  return {
+    showDialog,
+    previewBusy,
+    titleValue,
+    urlValue,
+    descValue,
+    linkEntityKey,
+    showTitle: true, // customize settings
+    showDescription: true, // customize settings
+    isEditLink: false
+  };
 }
 
 // dispatch according actions
 
 const mapDispatchToProps = dispatch => {
-    return {
-        onTitleChange : (v) => dispatch(titleChange(v)),
-        onDescChange : (v) => dispatch(descChange(v)),
-        onUrlChange : (v) => dispatch(urlChange(v)),
+  return {
+    onTitleChange: v => dispatch(titleChange(v)),
+    onDescChange: v => dispatch(descChange(v)),
+    onUrlChange: v => dispatch(urlChange(v)),
 
-        onRemoveLink : (key) => {
-            dispatch(removeEntity(key));
-            dispatch(closeDialog());
-        },
-        onCancelLink : () => dispatch(closeDialog()),
-        onConfirmLink: (titleValue, urlValue, descValue) => {
-            dispatch(createNewImage(titleValue, urlValue, descValue));
-            dispatch(closeDialog())
-        },
-        onEditLink: (titleValue, urlValue, descValue,linkEntityKey) => {
-            dispatch(editImage(titleValue, urlValue, descValue,linkEntityKey));
-            dispatch(closeDialog());
-        },
+    onRemoveLink: key => {
+      dispatch(removeEntity(key));
+      dispatch(closeDialog());
+    },
+    onCancelLink: () => dispatch(closeDialog()),
+    onConfirmLink: (titleValue, urlValue, descValue) => {
+      dispatch(createNewImage(titleValue, urlValue, descValue));
+      dispatch(closeDialog());
+    },
+    onEditLink: (titleValue, urlValue, descValue, linkEntityKey) => {
+      dispatch(editImage(titleValue, urlValue, descValue, linkEntityKey));
+      dispatch(closeDialog());
     }
-}
+  };
+};
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(EntityDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(EntityDialog);

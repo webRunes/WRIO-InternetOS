@@ -1,56 +1,54 @@
-import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import * as actions from './indexActions.js'
-import nock from 'nock'
-import expect from 'expect' // You can use any testing library
-import JSONDocument from '../JSONDocument'
-import {mkDoc} from '../reducers/docUtils'
-import {getHtml} from 'CoreEditor/fixtures/fixture'
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import * as actions from "./indexActions.js";
+import nock from "nock";
+import expect from "expect"; // You can use any testing library
+import JSONDocument from "../JSONDocument";
+import { mkDoc } from "../reducers/docUtils";
+import { getHtml } from "CoreEditor/fixtures/fixture";
 
-jest.mock('base/mixins/UrlMixin')
-const middlewares = [thunk]
-const mockStore = configureMockStore(middlewares)
+jest.mock("base/mixins/UrlMixin");
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 process.env = {
-    DOMAIN: "wrioos.com",
-    NODE_ENV: "development"
-}
+  DOMAIN: "wrioos.com",
+  NODE_ENV: "development"
+};
 
 const MOCK_COMMENT_ID = "99991234567890";
 const WRIO_ID = "558153389649";
 const ARTICLE_DESCRIPTION = "Lorem ipsum.....";
 
-describe('async actions', () => {
+describe("async actions", () => {
   afterEach(() => {
-    nock.cleanAll()
-  })
+    nock.cleanAll();
+  });
 
-  it('should fetch document correctly', async () => {
-    const docUrl = 'https://wrioos.com/1.html'
-     nock(/wrioos\.com/)
-      .get("/1.html") 
-      .reply(200, getHtml('testdocument'))
+  it("should fetch document correctly", async () => {
+    const docUrl = "https://wrioos.com/1.html";
+    nock(/wrioos\.com/)
+      .get("/1.html")
+      .reply(200, getHtml("testdocument"));
 
-    nock('https://storage.wrioos.com/')
-      .post('/api/save')
-      .reply(200, { result: "success" } )
+    nock("https://storage.wrioos.com/")
+      .post("/api/save")
+      .reply(200, { result: "success" });
 
     const expectedActions = [
-          {"type":"PUBLISH_DOCUMENT"},
-          {"type":"PUBLISH_FINISH",json: []}
-    ]
-    
+      { type: "PUBLISH_DOCUMENT" },
+      { type: "PUBLISH_FINISH", json: [] }
+    ];
+
     const store = mockStore({});
     const action = actions.fetchDocument(docUrl);
 
-    await store.dispatch(action)
+    await store.dispatch(action);
     const resActions = store.getActions();
 
-    console.log(resActions)
+    console.log(resActions);
 
-    expect(resActions[0].type).toEqual('REQUEST_DOCUMENT');
-    expect(resActions[1].type).toEqual('DESC_CHANGED');
-
- 
-  })
-})
+    expect(resActions[0].type).toEqual("REQUEST_DOCUMENT");
+    expect(resActions[1].type).toEqual("DESC_CHANGED");
+  });
+});

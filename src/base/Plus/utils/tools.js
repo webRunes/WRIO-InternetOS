@@ -1,84 +1,85 @@
-var sortBy = require('lodash.sortby'),
-    request = require('superagent');
+var sortBy = require("lodash.sortby"),
+  request = require("superagent");
 
-module.exports.lastOrder = function (x) {
-    var keys = Object.keys(x);
-    if (keys.length === 0) {
-        return 0;
-    } else {
-        var max = x[keys[0]].order,
-            i;
-        for (i = 0; i < keys.length; i += 1) {
-            var order = x[keys[i]].order;
-            if (order > max) {
-                max = order;
-            }
-        }
-        return max+1;
+module.exports.lastOrder = function(x) {
+  var keys = Object.keys(x);
+  if (keys.length === 0) {
+    return 0;
+  } else {
+    var max = x[keys[0]].order,
+      i;
+    for (i = 0; i < keys.length; i += 1) {
+      var order = x[keys[i]].order;
+      if (order > max) {
+        max = order;
+      }
     }
+    return max + 1;
+  }
 };
 
-module.exports.getNext = function (data, current) {
-    var obj = data.children || data;
-    if (obj && obj[current] && !obj[current].active) {
-        return undefined;
-    }
-    var children = sortBy(
-        Object.keys(obj).map(function (name) {
-            return obj[name];
-        }),
-        'order'
+module.exports.getNext = function(data, current) {
+  var obj = data.children || data;
+  if (obj && obj[current] && !obj[current].active) {
+    return undefined;
+  }
+  var children = sortBy(
+      Object.keys(obj).map(function(name) {
+        return obj[name];
+      }),
+      "order"
     ),
-        i,
-        child,
-        next;
-    for (i = 0; i < children.length; i += 1) {
-        child = children[i];
-        if (child.url === current) {
-            break;
-        }
+    i,
+    child,
+    next;
+  for (i = 0; i < children.length; i += 1) {
+    child = children[i];
+    if (child.url === current) {
+      break;
     }
-    next = children[i - 1] || children[i + 1];
-    return next ? next.url : data.url;
+  }
+  next = children[i - 1] || children[i + 1];
+  return next ? next.url : data.url;
 };
 
 function parseResult(result) {
-    var e = document.createElement('div');
-    e.innerHTML = result.text;
-    result = Array.prototype.filter.call(e.getElementsByTagName('script'), function (el) {
-        return el.type === 'application/ld+json';
-    }).map(function (el) {
-        var json;
-        try {
-            json = JSON.parse(el.textContent);
-        } catch (exception) {
-            console.error('Requested json-ld from ' + url + ' not valid: ' + exception);
-        }
-        return json;
-    }).filter(function (json) {
-        return typeof json === 'object';
+  var e = document.createElement("div");
+  e.innerHTML = result.text;
+  result = Array.prototype.filter
+    .call(e.getElementsByTagName("script"), function(el) {
+      return el.type === "application/ld+json";
+    })
+    .map(function(el) {
+      var json;
+      try {
+        json = JSON.parse(el.textContent);
+      } catch (exception) {
+        console.error(
+          "Requested json-ld from " + url + " not valid: " + exception
+        );
+      }
+      return json;
+    })
+    .filter(function(json) {
+      return typeof json === "object";
     });
-    return result;
+  return result;
 }
 
-module.exports.getJsonldsByUrl = function (url, cb) {
-    var self = this;
-    request.get(
-        url,
-        function (err, result) {
-            if (!err && (typeof result === 'object')) {
-               result = parseResult(result);
-            }
-            cb.call(self, result || []);
-        }
-    );
+module.exports.getJsonldsByUrl = function(url, cb) {
+  var self = this;
+  request.get(url, function(err, result) {
+    if (!err && typeof result === "object") {
+      result = parseResult(result);
+    }
+    cb.call(self, result || []);
+  });
 };
-module.exports.getJsonldsByUrlPromised = async function (url) {
-    try {
-        let result = await request.get(url);
-        return parseResult(result);
-    }
-    catch (err) {
-        return [];
-    }
+module.exports.getJsonldsByUrlPromised = async function(url) {
+  try {
+    let result = await request.get(url);
+    return parseResult(result);
+  } catch (err) {
+    return [];
+  }
 };

@@ -1,29 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
-    titleChange,
-    descChange,
-    urlChange,
-    closeDialog
-} from '../actions/coverDialog'
+  titleChange,
+  descChange,
+  urlChange,
+  closeDialog
+} from "../actions/coverDialog";
 
-import CoverEditingDialog from '../components/CoverEditingDialog'
+import CoverEditingDialog from "../components/CoverEditingDialog";
 
-
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
 function mapStateToProps(state) {
-    let { showDialog} = state.coverDialog;
-    return { showDialog }
-    
+  let { showDialog } = state.coverDialog;
+  return { showDialog };
 }
 
 // dispatch according actions
 
 const mapDispatchToProps = dispatch => {
-    return {
-      
-    }
-}
+  return {};
+};
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(CoverEditingDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(CoverEditingDialog);

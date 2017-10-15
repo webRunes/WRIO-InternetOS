@@ -2,97 +2,98 @@
 /**
  * Created by michbil on 30.03.16.
  */
-import {CrossStorageFactory} from '../utils/CrossStorageFactory.js';
+import { CrossStorageFactory } from "../utils/CrossStorageFactory.js";
 // $FlowFixMe
-import Reflux from 'reflux';
-import getHttp from '../utils/request.js';
-import UrlMixin from '../mixins/UrlMixin';
-import LdJsonObject from '../jsonld/entities/LdJsonObject'
-import LdJsonDocument from '../jsonld/LdJsonDocument'
-import TableOfContents,{MenuItem,extractPageNavigation} from '../utils/tocnavigation'
-import {replaceSpaces} from '../mixins/UrlMixin'
-import PlusActions from '../Plus/actions/PlusActions'
-import * as actions from 'base/actions/actions'
-import * as coreActions from 'CoreEditor/actions/indexActions'
+import Reflux from "reflux";
+import getHttp from "../utils/request.js";
+import UrlMixin from "../mixins/UrlMixin";
+import LdJsonObject from "../jsonld/entities/LdJsonObject";
+import LdJsonDocument from "../jsonld/LdJsonDocument";
+import TableOfContents, {
+  MenuItem,
+  extractPageNavigation
+} from "../utils/tocnavigation";
+import { replaceSpaces } from "../mixins/UrlMixin";
+import PlusActions from "../Plus/actions/PlusActions";
+import * as actions from "base/actions/actions";
+import * as coreActions from "CoreEditor/actions/indexActions";
 
 /**
  * Store that handles state of entire WRIO-document
  */
 
 type ContentsType = {
-    covers: Array<MenuItem>,
-    chapters: Array<MenuItem>,
-    external: Array<MenuItem>
-}
+  covers: Array<MenuItem>,
+  chapters: Array<MenuItem>,
+  external: Array<MenuItem>
+};
 
 type DocumentState = {
-    editAllowed : boolean,
-    // $FlowFixMe
-    mainPage: LdJsonDocument;
-    lists: Array<LdJsonDocument>,
-    toc : ContentsType,
-    url: string;
-    wrioID: ?string; // current logged in user WRIO-ID
-    profile: ?Object;
-}
+  editAllowed: boolean,
+  // $FlowFixMe
+  mainPage: LdJsonDocument,
+  lists: Array<LdJsonDocument>,
+  toc: ContentsType,
+  url: string,
+  wrioID: ?string, // current logged in user WRIO-ID
+  profile: ?Object
+};
 
-const defaultState : DocumentState = {
-    editAllowed: false,
-    lists: [],
-    url: window.location.href,
-    mainPage: null,
-    profile: null,
-    tabKey: "home",
-    wrioID: null,
-    toc: {
-        covers: [],
-        chapters: [],
-        external: []
-    }
-}
+const defaultState: DocumentState = {
+  editAllowed: false,
+  lists: [],
+  url: window.location.href,
+  mainPage: null,
+  profile: null,
+  tabKey: "home",
+  wrioID: null,
+  toc: {
+    covers: [],
+    chapters: [],
+    external: []
+  }
+};
 
+function DocumentReducer(state: DocumentState = defaultState, action: Object) {
+  switch (action.type) {
+    case actions.GOT_JSON_LD_DOCUMENT:
+      return {
+        ...state,
+        mainPage: action.data,
+        url: action.url,
+        toc: action.toc || extractPageNavigation(action.document, true)
+      };
+    case actions.GOT_EXTERNAL:
+      return {
+        ...state,
+        lists: action.lists
+      };
+    case actions.LOGIN_MESSAGE:
+      if (action.msg.profile) {
+        var profile = action.msg.profile;
+        const _author = getAuthor(state.mainPage);
+        console.log(state.mainPage);
+        console.log("Checking if editing allowed: ", profile.url, _author);
+        const editAllowed = UrlMixin.compareProfileUrls(profile.url, _author);
+        return {
+          ...state,
+          busy: false,
+          editAllowed
+        };
+      }
+    case actions.TAB_CLICK:
+      return { ...state, tabKey: action.tabKey };
 
+    case actions.NAVIGATE_ARTICLE_HASH:
+      return {
+        ...state,
+        tabKey: "home",
+        toc: extractPageNavigation(state.mainPage, false) // recalculate all items active state
+      };
 
-function DocumentReducer(state : DocumentState = defaultState,action : Object) {
-    switch(action.type) {
-        case actions.GOT_JSON_LD_DOCUMENT:
-            return {
-                ...state,
-                mainPage: action.data,
-                url: action.url,
-                toc: action.toc || extractPageNavigation(action.document, true)
-            }
-        case actions.GOT_EXTERNAL:
-            return {
-                ...state,
-                lists: action.lists
-            }
-        case actions.LOGIN_MESSAGE: 
-            if (action.msg.profile) {
-                var profile = action.msg.profile;
-                const _author = getAuthor(state.mainPage);
-                console.log(state.mainPage)
-                console.log('Checking if editing allowed: ', profile.url, _author);
-                const editAllowed = UrlMixin.compareProfileUrls(profile.url,_author)
-                return {
-                    ...state,
-                    busy: false,
-                    editAllowed
-                }
-            }
-        case actions.TAB_CLICK:
-            return {...state, tabKey: action.tabKey}
-        
-        case actions.NAVIGATE_ARTICLE_HASH:
-            return {
-                ...state,
-                tabKey: "home",
-                toc: extractPageNavigation(state.mainPage, false) // recalculate all items active state
-            }
-
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
 
 /**
@@ -100,8 +101,8 @@ function DocumentReducer(state : DocumentState = defaultState,action : Object) {
  * @param {*} url 
  * @param {*} mainPage 
  */
-export function getAuthor(doc : LdJsonDocument) : ?string {
-    return doc.getJsonLDProperty('author');
+export function getAuthor(doc: LdJsonDocument): ?string {
+  return doc.getJsonLDProperty("author");
 }
 
 /*
@@ -149,6 +150,5 @@ class WrioDocument extends Reflux.Store {
 };
 
 */
-
 
 export default DocumentReducer;

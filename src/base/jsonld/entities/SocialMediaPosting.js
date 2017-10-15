@@ -1,10 +1,7 @@
-import LdJsonObject from './LdJsonObject.js';
-
+import LdJsonObject from "./LdJsonObject.js";
 
 export default class SocialMediaPosting extends LdJsonObject {
-    constructor(json,order,parent) {
-        super(json,order,parent);
-    }
-
-
+  constructor(json, order, parent) {
+    super(json, order, parent);
+  }
 }
