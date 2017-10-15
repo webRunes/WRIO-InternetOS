@@ -1,5 +1,7 @@
-const code =
-        `<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">
+const { getResourcePath } = require('./base/global');
+const { getServiceUrl } = require('./base/servicelocator');
+
+const code = `<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">
             <div class="preloader" style="position: fixed; top: 0; z-index: 9999; min-height: 600px; width: 100%; height: 100%; display: table; vertical-align: middle;">
                 <div class="container" style="position: relative; vertical-align: middle; display: table-cell; height: 260px; text-align: center;">
                     <h1 style="font-family: BebasNeue,sans-serif; color: #eee; font-size: 32px; text-transform: uppercase; text-shadow: 2px 2px 4px #000; -webkit-font-smoothing: antialiased;">webRunes webgate</h1>
@@ -15,112 +17,127 @@ const code =
             </div>
         </div>`;
 const head = document.getElementsByTagName('head')[0];
-const notSupportedBrowsers = ['MSIE','MSIE11'];
-const getResourcePath = require('./base/global').getResourcePath;
+let notSupportedBrowsers = ['MSIE', 'MSIE11'];
+
+
 const css = [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-    'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
-    /*getResourcePath('/css/bootstrap-material-design.min.css'),
-    getResourcePath('/css/webrunes.css'),*/
-    getResourcePath('/css/material-kit.min.css'),
-    getResourcePath('/css/ripples.min.css'),
-    getResourcePath('/css/vertical-nav.css'),
-    getResourcePath('/css/wrioos.css')
-]
-let loading;
+  'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
+  'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
+  /* getResourcePath('/css/bootstrap-material-design.min.css'),
+    getResourcePath('/css/webrunes.css'), */
+  getResourcePath('/css/material-kit.min.css'),
+  getResourcePath('/css/ripples.min.css'),
+  getResourcePath('/css/vertical-nav.css'),
+  getResourcePath('/css/wrioos.css'),
+];
 
 class BrowserDetection {
-    init {
-        if(notSupportedBrowsers == null || notSupportedBrowsers.length < 1){
-            notSupportedBrowsers = this.defaultNotSupportedBrowsers;
-        }
-
-        this.detectBrowser();
-        this.detectOS();
-
-        if(this.browser == '' || this.browser == 'Unknown' || this.os == '' || this.os == 'Unknown' || this.browserVersion == '' || this.browserVersion == 0){
-            return;
-        }
-
-        let oldBrowser = false;
-        for(let i = 0; i < notSupportedBrowsers.length; i++){
-            if(notSupportedBrowsers[i].os == 'Any' || notSupportedBrowsers[i].os == this.os){
-                if(notSupportedBrowsers[i].browser == 'Any' || notSupportedBrowsers[i].browser == this.browser){
-                    if(notSupportedBrowsers[i].version == 'Any' || this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)){
-                        oldBrowser = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if(oldBrowser){
-            this.writeNoticeCode();
-        }else{
-            return false;
-        }
+  constructor() {
+    this.noticeHeight = 0;
+    this.browser = '';
+    this.os = '';
+    this.browserVersion = '';
+    this.operatingSystems = [
+      { searchString: window.navigator.platform, name: 'Windows', subStr: 'Win' },
+      { searchString: window.navigator.platform, name: 'Mac', subStr: 'Mac' },
+      { searchString: window.navigator.platform, name: 'Linux', subStr: 'Linux' },
+      { searchString: window.navigator.userAgent, name: 'iPhone', subStr: 'iPhone/iPod' },
+    ];
+    this.defaultNotSupportedBrowsers = [
+      { os: 'Any', browser: 'MSIE', version: 6 },
+      { os: 'Any', browser: 'MSIE', version: 7 },
+      { os: 'Any', browser: 'MSIE', version: 8 },
+      { os: 'Any', browser: 'MSIE', version: 9 },
+    ];
+  }
+  init() {
+    if (notSupportedBrowsers == null || notSupportedBrowsers.length < 1) {
+      notSupportedBrowsers = this.defaultNotSupportedBrowsers;
     }
-        writeNoticeCode: function(){
-            window.location.href = '//wrioos.com/old_browser.html';
-        }
-        detectBrowser: function(){
-            this.browser = '';
-            this.browserVersion = 0;
 
-            if(/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-                this.browser = 'Opera';
-            } else if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-                this.browser = 'MSIE';
-            } else if(!!navigator.userAgent.match(/Trident.*rv\:11\./)){
-                this.browser = 'MSIE11';
-                this.browserVersion = 11;
-            } else if(/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-                this.browser = 'Netscape';
-            } else if(/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-                this.browser = 'Chrome';
-            } else if(/Safari[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-                this.browser = 'Safari';
-                /Version[\/\s](\d+\.\d+)/.test(navigator.userAgent);
-                this.browserVersion = new Number(RegExp.$1);
-            } else if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){
-                this.browser = 'Firefox';
-            }
+    this.detectBrowser();
+    this.detectOS();
 
-            if(this.browser == ''){
-                this.browser = 'Unknown';
-            } else if(this.browserVersion == 0) {
-                this.browserVersion = parseFloat(new Number(RegExp.$1));
-            }
-        }
-        
-    detectOS (){
-        for(let i = 0; i < this.operatingSystems.length; i++){
-            if(this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) != -1){
-                this.os = this.operatingSystems[i].name;
-                return;
-            }
-        }
-
-        this.os = 'Unknown';
+    if (
+      this.browser === '' ||
+      this.browser === 'Unknown' ||
+      this.os === '' ||
+      this.os === 'Unknown' ||
+      this.browserVersion === '' ||
+      this.browserVersion === 0
+    ) {
+      return;
     }
-    noticeHeight: 0,
-    browser: '',
-    os: '',
-    browserVersion: '',
-    operatingSystems: [
-        { 'searchString': navigator.platform, 'name': 'Windows', 'subStr': 'Win' },
-        { 'searchString': navigator.platform, 'name': 'Mac', 'subStr': 'Mac' },
-        { 'searchString': navigator.platform, 'name': 'Linux', 'subStr': 'Linux' },
-        { 'searchString': navigator.userAgent, 'name': 'iPhone', 'subStr': 'iPhone/iPod' }
-    ],
-    defaultNotSupportedBrowsers: [
-        {'os': 'Any', 'browser': 'MSIE', 'version': 6},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 7},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 8},
-        {'os': 'Any', 'browser': 'MSIE', 'version': 9},
-    ]
-};
 
-let loading = document.createElement('link');
+    let oldBrowser = false;
+    for (let i = 0; i < notSupportedBrowsers.length; i++) {
+      if (notSupportedBrowsers[i].os === 'Any' || notSupportedBrowsers[i].os === this.os) {
+        if (
+          notSupportedBrowsers[i].browser === 'Any' ||
+          notSupportedBrowsers[i].browser === this.browser
+        ) {
+          if (
+            notSupportedBrowsers[i].version === 'Any' ||
+            this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)
+          ) {
+            oldBrowser = true;
+            break;
+          }
+        }
+      }
+    }
+    if (oldBrowser) {
+      this.writeNoticeCode();
+      return true;
+    }
+    return false;
+  }
+  writeNoticeCode() {
+    window.location.href = '//wrioos.com/old_browser.html';
+  }
+  detectBrowser() {
+    this.browser = '';
+    this.browserVersion = 0;
+
+    if (/Opera[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
+      this.browser = 'Opera';
+    } else if (/MSIE (\d+\.\d+);/.test(window.navigator.userAgent)) {
+      this.browser = 'MSIE';
+    } else if (window.navigator.userAgent.match(/Trident.*rv\:11\./)) {
+      this.browser = 'MSIE11';
+      this.browserVersion = 11;
+    } else if (/Navigator[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
+      this.browser = 'Netscape';
+    } else if (/Chrome[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
+      this.browser = 'Chrome';
+    } else if (/Safari[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
+      this.browser = 'Safari';
+      /Version[\/\s](\d+\.\d+)/.test(window.navigator.userAgent);
+      this.browserVersion = Number(RegExp.$1);
+    } else if (/Firefox[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
+      this.browser = 'Firefox';
+    }
+
+    if (this.browser === '') {
+      this.browser = 'Unknown';
+    } else if (this.browserVersion === 0) {
+      this.browserVersion = parseFloat(Number(RegExp.$1));
+    }
+  }
+
+  detectOS() {
+    for (let i = 0; i < this.operatingSystems.length; i++) {
+      if (this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) !== -1) {
+        this.os = this.operatingSystems[i].name;
+        return;
+      }
+    }
+
+    this.os = 'Unknown';
+  }
+}
+
+const loading = document.createElement('link');
 loading.rel = 'stylesheet';
 loading.href = getResourcePath('/css/loading.css');
 head.appendChild(loading);
@@ -130,84 +147,77 @@ window.document.body.style.margin = 0;
 document.documentElement.style.heigth = '100%';
 document.documentElement.style.margin = 0;
 
-if(localStorage && !localStorage.getItem('oldUser')){
-    localStorage.setItem('oldUser', true);
-    window.document.body.innerHTML += code;
+if (window.localStorage && !window.localStorage.getItem('oldUser')) {
+  window.localStorage.setItem('oldUser', true);
+  window.document.body.innerHTML += code;
 }
 
 function decodeIncomingUrl() {
-    let href = window.location.href;
-    let decodedHref = decodeURIComponent(href);
+  const { href } = window.location;
+  const decodedHref = decodeURIComponent(href);
 
-    if (href !== decodedHref) {
-       // window.location = decodedHref;
-        history.pushState("","",decodedHref);
-        console.warn("Reencoded url",href, " ", window.location.href);
-    }
+  if (href !== decodedHref) {
+    // window.location = decodedHref;
+    window.history.pushState('', '', decodedHref);
+    console.warn('Reencoded url', href, ' ', window.location.href);
+  }
 }
 
-function loadScript(url,onload) {
-    var script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', url);
-    script.onload = onload;
-    document.body.appendChild(script);
+function loadScript(url, onload) {
+  const script = document.createElement('script');
+  script.setAttribute('type', 'text/javascript');
+  script.setAttribute('src', url);
+  script.onload = onload;
+  document.body.appendChild(script);
 }
 
 function loadScripts() {
+  decodeIncomingUrl();
 
-    decodeIncomingUrl();
+  let prefix = '//wrioos.com';
+  if (process.env.NODE_ENV === 'production') {
+    prefix = '//wrioos.com';
+  }
+  if (process.env.NODE_ENV === 'development') {
+    prefix = '//localhost:3033';
+  }
 
-    let prefix = '//wrioos.com';
-    if (process.env.NODE_ENV === 'production') {
-        prefix = '//wrioos.com';
+  if (process.env.NODE_ENV === 'dockerdev') {
+    prefix = '//localhost:3033';
+  }
 
-    }
-    if (process.env.NODE_ENV === 'development') {
-       prefix = '//localhost:3033';
-    }
-
-    if (process.env.NODE_ENV === 'dockerdev') {
-        prefix = '//localhost:3033';
-    }
-
-    loadScript(prefix+'/common.js', ()=> {
-        loadScript(prefix+'/main.js');
-    });
-
-
+  loadScript(`${prefix}/common.js`, () => {
+    loadScript(`${prefix}/main.js`);
+  });
 }
 
-if(!BrowserDetection.init()){
+if (!BrowserDetection.init()) {
+  for (let i = 0; i < css.length; i++) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = css[i];
+    head.appendChild(link);
+  }
 
-    for(var i = 0; i < css.length; i++){
-        var link;
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = css[i];
-        head.appendChild(link);
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    loadScripts();
+    console.log('DOM fully loaded and parsed');
+  });
 
+  const favicon = document.createElement('link');
+  favicon.rel = 'shortcut icon';
+  favicon.href = getResourcePath('/ico/favicon.ico');
+  head.appendChild(favicon);
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-        loadScripts();
-        console.log("DOM fully loaded and parsed");
-    });
+  const preTitterIframe = document.createElement('iframe');
 
-    let favicon = document.createElement('link');
-    favicon.rel = 'shortcut icon';
-    favicon.href = getResourcePath('/ico/favicon.ico');
-    head.appendChild(favicon);
+  preTitterIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
+  // preTitterIframe.style = "display:none";
+  preTitterIframe.id = 'loginbuttoniframe';
+  // <iframe id= src={ this.state.twitter.buttonurl }
+  // width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
-    var preTitterIframe = document.createElement('iframe');
-    var getServiceUrl = require('./base/servicelocator').getServiceUrl;
-    preTitterIframe.src = getServiceUrl('login') + '/buttons/twitter';
-   // preTitterIframe.style = "display:none";
-    preTitterIframe.id = "loginbuttoniframe";
-    // <iframe id= src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
-
-    head.appendChild(preTitterIframe);
-
+  head.appendChild(preTitterIframe);
 } else {
-    document.getElementById('preloader').style.display = 'none';
+  document.getElementById('preloader').style.display = 'none';
 }
