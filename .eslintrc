@@ -1,10 +1,15 @@
 {
   // Use this file as a starting point for your project's .eslintrc.
   // Copy this file, and add rule overrides as needed.
-  "extends": ["airbnb"],
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
   "globals": {
     "window": true,
     "document": true
   },
-  "plugins": ["flowtype"]
+  "parser": "babel-eslint",
+  "plugins": ["flowtype"],
+  "rules": {
+    "no-mixed-operators": [0, { "allowSamePrecedence": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  }
 }
