@@ -2,21 +2,17 @@
 /**
  * Created by michbil on 30.03.16.
  */
-import { CrossStorageFactory } from "../utils/CrossStorageFactory.js";
+import { CrossStorageFactory } from '../utils/CrossStorageFactory.js';
 // $FlowFixMe
-import Reflux from "reflux";
-import getHttp from "../utils/request.js";
-import UrlMixin from "../mixins/UrlMixin";
-import LdJsonObject from "../jsonld/entities/LdJsonObject";
-import LdJsonDocument from "../jsonld/LdJsonDocument";
-import TableOfContents, {
-  MenuItem,
-  extractPageNavigation
-} from "../utils/tocnavigation";
-import { replaceSpaces } from "../mixins/UrlMixin";
-import PlusActions from "../Plus/actions/PlusActions";
-import * as actions from "base/actions/actions";
-import * as coreActions from "CoreEditor/actions/indexActions";
+import Reflux from 'reflux';
+import getHttp from '../utils/request.js';
+import UrlMixin from '../mixins/UrlMixin';
+import LdJsonObject from '../jsonld/entities/LdJsonObject';
+import LdJsonDocument from '../jsonld/LdJsonDocument';
+import TableOfContents, { MenuItem, extractPageNavigation } from '../utils/tocnavigation';
+import { replaceSpaces } from '../mixins/UrlMixin';
+import PlusActions from '../Plus/actions/PlusActions';
+import * as actions from 'base/actions/actions';
 
 /**
  * Store that handles state of entire WRIO-document
@@ -25,7 +21,7 @@ import * as coreActions from "CoreEditor/actions/indexActions";
 type ContentsType = {
   covers: Array<MenuItem>,
   chapters: Array<MenuItem>,
-  external: Array<MenuItem>
+  external: Array<MenuItem>,
 };
 
 type DocumentState = {
@@ -36,7 +32,7 @@ type DocumentState = {
   toc: ContentsType,
   url: string,
   wrioID: ?string, // current logged in user WRIO-ID
-  profile: ?Object
+  profile: ?Object,
 };
 
 const defaultState: DocumentState = {
@@ -45,13 +41,13 @@ const defaultState: DocumentState = {
   url: window.location.href,
   mainPage: null,
   profile: null,
-  tabKey: "home",
+  tabKey: 'home',
   wrioID: null,
   toc: {
     covers: [],
     chapters: [],
-    external: []
-  }
+    external: [],
+  },
 };
 
 function DocumentReducer(state: DocumentState = defaultState, action: Object) {
@@ -61,24 +57,24 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
         ...state,
         mainPage: action.data,
         url: action.url,
-        toc: action.toc || extractPageNavigation(action.document, true)
+        toc: action.toc || extractPageNavigation(action.document, true),
       };
     case actions.GOT_EXTERNAL:
       return {
         ...state,
-        lists: action.lists
+        lists: action.lists,
       };
     case actions.LOGIN_MESSAGE:
       if (action.msg.profile) {
-        var profile = action.msg.profile;
+        const profile = action.msg.profile;
         const _author = getAuthor(state.mainPage);
         console.log(state.mainPage);
-        console.log("Checking if editing allowed: ", profile.url, _author);
+        console.log('Checking if editing allowed: ', profile.url, _author);
         const editAllowed = UrlMixin.compareProfileUrls(profile.url, _author);
         return {
           ...state,
           busy: false,
-          editAllowed
+          editAllowed,
         };
       }
     case actions.TAB_CLICK:
@@ -87,8 +83,8 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
     case actions.NAVIGATE_ARTICLE_HASH:
       return {
         ...state,
-        tabKey: "home",
-        toc: extractPageNavigation(state.mainPage, false) // recalculate all items active state
+        tabKey: 'home',
+        toc: extractPageNavigation(state.mainPage, false), // recalculate all items active state
       };
 
     default:
@@ -97,12 +93,12 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
 }
 
 /**
- * 
- * @param {*} url 
- * @param {*} mainPage 
+ *
+ * @param {*} url
+ * @param {*} mainPage
  */
 export function getAuthor(doc: LdJsonDocument): ?string {
-  return doc.getJsonLDProperty("author");
+  return doc.getJsonLDProperty('author');
 }
 
 /*
@@ -121,7 +117,6 @@ class WrioDocument extends Reflux.Store {
         }
     }
 
-    
 
     // this actions are called when browsing through the right menu
 
@@ -137,8 +132,7 @@ class WrioDocument extends Reflux.Store {
             this._setUrlWithParams('cover', name, isRet);
         }
     }
-    
-   
+
 
     // Manage tabs!
 

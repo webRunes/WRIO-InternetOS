@@ -1,20 +1,31 @@
 /* @flow */
 /**
+ * Cover Carousel Component, shown on the top of the each document
  * Created by michbil on 17.06.17.
  */
 // $FlowFixMe
-import Reflux from "reflux";
-import React from "react";
-import ItemList from "../jsonld/entities/ItemList";
-import ImageObject from "../jsonld/entities/ImageObject";
+import Reflux from 'reflux';
+import React from 'react';
+import ItemList from '../jsonld/entities/ItemList';
+import ImageObject from '../jsonld/entities/ImageObject';
 // $FlowFixMe
-import { CarouselItem } from "react-bootstrap";
-import Carousel from "./misc/FixedCarousel";
+import { CarouselItem } from 'react-bootstrap';
+import Carousel from './misc/FixedCarousel';
 
 const nextIcon = <i className="material-icons">keyboard_arrow_right</i>;
 const prevIcon = <i className="material-icons">keyboard_arrow_left</i>;
 
-const defaultBg = "https://default.wrioos.com/img/default-cover-bg.png";
+const defaultBg = 'https://default.wrioos.com/img/default-cover-bg.png';
+
+const carouselStyle = (path, height) => ({
+    background: `url('${path}') no-repeat center center fixed`,
+    WebkitBackgroundSize: 'cover',
+    MozBackgroundSize: 'cover',
+    OBackgroundSize: 'cover',
+    BackgroundSize: 'cover',
+    transform: 'translate3d(0px, 0px, 0px)',
+    minHeight: height,
+});
 
 /**
  * Renders cover text contents
@@ -24,11 +35,11 @@ const defaultBg = "https://default.wrioos.com/img/default-cover-bg.png";
  */
 
 const CoverText = ({ cover }: { cover: ImageObject }) => {
-  //  console.log("cover", cover);
-  var items = cover.getCoverItems();
-  var descr = [];
-  var bulletList = [];
-  var index = 0;
+  //  console.log('cover", cover);
+  const items = cover.getCoverItems();
+  let descr = [];
+  let bulletList = [];
+  let index = 0;
 
   function purgeList() {
     if (bulletList.length !== 0) {
@@ -48,7 +59,7 @@ const CoverText = ({ cover }: { cover: ImageObject }) => {
     }
   }
 
-  items.forEach((item, i) => {
+  items.forEach((item) => {
     if (item.bullet) {
       bulletList.push(<span key={index++}>{item.text}</span>);
     } else {
@@ -61,15 +72,16 @@ const CoverText = ({ cover }: { cover: ImageObject }) => {
   return <span>{descr}</span>;
 };
 
-const RenderCover = ({ image }: { image: ImageObject }) => {
-  var path = image.getKey("contentUrl"); //cover.img;
-  var name = image.getKey("name");
-  var about = image.getKey("about");
+const RenderCover = ({ image, onPress }: { image: ImageObject }) => {
+  const path = image.getKey('contentUrl'); //cover.img;
+  const name = image.getKey('name');
+  const about = image.getKey('about');
 
   return (
     <div
-      style={carouselStyle(path, "100vh")}
+      style={carouselStyle(path, '100vh')}
       className="cover-bg header header-filter"
+      onClick={onPress}
     >
       <div className="carousel-caption">
         <div className="carousel-caption">
@@ -93,7 +105,7 @@ const RenderCover = ({ image }: { image: ImageObject }) => {
 };
 
 const hasIndex = (array, index) =>
-  array.reduce((res, item) => res || item == index, false);
+  array.reduce((res, item) => res || item === index, false);
 
 /**
  * Navigation buttons pane
@@ -105,7 +117,7 @@ const hasIndex = (array, index) =>
 const CoverNavigationButtons = ({
   items,
   currentCover,
-  onCoverButtonPressed
+  onCoverButtonPressed,
 }: {
   items: Array<Object>,
   currentCover: number,
@@ -114,14 +126,14 @@ const CoverNavigationButtons = ({
   return (
     <nav className="navbar navbar-transparent">
       <ul className="nav navbar-nav navbar-left">
-        {items.map((r, key) => {
-          let cls = hasIndex(r.carouselIndexes, currentCover) ? "active" : "";
+        {items.map((r) => {
+          const cls = hasIndex(r.carouselIndexes, currentCover) ? 'active' : '';
 
           return (
-            <li key={key}>
+            <li key={r.name}>
               <a
                 href={r.segueUrl}
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   onCoverButtonPressed(r);
                 }}
@@ -152,18 +164,20 @@ const CoverCarousel = ({
   images,
   currentCover,
   onCoverChanged,
-  onCoverButtonPressed
+  onCoverPressed,
+  onCoverButtonPressed,
 }: {
   covers: Array<ItemList>,
   images: Array<ImageObject>,
   currentCover: number,
   onCoverChanged: Function,
-  onCoverButtonPressed: Function
+  onCoverPressed: Function,
+  onCoverButtonPressed: Function,
 }) => {
   const headerStyle =
-    covers.length == 0
-      ? { height: "auto", minHeight: "120px" }
-      : { height: "auto", minHeight: "100vh" };
+    covers.length === 0
+      ? { height: 'auto', minHeight: '120px' }
+      : { height: 'auto', minHeight: '100vh' };
   return (
     <div className="page-header" style={headerStyle}>
       <div className="cover col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
@@ -171,7 +185,7 @@ const CoverCarousel = ({
           <div className="card card-profile card-plain">
             <div className="card-image hidden">
               <a href="#" className="img">
-                <img src="https://default.wrioos.com/img/logo.png" />
+                <img src="https://default.wrioos.com/img/logo.png" alt="Webrunes logo" />
               </a>
             </div>
             <div className="hidden">
@@ -188,7 +202,7 @@ const CoverCarousel = ({
           onCoverButtonPressed={onCoverButtonPressed}
         />
       </div>
-      {covers.length != 0 ? (
+      {covers.length !== 0 ? (
         <Carousel
           defaultActiveIndex={0}
           activeIndex={currentCover}
@@ -200,28 +214,19 @@ const CoverCarousel = ({
           {images.map((image: ImageObject, key: number) => {
             return (
               <CarouselItem key={key}>
-                <RenderCover image={image} />
+                <RenderCover image={image} 
+                             onPress={onCoverPressed}
+                />
               </CarouselItem>
             );
           })}
         </Carousel>
       ) : (
-        <div style={carouselStyle(defaultBg, "120px")} className="cover-bg" />
+        <div style={carouselStyle(defaultBg, '120px')} className="cover-bg" />
       )}
     </div>
   );
 };
 
-const carouselStyle = (path, height) => {
-  return {
-    background: `url('${path}') no-repeat center center fixed`,
-    WebkitBackgroundSize: "cover",
-    MozBackgroundSize: "cover",
-    OBackgroundSize: "cover",
-    BackgroundSize: "cover",
-    transform: "translate3d(0px, 0px, 0px)",
-    minHeight: height
-  };
-};
 
 export default CoverCarousel;

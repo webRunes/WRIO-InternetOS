@@ -1,5 +1,5 @@
-const { getResourcePath } = require("./base/global");
-const { getServiceUrl } = require("./base/servicelocator");
+const { getResourcePath } = require('./base/global');
+const { getServiceUrl } = require('./base/servicelocator');
 
 const code = `<div id="preloader" class="preloader-wrapper loading" style="height: 100%; display: block; margin: 0;">
             <div class="preloader" style="position: fixed; top: 0; z-index: 9999; min-height: 600px; width: 100%; height: 100%; display: table; vertical-align: middle;">
@@ -16,49 +16,49 @@ const code = `<div id="preloader" class="preloader-wrapper loading" style="heigh
                 </div>
             </div>
         </div>`;
-const head = document.getElementsByTagName("head")[0];
-let notSupportedBrowsers = ["MSIE", "MSIE11"];
+const head = document.getElementsByTagName('head')[0];
+let notSupportedBrowsers = ['MSIE', 'MSIE11'];
 
 const css = [
-  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css",
-  "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons",
+  'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
+  'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
   /* getResourcePath('/css/bootstrap-material-design.min.css'),
     getResourcePath('/css/webrunes.css'), */
-  getResourcePath("/css/material-kit.min.css"),
-  getResourcePath("/css/ripples.min.css"),
-  getResourcePath("/css/vertical-nav.css"),
-  getResourcePath("/css/wrioos.css")
+  getResourcePath('/css/material-kit.min.css'),
+  getResourcePath('/css/ripples.min.css'),
+  getResourcePath('/css/vertical-nav.css'),
+  getResourcePath('/css/wrioos.css'),
 ];
 
 class BrowserDetection {
   constructor() {
     this.noticeHeight = 0;
-    this.browser = "";
-    this.os = "";
-    this.browserVersion = "";
+    this.browser = '';
+    this.os = '';
+    this.browserVersion = '';
     this.operatingSystems = [
       {
         searchString: window.navigator.platform,
-        name: "Windows",
-        subStr: "Win"
+        name: 'Windows',
+        subStr: 'Win',
       },
-      { searchString: window.navigator.platform, name: "Mac", subStr: "Mac" },
+      { searchString: window.navigator.platform, name: 'Mac', subStr: 'Mac' },
       {
         searchString: window.navigator.platform,
-        name: "Linux",
-        subStr: "Linux"
+        name: 'Linux',
+        subStr: 'Linux',
       },
       {
         searchString: window.navigator.userAgent,
-        name: "iPhone",
-        subStr: "iPhone/iPod"
-      }
+        name: 'iPhone',
+        subStr: 'iPhone/iPod',
+      },
     ];
     this.defaultNotSupportedBrowsers = [
-      { os: "Any", browser: "MSIE", version: 6 },
-      { os: "Any", browser: "MSIE", version: 7 },
-      { os: "Any", browser: "MSIE", version: 8 },
-      { os: "Any", browser: "MSIE", version: 9 }
+      { os: 'Any', browser: 'MSIE', version: 6 },
+      { os: 'Any', browser: 'MSIE', version: 7 },
+      { os: 'Any', browser: 'MSIE', version: 8 },
+      { os: 'Any', browser: 'MSIE', version: 9 },
     ];
   }
   init() {
@@ -70,11 +70,11 @@ class BrowserDetection {
     this.detectOS();
 
     if (
-      this.browser === "" ||
-      this.browser === "Unknown" ||
-      this.os === "" ||
-      this.os === "Unknown" ||
-      this.browserVersion === "" ||
+      this.browser === '' ||
+      this.browser === 'Unknown' ||
+      this.os === '' ||
+      this.os === 'Unknown' ||
+      this.browserVersion === '' ||
       this.browserVersion === 0
     ) {
       return;
@@ -82,16 +82,13 @@ class BrowserDetection {
 
     let oldBrowser = false;
     for (let i = 0; i < notSupportedBrowsers.length; i++) {
-      if (
-        notSupportedBrowsers[i].os === "Any" ||
-        notSupportedBrowsers[i].os === this.os
-      ) {
+      if (notSupportedBrowsers[i].os === 'Any' || notSupportedBrowsers[i].os === this.os) {
         if (
-          notSupportedBrowsers[i].browser === "Any" ||
+          notSupportedBrowsers[i].browser === 'Any' ||
           notSupportedBrowsers[i].browser === this.browser
         ) {
           if (
-            notSupportedBrowsers[i].version === "Any" ||
+            notSupportedBrowsers[i].version === 'Any' ||
             this.browserVersion <= parseFloat(notSupportedBrowsers[i].version)
           ) {
             oldBrowser = true;
@@ -107,33 +104,33 @@ class BrowserDetection {
     return false;
   }
   writeNoticeCode() {
-    window.location.href = "//wrioos.com/old_browser.html";
+    window.location.href = '//wrioos.com/old_browser.html';
   }
   detectBrowser() {
-    this.browser = "";
+    this.browser = '';
     this.browserVersion = 0;
 
     if (/Opera[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
-      this.browser = "Opera";
+      this.browser = 'Opera';
     } else if (/MSIE (\d+\.\d+);/.test(window.navigator.userAgent)) {
-      this.browser = "MSIE";
+      this.browser = 'MSIE';
     } else if (window.navigator.userAgent.match(/Trident.*rv\:11\./)) {
-      this.browser = "MSIE11";
+      this.browser = 'MSIE11';
       this.browserVersion = 11;
     } else if (/Navigator[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
-      this.browser = "Netscape";
+      this.browser = 'Netscape';
     } else if (/Chrome[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
-      this.browser = "Chrome";
+      this.browser = 'Chrome';
     } else if (/Safari[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
-      this.browser = "Safari";
+      this.browser = 'Safari';
       /Version[\/\s](\d+\.\d+)/.test(window.navigator.userAgent);
       this.browserVersion = Number(RegExp.$1);
     } else if (/Firefox[\/\s](\d+\.\d+)/.test(window.navigator.userAgent)) {
-      this.browser = "Firefox";
+      this.browser = 'Firefox';
     }
 
-    if (this.browser === "") {
-      this.browser = "Unknown";
+    if (this.browser === '') {
+      this.browser = 'Unknown';
     } else if (this.browserVersion === 0) {
       this.browserVersion = parseFloat(Number(RegExp.$1));
     }
@@ -141,32 +138,28 @@ class BrowserDetection {
 
   detectOS() {
     for (let i = 0; i < this.operatingSystems.length; i++) {
-      if (
-        this.operatingSystems[i].searchString.indexOf(
-          this.operatingSystems[i].subStr
-        ) !== -1
-      ) {
+      if (this.operatingSystems[i].searchString.indexOf(this.operatingSystems[i].subStr) !== -1) {
         this.os = this.operatingSystems[i].name;
         return;
       }
     }
 
-    this.os = "Unknown";
+    this.os = 'Unknown';
   }
 }
 
-const loading = document.createElement("link");
-loading.rel = "stylesheet";
-loading.href = getResourcePath("/css/loading.css");
+const loading = document.createElement('link');
+loading.rel = 'stylesheet';
+loading.href = getResourcePath('/css/loading.css');
 head.appendChild(loading);
 
-window.document.body.style.heigth = "100%";
+window.document.body.style.heigth = '100%';
 window.document.body.style.margin = 0;
-document.documentElement.style.heigth = "100%";
+document.documentElement.style.heigth = '100%';
 document.documentElement.style.margin = 0;
 
-if (window.localStorage && !window.localStorage.getItem("oldUser")) {
-  window.localStorage.setItem("oldUser", true);
+if (window.localStorage && !window.localStorage.getItem('oldUser')) {
+  window.localStorage.setItem('oldUser', true);
   window.document.body.innerHTML += code;
 }
 
@@ -176,15 +169,15 @@ function decodeIncomingUrl() {
 
   if (href !== decodedHref) {
     // window.location = decodedHref;
-    window.history.pushState("", "", decodedHref);
-    console.warn("Reencoded url", href, " ", window.location.href);
+    window.history.pushState('', '', decodedHref);
+    console.warn('Reencoded url', href, ' ', window.location.href);
   }
 }
 
 function loadScript(url, onload) {
-  const script = document.createElement("script");
-  script.setAttribute("type", "text/javascript");
-  script.setAttribute("src", url);
+  const script = document.createElement('script');
+  script.setAttribute('type', 'text/javascript');
+  script.setAttribute('src', url);
   script.onload = onload;
   document.body.appendChild(script);
 }
@@ -192,16 +185,16 @@ function loadScript(url, onload) {
 function loadScripts() {
   decodeIncomingUrl();
 
-  let prefix = "//wrioos.com";
-  if (process.env.NODE_ENV === "production") {
-    prefix = "//wrioos.com";
+  let prefix = '//wrioos.com';
+  if (process.env.NODE_ENV === 'production') {
+    prefix = '//wrioos.com';
   }
-  if (process.env.NODE_ENV === "development") {
-    prefix = "//localhost:3033";
+  if (process.env.NODE_ENV === 'development') {
+    prefix = '//localhost:3033';
   }
 
-  if (process.env.NODE_ENV === "dockerdev") {
-    prefix = "//localhost:3033";
+  if (process.env.NODE_ENV === 'dockerdev') {
+    prefix = '//localhost:3033';
   }
 
   loadScript(`${prefix}/common.js`, () => {
@@ -209,33 +202,35 @@ function loadScripts() {
   });
 }
 
-if (!BrowserDetection.init()) {
+const detector = new BrowserDetection();
+
+if (!detector.init()) {
   for (let i = 0; i < css.length; i++) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
     link.href = css[i];
     head.appendChild(link);
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener('DOMContentLoaded', () => {
     loadScripts();
-    console.log("DOM fully loaded and parsed");
+    console.log('DOM fully loaded and parsed');
   });
 
-  const favicon = document.createElement("link");
-  favicon.rel = "shortcut icon";
-  favicon.href = getResourcePath("/ico/favicon.ico");
+  const favicon = document.createElement('link');
+  favicon.rel = 'shortcut icon';
+  favicon.href = getResourcePath('/ico/favicon.ico');
   head.appendChild(favicon);
 
-  const preTitterIframe = document.createElement("iframe");
+  const preTitterIframe = document.createElement('iframe');
 
-  preTitterIframe.src = `${getServiceUrl("login")}/buttons/twitter`;
+  preTitterIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
   // preTitterIframe.style = "display:none";
-  preTitterIframe.id = "loginbuttoniframe";
+  preTitterIframe.id = 'loginbuttoniframe';
   // <iframe id= src={ this.state.twitter.buttonurl }
   // width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
   head.appendChild(preTitterIframe);
 } else {
-  document.getElementById("preloader").style.display = "none";
+  document.getElementById('preloader').style.display = 'none';
 }

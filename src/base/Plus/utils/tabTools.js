@@ -4,10 +4,10 @@
  * Routines for manipulating tabs data
  *
  */
-import normURL from "./normURL";
-import { lastOrder, getNext } from "./tools";
-import cloneDeep from "lodash.clonedeep";
-
+import normURL from './normURL';
+import { lastOrder, getNext } from './tools';
+import cloneDeep from 'lodash.clonedeep';
+ 
 export const tabsHaveKey = (tabs, key) => {
   let present = false;
   let foundItem = null;
@@ -25,7 +25,7 @@ export const tabsHaveKey = (tabs, key) => {
  * @param _tabs
  * @returns {*}
  */
-export const normalizeTabs = _tabs => {
+export const normalizeTabs = (_tabs) => {
   const tabs = cloneDeep(_tabs);
   function normalize(tabs, processChildren) {
     return Object.values(tabs).reduce((prev, item) => {
@@ -57,10 +57,9 @@ export const normalizeTabs = _tabs => {
 };
 
 export const addPageToTabs = (inputTabs, newPage) => {
-  const tab = newPage.tab,
-    parentName = newPage.parent;
+  const {tab,parentName} = newPage;
   const tabs = cloneDeep(inputTabs || {});
-  console.log("Adding current page to tabs", newPage);
+  console.log('Adding current page to tabs', newPage);
   if (tab.author && !newPage.noAuthor) {
     console.log("Adding child node");
     // create parent tab if not created before
@@ -77,9 +76,9 @@ export const addPageToTabs = (inputTabs, newPage) => {
 
     parent.children = parent.children || {};
 
-    //update child
+    // update child
     let key = tab.url;
-    Object.keys(parent.children).forEach(item => {
+    Object.keys(parent.children).forEach((item) => {
       if (normURL(item) === normURL(key)) {
         parent.children[item].active = true;
         key = undefined;
@@ -89,7 +88,7 @@ export const addPageToTabs = (inputTabs, newPage) => {
       tab.order = lastOrder(parent.children);
       parent.children[key] = tab;
     }
-    //parent.active = true;
+    // parent.active = true;
     return Object.assign(tabs, { [author]: parent });
   } else {
     console.log("Adding top level node");

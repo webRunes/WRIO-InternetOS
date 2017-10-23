@@ -1,35 +1,28 @@
-import React, { Component } from "react";
-import { applyMentions } from "../mixins/mentions";
-import EditorComponent from "../components/EditorComponent.js";
-import { ContentBlock, CharacterMetadata } from "draft-js";
+import React, { Component } from 'react';
+import { applyMentions } from '../mixins/mentions';
+import EditorComponent from '../components/EditorComponent.js';
+import { ContentBlock, CharacterMetadata } from 'draft-js';
 
-import { openLinkDialog } from "../actions/linkdialog";
-import { openImageDialog } from "../actions/imagedialog";
-import EntityTools from "../utils/entitytools";
-import { Loading, LoadingError } from "../components/loading";
-import {
-  fetchDocument,
-  createNewDocument,
-  fetchUserData
-} from "../actions/indexActions.js";
-import { gotUrlParams } from "../actions/publishActions.js";
-import { connect } from "react-redux";
-import { parseEditingUrl } from "../utils/url.js";
+import { openLinkDialog } from '../actions/linkdialog';
+import { openImageDialog } from '../actions/imagedialog';
+import EntityTools from '../utils/entitytools';
+import { Loading, LoadingError } from '../components/loading';
+import mkActions from '../actions/indexActions.js';
+import { gotUrlParams } from '../actions/publishActions.js';
+import { connect } from 'react-redux';
+import { parseEditingUrl } from '../utils/url.js';
 
-import LinkUrlDialog from "../containers/LinkUrlDialog.js";
-import ImageUrlDialog from "../containers/ImageUrlDialog.js";
-import CoverEditingDialog from "./CoverEditingDialogContainer.js";
+import LinkUrlDialog from '../containers/LinkUrlDialog.js';
+import ImageUrlDialog from '../containers/ImageUrlDialog.js';
+import CoverEditingDialog from './CoverEditingDialogContainer.js';
 
-const CREATE_MODE = window.location.pathname === "/create";
+const { fetchDocument, createNewDocument, fetchUserData } = mkActions('MAIN');
+
+const CREATE_MODE = window.location.pathname === '/create';
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
 
 function initCallbacks(dispatch) {
-  const openEditPrompt = action => (
-    titleValue,
-    urlValue,
-    descValue,
-    linkEntityKey
-  ) => {
+  const openEditPrompt = action => (titleValue, urlValue, descValue, linkEntityKey) => {
     const actn = action(titleValue, urlValue, descValue, linkEntityKey);
     dispatch(actn);
   };
@@ -40,46 +33,40 @@ function initCallbacks(dispatch) {
 
 class EditorContainer extends React.Component {
   componentDidMount() {
-    const dispatch = this.props.dispatch;
+    const { dispatch } = this.props;
     dispatch(gotUrlParams(CREATE_MODE, EDIT_URL, EDIT_RELATIVE_PATH)); // pass initial editing params to the store
     initCallbacks(this.props.dispatch);
-    if (window.location.pathname === "/create") {
+    if (window.location.pathname === '/create') {
       dispatch(createNewDocument());
     } else {
       dispatch(fetchDocument(EDIT_URL));
     }
     dispatch(fetchUserData());
-    document
-      .getElementById("loadingInd")
-      .setAttribute("style", "display:none;");
-  }
-  componentDidUpdate(prevProps) {
-    frameReady();
+    document.getElementById('loadingInd').setAttribute('style', 'display:none;');
   }
 
   render() {
-    const error = false;
     return (
       <div className="clearfix">
-        {this.props.error ? <LoadingError /> : ""}
+        {this.props.error ? <LoadingError /> : ''}
         {!this.props.isFetching ? (
           <div>
             {false && (
               <div className="well">
                 <h4>You are not logged in</h4>
                 <p>
-                  You can still create posts. However, you need to be logged in
-                  to save access path to the post and to received donates.
+                  You can still create posts. However, you need to be logged in to save access path
+                  to the post and to received donates.
                 </p>
                 <br />
                 <a className="btn btn-sm btn-primary" href="#" role="button">
-                  <span className="glyphicon glyphicon-user" />Login with
-                  Twitter
+                  <span className="glyphicon glyphicon-user" />Login with Twitter
                 </a>
               </div>
             )}
             <EditorComponent
               editorState={this.props.editorState}
+              editorName="MAIN"
               dispatch={this.props.dispatch}
             />
 
@@ -96,7 +83,7 @@ class EditorContainer extends React.Component {
 }
 
 function shouldOpenPopup(user, commentsEnabled) {
-  const haveEthId = user.ethereumWallet !== "undefined";
+  const haveEthId = user.ethereumWallet !== 'undefined';
   return !haveEthId && commentsEnabled;
 }
 
@@ -104,14 +91,14 @@ function openPopup() {
   const domain = process.env.DOMAIN;
   const webGoldUrl = `//webgold.${domain}`;
   if (this.shouldOpenPopup()) {
-    window.open(webGoldUrl + "/create_wallet", "name", "width=800,height=500");
+    window.open(`${webGoldUrl}/create_wallet`, 'name', 'width=800,height=500');
     this.setState({
-      registerPopup: true
+      registerPopup: true,
     });
     this.waitPopupClosed(() => {
-      WrioStore.getUser().ethereumWallet = "new"; // TODO fix hack
+      WrioStore.getUser().ethereumWallet = 'new'; // TODO fix hack
       this.setState({
-        registerPopup: false
+        registerPopup: false,
       });
     });
   }
@@ -122,14 +109,14 @@ function waitPopupClosed(cb) {
     return cb();
   }
   window.addEventListener(
-    "message",
-    msg => {
+    'message',
+    (msg) => {
       const data = JSON.parse(msg.data);
       if (data.reload) {
         cb();
       }
     },
-    false
+    false,
   );
 }
 
@@ -138,7 +125,7 @@ function mapStateToProps(state) {
     document: state.editorDocument.document,
     editorState: state.editorDocument.editorState,
     isFetching: state.editorDocument.isFetching,
-    error: state.editorDocument.error
+    error: state.editorDocument.error,
   };
 }
 

@@ -1,137 +1,153 @@
-import getHttp from "base/utils/request";
+import getHttp from 'base/utils/request';
 
-import { getRegistredUser, getWidgetID } from "../webrunesAPI.js";
-import JSONDocument from "../JSONDocument";
-import { loadDocumentWithData } from "base/actions/actions";
+import { getRegistredUser, getWidgetID } from '../webrunesAPI.js';
+import JSONDocument from '../JSONDocument';
+import { loadDocumentWithData } from 'base/actions/actions';
+import { Entity } from 'draft-js';
 
-export const REQUEST_DOCUMENT = "REQUEST_DOCUMENT";
-export const RECEIVE_DOCUMENT = "RECEIVE_DOCUMENT";
-export const RECEIVE_USER_DATA = "RECEIVE_USER_DATA";
-export const CREATE_DOCUMENT = "CREATE_DOCUMENT";
-
-export const GOT_ERROR = "GOT_ERROR";
-export const EDITOR_CHANGED = "EDITOR_CHANGED";
-export const CREATE_NEW_LINK = "CREATE_NEW_LINK";
-export const CREATE_NEW_IMAGE = "CREATE_NEW_IMAGE";
-export const REMOVE_ENTITY = "REMOVE_ENTIRY";
-export const EDIT_LINK = "EDIT_ENTITY";
-export const EDIT_IMAGE = "EDIT_IMAGE";
-
-export function requestDocument() {
-  return {
-    type: REQUEST_DOCUMENT
-  };
-}
-
-export function receiveDocument(document) {
-  return {
-    type: "GOT_JSON_LD_DOCUMENT",
-    document
-  };
-}
-
-export function receiveUserData(data) {
+const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
+export const receiveUserData = function receiveUserData(data) {
   return {
     type: RECEIVE_USER_DATA,
-    data
+    data,
   };
-}
-
-function gotError(error) {
-  return {
-    type: GOT_ERROR,
-    error
-  };
-}
-
-export const fetchDocument = url => async (dispatch, state) => {
-  console.log(url);
-  dispatch(requestDocument());
-  try {
-    const { data } = await getHttp(url);
-    const doc = new JSONDocument(data);
-    const about = doc.getElementOfType("Article").about || "";
-    dispatch({ type: "DESC_CHANGED", text: about });
-    //dispatch(receiveDocument(doc))
-    dispatch(loadDocumentWithData(doc, url));
-  } catch (err) {
-    dispatch(gotError(err));
-    console.error("Error during download of source document", err);
-  }
 };
 
-export function fetchUserData() {
-  return dispatch => {
-    return getRegistredUser()
-      .then(user => {
-        const data = user.body;
-        dispatch(receiveUserData({ wrioID: data.id }));
-      })
-      .catch(e => {
-        console.error("Error obtaining user data", e.stack);
-        dispatch(gotError("User not registred"));
-      });
+// use factory fuction for specific editorname, because we can have multiple editors in one document
+export default function createActionsForEditor(editorName) {
+  const REQUEST_DOCUMENT = `${editorName}REQUEST_DOCUMENT`;
+  const RECEIVE_DOCUMENT = `${editorName}RECEIVE_DOCUMENT`;
+
+  const CREATE_DOCUMENT = `${editorName}CREATE_DOCUMENT`;
+
+  const GOT_ERROR = `${editorName}GOT_ERROR`;
+  const EDITOR_CHANGED = `${editorName}EDITOR_CHANGED`;
+  const CREATE_NEW_LINK = `${editorName}CREATE_NEW_LINK`;
+  const CREATE_NEW_IMAGE = `${editorName}CREATE_NEW_IMAGE`;
+  const REMOVE_ENTITY = `${editorName}REMOVE_ENTIRY`;
+  const EDIT_LINK = `${editorName}EDIT_ENTITY`;
+  const EDIT_IMAGE = `${editorName}EDIT_IMAGE`;
+
+  const exports = {
+    REQUEST_DOCUMENT,
+    RECEIVE_DOCUMENT,
+    RECEIVE_USER_DATA,
+    CREATE_DOCUMENT,
+    GOT_ERROR,
+    EDITOR_CHANGED,
+    CREATE_NEW_LINK,
+    CREATE_NEW_IMAGE,
+    REMOVE_ENTITY,
+    EDIT_LINK,
+    EDIT_IMAGE,
   };
-}
 
-export function createNewDocument(author) {
-  return {
-    type: CREATE_DOCUMENT,
-    author
+  exports.requestDocument = function requestDocument() {
+    return {
+      type: REQUEST_DOCUMENT,
+    };
   };
-}
 
-export function editorChanged(state) {
-  return {
-    type: EDITOR_CHANGED,
-    editorState: state
+  exports.receiveDocument = function receiveDocument(document) {
+    return {
+      type: 'GOT_JSON_LD_DOCUMENT',
+      document,
+    };
   };
-}
 
-export function createNewLink(title, url, desc) {
-  return {
-    type: CREATE_NEW_LINK,
-    title,
-    url,
-    desc
+  exports.gotError = function gotError(error) {
+    return {
+      type: GOT_ERROR,
+      error,
+    };
   };
-}
 
-export function createNewImage(title, url, desc) {
-  return {
-    type: CREATE_NEW_IMAGE,
-    title,
-    url,
-    desc
+  exports.fetchDocument = url => async (dispatch) => {
+    console.log(url);
+    dispatch(exports.requestDocument());
+    try {
+      const { data } = await getHttp(url);
+      const doc = new JSONDocument(data);
+      const about = doc.getElementOfType('Article').about || '';
+      dispatch({ type: 'DESC_CHANGED', text: about });
+      // dispatch(receiveDocument(doc))
+      dispatch(loadDocumentWithData(doc, url));
+    } catch (err) {
+      dispatch(exports.gotError(err));
+      console.error('Error during download of source document', err);
+    }
   };
-}
 
-export function removeEntity(key) {
-  return {
-    type: CREATE_NEW_IMAGE,
-    key
+  exports.fetchUserData = function fetchUserData() {
+    return dispatch =>
+      getRegistredUser()
+        .then((user) => {
+          const data = user.body;
+          dispatch(receiveUserData({ wrioID: data.id }));
+        })
+        .catch((e) => {
+          console.error('Error obtaining user data', e.stack);
+          dispatch(exports.gotError('User not registred'));
+        });
   };
-}
 
-import { Entity } from "draft-js";
+  exports.createNewDocument = function createNewDocument(author) {
+    return {
+      type: CREATE_DOCUMENT,
+      author,
+    };
+  };
 
-// Move these to actions!
-export function editLink(titleValue, urlValue, descValue, linkEntityKey) {
-  Entity.mergeData(linkEntityKey, {
-    linkTitle: titleValue,
-    linkUrl: urlValue,
-    linkDesc: descValue
-  });
-  //editorFocus();
-  return { type: EDIT_IMAGE };
-}
+  exports.editorChanged = function editorChanged(state) {
+    return {
+      type: EDITOR_CHANGED,
+      editorState: state,
+    };
+  };
 
-export function editImage(title, src, description, linkEntityKey) {
-  Entity.mergeData(linkEntityKey, {
-    src,
-    title,
-    description
-  });
-  // editorFocus();
-  return { type: EDIT_LINK };
+  exports.createNewLink = function createNewLink(title, url, desc) {
+    return {
+      type: CREATE_NEW_LINK,
+      title,
+      url,
+      desc,
+    };
+  };
+
+  exports.createNewImage = function createNewImage(title, url, desc) {
+    return {
+      type: CREATE_NEW_IMAGE,
+      title,
+      url,
+      desc,
+    };
+  };
+
+  exports.removeEntity = function removeEntity(key) {
+    return {
+      type: CREATE_NEW_IMAGE,
+      key,
+    };
+  };
+
+  exports.editLink = function editLink(titleValue, urlValue, descValue, linkEntityKey) {
+    Entity.mergeData(linkEntityKey, {
+      linkTitle: titleValue,
+      linkUrl: urlValue,
+      linkDesc: descValue,
+    });
+    // editorFocus();
+    return { type: EDIT_IMAGE };
+  };
+
+  exports.editImage = function editImage(title, src, description, linkEntityKey) {
+    Entity.mergeData(linkEntityKey, {
+      src,
+      title,
+      description,
+    });
+    // editorFocus();
+    return { type: EDIT_LINK };
+  };
+  return exports;
 }

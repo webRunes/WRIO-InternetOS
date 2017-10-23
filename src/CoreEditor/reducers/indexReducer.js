@@ -1,27 +1,6 @@
 import { combineReducers } from 'redux';
-import {
-  REQUEST_DOCUMENT,
-  CREATE_DOCUMENT,
-  GOT_ERROR,
-  CREATE_NEW_IMAGE,
-  CREATE_NEW_LINK,
-  EDITOR_CHANGED,
-  REMOVE_ENTITY,
-} from '../actions/indexActions';
+import mkActions from '../actions/indexActions';
 import JSONDocument from '../JSONDocument.js';
-import {
-  CompositeDecorator,
-  ContentState,
-  SelectionState,
-  Editor,
-  EditorState,
-  Entity,
-  RichUtils,
-  CharacterMetadata,
-  getDefaultKeyBinding,
-  Modifier,
-  convertToRaw,
-} from 'draft-js';
 import {
   createEditorState,
   createNewLink,
@@ -39,6 +18,7 @@ import loginReducer from 'base/reducers/loginReducer';
 import documentReducer from 'base/reducers/documentReducer';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
+import EditorReducer from './editorReducer';
 
 const defaultState = {
   document: null,
@@ -48,47 +28,10 @@ const defaultState = {
   editorState: null,
 };
 
-export function edtorDocumentReducer(state = defaultState, action) {
-  console.log('got action', action);
-  switch (action.type) {
-    case CREATE_DOCUMENT:
-      const newDoc = new JSONDocument();
-      newDoc.createArticle(action.author, '');
-      return mkDoc(state, newDoc);
-    case REQUEST_DOCUMENT:
-      return { ...state, isFetching: true };
-    case GOT_ERROR:
-      return { ...state, isFetching: false, error: action.error };
-    case 'GOT_JSON_LD_DOCUMENT':
-      console.log('GJSN', action);
-      const doc = action.data;
-      return mkDoc(state, doc);
-    case EDITOR_CHANGED:
-      const editorState = action.editorState;
-      const header = JSONDocument.getTitle(editorState.getCurrentContent());
-      return extractHeader({ ...state, editorState });
-    case CREATE_NEW_IMAGE:
-      return {
-        ...state,
-        editorState: createNewImage(state.editorState, action.url, action.desc, action.title),
-      };
-    case CREATE_NEW_LINK:
-      return {
-        ...state,
-        editorState: createNewLink(state.editorState, action.url, action.desc, action.title),
-      };
-    case REMOVE_ENTITY:
-      return {
-        ...state,
-        editorState: removeEntity(state.editorState, action.key),
-      };
-    default:
-      return state;
-  }
-}
+const editorDocumentReducer = EditorReducer('MAIN', defaultState);
 
 const combinedReducer = combineReducers({
-  editorDocument: edtorDocumentReducer,
+  editorDocument: editorDocumentReducer,
   document: documentReducer,
   header: headerReducer,
   login: loginReducer,
@@ -109,21 +52,15 @@ function crossSliceReducer(state, action) {
   switch (action.type) {
     case 'CREATE_DOCUMENT':
     case 'GOT_JSON_LD_DOCUMENT':
-    case 'EDITOR_CHANGED':
-      const docState = edtorDocumentReducer(state.editorDocument, action); // inject header to the action hack
+    case 'EDITOR_CHANGED': {
+      const docState = state.editorDocument;
       const modAction = action;
       modAction.header = docState.header;
       return {
-        editorDocument: docState,
-        document: documentReducer(state.document, action),
-        header: headerReducer(state.header, action),
+        ...state,
         publish: PostSettingsReducer(state.publish, modAction),
-        imageDialog: ImageDialogReducer(state.imageDialog, action),
-        linkDialog: LinkDialogReducer(state.linkDialog, action),
-        coverDialog: coverDialogReducer(state.coverDialog, action),
-        form: formReducer(state.form, action),
       };
-
+    }
     default:
       return state;
   }

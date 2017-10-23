@@ -1,20 +1,20 @@
 /* @flow */
-import React from "react";
+import React from 'react';
 import {
   VerticalNav,
   LeftNav
-} from "base/containers/ArticleNavigationContainer";
-import CoverHeader from "base/containers/CoverHeaderContainer";
-import Tabs from "base/components/Tabs";
-import EditorContainer from "./EditorContainer.js";
-import PlusActions from "base/Plus/actions/PlusActions";
-import Login from "base/components/widgets/Login.js";
-import configureStore from "../configureStore";
+} from 'base/containers/ArticleNavigationContainer';
+import CoverHeader from './CoverHeaderContainer';
+import Tabs from 'base/components/Tabs';
+import EditorContainer from './EditorContainer.js';
+import PlusActions from 'base/Plus/actions/PlusActions';
+import Login from 'base/components/widgets/Login.js';
+import configureStore from '../configureStore';
 // $FlowFixMe
-import { Provider, connect } from "react-redux";
-import { fromList } from "base/utils/tocnavigation";
-import * as Actions from "base/actions/actions";
-import PostSettings from "../containers/Postsettings.js";
+import { Provider, connect } from 'react-redux';
+import { fromList } from 'base/utils/tocnavigation';
+import * as Actions from 'base/actions/actions';
+import PostSettings from '../containers/Postsettings.js';
 
 const RightNav = () => {
   return (
@@ -59,7 +59,7 @@ const LoginBar = ({ profile }) => {
 
 const store = configureStore();
 
-let numRender = 0;
+
 class EditorWithGUI extends React.Component {
   state: {
     toc: {
@@ -96,9 +96,9 @@ class EditorWithGUI extends React.Component {
         <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
           <Tabs
             center={<EditorContainer />}
-            editMode={true}
+            editMode
             externals={[]}
-            forceExternals={true}
+            forceExternals
             editAllowed={this.props.editAllowed}
             RIL={this.state.readItLater}
             tabKey={this.props.tabKey}

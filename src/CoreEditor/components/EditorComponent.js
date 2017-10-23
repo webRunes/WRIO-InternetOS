@@ -1,5 +1,5 @@
-import React from "react";
-import Reflux from "reflux";
+import React from 'react';
+import Reflux from 'reflux';
 import {
   CompositeDecorator,
   ContentState,
@@ -11,26 +11,31 @@ import {
   CharacterMetadata,
   getDefaultKeyBinding,
   Modifier,
-  convertToRaw
-} from "draft-js";
-import { deleteFromS3 } from "../webrunesAPI.js";
-import PropTypes from "prop-types";
-import Alert from "../components/Alert.js";
+  convertToRaw,
+} from 'draft-js';
+import { deleteFromS3 } from '../webrunesAPI.js';
+import PropTypes from 'prop-types';
+import Alert from '../components/Alert.js';
 
-import EntityTools, { getSelection } from "../utils/entitytools";
+import EntityTools, { getSelection } from '../utils/entitytools';
 
 import {
   BlockStyleControls,
   InlineStyleControls,
-  ActionButton
-} from "../components/EditorControls";
-import {
-  editorChanged,
-  publishDocument,
-  deleteDocument
-} from "../actions/indexActions";
-import { openImageDialog } from "../actions/imagedialog";
-import { openLinkDialog } from "../actions/linkdialog";
+  ActionButton,
+} from '../components/EditorControls';
+import mkEditorActions from '../actions/indexActions';
+import { openImageDialog } from '../actions/imagedialog';
+import { openLinkDialog } from '../actions/linkdialog';
+
+function getBlockStyle(block) {
+  switch (block.getType()) {
+    case 'blockquote':
+      return 'RichEditor-blockquote';
+    default:
+      return null;
+  }
+}
 
 class EditorComponent extends React.Component {
   constructor(props) {
@@ -44,81 +49,68 @@ class EditorComponent extends React.Component {
 
     setTimeout(this.focus.bind(this), 200);
     window.editorFocus = this.onFocus.bind(this);
+    this.editorChanged = mkEditorActions(this.props.editorName).editorChanged; // map action name to particular editor name
   }
 
-  handleChange(editorState) {
-    console.log(convertToRaw(editorState.getCurrentContent()));
-    this.props.dispatch(editorChanged(editorState));
-  }
-
-  focus() {
-    if (this.refs.editor) {
-      this.refs.editor.focus();
-    }
-  }
   onFocus() {
     setTimeout(() => this.focus(), 0);
   }
 
   onLinkControlClick() {
-    var title = getSelection(this.props.editorState);
-    this.props.dispatch(openLinkDialog(title, "", ""));
+    const title = getSelection(this.props.editorState);
+    this.props.dispatch(openLinkDialog(title, '', ''));
   }
 
   onImageControlClick() {
-    var title = getSelection(this.props.editorState);
-    this.props.dispatch(openImageDialog(title, "", ""));
+    const title = getSelection(this.props.editorState);
+    this.props.dispatch(openImageDialog(title, '', ''));
+  }
+
+  focus() {
+    if (this.editorRef) {
+      this.editorRef.focus();
+    }
+  }
+
+  handleChange(editorState) {
+    console.log(convertToRaw(editorState.getCurrentContent()));
+    this.props.dispatch(this.editorChanged(editorState));
   }
 
   handleKeyCommand(command) {
-    const editorState = this.props.editorState;
+    const { editorState } = this.props;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
-      this.props.dispatch(editorChanged(newState));
+      this.props.dispatch(this.editorChanged(newState));
       return true;
     }
     return false;
   }
 
   toggleBlockType(blockType) {
-    this.props.dispatch(
-      editorChanged(
-        RichUtils.toggleBlockType(this.props.editorState, blockType)
-      )
-    );
+    this.props.dispatch(this.editorChanged(RichUtils.toggleBlockType(this.props.editorState, blockType)));
   }
 
   toggleInlineStyle(inlineStyle) {
-    this.props.dispatch(
-      editorChanged(
-        RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)
-      )
-    );
-  }
-
-  myKeyBindingFn(e) {
-    if (e.keyCode === 13) {
-      window.frameReady();
-    }
-    return getDefaultKeyBinding(e);
+    this.props.dispatch(this.editorChanged(RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)));
   }
 
   render() {
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = "RichEditor-editor";
+    let className = 'RichEditor-editor';
     if (!this.props.editorState) {
       return null;
     }
-    var contentState = this.props.editorState.getCurrentContent();
+    const contentState = this.props.editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (
         contentState
           .getBlockMap()
           .first()
-          .getType() !== "unstyled"
+          .getType() !== 'unstyled'
       ) {
-        className += " RichEditor-hidePlaceholder";
+        className += ' RichEditor-hidePlaceholder';
       }
     }
 
@@ -134,10 +126,7 @@ class EditorComponent extends React.Component {
             />
 
             {false && (
-              <InlineStyleControls
-                editorState={editorState}
-                onToggle={this.toggleInlineStyle}
-              />
+              <InlineStyleControls editorState={editorState} onToggle={this.toggleInlineStyle} />
             )}
 
             <div className={className} onClick={() => this.focus}>
@@ -145,11 +134,12 @@ class EditorComponent extends React.Component {
                 blockStyleFn={getBlockStyle}
                 editorState={this.props.editorState}
                 handleKeyCommand={this.handleKeyCommand}
-                onChange={this.handleChange.bind(this)}
+                onChange={el => this.handleChange(el)}
                 placeholder="Enter text..."
-                ref="editor"
-                spellCheck={true}
-                keyBindingFn={this.myKeyBindingFn}
+                ref={(ref) => {
+                  this.editorRef = ref;
+                }}
+                spellCheck
               />
             </div>
           </div>
@@ -161,16 +151,8 @@ class EditorComponent extends React.Component {
 
 EditorComponent.propTypes = {
   editorState: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  editorName: PropTypes.string.isRequired,
 };
-
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case "blockquote":
-      return "RichEditor-blockquote";
-    default:
-      return null;
-  }
-}
 
 export default EditorComponent;

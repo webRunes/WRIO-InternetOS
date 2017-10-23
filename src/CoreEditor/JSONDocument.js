@@ -1,72 +1,76 @@
+// @flow
 /**
  * Created by michbil on 09.05.16.
  */
 
-import LdJsonDocument from "base/jsonld/LdJsonDocument";
-import { extractMentions } from "./mentions/mention";
-import Immutable from "immutable";
-import { ContentBlock, CharacterMetadata, Entity } from "draft-js";
+import LdJsonDocument from 'base/jsonld/LdJsonDocument';
+import { extractMentions } from './mentions/mention';
+import Immutable from 'immutable';
+import { ContentBlock, CharacterMetadata, Entity } from 'draft-js';
 
-var cleshe =
-  '<!DOCTYPE html><html><head><meta charset="utf-8">\n' +
-  '<meta http-equiv="X-UA-Compatible" content="IE=edge">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-  '<noscript><meta http-equiv="refresh" content="0; URL=https://wrioos.com/no_jscript.html"></noscript>\n' +
-  '<meta name="description" content="|DESCRIPTION|"><meta name="author" content="">\n<meta name="keywords" content="">\n' +
-  "<title>|TITLE|</title>\n|BODY|" +
-  '</head>\n<body>\n<script type="text/javascript" src="https://wrioos.com/start.js">\n</script>\n</body></html>\n';
+const cleshe = (title, body, description) => (`
+  <!DOCTYPE html><html><head><meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <noscript><meta http-equiv="refresh" content="0; URL=https://wrioos.com/no_jscript.html"></noscript>
+  <meta name="description" content="${description}"><meta name="author" content="">\n<meta name="keywords" content="">
+  <title>${title}</title>
+  ${body}
+  </head>\n<body>\n
+  <script type="text/javascript" src="https://wrioos.com/start.js">\n</script>\n</body></html>\n`);
 
 const keyGen = () =>
   new Date().getTime().toString(32) + Math.random().toString(32);
 
 const getPart = (name: string) => ({
-  "@type": "Article",
-  name: name,
-  articleBody: []
+  '@type': 'Article',
+  name,
+  articleBody: [],
 });
 
 const getMention = (name, about, link) => ({
-  "@type": "Article",
-  name: name,
-  about: about,
-  url: link
+  '@type': 'Article',
+  name,
+  about,
+  url: link,
 });
 export const getImageObject = (url, name, description) => ({
-  "@type": "ImageObject",
+  '@type': 'ImageObject',
   contentUrl: url,
   description,
-  name
+  name,
 });
 
-const TECHNICAL_BLOCK_ID = "[TECHNICAL_BLOCK_PLEASE_DONT_SHOW_IT]";
+const TECHNICAL_BLOCK_ID = '[TECHNICAL_BLOCK_PLEASE_DONT_SHOW_IT]'; // This block is used for debugging purposes
 
 export const getSocialMediaPosting = (src, description, title) => ({
-  "@type": "SocialMediaPosting",
+  '@type': 'SocialMediaPosting',
   sharedContent: {
-    "@type": "WebPage",
+    '@type': 'WebPage',
     headline: title,
     about: description,
-    url: src
-  }
+    url: src,
+  },
 });
 
-const getOrderOffset = article => {
+const getOrderOffset = (article) => {
   let order = 0;
-  if (typeof article.name === "string") {
+  if (typeof article.name === 'string') {
     order++;
   }
-  if (typeof article.about === "string") {
+  if (typeof article.about === 'string') {
     order++;
   }
   return order;
 };
 
-const hasEntity = char => {
-  let entityKey = char.getEntity();
-  let entity = !!entityKey ? Entity.get(entityKey) : null;
+const hasEntity = (char) => {
+  const entityKey = char.getEntity();
+  const entity = entityKey ? Entity.get(entityKey) : null;
   return !!entity;
 };
 
-const blockHasEntity = block => {
+const blockHasEntity = (block) => {
   let resolved = false;
   block.findEntityRanges(hasEntity, () => {
     resolved = true;
@@ -85,9 +89,9 @@ class GenericLDJsonDocument extends LdJsonDocument {
      * @returns {*}
      */
   getElementOfType(type) {
-    var rv;
-    this.data.forEach(element => {
-      if (element["@type"] === type) {
+    let rv;
+    this.data.forEach((element) => {
+      if (element['@type'] === type) {
         rv = element;
       }
     });
@@ -106,18 +110,18 @@ class GenericLDJsonDocument extends LdJsonDocument {
 
   makeArticle(lang, keywords, author, widgetData, about) {
     return {
-      "@context": "https://schema.org",
-      "@type": "Article",
+      '@context': 'https://schema.org',
+      '@type': 'Article',
       inLanguage: lang,
-      keywords: keywords,
+      keywords,
       author: `https://wr.io/${author}/?wr.io=${author}`,
-      editor: "",
-      name: "Untitled",
-      about: about,
-      articleBody: [" "],
+      editor: '',
+      name: 'Untitled',
+      about,
+      articleBody: [' '],
       hasPart: [],
       mentions: [],
-      comment: widgetData
+      comment: widgetData,
     };
   }
   /**
@@ -127,29 +131,29 @@ class GenericLDJsonDocument extends LdJsonDocument {
      * @param about
      */
   createArticle(author, commentID, about) {
-    if (this.getElementOfType("Article")) {
-      console.log("Failed to create article, it already exists");
+    if (this.getElementOfType('Article')) {
+      console.log('Failed to create article, it already exists');
     } else {
-      this.data.push(this.makeArticle("En", "", author, commentID, about));
+      this.data.push(this.makeArticle('En', '', author, commentID, about));
     }
   }
   getCommentID() {
-    return this.getElementOfType("Article").comment;
+    return this.getElementOfType('Article').comment;
   }
   setCommentID(cid) {
-    this.getElementOfType("Article").comment = cid;
+    this.getElementOfType('Article').comment = cid;
   }
 }
 
 export default class EditableJSONDocument extends GenericLDJsonDocument {
   constructor(article) {
     super(article);
-    this.comment = "";
+    this.comment = '';
     this.order = 0;
   }
 
   _createMetadata(name) {
-    return Immutable.List(name.split("").map(e => CharacterMetadata.create()));
+    return Immutable.List(name.split('').map(e => CharacterMetadata.create()));
   }
 
   /**
@@ -165,31 +169,29 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
     processUrl: boolean,
     _lastKey: string,
     socials: Array<Object>,
-    blockKeyToOrderMap
+    blockKeyToOrderMap: Object,
   ) {
-    let contentBlocks: Array<Object> = [];
-    let name = subArticle.name;
+    const contentBlocks: Array<Object> = [];
+    const { name } = subArticle;
     let lastKey = _lastKey;
 
     if (subArticle.name) {
       lastKey = keyGen();
-      contentBlocks.push(
-        new ContentBlock([
-          ["text", name],
-          ["key", lastKey],
-          ["characterList", this._createMetadata(name)],
-          ["type", "header-two"]
-        ])
-      );
+      contentBlocks.push(new ContentBlock([
+        ['text', name],
+        ['key', lastKey],
+        ['characterList', this._createMetadata(name)],
+        ['type', 'header-two'],
+      ]));
       blockKeyToOrderMap[lastKey] = this.order;
       this.order++;
     }
 
-    if (this.getElementOfType("Article").about !== undefined) {
+    if (this.getElementOfType('Article').about !== undefined) {
       this.order++;
     }
 
-    if (subArticle["@type"] == "SocialMediaPosting") {
+    if (subArticle['@type'] == 'SocialMediaPosting') {
       // we are pushwrapping subArticle there, so it later can be created as atomic??? block
       socials.push({ key: lastKey, data: subArticle });
       return { contentBlocks, lastKey, socials };
@@ -202,14 +204,12 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
           articleText += subArticle.url;
         }
         lastKey = keyGen();
-        contentBlocks.push(
-          new ContentBlock([
-            ["text", articleText],
-            ["key", lastKey],
-            ["characterList", this._createMetadata(articleText)],
-            ["type", "unstyled"]
-          ])
-        );
+        contentBlocks.push(new ContentBlock([
+          ['text', articleText],
+          ['key', lastKey],
+          ['characterList', this._createMetadata(articleText)],
+          ['type', 'unstyled'],
+        ]));
         blockKeyToOrderMap[lastKey] = this.order;
         this.order++;
       });
@@ -225,20 +225,20 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
 
   toDraft(): Array<ContentBlock> {
     this.order = 0;
-    let article = this.getElementOfType("Article");
+    const article = this.getElementOfType('Article');
     const mentions = article.mentions ? extractMentions(article.mentions) : [];
     const images = article.image ? extractMentions(article.image) : [];
     this.comment = article.comment;
-    let lastKey = "FIRST";
-    let socials = [];
-    let blockKeyToOrderMap = {};
+    let lastKey = 'FIRST';
+    const socials = [];
+    const blockKeyToOrderMap = {};
     // parse article root
-    let res = this._parseArticlePart(
+    const res = this._parseArticlePart(
       article,
       false,
       lastKey,
       socials,
-      blockKeyToOrderMap
+      blockKeyToOrderMap,
     );
     let { contentBlocks, lastBlock } = res;
     lastKey = res.lastKey;
@@ -249,14 +249,16 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
         true,
         lastKey,
         socials,
-        blockKeyToOrderMap
+        blockKeyToOrderMap,
       );
       lastKey = res.lastKey;
       r = r.concat(res.contentBlocks);
       return r;
     }, contentBlocks);
     this.socials = socials;
-    return { contentBlocks, images, mentions, socials, blockKeyToOrderMap };
+    return {
+      contentBlocks, images, mentions, socials, blockKeyToOrderMap,
+    };
   }
 
   /**
@@ -280,20 +282,19 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
      */
 
   _filterBlockMap(blocks) {
-    let current = null;
+    const current = null;
     const reduced = blocks.reduce((acc, current) => {
       const blockType = current.getType();
       const blockText = current.getText();
       const haveEntity = blockHasEntity(current);
 
-      if (blockType == "atomic" && blockText == TECHNICAL_BLOCK_ID) {
-        console.log("Deleting technical block");
+      if (blockType == 'atomic' && blockText == TECHNICAL_BLOCK_ID) {
+        console.log('Deleting technical block');
         acc[acc.length - 1].attached.push(current);
         return acc;
-      } else {
-        const newAcc = [...acc, { el: current, attached: [] }];
-        return newAcc;
       }
+      const newAcc = [...acc, { el: current, attached: [] }];
+      return newAcc;
     }, []);
     return reduced;
   }
@@ -308,7 +309,7 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
   _mkArticleJson(initialValue, blockMap) {
     const firstBlock = 0;
     const lastBlock = blockMap.length - 1;
-    let article = initialValue;
+    const article = initialValue;
     article.articleBody = [];
     article.hasPart = [];
     article.image = [];
@@ -322,9 +323,9 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
       const e = element.el;
       const blockType = e.getType();
       const blockText = e.getText();
-      const ordinaryParagraph = blockType !== "header-two";
+      const ordinaryParagraph = blockType !== 'header-two';
 
-      console.log("Dump BLOCK: ", i, blockType, blockText);
+      console.log('Dump BLOCK: ', i, blockType, blockText);
 
       if (i == 0) {
         // skip header block
@@ -340,13 +341,11 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
           article.hasPart.push(part);
           part = getPart(blockText);
         }
+      } else if (ordinaryParagraph) {
+        article.articleBody.push(blockText);
       } else {
-        if (ordinaryParagraph) {
-          article.articleBody.push(blockText);
-        } else {
-          isPart = true;
-          part = getPart(blockText);
-        }
+        isPart = true;
+        part = getPart(blockText);
       }
     });
     return article;
@@ -360,75 +359,64 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
   draftToJson(contentState) {
     const formatMention = (url, text, blockIndex, offset) =>
       `${url}?'${text}':${blockIndex},${offset}`;
-    let blockMap = contentState.getBlockMap();
-    let filteredBlockMap = this._filterBlockMap(blockMap);
-    let article = this._mkArticleJson(
-      this.getElementOfType("Article"),
-      filteredBlockMap
+    const blockMap = contentState.getBlockMap();
+    const filteredBlockMap = this._filterBlockMap(blockMap);
+    const article = this._mkArticleJson(
+      this.getElementOfType('Article'),
+      filteredBlockMap,
     ); // first pass
 
-    let order = getOrderOffset(article);
+    const order = getOrderOffset(article);
 
     filteredBlockMap.forEach((element, i) => {
       // second pass to create links images and socials
       let entity;
-      const findEntityOfType = type => char => {
-        let entityKey = char.getEntity();
-        entity = !!entityKey ? Entity.get(entityKey) : null;
+      const findEntityOfType = type => (char) => {
+        const entityKey = char.getEntity();
+        entity = entityKey ? Entity.get(entityKey) : null;
         return !!entity && entity.getType() === type;
       };
       const mkLink = block => (anchorOffset, focusOffset) => {
-        let data = entity.getData();
-        let url = data.linkUrl,
-          name = data.linkTitle || "",
-          desc = data.linkDesc || "";
+        const data = entity.getData();
+        const url = data.linkUrl;
+        const name = data.linkTitle || '';
         const linkText = block.getText().substring(anchorOffset, focusOffset);
-        article.mentions.push(
-          getMention(
-            name,
-            "",
-            formatMention(url, linkText, order + i, anchorOffset)
-          )
-        );
+        article.mentions.push(getMention(
+          name,
+          '',
+          formatMention(url, linkText, order + i, anchorOffset),
+        ));
       };
       const mkImage = block => (anchorOffset, focusOffset) => {
-        let data = entity.getData();
-        let url = data.src,
-          name = data.title || "",
-          desc = data.description || "";
-        const linkText = block.getText().substring(anchorOffset, focusOffset);
-        article.image.push(
-          getImageObject(`${url}?${order + i},${anchorOffset}`, name, desc)
-        );
+        const data = entity.getData();
+        const url = data.src;
+        const name = data.title || '';
+        const desc = data.description || '';
+        article.image.push(getImageObject(`${url}?${order + i},${anchorOffset}`, name, desc));
       };
 
-      const mkSocial = block => (anchorOffset, focusOffset) => {
-        let data = entity.getData();
-        let url = data.src,
-          desc = data.description || "",
-          title = data.title || "";
-        const linkText = block.getText().substring(anchorOffset, focusOffset);
+      const mkSocial = block => (anchorOffset) => {
+        const data = entity.getData();
+        const url = data.src;
+        const desc = data.description || '';
+        const title = data.title || '';
         article.hasPart.push(getSocialMediaPosting(url, desc, title));
       };
 
-      console.log(element);
-      element.el.findEntityRanges(findEntityOfType("LINK"), mkLink(element.el));
-
+      element.el.findEntityRanges(findEntityOfType('LINK'), mkLink(element.el));
       element.el.findEntityRanges(
-        findEntityOfType("IMAGE"),
-        mkImage(element.el)
+        findEntityOfType('IMAGE'),
+        mkImage(element.el),
       );
       element.attached.forEach(e =>
-        e.findEntityRanges(findEntityOfType("IMAGE"), mkImage(e))
-      );
+        e.findEntityRanges(findEntityOfType('IMAGE'), mkImage(e)));
 
       element.el.findEntityRanges(
-        findEntityOfType("SOCIAL"),
-        mkSocial(element.el)
+        findEntityOfType('SOCIAL'),
+        mkSocial(element.el),
       );
       element.attached.forEach(e =>
-        e.findEntityRanges(findEntityOfType("SOCIAL"), mkSocial(e))
-      );
+        e.findEntityRanges(findEntityOfType('SOCIAL'), mkSocial(e)));
     });
     return article;
   }
@@ -442,14 +430,13 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
      */
 
   draftToHtml(contentState, author, commentID) {
-    contentState = contentState || {};
-    this.draftToJson(contentState);
-    var article = this.getElementOfType("Article");
+    this.draftToJson(contentState || {});
+    const article = this.getElementOfType('Article');
     article.comment = commentID;
     article.author = author;
     return {
       html: this.toHtml(),
-      json: this.data
+      json: this.data,
     };
   }
 
@@ -459,16 +446,17 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
      */
 
   toHtml() {
-    var scrStart = '<script type="application/ld+json">';
-    var scrEnd = "</script>";
-    var scripts = "";
-    this.data.forEach(item => {
-      scripts += scrStart + JSON.stringify(item, null, " ") + scrEnd + "\n";
+    const scrStart = '<script type="application/ld+json">';
+    const scrEnd = '</script>';
+    let scripts = '';
+    this.data.forEach((item) => {
+      scripts += `${scrStart + JSON.stringify(item, null, ' ') + scrEnd}\n`;
     });
-    return cleshe
-      .replace("|BODY|", scripts)
-      .replace("|TITLE|", this.getElementOfType("Article").name)
-      .replace("|DESCRIPTION|", this.getElementOfType("Article").about);
+    return cleshe(
+      this.getElementOfType('Article').name,
+      scripts,
+      this.getElementOfType('Article').about,
+    );
   }
 
   /**
@@ -477,7 +465,7 @@ export default class EditableJSONDocument extends GenericLDJsonDocument {
      */
 
   setAbout(text) {
-    let article = this.getElementOfType("Article");
+    const article = this.getElementOfType('Article');
     article.about = text;
   }
 }

@@ -1,5 +1,7 @@
-import { combineReducers } from "redux";
-import { RECEIVE_USER_DATA } from "../actions/indexActions";
+import { combineReducers } from 'redux';
+import mkActions from '../actions/indexActions';
+
+const { RECEIVE_USER_DATA, EDITOR_CHANGED, CREATE_DOCUMENT } = mkActions('MAIN');
 import {
   GOT_URLPARAMS,
   DESC_CHANGED,
@@ -8,29 +10,28 @@ import {
   ENABLE_COMMENTS,
   PUBLISH_DOCUMENT,
   PUBLISH_FINISH,
-  PICK_SAVE_SOURCE
-} from "../actions/publishActions";
-import { EDITOR_CHANGED, CREATE_DOCUMENT } from "../actions/indexActions";
-import JSONDocument from "../JSONDocument";
-import { GOT_JSON_LD_DOCUMENT } from "base/actions/actions";
+  PICK_SAVE_SOURCE,
+} from '../actions/publishActions';
+import JSONDocument from '../JSONDocument';
+import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 
 const defaultState = {
   editParams: {
     // initial parameters, got from iframe
     createMode: true,
-    initEditURL: "",
-    initEditPath: ""
+    initEditURL: '',
+    initEditPath: '',
   },
-  description: "",
+  description: '',
   commentsEnabled: false,
-  filename: "",
-  savePath: "",
-  saveURL: "",
+  filename: '',
+  savePath: '',
+  saveURL: '',
   userStartedEditingFilename: false,
-  saveSource: "S3",
-  saveUrl: "",
+  saveSource: 'S3',
+  saveUrl: '',
   wrioID: null,
-  busy: false
+  busy: false,
 };
 
 const MAX_DESCR_LENGTH = 515;
@@ -45,8 +46,8 @@ export function publishReducer(state = defaultState, action) {
         editParams: {
           createMode: action.createMode,
           initEditURL: action.editURL,
-          initEditPath: action.editPath
-        }
+          initEditPath: action.editPath,
+        },
       };
 
     case EDITOR_CHANGED:
@@ -59,16 +60,16 @@ export function publishReducer(state = defaultState, action) {
       if (!state.userStartedEditingFilename) {
         // sync
         return calcResultingPath(state, action.header);
-      } else {
-        return state;
       }
+      return state;
+
     case RECEIVE_USER_DATA:
       return { ...state, wrioID: action.data.wrioID };
 
     case DESC_CHANGED:
       return {
         ...state,
-        description: action.text.substring(0, MAX_DESCR_LENGTH)
+        description: action.text.substring(0, MAX_DESCR_LENGTH),
       };
 
     case ENABLE_COMMENTS:
@@ -80,15 +81,14 @@ export function publishReducer(state = defaultState, action) {
           ...state,
           filename: initEditPath,
           savePath: initEditPath,
-          saveUrl: initEditURL
-        };
-      } else {
-        return {
-          ...calcResultingPath(state, action.text),
-          filename: action.text,
-          userStartedEditingFilename: true
+          saveUrl: initEditURL,
         };
       }
+      return {
+        ...calcResultingPath(state, action.text),
+        filename: action.text,
+        userStartedEditingFilename: true,
+      };
 
     case HEADER_CHANGED: // LISTEN TO THE CHANGE OF HEADER
       if (action.header && CREATE_MODE) {
@@ -121,14 +121,14 @@ function calcResultingPath(state, filename) {
     ...state,
     filename,
     savePath: createMode ? path : initEditPath, // fallback to predefined path if we just editing file
-    saveUrl: createMode ? getSaveUrl(state.wrioID, path) : initEditPath
+    saveUrl: createMode ? getSaveUrl(state.wrioID, path) : initEditPath,
   };
 }
 
 export const getSaveUrl = (wrioID, path) => `https://wr.io/${wrioID}/${path}`;
 
 function prepFileName(name) {
-  let res = name.replace(/ /g, "_");
+  const res = name.replace(/ /g, '_');
   return `${res.substring(0, 120)}/index.html`;
 }
 
