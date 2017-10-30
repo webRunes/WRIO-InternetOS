@@ -9,16 +9,16 @@ import {
   CharacterMetadata,
   getDefaultKeyBinding,
   Modifier,
-  convertToRaw
-} from "draft-js";
+  convertToRaw,
+} from 'draft-js';
 import {
   createEditorState,
   createNewLink,
   createNewImage,
   removeEntity,
-  extractTableOfContents
-} from "../utils/entitytools";
-import JSONDocument from "../JSONDocument.js";
+  extractTableOfContents,
+} from '../utils/entitytools';
+import JSONDocument from '../JSONDocument.js';
 
 export function extractHeader(state) {
   const editorState = state.editorState;
@@ -30,12 +30,12 @@ export function extractHeader(state) {
 export function mkDoc(state, doc) {
   const contentBlocks = doc.toDraft();
   const mentions = doc.mentions;
-  return extractHeader({
+  const _state = extractHeader({
     ...state,
     isFetching: false,
     document: doc,
-    editorState: EditorState.moveFocusToEnd(
-      createEditorState(contentBlocks, mentions, doc.images)
-    )
+    editorState: EditorState.moveFocusToEnd(createEditorState(contentBlocks, mentions, doc.images)),
   });
+  console.log(_state);
+  return _state;
 }

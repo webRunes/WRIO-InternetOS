@@ -1,16 +1,16 @@
 /**
  * Created by michbil on 16.07.17.
  */
-import React from "react";
-import StyleButton from "./StyleButton.js";
-import PropTypes from "prop-types";
+import React from 'react';
+import StyleButton from './StyleButton.js';
+import PropTypes from 'prop-types';
 
 const BLOCK_TYPES = [
   {
-    label: "Header",
-    style: "header-two"
+    label: 'Header',
+    style: 'header-two',
   },
-  /*{
+  /* {
      label: 'Blockquote',
      style: 'blockquote'
      }, {
@@ -21,16 +21,16 @@ const BLOCK_TYPES = [
      style: 'ordered-list-item'
      }, */
   {
-    label: "Link",
-    style: "link"
+    label: 'Link',
+    style: 'link',
   },
   {
-    label: "Embed Image or Social Media",
-    style: "image"
-  }
+    label: 'Embed Image or Social Media',
+    style: 'image',
+  },
 ];
 
-export const BlockStyleControls = props => {
+export const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
@@ -39,8 +39,8 @@ export const BlockStyleControls = props => {
     .getType();
   return (
     <div className="RichEditor-controls">
-      {BLOCK_TYPES.map(type => {
-        if (type.style === "link") {
+      {BLOCK_TYPES.map((type) => {
+        if (type.style === 'link') {
           return (
             <StyleButton
               key={type.label}
@@ -50,7 +50,7 @@ export const BlockStyleControls = props => {
               style={type.style}
             />
           );
-        } else if (type.style === "image") {
+        } else if (type.style === 'image') {
           return (
             <StyleButton
               key={type.label}
@@ -60,7 +60,7 @@ export const BlockStyleControls = props => {
               style={type.style}
             />
           );
-        } else {
+        }
           return (
             <StyleButton
               key={type.label}
@@ -70,7 +70,6 @@ export const BlockStyleControls = props => {
               style={type.style}
             />
           );
-        }
       })}
     </div>
   );
@@ -80,31 +79,31 @@ BlockStyleControls.propTypes = {
   editorState: PropTypes.object,
   onToggle: PropTypes.func,
   onLinkToggle: PropTypes.func,
-  onImageToggle: PropTypes.func
+  onImageToggle: PropTypes.func,
 };
 
-var INLINE_STYLES = [
+const INLINE_STYLES = [
   {
-    label: "Bold",
-    style: "BOLD"
+    label: 'Bold',
+    style: 'BOLD',
   },
   {
-    label: "Italic",
-    style: "ITALIC"
+    label: 'Italic',
+    style: 'ITALIC',
   },
   {
-    label: "Underline",
-    style: "UNDERLINE"
+    label: 'Underline',
+    style: 'UNDERLINE',
   },
   {
-    label: "Monospace",
-    style: "CODE"
-  }
+    label: 'Monospace',
+    style: 'CODE',
+  },
 ];
 
-export const InlineStyleControls = props => {
-  let { editorState } = props;
-  var currentStyle = editorState.getCurrentInlineStyle();
+export const InlineStyleControls = (props) => {
+  const { editorState } = props;
+  const currentStyle = editorState.getCurrentInlineStyle();
   return (
     <div className="RichEditor-controls">
       {INLINE_STYLES.map(type => (
@@ -122,7 +121,7 @@ export const InlineStyleControls = props => {
 
 InlineStyleControls.propTypes = {
   editorState: PropTypes.object,
-  onToggle: PropTypes.func
+  onToggle: PropTypes.func,
 };
 
 export class ActionButton extends React.Component {
@@ -135,7 +134,7 @@ export class ActionButton extends React.Component {
     this.props.onToggle(this.props.action);
   }
   render() {
-    let className = "RichEditor-styleButton";
+    const className = 'RichEditor-styleButton';
     return (
       <span className={className} onMouseDown={this.onToggle}>
         {this.props.label}
@@ -147,33 +146,33 @@ export class ActionButton extends React.Component {
 ActionButton.propTypes = {
   onToggle: PropTypes.func,
   label: PropTypes.string,
-  action: PropTypes.string
+  action: PropTypes.string,
 };
 
 const styles = {
   root: {
     fontFamily: "'Arial', serif",
     padding: 20,
-    width: 600
+    width: 600,
   },
   buttons: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   linkTitleInputContainer: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   linkTitleInput: {
     fontFamily: "'Arial', serif",
     marginRight: 10,
-    padding: 3
+    padding: 3,
   },
   editor: {
-    cursor: "text",
+    cursor: 'text',
     minHeight: 80,
-    padding: 0
+    padding: 0,
   },
   button: {
     marginTop: 10,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 };

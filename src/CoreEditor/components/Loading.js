@@ -1,7 +1,7 @@
 /**
  * Created by michbil on 18.07.17.
  */
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 export class Loading extends Component {
   render() {

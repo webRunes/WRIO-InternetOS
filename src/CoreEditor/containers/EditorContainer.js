@@ -33,8 +33,9 @@ function initCallbacks(dispatch) {
 
 class EditorContainer extends React.Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(gotUrlParams(CREATE_MODE, EDIT_URL, EDIT_RELATIVE_PATH)); // pass initial editing params to the store
+    const { initUrlParams, dispatch } = this.props;
+
+    initUrlParams();
     initCallbacks(this.props.dispatch);
     if (window.location.pathname === '/create') {
       dispatch(createNewDocument());
@@ -67,7 +68,9 @@ class EditorContainer extends React.Component {
             <EditorComponent
               editorState={this.props.editorState}
               editorName="MAIN"
-              dispatch={this.props.dispatch}
+              editorChanged={this.props.editorChanged}
+              openImageDialog={this.props.openImageDialog}
+              openLinkDialog={this.props.openLinkDialog}
             />
 
             <LinkUrlDialog />
@@ -129,4 +132,17 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(EditorContainer);
+import mkEditorActions from '../actions/indexActions';
+const editorChanged = mkEditorActions("MAIN").editorChanged; // map action name to particular editor name
+
+function mapDispatchToProps(dispatch) {
+  return {
+    initUrlParams: () => dispatch(gotUrlParams(CREATE_MODE, EDIT_URL, EDIT_RELATIVE_PATH)), // pass initial editing params to the store
+    dispatch,
+    openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
+    openImageDialog: (...args) => dispatch(openImageDialog(...args)),
+    editorChanged: state => dispatch(editorChanged(state)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditorContainer);

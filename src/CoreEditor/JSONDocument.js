@@ -137,6 +137,32 @@ class GenericLDJsonDocument extends LdJsonDocument {
       this.data.push(this.makeArticle('En', '', author, commentID, about));
     }
   }
+
+  /**
+   * Create temporary in memory document from cover
+   * @param {*} cover 
+   */
+  static createFromCover(cover) {
+    const el = cover.itemListElement[0];
+    return {
+      '@type': 'Article',
+      name: el.name,
+      articleBody: el.text,
+      hasPart: [],
+      mentions: [],
+    };    
+  }
+
+  static newCover() {
+    return {
+      '@type': 'Article',
+      name: "Cover title",
+      articleBody: ["Cover text"],
+      hasPart: [],
+      mentions: [],
+    };
+  }
+
   getCommentID() {
     return this.getElementOfType('Article').comment;
   }

@@ -2,8 +2,8 @@
  * Created by michbil on 18.07.17.
  */
 
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Modal extends React.Component {
   constructor(props) {
@@ -13,16 +13,16 @@ export default class Modal extends React.Component {
   }
 
   componentDidMount() {
-    $("#confirm-delete").show();
+    $('#confirm-delete').show();
   }
 
   onOk() {
     this.props.onOk();
-    $("#confirm-delete").hide();
+    $('#confirm-delete').hide();
   }
 
   onCancel() {
-    $("#confirm-delete").hide();
+    $('#confirm-delete').hide();
     this.props.onCancel();
   }
 
@@ -64,5 +64,5 @@ export default class Modal extends React.Component {
 
 Modal.propTypes = {
   onOk: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
 };

@@ -1,15 +1,15 @@
 /**
  * Created by michbil on 29.04.16.
  */
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-var domain = process.env.DOMAIN;
+const domain = process.env.DOMAIN;
 
 const CommentEnabler = ({ isChecked, onCheck }) => {
   function handleInputChange(event) {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     onCheck(value);
   }
 

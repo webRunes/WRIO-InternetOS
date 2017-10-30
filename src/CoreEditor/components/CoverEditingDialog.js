@@ -1,59 +1,57 @@
 // @flow
 import React from 'react';
 import Modal from 'react-modal';
+import EditorComponent from './EditorComponent';
 
 type CoverDialogTypes = {
   showDialog: boolean,
   onCloseDialog: Function,
 };
 
-const CoverDialog = ({ title, text, showDialog, onCloseDialog }: CoverDialogTypes) => {
-  const urlValue = 'WTF';
+const CoverDialog = ({
+  editorState,
+  imageUrl,imageUrlChange,
+  showDialog,
+  onSaveCover,
+  onCloseDialog,
+  editorChanged,
+  openImageDialog,
+  openLinkDialog,
+}: 
+CoverDialogTypes) => {
   const previewBusy = false;
-  const showTitle = false;
-  const showDescription = false;
+  console.log("EDIT")
   return (
     <div style={styles.linkTitleInputContainer}>
-      <Modal shouldCloseOnOverlayClick style={modalStyles} isOpen={showDialog} contentLabel="Edit">
+      <Modal shouldCloseOnOverlayClick 
+      style={modalStyles} 
+      isOpen={showDialog} 
+      contentLabel="Edit">
+        <EditorComponent
+          editorState={editorState}
+          editorName="COVEREDITOR_"
+          editorChanged={editorChanged}
+          openImageDialog={openImageDialog}
+          openLinkDialog={openLinkDialog}
+        />
         <div className="form-group">
-          <label htmlFor="linkUrl">URL: </label>
+          <label htmlFor="linkUrl">IMAGE URL: </label>
           <input
-            onChange={e => onUrlChange(e.target.value)}
+            onChange={e => imageUrlChange(e.target.value)}
             type="text"
-            value={urlValue}
+            value={imageUrl}
             className="form-control"
           />{' '}
-          {previewBusy && <img src="https://default.wrioos.com/img/loading.gif" />}
+          {previewBusy && (
+            <img src="https://default.wrioos.com/img/loading.gif" />
+          )}
         </div>
-        {showTitle && (
-          <div className="form-group">
-            <label htmlFor="linkTitle">Title: </label>
-            <input
-              onChange={e => onTitleChange(e.target.value)}
-              style={styles.linkTitleInput}
-              type="text"
-              value={titleValue}
-              className="form-control"
-            />
-          </div>
-        )}
-        {showDescription && (
-          <div className="form-group">
-            <label htmlFor="linkDesc">Description: </label>
-            <textarea
-              onChange={e => onDescChange(e.target.value)}
-              rows="4"
-              type="text"
-              value={descValue}
-              className="form-control"
-            />
-          </div>
-        )}
+
         <div className="form-group pull-right">
           <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
             <span className="glyphicon glyphicon-remove" />Cancel
           </button>
-          <button className="btn btn-primary btn-sm">
+          <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
             <span className="glyphicon glyphicon-ok" />Submit
           </button>
         </div>
@@ -69,17 +67,23 @@ const modalStyles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    zIndex: 100000,
   },
   content: {
-    top: '40%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    width: '380px',
-    transform: 'translate(-50%, -50%)',
+    position: 'absolute',
+    top: '40px',
+    left: '40px',
+    right: '40px',
+    bottom: '40px',
+    border: '1px solid #ccc',
+    background: '#fff',
+    overflow: 'auto',
+    WebkitOverflowScrolling: 'touch',
+    borderRadius: '4px',
+    outline: 'none',
+    padding: '20px',
+    height: '70%',
   },
 };
 

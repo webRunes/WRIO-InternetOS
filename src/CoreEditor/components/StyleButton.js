@@ -1,8 +1,8 @@
 /**
  * Created by michbil on 07.08.16.
  */
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class StyleButton extends React.Component {
   constructor() {
@@ -14,9 +14,9 @@ export default class StyleButton extends React.Component {
     this.props.onToggle(this.props.style);
   }
   render() {
-    let className = "RichEditor-styleButton";
+    let className = 'RichEditor-styleButton';
     if (this.props.active) {
-      className += " RichEditor-activeButton";
+      className += ' RichEditor-activeButton';
     }
     return (
       <span className={className} onMouseDown={this.onToggle}>
@@ -30,5 +30,5 @@ StyleButton.propTypes = {
   onToggle: PropTypes.func,
   style: PropTypes.string,
   active: PropTypes.bool,
-  label: PropTypes.string
+  label: PropTypes.string,
 };

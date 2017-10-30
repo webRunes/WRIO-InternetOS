@@ -24,9 +24,6 @@ import {
   InlineStyleControls,
   ActionButton,
 } from '../components/EditorControls';
-import mkEditorActions from '../actions/indexActions';
-import { openImageDialog } from '../actions/imagedialog';
-import { openLinkDialog } from '../actions/linkdialog';
 
 function getBlockStyle(block) {
   switch (block.getType()) {
@@ -49,7 +46,6 @@ class EditorComponent extends React.Component {
 
     setTimeout(this.focus.bind(this), 200);
     window.editorFocus = this.onFocus.bind(this);
-    this.editorChanged = mkEditorActions(this.props.editorName).editorChanged; // map action name to particular editor name
   }
 
   onFocus() {
@@ -58,12 +54,12 @@ class EditorComponent extends React.Component {
 
   onLinkControlClick() {
     const title = getSelection(this.props.editorState);
-    this.props.dispatch(openLinkDialog(title, '', ''));
+    this.props.openLinkDialog(title, '', '');
   }
 
   onImageControlClick() {
     const title = getSelection(this.props.editorState);
-    this.props.dispatch(openImageDialog(title, '', ''));
+    this.props.openImageDialog(title, '', '');
   }
 
   focus() {
@@ -74,25 +70,25 @@ class EditorComponent extends React.Component {
 
   handleChange(editorState) {
     console.log(convertToRaw(editorState.getCurrentContent()));
-    this.props.dispatch(this.editorChanged(editorState));
+    this.props.editorChanged(editorState);
   }
 
   handleKeyCommand(command) {
     const { editorState } = this.props;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
-      this.props.dispatch(this.editorChanged(newState));
+      this.props.editorChanged(newState);
       return true;
     }
     return false;
   }
 
   toggleBlockType(blockType) {
-    this.props.dispatch(this.editorChanged(RichUtils.toggleBlockType(this.props.editorState, blockType)));
+    this.props.editorChanged(RichUtils.toggleBlockType(this.props.editorState, blockType));
   }
 
   toggleInlineStyle(inlineStyle) {
-    this.props.dispatch(this.editorChanged(RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)));
+    this.props.editorChanged(RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle));
   }
 
   render() {
@@ -126,7 +122,10 @@ class EditorComponent extends React.Component {
             />
 
             {false && (
-              <InlineStyleControls editorState={editorState} onToggle={this.toggleInlineStyle} />
+              <InlineStyleControls
+                editorState={this.props.editorState}
+                onToggle={this.toggleInlineStyle}
+              />
             )}
 
             <div className={className} onClick={() => this.focus}>
@@ -150,9 +149,11 @@ class EditorComponent extends React.Component {
 }
 
 EditorComponent.propTypes = {
-  editorState: PropTypes.object,
-  dispatch: PropTypes.func,
+  editorState: PropTypes.object.isRequired,
   editorName: PropTypes.string.isRequired,
+  openLinkDialog: PropTypes.func.isRequired,
+  openImageDialog: PropTypes.func.isRequired,
+  editorChanged: PropTypes.func.isRequired,
 };
 
 export default EditorComponent;

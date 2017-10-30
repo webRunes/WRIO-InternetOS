@@ -179,7 +179,7 @@ const CoverCarousel = ({
       ? { height: 'auto', minHeight: '120px' }
       : { height: 'auto', minHeight: '100vh' };
   return (
-    <div className="page-header" style={headerStyle}>
+    <div className="page-header" style={headerStyle} >
       <div className="cover col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
         <div className="cover-left">
           <div className="card card-profile card-plain">
@@ -215,14 +215,14 @@ const CoverCarousel = ({
             return (
               <CarouselItem key={key}>
                 <RenderCover image={image} 
-                             onPress={onCoverPressed}
+                             onPress={() => onCoverPressed(covers[currentCover].root.data)}
                 />
               </CarouselItem>
             );
           })}
         </Carousel>
       ) : (
-        <div style={carouselStyle(defaultBg, '120px')} className="cover-bg" />
+        <div style={carouselStyle(defaultBg, '120px')} className="cover-bg" onClick={() => onCoverPressed()} />
       )}
     </div>
   );

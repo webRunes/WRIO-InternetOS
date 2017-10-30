@@ -1,5 +1,5 @@
-import React from "react";
-import Modal from "react-modal";
+import React from 'react';
+import Modal from 'react-modal';
 
 const EntityDialog = ({
   showDialog,
@@ -19,7 +19,7 @@ const EntityDialog = ({
   onRemoveLink,
   onCancelLink,
   onConfirmLink,
-  onEditLink
+  onEditLink,
 }) => {
   const isEditLink = linkEntityKey != null;
   if (!showDialog) {
@@ -28,9 +28,9 @@ const EntityDialog = ({
   return (
     <div style={styles.linkTitleInputContainer}>
       <Modal
-        shouldCloseOnOverlayClick={true}
+        shouldCloseOnOverlayClick
         style={customStyles}
-        isOpen={true}
+        isOpen
         contentLabel="Edit"
       >
         <div className="form-group">
@@ -40,7 +40,7 @@ const EntityDialog = ({
             type="text"
             value={urlValue}
             className="form-control"
-          />{" "}
+          />{' '}
           {previewBusy && (
             <img src="https://default.wrioos.com/img/loading.gif" />
           )}
@@ -91,7 +91,7 @@ const EntityDialog = ({
                       titleValue,
                       urlValue,
                       descValue,
-                      linkEntityKey
+                      linkEntityKey,
                     )
             }
             className="btn btn-primary btn-sm"
@@ -106,51 +106,51 @@ const EntityDialog = ({
 
 const customStyles = {
   overlay: {
-    position: "fixed",
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(255, 255, 255, 0.75)",
-    zIndex: 10
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    zIndex: 10,
   },
   content: {
-    top: "40%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    width: "380px",
-    transform: "translate(-50%, -50%)"
-  }
+    top: '40%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    width: '380px',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 const styles = {
   root: {
     fontFamily: "'Arial', serif",
     padding: 20,
-    width: 600
+    width: 600,
   },
   buttons: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   linkTitleInputContainer: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   linkTitleInput: {
     fontFamily: "'Arial', serif",
     marginRight: 10,
-    padding: 3
+    padding: 3,
   },
   editor: {
-    border: "1px solid #ccc",
-    cursor: "text",
+    border: '1px solid #ccc',
+    cursor: 'text',
     minHeight: 80,
-    padding: 10
+    padding: 10,
   },
   button: {
     marginTop: 10,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 };
 export default EntityDialog;

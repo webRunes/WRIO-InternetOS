@@ -20,15 +20,7 @@ import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
 import EditorReducer from './editorReducer';
 
-const defaultState = {
-  document: null,
-  isFetching: true,
-  error: '',
-  header: '',
-  editorState: null,
-};
-
-const editorDocumentReducer = EditorReducer('MAIN', defaultState);
+const editorDocumentReducer = EditorReducer('MAIN');
 
 const combinedReducer = combineReducers({
   editorDocument: editorDocumentReducer,

@@ -12,7 +12,15 @@ import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
 import JSONDocument from '../JSONDocument.js';
 
-const edtorDocumentReducer = (editorName: string, defaultState: Object) => (
+const defaultState = {
+  document: null,
+  isFetching: true,
+  error: '',
+  header: '',
+  editorState: null,
+};
+
+const edtorDocumentReducer = (editorName: string) => (
   state: Object = defaultState,
   action: Object,
 ) => {
@@ -37,9 +45,13 @@ const edtorDocumentReducer = (editorName: string, defaultState: Object) => (
     case GOT_ERROR:
       return { ...state, isFetching: false, error: action.error };
     case GOT_JSON_LD_DOCUMENT: {
+      if (editorName !== 'MAIN') {
+        return state;
+      }
       const doc = action.data;
       return mkDoc(state, doc);
     }
+
     case EDITOR_CHANGED: {
       const { editorState } = action;
       return extractHeader({ ...state, editorState });
