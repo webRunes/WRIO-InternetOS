@@ -90,10 +90,8 @@ const RenderCover = ({ image, onPress }: { image: ImageObject }) => {
               <div className="title">
                 <div className="title-text">
                   <h1>{name}</h1>
-                  <h3>{about}</h3>
-                  <h3>
-                    <CoverText cover={image} />
-                  </h3>
+                  <h2>{about}</h2>
+                  <h3><CoverText cover={image}/></h3>
                 </div>
               </div>
             </div>

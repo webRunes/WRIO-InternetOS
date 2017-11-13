@@ -56,7 +56,7 @@ const RightNav = () => {
 
 const LoginBar = ({ profile }) => {
   const loginStyle = {
-    margin: "1em 4.2em",
+    margin: "10px 110px",
     position: "absolute",
     right: 0,
     zIndex: 120

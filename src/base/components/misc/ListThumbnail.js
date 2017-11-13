@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Thumbnail extends React.Component {
   render() {
@@ -8,9 +8,7 @@ export default class Thumbnail extends React.Component {
         className="img"
         style={{
           background: `url(${this.props.image})`,
-          width: "120px",
-          height: "80px",
-          backgroundSize: "cover"
+          backgroundPosition: 'center center no-repeat',
         }}
       />
     );
@@ -18,5 +16,5 @@ export default class Thumbnail extends React.Component {
 }
 
 Thumbnail.propTypes = {
-  image: PropTypes.string.isRequired
+  image: PropTypes.string.isRequired,
 };
