@@ -11,9 +11,12 @@ import {
   PUBLISH_DOCUMENT,
   PUBLISH_FINISH,
   PICK_SAVE_SOURCE,
+  PUBLISH_COVER,
 } from '../actions/publishActions';
-import JSONDocument from '../JSONDocument';
+import JSONDocument from 'base/jsonld/LdJsonDocument';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
+
+const CREATE_MODE = window.location.pathname === '/create';
 
 const defaultState = {
   editParams: {
@@ -103,9 +106,23 @@ export function publishReducer(state = defaultState, action) {
       return { ...state, busy: false };
     case PICK_SAVE_SOURCE:
       return { ...state, saveSource: action.source };
+    case PUBLISH_COVER:
+      return { ...state, coverHtml: action.html };
     default:
       return state;
   }
+}
+
+export const getSaveUrl = (wrioID, path) => `https://wr.io/${wrioID}/${path}`;
+
+function prepFileName(name) {
+  const res = name.replace(/ /g, '_');
+  return `${res.substring(0, 120)}/index.html`;
+}
+
+function prepCoverName(name) {
+  const res = name.replace(/ /g, '_');
+  return `${res.substring(0, 120)}/cover/cover.html`;
 }
 
 /**
@@ -116,20 +133,16 @@ export function publishReducer(state = defaultState, action) {
  */
 function calcResultingPath(state, filename) {
   const path = prepFileName(filename);
-  const { createMode, initEditURL, initEditPath } = state.editParams;
+  const coverFileName = prepCoverName(filename);
+  const { createMode, initEditPath } = state.editParams;
   return {
     ...state,
     filename,
+    coverFileName,
+    coverSavePath: `${getSaveUrl(state.wrioID, coverFileName)}?cover`,
     savePath: createMode ? path : initEditPath, // fallback to predefined path if we just editing file
     saveUrl: createMode ? getSaveUrl(state.wrioID, path) : initEditPath,
   };
-}
-
-export const getSaveUrl = (wrioID, path) => `https://wr.io/${wrioID}/${path}`;
-
-function prepFileName(name) {
-  const res = name.replace(/ /g, '_');
-  return `${res.substring(0, 120)}/index.html`;
 }
 
 export default publishReducer;

@@ -4,22 +4,34 @@
 
 import { COVER_DIALOG_OPEN, COVER_DIALOG_CLOSE } from '../actions/coverDialog';
 import EditorReducerMaker from './editorReducer';
-import JSONDocument from '../JSONDocument.js';
+import JSONDocument from 'base/jsonld/LdJsonDocument';
+import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
 import { mkDoc, extractHeader } from './docUtils';
 
-const DEFAULT_COVER =
-  'http://cdn.audubon.org/cdn/farfuture/CVt0eUFTB4D8hO6maFhtbL_YYlONSrMWBTv6dTIfbCs/mtime:1497975916/sites/default/files/styles/hero_image/public/web_gbbc_cedar_waxwing_4_ben-thomas_ga_2012_kk.jpg?itok=sKUsfgjj';
+const DEFAULT_COVER = 'https://webrunes.com/img/cover1.png';
+
+function newCover() {
+  return {
+    '@type': 'ImageObject',
+    name: '',
+    thumbnail: DEFAULT_COVER,
+    contentUrl: DEFAULT_COVER,
+    about: 'Cover',
+    text: [' '],
+  };
+}
 
 const CoverEditorReducer = function CoverEditorReducer(state, action) {
   switch (action.type) {
     case 'COVER_DIALOG_OPEN': {
       let docs;
+      const coverElement = action.cover.itemListElement[0];
       if (action.cover) {
-        docs = new JSONDocument([JSONDocument.createFromCover(action.cover)]);
+        docs = new JSONDocument([coverElement]);
       } else {
-        docs = new JSONDocument([JSONDocument.newCover()]);
+        docs = new JSONDocument([newCover()]);
       }
-      const doctempl = mkDoc(state, docs);
+      const doctempl = mkDoc(state, docs, JSONToDraft);
       return doctempl;
     }
     default:

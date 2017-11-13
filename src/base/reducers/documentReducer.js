@@ -98,7 +98,7 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
  * @param {*} mainPage
  */
 export function getAuthor(doc: LdJsonDocument): ?string {
-  return doc.getJsonLDProperty('author');
+  return doc.getProperty('author');
 }
 
 /*

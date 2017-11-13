@@ -20,7 +20,7 @@ describe('mention test', () => {
     });
 
     it("Shoud correctly decode document", () => {
-        doc.getJsonLDProperty('comment').should.be.equal('746095521694089216');
+        doc.getProperty('comment').should.be.equal('746095521694089216');
         doc.hasCommentId().should.be.true();
         doc.hasArticle().should.be.true();
     });

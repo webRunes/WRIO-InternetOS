@@ -79,7 +79,7 @@ class TitterWidget extends React.Component {
     if (!timeline) {
       return;
     }
-    let id = this.props.document.getJsonLDProperty("comment");
+    let id = this.props.document.getProperty("comment");
     return new TwitterTimelineWidget(id, timeline);
   }
 

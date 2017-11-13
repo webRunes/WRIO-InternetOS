@@ -1,32 +1,28 @@
 /* @flow */
-import LdJsonObject from "./entities/LdJsonObject.js";
+import LdJsonObject from './entities/LdJsonObject.js';
 
 /* Loaded class, takes <scripts> from the document, parses them and applies mentions */
 
 type LdJsonObjects = Array<LdJsonObject>;
 
 function extractAuthorWrioID(author: string): string {
-  var reg = /\?wr\.io=([0-9]*)$/gm;
-  var regResult = reg.exec(author);
-  var wrioID = regResult ? regResult[1] : !1;
+  const reg = /\?wr\.io=([0-9]*)$/gm;
+  const regResult = reg.exec(author);
+  const wrioID = regResult ? regResult[1] : !1;
   if (wrioID) {
     return wrioID;
-  } else {
-    throw new Error("Unable to extract author id");
   }
+  throw new Error('Unable to extract author id');
 }
 
-function isNodeList(
-  nodes: HTMLCollection<HTMLScriptElement> | Array<Object>
-): boolean {
-  var stringRepr = Object.prototype.toString.call(nodes);
+function isNodeList(nodes: HTMLCollection<HTMLScriptElement> | Array<Object>): boolean {
+  const stringRepr = Object.prototype.toString.call(nodes);
 
   return (
-    typeof nodes === "object" &&
+    typeof nodes === 'object' &&
     /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
-    typeof nodes.length === "number" &&
-    (nodes.length === 0 ||
-      (typeof nodes[0] === "object" && nodes[0].nodeType > 0))
+    typeof nodes.length === 'number' &&
+    (nodes.length === 0 || (typeof nodes[0] === 'object' && nodes[0].nodeType > 0))
   );
 }
 
@@ -46,25 +42,27 @@ class LdJsonDocument {
     this.blocks = this.mapMentions(this.data);
     this.id = id++;
   }
+
   parseScripts(scripts: HTMLCollection<HTMLScriptElement>): Array<Object> {
-    let data: Array<Object> = [];
+    const data: Array<Object> = [];
     const scriptsArray: Array<HTMLElement> = [].slice.call(scripts); // to convert HtmlCollection to the Array, to address issues on the IE and mobile Safari
-    for (let script of scripts) {
-      if (script.type === "application/ld+json") {
-        let json = undefined;
+    for (const script of scripts) {
+      if (script.type === 'application/ld+json') {
+        let json;
         try {
           json = JSON.parse(script.textContent);
         } catch (exception) {
           json = undefined;
-          console.error("JSON-LD invalid: " + exception);
+          console.error(`JSON-LD invalid: ${exception}`);
         }
-        if (typeof json === "object") {
+        if (typeof json === 'object') {
           data.push(json);
         }
       }
     }
     return data;
   }
+
   mapMentions(data: Array<Object>): LdJsonObjects {
     return data.map(jsn => LdJsonObject.LdJsonFactory(jsn));
   }
@@ -73,11 +71,12 @@ class LdJsonDocument {
     return this.blocks;
   }
 
-  getJsonLDProperty(field: string): ?string {
+  getProperty(field: string): ?string {
     let ret = null;
     this.blocks.forEach((section: LdJsonObject) => {
+      console.log(section.data.author);
       const data = section.data[field];
-      if (data) {
+      if (data !== undefined) {
         ret = data;
       }
     });
@@ -85,7 +84,7 @@ class LdJsonDocument {
   }
 
   getAuthorWrioId() {
-    var author = this.getJsonLDProperty("author");
+    const author = this.getProperty('author');
     try {
       if (author) {
         return extractAuthorWrioID(author);
@@ -97,7 +96,7 @@ class LdJsonDocument {
   }
 
   hasCommentId() {
-    var comment = this.getJsonLDProperty("comment");
+    const comment = this.getProperty('comment');
     return comment !== null;
   }
 
@@ -106,13 +105,67 @@ class LdJsonDocument {
   }
 
   getArticle(): ?LdJsonObject {
-    var r = null;
+    let r = null;
     this.blocks.forEach((e: LdJsonObject) => {
-      if (e.getType() === "Article") {
+      if (e.getType() === 'Article') {
         r = true;
       }
     });
     return r;
+  }
+
+  /**
+     * Returns LD+JSON entity of type <type>
+     * @param type
+     * @returns {*}
+     */
+  getElementOfType(type: string) {
+    let rv;
+    this.data.forEach((element) => {
+      if (element['@type'] === type) {
+        rv = element;
+      }
+    });
+    return rv;
+  }
+
+  /**
+     * Returns LD+JSON entity of type <type>
+     * @param type
+     * @returns {*}
+     */
+  setElementOfType(type: string, newElement: Object) {
+    let found = false;
+    this.data.forEach((element, i) => {
+      if (element['@type'] === type) {
+        found = true;
+        this.data[i] = newElement;
+        this.blocks[i] = LdJsonObject.LdJsonFactory(newElement);
+      }
+    });
+
+    if (!found) {
+      this.data.push(newElement);
+      this.blocks.push(LdJsonObject.LdJsonFactory(newElement));
+    }
+
+  }
+
+  getCommentID() {
+    return this.getElementOfType('Article').comment;
+  }
+  setCommentID(cid) {
+    this.getElementOfType('Article').comment = cid;
+  }
+
+  /**
+     * sets current document description(about)
+     * @param text - description text
+     */
+
+  setAbout(text) {
+    const article = this.getElementOfType('Article');
+    article.about = text;
   }
 }
 

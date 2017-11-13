@@ -27,6 +27,7 @@ CoverDialogTypes) => {
       style={modalStyles} 
       isOpen={showDialog} 
       contentLabel="Edit">
+      <div style={{overflow:"scroll",height:"calc(100% - 110px)"}}>
         <EditorComponent
           editorState={editorState}
           editorName="COVEREDITOR_"
@@ -46,13 +47,14 @@ CoverDialogTypes) => {
             <img src="https://default.wrioos.com/img/loading.gif" />
           )}
         </div>
+        </div>
 
-        <div className="form-group pull-right">
+        <div className="form-group" style={{height: "80px"}}>
           <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
             <span className="glyphicon glyphicon-remove" />Cancel
           </button>
           <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
-            <span className="glyphicon glyphicon-ok" />Submit
+            <span className="glyphicon glyphicon-ok" />Publish Cover
           </button>
         </div>
       </Modal>

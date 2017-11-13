@@ -151,6 +151,22 @@ const CoverNavigationButtons = ({
   );
 };
 
+const Logo = () => (<div className="cover-left">
+<div className="card card-profile card-plain">
+  <div className="card-image hidden">
+    <a href="#" className="img">
+      <img src="https://default.wrioos.com/img/logo.png" alt="Webrunes logo" />
+    </a>
+  </div>
+  <div className="hidden">
+    <a href="#" className="author">
+      By User Name
+    </a>
+    <h6>Followers: 188</h6>
+  </div>
+</div>
+</div>);
+
 /**
  * Stateless component for overall cover block
  * @param covers
@@ -181,21 +197,7 @@ const CoverCarousel = ({
   return (
     <div className="page-header" style={headerStyle} >
       <div className="cover col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
-        <div className="cover-left">
-          <div className="card card-profile card-plain">
-            <div className="card-image hidden">
-              <a href="#" className="img">
-                <img src="https://default.wrioos.com/img/logo.png" alt="Webrunes logo" />
-              </a>
-            </div>
-            <div className="hidden">
-              <a href="#" className="author">
-                By User Name
-              </a>
-              <h6>Followers: 188</h6>
-            </div>
-          </div>
-        </div>
+        <Logo />
         <CoverNavigationButtons
           items={covers}
           currentCover={currentCover}

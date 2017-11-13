@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import CoverHeader from 'base/components/CoverHeader';
-import * as actions from '../actions/actions';
+import * as actions from 'base/actions/actions';
+import * as coverActions from 'CoreEditor/actions/coverActions';
+import * as coverDialogActions from 'CoreEditor/actions/coverDialog';
 
 function mapStateToProps(state) {
   return {
@@ -15,7 +17,10 @@ function mapDispatchToProps(dispatch) {
     onCoverChanged: (current) => {
       dispatch(actions.selectCover(current));
     },
-    onCoverPressed: noop => noop,
+    onCoverPressed: (cover) => {
+      console.log('Cover clicked!!!', cover);
+      dispatch(coverDialogActions.openCoverDialog(cover));
+    },
     onCoverButtonPressed: cover => dispatch(actions.pressCoverButton(cover)),
   };
 }

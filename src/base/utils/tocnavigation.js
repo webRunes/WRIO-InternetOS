@@ -19,7 +19,7 @@ export class MenuItem {
   }
 }
 
-class ListItem extends MenuItem {
+export class ListItem extends MenuItem {
   segueUrl: string;
   constructor(name: string, url: string, active: boolean) {
     super(name, url, active);

@@ -1,9 +1,10 @@
 import getHttp from 'base/utils/request';
 
 import { getRegistredUser, getWidgetID } from '../webrunesAPI.js';
-import JSONDocument from '../JSONDocument';
+import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import { loadDocumentWithData } from 'base/actions/actions';
 import { Entity } from 'draft-js';
+import { getTitle } from '../DraftExporter.js';
 
 const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const receiveUserData = function receiveUserData(data) {
@@ -67,7 +68,7 @@ export default function createActionsForEditor(editorName) {
     dispatch(exports.requestDocument());
     try {
       const { data } = await getHttp(url);
-      const doc = new JSONDocument(data);
+      const doc = new LdJsonDocument(data);
       const about = doc.getElementOfType('Article').about || '';
       dispatch({ type: 'DESC_CHANGED', text: about });
       // dispatch(receiveDocument(doc))
@@ -98,11 +99,18 @@ export default function createActionsForEditor(editorName) {
     };
   };
 
-  exports.editorChanged = function editorChanged(state) {
+  exports.editorChanged = function editorChanged(editorState) {
     return {
       type: EDITOR_CHANGED,
-      editorState: state,
+      editorState,
     };
+  };
+
+  exports.mainEditorChanged = editorState => (dispatch) => {
+    const cs = editorState.getCurrentContent();
+    const header = getTitle(cs);
+    dispatch({ type: 'HEADER_CHANGED', header });
+    return dispatch(exports.editorChanged(editorState));
   };
 
   exports.createNewLink = function createNewLink(title, url, desc) {

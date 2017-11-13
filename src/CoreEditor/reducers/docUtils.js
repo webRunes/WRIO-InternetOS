@@ -18,24 +18,26 @@ import {
   removeEntity,
   extractTableOfContents,
 } from '../utils/entitytools';
-import JSONDocument from '../JSONDocument.js';
+import { getTitle } from '../DraftExporter.js';
+import JSONToDraft from '../DraftConverters/article/JSONToDraft';
+import { image } from 'superagent/lib/node/parsers';
+import { ListItem } from 'base/utils/tocnavigation';
 
 export function extractHeader(state) {
-  const editorState = state.editorState;
-  const header = JSONDocument.getTitle(editorState.getCurrentContent());
-  const toc = extractTableOfContents(editorState);
+  const { editorState } = state;
+  const header = getTitle(editorState.getCurrentContent());
+  const chapters = extractTableOfContents(editorState).map(e => new ListItem(e, 'url'));
+  const toc = { chapters, covers: [], external: [] };
   return { ...state, header, toc };
 }
 
-export function mkDoc(state, doc) {
-  const contentBlocks = doc.toDraft();
-  const mentions = doc.mentions;
-  const _state = extractHeader({
+export function mkDoc(state, doc, importFN = JSONToDraft) {
+  const draftParams = importFN(doc);
+  const newState = extractHeader({
     ...state,
     isFetching: false,
     document: doc,
-    editorState: EditorState.moveFocusToEnd(createEditorState(contentBlocks, mentions, doc.images)),
+    editorState: EditorState.moveFocusToEnd(createEditorState(draftParams)),
   });
-  console.log(_state);
-  return _state;
+  return newState;
 }

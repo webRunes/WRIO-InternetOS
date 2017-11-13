@@ -174,7 +174,7 @@ function createCurrentPageParent(page: Object, author: LdJsonDocument) {
   } else {
     return {
       tab: page,
-      parent: author.getJsonLDProperty("author")
+      parent: author.getProperty("author")
     };
   }
 }

@@ -7,16 +7,18 @@ import { openLinkDialog } from '../actions/linkdialog';
 import { openImageDialog } from '../actions/imagedialog';
 import EntityTools from '../utils/entitytools';
 import { Loading, LoadingError } from '../components/loading';
-import mkActions from '../actions/indexActions.js';
-import { gotUrlParams } from '../actions/publishActions.js';
+import mkEditorActions from '../actions/indexActions';
+import { gotUrlParams } from '../actions/publishActions';
 import { connect } from 'react-redux';
-import { parseEditingUrl } from '../utils/url.js';
+import { parseEditingUrl } from '../utils/url';
 
-import LinkUrlDialog from '../containers/LinkUrlDialog.js';
-import ImageUrlDialog from '../containers/ImageUrlDialog.js';
-import CoverEditingDialog from './CoverEditingDialogContainer.js';
+import LinkUrlDialog from '../containers/LinkUrlDialog';
+import ImageUrlDialog from '../containers/ImageUrlDialog';
+import CoverEditingDialog from './CoverEditingDialogContainer';
 
-const { fetchDocument, createNewDocument, fetchUserData } = mkActions('MAIN');
+const {
+  fetchDocument, createNewDocument, fetchUserData, mainEditorChanged,
+} = mkEditorActions('MAIN');
 
 const CREATE_MODE = window.location.pathname === '/create';
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
@@ -132,16 +134,13 @@ function mapStateToProps(state) {
   };
 }
 
-import mkEditorActions from '../actions/indexActions';
-const editorChanged = mkEditorActions("MAIN").editorChanged; // map action name to particular editor name
-
 function mapDispatchToProps(dispatch) {
   return {
     initUrlParams: () => dispatch(gotUrlParams(CREATE_MODE, EDIT_URL, EDIT_RELATIVE_PATH)), // pass initial editing params to the store
     dispatch,
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
     openImageDialog: (...args) => dispatch(openImageDialog(...args)),
-    editorChanged: state => dispatch(editorChanged(state)),
+    editorChanged: state => dispatch(mainEditorChanged(state)),
   };
 }
 

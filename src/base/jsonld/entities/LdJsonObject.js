@@ -85,7 +85,7 @@ export default class LdJsonObject {
           return new LdJsonObject(json, order, root);
       }
     } else {
-      throw new Error("Invalid item type");
+      throw new Error("Invalid item type "+type);
     }
   }
 

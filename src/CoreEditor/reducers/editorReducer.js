@@ -10,7 +10,8 @@ import {
 import { mkDoc, extractHeader } from './docUtils';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
-import JSONDocument from '../JSONDocument.js';
+import JSONDocument from 'base/jsonld/LdJsonDocument';
+import { createArticleTemplate } from '../DraftExporter';
 
 const defaultState = {
   document: null,
@@ -36,8 +37,7 @@ const edtorDocumentReducer = (editorName: string) => (
 
   switch (action.type) {
     case CREATE_DOCUMENT: {
-      const newDoc = new JSONDocument();
-      newDoc.createArticle(action.author, '');
+      const newDoc = new JSONDocument([createArticleTemplate(action.author, '')]);
       return mkDoc(state, newDoc);
     }
     case REQUEST_DOCUMENT:

@@ -71,7 +71,7 @@ export function gotJSON_LD_Document(data: LdJsonDocument, url: string, toc: Tabl
       url,
       toc,
     });
-    const author = data.getJsonLDProperty('author');
+    const author = data.getProperty('author');
     if (author) {
       dispatch(getAuthor(author));
     } else {

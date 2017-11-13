@@ -3,7 +3,7 @@ import React from 'react';
 import {
   VerticalNav,
   LeftNav
-} from 'base/containers/ArticleNavigationContainer';
+} from '../containers/ArticleNavigationContainer';
 import CoverHeader from './CoverHeaderContainer';
 import Tabs from 'base/components/Tabs';
 import EditorContainer from './EditorContainer.js';
@@ -113,13 +113,16 @@ class EditorWithGUI extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  url: state.document.url,
-  editAllowed: state.document.editAllowed,
-  toc: state.document.toc,
-  lists: state.document.lists,
-  tabKey: state.document.tabKey
-});
+const mapStateToProps = state => {
+  console.log("EDITORDOC", state.editorDocument.toc);
+  return{
+    url: state.document.url,
+    editAllowed: state.document.editAllowed,
+    toc: state.editorDocument.toc,
+    lists: state.document.lists,
+    tabKey: state.document.tabKey
+  }
+};
 const EditorMapped = connect(mapStateToProps)(EditorWithGUI);
 
 const Wrapper = () => {

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import mkActions from '../actions/indexActions';
-import JSONDocument from '../JSONDocument.js';
+import JSONDocument from 'base/jsonld/LdJsonDocument';
 import {
   createEditorState,
   createNewLink,
@@ -34,34 +34,5 @@ const combinedReducer = combineReducers({
   form: formReducer,
 });
 
-/**
- * Inject header to the publish reducer
- * @param state
- * @param action
- * @returns {*}
- */
-function crossSliceReducer(state, action) {
-  switch (action.type) {
-    case 'CREATE_DOCUMENT':
-    case 'GOT_JSON_LD_DOCUMENT':
-    case 'EDITOR_CHANGED': {
-      const docState = state.editorDocument;
-      const modAction = action;
-      modAction.header = docState.header;
-      return {
-        ...state,
-        publish: PostSettingsReducer(state.publish, modAction),
-      };
-    }
-    default:
-      return state;
-  }
-}
 
-function rootReducer(state, action) {
-  const intermediateState = combinedReducer(state, action);
-  const finalState = crossSliceReducer(intermediateState, action);
-  return finalState;
-}
-
-export default rootReducer;
+export default combinedReducer;

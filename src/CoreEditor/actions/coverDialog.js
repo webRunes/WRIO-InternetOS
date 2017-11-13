@@ -1,12 +1,30 @@
 import request from 'superagent';
-import JSONDocument from '../JSONDocument';
+import LdJsonDocument from 'base/jsonld/LdJsonDocument.js';
+import DraftExporter from '../DraftExporter';
+import DraftToJSON from '../DraftConverters/cover/DraftToJSON';
 import { replaceCovers } from 'base/actions/actions';
+import { publishCover } from './publishActions';
 /* image dialog */
 
 export const COVER_DIALOG_OPEN = 'COVER_DIALOG_OPEN';
 export const COVER_DIALOG_CLOSE = 'COVER_DIALOG_CLOSE';
+const DEFAULT_COVER = 'https://webrunes.com/img/cover1.png';
 
-export function openCoverDialog(cover) {
+const emptyCover = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Covers for my blog',
+  itemListElement: [
+    {
+      '@type': 'ImageObject',
+      contentUrl: DEFAULT_COVER,
+      name: 'Cover',
+      text: [' '],
+    },
+  ],
+};
+
+export function openCoverDialog(cover = emptyCover) {
   return {
     type: COVER_DIALOG_OPEN,
     cover,
@@ -18,41 +36,20 @@ export function closeCoverDialog() {
     type: COVER_DIALOG_CLOSE,
   };
 }
-
-export function saveCovers(editorState, imageUrl) {
-  return (dispatch) => {
-    const doc = new JSONDocument();
-    doc.createArticle('', '', '');
-    const content = editorState.getCurrentContent();
-    console.log(content);
-    const jsn = doc.draftToJson(content);
-    const coverElement = makeCoverElement(imageUrl, jsn.name, jsn.articleBody, jsn.mentions);
-    const cover = wrapCovers([coverElement]);
-    console.log(cover);
-    dispatch(replaceCovers(new JSONDocument([cover])));
-    dispatch(closeCoverDialog());
-  };
-}
-
-const coversTemplate = {
+const coverTemplate = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Covers for my blog',
   itemListElement: [],
 };
 
-function makeCoverElement(url, name, text, mentions) {
-  return {
-    '@type': 'ImageObject',
-    contentUrl: url,
-    name,
-    text,
-    mentions,
-  };
-}
-function wrapCovers(covers) {
-  return {
-    ...coversTemplate,
-    itemListElement: covers,
+export function saveCovers(editorState, imageUrl) {
+  return (dispatch) => {
+    const coverDocument = new LdJsonDocument([coverTemplate]);
+    const exporter = new DraftExporter(coverDocument);
+    const html = exporter.coverDraftToHtml(editorState.getCurrentContent(), imageUrl);
+    dispatch(replaceCovers(coverDocument));
+    dispatch(publishCover(html));
+    dispatch(closeCoverDialog());
   };
 }

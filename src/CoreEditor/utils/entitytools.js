@@ -16,14 +16,14 @@ import {
   Modifier,
   convertToRaw
 } from "draft-js";
-import { getImageObject } from "../JSONDocument.js";
-import insertAtomicBlock from "./insertAtomicBlock.js";
+import { getImageObject } from "./helpers";
+import insertAtomicBlock from "./insertAtomicBlock";
 
-var linkEditCallback;
-var imageEditCallback;
-import LinkEntity from "../EditorEntities/LinkEntity.js";
-import ImageEntity from "../EditorEntities/ImageEntitiy.js";
-import SocialMediaEntity from "../EditorEntities/SocialMediaEntity.js";
+let linkEditCallback;
+let imageEditCallback;
+import LinkEntity from "../EditorEntities/LinkEntity";
+import ImageEntity from "../EditorEntities/ImageEntitiy";
+import SocialMediaEntity from "../EditorEntities/SocialMediaEntity";
 
 const isImageLink = filename => /\.(gif|jpg|jpeg|tiff|png)$/i.test(filename);
 const TECHNICAL_BLOCK_ID = "[TECHNICAL_BLOCK_PLEASE_DONT_SHOW_IT]";
@@ -248,28 +248,28 @@ export function createEditorState({
   mentions,
   images,
   socials,
-  blockKeyToOrderMap
+  blockKeyToOrderMap,
 }) {
   const decorator = new CompositeDecorator([
     {
       strategy: findLinkEntities,
-      component: LinkEntity
+      component: LinkEntity,
     },
     {
       strategy: findImageEntities,
-      component: ImageEntity
+      component: ImageEntity,
     },
     {
       strategy: findSocialEntities,
-      component: SocialMediaEntity
-    }
+      component: SocialMediaEntity,
+    },
   ]);
 
   //    console.log("OrderedBlocks after import:");
   //  console.log(socials)
   const valuesToKeys = (hash, block: ContentBlock) => {
     //      console.log("BLOCK", value.order, e.getType(),e.getText());
-    let key = blockKeyToOrderMap[block["key"]] + 1;
+    const key = blockKeyToOrderMap[block.key] + 1;
     hash[key] = block;
     return hash;
   };
@@ -353,7 +353,7 @@ export function createNewImage(
 export function extractTableOfContents(editorState) {
   const blockMap: OrderedMap = editorState.getCurrentContent().getBlockMap();
   return blockMap
-    .filter(block => block.type == "header-two")
+    .filter(block => block.type === "header-two")
     .map(block => block.text)
     .toArray();
 }

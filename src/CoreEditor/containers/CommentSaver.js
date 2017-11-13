@@ -2,80 +2,75 @@
  * Created by michbil on 10.05.16.
  */
 
-import JSONDocument from "../JSONDocument.js";
-import { saveToS3, getWidgetID } from "../webrunesAPI.js";
-import React from "react";
-import { extractFileName, parseUrl, appendIndex } from "../utils/url.js";
-import getHttp from "base/utils/request";
+import { saveToS3, getWidgetID } from '../webrunesAPI.js';
+import React from 'react';
+import { extractFileName, parseUrl, appendIndex } from '../utils/url.js';
+import getHttp from 'base/utils/request';
 
 export function urlMatch() {
-  return window.location.search.match(
-    /\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/
-  );
+  return window.location.search.match(/\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/);
 }
 
 export default class CommentSaver extends React.Component {
   constructor(props) {
     super(props);
-    var editUrl = urlMatch();
+    let editUrl = urlMatch();
     if (editUrl) {
       editUrl = appendIndex(decodeURIComponent(editUrl[1]));
       console.log(editUrl);
     }
 
-    var editUrlParsed = parseUrl(editUrl);
+    const editUrlParsed = parseUrl(editUrl);
     if (editUrlParsed) {
       var saveUrl = extractFileName(editUrlParsed.pathname);
     }
     this.state = {
       busy: false,
       url: editUrl,
-      saveUrl: saveUrl,
-      msg: "Downloading page..."
+      saveUrl,
+      msg: 'Downloading page...',
     };
   }
 
   componentDidMount() {
-    document
-      .getElementById("loadingInd")
-      .setAttribute("style", "display:none;");
+    document.getElementById('loadingInd').setAttribute('style', 'display:none;');
   }
 
   saveComment(url) {
     this.setState({
-      busy: true
+      busy: true,
     });
     getHttp(url)
-      .then(article => {
+      .then((article) => {
         setTimeout(window.frameReady, 300);
         this.setState({
-          msg: "Receiving comment id...."
+          msg: 'Receiving comment id....',
         });
         getWidgetID(url)
-          .then(id => {
-            var doc = new JSONDocument(article);
+          .then((id) => {
+            const doc = new JSONDocument(article);
             doc.setCommentID(id);
-            var html = doc.toHtml();
+            const html = doc.toHtml();
             this.setState({
-              msg: "Saving page to S3...."
+              msg: 'Saving page to S3....',
             });
             return saveToS3(this.state.saveUrl, html);
           })
-          .then(res => {
-            this.setState({ msg: "Success!", busy: false });
-            parent.postMessage(JSON.stringify({ reload: true }), "*");
+          .then((res) => {
+            this.setState({ msg: 'Success!', busy: false });
+            parent.postMessage(JSON.stringify({ reload: true }), '*');
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             this.setState({
-              msg: "Oops... something went wrong",
-              busy: false
+              msg: 'Oops... something went wrong',
+              busy: false,
             });
           });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
-          msg: "Failed to download page"
+          msg: 'Failed to download page',
         });
         setTimeout(() => this.setState({ busy: false }), 2000);
       });
@@ -86,8 +81,7 @@ export default class CommentSaver extends React.Component {
   }
 
   render() {
-    var buttonStyle =
-      "btn btn-sm btn-primary" + (this.state.busy ? " disabled" : "");
+    const buttonStyle = `btn btn-sm btn-primary${this.state.busy ? ' disabled' : ''}`;
 
     return (
       <div>
@@ -98,12 +92,7 @@ export default class CommentSaver extends React.Component {
           <h4>Comments disabled</h4>
           <p>Comments haven't been enabled by you.</p>
           <br />
-          <a
-            className={buttonStyle}
-            href="#"
-            role="button"
-            onClick={this.doSave.bind(this)}
-          >
+          <a className={buttonStyle} href="#" role="button" onClick={this.doSave.bind(this)}>
             <span className="glyphicon glyphicon-comment" />
             {this.state.busy ? (
               <span>
@@ -111,7 +100,7 @@ export default class CommentSaver extends React.Component {
                 {this.state.msg}
               </span>
             ) : (
-              "Enable comments"
+              'Enable comments'
             )}
           </a>
         </div>
