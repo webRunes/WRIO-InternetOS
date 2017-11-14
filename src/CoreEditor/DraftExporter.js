@@ -28,7 +28,7 @@ ${body}
      * @returns LD+JSON template
      */
 
-function makeArticle(
+export function makeArticle(
   lang: string,
   keywords: string,
   author: string,

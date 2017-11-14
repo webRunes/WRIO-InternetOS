@@ -5,18 +5,18 @@ import fs from 'fs';
 import React from 'react';
 import path from 'path';
 import reducer from './indexReducer';
-import {
-  receiveDocument,
-  createNewDocument,
-  createNewImage,
-  createNewLink,
-} from '../actions/indexActions';
-
+import mkActions from '../actions/indexActions';
 import { openLinkDialog, closeDialog } from '../actions/linkdialog';
 import { openImageDialog, closeDialog as closeDialogImg } from '../actions/imagedialog';
-import LdJsonDocument from '../JSONDocument.js';
+import LdJsonDocument from 'base/jsonld/LdJsonDocument';
+import JSONToDraft from '../DraftConverters/article/JSONToDraft';
+import DraftToJSON from '../DraftConverters/article/DraftToJSON';
 
 import getFixture from '../fixtures/fixture.js';
+
+const {
+  receiveDocument, createNewDocument, createNewImage, createNewLink,
+} = mkActions('');
 
 const json = getFixture('testjson');
 let doc;
@@ -30,7 +30,8 @@ describe('LS+JSON tests test', () => {
     expect(s2.editorDocument.isFetching).toEqual(false);
     expect(typeof s2.editorDocument.document).toEqual('object');
 
-    const j = s2.editorDocument.document.draftToJson(s2.editorDocument.editorState.getCurrentContent());
+    const content = s2.editorDocument.editorState.getCurrentContent();
+    const j = DraftToJSON(content);
     expect(j.name).toEqual('webRunes');
     console.log(j);
   });
@@ -42,7 +43,7 @@ describe('LS+JSON tests test', () => {
     s2 = reducer(s2, createNewImage('Hello', 'https://sample.host/catty2.jpg', 'image 2'));
     s2 = reducer(s2, createNewLink('Link', 'https://sample.host/catty.html', 'link'));
 
-    const j = s2.editorDocument.document.draftToJson(s2.editorDocument.editorState.getCurrentContent());
+    const j = DraftToJSON(s2.editorDocument.editorState.getCurrentContent());
     console.log(j);
     expect(j.author).toEqual('https://wr.io/1234567890/?wr.io=1234567890');
   });

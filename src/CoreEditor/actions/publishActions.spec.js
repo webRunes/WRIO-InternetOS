@@ -32,6 +32,7 @@ describe('async actions', () => {
 
     nock('https://storage.wrioos.com/')
       .post('/api/save')
+      .times(2) // save main and cover!
       .reply(200, { result: 'success' });
 
     const expectedActions = [{ type: 'PUBLISH_DOCUMENT' }, { type: 'PUBLISH_FINISH', json: [] }];
