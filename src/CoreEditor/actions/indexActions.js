@@ -49,10 +49,11 @@ export default function createActionsForEditor(editorName) {
     };
   };
 
-  exports.receiveDocument = function receiveDocument(document) {
+  exports.receiveDocument = function receiveDocument(data) {
     return {
       type: 'GOT_JSON_LD_DOCUMENT',
-      document,
+      data, // duplicate to fix wierd problems, FIXME
+      document: data,
     };
   };
 

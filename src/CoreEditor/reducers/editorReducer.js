@@ -34,7 +34,6 @@ const edtorDocumentReducer = (editorName: string) => (
     EDITOR_CHANGED,
     REMOVE_ENTITY,
   } = mkActions(editorName);
-
   switch (action.type) {
     case CREATE_DOCUMENT: {
       const newDoc = new JSONDocument([createArticleTemplate(action.author, '')]);
@@ -49,6 +48,9 @@ const edtorDocumentReducer = (editorName: string) => (
         return state;
       }
       const doc = action.data;
+      if (!doc) {
+        throw new Error('Doc not supplied');
+      }
       return mkDoc(state, doc);
     }
 
