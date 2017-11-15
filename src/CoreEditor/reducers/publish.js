@@ -12,6 +12,7 @@ import {
   PUBLISH_FINISH,
   PICK_SAVE_SOURCE,
   PUBLISH_COVER,
+  GOT_ERROR,
 } from '../actions/publishActions';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
@@ -103,6 +104,8 @@ export function publishReducer(state = defaultState, action) {
     case PUBLISH_DOCUMENT:
       return { ...state, busy: true };
     case PUBLISH_FINISH:
+      return { ...state, busy: false };
+    case GOT_ERROR:
       return { ...state, busy: false };
     case PICK_SAVE_SOURCE:
       return { ...state, saveSource: action.source };

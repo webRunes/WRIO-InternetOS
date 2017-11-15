@@ -14,6 +14,8 @@ export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 export const ENABLE_COMMENTS = 'ENABLE_COMMENTS';
 export const PUBLISH_COVER = 'PUBLISH_COVER';
 
+export const GOT_ERROR = 'PUBLISH_GOT_ERROR';
+
 export const GOT_URLPARAMS = 'GOT_URLPARAMS';
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const PICK_SAVE_SOURCE = 'PICK_SAVE_SOURCE';
@@ -68,8 +70,12 @@ export function publishDocument(saveSource: string) {
       if (saveSource === 'S3') {
         const saveRes = await saveToS3(savePath, html);
         console.log('SAVER RESULT', saveRes.body);
-        const coverSaveRes = await saveToS3(coverFileName, coverHtml);
-        console.log('COVER SAVE RESULT', coverSaveRes.body);
+        if (coverHtml) {
+          const coverSaveRes = await saveToS3(coverFileName, coverHtml);
+          console.log('COVER SAVE RESULT', coverSaveRes.body);
+        }
+
+        window.location = saveUrl;
       } else {
         const name = document.getProperty('name');
         const fileName = `${name === '' ? 'untitled' : name.split(' ').join('_')}.html`;
@@ -79,7 +85,8 @@ export function publishDocument(saveSource: string) {
       dispatch({ type: PUBLISH_FINISH, document });
     } catch (err) {
       console.error('Caught error during publish', err);
-      dispatch({ type: 'GOT_ERROR' });
+      dispatch({ type: GOT_ERROR });
+      alert("Publish failed");
     }
   };
 }
