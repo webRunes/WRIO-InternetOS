@@ -1,74 +1,38 @@
+// @flow
 import React from 'react';
-import {getResourcePath} from '../global.js';
+import { getResourcePath } from '../global.js';
 import UrlMixin from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
+import PropTypes from 'prop-types';
+import Ticket from './Ticket';
+import ItemList from '../jsonld/entities/ItemList.js';
+import LdJsonObject from '../jsonld/entities/LdJsonObject';
 
 // TODO check if it is needed ?
 
-class ItemListElement extends React.Component {
+const ItemListElement = ({ item }: { item: LdJsonObject }) => {
+  const title = item.getKey('name');
+  const image =
+    item.getKey('image') ||
+    item.getKey('contentUrl') ||
+    getResourcePath('/img/no-photo-200x200.png');
+  const about = item.getKey('about');
+  const url = item.getKey('url');
 
-
-    render() {
-        var item = this.props.data,
-            title = item.getKey('name'),
-            image = item.data.image || getResourcePath('/img/no-photo-200x200.png'),
-            about = item.getKey('about'),
-            url = item.getKey('url'),
-            createdDate = item.getKey('datePublished');
-
-        return (
-            <a href={UrlMixin.fixUrlProtocol(url)}>
-              <article>
-                <div className="media thumbnail clearfix" >
-                  <header className="col-xs-12">
-                    <h2>
-                      {title}
-                    </h2>
-                  </header>
-                  <div className="col-xs-12 col-md-3 pull-right">
-                    <Thumbnail image={image} />
-                    <ul className="details">
-                      <li>Created: {createdDate}</li>
-                      <li>Access: Free</li>
-                    </ul>
-                  </div>
-
-                  <div className="col-xs-12 col-md-9">
-                    <p>{about}</p>
-                  </div>
-                </div>
-              </article>
-            </a>
-        );
-    }
-}
-
-ItemListElement.propTypes =  {
-    data: React.PropTypes.object.isRequired
+  return <Ticket title={title} description={about} url={url} image={image} />;
 };
 
-export default class ItemList extends React.Component {
-    render () {
-        const list = this.props.data;
+const ItemListComponent = ({ data }: { data: ItemList }) => {
+  const r = data.children.map((item, key) => <ItemListElement item={item} key={key} />);
 
-        let r = list.children.map((item, key) => {
-            return <ItemListElement data={item} key={key}/>;
-        });
-
-       // if (list.data.name) {
-       //     <article />;
-       // }
-        return (<div>
-            <div className="paragraph list-paragraph">
-              <div className="col-xs-12 col-md-12">
-                {list.data.description}
-              </div>
-            </div>
-            {r}
-        </div>);
-    }
-}
-
-ItemList.propTypes =  {
-    data: React.PropTypes.object.isRequired
+  return (
+    <div>
+      <div className="paragraph list-paragraph">
+        <div className="col-xs-12 col-md-12">{data.getKey('description')}</div>
+      </div>
+      {r}
+    </div>
+  );
 };
+
+export default ItemListComponent;

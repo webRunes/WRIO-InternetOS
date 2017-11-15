@@ -6,13 +6,10 @@ var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
 var envify = require('envify/custom');
-var notify = require("gulp-notify");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
-var eslint = require('gulp-eslint');
-var headerfooter = require('gulp-headerfooter');
 var fs = require('fs');
 var webpack = require('webpack');
 

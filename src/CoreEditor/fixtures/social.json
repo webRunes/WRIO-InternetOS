@@ -1,0 +1,34 @@
+[{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "inLanguage": "En",
+ "keywords": "",
+ "author": "https://wr.io/558153389649/?wr.io=558153389649",
+ "editor": "",
+ "name": "Untitledsd",
+ "about": "tetetetetвыавыававава",
+ "articleBody": [
+  " One more text!"
+ ],
+ "hasPart": [
+  {
+   "@type": "SocialMediaPosting",
+   "sharedContent": {
+    "@type": "WebPage",
+    "headline": "",
+    "about": "Sample video",
+    "url": "https://www.youtube.com/watch?v=ra5pNorC1io"
+   }
+  }
+ ],
+ "mentions": [
+  {
+   "@type": "Article",
+   "name": "text",
+   "about": "",
+   "url": "http://?google.com?'text':3,10"
+  }
+ ],
+ "comment": "",
+ "image": []
+}]
