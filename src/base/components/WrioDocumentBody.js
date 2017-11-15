@@ -73,7 +73,7 @@ class DocumentBody extends React.Component {
     if (content == null) {
       return <Loading />;
     }
-    return <div className="article-margin-bottom">{content}</div>;
+    return <div>{content}</div>;
   }
 }
 
