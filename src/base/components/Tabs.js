@@ -117,7 +117,7 @@ class ArticleTabs extends StayOnTopElement {
             <Tab.Pane eventKey="home">{center}</Tab.Pane>
             {editAllowed && <Tab.Pane eventKey="edit" />}
             <Tab.Pane eventKey="collections">
-              <Externals data={externals} />
+              {externals.map(data => (<Externals data={data.blocks} />))}
               {this.props.editMode && (
                 <Button onClick={this.props.addExternal}> + Add item </Button>
               )}

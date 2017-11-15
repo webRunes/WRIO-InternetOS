@@ -6,6 +6,7 @@ import UrlMixin from '../mixins/UrlMixin';
 import { replaceSpaces } from '../mixins/UrlMixin';
 import Thumbnail from './misc/ListThumbnail.js';
 import LdJsonObject from '../jsonld/entities/LdJsonObject';
+import Ticket from './Ticket';
 
 const ArticleLists = ({ data }: { data: LdJsonObject }) => {
   let item = data,
@@ -18,39 +19,13 @@ const ArticleLists = ({ data }: { data: LdJsonObject }) => {
     return null;
   }
   return (
-    <div>
-      <a href={UrlMixin.fixUrlProtocol(item.data.url)}>
-        <div className="card ticket card-blog card-atv">
-          <div className="card-content">
-            <div className="card-text" id={articleHash}>
-              <Thumbnail image={image} />
-              <div className="arrow-more">
-                <i className="material-icons">more_horiz</i>
-              </div>
-              <div className="gradient" />
-              <h3 className="visible-xs-block">{articleName}</h3>
-              <h2 className="hidden-xs">{articleName}</h2>
-              <p>{about}</p>
-            </div>
-            <div className="footer">
-              <div className="author hidden">
-                <a href="#">
-                  <img
-                    src="https://d1qb2nb5cznatu.cloudfront.net/startups/i/2451505-51a29f6e9299fda6472b55c1477f799f-medium_jpg.jpg"
-                    alt="..."
-                    className="avatar"
-                  />
-                  <span>WRIO OS</span>
-                </a>
-              </div>
-              <div className="stats hidden">
-                <i className="material-icons">schedule</i> 5 min read
-              </div>
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
+    <Ticket
+      title={articleName}
+      description={about}
+      url={item.data.url}
+      hash={articleHash}
+      image={image}
+    />
   );
 };
 

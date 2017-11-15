@@ -74,7 +74,6 @@ class LdJsonDocument {
   getProperty(field: string): ?string {
     let ret = null;
     this.blocks.forEach((section: LdJsonObject) => {
-      console.log(section.data.author);
       const data = section.data[field];
       if (data !== undefined) {
         ret = data;

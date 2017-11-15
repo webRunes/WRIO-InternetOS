@@ -121,12 +121,7 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       if (externalDoc.url) {
         try {
           const doc: LdJsonDocument = await getHttp(externalDoc.url);
-          const { lists } = this.state;
-          lists.push(Object.assign(externalDoc, {
-            data: doc.getBlocks()[0],
-            type: 'external',
-          }));
-          dispatch(gotExternal(lists));
+          dispatch(gotExternal(doc));
         } catch (err) {
           console.log(`Unable to download external ${externalDoc.url}`);
         }

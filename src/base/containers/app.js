@@ -90,7 +90,7 @@ class Main extends React.Component {
 
   renderWithCenter(center) {
     let data: LdJsonDocument = this.props.document;
-    let externals = this.props.lists.filter(list => list.type == "external");
+    let externals = this.props.externals;
 
     return (
       <div>
@@ -185,7 +185,8 @@ const mapStateToProps = state => ({
   toc: state.document.toc,
   lists: state.document.lists,
   readItLater: state.plusReducer.readItLater,
-  tabKey: state.document.tabKey
+  tabKey: state.document.tabKey,
+  externals: state.header.externals,
 });
 
 const MainMapped = connect(mapStateToProps)(Main);

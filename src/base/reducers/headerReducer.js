@@ -1,4 +1,10 @@
-import { ADD_COVER, REPLACE_COVERS, SELECT_COVER, PRESS_COVER_BUTTON } from '../actions/actions.js';
+import {
+  ADD_COVER,
+  REPLACE_COVERS,
+  SELECT_COVER,
+  PRESS_COVER_BUTTON,
+  GOT_EXTERNAL,
+} from '../actions/actions.js';
 import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import { replaceSpaces } from 'base/mixins/UrlMixin';
 import ImageObject from 'base/jsonld/entities/ImageObject';
@@ -16,6 +22,7 @@ type ReducerState = {
 
 const defaultState: ReducerState = {
   covers: [],
+  externals: [],
   images: [],
   selected: 0,
 };
@@ -49,6 +56,12 @@ function reducer(state: ReducerState = defaultState, action) {
         images: [...img],
       }; // Merge two objects
     }
+
+    case GOT_EXTERNAL:
+      return {
+        ...state,
+        externals: [...state.externals, action.lists],
+      };
 
     case SELECT_COVER:
       return {
