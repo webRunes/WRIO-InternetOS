@@ -1,8 +1,5 @@
-import Reflux from 'reflux';
+import Reflux from "reflux";
 
-
-var Actions = Reflux.createActions([
-    "changeAmount"
-]);
+var Actions = Reflux.createActions(["changeAmount"]);
 
 export default Actions;

@@ -23,7 +23,7 @@ install :
 
 
 script:
-  - npm run flow
+#  - npm run flow # don't flow right now, use it only to assist development
   - gulp
   - npm run test
   - bash compress.sh

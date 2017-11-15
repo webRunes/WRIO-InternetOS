@@ -3,21 +3,18 @@
  */
 
 class AbstractMention {
-    constructor (opts) {
-        this.original = opts;
-    }
+  constructor(opts) {
+    this.original = opts;
+  }
 
-    attach(obj) {
-        console.warn("Not implemented");
-    }
+  attach(obj) {
+    console.warn("Not implemented");
+  }
 
-    render() {
-        console.warn("Not implemented");
-    }
+  render() {
+    console.warn("Not implemented");
+  }
 
-    applyMention(m) {
-
-    }
-
+  applyMention(m) {}
 }
 export default AbstractMention;

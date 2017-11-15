@@ -1,30 +1,32 @@
-import React from 'react'
-import QRCode from '../../3rdparty/qrcode'
+import React from "react";
+import QRCode from "../../3rdparty/qrcode";
+import PropTypes from "prop-types";
 
 class PaymentData extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
-    }
+  componentDidMount() {
+    console.log("PaymentData Mounted");
+    new QRCode(document.getElementById("qrcode"), this.props.adress);
+  }
 
-    componentDidMount() {
-        console.log("PaymentData Mounted");
-        new QRCode(document.getElementById("qrcode"), this.props.adress);
-    }
-
-    render() {
-        return (
-            <div>
-              <h2>Please send <b>{this.props.amount}</b>BTC to the bitcoin adress <b>{this.props.adress}</b></h2>
-              <div id="qrcode"></div>
-
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <h2>
+          Please send <b>{this.props.amount}</b>BTC to the bitcoin adress{" "}
+          <b>{this.props.adress}</b>
+        </h2>
+        <div id="qrcode" />
+      </div>
+    );
+  }
 }
 PaymentData.propTypes = {
-    adress: React.PropTypes.string,
-    amount:React.PropTypes.string
+  adress: PropTypes.string,
+  amount: PropTypes.string
 };
 
 export default PaymentData;
