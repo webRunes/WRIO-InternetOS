@@ -7,7 +7,6 @@ import { loginMessage } from 'base/actions/WindowMessage';
 import { getPlusData } from 'base/Plus/actions/PlusActions';
 
 const loggerMiddleware = createLogger();
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const dispatchLoginMessages = function dispatchLoginMessages(store) {
