@@ -6,7 +6,7 @@ import { ContentBlock, CharacterMetadata } from 'draft-js';
 import { openLinkDialog } from '../actions/linkdialog';
 import { openImageDialog } from '../actions/imagedialog';
 import EntityTools from '../utils/entitytools';
-import { Loading, LoadingError } from '../components/loading';
+import { Loading, LoadingError } from '../components/Loading';
 import mkEditorActions from '../actions/indexActions';
 import { gotUrlParams } from '../actions/publishActions';
 import { connect } from 'react-redux';
