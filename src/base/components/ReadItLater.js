@@ -9,7 +9,7 @@ const ItemListElement = ({
   name, about, image, url,
 }) => {
   const itemImage = image || getResourcePath('/img/no-photo-200x200.png');
-  return <Ticket name={name} description={about} url={url} image={itemImage} />;
+  return <Ticket title={name} description={about} url={url} image={itemImage} />;
 };
 
 const ReadItLater = ({ RIL }) => {
