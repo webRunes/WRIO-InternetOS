@@ -62,10 +62,6 @@ class TitterWidget extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.article) {
-      return;
-    }
-
     this.createListeners();
     this.timelinewidget = this.prepTwitterTimeline();
   }
