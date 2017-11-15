@@ -5,6 +5,7 @@ import React from "react";
 import request from "superagent";
 import { Modal, Button } from "react-bootstrap";
 import Const from "../../../constant.js";
+import Loading from 'base/components/misc/Loading';
 const SATOSHI = Const.SATOSHI;
 
 const UsersTable = ({ data, showModal }) => {
@@ -103,7 +104,7 @@ export default class Balances extends React.Component {
             showModal={this.showModal.bind(this)}
           />
         ) : (
-          <img src="https://default.wrioos.com/img/loading.gif" />
+          <Loading />
         )}
 
         <Modal show={this.state.showModal} onHide={this.close.bind(this)}>

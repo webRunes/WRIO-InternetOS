@@ -6,6 +6,7 @@
 import React from 'react';
 import ItemListComponent from './ItemList.js';
 import ItemList from '../jsonld/entities/ItemList.js';
+import Loading from 'base/components/misc/Loading';
 
 /*
  *  Base class rendering document body
@@ -13,7 +14,7 @@ import ItemList from '../jsonld/entities/ItemList.js';
 
 const Externals = ({ data }: { data: Array<ItemList> }) => {
   if (!data) {
-    return <img src="https://default.wrioos.com/img/loading.gif" alt="loading" />;
+    return <Loading />;
   }
   return data.map((list, key) => <ItemListComponent data={list} key={key} />);
 };

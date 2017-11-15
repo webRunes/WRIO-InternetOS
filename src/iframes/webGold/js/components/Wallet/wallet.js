@@ -5,6 +5,7 @@ import { getEthereumId, sendSignedTransaction } from "../../libs/apicalls.js";
 import extractUrlParameter from "../../libs/url.js";
 import lightwallet from "eth-lightwallet";
 import ObtainKeystore from "./ObtainKeystore.js";
+import Loading from 'base/components/misc/Loading';
 /*
 
  Sample transaction, first nonce should be '0x100000' for the testnet
@@ -166,7 +167,7 @@ export default class EthWallet extends React.Component {
               ) : (
                 ""
               )}
-              <img src="https://default.wrioos.com/img/loading.gif" />
+              <Loading />
             </p>
           </div>
         </div>

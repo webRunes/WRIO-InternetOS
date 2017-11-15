@@ -7,6 +7,7 @@ import ItemList from '../jsonld/entities/ItemList.js';
 import Article from '../jsonld/entities/Article.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 import LdJsonObject from '../jsonld/entities/LdJsonObject';
+import Loading from 'base/components/misc/Loading';
 
 function countArticles(data: Array<LdJsonObject>): { numArticles: number, numLists: number } {
   let numArticles = 0;
@@ -70,7 +71,7 @@ class DocumentBody extends React.Component {
     const content = this.getArticleContents(document);
 
     if (content == null) {
-      return <img src="https://default.wrioos.com/img/loading.gif" alt="loading" />;
+      return <Loading />;
     }
     return <div className="article-margin-bottom">{content}</div>;
   }

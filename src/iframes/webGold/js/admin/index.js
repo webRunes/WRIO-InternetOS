@@ -10,6 +10,7 @@ import Invoices from "./Invoices";
 import Presales from "./Presales";
 import { requestStats } from "./requests";
 import { getServiceUrl } from "base/servicelocator";
+import Loading from 'base/components/misc/Loading';
 
 const Admin = () => {
   return (
@@ -82,7 +83,7 @@ class MainPage extends React.Component {
       );
     }
     if (this.state.loading) {
-      return <img src="https://default.wrioos.com/img/loading.gif" />;
+      return <Loading />
     }
     return <Admin />;
   }

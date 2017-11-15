@@ -10,6 +10,7 @@ import {
 import { performLogin } from "./Login.js";
 import TwitterTimelineWidget from "./TwitterTimeline.js";
 import LdJsonDocument from "../../jsonld/LdJsonDocument";
+import Loading from 'base/components/misc/Loading';
 
 var domain = getDomain();
 
@@ -108,7 +109,7 @@ class TitterWidget extends React.Component {
     let showTimeline = false;
 
     if (!this.props.profile) {
-      body = <img src="https://default.wrioos.com/img/loading.gif" />;
+      body = <Loading />
     } else {
       if (this.props.profile.temporary) {
         body = <LoginAndComment />;

@@ -2,6 +2,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import EditorComponent from './EditorComponent';
+import Loading from 'base/components/misc/Loading';
 
 type CoverDialogTypes = {
   showDialog: boolean,
@@ -44,7 +45,7 @@ CoverDialogTypes) => {
             className="form-control"
           />{' '}
           {previewBusy && (
-            <img src="https://default.wrioos.com/img/loading.gif" />
+           <Loading />
           )}
         </div>
         </div>

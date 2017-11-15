@@ -1,8 +1,9 @@
-import React from "react";
-import KeyStore from "../crypto/keystore.js";
-import Tx from "ethereumjs-tx";
-import { getEthereumId, sendSignedTransaction } from "../libs/apicalls.js";
-import extractUrlParameter from "../libs/url.js";
+import React from 'react';
+import KeyStore from '../crypto/keystore.js';
+import Tx from 'ethereumjs-tx';
+import { getEthereumId, sendSignedTransaction } from '../libs/apicalls.js';
+import extractUrlParameter from '../libs/url.js';
+import Loading from 'base/components/misc/Loading';
 
 /*
 
@@ -21,108 +22,100 @@ sampleTransaction(addr) {
 }
 */
 
-let ks = new KeyStore();
+const ks = new KeyStore();
 
 export default class EthWallet extends React.Component {
   constructor(props) {
     super(props);
     this.tx = window.params.tx;
-    console.log("TX to sign", this.tx);
-    if (!this.tx) throw new Error("Not tx specified!");
+    console.log('TX to sign', this.tx);
+    if (!this.tx) throw new Error('Not tx specified!');
 
     window.txA = this.dbgTransaction(this.tx);
     this.state = {
       ethId: window.params.ethID,
       finished: false,
       busy: false,
-      error: ""
+      error: '',
     };
   }
 
   componentDidMount() {}
 
   dbgTransaction(tx) {
-    var stx = new Tx(tx);
-    console.log(
-      "Validating signed   transaction....",
-      stx.validate(),
-      stx.verifySignature()
-    );
+    const stx = new Tx(tx);
+    console.log('Validating signed   transaction....', stx.validate(), stx.verifySignature());
     console.log(stx.toJSON());
     console.log(stx);
     return stx;
   }
 
   sendSignedTransaction(tx) {
-    const txId = extractUrlParameter("id");
+    const txId = extractUrlParameter('id');
     sendSignedTransaction(tx, txId)
-      .then(res => {
+      .then((res) => {
         this.setState({
-          error: "",
+          error: '',
           busy: false,
           finished: true,
           txId: res.text,
-          txUrl: "https://ropsten.etherscan.io/tx/" + res.text
+          txUrl: `https://ropsten.etherscan.io/tx/${res.text}`,
         });
-        window.opener.postMessage(
-          JSON.stringify({ closePopup: true, txId: res.text }),
-          "*"
-        );
-        console.log("transaction sent");
+        window.opener.postMessage(JSON.stringify({ closePopup: true, txId: res.text }), '*');
+        console.log('transaction sent');
         setTimeout(window.close, 2000);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({
-          error: "Oops, something went wrong during transaction processing"
+          error: 'Oops, something went wrong during transaction processing',
         });
       });
   }
 
   signTX(seed) {
     ks
-      .extractKey(seed, "123")
+      .extractKey(seed, '123')
       .then(ks.signTx(this.tx))
-      .then(signed => {
+      .then((signed) => {
         this.sendSignedTransaction(signed);
         this.dbgTransaction(signed);
         this.setState({ busy: true });
       })
-      .catch(err => {
-        this.setState({ error: "There was trouble signing your transaction" });
+      .catch((err) => {
+        this.setState({ error: 'There was trouble signing your transaction' });
         console.log(err);
       });
   }
 
   checkCreds() {
-    let seed = this.refs.seed ? this.refs.seed.value : "";
+    const seed = this.refs.seed ? this.refs.seed.value : '';
     ks
-      .extractKey(seed, "123")
+      .extractKey(seed, '123')
       .then(ks.verifySeedAgainstEthId(this.state.ethId))
-      .then(result => {
+      .then((result) => {
         if (!result) {
           this.setState({
-            error: "You've entered seed not matching your account"
+            error: "You've entered seed not matching your account",
           });
         } else {
           this.signTX(seed);
         }
       })
       .catch(() => {
-        this.setState({ error: "Keystore init error" });
-        console.log("Keystore init error", err);
+        this.setState({ error: 'Keystore init error' });
+        console.log('Keystore init error', err);
       });
   }
 
   render() {
-    const openPopup = () =>
-      window.open("/create_wallet", "name", "width=600,height=400");
+    const openPopup = () => window.open('/create_wallet', 'name', 'width=600,height=400');
     if (this.state.busy) {
       return (
         <div>
           <h1>Submitting Transaction</h1>
           <br />
-          <img src="https://default.wrioos.com/img/loading.gif" />
+          <Loading />
         </div>
       );
     }
@@ -145,7 +138,7 @@ export default class EthWallet extends React.Component {
       return (
         <div>
           <h1>
-            Your transaction successfully submitted! Transaction hash{" "}
+            Your transaction successfully submitted! Transaction hash{' '}
             <a href={this.state.txUrl} target="_blank">
               {this.state.txId}
             </a>>
@@ -159,14 +152,10 @@ export default class EthWallet extends React.Component {
     return (
       <div>
         <h1>Unlock your account</h1>
-        {this.state.error !== "" ? (
-          <h5 className="breadcrumb danger">{this.state.error} </h5>
-        ) : (
-          ""
-        )}
+        {this.state.error !== '' ? <h5 className="breadcrumb danger">{this.state.error} </h5> : ''}
         <div className="input-group">
           {this.savedKeystore ? (
-            ""
+            ''
           ) : (
             <input
               className="form-control"
@@ -176,10 +165,7 @@ export default class EthWallet extends React.Component {
               size="80"
             />
           )}
-          <button
-            className="btn btn-default"
-            onClick={this.checkCreds.bind(this)}
-          >
+          <button className="btn btn-default" onClick={this.checkCreds.bind(this)}>
             Load wallet
           </button>
         </div>

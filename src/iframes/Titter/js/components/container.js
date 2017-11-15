@@ -3,9 +3,7 @@
  */
 
 import React from "react";
-const Loading = () => (
-  <img src="https://wrioos.com/Default-WRIO-Theme/img/loading.gif" />
-);
+import Loading from 'base/components/misc/Loading';
 import FormState from "../stores/formstate.js";
 import FormActions from "../actions/formactions.js";
 import DonationForm from "./DonationForm.js";

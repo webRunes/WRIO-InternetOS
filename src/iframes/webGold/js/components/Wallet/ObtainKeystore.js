@@ -5,6 +5,7 @@ import React from "react";
 import KeyStore from "../../crypto/keystore.js";
 import lightwallet from "eth-lightwallet";
 import PropTypes from "prop-types";
+import Loading from 'base/components/misc/Loading';
 
 async function saveToLocalStorage(id, seed, password) {
   let store = new KeyStore();
@@ -133,7 +134,7 @@ export default class ObtainKeystore extends React.Component {
         </div>
       );
     } else {
-      return <img src="https://default.wrioos.com/img/loading.gif" />;
+      return <Loading />
     }
   }
 }

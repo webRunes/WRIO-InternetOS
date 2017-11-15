@@ -12,6 +12,7 @@ import TransactionStore from "./stores/TransactionStore.js";
 import BalanceStore from "./stores/BalanceStore.js";
 import Const from "../../constant.js";
 import BalanceLine from "./components/BalanceLine.js";
+import Loading from 'base/components/misc/Loading';
 
 import numeral from "numeral";
 let SATOSHI = Const.SATOSHI;
@@ -207,7 +208,7 @@ class Transactions extends React.Component {
         nomsg = "";
       }
     }
-    var loader = <img src="https://default.wrioos.com/img/loading.gif" />;
+    var loader = <Loading />
 
     if (this.state.error) {
       nomsg = this.state.error;

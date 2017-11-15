@@ -6,6 +6,7 @@ import { saveToS3, getWidgetID } from '../webrunesAPI.js';
 import React from 'react';
 import { extractFileName, parseUrl, appendIndex } from '../utils/url.js';
 import getHttp from 'base/utils/request';
+import Loading from 'base/components/misc/Loading';
 
 export function urlMatch() {
   return window.location.search.match(/\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/);
@@ -96,7 +97,7 @@ export default class CommentSaver extends React.Component {
             <span className="glyphicon glyphicon-comment" />
             {this.state.busy ? (
               <span>
-                <img src="https://default.wrioos.com/img/loading.gif" />
+                <Loading />
                 {this.state.msg}
               </span>
             ) : (

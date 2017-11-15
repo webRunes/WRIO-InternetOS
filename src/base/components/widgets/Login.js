@@ -8,7 +8,7 @@ const domain = getDomain();
 const LoginButton = ({ onLogin }) => (
   <a href="#" className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
     <i className="material-icons dp_big">account_circle</i>
-      Login
+    Login
   </a>
 );
 
@@ -42,11 +42,11 @@ const Login = ({ profile, onLogout, onLogin }) => (
         <MenuItem eventKey="2" onClick={performLogout}>
           <i className="material-icons dp_big">exit_to_app</i>Logout
         </MenuItem>
-        ) : (
-          <MenuItem eventKey="2" onClick={performLogin}>
-            <i className="material-icons dp_big">exit_to_app</i>Login
-          </MenuItem>
-        )}
+      ) : (
+        <MenuItem eventKey="2" onClick={performLogin}>
+          <i className="material-icons dp_big">exit_to_app</i>Login
+        </MenuItem>
+      )}
     </Dropdown.Menu>
   </Dropdown>
 );
@@ -162,7 +162,7 @@ class OldLogin extends React.Component{
         var has, upgrade, lock;
 
         if (this.state.busy) {
-            return (<img src="https://default.wrioos.com/img/loading.gif" />);
+            return (<Loading />);
         }
 
 

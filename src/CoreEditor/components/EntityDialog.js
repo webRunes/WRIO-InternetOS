@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import Loading from 'base/components/misc/Loading';
 
 const EntityDialog = ({
   showDialog,
@@ -27,12 +28,7 @@ const EntityDialog = ({
   }
   return (
     <div style={styles.linkTitleInputContainer}>
-      <Modal
-        shouldCloseOnOverlayClick
-        style={customStyles}
-        isOpen
-        contentLabel="Edit"
-      >
+      <Modal shouldCloseOnOverlayClick style={customStyles} isOpen contentLabel="Edit">
         <div className="form-group">
           <label htmlFor="linkUrl">URL: </label>
           <input
@@ -41,9 +37,7 @@ const EntityDialog = ({
             value={urlValue}
             className="form-control"
           />{' '}
-          {previewBusy && (
-            <img src="https://default.wrioos.com/img/loading.gif" />
-          )}
+          {previewBusy && <Loading />}
         </div>
         {showTitle && (
           <div className="form-group">
@@ -71,10 +65,7 @@ const EntityDialog = ({
         )}
         <div className="form-group pull-right">
           {isEditLink ? (
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={e => onRemoveLink(linkEntityKey)}
-            >
+            <button className="btn btn-danger btn-sm" onClick={e => onRemoveLink(linkEntityKey)}>
               <span className="glyphicon glyphicon-trash" />Remove
             </button>
           ) : null}
@@ -84,15 +75,8 @@ const EntityDialog = ({
           <button
             onClick={
               isEditLink
-                ? () =>
-                    onEditLink(titleValue, urlValue, descValue, linkEntityKey)
-                : () =>
-                    onConfirmLink(
-                      titleValue,
-                      urlValue,
-                      descValue,
-                      linkEntityKey,
-                    )
+                ? () => onEditLink(titleValue, urlValue, descValue, linkEntityKey)
+                : () => onConfirmLink(titleValue, urlValue, descValue, linkEntityKey)
             }
             className="btn btn-primary btn-sm"
           >
