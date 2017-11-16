@@ -15,7 +15,7 @@ import {
 import { getServiceUrl, getDomain } from "../servicelocator.js";
 import LdJsonDocument from "../jsonld/LdJsonDocument";
 import UrlMixin from "../mixins/UrlMixin.js";
-import PlusActions from "../Plus/actions/PlusActions";
+import * as PlusActions from "../Plus/actions/PlusActions";
 import * as Actions from "base/actions/actions";
 import Login from "../components/widgets/Login.js";
 import CoverHeader from "../containers/CoverHeaderContainer";
@@ -25,15 +25,12 @@ import { loadDocumentWithData } from "base/actions/actions";
 import RedBox from "redbox-react";
 import { postUpdateHook } from "base/actions/hashUpdateHook";
 
-const RightNav = () => {
+const RightNav = ({ onCloseTab }) => {
   return (
     <div className="right-nav">
       <a
         href="#"
-        onClick={evt => {
-          evt.preventDefault();
-          PlusActions.closeTab();
-        }}
+        onClick={onCloseTab}
         className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right"
       >
         <i className="material-icons dp_big">highlight_off</i>
@@ -96,7 +93,9 @@ class Main extends React.Component {
       <div>
         <VerticalNav vertical={true} showUp={false} />
         <LoginBar profile={this.props.profile} />
-        <RightNav />
+        <RightNav onCloseTab={() => {
+          this.props.dispatch(PlusActions.onCloseTab())
+        }}/>
         <CoverHeader />
         <LeftNav />
 
