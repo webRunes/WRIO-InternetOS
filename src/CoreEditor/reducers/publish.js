@@ -44,7 +44,8 @@ export function publishReducer(state = defaultState, action) {
   console.log(action);
   const { createMode, initEditURL, initEditPath } = state.editParams;
   switch (action.type) {
-    case GOT_URLPARAMS: // should be called first to init store
+    case GOT_URLPARAMS:
+      // should be called first to init store
       return {
         ...state,
         editParams: {
@@ -54,6 +55,15 @@ export function publishReducer(state = defaultState, action) {
         },
       };
 
+    case RECEIVE_USER_DATA: {
+      const _state = { ...state, wrioID: action.data.wrioID };
+
+      if (!createMode && _state.filename === '') {
+        const fileName = _state.editParams.initEditPath.match(/(.+).index.html/)[1];
+        return calcResultingPath(_state, fileName);
+      }
+      return calcResultingPath(_state, _state.filename);
+    }
     case EDITOR_CHANGED:
     case GOT_JSON_LD_DOCUMENT:
     case CREATE_DOCUMENT:
@@ -66,9 +76,6 @@ export function publishReducer(state = defaultState, action) {
         return calcResultingPath(state, action.header);
       }
       return state;
-
-    case RECEIVE_USER_DATA:
-      return { ...state, wrioID: action.data.wrioID };
 
     case DESC_CHANGED:
       return {
@@ -137,14 +144,14 @@ function prepCoverName(name) {
 function calcResultingPath(state, filename) {
   const path = prepFileName(filename);
   const coverFileName = prepCoverName(filename);
-  const { createMode, initEditPath } = state.editParams;
+  const { createMode, initEditPath, initEditURL } = state.editParams;
   return {
     ...state,
     filename,
     coverFileName,
     coverSavePath: `${getSaveUrl(state.wrioID, coverFileName)}?cover`,
     savePath: createMode ? path : initEditPath, // fallback to predefined path if we just editing file
-    saveUrl: createMode ? getSaveUrl(state.wrioID, path) : initEditPath,
+    saveUrl: createMode ? getSaveUrl(state.wrioID, path) : initEditURL,
   };
 }
 
