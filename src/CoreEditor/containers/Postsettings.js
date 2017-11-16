@@ -20,6 +20,7 @@ function mapStateToProps(state) {
     commentID: publish.commentId,
     author: publish.author,
     busy: publish.busy,
+    commentsEnabled: publish.commentsEnabled,
   };
 }
 

@@ -72,6 +72,10 @@ export default function createActionsForEditor(editorName) {
       const doc = new LdJsonDocument(data);
       const about = doc.getElementOfType('Article').about || '';
       dispatch({ type: 'DESC_CHANGED', text: about });
+      const comment = doc.getProperty('comment');
+      if (comment) {
+        dispatch({ type: 'ENABLE_COMMENTS', state: true });
+      }
       // dispatch(receiveDocument(doc))
       dispatch(loadDocumentWithData(doc, url));
     } catch (err) {
