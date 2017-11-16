@@ -55,7 +55,7 @@ CoverDialogTypes) => {
             <span className="glyphicon glyphicon-remove" />Cancel
           </button>
           <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
-            <span className="glyphicon glyphicon-ok" />Publish Cover
+            <span className="glyphicon glyphicon-ok" />OK
           </button>
         </div>
       </Modal>

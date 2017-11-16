@@ -65,7 +65,7 @@ export function publishDocument(saveSource: string) {
         editorState.getCurrentContent(),
         formatAuthor(wrioID),
         commentId,
-        coverSavePath,
+        coverHtml ? coverSavePath : undefined,
       );
       if (saveSource === 'S3') {
         const saveRes = await saveToS3(savePath, html);
@@ -86,7 +86,7 @@ export function publishDocument(saveSource: string) {
     } catch (err) {
       console.error('Caught error during publish', err);
       dispatch({ type: GOT_ERROR });
-      alert("Publish failed");
+      alert('Publish failed');
     }
   };
 }
