@@ -8,6 +8,10 @@ import { publishCover } from './publishActions';
 
 export const COVER_DIALOG_OPEN = 'COVER_DIALOG_OPEN';
 export const COVER_DIALOG_CLOSE = 'COVER_DIALOG_CLOSE';
+export const COVER_TAB_CHANGE = 'COVER_TAB_CHANGE';
+export const COVER_NEW_TAB = 'COVER_NEW_TAB';
+export const COVER_DELETE_TAB = 'COVER_DELETE_TAB';
+
 const DEFAULT_COVER = 'https://webrunes.com/img/cover1.png';
 
 const emptyCover = {
@@ -23,6 +27,24 @@ const emptyCover = {
     },
   ],
 };
+
+export function newCover() {
+  return { type: COVER_NEW_TAB };
+}
+
+export function coverTabChange(tabKey) {
+  return {
+    type: COVER_TAB_CHANGE,
+    tabKey,
+  };
+}
+
+export function coverTabDelete(tabKey) {
+  return {
+    type: COVER_DELETE_TAB,
+    tabKey,
+  };
+}
 
 export function openCoverDialog(cover = emptyCover) {
   return {

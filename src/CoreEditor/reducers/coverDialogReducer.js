@@ -2,7 +2,13 @@
  * Created by michbil on 16.07.17.
  */
 
-import { COVER_DIALOG_OPEN, COVER_DIALOG_CLOSE } from '../actions/coverDialog';
+import {
+  COVER_DIALOG_OPEN,
+  COVER_DIALOG_CLOSE,
+  COVER_NEW_TAB,
+  COVER_TAB_CHANGE,
+  COVER_DELETE_TAB,
+} from '../actions/coverDialog';
 import EditorReducerMaker from './editorReducer';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
@@ -43,7 +49,15 @@ const defaultState = {
   showDialog: false,
   imageUrl: '',
   subEdtior: CoverEditorReducer(undefined, { type: '@INIT' }),
+  tabs: [{ key: 'Cover1', name: 'Cover1 ' }],
+  tab: { key: 'Cover1', name: 'Cover1 ' },
 };
+
+function findTabWithKey(tabs, tabKey) {
+  return tabs.filter(e => e.key === tabKey)[0];
+}
+
+let index = 2;
 
 export function coverDialogReducer(state = defaultState, action) {
   switch (action.type) {
@@ -61,6 +75,13 @@ export function coverDialogReducer(state = defaultState, action) {
     }
     case COVER_DIALOG_CLOSE:
       return { ...state, showDialog: false };
+
+    case COVER_NEW_TAB: {
+      const newTab = { key: `Cover${index++}`, name: 'Cover' };
+      return { ...state, tab: newTab, tabs: [...state.tabs, newTab] };
+    }
+    case COVER_TAB_CHANGE:
+      return { ...state, tab: findTabWithKey(state.tabs, action.tabKey) };
 
     default: {
       const subEdtior = CoverEditorReducer(state.subEdtior, action);

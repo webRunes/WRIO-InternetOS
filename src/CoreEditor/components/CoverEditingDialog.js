@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import Modal from 'react-modal';
+import { Tab, Tabs, Row, Col, Nav, NavItem, Button } from "react-bootstrap";
 import EditorComponent from './EditorComponent';
 import Loading from 'base/components/misc/Loading';
 
@@ -8,6 +9,48 @@ type CoverDialogTypes = {
   showDialog: boolean,
   onCloseDialog: Function,
 };
+
+const CoverTabs = ({children, tabs, onNewTab, activeTab, onCoverTabChange}) => {
+  return (<Tab.Container
+  id="tabcontainer"
+  defaultActiveKey="Cover1"
+  activeKey={activeTab.key}
+  onSelect={key => {
+    if (key === 'new') {
+        onNewTab();
+      } else {
+        onCoverTabChange(key);
+      }
+    }}
+>
+<div style={{marginLeft: 15, marginRight: 15}}>
+  <Row className="card">
+    <div
+      className="header header-primary"
+     
+    >
+      <div className="nav-tabs-navigation">
+        <div className="nav-tabs-wrapper">
+          <Nav bsStyle="tabs">
+            {tabs.map((tab)=>(<NavItem eventKey={tab.key} key={tab.key}>
+               { tab.name }
+                <div className="ripple-container" />
+              </NavItem>))}
+              <NavItem eventKey="new">+
+                <div className="ripple-container" />
+              </NavItem>
+          </Nav>
+        </div>
+      </div>
+    </div>
+
+    <Tab.Content animation className="card-content">
+          {children}
+    </Tab.Content>
+    </Row>
+    </div>
+</Tab.Container>);
+}
 
 const CoverDialog = ({
   editorState,
@@ -18,6 +61,11 @@ const CoverDialog = ({
   editorChanged,
   openImageDialog,
   openLinkDialog,
+  tabs,
+  tab,
+  onCoverTabChange,
+  onCoverTabDelete,
+  onNewCover,
 }: 
 CoverDialogTypes) => {
   const previewBusy = false;
@@ -29,6 +77,10 @@ CoverDialogTypes) => {
       isOpen={showDialog} 
       contentLabel="Edit">
       <div style={{overflow:"scroll",height:"calc(100% - 110px)"}}>
+      <CoverTabs  tabs={tabs} 
+                  activeTab={tab} 
+                  onNewTab={onNewCover}
+                  onCoverTabChange={onCoverTabChange}>
         <EditorComponent
           editorState={editorState}
           editorName="COVEREDITOR_"
@@ -48,6 +100,7 @@ CoverDialogTypes) => {
            <Loading />
           )}
         </div>
+        </CoverTabs>
         </div>
 
         <div className="form-group" style={{height: "80px"}}>

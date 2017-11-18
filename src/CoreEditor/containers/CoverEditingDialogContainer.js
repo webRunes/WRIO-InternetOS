@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { closeCoverDialog } from '../actions/coverDialog';
+import { closeCoverDialog, newCover, coverTabChange, coverTabDelete } from '../actions/coverDialog';
 import CoverEditingDialog from '../components/CoverEditingDialog';
 
 import mkEditorActions from '../actions/indexActions';
@@ -14,6 +14,8 @@ function mapStateToProps(state) {
     showDialog,
     imageUrl: state.coverDialog.imageUrl,
     editorState: state.coverDialog.subEdtior.editorState,
+    tabs: state.coverDialog.tabs,
+    tab: state.coverDialog.tab,
   };
 }
 
@@ -30,6 +32,9 @@ const mapDispatchToProps = dispatch => ({
   openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
   openImageDialog: (...args) => dispatch(openImageDialog(...args)),
   editorChanged: state => dispatch(editorChanged(state)),
+  onCoverTabChange: (...args) => dispatch(coverTabChange(...args)),
+  onCoverTabDelete: (...args) => dispatch(coverTabDelete(...args)),
+  onNewCover: (...args) => dispatch(newCover(...args)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoverEditingDialog);
