@@ -65,11 +65,18 @@ const coverTemplate = {
   itemListElement: [],
 };
 
-export function saveCovers(editorState, imageUrl) {
-  return (dispatch) => {
+export function saveCovers() {
+  return (dispatch, getState) => {
+    const { tabs } = getState().coverDialog;
     const coverDocument = new LdJsonDocument([coverTemplate]);
     const exporter = new DraftExporter(coverDocument);
-    const html = exporter.coverDraftToHtml(editorState.getCurrentContent(), imageUrl);
+    const data = tabs.map(el => ({
+      // go through all tabs and extract image and contentState
+      contentState: el.editorState.getCurrentContent(),
+      image: el.imageUrl,
+    }));
+
+    const html = exporter.coverDraftToHtml(data);
     dispatch(replaceCovers(coverDocument));
     dispatch(publishCover(html));
     dispatch(closeCoverDialog());

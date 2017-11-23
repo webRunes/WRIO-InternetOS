@@ -27,49 +27,55 @@ function newCover() {
   };
 }
 
-const CoverEditorReducer = function CoverEditorReducer(state, action) {
-  switch (action.type) {
-    case 'COVER_DIALOG_OPEN': {
-      let docs;
-      const coverElement = action.cover.itemListElement[0];
-      if (action.cover) {
-        docs = new JSONDocument([coverElement]);
-      } else {
-        docs = new JSONDocument([newCover()]);
-      }
-      const doctempl = mkDoc(state, docs, JSONToDraft);
-      return doctempl;
-    }
-    default:
-      return EditorReducerMaker('COVEREDITOR_')(state, action);
+let index = 0;
+
+function makeTabsFromCovers(coverElements) {
+  return coverElements.map((coverElement) => {
+    const docs = new JSONDocument([coverElement]);
+    const imageUrl = coverElement.contentUrl;
+    return {
+      ...mkDoc({}, docs, JSONToDraft),
+      imageUrl,
+      key: `Cover-${index++}`,
+      name: 'Cover',
+    };
+  });
+}
+
+const makeTabs = function makeTabs(action) {
+  if (action.cover) {
+    const coverElements = action.cover.itemListElement;
+    const tabs = makeTabsFromCovers(coverElements);
+    return tabs;
   }
+  return makeTabsFromCovers([newCover()]);
 };
 
 const defaultState = {
   showDialog: false,
-  imageUrl: '',
-  subEdtior: CoverEditorReducer(undefined, { type: '@INIT' }),
-  tabs: [{ key: 'Cover1', name: 'Cover1 ' }],
-  tab: { key: 'Cover1', name: 'Cover1 ' },
+  tabs: [],
+  tab: { key: 'Cover1', name: 'Cover1 ', subEdtior: { editorState: null } },
 };
 
 function findTabWithKey(tabs, tabKey) {
   return tabs.filter(e => e.key === tabKey)[0];
 }
 
-let index = 2;
+const replaceTabWithKey = (tabs, tab, key) => tabs.map(el => (el.key === key ? tab : el));
 
 export function coverDialogReducer(state = defaultState, action) {
   switch (action.type) {
-    case 'COVER_DIALOG_IMAGE_URL_CHANGED':
-      return { ...state, imageUrl: action.url };
+    case 'COVER_DIALOG_IMAGE_URL_CHANGED': {
+      const { key } = state.tab;
+      const tab = { ...state.tab, imageUrl: action.url };
+      return { ...state, tab, tabs: replaceTabWithKey(state.tabs, tab, key) };
+    }
     case COVER_DIALOG_OPEN: {
-      const subEdtior1 = CoverEditorReducer(state.subEdtior, action);
-      const imageUrl = action.cover ? action.cover.itemListElement[0].contentUrl : DEFAULT_COVER;
+      const tabs = makeTabs(action);
       return {
         ...state,
-        imageUrl,
-        subEdtior: subEdtior1,
+        tabs,
+        tab: tabs[0],
         showDialog: true,
       };
     }
@@ -77,15 +83,17 @@ export function coverDialogReducer(state = defaultState, action) {
       return { ...state, showDialog: false };
 
     case COVER_NEW_TAB: {
-      const newTab = { key: `Cover${index++}`, name: 'Cover' };
+      const newTab = makeTabsFromCovers([newCover()])[0];
       return { ...state, tab: newTab, tabs: [...state.tabs, newTab] };
     }
     case COVER_TAB_CHANGE:
       return { ...state, tab: findTabWithKey(state.tabs, action.tabKey) };
 
     default: {
-      const subEdtior = CoverEditorReducer(state.subEdtior, action);
-      return { ...state, subEdtior };
+      const { key } = state.tab;
+      const tab = EditorReducerMaker('COVEREDITOR_')(state.tab, action);
+      const tabs = replaceTabWithKey(state.tabs, tab, key);
+      return { ...state, tab, tabs };
     }
   }
 }
