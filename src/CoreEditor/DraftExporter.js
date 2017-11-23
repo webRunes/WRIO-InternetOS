@@ -121,12 +121,16 @@ export default class DraftExporter {
     );
   }
 
-  coverDraftToHtml(contentState: ContentState, image: string) {
-    const coverElement = CoverDraftToJSON(contentState, this.doc);
+  coverDraftToHtml(tabs: Array<{ contentState: ContentState, image: string }>) {
+    const elements = tabs.map((el) => {
+      const { contentState, image } = el;
+      const coverElement = CoverDraftToJSON(contentState, this.doc);
+      return { ...coverElement, contentUrl: image };
+    });
     const itemList = this.doc.getElementOfType('ItemList');
     const newCover = {
       ...itemList,
-      itemListElement: [{ ...coverElement, contentUrl: image }],
+      itemListElement: elements,
     };
     this.doc.setElementOfType('ItemList', newCover);
     return this.toHtml('', '');
