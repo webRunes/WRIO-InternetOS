@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Modal from 'react-modal';
-import { Tab, Tabs, Row, Col, Nav, NavItem, Button } from "react-bootstrap";
+import { Tab, Tabs, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
 import EditorComponent from './EditorComponent';
 import Loading from 'base/components/misc/Loading';
 
@@ -10,12 +10,13 @@ type CoverDialogTypes = {
   onCloseDialog: Function,
 };
 
-const CoverTabs = ({children, tabs, onNewTab, activeTab, onCoverTabChange}) => {
-  return (<Tab.Container
+const CoverTabs = ({
+  children, tabs, onNewTab, activeTab, onCoverTabChange,
+}) => (<Tab.Container
   id="tabcontainer"
   defaultActiveKey="Cover1"
   activeKey={activeTab.key}
-  onSelect={key => {
+  onSelect={(key) => {
     if (key === 'new') {
         onNewTab();
       } else {
@@ -23,38 +24,36 @@ const CoverTabs = ({children, tabs, onNewTab, activeTab, onCoverTabChange}) => {
       }
     }}
 >
-<div style={{marginLeft: 15, marginRight: 15}}>
-  <Row className="card">
-    <div
-      className="header header-primary"
-     
-    >
-      <div className="nav-tabs-navigation">
-        <div className="nav-tabs-wrapper">
-          <Nav bsStyle="tabs">
-            {tabs.map((tab)=>(<NavItem eventKey={tab.key} key={tab.key}>
-               { tab.name }
+  <div style={{ marginLeft: 15, marginRight: 15 }}>
+    <Row className="card">
+      <div
+        className="header header-primary"
+      >
+        <div className="nav-tabs-navigation">
+          <div className="nav-tabs-wrapper">
+            <Nav bsStyle="tabs">
+              {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
+                { tab.name }
                 <div className="ripple-container" />
               </NavItem>))}
               <NavItem eventKey="new">+
                 <div className="ripple-container" />
               </NavItem>
-          </Nav>
+            </Nav>
+          </div>
         </div>
       </div>
-    </div>
 
-    <Tab.Content animation className="card-content">
-          {children}
-    </Tab.Content>
+      <Tab.Content animation className="card-content">
+        {children}
+      </Tab.Content>
     </Row>
-    </div>
+  </div>
 </Tab.Container>);
-}
 
 const CoverDialog = ({
   editorState,
-  imageUrl,imageUrlChange,
+  imageUrl, imageUrlChange,
   showDialog,
   onSaveCover,
   onCloseDialog,
@@ -66,44 +65,48 @@ const CoverDialog = ({
   onCoverTabChange,
   onCoverTabDelete,
   onNewCover,
-}: 
+}:
 CoverDialogTypes) => {
   const previewBusy = false;
-  console.log("EDIT")
+  console.log('EDIT');
   return (
     <div style={styles.linkTitleInputContainer}>
-      <Modal shouldCloseOnOverlayClick 
-      style={modalStyles} 
-      isOpen={showDialog} 
-      contentLabel="Edit">
-      <div style={{overflow:"scroll",height:"calc(100% - 110px)"}}>
-      <CoverTabs  tabs={tabs} 
-                  activeTab={tab} 
-                  onNewTab={onNewCover}
-                  onCoverTabChange={onCoverTabChange}>
-        <EditorComponent
-          editorState={editorState}
-          editorName="COVEREDITOR_"
-          editorChanged={editorChanged}
-          openImageDialog={openImageDialog}
-          openLinkDialog={openLinkDialog}
-        />
-        <div className="form-group">
-          <label htmlFor="linkUrl">IMAGE URL: </label>
-          <input
-            onChange={e => imageUrlChange(e.target.value)}
-            type="text"
-            value={imageUrl}
-            className="form-control"
-          />{' '}
-          {previewBusy && (
-           <Loading />
+      <Modal
+        shouldCloseOnOverlayClick
+        style={modalStyles}
+        isOpen={showDialog}
+        contentLabel="Edit"
+      >
+        <div style={{ overflow: 'scroll', height: 'calc(100% - 110px)' }}>
+          <CoverTabs
+            tabs={tabs}
+            activeTab={tab}
+            onNewTab={onNewCover}
+            onCoverTabChange={onCoverTabChange}
+          >
+            <EditorComponent
+              editorState={editorState}
+              editorName="COVEREDITOR_"
+              editorChanged={editorChanged}
+              openImageDialog={openImageDialog}
+              openLinkDialog={openLinkDialog}
+            />
+            <div className="form-group">
+              <label htmlFor="linkUrl">IMAGE URL: </label>
+              <input
+                onChange={e => imageUrlChange(e.target.value)}
+                type="text"
+                value={imageUrl}
+                className="form-control"
+              />{' '}
+              {previewBusy && (
+              <Loading />
           )}
-        </div>
-        </CoverTabs>
+            </div>
+          </CoverTabs>
         </div>
 
-        <div className="form-group" style={{height: "80px"}}>
+        <div className="form-group" style={{ height: '80px' }}>
           <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
             <span className="glyphicon glyphicon-remove" />Cancel
           </button>
