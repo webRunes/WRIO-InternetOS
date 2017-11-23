@@ -25,7 +25,7 @@ const CoverTabs = ({
     }}
 >
   <div style={{ marginLeft: 15, marginRight: 15 }}>
-    <Row className="card">
+    <Row className="card card-nav-tabs">
       <div
         className="header header-primary"
       >
@@ -75,16 +75,16 @@ CoverDialogTypes) => {
         shouldCloseOnOverlayClick
         style={modalStyles}
         isOpen={showDialog}
-        contentLabel="Edit"
+        contentLabel="EditCover"
       >
-        <div style={{ overflow: 'scroll', height: 'calc(100% - 110px)' }}>
-          <CoverTabs
+      <CoverTabs
             tabs={tabs}
             activeTab={tab}
             onNewTab={onNewCover}
             onCoverTabChange={onCoverTabChange}
           >
-            <EditorComponent
+        <div style={{ overflow: 'scroll', height: 'calc(100vh - 100px - 200px)'}}>
+        <EditorComponent
               editorState={editorState}
               editorName="COVEREDITOR_"
               editorChanged={editorChanged}
@@ -99,21 +99,19 @@ CoverDialogTypes) => {
                 value={imageUrl}
                 className="form-control"
               />{' '}
-              {previewBusy && (
-              <Loading />
-          )}
+              {previewBusy && (<Loading />)}
             </div>
-          </CoverTabs>
         </div>
-
-        <div className="form-group" style={{ height: '80px' }}>
-          <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
-            <span className="glyphicon glyphicon-remove" />Cancel
-          </button>
-          <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
-            <span className="glyphicon glyphicon-ok" />OK
-          </button>
-        </div>
+        <div className="form-group" style={{ height: '65px' }}>
+            <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
+              <span className="glyphicon glyphicon-remove" />Cancel
+            </button>
+            <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
+              <span className="glyphicon glyphicon-ok" />OK
+            </button>
+          </div>
+        </CoverTabs>
+       
       </Modal>
     </div>
   );
@@ -126,20 +124,20 @@ const modalStyles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: 100000,
   },
   content: {
     position: 'absolute',
-    top: '40px',
+    top: '100px',
     left: '40px',
     right: '40px',
     bottom: '40px',
-    border: '1px solid #ccc',
-    background: '#fff',
-    overflow: 'auto',
+    border: 'none',
+    background: '#00000000',
+    overflow: 'initial !important',
     WebkitOverflowScrolling: 'touch',
-    borderRadius: '4px',
+    borderRadius: '0px',
     outline: 'none',
     padding: '20px',
     height: '70%',
