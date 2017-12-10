@@ -46,7 +46,6 @@ const UpButton = ({ showUp }) => (
   <a
     href="#"
     data-toggle="tab"
-    style={{ marginTop: '54px', height: '36px' }}
     onClick={() => {
       // $FlowFixMe
       document.body.scrollTop = 0; // For Chrome, Safari and Opera
