@@ -16,11 +16,11 @@ type TicketTypes = {
 };
 
 const Ticket = ({
-  title, description, image, url, hash }: 
+  title, description, image, url, hash }:
 TicketTypes) => (
     <div>
-    <a href={UrlMixin.fixUrlProtocol(url)}>
-      <div className="card ticket card-blog card-atv">
+      <a href={UrlMixin.fixUrlProtocol(url)}>
+        <div className="card ticket card-atv">
           <div className="card-content">
           <div className="card-text" id={hash}>
             <Thumbnail image={image} />
