@@ -4,33 +4,33 @@
  */
 
 export function getServiceUrl(service: string): string {
-  var protocol = "https://";
-  var domain = process.env.DOMAIN;
+  let protocol = 'https:';
+  const domain = process.env.DOMAIN;
 
   if (!domain) {
-    throw new Error("Domain is not defined!");
+    throw new Error('Domain is not defined!');
   }
 
-  if (domain === "wrioos.local") {
-    protocol = window.location.protocol + "//";
+  if (domain === 'wrioos.local') {
+    protocol = window.location.protocol;
   }
-  if (process.env.NODE_ENV == "development") {
-    protocol = "https:";
-    if (service == "core") {
-      return "http://core_d.wrioos.com:3033";
+  if (process.env.NODE_ENV === 'development') {
+    protocol = 'https:';
+    if (service === 'core') {
+      return 'http://core_d.wrioos.com:3033';
     }
-    if (service == "titter") {
-      return "http://titter_d.wrioos.com:3033";
+    if (service === 'titter') {
+      return 'http://titter_d.wrioos.com:3033';
     }
   }
-  return protocol + "//" + service + "." + domain;
+  return `${protocol}//${service}.${domain}`;
 }
 
 export function getDomain(): string {
-  var domain = "";
+  let domain = '';
 
   if (process.env.DOMAIN == undefined) {
-    domain = "wrioos.com";
+    domain = 'wrioos.com';
   } else {
     domain = process.env.DOMAIN;
   }
