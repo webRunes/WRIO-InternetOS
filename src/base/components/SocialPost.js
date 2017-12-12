@@ -46,7 +46,7 @@ class Figure extends React.Component {
       );
     }
     return (
-      <figure className="col-xs-12 col-md-12">
+      <figure className="social col-xs-12 col-md-12">
         {this.props.content}
         {figcaption}
       </figure>
