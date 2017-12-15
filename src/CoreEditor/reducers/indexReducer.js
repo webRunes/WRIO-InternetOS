@@ -19,6 +19,7 @@ import documentReducer from 'base/reducers/documentReducer';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
 import EditorReducer from './editorReducer';
+import ListEditorReducer from './listEditorReducer';
 
 const editorDocumentReducer = EditorReducer('MAIN');
 
@@ -32,7 +33,7 @@ const combinedReducer = combineReducers({
   linkDialog: LinkDialogReducer,
   coverDialog: coverDialogReducer,
   form: formReducer,
+  listEditor: ListEditorReducer,
 });
-
 
 export default combinedReducer;

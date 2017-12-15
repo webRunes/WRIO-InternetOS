@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import { ContentBlock, CharacterMetadata } from 'draft-js';
 import CommentSaver from './containers/CommentSaver.js';
 import EditorWithGUI from './containers/EditorWithGUI.js';
+import ListEditorGUI from './containers/ListEditorGUI.js';
 import { urlMatch as CommentSaverUrlMatch } from './containers/CommentSaver.js';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
@@ -15,7 +16,7 @@ const domain = process.env.DOMAIN;
 const Root = () => (
   <AppContainer errorReporter={Redbox}>
     <Provider store={store}>
-      <EditorWithGUI />
+      {window.location.pathname === '/create_list' ? <ListEditorGUI /> : <EditorWithGUI />}
     </Provider>
   </AppContainer>
 );

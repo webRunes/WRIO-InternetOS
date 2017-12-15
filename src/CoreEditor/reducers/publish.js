@@ -16,8 +16,7 @@ import {
 } from '../actions/publishActions';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
-
-const CREATE_MODE = window.location.pathname === '/create';
+import { CREATE_MODE } from '../utils/url';
 
 const defaultState = {
   editParams: {

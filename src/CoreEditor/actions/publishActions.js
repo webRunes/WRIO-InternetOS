@@ -107,6 +107,34 @@ export function publishCover(html) {
   };
 }
 
+/**
+ * Publish list logic
+ * requests commentID from the server, if not supplied
+ */
+export function publishList(saveSource: string) {
+  return async (dispatch: Function, getState: Function) => {
+    dispatch({ type: PUBLISH_DOCUMENT });
+    try {
+      const { listEditor } = getState();
+      console.log(listEditor);
+      dispatch({ type: PUBLISH_FINISH, document });
+    } catch (err) {
+      console.error('Caught error during publish', err);
+      dispatch({ type: GOT_ERROR });
+      alert('Publish failed');
+    }
+  };
+}
+
+export const publishWrapper = saveSource => (dispatch, getState) => {
+  const { listEditor } = getState();
+  if (listEditor) {
+    dispatch(publishList(saveSource));
+  } else {
+    dispatch(publishDocument(saveSource));
+  }
+};
+
 export function pickSaveSource(source: string) {
   return {
     type: PICK_SAVE_SOURCE,

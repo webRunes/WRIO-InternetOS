@@ -10,7 +10,7 @@ import { Loading, LoadingError } from '../components/Loading';
 import mkEditorActions from '../actions/indexActions';
 import { gotUrlParams } from '../actions/publishActions';
 import { connect } from 'react-redux';
-import { parseEditingUrl } from '../utils/url';
+import { parseEditingUrl , CREATE_MODE} from '../utils/url';
 
 import LinkUrlDialog from '../containers/LinkUrlDialog';
 import ImageUrlDialog from '../containers/ImageUrlDialog';
@@ -20,7 +20,7 @@ const {
   fetchDocument, createNewDocument, fetchUserData, mainEditorChanged,
 } = mkEditorActions('MAIN');
 
-const CREATE_MODE = window.location.pathname === '/create';
+
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
 
 function initCallbacks(dispatch) {
@@ -39,7 +39,7 @@ class EditorContainer extends React.Component {
 
     initUrlParams();
     initCallbacks(this.props.dispatch);
-    if (window.location.pathname === '/create') {
+    if (CREATE_MODE) {
       dispatch(createNewDocument());
     } else {
       dispatch(fetchDocument(EDIT_URL));
