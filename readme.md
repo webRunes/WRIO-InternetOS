@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=New secure browsing experience%204&url=https://www.wrioos.com&via=webRunes&hashtags=semantics,web3.0,blockchain-powered)
 
-# WRIO <sup>Internet OS</sup> &nbsp; [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=New secure browsing experience%204&url=https://www.wrioos.com&via=webRunes&hashtags=semantics,web3.0,blockchain-powered)
+# WRIO <sup>Internet OS</sup>
 WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
 
 ![WRIOInternetOS Mission](https://wrioos.com/img/mission.jpg)
