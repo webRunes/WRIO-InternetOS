@@ -15,6 +15,7 @@ import { parseEditingUrl , CREATE_MODE} from '../utils/url';
 import LinkUrlDialog from '../containers/LinkUrlDialog';
 import ImageUrlDialog from '../containers/ImageUrlDialog';
 import CoverEditingDialog from './CoverEditingDialogContainer';
+import ListEditor from './ListEditorContainer';
 
 const {
   fetchDocument, createNewDocument, fetchUserData, mainEditorChanged,
@@ -49,6 +50,9 @@ class EditorContainer extends React.Component {
   }
 
   render() {
+    if (this.props.listEditor) {
+      return <ListEditor />
+    }
     return (
       <div className="clearfix">
         {this.props.error ? <LoadingError /> : ''}
@@ -131,6 +135,7 @@ function mapStateToProps(state) {
     editorState: state.editorDocument.editorState,
     isFetching: state.editorDocument.isFetching,
     error: state.editorDocument.error,
+    listEditor: state.listEditor,
   };
 }
 

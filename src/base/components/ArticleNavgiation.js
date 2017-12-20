@@ -83,7 +83,7 @@ export class VerticalNav extends React.Component {
     setActive(index : number) {
         const newItems = this.state.items.map((item,i) => {
             const newItem = item;
-            item.active = index == i;
+            item.active = index === i;
             return newItem;
         });
         this.setState({items:newItems});

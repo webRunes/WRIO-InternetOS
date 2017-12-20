@@ -32,6 +32,9 @@ export function extractHeader(state) {
 }
 
 export function mkDoc(state, doc, importFN = JSONToDraft) {
+  if (doc.isList()) {
+    return { ...state, isList: true, document: doc };
+  }
   const draftParams = importFN(doc);
   const newState = extractHeader({
     ...state,

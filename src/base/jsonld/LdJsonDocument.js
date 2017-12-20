@@ -166,6 +166,10 @@ class LdJsonDocument {
     const article = this.getElementOfType('Article');
     article.about = text;
   }
+
+  isList() {
+    return this.blocks.length === 1 && this.getProperty('@type') === 'ItemList';
+  }
 }
 
 // this functions gets LD+JSON script array(got from html document) parses it and attaches mentions to the text
