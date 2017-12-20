@@ -118,15 +118,15 @@ export function publishList(saveSource: string) {
     try {
       const { listEditor, editorDocument, publish } = getState();
       const { document } = editorDocument;
-      const exporter = new ListExporter(document);
-      const html = exporter.listToHtml(listEditor);
-
       const {
         savePath,
         saveUrl,
         coverHtml,
         coverFileName,
+        wrioID
       } = publish;
+      const exporter = new ListExporter(wrioID);
+      const html = exporter.listToHtml(listEditor);
 
       if (saveSource === 'S3') {
         const saveRes = await saveToS3(savePath, html);
