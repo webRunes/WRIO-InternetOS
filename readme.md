@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
 
 # WRIO <sup>Internet OS</sup>
-WRIO - webRunes Input/Output.
-(coming soon)
+WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
 
+![WRIOInternetOS Mission](https://wrioos.com/img/mission.jpg)
 
 ## Official Hub
 [wrioos.com](https://wrioos.com)
@@ -45,7 +45,9 @@ commons.js - is commons chunk, shared between main.js bundle and iframes, used t
 titter.js - titter iframe, responsible for commenting and donating
 
 core.js WYSWYG editor, used for editing and creating new LD+JSON based pages
+
 # Contributing
+Special thanks to everyone who contributed to getting the WRIO Internet OS to the current state.
 
 Useful links to start
 
