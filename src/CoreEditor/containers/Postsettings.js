@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch) {
   return {
     onEditText: text => dispatch(pubAct.filenameChanged(text)),
     onEditDescription: text => dispatch(pubAct.descChanged(text)),
-    onPublish: doc => dispatch(pubAct.publishDocument(doc)),
+    onPublish: doc => dispatch(pubAct.publishWrapper(doc)),
     onDelete: () => dispatch(pubAct.deleteDocument()),
     onEnableComments: v => dispatch(pubAct.enableComments(v)),
     onPickSaveSource: v => dispatch(pubAct.pickSaveSource(v)),

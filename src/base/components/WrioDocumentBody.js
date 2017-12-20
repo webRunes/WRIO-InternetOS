@@ -37,8 +37,8 @@ class DocumentBody extends React.Component {
 
   // prevent unneeded updates and rerender of the article!
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.url != nextProps.url) return true;
-    if (this.props.document.id != nextProps.document.id) return true;
+    if (this.props.url !== nextProps.url) return true;
+    if (this.props.document.id !== nextProps.document.id) return true;
 
     return false;
   }

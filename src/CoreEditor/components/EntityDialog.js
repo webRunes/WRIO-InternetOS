@@ -23,12 +23,12 @@ const EntityDialog = ({
   onEditLink,
 }) => {
   const isEditLink = linkEntityKey != null;
-  if (!showDialog) {
-    return <div />;
-  }
   return (
     <div style={styles.linkTitleInputContainer}>
-      <Modal shouldCloseOnOverlayClick style={customStyles} isOpen contentLabel="Edit">
+      <Modal shouldCloseOnOverlayClick 
+      style={customStyles} 
+      isOpen={showDialog}
+      contentLabel="Edit">
         <div className="form-group">
           <label htmlFor="linkUrl">URL: </label>
           <input

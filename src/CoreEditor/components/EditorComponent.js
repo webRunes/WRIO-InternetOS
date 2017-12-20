@@ -149,7 +149,7 @@ class EditorComponent extends React.Component {
 }
 
 EditorComponent.propTypes = {
-  editorState: PropTypes.object.isRequired,
+  editorState: PropTypes.object,
   editorName: PropTypes.string.isRequired,
   openLinkDialog: PropTypes.func.isRequired,
   openImageDialog: PropTypes.func.isRequired,

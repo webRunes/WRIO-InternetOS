@@ -16,6 +16,7 @@ import { fromList } from 'base/utils/tocnavigation';
 import * as Actions from 'base/actions/actions';
 import PostSettings from '../containers/Postsettings.js';
 
+
 const RightNav = () => {
   return (
     <div className="right-nav">
@@ -59,7 +60,6 @@ const LoginBar = ({ profile }) => {
 
 const store = configureStore();
 
-
 class EditorWithGUI extends React.Component {
   state: {
     toc: {
@@ -82,6 +82,10 @@ class EditorWithGUI extends React.Component {
       profile: {},
       tabKey: "home"
     };
+
+    this.props.dispatch({type:"NEW_LIST"});
+
+    document.getElementById('loadingInd').setAttribute('style', 'display:none;');
   }
 
   render() {
@@ -91,11 +95,11 @@ class EditorWithGUI extends React.Component {
         <LoginBar profile={this.state.profile} />
         <RightNav />
         <CoverHeader />
-        <LeftNav />
+        {!!this.props.toc && <LeftNav />}
 
         <div className="main col-xs-12 col-sm-10 col-sm-offset-1 col-md-9 col-md-offset-0 col-lg-6">
           <Tabs
-            center={<EditorContainer />}
+              center={<EditorContainer />}
             editMode
             externals={[]}
             forceExternals
@@ -118,7 +122,7 @@ const mapStateToProps = state => {
   return{
     url: state.document.url,
     editAllowed: state.document.editAllowed,
-    toc: state.editorDocument.toc,
+    toc: {chapters: []},
     lists: state.document.lists,
     tabKey: state.document.tabKey
   }

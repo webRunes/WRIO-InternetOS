@@ -10,17 +10,18 @@ import { Loading, LoadingError } from '../components/Loading';
 import mkEditorActions from '../actions/indexActions';
 import { gotUrlParams } from '../actions/publishActions';
 import { connect } from 'react-redux';
-import { parseEditingUrl } from '../utils/url';
+import { parseEditingUrl , CREATE_MODE} from '../utils/url';
 
 import LinkUrlDialog from '../containers/LinkUrlDialog';
 import ImageUrlDialog from '../containers/ImageUrlDialog';
 import CoverEditingDialog from './CoverEditingDialogContainer';
+import ListEditor from './ListEditorContainer';
 
 const {
   fetchDocument, createNewDocument, fetchUserData, mainEditorChanged,
 } = mkEditorActions('MAIN');
 
-const CREATE_MODE = window.location.pathname === '/create';
+
 const [EDIT_URL, EDIT_RELATIVE_PATH] = parseEditingUrl();
 
 function initCallbacks(dispatch) {
@@ -39,7 +40,7 @@ class EditorContainer extends React.Component {
 
     initUrlParams();
     initCallbacks(this.props.dispatch);
-    if (window.location.pathname === '/create') {
+    if (CREATE_MODE) {
       dispatch(createNewDocument());
     } else {
       dispatch(fetchDocument(EDIT_URL));
@@ -49,6 +50,9 @@ class EditorContainer extends React.Component {
   }
 
   render() {
+    if (this.props.listEditor) {
+      return <ListEditor />
+    }
     return (
       <div className="clearfix">
         {this.props.error ? <LoadingError /> : ''}
@@ -131,6 +135,7 @@ function mapStateToProps(state) {
     editorState: state.editorDocument.editorState,
     isFetching: state.editorDocument.isFetching,
     error: state.editorDocument.error,
+    listEditor: state.listEditor,
   };
 }
 
