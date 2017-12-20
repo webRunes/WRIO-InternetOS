@@ -16,8 +16,7 @@ import {
 } from '../actions/publishActions';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
-
-const CREATE_MODE = window.location.pathname === '/create';
+import { CREATE_MODE } from '../utils/url';
 
 const defaultState = {
   editParams: {
@@ -58,7 +57,7 @@ export function publishReducer(state = defaultState, action) {
     case RECEIVE_USER_DATA: {
       const _state = { ...state, wrioID: action.data.wrioID };
 
-      if (!createMode && _state.filename === '') {
+      if (_state.editParams.initEditPath && !createMode && _state.filename === '') {
         const fileName = _state.editParams.initEditPath.match(/(.+).index.html/)[1];
         return calcResultingPath(_state, fileName);
       }

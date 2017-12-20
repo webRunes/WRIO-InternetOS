@@ -3,6 +3,7 @@ import { Entity } from 'draft-js';
 import { saveToS3, getWidgetID } from '../webrunesAPI.js';
 import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
+import ListExporter from '../ListExporter';
 
 export const DESC_CHANGED = 'DESC_CHANGED';
 export const FILENAME_CHANGED = 'FILENAME_CHANGED';
@@ -106,6 +107,59 @@ export function publishCover(html) {
     //    }
   };
 }
+
+/**
+ * Publish list logic
+ * requests commentID from the server, if not supplied
+ */
+export function publishList(saveSource: string) {
+  return async (dispatch: Function, getState: Function) => {
+    dispatch({ type: PUBLISH_DOCUMENT });
+    try {
+      const { listEditor, editorDocument, publish } = getState();
+      const { document } = editorDocument;
+      const exporter = new ListExporter(document);
+      const html = exporter.listToHtml(listEditor);
+
+      const {
+        savePath,
+        saveUrl,
+        coverHtml,
+        coverFileName,
+      } = publish;
+
+      if (saveSource === 'S3') {
+        const saveRes = await saveToS3(savePath, html);
+        console.log('SAVER RESULT', saveRes.body);
+        if (coverHtml) {
+          const coverSaveRes = await saveToS3(coverFileName, coverHtml);
+          console.log('COVER SAVE RESULT', coverSaveRes.body);
+        }
+
+        window.location = saveUrl;
+      } else {
+        const name = document.getProperty('name');
+        const fileName = `${name === '' ? 'untitled' : name.split(' ').join('_')}.html`;
+        saveAs(fileName, html);
+      }
+
+      dispatch({ type: PUBLISH_FINISH, document });
+    } catch (err) {
+      console.error('Caught error during publish', err);
+      dispatch({ type: GOT_ERROR });
+      alert('Publish failed');
+    }
+  };
+}
+
+export const publishWrapper = saveSource => (dispatch, getState) => {
+  const { listEditor } = getState();
+  if (listEditor) {
+    dispatch(publishList(saveSource));
+  } else {
+    dispatch(publishDocument(saveSource));
+  }
+};
 
 export function pickSaveSource(source: string) {
   return {

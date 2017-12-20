@@ -70,6 +70,12 @@ export default function createActionsForEditor(editorName) {
     try {
       const { data } = await getHttp(url);
       const doc = new LdJsonDocument(data);
+
+      if (doc.isList()) {
+        dispatch(loadDocumentWithData(doc, url));
+        // dispatch(loadList(doc, url));
+        return;
+      }
       const about = doc.getElementOfType('Article').about || '';
       dispatch({ type: 'DESC_CHANGED', text: about });
       const comment = doc.getProperty('comment');
