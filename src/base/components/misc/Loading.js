@@ -2,9 +2,9 @@ import React from 'react';
 
 const Loading = () => (
   <img
-    src="https://wrioos.com/Default-WRIO-Theme/img/Rolling.svg"
+    src="https://default.wrioos.com/img/loading.gif"
     alt="loading"
-    style={{ width: '100px', height: '100px' }}
+    style={{ width: '16px', height: '11px' }}
   />
 );
 
