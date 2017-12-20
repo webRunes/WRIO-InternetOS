@@ -37,6 +37,9 @@ const Login = ({ profile, onLogout, onLogin }) => (
       <MenuItem eventKey="1" href="https://core.wrioos.com/create">
         <i className="material-icons dp_big">create</i>Create new article
       </MenuItem>
+      <MenuItem eventKey="1" href="https://core.wrioos.com/create_list">
+        <i className="material-icons dp_big">create</i>Create new list
+      </MenuItem>
       <MenuItem eventKey="1" href={profile.url}>
         <i className="material-icons dp_big">perm_identity</i>Profile
       </MenuItem>

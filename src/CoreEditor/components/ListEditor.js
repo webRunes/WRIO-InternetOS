@@ -3,7 +3,7 @@ import React from 'react';
 import { Loading } from './Loading';
 
 const ListElement = ({ data, onListChange }) => {
-  const image = data.image || 'https://webrunes.com/vacancies/img/gh-200x200.jpg';
+  const image = data.image || 'https://default.wrioos.com/img/no-photo-200x200.png';
   const T = data.name && <Ticket title={data.name} description={data.about} image={image} />;
   return (
     <div className="card ticket card-blog card-atv">

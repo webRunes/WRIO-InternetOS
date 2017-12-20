@@ -26,12 +26,13 @@ const stripKey = (el) => {
 
 export default class ListExporter {
   doc: LdJsonDocument;
-  constructor(doc: LdJsonDocument) {
+  constructor(author) {
     this.doc = new LdJsonDocument([
       {
         '@context': 'http://schema.org',
         '@type': 'ItemList',
         name: 'Collection',
+        author: `https://wr.io/${author}/?wr.io=${author}`,
         description: '',
         itemListElement: [],
       },
