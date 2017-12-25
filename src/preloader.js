@@ -205,10 +205,10 @@ function loadScripts() {
 const detector = new BrowserDetection();
 
 function createLoginIframe(headElement) {
-  const preTitterIframe = document.createElement('iframe');
-  preTitterIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
-  preTitterIframe.id = 'loginbuttoniframe';
-  headElement.appendChild(preTitterIframe);
+  const prePingerIframe = document.createElement('iframe');
+  prePingerIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
+  prePingerIframe.id = 'loginbuttoniframe';
+  headElement.appendChild(prePingerIframe);
 }
 
 if (!detector.init()) {

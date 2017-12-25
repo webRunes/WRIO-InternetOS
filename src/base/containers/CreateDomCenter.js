@@ -1,23 +1,23 @@
 /* @flow */
 
-import { getServiceUrl, getDomain } from "../servicelocator.js";
-import React from "react";
-import Chess from "../components/widgets/Chess.js";
-import CreateTitter from "../components/widgets/Titter.js";
-import WrioDocumentBody from "../components/WrioDocumentBody.js";
+import { getServiceUrl, getDomain } from '../servicelocator.js';
+import React from 'react';
+import Chess from '../components/widgets/Chess.js';
+import CreatePinger from '../components/widgets/Pinger.js';
+import WrioDocumentBody from '../components/WrioDocumentBody.js';
 // $FlowFixMe
-import classNames from "classnames";
-import UrlMixin from "../mixins/UrlMixin";
-import CreateTransactions from "../components/widgets/Transactions.js";
-import CreatePresale from "../components/widgets/Presale.js";
-import CommentsDisabled from "../components/misc/CommentsDisabled.js";
-import LdJsonDocument from "../jsonld/LdJsonDocument";
+import classNames from 'classnames';
+import UrlMixin from '../mixins/UrlMixin';
+import CreateTransactions from '../components/widgets/Transactions.js';
+import CreatePresale from '../components/widgets/Presale.js';
+import CommentsDisabled from '../components/misc/CommentsDisabled.js';
+import LdJsonDocument from '../jsonld/LdJsonDocument';
 
 type CenterProps = {
   data: LdJsonDocument,
   profile: ?Object,
   url: string,
-  wrioID: ?string
+  wrioID: ?string,
 };
 
 export class CreateDomCenter extends React.Component {
@@ -25,11 +25,11 @@ export class CreateDomCenter extends React.Component {
 
   state: {
     editMode: boolean,
-    titterDisabled: boolean,
+    pingerDisabled: boolean,
     active: boolean,
     editAllowed: boolean,
     profile: ?Object,
-    wrioID: ?string
+    wrioID: ?string,
   };
 
   constructor(props: CenterProps) {
@@ -37,8 +37,8 @@ export class CreateDomCenter extends React.Component {
     this.state = {
       editMode: false,
       editAllowed: false,
-      titterDisabled: false,
-      active: false
+      pingerDisabled: false,
+      active: false,
     };
   }
 
@@ -56,10 +56,8 @@ export class CreateDomCenter extends React.Component {
     const urlParams = UrlMixin.searchToObject(this.props.url);
     const document = this.props.data;
     const showArticle = this.isArticleShown();
-    const displayTitterStyle =
-      document.hasArticle() && showArticle
-        ? { display: "block" }
-        : { display: "none" }; // make sure titter is hidden for covers and lists
+    const displayPingerStyle =
+      document.hasArticle() && showArticle ? { display: 'block' } : { display: 'none' }; // make sure pinger is hidden for covers and lists
 
     const commentsDisabledFrame = showArticle && (
       <CommentsDisabled isAuthor={this.state.editAllowed} />
@@ -70,8 +68,8 @@ export class CreateDomCenter extends React.Component {
         {!document.hasCommentId() ? (
           commentsDisabledFrame
         ) : (
-          <div style={displayTitterStyle}>
-            <CreateTitter
+          <div style={displayPingerStyle}>
+            <Createpinger
               document={document}
               profile={this.props.profile}
               wrioID={this.props.wrioID}
@@ -109,18 +107,13 @@ export class ChessCenter extends CreateDomCenter {
 }
 
 const editIframeStyles = {
-  width: "100%",
-  border: "none"
+  width: '100%',
+  border: 'none',
 };
 
 export class WebGoldCenter extends CreateDomCenter {
   render() {
-    var wg = (
-      <iframe
-        src={getServiceUrl("webgold") + "/add_funds"}
-        style={editIframeStyles}
-      />
-    );
+    const wg = <iframe src={`${getServiceUrl('webgold')}/add_funds`} style={editIframeStyles} />;
     return this.generateCenterWithContents(wg);
   }
 }

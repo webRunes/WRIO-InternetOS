@@ -33,7 +33,7 @@ const commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons', // Just name it
   filename: 'common.js', // Name of the output file
   minChunks: 'Infinity',
-  chunks: ['main', 'titter', 'core'],
+  chunks: ['main', 'pinger', 'core'],
 });
 
 console.log(envs);
@@ -41,13 +41,13 @@ const e = {
   entry: {
     main: [path.resolve(__dirname, './src/main.js')],
     start: [path.resolve(__dirname, './src/preloader.js')],
-    titter: [path.resolve(__dirname, './src/iframes/Titter/js/index.js')],
+    pinger: [path.resolve(__dirname, './src/iframes/Pinger/js/index.js')],
     core: [path.resolve(__dirname, './src/CoreEditor/client.js')],
     commons: ['babel-polyfill', 'react', 'react-dom', 'reflux', 'superagent', 'lodash', 'core-js'],
-    admin: './src/iframes/webGold/js/admin/index.js',
-    presale: ['./src/iframes/webGold/js/presale.js'],
-    createwallet: './src/iframes/webGold/js/createwallet.js',
-    txsigner: './src/iframes/webGold/js/txsigner.js',
+    // admin: './src/iframes/webGold/js/admin/index.js',
+    // presale: ['./src/iframes/webGold/js/presale.js'],
+    // createwallet: './src/iframes/webGold/js/createwallet.js',
+    // txsigner: './src/iframes/webGold/js/txsigner.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
