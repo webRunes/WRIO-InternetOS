@@ -2,7 +2,7 @@
 import React from "react";
 import { getServiceUrl, getDomain } from "../../servicelocator.js";
 import {
-  titterHeight,
+  pingerHeight,
   webgoldHeight,
   forceIframeReload,
   getHeight
@@ -81,7 +81,7 @@ class TitterWidget extends React.Component {
   }
 
   createListeners() {
-    titterHeight.subscribe(ht => {
+    pingerHeight.subscribe(ht => {
       this.refs.titteriframe.style.height = ht + "px";
     });
 
