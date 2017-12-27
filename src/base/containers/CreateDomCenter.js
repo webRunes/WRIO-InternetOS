@@ -69,7 +69,7 @@ export class CreateDomCenter extends React.Component {
           commentsDisabledFrame
         ) : (
           <div style={displayPingerStyle}>
-            <Createpinger
+            <CreatePinger
               document={document}
               profile={this.props.profile}
               wrioID={this.props.wrioID}
