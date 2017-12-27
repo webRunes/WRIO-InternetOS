@@ -231,9 +231,9 @@ const vsauseNotJoined = {
     active: false,
     order: 3
   },
-  "//titter.wrioos.local": {
-    name: "Titter",
-    url: "//titter.wrioos.local",
+  "//Pinger.wrioos.local": {
+    name: "Pinger",
+    url: "//Pinger.wrioos.local",
     author: "",
     active: false,
     order: 4

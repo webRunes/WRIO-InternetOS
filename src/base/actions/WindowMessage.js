@@ -32,7 +32,7 @@ window.addEventListener("message", messageListener);
 export const loginMessage = new Rx.BehaviorSubject();
 export const forceIframeReload = new Rx.BehaviorSubject(false);
 
-const titterMessage = new Rx.BehaviorSubject();
+const pingerMessage = new Rx.BehaviorSubject();
 const webgoldMessage = new Rx.BehaviorSubject();
 
 /* Modify stream of heights, extract pixels, debounce and distinct it */
@@ -43,7 +43,7 @@ export const getHeight = (name, subject) =>
     .distinct()
     .debounceTime(500);
 
-export const titterHeight = getHeight("titterHeight", titterMessage);
+export const pingerHeight = getHeight("pingerHeight", pingerMessage);
 export const webgoldHeight = getHeight("webgoldHeight", webgoldMessage);
 export const transactionsHeight = getHeight(
   "transactionsHeight",
@@ -61,11 +61,11 @@ function messageListener(e) {
     return;
   }
 
-  if (checkForService("titter", e) || checkForService("titter_d", e)) {
+  if (checkForService("pinger", e) || checkForService("pinger_d", e)) {
     if (msg.reload) {
       return requestReload();
     }
-    titterMessage.next(msg);
+    pingerMessage.next(msg);
   }
   if (checkForService("login", e)) {
     if (msg.login === "success") {

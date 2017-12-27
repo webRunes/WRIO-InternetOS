@@ -19,8 +19,8 @@ export function getServiceUrl(service: string): string {
     if (service === 'core') {
       return 'http://core_d.wrioos.com:3033';
     }
-    if (service === 'titter') {
-      return 'http://titter_d.wrioos.com:3033';
+    if (service === 'Pinger') {
+      return 'http://pinger_d.wrioos.com:3033';
     }
   }
   return `${protocol}//${service}.${domain}`;
@@ -37,6 +37,6 @@ export function getDomain(): string {
   return domain;
 }
 
-export function getTitterIframe() {}
+export function getPingerIframe() {}
 
 export function getCoreIframe() {}
