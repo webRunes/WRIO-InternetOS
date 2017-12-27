@@ -233,7 +233,7 @@ const vsauseNotJoined = {
   },
   "//Pinger.wrioos.local": {
     name: "Pinger",
-    url: "//Pinger.wrioos.local",
+    url: "//pinger.wrioos.local",
     author: "",
     active: false,
     order: 4
