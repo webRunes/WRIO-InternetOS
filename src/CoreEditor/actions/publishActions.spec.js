@@ -26,7 +26,7 @@ describe('async actions', () => {
 
   it('should publish document correctly', () => {
     //
-    nock('https://titter.wrioos.com/')
+    nock('https://pinger.wrioos.com/')
       .get(/\/obtain_widget_id.*/)
       .reply(200, MOCK_COMMENT_ID);
 

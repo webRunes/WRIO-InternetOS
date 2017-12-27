@@ -31,7 +31,7 @@ export function deleteFromS3(path: string): Promise {
 }
 
 export function getWidgetID(url: string): Promise {
-  const uri = `${protocol()}//titter.${domain()}/obtain_widget_id?query=${url}`;
+  const uri = `${protocol()}//pinger.${domain()}/obtain_widget_id?query=${url}`;
   return request.get(uri).withCredentials();
 }
 

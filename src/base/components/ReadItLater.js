@@ -17,6 +17,7 @@ const ReadItLater = ({ RIL }) => {
     return <Loading />;
   }
   const tabs = RIL;
+  // TODO: only basic information (name) is available, to implement description and photo additional extraction needed
   return (
     <div>{tabs.map((t, i) => <ItemListElement key={i} name={t.name} about="" url={t.url} />)}</div>
   );
