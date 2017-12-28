@@ -27,7 +27,7 @@ const defaultState = {
   },
   description: '',
   commentsEnabled: false,
-  filename: '',
+  filename: 'Untitled',
   savePath: '',
   saveURL: '',
   userStartedEditingFilename: false,
