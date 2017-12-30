@@ -117,18 +117,22 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
     });
 
     toc.external.map(async (externalDoc: Object) => {
+      dispatch(loadExternal(externalDoc.url));
       console.log(externalDoc);
-      if (externalDoc.url) {
-        try {
-          const doc: LdJsonDocument = await getHttp(externalDoc.url);
-          dispatch(gotExternal(doc));
-        } catch (err) {
-          console.log(`Unable to download external ${externalDoc.url}`);
-        }
-      }
     });
   };
 }
+
+export const loadExternal = (url: string) => async (dispatch: Function) => {
+  if (url) {
+    try {
+      const doc: LdJsonDocument = await getHttp(url);
+      dispatch(gotExternal(doc));
+    } catch (err) {
+      console.log('Unable to download external $(url}');
+    }
+  }
+};
 
 export function navigateArticleHash(hash: string) {
   const type = 'article';
