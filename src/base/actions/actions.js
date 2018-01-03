@@ -57,10 +57,12 @@ export function tabClick(tabKey) {
   };
 }
 
-export function gotExternal(lists) {
+export function gotExternal(index: number, url, lists: LdJsonDocument) {
   return {
     type: GOT_EXTERNAL,
     lists,
+    url, 
+    index,
   };
 }
 export function gotJSON_LD_Document(data: LdJsonDocument, url: string, toc: TableOfContents) {
@@ -85,7 +87,7 @@ export function gotJSON_LD_Document(data: LdJsonDocument, url: string, toc: Tabl
 }
 
 export function getAuthor(author: string) {
-  return async (dispatch) => {
+  return async (dispatch: Function) => {
     try {
       const remoteDocument = await getHttp(author);
       dispatch({
@@ -98,8 +100,19 @@ export function getAuthor(author: string) {
   };
 }
 
+export const loadExternal = (index: number, url: string) => async (dispatch: Function) => {
+  if (url) {
+    try {
+      const doc: LdJsonDocument = await getHttp(url);
+      dispatch(gotExternal(index, url, doc));
+    } catch (err) {
+      console.log('Unable to download external $(url}');
+    }
+  }
+};
+
 export function loadDocumentWithData(data: LdJsonDocument, url: string) {
-  return (dispatch) => {
+  return (dispatch: Function) => {
     // Quick hack to make page jump to needed section after page have been edited
     requestHashUpdate();
     const toc = extractPageNavigation(data, true);
@@ -116,23 +129,12 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    toc.external.map(async (externalDoc: Object) => {
-      dispatch(loadExternal(externalDoc.url));
+    toc.external.map(async (externalDoc: Object, i: number) => {
+      dispatch(loadExternal(i, externalDoc.url));
       console.log(externalDoc);
     });
   };
 }
-
-export const loadExternal = (url: string) => async (dispatch: Function) => {
-  if (url) {
-    try {
-      const doc: LdJsonDocument = await getHttp(url);
-      dispatch(gotExternal(doc));
-    } catch (err) {
-      console.log('Unable to download external $(url}');
-    }
-  }
-};
 
 export function navigateArticleHash(hash: string) {
   const type = 'article';

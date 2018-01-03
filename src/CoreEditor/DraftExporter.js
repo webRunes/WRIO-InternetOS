@@ -92,26 +92,38 @@ export default class DraftExporter {
     author: string,
     commentID: string,
     coverPath: string,
+    externals: Array<LdJsonDocument>,
   ): LdJsonDocument {
     const article = ArticleDraftToJSON(contentState, this.doc);
     article.comment = commentID;
     article.author = author;
     this.doc.setElementOfType('Article', article);
 
-    if (coverPath) {
+    if (coverPath || externals) {
+      let elements = [];
+      if (coverPath) {
+        elements.push({
+          '@type': 'ItemList',
+          name: 'Cover',
+          description: 'Cover',
+          image: 'https://default.wrioos.com/img/no-photo-200x200.png',
+          url: coverPath,
+        });
+      }
+      if (externals && externals.length > 0) {
+        elements = [...elements, ...externals.map(url => ({
+          '@type': 'ItemList',
+          name: 'External',
+          description: 'External link',
+          image: 'https://default.wrioos.com/img/no-photo-200x200.png',
+          url,
+        }))];
+      }
       this.doc.setElementOfType('ItemList', {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: 'webRunes cover list',
-        itemListElement: [
-          {
-            '@type': 'ItemList',
-            name: 'Cover',
-            description: 'Cover',
-            image: 'https://default.wrioos.com/img/no-photo-200x200.png',
-            url: coverPath,
-          },
-        ],
+        itemListElement: elements,
       });
     }
 
@@ -151,5 +163,5 @@ export default class DraftExporter {
     return cleshe(name, scripts, about);
   }
 
-  listTo
+  listTo;
 }

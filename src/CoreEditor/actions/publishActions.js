@@ -67,6 +67,7 @@ export function publishDocument(saveSource: string) {
         formatAuthor(wrioID),
         commentId,
         coverHtml ? coverSavePath : undefined,
+        state.externalsEditor,
       );
       if (saveSource === 'S3') {
         const saveRes = await saveToS3(savePath, html);
@@ -76,7 +77,7 @@ export function publishDocument(saveSource: string) {
           console.log('COVER SAVE RESULT', coverSaveRes.body);
         }
 
-        window.location = saveUrl;
+        window.location = saveUrl; // let's transition to the new URL
       } else {
         const name = document.getProperty('name');
         const fileName = `${name === '' ? 'untitled' : name.split(' ').join('_')}.html`;
