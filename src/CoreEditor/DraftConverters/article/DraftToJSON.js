@@ -116,7 +116,7 @@ export default function DraftToJSON(contentState: ContentState, srcArticle: LdJs
     };
     const mkLink = block => (anchorOffset, focusOffset) => {
       const data = entity.getData();
-      const url = data.linkUrl;
+      const url = data.linkUrl || data.href;
       const name = data.linkTitle || '';
       const linkText = block.getText().substring(anchorOffset, focusOffset);
       article.mentions.push(getMention(name, '', formatMention(url, linkText, order + i, anchorOffset)));

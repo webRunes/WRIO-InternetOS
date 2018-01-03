@@ -19,8 +19,8 @@ import {
 import { getImageObject } from "./helpers";
 import insertAtomicBlock from "./insertAtomicBlock";
 
-let linkEditCallback;
-let imageEditCallback;
+export let linkEditCallback;
+export let imageEditCallback;
 import LinkEntity from "../EditorEntities/LinkEntity";
 import ImageEntity from "../EditorEntities/ImageEntitiy";
 import SocialMediaEntity from "../EditorEntities/SocialMediaEntity";
@@ -236,6 +236,21 @@ export const findLinkEntities = findEntitiesOfType("LINK");
 export const findImageEntities = findEntitiesOfType("IMAGE");
 export const findSocialEntities = findEntitiesOfType("SOCIAL");
 
+export const customDecorators = [
+  {
+    strategy: findLinkEntities,
+    component: LinkEntity,
+  },
+  {
+    strategy: findImageEntities,
+    component: ImageEntity,
+  },
+  {
+    strategy: findSocialEntities,
+    component: SocialMediaEntity,
+  },
+];
+
 /**
  * !!!!!!!!!! IMPORTER !!!!!!!!!!!!!!!!
  * Main fuction, that constructs EditorState from LD+JSON data
@@ -250,23 +265,7 @@ export function createEditorState({
   socials,
   blockKeyToOrderMap,
 }) {
-  const decorator = new CompositeDecorator([
-    {
-      strategy: findLinkEntities,
-      component: LinkEntity,
-    },
-    {
-      strategy: findImageEntities,
-      component: ImageEntity,
-    },
-    {
-      strategy: findSocialEntities,
-      component: SocialMediaEntity,
-    },
-  ]);
-
-  //    console.log("OrderedBlocks after import:");
-  //  console.log(socials)
+  const decorator = new CompositeDecorator(customDecorators);
   const valuesToKeys = (hash, block: ContentBlock) => {
     //      console.log("BLOCK", value.order, e.getType(),e.getText());
     const key = blockKeyToOrderMap[block.key] + 1;
