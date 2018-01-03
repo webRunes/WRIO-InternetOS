@@ -2,7 +2,7 @@
  * Created by michbil on 07.08.16.
  */
 
-import React from "react";
+import React from 'react';
 import {
   CompositeDecorator,
   ContentState,
@@ -13,9 +13,10 @@ import {
   RichUtils,
   CharacterMetadata,
   getDefaultKeyBinding,
-  Modifier
-} from "draft-js";
-import PropTypes from "prop-types";
+  Modifier,
+} from 'draft-js';
+import PropTypes from 'prop-types';
+import { linkEditCallback } from '../utils/entitytools';
 
 // link template component for the editor
 
@@ -27,16 +28,16 @@ export default class Link extends React.Component {
   }
 
   getProps(props) {
-    const { linkTitle, linkUrl, linkDesc, editCallback } = Entity.get(
-      props.entityKey
-    ).getData();
-    console.log(props.decoratedText);
+    const {
+      linkTitle, linkUrl, linkDesc, editCallback, href,
+    } = Entity.get(props.entityKey).getData();
+    console.log(props.decoratedText, href);
     return {
       linkTitle: props.decoratedText || linkTitle,
-      linkUrl,
+      linkUrl: linkUrl || href,
       linkDesc,
       entityKey: props.entityKey,
-      linkCallback: editCallback
+      linkCallback: linkEditCallback,
     };
   }
 
@@ -46,7 +47,7 @@ export default class Link extends React.Component {
       this.state.linkTitle,
       this.state.linkUrl,
       this.state.linkDesc,
-      this.state.entityKey
+      this.state.entityKey,
     );
   }
 
@@ -64,5 +65,5 @@ export default class Link extends React.Component {
 
 Link.propTypes = {
   entityKey: PropTypes.string,
-  children: PropTypes.array
+  children: PropTypes.array,
 };
