@@ -59,14 +59,14 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
         url: action.url,
         toc: action.toc || extractPageNavigation(action.document, true),
       };
-    case actions.GOT_EXTERNAL:
+    case actions.GOT_EXTERNAL: // TODO: is this still needed??????
       return {
         ...state,
         lists: action.lists,
       };
     case actions.LOGIN_MESSAGE:
       if (action.msg.profile) {
-        const profile = action.msg.profile;
+        const { profile } = action.msg;
         const _author = getAuthor(state.mainPage);
         console.log(state.mainPage);
         console.log('Checking if editing allowed: ', profile.url, _author);

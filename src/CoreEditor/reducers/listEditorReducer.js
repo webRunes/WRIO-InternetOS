@@ -12,17 +12,13 @@ import {
   DOWNLOAD_PREVIEW_FAILURE,
 } from '../actions/listEditorActions';
 
+import {
+  findElementWithKey,
+  replaceElementWithKey,
+  mergeElementDataWithKey,
+} from '../utils/reducerTools.js';
+
 const defaultState = null;
-
-function findElementWithKey(elements, elementKey) {
-  return elements.filter(e => e.key === elementKey)[0];
-}
-
-const replaceElementWithKey = (elements, element, key) =>
-  elements.map(el => (el.key === key ? element : el));
-
-const mergeElementDataWithKey = (elements, data, key) =>
-  elements.map(el => (el.key === key ? { ...el, ...data } : el));
 
 let i = 0;
 

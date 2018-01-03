@@ -58,9 +58,11 @@ function reducer(state: ReducerState = defaultState, action) {
     }
 
     case GOT_EXTERNAL:
+      const externals = [...state.externals];
+      externals[action.index] = action.lists;
       return {
         ...state,
-        externals: [...state.externals, action.lists],
+        externals
       };
 
     case SELECT_COVER:

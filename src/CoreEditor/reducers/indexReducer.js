@@ -20,6 +20,7 @@ import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
 import EditorReducer from './editorReducer';
 import ListEditorReducer from './listEditorReducer';
+import ExternalsEditorReducer from './externalsEditorReducer';
 
 const editorDocumentReducer = EditorReducer('MAIN');
 
@@ -34,6 +35,7 @@ const combinedReducer = combineReducers({
   coverDialog: coverDialogReducer,
   form: formReducer,
   listEditor: ListEditorReducer,
+  externalsEditor: ExternalsEditorReducer,
 });
 
 export default combinedReducer;
