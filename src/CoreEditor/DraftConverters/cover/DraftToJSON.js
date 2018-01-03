@@ -94,7 +94,7 @@ export default function DraftToJSON(contentState: ContentState, srcCover: LdJson
     };
     const mkLink = block => (anchorOffset, focusOffset) => {
       const data = entity.getData();
-      const url = data.linkUrl;
+      const url = data.href;
       const name = data.linkTitle || '';
       const linkText = block.getText().substring(anchorOffset, focusOffset);
       cover.mentions.push(getMention(name, '', formatMention(url, linkText, order + i, anchorOffset)));

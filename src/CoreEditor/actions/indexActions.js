@@ -152,7 +152,7 @@ export default function createActionsForEditor(editorName) {
   exports.editLink = function editLink(titleValue, urlValue, descValue, linkEntityKey) {
     Entity.mergeData(linkEntityKey, {
       linkTitle: titleValue,
-      linkUrl: urlValue,
+      href: urlValue,
       linkDesc: descValue,
     });
     // editorFocus();
