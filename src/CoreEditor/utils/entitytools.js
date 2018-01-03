@@ -46,7 +46,7 @@ export default class EntityTools {
   static createLinkEntity(title: string, url: string, desc: string) {
     return Entity.create("LINK", "MUTABLE", {
       linkTitle: title,
-      linkUrl: url,
+      href: url,
       linkDesc: desc,
       editCallback: linkEditCallback
     });

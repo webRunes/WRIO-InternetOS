@@ -29,12 +29,11 @@ export default class Link extends React.Component {
 
   getProps(props) {
     const {
-      linkTitle, linkUrl, linkDesc, editCallback, href,
+      linkTitle, href, linkDesc, editCallback,
     } = Entity.get(props.entityKey).getData();
-    console.log(props.decoratedText, href);
     return {
       linkTitle: props.decoratedText || linkTitle,
-      linkUrl: linkUrl || href,
+      href,
       linkDesc,
       entityKey: props.entityKey,
       linkCallback: linkEditCallback,
@@ -45,7 +44,7 @@ export default class Link extends React.Component {
     e.preventDefault();
     this.state.linkCallback(
       this.state.linkTitle,
-      this.state.linkUrl,
+      this.state.href,
       this.state.linkDesc,
       this.state.entityKey,
     );
@@ -56,7 +55,7 @@ export default class Link extends React.Component {
   }
   render() {
     return (
-      <a href={this.state.linkUrl} onClick={this.onLinkEdit}>
+      <a href={this.state.href} onClick={this.onLinkEdit}>
         {this.props.children}
       </a>
     );
