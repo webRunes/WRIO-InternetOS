@@ -42,7 +42,7 @@ export function formatAuthor(id) {
 }
 
 function extractEditUrl() {
-  const editUrl = window.location.search.match(/\?article=([\.0-9a-zA-Z_%:\/?]*)/);
+  const editUrl = window.location.search.match(/\?article=(.*)/);
   if (editUrl) {
     return appendIndex(decodeURIComponent(editUrl[1]));
   }

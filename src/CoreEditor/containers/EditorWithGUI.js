@@ -97,7 +97,7 @@ class EditorWithGUI extends React.Component {
           <Tabs
             center={<EditorContainer />}
             editMode
-            externals={[]}
+            externals={this.props.externals}
             forceExternals
             editAllowed={this.props.editAllowed}
             RIL={this.state.readItLater}
@@ -120,7 +120,8 @@ const mapStateToProps = state => {
     editAllowed: state.document.editAllowed,
     toc: state.editorDocument.toc,
     lists: state.document.lists,
-    tabKey: state.document.tabKey
+    tabKey: state.document.tabKey,
+    externals: state.header.externals,
   }
 };
 const EditorMapped = connect(mapStateToProps)(EditorWithGUI);
