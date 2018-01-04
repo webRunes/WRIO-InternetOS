@@ -28,6 +28,10 @@ const BLOCK_TYPES = [
     label: 'Embed Image or Social Media',
     style: 'image',
   },
+  {
+    label: 'External Ticket',
+    style: 'ticket',
+  },
 ];
 
 export const BlockStyleControls = (props) => {
@@ -60,16 +64,26 @@ export const BlockStyleControls = (props) => {
               style={type.style}
             />
           );
-        }
+        } else if (type.style === 'ticket') {
           return (
             <StyleButton
               key={type.label}
               active={type.style === blockType}
               label={type.label}
-              onToggle={props.onToggle}
+              onToggle={props.onTicketToggle}
               style={type.style}
             />
           );
+        }
+        return (
+          <StyleButton
+            key={type.label}
+            active={type.style === blockType}
+            label={type.label}
+            onToggle={props.onToggle}
+            style={type.style}
+          />
+        );
       })}
     </div>
   );
@@ -79,6 +93,7 @@ BlockStyleControls.propTypes = {
   editorState: PropTypes.object,
   onToggle: PropTypes.func,
   onLinkToggle: PropTypes.func,
+  onTicketToggle: PropTypes.func,
   onImageToggle: PropTypes.func,
 };
 

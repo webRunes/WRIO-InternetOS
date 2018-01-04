@@ -2,26 +2,26 @@
  * Created by michbil on 16.07.17.
  */
 
-import { combineReducers } from "redux";
 import {
-  IMAGE_DIALOG_DESC_CHANGE,
-  IMAGE_DIALOG_TITLE_CHANGE,
-  IMAGE_DIALOG_URL_CHANGE,
   IMAGE_DIALOG_OPEN,
   IMAGE_DIALOG_CLOSE,
-  PREVIEW_BUSY
-} from "../actions/imagedialog";
+  IMAGE_DIALOG_PREVIEW_START,
+  IMAGE_DIALOG_PREVIEW_FAILED,
+  IMAGE_DIALOG_PREVIEW_SUCCESS,
+} from '../actions/imagedialog';
 
 const defaultState = {
-  titleValue: "",
-  urlValue: "",
-  descValue: "",
+  titleValue: '',
+  urlValue: '',
+  descValue: '',
   showDialog: false,
-  previewBusy: false
+  previewBusy: false,
 };
 
 export function imageDialogReducer(state = defaultState, action) {
-  const { titleValue, urlValue, descValue, linkEntityKey } = action;
+  const {
+    titleValue, urlValue, descValue, linkEntityKey,
+  } = action;
   switch (action.type) {
     case IMAGE_DIALOG_OPEN:
       return {
@@ -30,19 +30,15 @@ export function imageDialogReducer(state = defaultState, action) {
         titleValue,
         urlValue,
         descValue,
-        linkEntityKey
+        linkEntityKey,
       };
-
-    case PREVIEW_BUSY:
-      return { ...state, previewBusy: action.busy };
+    case IMAGE_DIALOG_PREVIEW_START:
+      return { ...state, previewBusy: true };
+    case IMAGE_DIALOG_PREVIEW_SUCCESS:
+    case IMAGE_DIALOG_PREVIEW_FAILED:
+      return { ...state, previewBusy: false };
     case IMAGE_DIALOG_CLOSE:
-      return { ...state, showDialog: false };
-    case IMAGE_DIALOG_DESC_CHANGE:
-      return { ...state, descValue };
-    case IMAGE_DIALOG_TITLE_CHANGE:
-      return { ...state, titleValue };
-    case IMAGE_DIALOG_URL_CHANGE:
-      return { ...state, urlValue };
+      return { showDialog: false };
 
     default:
       return state;

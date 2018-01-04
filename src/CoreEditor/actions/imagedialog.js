@@ -1,97 +1,41 @@
-import request from "superagent";
+import request from 'superagent';
+import { destroy } from 'redux-form';
 /* image dialog */
 
-export const IMAGE_DIALOG_OPEN = "IMAGE_DIALOG_OPEN";
-export const IMAGE_DIALOG_CLOSE = "IMAGE_DIALOG_CLOSE";
-export const IMAGE_DIALOG_TITLE_CHANGE = "IMAGE_DIALOG_TITLE_CHANGE";
-export const IMAGE_DIALOG_DESC_CHANGE = "IMAGE_DIALOG_DESC_CHANGE";
-export const IMAGE_DIALOG_URL_CHANGE = "IMAGE_DIALOG_URL_CHANGE";
-export const REQUEST_PREVIEW = "REQUEST_PREVIEW";
+import mkActions from '../actions/indexActions';
 
-export const PREVIEW_BUSY = "PREVIEW_BUSY";
+const { createNewImage, editImage } = mkActions('MAIN');
 
-export function openImageDialog(
-  titleValue,
-  urlValue,
-  descValue,
-  linkEntityKey = null
-) {
+export const IMAGE_DIALOG_OPEN = 'IMAGE_DIALOG_OPEN';
+export const IMAGE_DIALOG_CLOSE = 'IMAGE_DIALOG_CLOSE';
+export const IMAGE_DIALOG_PREVIEW_START = 'IMAGE_DIALOG_PREVIEW_START';
+export const IMAGE_DIALOG_PREVIEW_SUCCESS = 'IMAGE_DIALOG_PREVIEW_SUCCESS';
+export const IMAGE_DIALOG_PREVIEW_FAILED = 'IMAGE_DIALOG_PREVIEW_FAILED';
+
+export function openImageDialog(titleValue, urlValue, descValue, linkEntityKey = null) {
   return {
     type: IMAGE_DIALOG_OPEN,
     titleValue,
     urlValue,
     descValue,
-    linkEntityKey
+    linkEntityKey,
   };
 }
 
-export function closeDialog() {
-  return {
-    type: IMAGE_DIALOG_CLOSE
-  };
-}
-
-export function previewBusy(busy) {
-  return {
-    type: PREVIEW_BUSY,
-    busy
-  };
-}
-
-export const titleChange = titleValue => ({
-  type: IMAGE_DIALOG_TITLE_CHANGE,
-  titleValue
-});
-export const urlChange = urlValue => {
-  return dispatch => {
-    dispatch({ type: IMAGE_DIALOG_URL_CHANGE, urlValue });
-    checkTimeout()
-      .then(() => {
-        dispatch(previewBusy(true));
-        return downloadEmebed(urlValue);
-      })
-      .then(parsedData => {
-        dispatch(descChange(parsedData.description));
-        dispatch(titleChange(parsedData.title));
-        dispatch(previewBusy(false));
-      })
-      .catch(err => {
-        dispatch(previewBusy(false));
-        console.log(err);
-      });
-  };
-};
-export const descChange = descValue => ({
-  type: IMAGE_DIALOG_DESC_CHANGE,
-  descValue
-});
-
-const IFRAMELY_LIMIT = 5000; // limit period between iframely requests to 5s
-
-const currentTime = () => new Date().getTime();
-const isHitTimeout = () => currentTime() - last_time < IFRAMELY_LIMIT;
-let last_time = 0;
-let activeTimeout = false;
-const checkTimeout = () =>
-  new Promise((resolve, reject) => {
-    if (activeTimeout) {
-      reject("too often");
-    }
-    if (isHitTimeout()) {
-      activeTimeout = true;
-      setTimeout(() => {
-        activeTimeout = false;
-        resolve();
-      }, IFRAMELY_LIMIT);
-    } else {
-      resolve();
-    }
-    last_time = currentTime();
+export const closeDialog = () => (dispatch) => {
+  dispatch({
+    type: IMAGE_DIALOG_CLOSE,
   });
+  dispatch(destroy('imageDialog')); // destroy form manually
+};
 
-async function downloadEmebed(url) {
-  const res = await request.get(
-    "https://iframely.wrioos.com/iframely?url=" + encodeURIComponent(url)
-  );
-  return res.body.meta;
-}
+export const submitDialog = values => (dispatch, getState) => {
+  const { linkEntityKey } = getState().imageDialog;
+  if (linkEntityKey !== null) {
+    dispatch(editImage(values.title, values.url, values.desc, linkEntityKey));
+  } else {
+    dispatch(createNewImage(values.title, values.url, values.desc));
+  }
+
+  dispatch(closeDialog());
+};

@@ -5,10 +5,13 @@ import rootReducer from './reducers/indexReducer.js';
 import * as actions from 'base/actions/actions';
 import { loginMessage } from 'base/actions/WindowMessage';
 import { getPlusData } from 'base/Plus/actions/PlusActions';
+import { createEpicMiddleware } from 'redux-observable';
+import Epics from './epics';
 
 const loggerMiddleware = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+// TODO: this is actually epic reinvented, move to epics
 const dispatchLoginMessages = function dispatchLoginMessages(store) {
   store.dispatch(getPlusData());
   loginMessage
@@ -19,11 +22,16 @@ const dispatchLoginMessages = function dispatchLoginMessages(store) {
     });
 };
 
+const epicMiddleware = createEpicMiddleware(Epics);
+let init = false;
+
 export default function configureStore(preloadedState) {
+  if (init) return; // to prevent mulitiple creation when using HMR
+  init = true;
   const store = createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(thunkMiddleware, loggerMiddleware)),
+    composeEnhancers(applyMiddleware(epicMiddleware, thunkMiddleware, loggerMiddleware)),
   );
   dispatchLoginMessages(store);
   return store;
