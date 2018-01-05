@@ -22,6 +22,14 @@ export const getSocialMediaPosting = (src: string, description: string, title: s
   },
 });
 
+export const getTicket = (url: string, image: string, about: string, name: string) => ({
+  '@type': 'Article',
+  name,
+  about,
+  image,
+  url,
+});
+
 export const getPart = (name: string) => ({
   '@type': 'Article',
   name,

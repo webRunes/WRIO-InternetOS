@@ -17,6 +17,7 @@ const EntityForm = ({
 
   showTitle, // customize settings
   showDescription, // customize settings
+  showImage,
 
   onUrlChanged,
   onRemoveLink,
@@ -49,10 +50,16 @@ const EntityForm = ({
           <Field
             component="textarea"
             name="description"
-            rows="4"
             type="text"
+            rows="4"
             className="form-control"
           />
+        </div>
+      )}
+      {showImage && (
+        <div className="form-group">
+          <label htmlFor="linkDesc">Image: </label>
+          <Field component="input" name="image" type="text" className="form-control" />
         </div>
       )}
       <div className="form-group pull-right">

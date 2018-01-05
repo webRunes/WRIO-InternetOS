@@ -27,6 +27,7 @@ export default function JSONtoDraft(articleDocument: LdJsonDocument) {
   let order = 0;
   const blockKeyToOrderMap = {};
   let lastKey = 'FIRST';
+  const tickets = [];
 
   function parseArticlePart(subArticle: Object, processUrl: boolean, socials: Array<Object>) {
     const contentBlocks: Array<ContentBlock> = [];
@@ -54,6 +55,13 @@ export default function JSONtoDraft(articleDocument: LdJsonDocument) {
       return { contentBlocks, lastKey, socials };
     }
 
+    if (subArticle['@type'] === 'Article' && subArticle.url) {
+      // make sure that nested article has url block
+      // we are pushwrapping subArticle there, so it later can be created as atomic??? block
+      tickets.push({ key: lastKey, data: subArticle });
+      return { contentBlocks, lastKey, socials };
+    }
+
     if (subArticle.articleBody) {
       subArticle.articleBody.forEach((paragraph) => {
         let articleText = paragraph;
@@ -72,7 +80,12 @@ export default function JSONtoDraft(articleDocument: LdJsonDocument) {
       });
     }
 
-    return { contentBlocks, lastKey, socials };
+    return {
+      contentBlocks,
+      lastKey,
+      socials,
+      tickets,
+    };
   }
 
   const article = articleDocument.getElementOfType('Article');
@@ -93,6 +106,7 @@ export default function JSONtoDraft(articleDocument: LdJsonDocument) {
     images,
     mentions,
     socials,
+    tickets,
     blockKeyToOrderMap,
   };
 }

@@ -15,6 +15,7 @@ import { parseEditingUrl , CREATE_MODE} from '../utils/url';
 
 import LinkUrlDialog from '../containers/LinkUrlDialog';
 import ImageUrlDialog from '../containers/ImageUrlDialog';
+import TicketDialog from '../containers/TicketDialog';
 import CoverEditingDialog from './CoverEditingDialogContainer';
 import ListEditor from './ListEditorContainer';
 
@@ -83,6 +84,7 @@ class EditorContainer extends React.Component {
 
             <LinkUrlDialog />
             <ImageUrlDialog />
+            <TicketDialog />
             <CoverEditingDialog />
           </div>
         ) : (
