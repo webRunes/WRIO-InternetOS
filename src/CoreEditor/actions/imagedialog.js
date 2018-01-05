@@ -32,9 +32,9 @@ export const closeDialog = () => (dispatch) => {
 export const submitDialog = values => (dispatch, getState) => {
   const { linkEntityKey } = getState().imageDialog;
   if (linkEntityKey !== null) {
-    dispatch(editImage(values.title, values.url, values.desc, linkEntityKey));
+    dispatch(editImage(values.title, values.url, values.description, linkEntityKey));
   } else {
-    dispatch(createNewImage(values.title, values.url, values.desc));
+    dispatch(createNewImage(values.title, values.url, values.description));
   }
 
   dispatch(closeDialog());

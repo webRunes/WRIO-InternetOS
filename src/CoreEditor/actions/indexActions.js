@@ -144,7 +144,7 @@ export default function createActionsForEditor(editorName) {
 
   exports.removeEntity = function removeEntity(key) {
     return {
-      type: CREATE_NEW_IMAGE,
+      type: REMOVE_ENTITY,
       key,
     };
   };

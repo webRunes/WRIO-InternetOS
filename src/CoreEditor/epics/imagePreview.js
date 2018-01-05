@@ -26,7 +26,7 @@ const getPreviewFromIframely = url =>
     TYPE: 'GET',
     crossDomain: true,
   })
-    .flatMap((response) => {
+    .switchMap((response) => {
       const { description, title } = response.response.meta;
       return dispatchFormActions(title, description);
     })
