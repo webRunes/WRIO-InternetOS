@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   CompositeDecorator,
   ContentState,
@@ -9,14 +9,14 @@ import {
   RichUtils,
   CharacterMetadata,
   getDefaultKeyBinding,
-  Modifier
-} from "draft-js";
-import request from "superagent";
-import PropTypes from "prop-types";
+  Modifier,
+} from 'draft-js';
+import request from 'superagent';
+import PropTypes from 'prop-types';
 
 class Figure extends React.Component {
   render() {
-    let figcaption = "";
+    let figcaption = '';
     if (this.props.title) {
       figcaption = (
         <figcaption className="callout figure-details">
@@ -36,7 +36,7 @@ class Figure extends React.Component {
 Figure.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  content: PropTypes.object
+  content: PropTypes.object,
 };
 
 // image template component for the editor
@@ -52,60 +52,55 @@ export default class SocialMediaEntity extends React.Component {
     if (this.state.src) {
       this.downloadEmebed({
         sharedContent: {
-          url: this.state.src
-        }
+          url: this.state.src,
+        },
       });
     }
   }
 
   getProps(props) {
-    const { src, description, title, editCallback } = Entity.get(
-      props.entityKey
-    ).getData();
-    console.log(props.decoratedText);
+    const {
+      src, description, title, editCallback, ...rest
+    } = Entity.get(props.entityKey).getData();
+    console.log(props.decoratedText, rest);
     this.downloadEmebed({
       sharedContent: {
-        url: src
-      }
+        url: src,
+      },
     });
     return {
-      html:
-        '<img class="img_loading" src="https://default.wrioos.com/img/loading.gif" />',
+      html: '<img class="img_loading" src="https://default.wrioos.com/img/loading.gif" />',
       src,
       description,
       title,
       entityKey: props.entityKey,
-      linkCallback: editCallback
+      linkCallback: editCallback,
     };
   }
 
   downloadEmebed(data) {
     if (data.sharedContent && data.sharedContent.url) {
       request.get(
-        "https://iframely.wrioos.com/oembed?url=" +
-          encodeURIComponent(data.sharedContent.url),
+        `https://iframely.wrioos.com/oembed?url=${encodeURIComponent(data.sharedContent.url)}`,
         (err, result) => {
           if (err) {
             return console.error("Can't load embed ", data.sharedContent.url);
           }
 
-          if (
-            result.body.provider_name &&
-            result.body.provider_name == "Twitter"
-          ) {
+          if (result.body.provider_name && result.body.provider_name == 'Twitter') {
             setTimeout(() => window.twttr.widgets.load(), 1000); // hack to reload twitter iframes
           }
-          if (result.body.type == "link") {
+          if (result.body.type == 'link') {
             this.setState({
-              type: "link",
-              object: result.body
+              type: 'link',
+              object: result.body,
             });
           }
           const html = result.body.html;
           this.refs.contentblock.innerHTML = html;
           exec_body_scripts(this.refs.contentblock);
           this.setState({ html });
-        }
+        },
       );
     }
   }
@@ -116,7 +111,7 @@ export default class SocialMediaEntity extends React.Component {
       this.state.title,
       this.state.src,
       this.state.description,
-      this.state.entityKey
+      this.state.entityKey,
     );
   }
 
@@ -125,7 +120,7 @@ export default class SocialMediaEntity extends React.Component {
   }
 
   getContent() {
-    if (this.state.type == "link") {
+    if (this.state.type == 'link') {
       const data = this.state.object;
       return (
         <a href={data.url}>
@@ -150,7 +145,7 @@ export default class SocialMediaEntity extends React.Component {
 
 SocialMediaEntity.propTypes = {
   entityKey: PropTypes.string,
-  children: PropTypes.array
+  children: PropTypes.array,
 };
 
 function exec_body_scripts(body_el) {
@@ -164,12 +159,11 @@ function exec_body_scripts(body_el) {
   }
 
   function evalScript(elem) {
-    var data = elem.text || elem.textContent || elem.innerHTML || "",
-      head =
-        document.getElementsByTagName("head")[0] || document.documentElement,
-      script = document.createElement("script");
+    let data = elem.text || elem.textContent || elem.innerHTML || '',
+      head = document.getElementsByTagName('head')[0] || document.documentElement,
+      script = document.createElement('script');
 
-    script.type = "text/javascript";
+    script.type = 'text/javascript';
     try {
       // doesn't work on ie...
       script.appendChild(document.createTextNode(data));
@@ -183,7 +177,7 @@ function exec_body_scripts(body_el) {
   }
 
   // main section of function
-  var scripts = [],
+  let scripts = [],
     script,
     children_nodes = body_el.childNodes,
     child,
@@ -192,8 +186,8 @@ function exec_body_scripts(body_el) {
   for (i = 0; children_nodes[i]; i++) {
     child = children_nodes[i];
     if (
-      nodeName(child, "script") &&
-      (!child.type || child.type.toLowerCase() === "text/javascript")
+      nodeName(child, 'script') &&
+      (!child.type || child.type.toLowerCase() === 'text/javascript')
     ) {
       scripts.push(child);
     }

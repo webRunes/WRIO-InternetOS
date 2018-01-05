@@ -1,42 +1,37 @@
-/* image dialog */
+import mkActions from '../actions/indexActions';
+import { destroy } from 'redux-form';
 
-export const LINK_DIALOG_OPEN = "LINK_DIALOG_OPEN";
-export const LINK_DIALOG_CLOSE = "LINK_DIALOG_CLOSE";
-export const LINK_DIALOG_TITLE_CHANGE = "LINK_DIALOG_TITLE_CHANGE";
-export const LINK_DIALOG_DESC_CHANGE = "LINK_DIALOG_DESC_CHANGE";
-export const LINK_DIALOG_URL_CHANGE = "LINK_DIALOG_URL_CHANGE";
-export const REQUEST_PREVIEW = "REQUEST_PREVIEW";
+const { createNewLink, editLink, removeEntity } = mkActions('MAIN');
+/* link dialog actions */
 
-export function openLinkDialog(
-  titleValue,
-  urlValue,
-  descValue,
-  linkEntityKey = null
-) {
+export const LINK_DIALOG_OPEN = 'LINK_DIALOG_OPEN';
+export const LINK_DIALOG_CLOSE = 'LINK_DIALOG_CLOSE';
+export const REQUEST_PREVIEW = 'REQUEST_PREVIEW';
+
+export function openLinkDialog(titleValue, urlValue, descValue, linkEntityKey = null) {
   return {
     type: LINK_DIALOG_OPEN,
     titleValue,
     urlValue,
     descValue,
-    linkEntityKey
+    linkEntityKey,
   };
 }
 
-export function closeDialog() {
-  return {
-    type: LINK_DIALOG_CLOSE
-  };
-}
+export const closeDialog = () => (dispatch) => {
+  dispatch({
+    type: LINK_DIALOG_CLOSE,
+  });
+  dispatch(destroy('linkDialog')); // destroy form manually
+};
 
-export const titleChange = titleValue => ({
-  type: LINK_DIALOG_TITLE_CHANGE,
-  titleValue
-});
-export const urlChange = urlValue => ({
-  type: LINK_DIALOG_URL_CHANGE,
-  urlValue
-});
-export const descChange = descValue => ({
-  type: LINK_DIALOG_DESC_CHANGE,
-  descValue
-});
+export const submitDialog = values => (dispatch, getState) => {
+  const { linkEntityKey } = getState().linkDialog;
+  if (linkEntityKey !== null) {
+    dispatch(editLink(values.title, values.url, values.desc, linkEntityKey));
+  } else {
+    dispatch(createNewLink(values.title, values.url, values.desc));
+  }
+
+  dispatch(closeDialog());
+};

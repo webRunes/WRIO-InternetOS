@@ -2,7 +2,13 @@
 import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import Immutable from 'immutable';
 import { ContentBlock, CharacterMetadata, Entity, ContentState } from 'draft-js';
-import { getPart, getImageObject, getSocialMediaPosting, getMention } from '../../utils/helpers';
+import {
+  getPart,
+  getImageObject,
+  getSocialMediaPosting,
+  getTicket,
+  getMention,
+} from '../../utils/helpers';
 
 const TECHNICAL_BLOCK_ID = '[TECHNICAL_BLOCK_PLEASE_DONT_SHOW_IT]'; // This block is used for debugging purposes
 
@@ -137,12 +143,24 @@ export default function DraftToJSON(contentState: ContentState, srcArticle: LdJs
       article.hasPart.push(getSocialMediaPosting(url, desc, title));
     };
 
+    const mkTicket = block => (anchorOffset) => {
+      const data = entity.getData();
+      const url = data.src;
+      const desc = data.description || '';
+      const title = data.title || '';
+      const image = data.image || '';
+      article.hasPart.push(getTicket(url, image, desc, title));
+    };
+
     element.el.findEntityRanges(findEntityOfType('LINK'), mkLink(element.el));
     element.el.findEntityRanges(findEntityOfType('IMAGE'), mkImage(element.el));
     element.attached.forEach(e => e.findEntityRanges(findEntityOfType('IMAGE'), mkImage(e)));
 
     element.el.findEntityRanges(findEntityOfType('SOCIAL'), mkSocial(element.el));
     element.attached.forEach(e => e.findEntityRanges(findEntityOfType('SOCIAL'), mkSocial(e)));
+
+    element.el.findEntityRanges(findEntityOfType('TICKET'), mkTicket(element.el));
+    element.attached.forEach(e => e.findEntityRanges(findEntityOfType('TICKET'), mkTicket(e)));
   });
   return article;
 }

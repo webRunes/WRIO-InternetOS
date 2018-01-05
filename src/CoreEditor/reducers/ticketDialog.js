@@ -3,12 +3,12 @@
  */
 
 import {
-  IMAGE_DIALOG_OPEN,
-  IMAGE_DIALOG_CLOSE,
-  IMAGE_DIALOG_PREVIEW_START,
-  IMAGE_DIALOG_PREVIEW_FAILED,
-  IMAGE_DIALOG_PREVIEW_SUCCESS,
-} from '../actions/imagedialog';
+  TICKET_DIALOG_OPEN,
+  TICKET_DIALOG_CLOSE,
+  TICKET_DIALOG_PREVIEW_START,
+  TICKET_DIALOG_PREVIEW_FAILED,
+  TICKET_DIALOG_PREVIEW_SUCCESS,
+} from '../actions/ticketdialog';
 
 const defaultState = {
   titleValue: '',
@@ -20,24 +20,25 @@ const defaultState = {
 
 export function imageDialogReducer(state = defaultState, action) {
   const {
-    titleValue, urlValue, descValue, linkEntityKey,
+    titleValue, urlValue, descValue, image, linkEntityKey,
   } = action;
   switch (action.type) {
-    case IMAGE_DIALOG_OPEN:
+    case TICKET_DIALOG_OPEN:
       return {
         ...state,
         showDialog: true,
         titleValue,
         urlValue,
         descValue,
+        image,
         linkEntityKey,
       };
-    case IMAGE_DIALOG_PREVIEW_START:
+    case TICKET_DIALOG_PREVIEW_START:
       return { ...state, previewBusy: true };
-    case IMAGE_DIALOG_PREVIEW_SUCCESS:
-    case IMAGE_DIALOG_PREVIEW_FAILED:
+    case TICKET_DIALOG_PREVIEW_SUCCESS:
+    case TICKET_DIALOG_PREVIEW_FAILED:
       return { ...state, previewBusy: false };
-    case IMAGE_DIALOG_CLOSE:
+    case TICKET_DIALOG_CLOSE:
       return { showDialog: false };
 
     default:

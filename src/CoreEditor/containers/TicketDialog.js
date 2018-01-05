@@ -1,24 +1,35 @@
 import React from 'react';
-import { submitDialog, closeDialog } from '../actions/linkdialog';
+import { submitDialog, closeDialog } from '../actions/ticketdialog';
 import EntityDialog from '../components/EntityDialog';
 import mkActions from '../actions/indexActions';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
-const { createNewLink, editLink, removeEntity } = mkActions('MAIN');
+const { removeEntity } = mkActions('MAIN');
 
 function mapStateToProps(state) {
   const {
-    showDialog, linkEntityKey, urlValue, titleValue, descValue,
-  } = state.linkDialog;
-  return {
     showDialog,
     linkEntityKey,
-    showTitle: false, // customize settings
-    showDescription: false, // customize settings
-    isEditLink: true,
+    previewBusy,
+    urlValue,
+    titleValue,
+    descValue,
+    image,
+  } = state.ticketDialog;
+  return {
+    showDialog,
+    previewBusy,
+    linkEntityKey,
+    showTitle: true, // customize settings
+    showDescription: true, // customize settings
+    showImage: true,
+    isEditLink: false,
     initialValues: {
       url: urlValue,
+      title: titleValue,
+      description: descValue,
+      image,
     },
   };
 }
@@ -31,13 +42,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(closeDialog());
   },
   onCancelLink: () => dispatch(closeDialog()),
-  onSubmit: (values) => {
-    dispatch(submitDialog(values));
-  },
+  onSubmit: values => dispatch(submitDialog(values)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   // a unique name for the form
-  form: 'linkDialog',
+  form: 'ticketDialog',
   enableReinitialize: true,
 })(EntityDialog));

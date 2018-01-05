@@ -10,6 +10,7 @@ import {
 } from '../utils/entitytools';
 import LinkDialogReducer from './linkDialog';
 import ImageDialogReducer from './imageDialog';
+import TicketDialogReducer from './ticketDialog';
 import coverDialogReducer from './coverDialogReducer';
 import PostSettingsReducer from './publish';
 import { mkDoc, extractHeader } from './docUtils';
@@ -32,6 +33,7 @@ const combinedReducer = combineReducers({
   publish: PostSettingsReducer,
   imageDialog: ImageDialogReducer,
   linkDialog: LinkDialogReducer,
+  ticketDialog: TicketDialogReducer,
   coverDialog: coverDialogReducer,
   form: formReducer,
   listEditor: ListEditorReducer,

@@ -43,6 +43,7 @@ class EditorComponent extends React.Component {
     this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
     this.onLinkControlClick = this.onLinkControlClick.bind(this);
     this.onImageControlClick = this.onImageControlClick.bind(this);
+    this.onTicketControlClick = this.onTicketControlClick.bind(this);
 
     setTimeout(this.focus.bind(this), 200);
     window.editorFocus = this.onFocus.bind(this);
@@ -60,6 +61,11 @@ class EditorComponent extends React.Component {
   onImageControlClick() {
     const title = getSelection(this.props.editorState);
     this.props.openImageDialog(title, '', '');
+  }
+
+  onTicketControlClick() {
+    const title = getSelection(this.props.editorState);
+    this.props.openTicketDialog(title, '', '');
   }
 
   focus() {
@@ -119,6 +125,7 @@ class EditorComponent extends React.Component {
               onToggle={this.toggleBlockType}
               onLinkToggle={this.onLinkControlClick}
               onImageToggle={this.onImageControlClick}
+              onTicketToggle={this.onTicketControlClick}
             />
 
             {false && (
@@ -153,6 +160,7 @@ EditorComponent.propTypes = {
   editorName: PropTypes.string.isRequired,
   openLinkDialog: PropTypes.func.isRequired,
   openImageDialog: PropTypes.func.isRequired,
+  openTicketDialog: PropTypes.func.isRequired,
   editorChanged: PropTypes.func.isRequired,
 };
 

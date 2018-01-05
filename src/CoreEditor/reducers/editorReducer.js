@@ -4,6 +4,7 @@ import {
   createEditorState,
   createNewLink,
   createNewImage,
+  createNewTicket,
   removeEntity,
   extractTableOfContents,
 } from '../utils/entitytools';
@@ -31,6 +32,7 @@ const edtorDocumentReducer = (editorName: string) => (
     GOT_ERROR,
     CREATE_NEW_IMAGE,
     CREATE_NEW_LINK,
+    CREATE_NEW_TICKET,
     EDITOR_CHANGED,
     REMOVE_ENTITY,
   } = mkActions(editorName);
@@ -62,6 +64,17 @@ const edtorDocumentReducer = (editorName: string) => (
       return {
         ...state,
         editorState: createNewImage(state.editorState, action.url, action.desc, action.title),
+      };
+    case CREATE_NEW_TICKET:
+      return {
+        ...state,
+        editorState: createNewTicket(
+          state.editorState,
+          action.url,
+          action.desc,
+          action.title,
+          action.image,
+        ),
       };
     case CREATE_NEW_LINK:
       return {
