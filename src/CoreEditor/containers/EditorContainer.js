@@ -5,6 +5,7 @@ import { ContentBlock, CharacterMetadata } from 'draft-js';
 
 import { openLinkDialog } from '../actions/linkdialog';
 import { openImageDialog } from '../actions/imagedialog';
+import { openTicketDialog } from '../actions/ticketdialog';
 import EntityTools from '../utils/entitytools';
 import { Loading, LoadingError } from '../components/Loading';
 import mkEditorActions from '../actions/indexActions';
@@ -14,6 +15,7 @@ import { parseEditingUrl , CREATE_MODE} from '../utils/url';
 
 import LinkUrlDialog from '../containers/LinkUrlDialog';
 import ImageUrlDialog from '../containers/ImageUrlDialog';
+import TicketDialog from '../containers/TicketDialog';
 import CoverEditingDialog from './CoverEditingDialogContainer';
 import ListEditor from './ListEditorContainer';
 
@@ -77,10 +79,12 @@ class EditorContainer extends React.Component {
               editorChanged={this.props.editorChanged}
               openImageDialog={this.props.openImageDialog}
               openLinkDialog={this.props.openLinkDialog}
+              openTicketDialog={this.props.openTicketDialog}
             />
 
             <LinkUrlDialog />
             <ImageUrlDialog />
+            <TicketDialog />
             <CoverEditingDialog />
           </div>
         ) : (
@@ -145,6 +149,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
     openImageDialog: (...args) => dispatch(openImageDialog(...args)),
+    openTicketDialog: (...args) => dispatch(openTicketDialog(...args)),
     editorChanged: state => dispatch(mainEditorChanged(state)),
   };
 }

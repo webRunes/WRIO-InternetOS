@@ -25,9 +25,11 @@ export default function createActionsForEditor(editorName) {
   const EDITOR_CHANGED = `${editorName}EDITOR_CHANGED`;
   const CREATE_NEW_LINK = `${editorName}CREATE_NEW_LINK`;
   const CREATE_NEW_IMAGE = `${editorName}CREATE_NEW_IMAGE`;
+  const CREATE_NEW_TICKET = `${editorName}CREATE_NEW_TICKET`;
   const REMOVE_ENTITY = `${editorName}REMOVE_ENTIRY`;
   const EDIT_LINK = `${editorName}EDIT_ENTITY`;
   const EDIT_IMAGE = `${editorName}EDIT_IMAGE`;
+  const EDIT_TICKET = `${editorName}EDIT_TICKET`;
 
   const exports = {
     REQUEST_DOCUMENT,
@@ -38,9 +40,11 @@ export default function createActionsForEditor(editorName) {
     EDITOR_CHANGED,
     CREATE_NEW_LINK,
     CREATE_NEW_IMAGE,
+    CREATE_NEW_TICKET,
     REMOVE_ENTITY,
     EDIT_LINK,
     EDIT_IMAGE,
+    EDIT_TICKET,
   };
 
   exports.requestDocument = function requestDocument() {
@@ -142,9 +146,19 @@ export default function createActionsForEditor(editorName) {
     };
   };
 
+  exports.createNewTicket = function createNewTicket(title, url, desc, image) {
+    return {
+      type: CREATE_NEW_TICKET,
+      title,
+      url,
+      desc,
+      image,
+    };
+  };
+
   exports.removeEntity = function removeEntity(key) {
     return {
-      type: CREATE_NEW_IMAGE,
+      type: REMOVE_ENTITY,
       key,
     };
   };
@@ -156,7 +170,7 @@ export default function createActionsForEditor(editorName) {
       linkDesc: descValue,
     });
     // editorFocus();
-    return { type: EDIT_IMAGE };
+    return { type: EDIT_LINK };
   };
 
   exports.editImage = function editImage(title, src, description, linkEntityKey) {
@@ -166,7 +180,18 @@ export default function createActionsForEditor(editorName) {
       description,
     });
     // editorFocus();
-    return { type: EDIT_LINK };
+    return { type: EDIT_IMAGE };
+  };
+
+  exports.editTicket = function editImage(title, src, description, image, linkEntityKey) {
+    Entity.mergeData(linkEntityKey, {
+      src,
+      title,
+      description,
+      image,
+    });
+    // editorFocus();
+    return { type: EDIT_TICKET };
   };
   return exports;
 }

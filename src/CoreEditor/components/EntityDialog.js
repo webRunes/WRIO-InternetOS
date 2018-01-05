@@ -1,90 +1,85 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Loading from 'base/components/misc/Loading';
+import { Field, reduxForm } from 'redux-form';
 
-const EntityDialog = ({
-  showDialog,
-  urlValue,
-  titleValue,
-  descValue,
+const EntityDialog = ({ children, showDialog, ...restProps }) => (
+  <div style={styles.linkTitleInputContainer}>
+    <Modal shouldCloseOnOverlayClick style={customStyles} isOpen={showDialog} contentLabel="Edit">
+      {showDialog && <EntityForm {...restProps} />}
+    </Modal>
+  </div>
+);
+
+const EntityForm = ({
   linkEntityKey,
   previewBusy,
 
   showTitle, // customize settings
   showDescription, // customize settings
+  showImage,
 
-  onTitleChange,
-  onDescChange,
-  onUrlChange,
-
+  onUrlChanged,
   onRemoveLink,
   onCancelLink,
-  onConfirmLink,
-  onEditLink,
+  handleSubmit,
 }) => {
   const isEditLink = linkEntityKey != null;
   return (
-    <div style={styles.linkTitleInputContainer}>
-      <Modal shouldCloseOnOverlayClick 
-      style={customStyles} 
-      isOpen={showDialog}
-      contentLabel="Edit">
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="linkUrl">URL: </label>
+        <Field name="url" type="text" className="form-control" component="input" />
+        {previewBusy && <Loading />}
+      </div>
+      {showTitle && (
         <div className="form-group">
-          <label htmlFor="linkUrl">URL: </label>
-          <input
-            onChange={e => onUrlChange(e.target.value)}
+          <label htmlFor="linkTitle">Title: </label>
+          <Field
+            name="title"
+            component="input"
+            style={styles.linkTitleInput}
             type="text"
-            value={urlValue}
             className="form-control"
-          />{' '}
-          {previewBusy && <Loading />}
+          />
         </div>
-        {showTitle && (
-          <div className="form-group">
-            <label htmlFor="linkTitle">Title: </label>
-            <input
-              onChange={e => onTitleChange(e.target.value)}
-              style={styles.linkTitleInput}
-              type="text"
-              value={titleValue}
-              className="form-control"
-            />
-          </div>
-        )}
-        {showDescription && (
-          <div className="form-group">
-            <label htmlFor="linkDesc">Description: </label>
-            <textarea
-              onChange={e => onDescChange(e.target.value)}
-              rows="4"
-              type="text"
-              value={descValue}
-              className="form-control"
-            />
-          </div>
-        )}
-        <div className="form-group pull-right">
-          {isEditLink ? (
-            <button className="btn btn-danger btn-sm" onClick={e => onRemoveLink(linkEntityKey)}>
-              <span className="glyphicon glyphicon-trash" />Remove
-            </button>
-          ) : null}
-          <button className="btn btn-default btn-sm" onClick={onCancelLink}>
-            <span className="glyphicon glyphicon-remove" />Cancel
-          </button>
+      )}
+      {showDescription && (
+        <div className="form-group">
+          <label htmlFor="linkDesc">Description: </label>
+          <Field
+            component="textarea"
+            name="description"
+            type="text"
+            rows="4"
+            className="form-control"
+          />
+        </div>
+      )}
+      {showImage && (
+        <div className="form-group">
+          <label htmlFor="linkDesc">Image: </label>
+          <Field component="input" name="image" type="text" className="form-control" />
+        </div>
+      )}
+      <div className="form-group pull-right">
+        {isEditLink ? (
           <button
-            onClick={
-              isEditLink
-                ? () => onEditLink(titleValue, urlValue, descValue, linkEntityKey)
-                : () => onConfirmLink(titleValue, urlValue, descValue, linkEntityKey)
-            }
-            className="btn btn-primary btn-sm"
+            type="button"
+            className="btn btn-danger btn-sm"
+            onClick={e => onRemoveLink(linkEntityKey)}
           >
-            <span className="glyphicon glyphicon-ok" />Submit
+            <span className="glyphicon glyphicon-trash" />Remove
           </button>
-        </div>
-      </Modal>
-    </div>
+        ) : null}
+        <button type="button" className="btn btn-default btn-sm" onClick={onCancelLink}>
+          <span className="glyphicon glyphicon-remove" />Cancel
+        </button>
+        <button type="submit" className="btn btn-primary btn-sm">
+          <span className="glyphicon glyphicon-ok" />Submit
+        </button>
+      </div>
+    </form>
   );
 };
 

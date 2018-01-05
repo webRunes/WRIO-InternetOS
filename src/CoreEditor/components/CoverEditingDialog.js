@@ -68,7 +68,6 @@ const CoverDialog = ({
 }:
 CoverDialogTypes) => {
   const previewBusy = false;
-  console.log('EDIT');
   return (
     <div style={styles.linkTitleInputContainer}>
       <Modal

@@ -114,7 +114,6 @@ class EditorWithGUI extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log("EDITORDOC", state.editorDocument.toc);
   return{
     url: state.document.url,
     editAllowed: state.document.editAllowed,
