@@ -47,7 +47,7 @@ const RightNav = () => {
 
 const LoginBar = ({ profile }) => {
   const loginStyle = {
-    margin: "1em 4.2em",
+    margin: "3px 100px",
     position: "absolute",
     right: 0,
     zIndex: 120
@@ -104,9 +104,9 @@ class EditorWithGUI extends React.Component {
             tabKey={this.props.tabKey}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
-        </div>
-        <div className="col-xs-12 card">
-          <PostSettings />
+          <div className="col-xs-12 card">
+            <PostSettings />
+          </div>
         </div>
       </div>
     );

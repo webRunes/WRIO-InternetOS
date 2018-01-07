@@ -48,7 +48,7 @@ const CoverText = ({ cover }: { cover: ImageObject }) => {
           {bulletList.map(item => {
             return (
               <li key={index++}>
-                <span className="glyphicon glyphicon-ok" />
+                <span className="glyphicon glyphicon-ok with_text" />
                 {item}
               </li>
             );
@@ -214,7 +214,7 @@ const CoverCarousel = ({
           {images.map((image: ImageObject, key: number) => {
             return (
               <CarouselItem key={key}>
-                <RenderCover image={image} 
+                <RenderCover image={image}
                              onPress={() => onCoverPressed(covers[currentCover].root.data)}
                 />
               </CarouselItem>

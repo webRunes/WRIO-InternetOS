@@ -53,7 +53,7 @@ const RightNav = ({ onCloseTab }) => {
 
 const LoginBar = ({ profile }) => {
   const loginStyle = {
-    margin: "10px 110px",
+    margin: "3px 100px",
     position: "absolute",
     right: 0,
     zIndex: 120

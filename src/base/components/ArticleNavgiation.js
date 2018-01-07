@@ -27,14 +27,14 @@ const MenuButton = ({active,name,url,hasLabel} : {active: boolean, name: string,
 const UpButton = ({showUp}) => {
     return(<a href="#"
       data-toggle="tab" className="to-top"
-              onClick={() => {
+      onClick={() => {
                   // $FlowFixMe
                    document.body.scrollTop = 0; // For Chrome, Safari and Opera
                    // $FlowFixMe
                    document.documentElement.scrollTop = 0; // For IE and Firefox
-              }}
-    >
-        {showUp && <i className="material-icons dp_big invert-icon-v visib2le-xs-block">file_download</i>}
+      }}
+           >
+      {showUp && <i className="material-icons dp_big invert-icon-v">file_download</i>}
     </a>);
 }
 

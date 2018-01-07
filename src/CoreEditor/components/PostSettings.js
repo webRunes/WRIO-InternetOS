@@ -50,9 +50,9 @@ export default class PostSettings extends React.Component {
     const className = `form-group${exceedLength ? ' has-error' : ''}`;
     return (
       <div>
-        <div className="col-xs-12">
+        <div className="core card-content col-xs-12">
           {this.props.createMode && (
-            <div className={className}>
+            <div className={className + ' clearfix'}>
               <label className="col-sm-4 col-md-3 control-label">File name</label>
               <div className="col-sm-8 col-md-9">
                 <input
@@ -66,32 +66,34 @@ export default class PostSettings extends React.Component {
               </div>
             </div>
           )}
-          <div>
+          <div className="form-group clearfix">
             <label className="col-sm-4 col-md-3 control-label">Comments</label>
             <CommentEnabler
               isChecked={this.props.commentsEnabled}
               onCheck={this.props.onEnableComments}
             />
           </div>
-          <div className="pull-right">
-            <button type="button" className="btn btn-default" onClick={goBack}>
-              <span className="glyphicon glyphicon-remove" />Cancel
-            </button>
-            <ButtonGroup>
-              <Button onClick={() => this.props.onPublish('S3')} bsStyle="success">
-                {' '}
-                {this.props.busy ? loading : <span className="glyphicon glyphicon-open" />}
-                Publish
-              </Button>
-              <DropdownButton
-                bsStyle="success"
-                title=""
-                id="bg-vertical-dropdown-1"
-                onClick={() => this.props.onPublish('saveas')}
-              >
-                <MenuItem eventKey="1">SaveAs</MenuItem>
-              </DropdownButton>
-            </ButtonGroup>
+          <div className="form-group col-xs-12">
+            <div className="navbar-right">
+              <button type="button" className="btn btn-default" onClick={goBack}>
+                <span className="glyphicon glyphicon-remove with_text" />Cancel
+              </button>
+              <ButtonGroup>
+                <Button onClick={() => this.props.onPublish('S3')} bsStyle="success">
+                  {' '}
+                  {this.props.busy ? loading : <span className="glyphicon glyphicon-open with_text" />}
+                  Publish
+                </Button>
+                <DropdownButton
+                  bsStyle="success narrow-dropdown"
+                  title=""
+                  id="bg-vertical-dropdown-1"
+                  onClick={() => this.props.onPublish('saveas')}
+                >
+                  <MenuItem eventKey="1">SaveAs</MenuItem>
+                </DropdownButton>
+              </ButtonGroup>
+            </div>
           </div>
         </div>
         {this.props.alert && (
