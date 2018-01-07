@@ -116,39 +116,36 @@ class EditorComponent extends React.Component {
       }
     }
 
+// RichEditor-root class removed
     return (
-      <div className="clearfix">
-        <div>
-          <div className="RichEditor-root form-group">
-            <BlockStyleControls
-              editorState={this.props.editorState}
-              onToggle={this.toggleBlockType}
-              onLinkToggle={this.onLinkControlClick}
-              onImageToggle={this.onImageControlClick}
-              onTicketToggle={this.onTicketControlClick}
-            />
+      <div className="">
+        <BlockStyleControls
+          editorState={this.props.editorState}
+          onToggle={this.toggleBlockType}
+          onLinkToggle={this.onLinkControlClick}
+          onImageToggle={this.onImageControlClick}
+          onTicketToggle={this.onTicketControlClick}
+        />
 
-            {false && (
-              <InlineStyleControls
-                editorState={this.props.editorState}
-                onToggle={this.toggleInlineStyle}
-              />
-            )}
+        {false && (
+          <InlineStyleControls
+            editorState={this.props.editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+        )}
 
-            <div className={className} onClick={() => this.focus}>
-              <Editor
-                blockStyleFn={getBlockStyle}
-                editorState={this.props.editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={el => this.handleChange(el)}
-                placeholder="Enter text..."
-                ref={(ref) => {
-                  this.editorRef = ref;
-                }}
-                spellCheck
-              />
-            </div>
-          </div>
+        <div className={className} onClick={() => this.focus}>
+          <Editor
+            blockStyleFn={getBlockStyle}
+            editorState={this.props.editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={el => this.handleChange(el)}
+            placeholder="Enter text..."
+            ref={(ref) => {
+              this.editorRef = ref;
+            }}
+            spellCheck
+          />
         </div>
       </div>
     );

@@ -35,22 +35,22 @@ const Login = ({ profile, onLogout, onLogin }) => (
     </Dropdown.Toggle>
     <Dropdown.Menu>
       <MenuItem eventKey="1" href="https://core.wrioos.com/create">
-        <i className="material-icons dp_big">create</i>Create new article
+        <i className="material-icons dp_small with_text">create</i>Create new article
       </MenuItem>
       <MenuItem eventKey="1" href="https://core.wrioos.com/create_list">
-        <i className="material-icons dp_big">create</i>Create new list
+        <i className="material-icons dp_small with_text">create</i>Create new list
       </MenuItem>
       <MenuItem eventKey="1" href={profile.url}>
-        <i className="material-icons dp_big">perm_identity</i>Profile
+        <i className="material-icons dp_small with_text">perm_identity</i>Profile
       </MenuItem>
       <MenuItem divider />
       {!profile.temporary ? (
         <MenuItem eventKey="2" onClick={performLogout}>
-          <i className="material-icons dp_big">exit_to_app</i>Logout
+          <i className="material-icons dp_small with_text">exit_to_app</i>Logout
         </MenuItem>
       ) : (
         <MenuItem eventKey="2" onClick={performLogin}>
-          <i className="material-icons dp_big">exit_to_app</i>Login
+          <i className="material-icons dp_small with_text">exit_to_app</i>Login
         </MenuItem>
       )}
     </Dropdown.Menu>

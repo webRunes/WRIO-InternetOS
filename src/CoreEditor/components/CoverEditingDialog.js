@@ -76,14 +76,14 @@ CoverDialogTypes) => {
         isOpen={showDialog}
         contentLabel="EditCover"
       >
-      <CoverTabs
-            tabs={tabs}
-            activeTab={tab}
-            onNewTab={onNewCover}
-            onCoverTabChange={onCoverTabChange}
-          >
-        <div style={{ overflow: 'scroll', height: 'calc(100vh - 100px - 200px)'}}>
-        <EditorComponent
+        <CoverTabs
+          tabs={tabs}
+          activeTab={tab}
+          onNewTab={onNewCover}
+          onCoverTabChange={onCoverTabChange}
+        >
+          <div style={{ overflow: 'scroll', height: 'calc(100vh - 100px - 200px)'}}>
+            <EditorComponent
               editorState={editorState}
               editorName="COVEREDITOR_"
               editorChanged={editorChanged}
@@ -100,17 +100,17 @@ CoverDialogTypes) => {
               />{' '}
               {previewBusy && (<Loading />)}
             </div>
-        </div>
-        <div className="form-group" style={{ height: '65px' }}>
+          </div>
+          <div className="form-group" style={{ height: '65px' }}>
             <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
-              <span className="glyphicon glyphicon-remove" />Cancel
+              <span className="glyphicon glyphicon-remove with_text" />Cancel
             </button>
             <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
-              <span className="glyphicon glyphicon-ok" />OK
+              <span className="glyphicon glyphicon-ok with_text" />OK
             </button>
           </div>
         </CoverTabs>
-       
+
       </Modal>
     </div>
   );

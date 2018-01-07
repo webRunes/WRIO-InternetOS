@@ -44,7 +44,7 @@ export function makeArticle(
     editor: '',
     name: 'Untitled',
     about,
-    articleBody: [' '],
+    articleBody: [''],
     hasPart: [],
     mentions: [],
     comment: widgetData,

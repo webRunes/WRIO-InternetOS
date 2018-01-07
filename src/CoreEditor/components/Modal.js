@@ -44,7 +44,7 @@ export default class Modal extends React.Component {
             <div className="modal-body">Are you sure you want to delete?</div>
             <div className="modal-footer">
               <a className="btn btn-danger btn-ok" onClick={this.onOk}>
-                <span className="glyphicon glyphicon-trash" />Delete
+                <span className="glyphicon glyphicon-trash with_text" />Delete
               </a>
               <button
                 type="button"
@@ -52,7 +52,7 @@ export default class Modal extends React.Component {
                 data-dismiss="modal"
                 onClick={this.onCancel}
               >
-                <span className="glyphicon glyphicon-remove" />Cancel
+                <span className="glyphicon glyphicon-remove with_text" />Cancel
               </button>
             </div>
           </div>

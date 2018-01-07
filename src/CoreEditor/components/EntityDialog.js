@@ -69,14 +69,14 @@ const EntityForm = ({
             className="btn btn-danger btn-sm"
             onClick={e => onRemoveLink(linkEntityKey)}
           >
-            <span className="glyphicon glyphicon-trash" />Remove
+            <span className="glyphicon glyphicon-trash with_text" />Remove
           </button>
         ) : null}
         <button type="button" className="btn btn-default btn-sm" onClick={onCancelLink}>
-          <span className="glyphicon glyphicon-remove" />Cancel
+          <span className="glyphicon glyphicon-remove with_text" />Cancel
         </button>
         <button type="submit" className="btn btn-primary btn-sm">
-          <span className="glyphicon glyphicon-ok" />Submit
+          <span className="glyphicon glyphicon-ok with_text" />Submit
         </button>
       </div>
     </form>

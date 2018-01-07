@@ -14,7 +14,7 @@ const CommentEnabler = ({ isChecked, onCheck }) => {
   }
 
   return (
-    <div className="col-xs-3 col-sm-3 col-md-3">
+    <div className="col-sm-8 col-md-9 toggle-field">
       <div className="togglebutton">
         <label>
           <input
@@ -24,7 +24,9 @@ const CommentEnabler = ({ isChecked, onCheck }) => {
             onChange={handleInputChange}
           />
           <span className="toggle" />
-          {isChecked ? 'Comments Enabled' : 'Comments disabled'}
+          <div className="toggle-label">
+            {isChecked ? 'Comments enabled' : 'Comments disabled'}
+          </div>
         </label>
       </div>
     </div>
