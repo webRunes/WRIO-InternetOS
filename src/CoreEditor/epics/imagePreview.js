@@ -1,7 +1,6 @@
 import * as actions from '../actions/imagedialog.js';
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { empty } from 'rxjs/Observable/empty';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/observable';
 import {
   change, // The action creator
 } from 'redux-form';
