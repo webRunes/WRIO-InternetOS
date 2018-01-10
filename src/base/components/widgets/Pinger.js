@@ -56,7 +56,7 @@ class TitterWidget extends React.Component {
     this.setState({
       article: this.props.document.hasArticle(),
       titterFrameUrl: `${getServiceUrl(
-        "titter"
+        "pinger"
       )}/iframe/?origin=${origin}&author=${authorId || ""}&userID=${this.props
         .wrioID || ""}`
     });
