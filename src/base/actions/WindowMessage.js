@@ -61,7 +61,7 @@ function messageListener(e) {
     return;
   }
 
-  if (checkForService("pinger", e) || checkForService("pinger_d", e)) {
+  if (checkForService("pinger", e) || checkForService("pinger_d", e) || checkForService("titter", e)) {
     if (msg.reload) {
       return requestReload();
     }
