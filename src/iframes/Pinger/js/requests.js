@@ -6,7 +6,7 @@ import { getServiceUrl } from "base/servicelocator";
 
 export const sendCommentRequest = (data, params) =>
   $.ajax({
-    url: getServiceUrl("titter") + "/sendComment?" + params,
+    url: getServiceUrl("pinger") + "/sendComment?" + params,
     type: "post",
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,
@@ -19,7 +19,7 @@ export const sendCommentRequest = (data, params) =>
 
 export const sendDonateRequest = (data, params) =>
   $.ajax({
-    url: getServiceUrl("titter") + "/requestDonate?" + params,
+    url: getServiceUrl("pinger") + "/requestDonate?" + params,
     type: "post",
     processData: false, // Не обрабатываем файлы (Don't process the files)
     contentType: false,

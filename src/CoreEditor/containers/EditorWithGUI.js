@@ -9,7 +9,7 @@ import Tabs from 'base/components/Tabs';
 import EditorContainer from './EditorContainer.js';
 import PlusActions from 'base/Plus/actions/PlusActions';
 import Login from 'base/components/widgets/Login.js';
-import configureStore from '../configureStore';
+
 // $FlowFixMe
 import { Provider, connect } from 'react-redux';
 import { fromList } from 'base/utils/tocnavigation';
@@ -56,9 +56,6 @@ const LoginBar = ({ profile }) => {
     <div style={loginStyle}>{!!profile && <Login profile={profile} />}</div>
   );
 };
-
-const store = configureStore();
-
 
 class EditorWithGUI extends React.Component {
   state: {
@@ -123,14 +120,6 @@ const mapStateToProps = state => {
     externals: state.header.externals,
   }
 };
+
 const EditorMapped = connect(mapStateToProps)(EditorWithGUI);
-
-const Wrapper = () => {
-  return (
-    <Provider store={store}>
-      <EditorMapped />
-    </Provider>
-  );
-};
-
-export default Wrapper;
+export default EditorMapped;
