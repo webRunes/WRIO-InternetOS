@@ -20,8 +20,8 @@ const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
           "width=800,height=500"
         );
   let buttonText = haveWallet
-    ? "Get free Thanks coins"
-    : "Create wallet and get free Thanks coins";
+    ? "Get free Credit coins"
+    : "Create wallet and get free Credit coins";
   buttonText = minutesLeft == 0 ? buttonText : `Wait ${minutesLeft} minutes`;
   return (
     <span id="faucetGroup">
@@ -29,7 +29,7 @@ const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
       <a
         id="faucetButton"
         className={`btn btn-sm btn-success ${(minutesLeft !== 0 || busy) &&
-          "disabled"}`}
+        "disabled"}`}
         href="javascript:;"
         onClick={callback}
       >
@@ -40,10 +40,10 @@ const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
       <a
         className="btn btn-link"
         onClick={() => callback()}
-        href="https://wrioos.com/#Thanks_coins_(THX)"
+        href="https://wrioos.com/#Credits"
         target="_parent"
       >
-        What are Thanks coins?
+        What are Credit coins?
       </a>
     </span>
   );
@@ -55,9 +55,9 @@ const BalancePane = ({ wrg, rtx, haveWallet, faucet }) => {
       <h4 id="balancestuff">
         Current balance&nbsp;
         <span id="wrgBalance">{wrg}</span>
-        <small className="currency">THX</small>
+        <small className="currency">CRD</small>
       </h4>
-      <p>You can receive 10 THX every hour free of charge</p>
+      <p>You can receive 10 CRD every hour free of charge</p>
 
       <p>
         Rating <span id="rtx">{rtx}</span>

@@ -211,7 +211,7 @@ export default class EthWallet extends React.Component {
             <li className="active">Confirm transaction</li>
           </ul>
           <p className="col-xs-12">
-            <br />Transfer of {this.props.amount / 100} THX to user ID{" "}
+            <br />Transfer of {this.props.amount / 100} CRD to user ID{" "}
             <a
               href={`https://wr.io/${this.props.to}/index.html`}
               target="_blank"

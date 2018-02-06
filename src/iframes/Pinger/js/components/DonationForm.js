@@ -42,7 +42,7 @@ export default class DonationForm extends React.Component {
               onChange={() =>
                 FormActions.amountChanged(this.refs.inputAmount.value)}
             />
-            <span className="input-group-addon">THX</span>
+            <span className="input-group-addon">CRD</span>
           </div>
 
           {insuffientFunds && (
