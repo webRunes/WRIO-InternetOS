@@ -60,9 +60,9 @@ var messageListener = msg => {
     if (msgdata.txId) {
       console.log("GOT TX id to watch!", msgdata.txId);
       FormActions.resultMsg(
-        "You've donated " +
+        "You've credited " +
           window.savedAmount +
-          " THX. Thank you! It may take a few minutes before your comment is displayed."
+          " CRD. Thank you! It may take a few minutes before your comment is displayed."
       );
       afterDonate(window.savedAmount);
       watchTX("...", msgdata.txId)
@@ -317,7 +317,7 @@ export default Reflux.createStore({
     this.trigger(v);
   },
   /**
-     * Handler for request freeTHX
+     * Handler for request freeCRD
      */
   async onRequestFreeTHX() {
     const startProgress = timeleft => {
@@ -337,7 +337,7 @@ export default Reflux.createStore({
       console.log(this.state);
       let data = await freeWrgRequest();
       this.setState({ faucet: { busy: false, minutesLeft: 0 } });
-      this.resultMsg("Success! You'll get 10THX in a minute");
+      this.resultMsg("Success! You'll get 10 CRD in a minute");
       startProgress(60);
       await watchTX(data.txUrl, data.txhash);
     } catch (err) {
@@ -352,7 +352,7 @@ export default Reflux.createStore({
         this.setState({ busy: false, minutesLeft: 0 });
       }
       this.resultMsg(
-        "Failed to receive free THX, reason:" + err.responseText,
+        "Failed to receive free CRD, reason:" + err.responseText,
         true
       );
     }

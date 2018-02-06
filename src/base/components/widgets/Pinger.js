@@ -170,7 +170,7 @@ class LoginAndComment extends React.Component {
   render() {
     return (
       <div className="well enable-comment">
-        <h4>Start donating and commenting!</h4>
+        <h4>Start <a href="https://wrioos.com/#Credits">Crediting</a> and commenting!</h4>
         <p>
           Please, login with your Twitter account to comment via tweets and to
           make donations. Looking forward to hearing from you!
