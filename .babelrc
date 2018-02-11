@@ -1,10 +1,3 @@
 {
-  "presets": ["react","es2015","stage-0"],
-  "plugins" : [
-    "transform-runtime",
-    ["module-resolver", {
-      "base": ["./src/base"],
-      "CoreEditor": ["./src/CoreEditor"]
-    }]
-  ]
+  "presets": ["react", "es2015", "stage-0"]
 }
