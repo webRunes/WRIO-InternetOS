@@ -31,7 +31,7 @@ var frame_params = {
 
 const raiseUnlockPopup = function(callback) {
   return window.open(
-    getServiceUrl("titter") + callback,
+    getServiceUrl("pinger") + callback,
     "name",
     "width=800,height=500"
   );
