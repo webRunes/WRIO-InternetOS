@@ -22,7 +22,7 @@ import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
 import { openAuthPopup } from "../auth.js";
 import { getServiceUrl } from "base/servicelocator";
 
-var frame_params = {
+const frame_params = {
   // parameters we got from the query url
   posturl: sanitizePostUrl(getParameterByName("origin")),
   loggedUserID: getParameterByName("userID"),

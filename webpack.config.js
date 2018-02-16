@@ -46,8 +46,8 @@ const e = {
     commons: ['babel-polyfill', 'react', 'react-dom', 'reflux', 'superagent', 'lodash', 'core-js'],
     // admin: './src/iframes/webGold/js/admin/index.js',
     // presale: ['./src/iframes/webGold/js/presale.js'],
-    // createwallet: './src/iframes/webGold/js/createwallet.js',
-    // txsigner: './src/iframes/webGold/js/txsigner.js',
+     createwallet: './src/iframes/webGold/js/createwallet.js',
+     txsigner: './src/iframes/webGold/js/txsigner.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
