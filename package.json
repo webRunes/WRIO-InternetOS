@@ -21,7 +21,7 @@
     "es6-symbol": "3.1.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eth-lightwallet": "^2.5.4",
+    "eth-lightwallet": "^3.0.1",
     "ethereumjs-tx": "^1.1.2",
     "ethereumjs-util": "4.5.0",
     "express-http-proxy": "^1.0.3",
