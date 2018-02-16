@@ -353,11 +353,13 @@ export function createEditorState({
     editorState
   );
 
-  editorState = tickets.reduce(
+  if (tickets) {
+    editorState = tickets.reduce(
     (editorState, ticket) =>
       EntityTools.constructTicket(editorState, ticket.key, ticket.data, false),
     editorState
   );
+}
   if (images) {
     editorState = images.reduce(
       (editorState, mention) =>
