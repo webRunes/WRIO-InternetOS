@@ -11,7 +11,8 @@ export default class TwitterTimelineWidget {
       commentId +
       '" width="' +
       window.innerWidth +
-      '" data-chrome="nofooter">Tweets about ' +
+      '" data-show-replies="true"' +
+      ' data-chrome="nofooter">Tweets about ' +
       window.location.href +
       "</a>";
     container.innerHTML = commentTitle + twitterTemplate;
