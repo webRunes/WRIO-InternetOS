@@ -35,7 +35,6 @@ const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
       >
         <span className="glyphicon glyphicon-thumbs-up " />
         <span id="faucetText">{buttonText}</span>
-        {busy && <Loading />}
       </a>
       <a
         className="btn btn-link"
