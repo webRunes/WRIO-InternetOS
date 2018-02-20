@@ -22,7 +22,7 @@ export default class FileEntry extends React.Component {
         <div style={{ height: "0px", overflow: "hidden" }}>
           <input
             type="file"
-            accept="image/*"
+            accept="image/x-png,image/gif"
             multiple
             id="fileInput"
             name="fileInput"
