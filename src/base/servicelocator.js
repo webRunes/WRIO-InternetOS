@@ -19,7 +19,7 @@ export function getServiceUrl(service: string): string {
     if (service === 'core') {
       return 'http://core_d.wrioos.com:3033';
     }
-    if (service === 'Pinger') {
+    if (service === 'pinger') {
       return 'http://pinger_d.wrioos.com:3033';
     }
   }
