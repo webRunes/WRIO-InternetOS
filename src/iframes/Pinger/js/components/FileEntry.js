@@ -23,7 +23,7 @@ export default class FileEntry extends React.Component {
           <input
             type="file"
             ref="input"
-            accept="image/x-png,image/gif"
+            accept="image/*"
             multiple
             id="fileInput"
             name="fileInput"
