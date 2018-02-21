@@ -20,7 +20,12 @@ class ArticleElement extends React.Component {
     return elements.map((item, i) => (
       <div className="paragraph" key={i}>
         <div className="col-xs-12">
-          <div>{item}</div>
+          <div>
+            {item.length
+              ? item
+              : (<br/>)
+            }
+          </div>
         </div>
       </div>
     ));
