@@ -2,26 +2,27 @@
  * Created by michbil on 29.05.17.
  */
 import React from "react";
-import Actions from "../actions/formactions.js";
-
-// TODO: remove legacy jQuery hacks
-
-$(document).ready(function() {
-  console.log("Iframe loaded");
-  $("#fileInput").change(function() {
-    $.each(this.files, function(key, value) {
-      Actions.addFile(value);
-    });
-  });
-});
+import FormActions from "../actions/formactions.js";
 
 export default class FileEntry extends React.Component {
+  onClick() {
+    const input = this.refs.input;
+
+    input.onchange = () => {
+      for (let i = 0; i < input.files.length; i += 1)
+        FormActions.addFile(input.files.item(i))
+    }
+
+    input.click();
+  }
+
   render() {
     return (
       <div className="pull-left">
         <div style={{ height: "0px", overflow: "hidden" }}>
           <input
             type="file"
+            ref="input"
             accept="image/x-png,image/gif"
             multiple
             id="fileInput"
@@ -31,9 +32,7 @@ export default class FileEntry extends React.Component {
         <button
           type="button"
           className="btn btn-default"
-          onClick={() => {
-            $("#fileInput").click();
-          }}
+          onClick={() => this.onClick()}
         >
           <span className="glyphicon glyphicon-camera" />
           Photo

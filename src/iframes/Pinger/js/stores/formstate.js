@@ -371,6 +371,11 @@ export default Reflux.createStore({
       files: []
     });
   },
+  onDeletePhoto() {
+    this.setState({
+      files: []
+    });
+  },
   setState(state) {
     this.state = Object.assign(this.state, state);
     this.trigger(this.state);

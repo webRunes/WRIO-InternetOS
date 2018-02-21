@@ -24,6 +24,7 @@ export default class DonationForm extends React.Component {
   render() {
     const insuffientFunds = this.props.amount > this.props.balance;
     const hasError = insuffientFunds ? "has-error" : "";
+    const hasPhoto = Boolean(this.props.files.length);
 
     return (
       <div>
@@ -70,16 +71,22 @@ export default class DonationForm extends React.Component {
         </div>
 
         <div className="form-group send-comment-form col-xs-12">
-          <textarea
-            maxLength={COMMENT_LENGTH}
-            rows="3"
-            className="form-control"
-            placeholder={`Let us know your thoughts! Max ${COMMENT_LENGTH} characters`}
-            name="comment"
-            ref="comment"
-            value={this.props.comment}
-            onChange={() => this.commentChanged()}
-          />
+          {hasPhoto
+              ? (<div className="well">
+                   <h4>Success!</h4>
+                   <p>The photo has been uploaded</p>
+                 </div>)
+              : (<textarea
+                   maxLength={COMMENT_LENGTH}
+                   rows="3"
+                   className="form-control"
+                   placeholder={`Let us know your thoughts! Max ${COMMENT_LENGTH} characters`}
+                   name="comment"
+                   ref="comment"
+                   value={this.props.comment}
+                   onChange={() => this.commentChanged()}
+                 />)
+          }
         </div>
       </div>
     );
