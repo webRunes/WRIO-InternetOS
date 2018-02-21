@@ -191,10 +191,25 @@ class Container extends React.Component {
             tags={this.state.tags}
             comment={this.state.comment}
             left={this.state.left}
+            files={this.state.files}
           />
 
           <div className="form-group send-comment-form col-xs-12">
-            <FileEntry />
+            {this.state.comment.length
+                ? (<div className="pull-left">
+                     <label className="comment-limit">Clear text area and add photo</label>
+                   </div>)
+                : this.state.files.length
+                    ? (<button
+                         type="button"
+                         className="btn btn-default"
+                         onClick={() => FormActions.deletePhoto()}
+                       >
+                         <span className="glyphicon glyphicon-camera" />
+                         Delete photo and add text
+                       </button>)
+                    : (<FileEntry/>)
+            }
             <SendButton
               user={this.state.user}
               busy={this.state.busy}

@@ -15,5 +15,6 @@ export default Reflux.createActions([
   "cancelDonate",
   "resetFields",
   "resultMsg",
-  "queryBalance"
+  "queryBalance",
+  "deletePhoto"
 ]);
