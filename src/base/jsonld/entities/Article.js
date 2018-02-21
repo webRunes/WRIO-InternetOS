@@ -25,7 +25,11 @@ export default class Article extends LdJsonObject {
           body.push(item);
         }
       } else {
-        body.push(item);
+        body.push(
+          item.length
+            ? item
+            : (<br/>)
+        );
       }
       i++;
     }
