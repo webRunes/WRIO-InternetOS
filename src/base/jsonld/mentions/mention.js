@@ -53,7 +53,7 @@ export class MappedMention {
           } else {
             return <span key={key}> {mention} </span>;
           }
-        })}{" "}
+        })}
         {this.after}
       </span>
     );
