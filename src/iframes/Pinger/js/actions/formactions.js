@@ -16,5 +16,6 @@ export default Reflux.createActions([
   "resetFields",
   "resultMsg",
   "queryBalance",
+  "deleteComment",
   "deletePhoto"
 ]);
