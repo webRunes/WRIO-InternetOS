@@ -371,6 +371,11 @@ export default Reflux.createStore({
       files: []
     });
   },
+  onDeleteComment() {
+    this.setState({
+      comment: ''
+    });
+  },
   onDeletePhoto() {
     this.setState({
       files: []

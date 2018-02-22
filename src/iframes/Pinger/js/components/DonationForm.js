@@ -24,7 +24,7 @@ export default class DonationForm extends React.Component {
   render() {
     const insuffientFunds = this.props.amount > this.props.balance;
     const hasError = insuffientFunds ? "has-error" : "";
-    const hasPhoto = Boolean(this.props.files.length);
+    const hasPhoto = this.props.hasPhoto;
 
     return (
       <div>
