@@ -38,7 +38,6 @@ const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
       </a>
       <a
         className="btn btn-link"
-        onClick={() => callback()}
         href="https://wrioos.com/#Credits"
         target="_parent"
       >
