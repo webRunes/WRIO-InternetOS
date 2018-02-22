@@ -5,15 +5,51 @@ import React from "react";
 import FormActions from "../actions/formactions.js";
 
 export default class FileEntry extends React.Component {
-  onClick() {
-    const input = this.refs.input;
+  constructor(props) {
+    super(props)
+    this.state = {
+      shouldAutoClick: false
+    }
+  }
 
+  onClick() {
+    return this.props.hasComment
+      ? this.clearTextAreaAndAddPhoto()
+      : this.props.hasPhoto
+        ? FormActions.deletePhoto()
+        : this.addFiles()
+  }
+
+  clearTextAreaAndAddPhoto() {
+    this.setState({shouldAutoClick: true});
+    FormActions.deleteComment();
+  }
+
+  componentDidUpdate() {
+    if (this.state.shouldAutoClick) {
+      this.addFiles();
+      this.setState({shouldAutoClick: false});
+    }
+  }
+
+  addFiles() {
+    const input = this.refs.input;
+    input.type = '';
+    input.type = 'file';
     input.onchange = () => {
       for (let i = 0; i < input.files.length; i += 1)
         FormActions.addFile(input.files.item(i))
-    }
 
-    input.click();
+    }
+    input.click()
+  }
+
+  text() {
+    return this.props.hasComment
+      ? 'Clear text area and add photo'
+      : this.props.hasPhoto
+        ? 'Delete photo and add text'
+        : 'Photo'
   }
 
   render() {
@@ -25,8 +61,6 @@ export default class FileEntry extends React.Component {
             ref="input"
             accept="image/*"
             multiple
-            id="fileInput"
-            name="fileInput"
           />
         </div>
         <button
@@ -34,8 +68,7 @@ export default class FileEntry extends React.Component {
           className="btn btn-default"
           onClick={() => this.onClick()}
         >
-          <span className="glyphicon glyphicon-camera" />
-          Photo
+          {this.text()}
         </button>
       </div>
     );
