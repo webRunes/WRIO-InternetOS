@@ -7,6 +7,12 @@ const vhost = require('vhost');
 const proxy = require('express-http-proxy');
 
 const app = express();
+const proxyParams = {
+  userResDecorator(proxyRes, proxyResData, userReq, userRes) {
+    const data = proxyResData.toString('utf8');
+    return data.replaceAll('src="//wrioos.com/', 'src="//localhost:3033/');
+  },
+};
 
 const pingerService = express();
 
@@ -38,12 +44,7 @@ String.prototype.replaceAll = function (search, replacement) {
 };
 
 const webgoldService = express();
-webgoldService.use(proxy('https://webgold.wrioos.com/', {
-  userResDecorator(proxyRes, proxyResData, userReq, userRes) {
-    const data = proxyResData.toString('utf8');
-    return data.replaceAll('src="//wrioos.com/', 'src="//localhost:3033/');
-  },
-}));
+webgoldService.use(proxy('https://webgold.wrioos.com/', proxyParams));
 
 const server = require('http')
   .createServer(app)
