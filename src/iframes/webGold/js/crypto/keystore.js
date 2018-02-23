@@ -14,7 +14,7 @@ export default class KeyStore {
             seedPhrase: seed, // Optionally provide a 12-word seed phrase
             // salt: fixture.salt,     // Optionally provide a salt.
             // A unique salt will be generated otherwise.
-            hdPathString: "/m0'/0'/0'", // Optional custom HD Path String
+            hdPathString: "m/0'/0'/0'", // Optional custom HD Path String
           },
           extract,
         );
