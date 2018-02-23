@@ -32,12 +32,18 @@ coreService.get('/edit', (request, response) => {
 
 coreService.use(express.static(path.join(__dirname, './core/')));
 
-const webgoldService = connect();
-webgoldService.use((request, response, next) => {
-  console.log('pinger iframe requredt');
-  next();
-});
-webgoldService.use(express.static(path.join(__dirname, './webgold/')));
+String.prototype.replaceAll = function (search, replacement) {
+  const target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+const webgoldService = express();
+webgoldService.use(proxy('https://webgold.wrioos.com/', {
+  userResDecorator(proxyRes, proxyResData, userReq, userRes) {
+    const data = proxyResData.toString('utf8');
+    return data.replaceAll('src="//wrioos.com/', 'src="//localhost:3033/');
+  },
+}));
 
 const server = require('http')
   .createServer(app)
