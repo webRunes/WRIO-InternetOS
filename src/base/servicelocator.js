@@ -22,6 +22,10 @@ export function getServiceUrl(service: string): string {
     if (service === 'pinger') {
       return 'http://pinger_d.wrioos.com:3033';
     }
+
+    if (service === 'webgold') {
+      return 'http://webgold_d.wrioos.com:3033';
+    }
   }
   return `${protocol}//${service}.${domain}`;
 }
