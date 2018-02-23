@@ -21,6 +21,12 @@ export default class DonationForm extends React.Component {
     FormActions.commentChanged(comment);
   }
 
+  filterKeys(e) {
+    return e.key === 'Enter'
+      ? e.preventDefault() && false
+      : true
+  }
+
   render() {
     const insuffientFunds = this.props.amount > this.props.balance;
     const hasError = insuffientFunds ? "has-error" : "";
@@ -84,6 +90,7 @@ export default class DonationForm extends React.Component {
                    name="comment"
                    ref="comment"
                    value={this.props.comment}
+                   onKeyPress={this.filterKeys}
                    onChange={() => this.commentChanged()}
                  />)
           }
