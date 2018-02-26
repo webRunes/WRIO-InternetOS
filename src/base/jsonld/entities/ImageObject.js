@@ -20,8 +20,12 @@ export default class ImageObject extends LdJsonObject {
       } else {
         if (mention.isBulletItem(this.data.text[i])) {
           appliedMention.bullet = true;
+          appliedMention.text = mention.skipAsterisk(item);
+        } else {
+          appliedMention.text = item === ''
+            ? (<br/>)
+            : item
         }
-        appliedMention.text = mention.skipAsterisk(this.data.text[i]);
       }
       return appliedMention;
     });
