@@ -26,7 +26,7 @@ const EditExternal = ({
     {externals.map((item, i) => (
       <EditExternalForm key={i} itemKey={i} url={item} onChange={onChange} />
     ))}
-    <div class="well"><p>There is nothing, yet...</p></div>
+    <div className="well"><p>There is nothing, yet...</p></div>
 
     <div className="form-group col-xs-12">
       <div className="navbar-right form-buttons">
