@@ -38,7 +38,7 @@ export default class DonationForm extends React.Component {
           className={`form-group send-comment-form-donation donation-form col-xs-12 col-sm-6 col-md-4 col-lg-3 ${hasError}`}
         >
           <div className="input-group input-group-sm tooltip-demo">
-            <span className="input-group-addon">Donation</span>
+            <span className="input-group-addon">Send</span>
             <input
               type="number"
               className="form-control"
