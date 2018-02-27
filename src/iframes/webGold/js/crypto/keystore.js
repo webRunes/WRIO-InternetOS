@@ -41,7 +41,7 @@ export default class KeyStore {
   verifySeedAgainstEthId(id) {
     return ({ addr, pwDerivedKey, ks }) => {
       console.log('Comparing ', id, addr);
-      return id == `0x${addr}`;
+      return id == ${addr};
     };
   }
 
