@@ -413,5 +413,7 @@ function afterDonate(amount) {
     FormActions.resultMsg(
       "Message has been sent, it may take a few minutes before your comment is displayed."
     );
+  } else if (amount > 0) {
+    FormActions.queryBalance();
   }
 }
