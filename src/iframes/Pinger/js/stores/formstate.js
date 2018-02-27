@@ -367,7 +367,7 @@ export default Reflux.createStore({
     this.setState({
       comment: "",
       amount: 0,
-      tags: 0,
+      tags: '',
       files: []
     });
   },
