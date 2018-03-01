@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import mkActions from './indexActions.js';
 import nock from 'nock';
 import expect from 'expect'; // You can use any testing library
-import JSONDocument from 'base/jsonld/LdJsonDocument';
 import { mkDoc } from '../reducers/docUtils';
 import { getHtml } from 'CoreEditor/fixtures/fixture';
 import { fetchDocument } from './indexActions';

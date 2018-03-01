@@ -6,6 +6,7 @@ import request from "superagent";
 import { Modal, Button } from "react-bootstrap";
 import Const from "../../../constant.js";
 import Loading from 'base/components/misc/Loading';
+import PrePayments from './PrePayments';
 const SATOSHI = Const.SATOSHI;
 
 const UsersTable = ({ data, showModal }) => {
@@ -95,9 +96,11 @@ export default class Balances extends React.Component {
   }
 
   render() {
+    const h2 = "User's balance";
+
     return (
       <div>
-        <h2>User's balance</h2>
+        <h2>{h2}</h2>
         {this.state.data ? (
           <UsersTable
             data={this.state.data}
