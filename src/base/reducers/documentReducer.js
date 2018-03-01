@@ -65,18 +65,18 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
         lists: action.lists,
       };
     case actions.LOGIN_MESSAGE:
-      if (action.msg.profile) {
-        const { profile } = action.msg;
-        const _author = getAuthor(state.mainPage);
-        console.log(state.mainPage);
-        console.log('Checking if editing allowed: ', profile.url, _author);
-        const editAllowed = UrlMixin.compareProfileUrls(profile.url, _author);
-        return {
-          ...state,
-          busy: false,
-          editAllowed,
-        };
-      }
+      return action.msg.profile
+        ?
+          {
+            ...state,
+            busy: false,
+            editAllowed: UrlMixin.compareProfileUrls(
+              action.msg.profile.url,
+              getAuthor(state.mainPage)
+            ),
+          }
+        :
+          state
     case actions.TAB_CLICK:
       return { ...state, tabKey: action.tabKey };
 
@@ -98,7 +98,7 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
  * @param {*} mainPage
  */
 export function getAuthor(doc: LdJsonDocument): ?string {
-  return doc.getProperty('author');
+  return doc && doc.getProperty('author');
 }
 
 /*

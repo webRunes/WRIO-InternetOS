@@ -7,6 +7,7 @@ import React from 'react';
 import { extractFileName, parseUrl, appendIndex } from '../utils/url.js';
 import getHttp from 'base/utils/request';
 import Loading from 'base/components/misc/Loading';
+import JSONDocument from 'base/jsonld/LdJsonDocument';
 
 export function urlMatch() {
   return window.location.search.match(/\?comment_article=([\. _0-9a-zA-Z%:\/?]*)/);
