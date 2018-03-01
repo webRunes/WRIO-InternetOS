@@ -185,7 +185,10 @@ function loadScript(url, onload) {
 function loadScripts() {
   decodeIncomingUrl();
 
-  let prefix = '//wrioos.com';
+  let prefix = location.origin === 'file://'
+    ? 'https://wrioos.com'
+    : '//wrioos.com';
+
   if (process.env.NODE_ENV === 'production') {
     prefix = '//wrioos.com';
   }
