@@ -132,7 +132,7 @@ async function persistPlusDataToLocalStorage(data) {
 function importPlusState(data, addCurrent, author) {
   const _norm = normalizeTabs(data);
   const params = createCurrentPage(author);
-  if (params && addCurrent) {
+  if (addCurrent) {
     const newData = addPageToTabs(_norm, params);
     persistPlusDataToLocalStorage(newData);
     return newData;
@@ -150,7 +150,7 @@ function createCurrentPageParent(page: Object, author: LdJsonDocument) {
   }
   return {
     tab: page,
-    parent: author.getProperty('author'),
+    parent: author && author.getProperty('author'),
   };
 }
 
