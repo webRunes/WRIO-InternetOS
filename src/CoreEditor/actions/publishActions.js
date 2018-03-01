@@ -79,8 +79,8 @@ export function publishDocument(saveSource: string) {
 
         window.location = saveUrl; // let's transition to the new URL
       } else {
-        const name = document.getProperty('name');
-        const fileName = `${name === '' ? 'untitled' : name.split(' ').join('_')}.html`;
+        const name = document && document.getProperty('name');
+        const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
         saveAs(fileName, html);
       }
 
@@ -139,8 +139,8 @@ export function publishList(saveSource: string) {
 
         window.location = saveUrl;
       } else {
-        const name = document.getProperty('name');
-        const fileName = `${name === '' ? 'untitled' : name.split(' ').join('_')}.html`;
+        const name = document && document.getProperty('name');
+        const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
         saveAs(fileName, html);
       }
 

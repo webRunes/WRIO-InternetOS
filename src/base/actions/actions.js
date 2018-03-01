@@ -61,7 +61,7 @@ export function gotExternal(index: number, url, lists: LdJsonDocument) {
   return {
     type: GOT_EXTERNAL,
     lists,
-    url, 
+    url,
     index,
   };
 }
@@ -73,7 +73,7 @@ export function gotJSON_LD_Document(data: LdJsonDocument, url: string, toc: Tabl
       url,
       toc,
     });
-    const author = data.getProperty('author');
+    const author = data && data.getProperty('author');
     if (author) {
       dispatch(getAuthor(author));
     } else {
