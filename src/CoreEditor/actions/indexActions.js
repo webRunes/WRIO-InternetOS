@@ -82,7 +82,7 @@ export default function createActionsForEditor(editorName) {
       }
       const about = doc.getElementOfType('Article').about || '';
       dispatch({ type: 'DESC_CHANGED', text: about });
-      const comment = doc.getProperty('comment');
+      const comment = doc && doc.getProperty('comment');
       if (comment) {
         dispatch({ type: 'ENABLE_COMMENTS', state: true });
       }
