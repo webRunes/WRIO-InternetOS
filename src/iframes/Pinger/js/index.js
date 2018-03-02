@@ -1,5 +1,5 @@
-import ReactDOM from "react-dom";
 import React from "react";
+import ReactDOM from "react-dom";
 require("./iframeresize"); // require iframe resizer middleware
 
 import Container from "./components/container.js";

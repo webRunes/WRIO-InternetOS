@@ -1,7 +1,7 @@
 /**
  * Created by michbil on 13.09.16.
  */
-
+import React from "react";
 import LdJsonObject from "./LdJsonObject.js";
 import sortByOrder from "lodash.sortbyorder";
 import Image from "../mentions/image.js";
