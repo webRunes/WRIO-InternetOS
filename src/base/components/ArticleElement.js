@@ -2,7 +2,7 @@
 import React from 'react';
 import ArticleLists from './ArticleLists';
 import { replaceSpaces } from '../mixins/UrlMixin';
-import SocialPost from './SocialPost.js';
+import SocialPost from './SocialPost';
 import ArticleEntity from '../jsonld/entities/Article';
 
 class ArticleElement extends React.Component {
