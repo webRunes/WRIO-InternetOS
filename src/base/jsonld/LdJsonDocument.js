@@ -94,9 +94,9 @@ class LdJsonDocument {
     }
   }
 
-  hasCommentId() {
+  hasCommentId(): boolean {
     const comment = this.getProperty('comment');
-    return comment !== null;
+    return Boolean(comment);
   }
 
   hasArticle(): boolean {
