@@ -65,17 +65,20 @@ export class CreateDomCenter extends React.Component {
     const contents = (
       <div id="centerWrp">
         <WrioDocumentBody document={document} url={this.props.url} />
-        {!document.hasCommentId() ? (
-          commentsDisabledFrame
-        ) : (
-          <div style={displayPingerStyle}>
-            <CreatePinger
-              document={document}
-              profile={this.props.profile}
-              wrioID={this.props.wrioID}
-            />
-          </div>
-        )}
+        {document.hasCommentId()
+          ?
+            (
+              <div style={displayPingerStyle}>
+                <CreatePinger
+                  document={document}
+                  profile={this.props.profile}
+                  wrioID={this.props.wrioID}
+                />
+              </div>
+            )
+          :
+            commentsDisabledFrame
+        }
       </div>
     );
 
