@@ -34,11 +34,9 @@ TicketTypes) => (
           </div>
           <div className="footer">
             <div className="author hidden">
-                <a href="#">
-                <img src={image} alt={description} className="avatar" />
-                <span>WRIO OS</span>
-              </a>
-              </div>
+              <img src={image} alt={description} className="avatar" />
+              <span>WRIO OS</span>
+            </div>
             <div className="stats hidden">
                 <i className="material-icons">schedule</i> 5 min read
               </div>
