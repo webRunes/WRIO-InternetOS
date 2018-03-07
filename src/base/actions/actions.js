@@ -137,7 +137,6 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
 }
 
 export function navigateArticleHash(hash: string) {
-  const type = 'article';
   setUrlWithHash(hash);
   return {
     type: NAVIGATE_ARTICLE_HASH,
