@@ -12,6 +12,7 @@ export default class TwitterTimelineWidget {
       '" width="' +
       window.innerWidth +
       '" data-show-replies="true"' +
+      ' data-aria-polite="assertive"' +
       ' data-chrome="nofooter">Tweets about ' +
       window.location.href +
       "</a>";
