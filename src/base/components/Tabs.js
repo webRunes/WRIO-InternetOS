@@ -47,7 +47,7 @@ class ArticleTabs extends StayOnTopElement {
     const center = this.props.center,
       externals = this.props.externals,
       editAllowed = this.props.editAllowed,
-      RIL = this.props.RIL,
+      //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
 
     const handleSelect = e => console.log(e);
@@ -92,13 +92,14 @@ class ArticleTabs extends StayOnTopElement {
                       <div className="ripple-container" />
                     </NavItem>
                   )}
-                  {RIL &&
-                    RIL.length > 0 && (
+                  {/*
+                    RIL && RIL.length > 0 && (
                       <NavItem eventKey="ReadLater">
                         Read later <label>{RIL.length}</label>
                         <div className="ripple-container" />
                       </NavItem>
-                    )}
+                    )
+                  */}
                 </Nav>
               </div>
             </div>
@@ -112,12 +113,14 @@ class ArticleTabs extends StayOnTopElement {
               {this.props.editMode && <EditExternal />}
               {externals.map(data => <Externals data={data.blocks} />)}
             </Tab.Pane>
-            {RIL &&
+            {/*
+              RIL &&
               RIL.length > 0 && (
                 <Tab.Pane eventKey="ReadLater">
                   <ReadItLater RIL={RIL} />
                 </Tab.Pane>
-              )}
+              )
+            */}
           </Tab.Content>
         </Row>
       </Tab.Container>
