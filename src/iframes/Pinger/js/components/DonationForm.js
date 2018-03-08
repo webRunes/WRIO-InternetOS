@@ -74,7 +74,7 @@ export default class DonationForm extends React.Component {
               name="tweet_title"
               className="form-control"
               maxLength={TITLE_LENGTH}
-              placeholder="One #hashtag or @mention"
+              placeholder="Title, URL, one #hashtag or @mention"
               type="text"
               value={this.props.tags}
               onKeyPress={this.filterInputKeys}
