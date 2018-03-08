@@ -113,8 +113,6 @@ export const loadExternal = (index: number, url: string) => async (dispatch: Fun
 
 export function loadDocumentWithData(data: LdJsonDocument, url: string) {
   return (dispatch: Function) => {
-    // Quick hack to make page jump to needed section after page have been edited
-    requestHashUpdate();
     const toc = extractPageNavigation(data, true);
     dispatch(gotJSON_LD_Document(data, url, toc));
 
@@ -147,5 +145,4 @@ export function navigateArticleHash(hash: string) {
 function setUrlWithHash(name: string) {
   window.history.pushState('page', 'params', window.location.pathname);
   window.location.hash = name;
-  requestHashUpdate();
 }
