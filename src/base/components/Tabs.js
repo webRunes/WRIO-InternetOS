@@ -82,7 +82,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  {/*externalsEnabled && (
                     <NavItem
                       eventKey="collections"
                       disabled={!externalsEnabled}
@@ -91,7 +91,7 @@ class ArticleTabs extends StayOnTopElement {
                       Collections
                       <div className="ripple-container" />
                     </NavItem>
-                  )}
+                  )*/}
                   {/*
                     RIL && RIL.length > 0 && (
                       <NavItem eventKey="ReadLater">
