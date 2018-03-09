@@ -27,19 +27,29 @@ export const performLogin = () => {
   // document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
 };
 
-const Login = ({ profile, onLogout, onLogin }) => (
+const Login = ({ profile, readItLater, onLogout, onLogin }) => (
   <Dropdown id="dropdown-custom-1" pullRight>
     <Dropdown.Toggle className="btn-simple btn-default btn-lg btn-flat">
       <i className="material-icons dp_big">account_circle</i>{' '}
       {profile.temporary ? 'Temporary account' : profile.name}
     </Dropdown.Toggle>
     <Dropdown.Menu>
+      {
+        !!readItLater.length && (readItLater.map(o =>
+          <MenuItem href={o.url}>
+            <i className="material-icons dp_small with_text">bookmark</i>{o.name}
+          </MenuItem>
+        ))
+      }
+      {!!readItLater.length && (<MenuItem divider />)}
       <MenuItem eventKey="1" href="https://core.wrioos.com/create">
         <i className="material-icons dp_small with_text">create</i>Create new article
       </MenuItem>
+      {/*
       <MenuItem eventKey="1" href="https://core.wrioos.com/create_list">
         <i className="material-icons dp_small with_text">create</i>Create new list
       </MenuItem>
+      */}
       <MenuItem eventKey="1" href={profile.url}>
         <i className="material-icons dp_small with_text">perm_identity</i>Profile
       </MenuItem>

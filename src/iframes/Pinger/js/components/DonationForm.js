@@ -27,6 +27,12 @@ export default class DonationForm extends React.Component {
       : true
   }
 
+  filterInputKeys(e) {
+    return e.key === ' '
+      ? e.preventDefault() && false
+      : true
+  }
+
   render() {
     const insuffientFunds = this.props.amount > this.props.balance;
     const hasError = insuffientFunds ? "has-error" : "";
@@ -68,9 +74,10 @@ export default class DonationForm extends React.Component {
               name="tweet_title"
               className="form-control"
               maxLength={TITLE_LENGTH}
-              placeholder={`Title, hashtags or mentions. Max ${TITLE_LENGTH} characters`}
+              placeholder="Title, URL, one #hashtag or @mention"
               type="text"
               value={this.props.tags}
+              onKeyPress={this.filterInputKeys}
               onChange={() => this.titleChanged()}
             />
           </div>

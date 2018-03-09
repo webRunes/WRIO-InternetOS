@@ -51,7 +51,7 @@ const RightNav = ({ onCloseTab }) => {
   );
 };
 
-const LoginBar = ({ profile }) => {
+const LoginBar = ({ profile, readItLater }) => {
   const loginStyle = {
     margin: "3px 100px",
     position: "absolute",
@@ -59,7 +59,7 @@ const LoginBar = ({ profile }) => {
     zIndex: 120
   };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} />}</div>
+    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 
@@ -92,7 +92,10 @@ class Main extends React.Component {
     return (
       <div>
         <VerticalNav vertical={true} showUp={false} />
-        <LoginBar profile={this.props.profile} />
+        <LoginBar
+          profile={this.props.profile}
+          readItLater={this.props.readItLater}
+        />
         <RightNav onCloseTab={() => {
           this.props.dispatch(PlusActions.onCloseTab())
         }}/>
@@ -104,7 +107,7 @@ class Main extends React.Component {
             center={center}
             externals={externals}
             editAllowed={this.props.editAllowed}
-            RIL={this.props.readItLater}
+            //RIL={this.props.readItLater}
             tabKey={this.props.tabKey}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
