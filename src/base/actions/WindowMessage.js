@@ -2,7 +2,6 @@
  * Created by michbil on 26.01.16.
  */
 
-import Reflux from "reflux";
 import { getServiceUrl, getDomain } from "../servicelocator.js";
 import Rx from "rxjs";
 
@@ -67,7 +66,7 @@ function messageListener(e) {
     }
     pingerMessage.next(msg);
   }
-  if (checkForService("login", e)) {
+  if (checkForService("login", e) || checkForService("login_d", e)) {
     if (msg.login === "success") {
       console.log("Requesting page reload");
       document
@@ -86,7 +85,7 @@ function messageListener(e) {
     }
   }
 
-  if (checkForService("webgold", e)) {
+  if (checkForService("webgold", e) || checkForService("webgold_d", e)) {
     if (msg.reload) {
       return requestReload();
     }
