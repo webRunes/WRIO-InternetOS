@@ -45,7 +45,7 @@ const RightNav = () => {
   );
 };
 
-const LoginBar = ({ profile }) => {
+const LoginBar = ({ profile, readItLater }) => {
   const loginStyle = {
     margin: "1em 4.2em",
     position: "absolute",
@@ -53,7 +53,7 @@ const LoginBar = ({ profile }) => {
     zIndex: 120
   };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} />}</div>
+    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 
@@ -90,7 +90,7 @@ class EditorWithGUI extends React.Component {
     return (
       <div>
         <VerticalNav vertical={true} showUp={false} />
-        <LoginBar profile={this.state.profile} />
+        <LoginBar profile={this.state.profile} readItLater={this.state.readItLater}/>
         <RightNav />
         <CoverHeader />
         {!!this.props.toc && <LeftNav />}
@@ -102,7 +102,7 @@ class EditorWithGUI extends React.Component {
             externals={[]}
             forceExternals
             editAllowed={this.props.editAllowed}
-            RIL={this.state.readItLater}
+            //RIL={this.state.readItLater}
             tabKey={this.props.tabKey}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
