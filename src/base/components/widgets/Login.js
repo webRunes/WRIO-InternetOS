@@ -27,7 +27,7 @@ export const performLogin = () => {
   // document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
 };
 
-const Login = ({ profile, readItLater, onLogout, onLogin }) => (
+const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
   <Dropdown id="dropdown-custom-1" pullRight>
     <Dropdown.Toggle className="btn-simple btn-default btn-lg btn-flat">
       <i className="material-icons dp_big">account_circle</i>{' '}
