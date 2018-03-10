@@ -57,12 +57,10 @@ function getFilename(editUrl) {
 
 export function parseEditingUrl() {
   const editUrl = extractEditUrl();
-  if (editUrl) {
-    return [editUrl, getFilename(editUrl)];
 
-    console.log('Page edit link received', editUrl);
-  }
-  return [null, null];
+  return editUrl
+    ? [editUrl, getFilename(editUrl)]
+    : [null, null]
 }
 
 export const CREATE_MODE =
