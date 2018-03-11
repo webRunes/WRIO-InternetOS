@@ -39,7 +39,7 @@ export default class DonationForm extends React.Component {
     const hasPhoto = this.props.hasPhoto;
 
     return (
-      <div>
+      <div className="commenting_form">
         <div
           className={`form-group send-comment-form-donation donation-form col-xs-12 col-sm-6 col-md-4 col-lg-3 ${hasError}`}
         >
