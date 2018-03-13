@@ -194,7 +194,10 @@ class Container extends React.Component {
           />
 
           <div className="form-group send-comment-form">
-            <FileEntry />
+            <FileEntry
+              hasComment={Boolean(this.state.comment.length)}
+              hasPhoto={Boolean(this.state.files.length)}
+            />
             <SendButton
               user={this.state.user}
               busy={this.state.busy}
