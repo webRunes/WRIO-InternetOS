@@ -45,7 +45,7 @@ const RightNav = () => {
   );
 };
 
-const LoginBar = ({ profile, readItLater,  myList }) => {
+const LoginBar = ({ profile, readItLater }) => {
   const loginStyle = {
     margin: "3px 100px",
     position: "absolute",
@@ -53,7 +53,7 @@ const LoginBar = ({ profile, readItLater,  myList }) => {
     zIndex: 120
   };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} myList={myList} />}</div>
+    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 
@@ -101,6 +101,7 @@ class EditorWithGUI extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.state.readItLater}
             tabKey={this.props.tabKey}
+            myList={this.state.myList}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
           <div className="col-xs-12 card">

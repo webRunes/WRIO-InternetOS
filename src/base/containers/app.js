@@ -59,7 +59,7 @@ const LoginBar = ({ profile, readItLater, myList }) => {
     zIndex: 120
   };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} myList={myList}/>}</div>
+    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 
@@ -95,7 +95,6 @@ class Main extends React.Component {
         <LoginBar
           profile={this.props.profile}
           readItLater={this.props.readItLater}
-          myList={this.props.myList}
         />
         <RightNav onCloseTab={() => {
           this.props.dispatch(PlusActions.onCloseTab())

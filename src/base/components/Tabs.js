@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Tab, Tabs, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
+import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
 import Externals from './Externals';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from '../components/utils/domutils';
@@ -15,8 +15,8 @@ import {
   getElementDimensions,
 } from './utils/domutils';
 import { findDOMNode } from 'react-dom';
-import { getServiceUrl } from '../servicelocator.js';
 import EditExternal from 'CoreEditor/containers/EditExternal';
+const changeUrlsToUrlsForEdit = require('./utils/change_urls_to_urls_for_edit');
 
 const HEADER_PADDING = 15; // variable set in CSS
 
@@ -47,6 +47,7 @@ class ArticleTabs extends StayOnTopElement {
     const center = this.props.center,
       externals = this.props.externals,
       editAllowed = this.props.editAllowed,
+      myList = changeUrlsToUrlsForEdit(this.props.myList),
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
 
@@ -69,17 +70,17 @@ class ArticleTabs extends StayOnTopElement {
                     Home
                     <div className="ripple-container" />
                   </NavItem>
-                  {editAllowed && (
-                    <NavItem
-                      eventKey="edit"
-                      onClick={() => {
-                        // go to standalone editor URL
-                        window.location.href = `${getServiceUrl('core')}/edit?article=${encodeURIComponent(window.location.href)}`;
-                      }}
-                    >
-                      <i className="material-icons">edit</i>Edit
-                      <div className="ripple-container" />
-                    </NavItem>
+
+                  {!!myList && (
+                    <NavDropdown title="edit" className="right">
+                      {
+                        myList.map(o =>
+                          <MenuItem href={o.url}>
+                            <i className="material-icons dp_small with_text">bookmark</i>{o.name}
+                          </MenuItem>
+                        )
+                      }
+                    </NavDropdown>
                   )}
 
                   {/*externalsEnabled && (
@@ -108,7 +109,7 @@ class ArticleTabs extends StayOnTopElement {
           <Tab.Content animation className="card-content">
             <div ref="placeholder" style={{ height: '30px' }} />
             <Tab.Pane eventKey="home">{center}</Tab.Pane>
-            {editAllowed && <Tab.Pane eventKey="edit" />}
+            {!!myList && <Tab.Pane eventKey="edit" />}
             <Tab.Pane eventKey="collections">
               {this.props.editMode && <EditExternal />}
               {externals.map(data => <Externals data={data.blocks} />)}
