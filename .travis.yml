@@ -19,7 +19,10 @@ addons:
 
 install :
   - npm install -g gulp yarn@0.17
-  - npm install
+  - rm -rf node_modules
+  - rm package-lock.json
+  - rm -rf ~/.npm
+  - npm install --update-binary --no-shrinkwrap
 
 
 script:

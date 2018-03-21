@@ -27,13 +27,21 @@ export const performLogin = () => {
   // document.getElementById('loginbuttoniframe').contentWindow.postMessage('login', getServiceUrl('login'));
 };
 
-const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
+const Login = ({ profile, readItLater = [], myList = [], onLogout, onLogin }) => (
   <Dropdown id="dropdown-custom-1" pullRight>
     <Dropdown.Toggle className="btn-simple btn-default btn-lg btn-flat">
       <i className="material-icons dp_big">account_circle</i>{' '}
       {profile.temporary ? 'Temporary account' : profile.name}
     </Dropdown.Toggle>
     <Dropdown.Menu>
+      {
+        !!myList.length && (myList.map(o =>
+          <MenuItem href={o.url}>
+            <i className="material-icons dp_small with_text">bookmark</i>{o.name}
+          </MenuItem>
+        ))
+      }
+      {!!myList.length && (<MenuItem divider />)}
       {
         !!readItLater.length && (readItLater.map(o =>
           <MenuItem href={o.url}>
