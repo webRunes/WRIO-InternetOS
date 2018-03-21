@@ -12,6 +12,7 @@ export const GOT_JSON_LD_DOCUMENT = 'GOT_JSON_LD_DOCUMENT';
 export const DOWNLOADED_EXTERNAL = 'DOWNLOADED_EXTERNAL';
 export const GOT_EXTERNAL = 'GOT_EXTERNAL';
 export const LOGIN_MESSAGE = 'LOGIN_MESSAGE';
+export const MY_LIST_READY = 'MY_LIST_READY';
 export const TAB_CLICK = 'TAB_CLICK';
 export const NAVIGATE_ARTICLE_HASH = 'NAVIGATE_ARTICLE_HASH';
 export const GET_AUTHOR_DATA = 'GET_AUTHOR_DATA';
@@ -48,6 +49,11 @@ export function pressCoverButton(cover: Object) {
 export const loginMessage = (msg: Object) => ({
   type: LOGIN_MESSAGE,
   msg,
+});
+
+export const myListReady = myList => ({
+  type: MY_LIST_READY,
+  myList,
 });
 
 export function tabClick(tabKey) {
