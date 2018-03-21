@@ -5,6 +5,7 @@ import rootReducer from './reducers/rootReducer.js';
 import { loginMessage } from 'base/actions/WindowMessage';
 import * as actions from 'base/actions/actions';
 import { getPlusData } from 'base/Plus/actions/PlusActions';
+const getMyList = require('./get_my_list');
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -18,6 +19,12 @@ const dispatchLoginMessages = function dispatchLoginMessages(store) {
     .subscribe((msg) => {
       const action = actions.loginMessage(msg);
       store.dispatch(action);
+
+      getMyList(msg.profile.id, (err, list) =>
+        err
+          ? console.log(err)
+          : store.dispatch(actions.myListReady(list))
+      );
     });
 };
 
