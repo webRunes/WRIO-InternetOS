@@ -19,10 +19,7 @@ addons:
 
 install :
   - npm install -g gulp yarn@0.17
-  - rm -rf node_modules
-  - rm package-lock.json
-  - rm -rf ~/.npm
-  - npm install --update-binary --no-shrinkwrap
+  - npm install
 
 
 script:
@@ -47,6 +44,6 @@ deploy:
   detect_encoding: true # <== default is false
   on:
       branch: production
-    
+
 after_deploy:
   - ./travis/reset_cloudfront_cache.sh $ACCESS_KEY $SECRET_ACCESS_KEY
