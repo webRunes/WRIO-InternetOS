@@ -28,7 +28,7 @@ export default class DonationForm extends React.Component {
   }
 
   filterInputKeys(e) {
-    return e.key === ' '
+    return e.key === '#' && e.nativeEvent.target.value.indexOf('#') >= 0
       ? e.preventDefault() && false
       : true
   }
