@@ -7,7 +7,6 @@ import { loginMessage } from 'base/actions/WindowMessage';
 import { getPlusData } from 'base/Plus/actions/PlusActions';
 import { createEpicMiddleware } from 'redux-observable';
 import Epics from './epics';
-const getMyList = require('./utils/get_my_list');
 
 const loggerMiddleware = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -20,12 +19,6 @@ const dispatchLoginMessages = function dispatchLoginMessages(store) {
     .distinct()
     .subscribe((msg) => {
       store.dispatch(actions.loginMessage(msg));
-
-      getMyList(msg.profile.id, (err, list) =>
-        err
-          ? console.log(err)
-          : store.dispatch(actions.myListReady(list))
-      );
     });
 };
 

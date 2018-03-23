@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import mkActions from '../actions/indexActions';
 
-const { RECEIVE_USER_DATA, EDITOR_CHANGED, CREATE_DOCUMENT } = mkActions('MAIN');
+const { RECEIVE_USER_DATA, EDITOR_CHANGED, CREATE_DOCUMENT, MY_LIST_READY } = mkActions('MAIN');
 import {
   GOT_URLPARAMS,
   DESC_CHANGED,
@@ -33,6 +33,7 @@ const defaultState = {
   userStartedEditingFilename: false,
   saveSource: 'S3',
   saveUrl: '',
+  myList: [],
   wrioID: null,
   busy: false,
 };
@@ -55,7 +56,11 @@ export function publishReducer(state = defaultState, action) {
       };
 
     case RECEIVE_USER_DATA: {
-      const _state = { ...state, wrioID: action.data.wrioID };
+      const _state = {
+        ...state,
+        wrioID: action.data.wrioID,
+        profile: action.data
+      };
 
       if (_state.editParams.initEditPath && !createMode && _state.filename === '') {
         const fileName = _state.editParams.initEditPath.match(/(.+).index.html/)[1];
@@ -117,6 +122,8 @@ export function publishReducer(state = defaultState, action) {
       return { ...state, saveSource: action.source };
     case PUBLISH_COVER:
       return { ...state, coverHtml: action.html };
+    case MY_LIST_READY:
+      return { ...state, myList: action.myList };
     default:
       return state;
   }

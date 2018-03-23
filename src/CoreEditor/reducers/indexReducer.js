@@ -16,6 +16,7 @@ import PostSettingsReducer from './publish';
 import { mkDoc, extractHeader } from './docUtils';
 import headerReducer from 'base/reducers/headerReducer';
 import loginReducer from 'base/reducers/loginReducer';
+import plusReducer from 'base/Plus/reducers/plusReducer';
 import documentReducer from 'base/reducers/documentReducer';
 import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
@@ -30,6 +31,7 @@ const combinedReducer = combineReducers({
   document: documentReducer,
   header: headerReducer,
   login: loginReducer,
+  plusReducer: plusReducer,
   publish: PostSettingsReducer,
   imageDialog: ImageDialogReducer,
   linkDialog: LinkDialogReducer,
