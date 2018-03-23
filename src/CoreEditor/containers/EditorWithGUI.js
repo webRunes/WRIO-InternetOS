@@ -76,18 +76,14 @@ class EditorWithGUI extends React.Component {
         chapters: []
       },
       editAllowed: false,
-      readItLater: [],
-      myList: [],
-      profile: {},
       tabKey: "home"
     };
   }
-
   render() {
     return (
       <div>
         <VerticalNav vertical={true} showUp={false} />
-        <LoginBar profile={this.state.profile} readItLater={this.state.readItLater} myList={this.state.myList} />
+        <LoginBar profile={this.props.profile} readItLater={this.props.readItLater} />
         <RightNav />
         <CoverHeader />
         <LeftNav />
@@ -101,7 +97,7 @@ class EditorWithGUI extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.state.readItLater}
             tabKey={this.props.tabKey}
-            myList={this.state.myList}
+            myList={this.props.myList}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
           <div className="col-xs-12 card">
@@ -121,6 +117,9 @@ const mapStateToProps = state => {
     lists: state.document.lists,
     tabKey: state.document.tabKey,
     externals: state.header.externals,
+    myList: state.publish.myList,
+    profile: state.publish.profile,
+    readItLater: state.plusReducer.readItLater,
   }
 };
 

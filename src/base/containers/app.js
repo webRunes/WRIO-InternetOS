@@ -187,7 +187,6 @@ const mapStateToProps = state => ({
   toc: state.document.toc,
   lists: state.document.lists,
   readItLater: state.plusReducer.readItLater,
-  myList: state.login.myList,
   tabKey: state.document.tabKey,
   externals: state.header.externals,
 });
