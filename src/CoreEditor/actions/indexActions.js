@@ -5,6 +5,7 @@ import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import { loadDocumentWithData } from 'base/actions/actions';
 import { Entity } from 'draft-js';
 import { getTitle } from '../DraftExporter.js';
+const getMyList = require('../utils/get_my_list');
 
 const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const receiveUserData = function receiveUserData(data) {
@@ -18,6 +19,7 @@ export const receiveUserData = function receiveUserData(data) {
 export default function createActionsForEditor(editorName) {
   const REQUEST_DOCUMENT = `${editorName}REQUEST_DOCUMENT`;
   const RECEIVE_DOCUMENT = `${editorName}RECEIVE_DOCUMENT`;
+  const MY_LIST_READY = `${editorName}MY_LIST_READY`;
 
   const CREATE_DOCUMENT = `${editorName}CREATE_DOCUMENT`;
 
@@ -35,6 +37,7 @@ export default function createActionsForEditor(editorName) {
     REQUEST_DOCUMENT,
     RECEIVE_DOCUMENT,
     RECEIVE_USER_DATA,
+    MY_LIST_READY,
     CREATE_DOCUMENT,
     GOT_ERROR,
     EDITOR_CHANGED,
@@ -68,6 +71,13 @@ export default function createActionsForEditor(editorName) {
     };
   };
 
+  exports.myListReady = function myListReady(myList) {
+    return {
+      type: MY_LIST_READY,
+      myList,
+    };
+  };
+
   exports.fetchDocument = url => async (dispatch) => {
     console.log(url);
     dispatch(exports.requestDocument());
@@ -98,8 +108,17 @@ export default function createActionsForEditor(editorName) {
     return dispatch =>
       getRegistredUser()
         .then((user) => {
-          const data = user.body;
-          dispatch(receiveUserData({ wrioID: data.id }));
+          const
+            profile = user.body,
+            wrioID = profile.id;
+
+          dispatch(receiveUserData(profile));
+
+          getMyList(wrioID, (err, myList) =>
+            err
+              ? console.log(err)
+              : dispatch(exports.myListReady(myList))
+          );
         })
         .catch((e) => {
           console.error('Error obtaining user data', e.stack);

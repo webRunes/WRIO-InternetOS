@@ -92,7 +92,7 @@ class EditorWithGUI extends React.Component {
     return (
       <div>
         <VerticalNav vertical={true} showUp={false} />
-        <LoginBar profile={this.state.profile} readItLater={this.state.readItLater} />
+        <LoginBar profile={this.props.profile} readItLater={this.props.readItLater} />
         <RightNav />
         <CoverHeader />
         {!!this.props.toc && <LeftNav />}
@@ -106,7 +106,7 @@ class EditorWithGUI extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.state.readItLater}
             tabKey={this.props.tabKey}
-            myList={this.state.myList}
+            myList={this.props.myList}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
         </div>
@@ -125,7 +125,10 @@ const mapStateToProps = state => {
     editAllowed: state.document.editAllowed,
     toc: {chapters: []},
     lists: state.document.lists,
-    tabKey: state.document.tabKey
+    tabKey: state.document.tabKey,
+    myList: state.publish.myList,
+    profile: state.publish.profile,
+    readItLater: state.plusReducer.readItLater,
   }
 };
 const EditorMapped = connect(mapStateToProps)(EditorWithGUI);
