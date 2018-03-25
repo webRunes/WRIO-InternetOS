@@ -3,7 +3,7 @@ import React from 'react';
 import {
   VerticalNav,
   LeftNav
-} from '../containers/ArticleNavigationContainer';
+} from './ArticleNavigationContainer';
 import CoverHeader from './CoverHeaderContainer';
 import Tabs from 'base/components/Tabs';
 import EditorContainer from './EditorContainer.js';
@@ -14,7 +14,7 @@ import Login from 'base/components/widgets/Login.js';
 import { Provider, connect } from 'react-redux';
 import { fromList } from 'base/utils/tocnavigation';
 import * as Actions from 'base/actions/actions';
-import PostSettings from '../containers/Postsettings.js';
+import PostSettings from './Postsettings.js';
 
 const RightNav = () => {
   return (
