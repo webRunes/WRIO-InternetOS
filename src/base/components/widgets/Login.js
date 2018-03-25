@@ -35,8 +35,8 @@ const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
     </Dropdown.Toggle>
     <Dropdown.Menu>
       {
-        !!readItLater.length && (readItLater.map(o =>
-          <MenuItem href={o.url}>
+        !!readItLater.length && (readItLater.map((o, index) =>
+          <MenuItem href={o.url} key={index}>
             <i className="material-icons dp_small with_text">bookmark</i>{o.name}
           </MenuItem>
         ))
