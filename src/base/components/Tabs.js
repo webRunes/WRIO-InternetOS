@@ -74,8 +74,8 @@ class ArticleTabs extends StayOnTopElement {
                   {!!myList && (
                     <NavDropdown title="edit" className="right">
                       {
-                        myList.map(o =>
-                          <MenuItem href={o.url}>
+                        myList.map((o, index) =>
+                          <MenuItem href={o.url} key={index}>
                             <i className="material-icons dp_small with_text">bookmark</i>{o.name}
                           </MenuItem>
                         )
