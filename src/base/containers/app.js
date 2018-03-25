@@ -109,6 +109,7 @@ class Main extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.props.readItLater}
             tabKey={this.props.tabKey}
+            myList={this.props.myList}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
           />
         </div>
@@ -189,6 +190,7 @@ const mapStateToProps = state => ({
   readItLater: state.plusReducer.readItLater,
   tabKey: state.document.tabKey,
   externals: state.header.externals,
+  myList: state.login.myList,
 });
 
 const MainMapped = connect(mapStateToProps)(Main);
