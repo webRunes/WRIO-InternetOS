@@ -81,11 +81,15 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
       return { ...state, tabKey: action.tabKey };
 
     case actions.NAVIGATE_ARTICLE_HASH:
-      return {
-        ...state,
-        tabKey: 'home',
-        toc: extractPageNavigation(state.mainPage, false), // recalculate all items active state
-      };
+      return state.mainPage
+        ?
+          {
+            ...state,
+            tabKey: 'home',
+            toc: extractPageNavigation(state.mainPage, false), // recalculate all items active state
+          }
+        :
+          state;
 
     default:
       return state;
