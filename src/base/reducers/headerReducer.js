@@ -44,7 +44,7 @@ function reducer(state: ReducerState = defaultState, action) {
         covers: covers
           .map(o => o.name)
           .sort()
-          .map(o => covers.find(o)),
+          .map(name => covers.find(cover => cover.name === name)),
         images: [...state.images, ...images],
       }; // Merge two objects
     }
