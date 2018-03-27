@@ -38,10 +38,13 @@ function reducer(state: ReducerState = defaultState, action) {
       };
       const images: Array<ImageObject> = coverList.children;
       coverList.carouselIndexes = images.map((img, i) => imageIndex + i); // save Carousel indexes for future use
-      const covers = state.covers;
+      const covers = [...state.covers, coverList];
       return {
         ...state,
-        covers: [...state.covers, coverList],
+        covers: covers
+          .map(o => o.name)
+          .sort()
+          .map(o => covers.find(o)),
         images: [...state.images, ...images],
       }; // Merge two objects
     }
