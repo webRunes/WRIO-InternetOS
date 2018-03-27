@@ -5,5 +5,7 @@ const
 module.exports = (wrioID, cb) =>
   request('GET', 'https://s3.amazonaws.com/wr.io/' + wrioID + '/list.html')
     .end((err, data) =>
-      cb(null, html2list(data.text))
+      err
+        ? cb(err)
+        : cb(null, html2list(data.text))
     )
