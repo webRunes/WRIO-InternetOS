@@ -5,7 +5,7 @@ import {
   LeftNav
 } from './ArticleNavigationContainer';
 import CoverHeader from './CoverHeaderContainer';
-import Tabs from 'base/components/Tabs';
+import Tabs from '../components/Tabs';
 import EditorContainer from './EditorContainer.js';
 import PlusActions from 'base/Plus/actions/PlusActions';
 import Login from 'base/components/widgets/Login.js';
