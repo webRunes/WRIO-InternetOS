@@ -1,11 +1,7 @@
-/**
- * Created by michbil on 30.06.17.
- */
-
 import React from 'react';
 import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
-import Externals from './Externals';
-import ReadItLater from './ReadItLater';
+import Externals from '../../base/components/Externals';
+import ReadItLater from '../../base/components/ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
 import {
   pageEltHt,
@@ -47,6 +43,7 @@ class ArticleTabs extends StayOnTopElement {
     const center = this.props.center,
       externals = this.props.externals,
       editAllowed = this.props.editAllowed,
+      myList = changeUrlsToUrlsForEdit(this.props.myList),
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
 
@@ -70,17 +67,16 @@ class ArticleTabs extends StayOnTopElement {
                     <div className="ripple-container" />
                   </NavItem>
 
-                  {editAllowed && (
-                    <NavItem
-                      eventKey="edit"
-                      onClick={() => {
-                        // go to standalone editor URL
-                        window.location.href = changeUrlsToUrlsForEdit(window.location.href);
-                      }}
-                    >
-                      <i className="material-icons">edit</i>Edit
-                      <div className="ripple-container" />
-                    </NavItem>
+                  {!!myList && (
+                    <NavDropdown title="edit" className="right">
+                      {
+                        myList.map((o, index) =>
+                          <MenuItem href={o.url} key={index}>
+                            <i className="material-icons dp_small with_text">bookmark</i>{o.name}
+                          </MenuItem>
+                        )
+                      }
+                    </NavDropdown>
                   )}
 
                   {/*externalsEnabled && (
@@ -109,12 +105,11 @@ class ArticleTabs extends StayOnTopElement {
           <Tab.Content animation className="card-content">
             <div ref="placeholder" style={{ height: '30px' }} />
             <Tab.Pane eventKey="home">{center}</Tab.Pane>
-            {/*
-              <Tab.Pane eventKey="collections">
-                {this.props.editMode && <EditExternal />}
-                {externals.map(data => <Externals data={data.blocks} />)}
-              </Tab.Pane>
-            */}
+            {!!myList && <Tab.Pane eventKey="edit" />}
+            <Tab.Pane eventKey="collections">
+              {this.props.editMode && <EditExternal />}
+              {externals.map(data => <Externals data={data.blocks} />)}
+            </Tab.Pane>
             {/*
               RIL &&
               RIL.length > 0 && (

@@ -15,12 +15,6 @@ function loginReducer(state = defaultState, action) {
         profile
       };
       break;
-    case actions.MY_LIST_READY:
-      return {
-        ...state,
-        myList: action.myList
-      };
-      break;
     default:
       return state;
   }

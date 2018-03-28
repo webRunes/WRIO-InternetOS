@@ -51,11 +51,6 @@ export const loginMessage = (msg: Object) => ({
   msg,
 });
 
-export const myListReady = myList => ({
-  type: MY_LIST_READY,
-  myList,
-});
-
 export function tabClick(tabKey) {
   return {
     type: TAB_CLICK,
