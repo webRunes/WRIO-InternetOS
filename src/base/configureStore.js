@@ -19,12 +19,6 @@ const dispatchLoginMessages = function dispatchLoginMessages(store) {
     .subscribe((msg) => {
       const action = actions.loginMessage(msg);
       store.dispatch(action);
-
-      getMyList(msg.profile.id, (err, myList) =>
-        err
-          ? console.log(err)
-          : store.dispatch(actions.myListReady(myList))
-      );
     });
 };
 
