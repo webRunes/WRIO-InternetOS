@@ -58,7 +58,7 @@ export function publishReducer(state = defaultState, action) {
     case RECEIVE_USER_DATA: {
       const _state = {
         ...state,
-        wrioID: action.data.wrioID,
+        wrioID: action.data.id,
         profile: action.data
       };
 
