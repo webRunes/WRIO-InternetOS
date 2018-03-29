@@ -22,7 +22,7 @@ test('should export save url for given wrioID and path', () => {
 test('should create new document correctly', () => {
   const reducer = require('./publish').default;
   const s1 = reducer(undefined, gotUrlParams(true));
-  const s2 = reducer(s1, receiveUserData({ wrioID: '1234567800' }));
+  const s2 = reducer(s1, receiveUserData({ id: '1234567800' }));
   const s3 = reducer(s2, filenameChanged('Hello'));
   console.log(s3);
   expect(s3.savePath).toEqual('Hello/index.html');
@@ -37,7 +37,7 @@ test('should edit existing document correctly', () => {
     undefined,
     gotUrlParams(false, 'https://wr.io/1234567800/Hello/index.html', 'Hello/index.html'),
   );
-  const s2 = reducer(s1, receiveUserData({ wrioID: '1234567800' }));
+  const s2 = reducer(s1, receiveUserData({ id: '1234567800' }));
   const s3 = reducer(s2, filenameChanged('Second'));
   console.log(s3);
   expect(s3.savePath).toEqual('Hello/index.html');
