@@ -84,14 +84,15 @@ export default class PostSettings extends React.Component {
                   {this.props.busy ? loading : <span className="glyphicon glyphicon-open with_text" />}
                   Publish
                 </Button>
-                <DropdownButton
-                  bsStyle="success narrow-dropdown"
-                  title=""
-                  id="bg-vertical-dropdown-1"
-                 
-                >
-                  <MenuItem eventKey="1"  onClick={() => this.props.onPublish('saveas')}>SaveAs</MenuItem>
-                </DropdownButton>
+                {!this.props.commentsEnabled &&
+                  <DropdownButton
+                    bsStyle="success narrow-dropdown"
+                    title=""
+                    id="bg-vertical-dropdown-1"
+                  >
+                    <MenuItem eventKey="1"  onClick={() => this.props.onPublish('saveas')}>SaveAs</MenuItem>
+                  </DropdownButton>
+                }
               </ButtonGroup>
             </div>
           </div>
