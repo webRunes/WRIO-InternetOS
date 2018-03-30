@@ -6,6 +6,7 @@ import expect from 'expect'; // You can use any testing library
 import DraftExporter, { makeArticle } from '../DraftExporter';
 import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import { mkDoc } from '../reducers/docUtils';
+import { fakeWidgetId } from './publishActions.js';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -15,7 +16,6 @@ process.env = {
   NODE_ENV: 'development',
 };
 
-const MOCK_COMMENT_ID = '99991234567890';
 const WRIO_ID = '558153389649';
 const ARTICLE_DESCRIPTION = 'Lorem ipsum.....';
 
@@ -25,11 +25,6 @@ describe('async actions', () => {
   });
 
   it('should publish document correctly', () => {
-    //
-    nock('https://pinger.wrioos.com/')
-      .get(/\/obtain_widget_id.*/)
-      .reply(200, MOCK_COMMENT_ID);
-
     nock('https://storage.wrioos.com/')
       .post('/api/save')
       .times(2) // save main and cover!
@@ -50,7 +45,7 @@ describe('async actions', () => {
       console.log(document);
       expect(document.getProperty('author')).toEqual('https://wr.io/558153389649/?wr.io=558153389649');
       expect(document.getProperty('about')).toEqual(ARTICLE_DESCRIPTION);
-      expect(document.getProperty('comment')).toEqual(MOCK_COMMENT_ID);
+      expect(document.getProperty('comment')).toEqual(fakeWidgetId);
     });
   });
 });

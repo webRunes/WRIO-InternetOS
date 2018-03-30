@@ -5,6 +5,8 @@ import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
 import ListExporter from '../ListExporter';
 
+export const fakeWidgetId = '875721502196465664';
+
 export const DESC_CHANGED = 'DESC_CHANGED';
 export const FILENAME_CHANGED = 'FILENAME_CHANGED';
 export const HEADER_CHANGED = 'HEADER_CHANGED';
@@ -52,13 +54,13 @@ export function publishDocument(saveSource: string) {
         coverHtml,
         coverFileName,
       } = state.publish;
-      if (commentsEnabled && commentId === '') {
-        commentId = (await getWidgetID(saveUrl)).text;
-        console.log('Get widget id succeded', commentId);
-      }
-      if (!commentsEnabled) {
-        commentId = '';
-      }
+
+      commentId = commentsEnabled
+        ? commentId === ''
+          ? fakeWidgetId
+          : commentId
+        : '';
+
       document.setCommentID(commentId);
       document.setAbout(description);
 
