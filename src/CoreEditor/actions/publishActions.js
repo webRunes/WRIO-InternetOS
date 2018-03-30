@@ -5,7 +5,7 @@ import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
 import ListExporter from '../ListExporter';
 
-const fakeWidgetId = '875721502196465664';
+export const fakeWidgetId = '875721502196465664';
 
 export const DESC_CHANGED = 'DESC_CHANGED';
 export const FILENAME_CHANGED = 'FILENAME_CHANGED';
