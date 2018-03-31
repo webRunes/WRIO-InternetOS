@@ -16,7 +16,7 @@ import {
 } from './utils/domutils';
 import { findDOMNode } from 'react-dom';
 import EditExternal from 'CoreEditor/containers/EditExternal';
-const changeUrlsToUrlsForEdit = require('./utils/change_urls_to_urls_for_edit');
+const changeUrlToUrlForEdit = require('./utils/change_url_to_url_for_edit');
 
 const HEADER_PADDING = 15; // variable set in CSS
 
@@ -75,7 +75,7 @@ class ArticleTabs extends StayOnTopElement {
                       eventKey="edit"
                       onClick={() => {
                         // go to standalone editor URL
-                        window.location.href = changeUrlsToUrlsForEdit(window.location.href);
+                        window.location.href = changeUrlToUrlForEdit(window.location.href);
                       }}
                     >
                       <i className="material-icons">edit</i>Edit
