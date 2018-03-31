@@ -90,7 +90,7 @@ export default class PostSettings extends React.Component {
                     title=""
                     id="bg-vertical-dropdown-1"
                   >
-                    <MenuItem eventKey="1"  onClick={() => this.props.onPublish('saveas')}>SaveAs</MenuItem>
+                    <MenuItem eventKey="1"  onClick={() => this.props.onPublish('saveas')}>Save as..</MenuItem>
                   </DropdownButton>
                 }
               </ButtonGroup>
