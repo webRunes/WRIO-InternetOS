@@ -18,11 +18,11 @@ const prevIcon = <i className="material-icons">keyboard_arrow_left</i>;
 const defaultBg = 'https://default.wrioos.com/img/default-cover-bg.png';
 
 const carouselStyle = (path, height) => ({
-    background: `url('${path}') no-repeat center center fixed`,
-    WebkitBackgroundSize: 'cover',
-    MozBackgroundSize: 'cover',
-    OBackgroundSize: 'cover',
-    BackgroundSize: 'cover',
+    background: `#eee url('${path}') no-repeat center center`,
+    WebkitBackgroundSize: 'initial',
+    MozBackgroundSize: 'initial',
+    OBackgroundSize: 'initial',
+    BackgroundSize: 'initial',
     transform: 'translate3d(0px, 0px, 0px)',
     minHeight: height,
 });
@@ -190,7 +190,7 @@ const CoverCarousel = ({
 }) => {
   const headerStyle =
     covers.length === 0
-      ? { height: 'auto', minHeight: '120px' }
+      ? { height: 'auto', minHeight: '256px' }
       : { height: 'auto', minHeight: '100vh' };
   return (
     <div className="page-header" style={headerStyle} >
@@ -215,14 +215,14 @@ const CoverCarousel = ({
             return (
               <CarouselItem key={key}>
                 <RenderCover image={image}
-                             onPress={() => onCoverPressed(covers[currentCover].root.data)}
+                  onPress={() => onCoverPressed(covers[currentCover].root.data)}
                 />
               </CarouselItem>
             );
           })}
         </Carousel>
       ) : (
-        <div style={carouselStyle(defaultBg, '120px')} className="cover-bg" onClick={() => onCoverPressed()} />
+        <div style={carouselStyle(defaultBg, '256px')} className="cover-bg" onClick={() => onCoverPressed()} />
       )}
     </div>
   );
