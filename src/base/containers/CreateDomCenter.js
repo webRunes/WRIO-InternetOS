@@ -64,7 +64,7 @@ export class CreateDomCenter extends React.Component {
     );
     const contents = (
       <div id="centerWrp">
-        <WrioDocumentBody document={document} url={this.props.url} />
+        <WrioDocumentBody className="main_page_content" document={document} url={this.props.url} />
         {document.hasCommentId()
           ?
             (
