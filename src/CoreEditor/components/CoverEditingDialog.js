@@ -26,25 +26,27 @@ const CoverTabs = ({
        >
   <div style={{ marginLeft: 15, marginRight: 15 }}>
     <Row className="card card-nav-tabs">
-      <div className="header header-primary">
-        <div className="nav-tabs-navigation">
-          <div className="nav-tabs-wrapper">
-            <Nav bsStyle="tabs">
-              {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
-                { tab.name }
-                <div className="ripple-container" />
-              </NavItem>))}
-              <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
-                <div className="ripple-container" />
-              </NavItem>
-            </Nav>
+      <div className="core card-content col-xs-12">
+        <div className="header header-primary">
+          <div className="nav-tabs-navigation">
+            <div className="nav-tabs-wrapper">
+              <Nav bsStyle="tabs">
+                {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
+                  { tab.name }
+                  <div className="ripple-container"></div>
+                </NavItem>))}
+                <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
+                  <div className="ripple-container"></div>
+                </NavItem>
+              </Nav>
+            </div>
           </div>
         </div>
-      </div>
 
-      <Tab.Content animation className="card-content">
-        {children}
-      </Tab.Content>
+        <Tab.Content animation className="card-content">
+          {children}
+        </Tab.Content>
+      </div>
     </Row>
   </div>
 </Tab.Container>);
