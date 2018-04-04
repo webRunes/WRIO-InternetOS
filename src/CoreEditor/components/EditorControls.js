@@ -29,7 +29,7 @@ const BLOCK_TYPES = [
     style: 'image',
   },
   {
-    label: 'External Ticket',
+    label: 'Insert Ticket',
     style: 'ticket',
   },
 ];
