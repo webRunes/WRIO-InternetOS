@@ -89,7 +89,7 @@ CoverDialogTypes) => {
               openLinkDialog={openLinkDialog}
             />
           </div>
-          <div className="core card-content col-xs-12">
+          <div className="core">
             <div className="form-group">
               <label className="col-sm-4 col-md-3 control-label" htmlFor="linkUrl">Image URL</label>
               <div className="col-sm-8 col-md-9">
@@ -133,7 +133,7 @@ const modalStyles = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    zIndex: 100000,
+    zIndex: 4,
   },
   content: {
     position: 'absolute',
