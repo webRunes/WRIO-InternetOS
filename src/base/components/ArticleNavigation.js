@@ -32,7 +32,7 @@ const MenuButton = ({
         href={href}
         onClick={click}
         data-toggle="offcanvas"
-        style={active ? { color: 'black' } : {}}
+        style={active ? { color: '#333' } : {}}
         className={active ? 'is-selected' : ''}
       >
         <span className="cd-dot" />
