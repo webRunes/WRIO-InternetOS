@@ -14,7 +14,7 @@ import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
 import { mkDoc, extractHeader } from './docUtils';
 
-const DEFAULT_COVER = 'https://webrunes.com/img/cover1.png';
+const DEFAULT_COVER = 'https://default.wrioos.com/img/default_bg.jpg';
 
 function newCover() {
   return {

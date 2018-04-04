@@ -10,7 +10,7 @@ test('Convert JSON contentblocks to Draft and back to JSON', () => {
     '@type': 'ImageObject',
     name: 'webRunes',
     thumbnail: 'https://webrunes.com/img/cover1-200x200.png',
-    contentUrl: 'https://webrunes.com/img/cover1.png',
+    contentUrl: 'https://webrunes.com/img/cover1.jpg',
     about: 'Lifelong learning is our credo, our mission is to enlighten people',
     text: [
       'webRunes is the first contractor for Alternative project. And we are the first ad hoc team of freelancers specializing in various IT fields and other areas of expertise that are developing WRIO Internet OS platform. WRIO Internet OS is a gate to semantic, decentralized and secure Internet. The platform is required for the technical implementation of Alternative — a set of projects aimed at the development of a free self-managed society, an alternative approach to the interaction of people with minimal or even without participation of the government.',

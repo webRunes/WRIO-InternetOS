@@ -12,7 +12,7 @@ export const COVER_TAB_CHANGE = 'COVER_TAB_CHANGE';
 export const COVER_NEW_TAB = 'COVER_NEW_TAB';
 export const COVER_DELETE_TAB = 'COVER_DELETE_TAB';
 
-const DEFAULT_COVER = 'https://webrunes.com/img/cover1.png';
+const DEFAULT_COVER = 'https://default.wrioos.com/img/default_bg.jpg';
 
 const emptyCover = {
   '@context': 'https://schema.org',
