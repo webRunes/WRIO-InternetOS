@@ -82,7 +82,7 @@ CoverDialogTypes) => {
           onNewTab={onNewCover}
           onCoverTabChange={onCoverTabChange}
         >
-          <div className="cover-edit" style={{ height: 'calc(100vh - 100px - 280px)'}}>
+          <div className="cover-edit">
             <EditorComponent
               editorState={editorState}
               editorName="COVEREDITOR_"
@@ -135,7 +135,7 @@ const modalStyles = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    zIndex: 4,
+    zIndex: 130,
   },
   content: {
     position: 'absolute',
