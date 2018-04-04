@@ -145,11 +145,11 @@ const CoverNavigationButtons = ({
 };
 
 const Logo = () => (<div className="cover-left">
-<div className="card card-profile card-plain">
-  <div className="card-image hidden">
-    <a href="#" className="img">
-      <img src="https://default.wrioos.com/img/logo.png" alt="Webrunes logo" />
-    </a>
+  <div className="card card-profile card-plain">
+    <div className="card-image hidden">
+      <a href="#" className="img">
+        <img src="https://default.wrioos.com/img/logo.png" alt="webRunes logo" />
+      </a>
   </div>
   <div className="hidden">
     <a href="#" className="author">

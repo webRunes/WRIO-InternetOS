@@ -34,7 +34,7 @@ const CoverTabs = ({
                 { tab.name }
                 <div className="ripple-container" />
               </NavItem>))}
-              <NavItem eventKey="new"><span class="glyphicon glyphicon-ok"></span>
+              <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
                 <div className="ripple-container" />
               </NavItem>
             </Nav>
@@ -103,6 +103,11 @@ CoverDialogTypes) => {
               {previewBusy && (<Loading />)}
             </div>
             <div className="form-group col-xs-12">
+              <div className="navbar-left">
+                <button className="btn btn-danger" onClick={onCloseDialog}>
+                  <span className="glyphicon glyphicon-trash with_text" />Remove
+                </button>
+              </div>
               <div className="navbar-right">
                 <button className="btn btn-default" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-remove with_text" />Cancel
