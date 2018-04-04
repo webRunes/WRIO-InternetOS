@@ -18,17 +18,15 @@ const CoverTabs = ({
   activeKey={activeTab.key}
   onSelect={(key) => {
     if (key === 'new') {
-        onNewTab();
-      } else {
-        onCoverTabChange(key);
-      }
-    }}
->
+      onNewTab();
+    } else {
+      onCoverTabChange(key);
+    }
+  }}
+       >
   <div style={{ marginLeft: 15, marginRight: 15 }}>
     <Row className="card card-nav-tabs">
-      <div
-        className="header header-primary"
-      >
+      <div className="header header-primary">
         <div className="nav-tabs-navigation">
           <div className="nav-tabs-wrapper">
             <Nav bsStyle="tabs">
@@ -36,7 +34,7 @@ const CoverTabs = ({
                 { tab.name }
                 <div className="ripple-container" />
               </NavItem>))}
-              <NavItem eventKey="new">+
+              <NavItem eventKey="new"><span class="glyphicon glyphicon-ok"></span>
                 <div className="ripple-container" />
               </NavItem>
             </Nav>
@@ -82,7 +80,7 @@ CoverDialogTypes) => {
           onNewTab={onNewCover}
           onCoverTabChange={onCoverTabChange}
         >
-          <div style={{ overflow: 'scroll', height: 'calc(100vh - 100px - 200px)'}}>
+          <div className="cover-edit" style={{ height: 'calc(100vh - 100px - 280px)'}}>
             <EditorComponent
               editorState={editorState}
               editorName="COVEREDITOR_"
@@ -90,24 +88,30 @@ CoverDialogTypes) => {
               openImageDialog={openImageDialog}
               openLinkDialog={openLinkDialog}
             />
+          </div>
+          <div className="core card-content col-xs-12">
             <div className="form-group">
-              <label htmlFor="linkUrl">IMAGE URL: </label>
-              <input
-                onChange={e => imageUrlChange(e.target.value)}
-                type="text"
-                value={imageUrl}
-                className="form-control"
-              />{' '}
+              <label className="col-sm-4 col-md-3 control-label" htmlFor="linkUrl">Image URL</label>
+              <div className="col-sm-8 col-md-9">
+                <input
+                  onChange={e => imageUrlChange(e.target.value)}
+                  type="text"
+                  value={imageUrl}
+                  className="form-control"
+                />{' '}
+              </div>
               {previewBusy && (<Loading />)}
             </div>
-          </div>
-          <div className="form-group" style={{ height: '65px' }}>
-            <button className="btn btn-default btn-sm" onClick={onCloseDialog}>
-              <span className="glyphicon glyphicon-remove with_text" />Cancel
-            </button>
-            <button className="btn btn-primary btn-sm" onClick={() => onSaveCover(editorState, imageUrl)}>
-              <span className="glyphicon glyphicon-ok with_text" />OK
-            </button>
+            <div className="form-group col-xs-12">
+              <div className="navbar-right">
+                <button className="btn btn-default" onClick={onCloseDialog}>
+                  <span className="glyphicon glyphicon-remove with_text" />Cancel
+                </button>
+                <button className="btn btn-primary" onClick={() => onSaveCover(editorState, imageUrl)}>
+                  <span className="glyphicon glyphicon-ok with_text" />Submit
+                </button>
+              </div>
+            </div>
           </div>
         </CoverTabs>
 
@@ -128,7 +132,7 @@ const modalStyles = {
   },
   content: {
     position: 'absolute',
-    top: '100px',
+    top: '40px',
     left: '40px',
     right: '40px',
     bottom: '40px',

@@ -18,12 +18,7 @@ const prevIcon = <i className="material-icons">keyboard_arrow_left</i>;
 const defaultBg = 'https://default.wrioos.com/img/default-cover-bg.png';
 
 const carouselStyle = (path, height) => ({
-    background: `#eee url('${path}') no-repeat center center`,
-    WebkitBackgroundSize: 'initial',
-    MozBackgroundSize: 'initial',
-    OBackgroundSize: 'initial',
-    BackgroundSize: 'initial',
-    transform: 'translate3d(0px, 0px, 0px)',
+    background: `url('${path}') no-repeat center center`,
     minHeight: height,
 });
 
@@ -222,7 +217,7 @@ const CoverCarousel = ({
           })}
         </Carousel>
       ) : (
-        <div style={carouselStyle(defaultBg, '256px')} className="cover-bg" onClick={() => onCoverPressed()} />
+        <div className="cover-bg" onClick={() => onCoverPressed()} />
       )}
     </div>
   );
