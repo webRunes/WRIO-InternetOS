@@ -8,10 +8,8 @@ const domain = () => process.env.DOMAIN;
 const protocol = () => (process.env.NODE_ENV == 'development' ? 'https:' : '');
 
 export function saveToS3(path: string, html: string): Promise {
-  const uri = `${protocol()}//storage.${domain()}/api/save`;
-  console.log(uri);
   return request
-    .post(uri)
+    .post(`${protocol()}//storage.${domain()}/api/save`)
     .withCredentials()
     .set('Accept', 'application/json')
     .send({
@@ -31,10 +29,13 @@ export function deleteFromS3(path: string): Promise {
 }
 
 export function getWidgetID(url: string): Promise {
-  const uri = `${protocol()}//pinger.${domain()}/obtain_widget_id?query=${url}`;
-  return request.get(uri).withCredentials();
+  return request
+    .get(`${protocol()}//pinger.${domain()}/obtain_widget_id?query=${url}`)
+    .withCredentials();
 }
 
 export function getRegistredUser(): Promise {
-  return request.get(`${protocol()}//login.${domain()}/api/get_profile`).withCredentials();
+  return request
+    .get(`${protocol()}//login.${domain()}/api/get_profile`)
+    .withCredentials();
 }
