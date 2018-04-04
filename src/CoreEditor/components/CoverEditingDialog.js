@@ -26,25 +26,27 @@ const CoverTabs = ({
        >
   <div style={{ marginLeft: 15, marginRight: 15 }}>
     <Row className="card card-nav-tabs">
-      <div className="header header-primary">
-        <div className="nav-tabs-navigation">
-          <div className="nav-tabs-wrapper">
-            <Nav bsStyle="tabs">
-              {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
-                { tab.name }
-                <div className="ripple-container" />
-              </NavItem>))}
-              <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
-                <div className="ripple-container" />
-              </NavItem>
-            </Nav>
+      <div className="core card-content col-xs-12">
+        <div className="header header-primary">
+          <div className="nav-tabs-navigation">
+            <div className="nav-tabs-wrapper">
+              <Nav bsStyle="tabs">
+                {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
+                  { tab.name }
+                  <div className="ripple-container"></div>
+                </NavItem>))}
+                <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
+                  <div className="ripple-container"></div>
+                </NavItem>
+              </Nav>
+            </div>
           </div>
         </div>
-      </div>
 
-      <Tab.Content animation className="card-content">
-        {children}
-      </Tab.Content>
+        <Tab.Content animation className="card-content">
+          {children}
+        </Tab.Content>
+      </div>
     </Row>
   </div>
 </Tab.Container>);
@@ -80,7 +82,7 @@ CoverDialogTypes) => {
           onNewTab={onNewCover}
           onCoverTabChange={onCoverTabChange}
         >
-          <div className="cover-edit" style={{ height: 'calc(100vh - 100px - 280px)'}}>
+          <div className="cover-edit">
             <EditorComponent
               editorState={editorState}
               editorName="COVEREDITOR_"
@@ -133,7 +135,7 @@ const modalStyles = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    zIndex: 4,
+    zIndex: 130,
   },
   content: {
     position: 'absolute',
