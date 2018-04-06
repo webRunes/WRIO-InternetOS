@@ -56,7 +56,7 @@ class EditorContainer extends React.Component {
       return <ListEditor />
     }
     return (
-      <div className="clearfix">
+      <div className="col-xs-12 clearfix">
         {this.props.error ? <LoadingError /> : ''}
         {!this.props.isFetching ? (
           <div>
