@@ -31,7 +31,7 @@ const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
   <Dropdown id="dropdown-custom-1" pullRight>
     <Dropdown.Toggle className="btn-simple btn-default btn-lg btn-flat">
       <i className="material-icons dp_big">account_circle</i>{' '}
-      {profile.temporary ? 'Temporary account' : profile.name}
+      {profile.temporary ? 'Guest account' : profile.name}
     </Dropdown.Toggle>
     <Dropdown.Menu>
       {
