@@ -185,8 +185,8 @@ const CoverCarousel = ({
 }) => {
   const headerStyle =
     covers.length === 0
-      ? { height: 'auto', minHeight: '256px' }
-      : { height: 'auto', minHeight: '100vh' };
+      ? { height: 'auto', minHeight: '110px', backgroundSize: 'auto' }
+      : { height: 'auto', minHeight: '100vh', backgroundSize: 'cover' };
   return (
     <div className="page-header" style={headerStyle} >
       <div className="cover col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
