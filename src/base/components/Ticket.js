@@ -22,14 +22,13 @@ TicketTypes) => (
       <a href={UrlMixin.fixUrlProtocol(url)}>
         <div className="card ticket card-atv">
           <div className="card-content">
-          <div className="card-text" id={hash}>
-            <Thumbnail image={image} />
-            <div className="arrow-more">
+            <div className="card-text" id={hash}>
+              <Thumbnail image={image} />
+              <div className="arrow-more">
                 <i className="material-icons">more_horiz</i>
               </div>
-            <div className="gradient" />
-            <h3 className="visible-xs-block">{title}</h3>
-            <h2 className="hidden-xs">{title}</h2>
+              <div className="gradient" />
+              <h2>{title}</h2>
             <p>{description}</p>
           </div>
           <div className="footer">
