@@ -83,7 +83,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {/*externalsEnabled && (
+                  {externalsEnabled && (
                     <NavItem
                       eventKey="collections"
                       disabled={!externalsEnabled}
@@ -92,7 +92,7 @@ class ArticleTabs extends StayOnTopElement {
                       Collections
                       <div className="ripple-container" />
                     </NavItem>
-                  )*/}
+                  )}
                   {/*
                     RIL && RIL.length > 0 && (
                       <NavItem eventKey="ReadLater">
@@ -109,12 +109,12 @@ class ArticleTabs extends StayOnTopElement {
           <Tab.Content animation className="card-content">
             <div ref="placeholder" style={{ height: '30px' }} />
             <Tab.Pane eventKey="home">{center}</Tab.Pane>
-            {/*
+            {
               <Tab.Pane eventKey="collections">
                 {this.props.editMode && <EditExternal />}
                 {externals.map(data => <Externals data={data.blocks} />)}
               </Tab.Pane>
-            */}
+            }
             {/*
               RIL &&
               RIL.length > 0 && (
