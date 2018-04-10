@@ -52,14 +52,8 @@ const RightNav = ({ onCloseTab }) => {
 };
 
 const LoginBar = ({ profile, readItLater, myList }) => {
-  const loginStyle = {
-    margin: "3px 100px",
-    position: "absolute",
-    right: 0,
-    zIndex: 120
-  };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
+    <div className="profile">{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 

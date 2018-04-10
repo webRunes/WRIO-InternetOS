@@ -46,14 +46,8 @@ const RightNav = () => {
 };
 
 const LoginBar = ({ profile, readItLater }) => {
-  const loginStyle = {
-    margin: "1em 4.2em",
-    position: "absolute",
-    right: 0,
-    zIndex: 120
-  };
   return (
-    <div style={loginStyle}>{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
+    <div className="profile">{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
 };
 
