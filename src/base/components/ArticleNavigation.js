@@ -25,7 +25,11 @@ const MenuButton = ({
 }) => {
   const className = active ? 'active' : '';
   const click = () => onNavigateArticleHash(name, replaceSpaces(name));
-  const href = replaceSpaces((url && url !== 'url') || `#${name}` || '#');
+  const href = url && url !== 'url'
+    ? url.replace(/ /g, '%20')
+    : name
+      ? '#' + name.replace(/ /g, '%20')
+      : '#';
   return (
     <li className={className}>
       <a
