@@ -85,11 +85,11 @@ class ArticleTabs extends StayOnTopElement {
 
                   {externalsEnabled && (
                     <NavItem
-                      eventKey="collections"
+                      eventKey="collection"
                       disabled={!externalsEnabled}
                       className={!externalsEnabled ? 'disabled' : ''}
                     >
-                      Collections
+                      Collection
                       <div className="ripple-container" />
                     </NavItem>
                   )}
@@ -110,7 +110,7 @@ class ArticleTabs extends StayOnTopElement {
             <div ref="placeholder" style={{ height: '30px' }} />
             <Tab.Pane eventKey="home">{center}</Tab.Pane>
             {
-              <Tab.Pane eventKey="collections">
+              <Tab.Pane eventKey="collection">
                 {this.props.editMode && <EditExternal />}
                 {externals.map(data => <Externals data={data.blocks} />)}
               </Tab.Pane>
