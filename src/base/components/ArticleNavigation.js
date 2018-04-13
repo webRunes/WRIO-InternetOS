@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { replaceSpaces } from '../mixins/UrlMixin';
+import {navigateArticleHash} from '../actions/actions';
 import {
   scrollTop,
   getElementDimensions,
@@ -24,17 +25,18 @@ const MenuButton = ({
   url: string,
 }) => {
   const className = active ? 'active' : '';
-  const click = () => onNavigateArticleHash(name, replaceSpaces(name));
   const href = url && url !== 'url'
-    ? url.replace(/ /g, '%20')
+    ? replaceSpaces(url)
     : name
-      ? '#' + name.replace(/ /g, '%20')
+      ? '#' + replaceSpaces(name)
       : '#';
+
+  active && navigateArticleHash(href);
+
   return (
     <li className={className}>
       <a
-        href={href}
-        onClick={click}
+        onClick={() => onNavigateArticleHash(href)}
         data-toggle="offcanvas"
         style={active ? { color: 'black' } : {}}
         className={active ? 'is-selected' : ''}
