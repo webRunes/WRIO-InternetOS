@@ -52,15 +52,15 @@ export default class TableOfContents {
   listName: string;
 
   processItem(item: Object, superitem: Object) {
+    var isActive = this.listName === item.name.toLowerCase();
+
     if (isCover(item)) {
-      var isActive = this.listName === item.name.toLowerCase();
-      if (this.listName === superitem.name) {
-        this.coverItems.push(new ListItem(superitem.name, superitem.url, isActive));
-      } else {
-        this.coverItems.push(new ListItem(item.name, item.url, isActive));
-      }
+      this.coverItems.push(
+        this.listName === superitem.name
+         ? new ListItem(superitem.name, superitem.url, isActive)
+         : new ListItem(item.name, item.url, isActive)
+      );
     } else {
-      var isActive = this.listName === item.name.toLowerCase();
       this.externalItems.push(new ListItem(item.name, item.url, isActive, item));
     }
   }
