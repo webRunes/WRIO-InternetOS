@@ -114,7 +114,8 @@ export const loadExternal = (index: number, url: string) => async (dispatch: Fun
 
 export function loadDocumentWithData(data: LdJsonDocument, url: string) {
   return (dispatch: Function) => {
-    const toc = extractPageNavigation(data, true);
+    const firstActive = location.hash[0] !== '#';
+    const toc = extractPageNavigation(data, firstActive);
     dispatch(gotJSON_LD_Document(data, url, toc));
 
     toc.covers.map(async (cover: Object) => {
