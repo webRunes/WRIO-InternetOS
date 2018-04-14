@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { replaceSpaces } from '../mixins/UrlMixin';
-import {navigateArticleHash} from '../actions/actions';
 import {
   scrollTop,
   getElementDimensions,
@@ -30,8 +29,6 @@ const MenuButton = ({
     : name
       ? '#' + replaceSpaces(name)
       : '#';
-
-  active && navigateArticleHash(href);
 
   return (
     <li className={className}>
