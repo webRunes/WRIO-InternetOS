@@ -3,6 +3,8 @@ import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import TableOfContents, { MenuItem, extractPageNavigation } from 'base/utils/tocnavigation';
 import getHttp from 'base/utils/request';
 import { requestHashUpdate } from 'base/actions/hashUpdateHook';
+const firstRoute = require('./first_route');
+const setUrlWithHash = require('../utils/set_url_with_hash');
 
 export const ADD_COVER = 'ADD_COVER';
 export const REPLACE_COVERS = 'REPLACE_COVERS';
@@ -114,7 +116,7 @@ export const loadExternal = (index: number, url: string) => async (dispatch: Fun
 
 export function loadDocumentWithData(data: LdJsonDocument, url: string) {
   return (dispatch: Function) => {
-    const firstActive = location.hash[0] !== '#';
+    const firstActive = firstRoute();
     const toc = extractPageNavigation(data, firstActive);
     dispatch(gotJSON_LD_Document(data, url, toc));
 
@@ -142,9 +144,4 @@ export function navigateArticleHash(hash: string) {
     type: NAVIGATE_ARTICLE_HASH,
     hash,
   };
-}
-
-function setUrlWithHash(name: string) {
-  window.history.pushState('page', 'params', window.location.pathname);
-  window.location.hash = name;
 }
