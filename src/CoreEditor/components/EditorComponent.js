@@ -121,6 +121,7 @@ class EditorComponent extends React.Component {
       <div className="">
         <BlockStyleControls
           editorState={this.props.editorState}
+          editorName={this.props.editorName}
           onToggle={this.toggleBlockType}
           onLinkToggle={this.onLinkControlClick}
           onImageToggle={this.onImageControlClick}
