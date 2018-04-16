@@ -2,6 +2,7 @@
  * Created by michbil on 13.09.16.
  */
 
+import React from 'react';
 import LdJsonObject from "./LdJsonObject.js";
 import Image from "../mentions/image";
 import mention from "../mentions/mention.js";
