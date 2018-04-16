@@ -5,7 +5,36 @@ import React from 'react';
 import StyleButton from './StyleButton.js';
 import PropTypes from 'prop-types';
 
-const BLOCK_TYPES = [
+const CONTROLS_TYPES_ARTICLE = [
+  {
+    label: 'Header',
+    style: 'header-two',
+  },
+  /* {
+     label: 'Blockquote',
+     style: 'blockquote'
+     }, {
+     label: 'UL',
+     style: 'unordered-list-item'
+     }, {
+     label: 'OL',
+     style: 'ordered-list-item'
+     }, */
+  {
+    label: 'Link',
+    style: 'link',
+  },
+  {
+    label: 'Embed Image or Social Media',
+    style: 'image',
+  },
+  {
+    label: 'Insert Ticket',
+    style: 'ticket',
+  },
+];
+
+const CONTROLS_TYPES_COVER = [
   /*
   {
     label: 'Header',
@@ -39,7 +68,10 @@ const BLOCK_TYPES = [
 ];
 
 export const BlockStyleControls = (props) => {
-  const { editorState } = props;
+  const { editorState, editorName } = props;
+  const controls = editorName === 'COVEREDITOR_'
+    ? CONTROLS_TYPES_COVER
+    : CONTROLS_TYPES_ARTICLE;
   const selection = editorState.getSelection();
   const blockType = editorState
     .getCurrentContent()
@@ -47,7 +79,7 @@ export const BlockStyleControls = (props) => {
     .getType();
   return (
     <div className="RichEditor-controls">
-      {BLOCK_TYPES.map((type) => {
+      {controls.map((type) => {
         if (type.style === 'link') {
           return (
             <StyleButton
@@ -95,6 +127,7 @@ export const BlockStyleControls = (props) => {
 
 BlockStyleControls.propTypes = {
   editorState: PropTypes.object,
+  editorName: PropTypes.string,
   onToggle: PropTypes.func,
   onLinkToggle: PropTypes.func,
   onTicketToggle: PropTypes.func,
