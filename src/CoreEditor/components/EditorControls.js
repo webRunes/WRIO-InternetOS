@@ -6,24 +6,28 @@ import StyleButton from './StyleButton.js';
 import PropTypes from 'prop-types';
 
 const BLOCK_TYPES = [
+  /*
   {
     label: 'Header',
     style: 'header-two',
   },
-  /* {
-     label: 'Blockquote',
-     style: 'blockquote'
-     }, {
-     label: 'UL',
-     style: 'unordered-list-item'
-     }, {
-     label: 'OL',
-     style: 'ordered-list-item'
-     }, */
+  {
+    label: 'Blockquote',
+    style: 'blockquote'
+  },
+  {
+    label: 'UL',
+    style: 'unordered-list-item'
+  },
+  {
+    label: 'OL',
+    style: 'ordered-list-item'
+  },
+  */
   {
     label: 'Link',
     style: 'link',
-  },
+  }/*,
   {
     label: 'Embed Image or Social Media',
     style: 'image',
@@ -31,7 +35,7 @@ const BLOCK_TYPES = [
   {
     label: 'Insert Ticket',
     style: 'ticket',
-  },
+  },*/
 ];
 
 export const BlockStyleControls = (props) => {
