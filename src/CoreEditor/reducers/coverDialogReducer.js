@@ -23,7 +23,7 @@ function newCover() {
     thumbnail: DEFAULT_COVER,
     contentUrl: DEFAULT_COVER,
     about: 'Cover',
-    text: [' '],
+    text: [''],
   };
 }
 
