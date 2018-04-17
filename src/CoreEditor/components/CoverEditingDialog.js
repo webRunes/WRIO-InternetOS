@@ -105,7 +105,7 @@ CoverDialogTypes) => {
             </div>
             <div className="form-group col-xs-12">
               <div className="navbar-left">
-                <button className="btn btn-danger" onClick={onCloseDialog}>
+                <button className="btn btn-danger" onClick={() => onCoverTabDelete(tab.key)}>
                   <span className="glyphicon glyphicon-trash with_text" />Remove
                 </button>
               </div>
