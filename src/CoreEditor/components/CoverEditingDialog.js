@@ -35,7 +35,7 @@ const CoverTabs = ({
                   { tab.name }
                   <div className="ripple-container"></div>
                 </NavItem>))}
-                <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
+                <NavItem eventKey="new"><span className="glyphicon glyphicon-plus-sign"></span>
                   <div className="ripple-container"></div>
                 </NavItem>
               </Nav>
