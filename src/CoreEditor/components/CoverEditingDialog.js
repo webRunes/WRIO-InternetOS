@@ -12,18 +12,17 @@ type CoverDialogTypes = {
 
 const CoverTabs = ({
   children, tabs, onNewTab, activeTab, onCoverTabChange,
-}) => (<Tab.Container
+}) => (
+<Tab.Container
   id="tabcontainer"
   defaultActiveKey="Cover1"
   activeKey={activeTab.key}
-  onSelect={(key) => {
-    if (key === 'new') {
-      onNewTab();
-    } else {
-      onCoverTabChange(key);
-    }
-  }}
-       >
+  onSelect={key =>
+    key === 'new'
+      ? onNewTab()
+      : onCoverTabChange(key)
+  }
+>
   <div style={{ marginLeft: 15, marginRight: 15 }}>
     <Row className="card card-nav-tabs">
       <div className="core card-content col-xs-12">
