@@ -79,7 +79,7 @@ export const BlockStyleControls = (props) => {
     .getType();
   return (
     <div className="RichEditor-controls">
-      {controls.map((type) => {
+      {controls.map(type => {
         if (type.style === 'link') {
           return (
             <StyleButton

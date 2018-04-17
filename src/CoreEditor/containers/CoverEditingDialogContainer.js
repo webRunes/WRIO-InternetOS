@@ -25,15 +25,13 @@ const mapDispatchToProps = (dispatch, getState) => {
   const { editorChanged } = mkEditorActions('COVEREDITOR_'); // map action name to particular editor name
   return {
     imageUrlChange: url => dispatch({ type: 'COVER_DIALOG_IMAGE_URL_CHANGED', url }),
-    onCloseDialog: () => {
-      dispatch(closeCoverDialog());
-    },
+    onCloseDialog: () => dispatch(closeCoverDialog()),
     onSaveCover: (editorState, imageUrl) => dispatch(saveCovers(editorState, imageUrl)),
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
     openImageDialog: (...args) => dispatch(openImageDialog(...args)),
     editorChanged: state => dispatch(editorChanged(state)),
     onCoverTabChange: (...args) => dispatch(coverTabChange(...args)),
-    onCoverTabDelete: (...args) => dispatch(coverTabDelete(...args)),
+    onCoverTabDelete: activeTabKey => dispatch(coverTabDelete(activeTabKey)),
     onNewCover: (...args) => dispatch(newCover(...args)),
   };
 };
