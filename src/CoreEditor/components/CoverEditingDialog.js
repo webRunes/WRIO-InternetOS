@@ -12,18 +12,17 @@ type CoverDialogTypes = {
 
 const CoverTabs = ({
   children, tabs, onNewTab, activeTab, onCoverTabChange,
-}) => (<Tab.Container
+}) => (
+<Tab.Container
   id="tabcontainer"
   defaultActiveKey="Cover1"
   activeKey={activeTab.key}
-  onSelect={(key) => {
-    if (key === 'new') {
-      onNewTab();
-    } else {
-      onCoverTabChange(key);
-    }
-  }}
-       >
+  onSelect={key =>
+    key === 'new'
+      ? onNewTab()
+      : onCoverTabChange(key)
+  }
+>
   <div style={{ marginLeft: 15, marginRight: 15 }}>
     <Row className="card card-nav-tabs">
       <div className="core card-content col-xs-12">
@@ -35,7 +34,7 @@ const CoverTabs = ({
                   { tab.name }
                   <div className="ripple-container"></div>
                 </NavItem>))}
-                <NavItem eventKey="new"><span class="glyphicon glyphicon-plus-sign"></span>
+                <NavItem eventKey="new"><span className="glyphicon glyphicon-plus-sign"></span>
                   <div className="ripple-container"></div>
                 </NavItem>
               </Nav>
@@ -106,7 +105,7 @@ CoverDialogTypes) => {
             </div>
             <div className="form-group col-xs-12">
               <div className="navbar-left">
-                <button className="btn btn-danger" onClick={onCloseDialog}>
+                <button className="btn btn-danger" onClick={() => onCoverTabDelete(tab.key)}>
                   <span className="glyphicon glyphicon-trash with_text" />Remove
                 </button>
               </div>

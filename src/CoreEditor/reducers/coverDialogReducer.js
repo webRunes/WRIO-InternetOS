@@ -61,6 +61,10 @@ function findTabWithKey(tabs, tabKey) {
   return tabs.filter(e => e.key === tabKey)[0];
 }
 
+function findTabsWithoutKey(tabs, tabKey) {
+  return tabs.filter(e => e.key !== tabKey);
+}
+
 const replaceTabWithKey = (tabs, tab, key) => tabs.map(el => (el.key === key ? tab : el));
 
 export function coverDialogReducer(state = defaultState, action) {
@@ -88,6 +92,9 @@ export function coverDialogReducer(state = defaultState, action) {
     }
     case COVER_TAB_CHANGE:
       return { ...state, tab: findTabWithKey(state.tabs, action.tabKey) };
+
+    case COVER_DELETE_TAB:
+      return { ...state, tabs: findTabsWithoutKey(state.tabs, action.tabKey) };
 
     default: {
       const { key } = state.tab;
