@@ -1,6 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { closeCoverDialog, newCover, coverTabChange, coverTabDelete } from '../actions/coverDialog';
+import {
+  closeCoverDialog,
+  newCover,
+  coverTabChange,
+  coverTabDelete,
+  coverDialogImageUrlChanged
+} from '../actions/coverDialog';
 import CoverEditingDialog from '../components/CoverEditingDialog';
 
 import mkEditorActions from '../actions/indexActions';
@@ -24,7 +30,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch, getState) => {
   const { editorChanged } = mkEditorActions('COVEREDITOR_'); // map action name to particular editor name
   return {
-    imageUrlChange: url => dispatch({ type: 'COVER_DIALOG_IMAGE_URL_CHANGED', url }),
+    imageUrlChange: url => dispatch(coverDialogImageUrlChanged(url)),
     onCloseDialog: () => dispatch(closeCoverDialog()),
     onSaveCover: (editorState, imageUrl) => dispatch(saveCovers(editorState, imageUrl)),
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),

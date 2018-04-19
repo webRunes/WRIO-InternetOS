@@ -1,8 +1,5 @@
-/**
- * Created by michbil on 16.07.17.
- */
-
 import {
+  COVER_DIALOG_IMAGE_URL_CHANGED,
   COVER_DIALOG_OPEN,
   COVER_DIALOG_CLOSE,
   COVER_NEW_TAB,
@@ -12,90 +9,85 @@ import {
 import EditorReducerMaker from './editorReducer';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
-import { mkDoc, extractHeader } from './docUtils';
+import { mkDoc } from './docUtils';
 
-const DEFAULT_COVER = 'https://default.wrioos.com/img/default_bg.jpg';
-
-function newCover() {
-  return {
+const
+  defaultSourceForCoverTabJSONLD = {
     '@type': 'ImageObject',
     name: 'Title',
-    thumbnail: DEFAULT_COVER,
-    contentUrl: DEFAULT_COVER,
+    thumbnail: 'https://default.wrioos.com/img/default_bg.jpg',
+    contentUrl: 'https://default.wrioos.com/img/default_bg.jpg',
     about: 'Subtitle',
-    text: ['Text'],
+    text: ['Text']
+  },
+  makeCoverTabFromJSONLD = (jsonld, index) =>
+    Object({
+      ...mkDoc({}, new JSONDocument([jsonld]), JSONToDraft),
+      imageUrl: jsonld.contentUrl,
+      key: 'Cover-' + index,
+      name: 'Cover'
+    }),
+  findTabWithKey = (tabs, tabKey) =>
+    tabs.filter(e => e.key === tabKey)[0],
+  findTabsWithoutKey = (tabs, tabKey) =>
+    tabs.filter(e => e.key !== tabKey),
+  replaceTabWithKey = (tabs, tab, key) => tabs.map(el => el.key === key ? tab : el),
+  defaultState = {
+    showDialog: false,
+    tabs: [makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD)],
+    tab: this.tabs[0],
   };
-}
-
-let index = 0;
-
-function makeTabsFromCovers(coverElements) {
-  return coverElements.map(coverElement => {
-    const docs = new JSONDocument([coverElement]);
-    const imageUrl = coverElement.contentUrl;
-    return {
-      ...mkDoc({}, docs, JSONToDraft),
-      imageUrl,
-      key: `Cover-${index++}`,
-      name: 'Cover',
-    };
-  });
-}
-
-function makeTabs() {
-  return makeTabsFromCovers([newCover()]);
-};
-
-const defaultState = {
-  showDialog: false,
-  tabs: [],
-  tab: { key: 'Cover-0', name: 'Cover ', subEdtior: { editorState: null } },
-};
-
-function findTabWithKey(tabs, tabKey) {
-  return tabs.filter(e => e.key === tabKey)[0];
-}
-
-function findTabsWithoutKey(tabs, tabKey) {
-  return tabs.filter(e => e.key !== tabKey);
-}
-
-const replaceTabWithKey = (tabs, tab, key) => tabs.map(el => (el.key === key ? tab : el));
 
 export function coverDialogReducer(state = defaultState, action) {
   switch (action.type) {
-    case 'COVER_DIALOG_IMAGE_URL_CHANGED': {
+    case COVER_DIALOG_IMAGE_URL_CHANGED: {
       const { key } = state.tab;
       const tab = { ...state.tab, imageUrl: action.url };
       return { ...state, tab, tabs: replaceTabWithKey(state.tabs, tab, key) };
     }
     case COVER_DIALOG_OPEN: {
-      const tabs = makeTabs();
       return {
         ...state,
-        tabs,
-        tab: tabs[0],
         showDialog: true,
-      };
+      }
     }
-    case COVER_DIALOG_CLOSE:
-      return { ...state, showDialog: false };
-
+    case COVER_DIALOG_CLOSE: {
+      return {
+        ...state,
+        showDialog: false
+      }
+    }
     case COVER_NEW_TAB: {
-      const newTab = makeTabsFromCovers([newCover()])[0];
-      return { ...state, tab: newTab, tabs: [...state.tabs, newTab] };
+      const newTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD);
+      return {
+        ...state,
+        tab: newTab,
+        tabs: [...state.tabs, newTab]
+      }
     }
-    case COVER_TAB_CHANGE:
-      return { ...state, tab: findTabWithKey(state.tabs, action.tabKey) };
+    case COVER_TAB_CHANGE: {
+      return {
+        ...state,
+        tab: findTabWithKey(state.tabs, action.tabKey)
+      }
+    }
+    case COVER_DELETE_TAB: {
+      const
+        indexTabToDelete = state.tabs.findIndex(tab => tab.key === action.tabKey),
+        newTabs = state.tabs.slice(0, indexTabToDelete).concat(state.tabs.slice(indexTabToDelete + 1)),
+        nextActiveTab = newTabs[indexTabToDelete] || newTabs[newTabs.length - 1];
 
-    case COVER_DELETE_TAB:
-      return { ...state, tabs: findTabsWithoutKey(state.tabs, action.tabKey) };
-
+      return {
+        ...state,
+        tab: nextActiveTab,
+        tabs: newTabs
+      }
+    }
     default: {
       const { key } = state.tab;
       const tab = EditorReducerMaker('COVEREDITOR_')(state.tab, action);
       const tabs = replaceTabWithKey(state.tabs, tab, key);
-      return { ...state, tab, tabs };
+      return { ...state, tab, tabs }
     }
   }
 }
