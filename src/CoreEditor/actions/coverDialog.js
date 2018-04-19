@@ -23,7 +23,7 @@ const emptyCover = {
       '@type': 'ImageObject',
       contentUrl: DEFAULT_COVER,
       name: 'Cover',
-      text: [' '],
+      text: [''],
     },
   ],
 };
@@ -46,10 +46,9 @@ export function coverTabDelete(tabKey) {
   };
 }
 
-export function openCoverDialog(cover = emptyCover) {
+export function openCoverDialog() {
   return {
-    type: COVER_DIALOG_OPEN,
-    cover,
+    type: COVER_DIALOG_OPEN
   };
 }
 

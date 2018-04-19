@@ -19,18 +19,18 @@ const DEFAULT_COVER = 'https://default.wrioos.com/img/default_bg.jpg';
 function newCover() {
   return {
     '@type': 'ImageObject',
-    name: '',
+    name: 'Title',
     thumbnail: DEFAULT_COVER,
     contentUrl: DEFAULT_COVER,
-    about: 'Cover',
-    text: [''],
+    about: 'Subtitle',
+    text: ['Text'],
   };
 }
 
 let index = 0;
 
 function makeTabsFromCovers(coverElements) {
-  return coverElements.map((coverElement) => {
+  return coverElements.map(coverElement => {
     const docs = new JSONDocument([coverElement]);
     const imageUrl = coverElement.contentUrl;
     return {
@@ -42,19 +42,14 @@ function makeTabsFromCovers(coverElements) {
   });
 }
 
-const makeTabs = function makeTabs(action) {
-  if (action.cover) {
-    const coverElements = action.cover.itemListElement;
-    const tabs = makeTabsFromCovers(coverElements);
-    return tabs;
-  }
+function makeTabs() {
   return makeTabsFromCovers([newCover()]);
 };
 
 const defaultState = {
   showDialog: false,
   tabs: [],
-  tab: { key: 'Cover1', name: 'Cover1 ', subEdtior: { editorState: null } },
+  tab: { key: 'Cover-0', name: 'Cover ', subEdtior: { editorState: null } },
 };
 
 function findTabWithKey(tabs, tabKey) {
@@ -75,7 +70,7 @@ export function coverDialogReducer(state = defaultState, action) {
       return { ...state, tab, tabs: replaceTabWithKey(state.tabs, tab, key) };
     }
     case COVER_DIALOG_OPEN: {
-      const tabs = makeTabs(action);
+      const tabs = makeTabs();
       return {
         ...state,
         tabs,

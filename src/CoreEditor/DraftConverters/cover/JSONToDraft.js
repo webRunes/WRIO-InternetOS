@@ -30,22 +30,34 @@ export default function JSONtoDraft(coverDocument: LdJsonDocument) {
 
   function parseCoverPart(element: Object, processUrl: boolean) {
     const contentBlocks: Array<ContentBlock> = [];
-    const { name } = element;
+    const { name, about, text } = element;
 
-    if (element.name) {
+    if (name) {
       lastKey = keyGen();
       contentBlocks.push(new ContentBlock([
         ['text', name],
         ['key', lastKey],
         ['characterList', createMetadata(name)],
+        ['type', 'header-one'],
+      ]));
+      blockKeyToOrderMap[lastKey] = order;
+      order += 1;
+    }
+
+    if (about) {
+      lastKey = keyGen();
+      contentBlocks.push(new ContentBlock([
+        ['text', about],
+        ['key', lastKey],
+        ['characterList', createMetadata(about)],
         ['type', 'header-two'],
       ]));
       blockKeyToOrderMap[lastKey] = order;
       order += 1;
     }
 
-    if (element.text) {
-      element.text.forEach((paragraph) => {
+    if (text) {
+      text.forEach((paragraph) => {
         let coverText = paragraph;
         if (processUrl && element.url) {
           coverText += element.url;
