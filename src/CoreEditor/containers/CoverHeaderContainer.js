@@ -17,10 +17,7 @@ function mapDispatchToProps(dispatch) {
     onCoverChanged: (current) => {
       dispatch(actions.selectCover(current));
     },
-    onCoverPressed: (cover) => {
-      console.log('Cover clicked!!!', cover);
-      dispatch(coverDialogActions.openCoverDialog(cover));
-    },
+    onCoverPressed: () => dispatch(coverDialogActions.openCoverDialog()),
     onCoverButtonPressed: cover => dispatch(actions.pressCoverButton(cover)),
   };
 }

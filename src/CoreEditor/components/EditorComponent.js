@@ -141,7 +141,6 @@ class EditorComponent extends React.Component {
             editorState={this.props.editorState}
             handleKeyCommand={this.handleKeyCommand}
             onChange={el => this.handleChange(el)}
-            placeholder="Enter text..."
             ref={(ref) => {
               this.editorRef = ref;
             }}
