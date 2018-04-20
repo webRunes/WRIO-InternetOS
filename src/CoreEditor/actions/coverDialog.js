@@ -4,64 +4,57 @@ import DraftExporter from '../DraftExporter';
 import DraftToJSON from '../DraftConverters/cover/DraftToJSON';
 import { replaceCovers } from 'base/actions/actions';
 import { publishCover } from './publishActions';
-/* image dialog */
 
+export const COVER_DIALOG_IMAGE_URL_CHANGED = 'COVER_DIALOG_IMAGE_URL_CHANGED';
 export const COVER_DIALOG_OPEN = 'COVER_DIALOG_OPEN';
 export const COVER_DIALOG_CLOSE = 'COVER_DIALOG_CLOSE';
 export const COVER_TAB_CHANGE = 'COVER_TAB_CHANGE';
 export const COVER_NEW_TAB = 'COVER_NEW_TAB';
 export const COVER_DELETE_TAB = 'COVER_DELETE_TAB';
 
-const DEFAULT_COVER = 'https://default.wrioos.com/img/default_bg.jpg';
-
-const emptyCover = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Covers for my blog',
-  itemListElement: [
-    {
-      '@type': 'ImageObject',
-      contentUrl: DEFAULT_COVER,
-      name: 'Cover',
-      text: [''],
-    },
-  ],
-};
-
+export function coverDialogImageUrlChanged(url) {
+  return {
+    type: COVER_DIALOG_IMAGE_URL_CHANGED,
+    url: url
+  }
+}
 export function newCover() {
-  return { type: COVER_NEW_TAB };
+  return {
+    type: COVER_NEW_TAB
+  }
 }
 
 export function coverTabChange(tabKey) {
   return {
     type: COVER_TAB_CHANGE,
-    tabKey,
-  };
+    tabKey
+  }
 }
 
 export function coverTabDelete(tabKey) {
   return {
     type: COVER_DELETE_TAB,
-    tabKey,
-  };
+    tabKey
+  }
 }
 
 export function openCoverDialog() {
   return {
     type: COVER_DIALOG_OPEN
-  };
+  }
 }
 
 export function closeCoverDialog() {
   return {
-    type: COVER_DIALOG_CLOSE,
-  };
+    type: COVER_DIALOG_CLOSE
+  }
 }
+
 const coverTemplate = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Covers for my blog',
-  itemListElement: [],
+  itemListElement: []
 };
 
 export function saveCovers() {
