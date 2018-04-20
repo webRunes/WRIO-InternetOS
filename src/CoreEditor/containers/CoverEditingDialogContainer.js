@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch, getState) => {
     editorChanged: state => dispatch(editorChanged(state)),
     onCoverTabChange: (...args) => dispatch(coverTabChange(...args)),
     onCoverTabDelete: activeTabKey => dispatch(coverTabDelete(activeTabKey)),
-    onNewCover: (...args) => dispatch(newCover(...args)),
+    onNewCover: () => dispatch(newCover()),
   };
 };
 
