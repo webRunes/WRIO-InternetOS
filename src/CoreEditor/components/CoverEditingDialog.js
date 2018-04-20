@@ -15,7 +15,6 @@ const CoverTabs = ({
 }) => (
 <Tab.Container
   id="tabcontainer"
-  defaultActiveKey="Cover1"
   activeKey={activeTab.key}
   onSelect={key =>
     key === 'new'
@@ -30,10 +29,12 @@ const CoverTabs = ({
           <div className="nav-tabs-navigation">
             <div className="nav-tabs-wrapper">
               <Nav bsStyle="tabs">
-                {tabs.map(tab => (<NavItem eventKey={tab.key} key={tab.key}>
-                  { tab.name }
-                  <div className="ripple-container"></div>
-                </NavItem>))}
+                {tabs.map(tab =>
+                  (<NavItem eventKey={tab.key} key={tab.key}>
+                     { tab.name }
+                     <div className="ripple-container"></div>
+                   </NavItem>)
+                )}
                 <NavItem eventKey="new"><span className="glyphicon glyphicon-plus-sign"></span>
                   <div className="ripple-container"></div>
                 </NavItem>

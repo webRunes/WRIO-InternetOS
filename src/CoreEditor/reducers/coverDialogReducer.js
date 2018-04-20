@@ -24,18 +24,17 @@ const
     Object({
       ...mkDoc({}, new JSONDocument([jsonld]), JSONToDraft),
       imageUrl: jsonld.contentUrl,
-      key: 'Cover-' + index,
+      key: index,
       name: 'Cover'
     }),
   findTabWithKey = (tabs, tabKey) =>
     tabs.filter(e => e.key === tabKey)[0],
-  findTabsWithoutKey = (tabs, tabKey) =>
-    tabs.filter(e => e.key !== tabKey),
   replaceTabWithKey = (tabs, tab, key) => tabs.map(el => el.key === key ? tab : el),
+  defaultTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD, 0),
   defaultState = {
     showDialog: false,
-    tabs: [makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD)],
-    tab: this.tabs[0],
+    tabs: [defaultTab],
+    tab: defaultTab
   };
 
 export function coverDialogReducer(state = defaultState, action) {
@@ -58,7 +57,10 @@ export function coverDialogReducer(state = defaultState, action) {
       }
     }
     case COVER_NEW_TAB: {
-      const newTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD);
+      const
+        length = state.tabs.length,
+        lastKey = state.tabs[length - 1].key,
+        newTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD, lastKey + 1);
       return {
         ...state,
         tab: newTab,
@@ -75,12 +77,14 @@ export function coverDialogReducer(state = defaultState, action) {
       const
         indexTabToDelete = state.tabs.findIndex(tab => tab.key === action.tabKey),
         newTabs = state.tabs.slice(0, indexTabToDelete).concat(state.tabs.slice(indexTabToDelete + 1)),
-        nextActiveTab = newTabs[indexTabToDelete] || newTabs[newTabs.length - 1];
+        nextActiveTab = newTabs[indexTabToDelete] || newTabs[newTabs.length - 1] || defaultTab,
+        showDialog = newTabs.length > 0;
 
       return {
         ...state,
         tab: nextActiveTab,
-        tabs: newTabs
+        tabs: showDialog ? newTabs : [nextActiveTab],
+        showDialog: showDialog
       }
     }
     default: {
