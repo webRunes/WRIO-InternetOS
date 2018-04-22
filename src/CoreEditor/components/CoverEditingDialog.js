@@ -114,7 +114,7 @@ CoverDialogTypes) => {
                 <button className="btn btn-default" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-remove with_text" />Cancel
                 </button>
-                <button className="btn btn-primary" onClick={() => onSaveCover(editorState, imageUrl)}>
+                <button className="btn btn-primary" onClick={onSaveCover}>
                   <span className="glyphicon glyphicon-ok with_text" />Submit
                 </button>
               </div>

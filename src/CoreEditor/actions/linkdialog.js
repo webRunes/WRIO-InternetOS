@@ -26,11 +26,14 @@ export const closeDialog = () => (dispatch) => {
 };
 
 export const submitDialog = values => (dispatch, getState) => {
-  const { linkEntityKey } = getState().linkDialog;
+  const
+    linkDialog = getState().linkDialog,
+    linkEntityKey = linkDialog.linkEntityKey;
+
   if (linkEntityKey !== null) {
-    dispatch(editLink(values.title, values.url, values.desc, linkEntityKey));
+    dispatch(editLink(linkDialog.titleValue, values.url, linkDialog.descValue, linkEntityKey));
   } else {
-    dispatch(createNewLink(values.title, values.url, values.desc));
+    dispatch(createNewLink(linkDialog.titleValue, values.url, linkDialog.descValue));
   }
 
   dispatch(closeDialog());

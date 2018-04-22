@@ -26,12 +26,12 @@ function mapStateToProps(state) {
 // dispatch according actions
 
 const mapDispatchToProps = dispatch => ({
-  onRemoveLink: (key) => {
+  onRemoveLink: key => {
     dispatch(removeEntity(key));
     dispatch(closeDialog());
   },
   onCancelLink: () => dispatch(closeDialog()),
-  onSubmit: (values) => {
+  onSubmit: values => {
     dispatch(submitDialog(values));
   },
 });
