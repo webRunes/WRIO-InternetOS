@@ -7,6 +7,9 @@ import {
   coverTabDelete,
   coverDialogImageUrlChanged
 } from '../actions/coverDialog';
+import {
+  editorChanged
+} from '../actions/coverActions';
 import CoverEditingDialog from '../components/CoverEditingDialog';
 
 import mkEditorActions from '../actions/indexActions';
@@ -19,7 +22,6 @@ function mapStateToProps(state) {
   return {
     showDialog,
     imageUrl: state.coverDialog.tab.imageUrl,
-    editorState: state.coverDialog.tab.editorState,
     tabs: state.coverDialog.tabs,
     tab: state.coverDialog.tab,
   };
@@ -28,7 +30,6 @@ function mapStateToProps(state) {
 // dispatch according actions
 
 const mapDispatchToProps = (dispatch, getState) => {
-  const { editorChanged } = mkEditorActions('COVEREDITOR_'); // map action name to particular editor name
   return {
     imageUrlChange: url => dispatch(coverDialogImageUrlChanged(url)),
     onCloseDialog: () => dispatch(closeCoverDialog()),

@@ -6,10 +6,20 @@ import {
   COVER_TAB_CHANGE,
   COVER_DELETE_TAB,
 } from '../actions/coverDialog';
+import {
+  COVER_CREATE_NEW_LINK,
+  COVEREDITOR_CREATE_DOCUMENT,
+  COVEREDITOR_REQUEST_DOCUMENT,
+  COVEREDITOR_GOT_ERROR,
+  COVEREDITOR_GOT_JSON_LD_DOCUMENT,
+  COVEREDITOR_EDITOR_CHANGED,
+  COVEREDITOR_REMOVE_ENTITY
+} from '../actions/coverActions';
 import EditorReducerMaker from './editorReducer';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
-import { mkDoc } from './docUtils';
+import { mkDoc, extractHeaderFromCover } from './docUtils';
+import { createNewLink } from '../utils/entitytools';
 
 const
   defaultSourceForCoverTabJSONLD = {
@@ -28,7 +38,7 @@ const
       name: 'Cover'
     }),
   findTabWithKey = (tabs, tabKey) =>
-    tabs.filter(e => e.key === tabKey)[0],
+    tabs.filter(tab => tab.key === tabKey)[0],
   replaceTabWithKey = (tabs, tab, key) => tabs.map(el => el.key === key ? tab : el),
   defaultTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD, 0),
   defaultState = {
@@ -87,11 +97,62 @@ export function coverDialogReducer(state = defaultState, action) {
         showDialog: showDialog
       }
     }
+    case COVER_CREATE_NEW_LINK: {
+      const
+        editorState = createNewLink(state.tab.editorState, action.title, action.url, action.desc),
+        tab = {
+          ...state.tab,
+          editorState
+        },
+        tabs = replaceTabWithKey(state.tabs, tab, tab.key);
+
+      return {
+        ...state,
+        tab,
+        tabs
+      }
+    }
+    case COVEREDITOR_CREATE_DOCUMENT: {
+      const newDoc = new JSONDocument([createArticleTemplate(action.author, '')]);
+      return mkDoc(state, newDoc)
+    }
+    case COVEREDITOR_REQUEST_DOCUMENT: {
+      return { ...state, isFetching: true }
+    }
+    case COVEREDITOR_GOT_ERROR: {
+      return { ...state, isFetching: false, error: action.error }
+    }
+    case COVEREDITOR_EDITOR_CHANGED: {
+      const
+        editorState = action.editorState,
+        tab = {
+          ...state.tab,
+          editorState
+        },
+        tabs = replaceTabWithKey(state.tabs, tab, tab.key);
+
+      return extractHeaderFromCover({
+        ...state,
+        tab,
+        tabs
+      })
+    }
+    case COVEREDITOR_REMOVE_ENTITY: {
+      const
+        tab = {
+          ...state.tab,
+          editorState: removeEntity(state.tab.editorState, action.key)
+        },
+        tabs = replaceTabWithKey(state.tabs, tab, tab.key);
+
+      return {
+        ...state,
+        tab,
+        tabs
+      }
+    }
     default: {
-      const { key } = state.tab;
-      const tab = EditorReducerMaker('COVEREDITOR_')(state.tab, action);
-      const tabs = replaceTabWithKey(state.tabs, tab, key);
-      return { ...state, tab, tabs }
+      return state
     }
   }
 }

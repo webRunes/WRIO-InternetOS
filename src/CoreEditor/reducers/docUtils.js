@@ -31,6 +31,14 @@ export function extractHeader(state) {
   return { ...state, header, toc };
 }
 
+export function extractHeaderFromCover(state) {
+  const { editorState } = state.tab;
+  const header = getTitle(editorState.getCurrentContent());
+  const chapters = extractTableOfContents(editorState).map(e => new ListItem(e, 'url'));
+  const toc = { chapters, covers: [], external: [] };
+  return { ...state, header, toc };
+}
+
 export function mkDoc(state, doc, importFN = JSONToDraft) {
   if (doc.isList()) {
     return { ...state, isList: true, document: doc };

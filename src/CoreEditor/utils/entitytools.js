@@ -45,7 +45,6 @@ export default class EntityTools {
      * @returns {LINK}
      */
   static createLinkEntity(title: string, url: string, desc: string) {
-    debugger
     return Entity.create("LINK", "MUTABLE", {
       linkTitle: title,
       href: url,
@@ -384,7 +383,6 @@ function appendHttp(url) {
 }
 
 export function createNewLink(editorState, titleValue, urlValue, descValue) {
-  debugger
   urlValue = appendHttp(urlValue);
 
   const entityKey = EntityTools.createLinkEntity(
