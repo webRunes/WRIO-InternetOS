@@ -1,24 +1,13 @@
 import { combineReducers } from 'redux';
-import mkActions from '../actions/indexActions';
-import JSONDocument from 'base/jsonld/LdJsonDocument';
-import {
-  createEditorState,
-  createNewLink,
-  createNewImage,
-  removeEntity,
-  extractTableOfContents,
-} from '../utils/entitytools';
 import LinkDialogReducer from './linkDialog';
 import ImageDialogReducer from './imageDialog';
 import TicketDialogReducer from './ticketDialog';
 import coverDialogReducer from './coverDialogReducer';
 import PostSettingsReducer from './publish';
-import { mkDoc, extractHeader } from './docUtils';
 import headerReducer from 'base/reducers/headerReducer';
 import loginReducer from 'base/reducers/loginReducer';
 import plusReducer from 'base/Plus/reducers/plusReducer';
 import documentReducer from 'base/reducers/documentReducer';
-import { GOT_JSON_LD_DOCUMENT } from 'base/actions/actions';
 import { reducer as formReducer } from 'redux-form';
 import EditorReducer from './editorReducer';
 import ListEditorReducer from './listEditorReducer';
