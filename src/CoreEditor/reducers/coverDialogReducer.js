@@ -20,7 +20,7 @@ import EditorReducerMaker from './editorReducer';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
 import { mkDoc, extractHeaderFromCover } from './docUtils';
-import { createNewLink, editNewLink } from '../utils/entitytools';
+import { createNewLink, editNewLink, removeEntity } from '../utils/entitytools';
 
 const
   defaultSourceForCoverTabJSONLD = {
@@ -38,8 +38,8 @@ const
       key: index,
       name: 'Cover'
     }),
-  findTabWithKey = (tabs, tabKey) =>
-    tabs.filter(tab => tab.key === tabKey)[0],
+  findTabWithKey = (tabs, key) =>
+    tabs.find(tab => tab.key === key),
   replaceTabWithKey = (tabs, tab, key) => tabs.map(el => el.key === key ? tab : el),
   defaultTab = makeCoverTabFromJSONLD(defaultSourceForCoverTabJSONLD, 0),
   defaultState = {

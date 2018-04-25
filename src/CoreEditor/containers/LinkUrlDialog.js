@@ -1,11 +1,9 @@
 import React from 'react';
-import { submitDialog, closeDialog } from '../actions/linkdialog';
+import { submitDialog, closeDialog, removeLink } from '../actions/linkdialog';
 import EntityDialog from '../components/EntityDialog';
 import mkActions from '../actions/indexActions';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-
-const { createNewLink, editLink, removeEntity } = mkActions('MAIN');
 
 function mapStateToProps(state) {
   const {
@@ -27,13 +25,14 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   onRemoveLink: key => {
-    dispatch(removeEntity(key));
-    dispatch(closeDialog());
+    dispatch(removeLink(key))
   },
-  onCancelLink: () => dispatch(closeDialog()),
+  onCancelLink: () => {
+    dispatch(closeDialog())
+  },
   onSubmit: values => {
-    dispatch(submitDialog(values));
-  },
+    dispatch(submitDialog(values))
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
