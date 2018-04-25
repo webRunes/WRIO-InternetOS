@@ -7,6 +7,7 @@ import * as coverActions from './coverActions';
 
 export const LINK_DIALOG_OPEN = 'LINK_DIALOG_OPEN';
 export const LINK_DIALOG_CLOSE = 'LINK_DIALOG_CLOSE';
+export const LINK_DIALOG_REMOVE = 'LINK_DIALOG_REMOVE';
 export const LINK_DIALOG_SUBMIT = 'LINK_DIALOG_SUBMIT';
 export const REQUEST_PREVIEW = 'REQUEST_PREVIEW';
 
@@ -46,4 +47,14 @@ export const submitDialog = values => (dispatch, getState) => {
       ? actions.editLink(linkDialog.titleValue, values.url, linkDialog.descValue, linkEntityKey)
       : actions.createNewLink(linkDialog.titleValue, values.url, linkDialog.descValue)
   ), 100);
+};
+
+export const removeLink = key => (dispatch, getState) => {
+  const
+    actions = getState().coverDialog.showDialog
+      ? coverActions
+      : mainActions;
+
+  dispatch({type: LINK_DIALOG_REMOVE});
+  dispatch(actions.removeEntity(key))
 };

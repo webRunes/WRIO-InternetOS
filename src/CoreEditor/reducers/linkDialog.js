@@ -7,6 +7,7 @@ import {
   LINK_DIALOG_URL_CHANGE,
   LINK_DIALOG_OPEN,
   LINK_DIALOG_CLOSE,
+  LINK_DIALOG_REMOVE,
   LINK_DIALOG_SUBMIT
 } from '../actions/linkdialog';
 
@@ -34,6 +35,8 @@ export function linkDialogReducer(state = defaultState, action) {
         ...state,
         showDialog: false
       }
+    case LINK_DIALOG_REMOVE:
+      return defaultState
     case LINK_DIALOG_SUBMIT:
       return {
         ...state,
