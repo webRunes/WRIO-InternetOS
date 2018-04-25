@@ -402,6 +402,13 @@ export function createNewLink(editorState, titleValue, urlValue, descValue) {
   return _editorState;
 }
 
+export function editNewLink(title, url, desc, linkEntityKey) {
+  return Entity.mergeData(linkEntityKey, {
+    linkTitle: title,
+    href: url,
+    linkDesc: desc
+  })
+}
 
 export function createNewTicket(
   editorState,

@@ -13,14 +13,14 @@ export const COVEREDITOR_REMOVE_ENTITY = 'COVEREDITOR_REMOVE_ENTITY';
 
 export const editCover = function editCover(coverId: string) {};
 
-export const editLink = function editLink(titleValue, urlValue, descValue, linkEntityKey) {
-  Entity.mergeData(linkEntityKey, {
-    linkTitle: titleValue,
-    href: urlValue,
-    linkDesc: descValue,
-  });
-
-  return { type: COVER_EDIT_LINK };
+export const editLink = function editLink(title, url, desc, linkEntityKey) {
+  return {
+    type: COVER_EDIT_LINK,
+    title,
+    url,
+    desc,
+    linkEntityKey
+  }
 };
 
 export const createNewLink = function createNewLink(title, url, desc) {
@@ -28,8 +28,8 @@ export const createNewLink = function createNewLink(title, url, desc) {
     type: COVER_CREATE_NEW_LINK,
     title,
     url,
-    desc,
-  };
+    desc
+  }
 };
 
 export const editorChanged = function editorChanged(editorState) {
