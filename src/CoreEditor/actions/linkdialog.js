@@ -1,11 +1,13 @@
-import mkActions from '../actions/indexActions';
+import mkActions from './indexActions';
 import { destroy } from 'redux-form';
 
-const { createNewLink, editLink, removeEntity } = mkActions('MAIN');
+const mainActions = mkActions('MAIN');
+import * as coverActions from './coverActions';
 /* link dialog actions */
 
 export const LINK_DIALOG_OPEN = 'LINK_DIALOG_OPEN';
 export const LINK_DIALOG_CLOSE = 'LINK_DIALOG_CLOSE';
+export const LINK_DIALOG_SUBMIT = 'LINK_DIALOG_SUBMIT';
 export const REQUEST_PREVIEW = 'REQUEST_PREVIEW';
 
 export function openLinkDialog(titleValue, urlValue, descValue, linkEntityKey = null) {
@@ -26,12 +28,21 @@ export const closeDialog = () => (dispatch) => {
 };
 
 export const submitDialog = values => (dispatch, getState) => {
-  const { linkEntityKey } = getState().linkDialog;
-  if (linkEntityKey !== null) {
-    dispatch(editLink(values.title, values.url, values.desc, linkEntityKey));
-  } else {
-    dispatch(createNewLink(values.title, values.url, values.desc));
-  }
+  const
+    state = getState(),
+    linkDialog = state.linkDialog,
+    linkEntityKey = linkDialog.linkEntityKey,
+    actions = state.coverDialog.showDialog
+      ? coverActions
+      : mainActions;
 
-  dispatch(closeDialog());
+  dispatch({
+    type: LINK_DIALOG_SUBMIT,
+    urlValue: values.url
+  });
+  dispatch(
+    linkEntityKey !== null
+      ? actions.editLink(linkDialog.titleValue, values.url, linkDialog.descValue, linkEntityKey)
+      : actions.createNewLink(linkDialog.titleValue, values.url, linkDialog.descValue)
+  )
 };

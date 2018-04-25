@@ -62,10 +62,10 @@ export function saveCovers() {
     const { tabs } = getState().coverDialog;
     const coverDocument = new LdJsonDocument([coverTemplate]);
     const exporter = new DraftExporter(coverDocument);
-    const data = tabs.map(el => ({
+    const data = tabs.map(tab => ({
       // go through all tabs and extract image and contentState
-      contentState: el.editorState.getCurrentContent(),
-      image: el.imageUrl,
+      contentState: tab.editorState.getCurrentContent(),
+      image: tab.imageUrl,
     }));
 
     const html = exporter.coverDraftToHtml(data);

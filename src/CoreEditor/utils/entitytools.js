@@ -100,7 +100,7 @@ static createTicketEntity(
       return entityKey;
     }
 
-  /** 
+  /**
      * inserts entity key into editorState */
   static insertEntityKeyIntoAtomicBlock(
     editorState: EditorState,
@@ -249,7 +249,7 @@ static createTicketEntity(
           blockData.about,
           blockData.image,
         );
-     
+
       const _editorState = EditorState.forceSelection(
         editorState,
         SelectionState.createEmpty(blockKey)
@@ -259,12 +259,12 @@ static createTicketEntity(
         entityKey,
         insertEmpty
       );
-    
+
   }
 }
 
 
- 
+
 
 export const getSelection = editorState => {
   var title = "";
@@ -318,8 +318,8 @@ export const customDecorators = [
  * !!!!!!!!!! IMPORTER !!!!!!!!!!!!!!!!
  * Main fuction, that constructs EditorState from LD+JSON data
  * @param {*} contentBlock wrapped content blocks with
- * @param {*} mentions 
- * @param {*} images 
+ * @param {*} mentions
+ * @param {*} images
  */
 export function createEditorState({
   contentBlocks,

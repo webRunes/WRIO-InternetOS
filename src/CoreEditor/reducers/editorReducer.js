@@ -79,7 +79,7 @@ const edtorDocumentReducer = (editorName: string) => (
     case CREATE_NEW_LINK:
       return {
         ...state,
-        editorState: createNewLink(state.editorState, action.desc, action.url, action.title),
+        editorState: createNewLink(state.editorState, action.title, action.url, action.desc),
       };
     case REMOVE_ENTITY:
       return { ...state, editorState: removeEntity(state.editorState, action.key) };
