@@ -8,6 +8,7 @@ import {
 } from '../actions/coverDialog';
 import {
   COVER_CREATE_NEW_LINK,
+  COVER_EDIT_LINK,
   COVEREDITOR_CREATE_DOCUMENT,
   COVEREDITOR_REQUEST_DOCUMENT,
   COVEREDITOR_GOT_ERROR,
@@ -19,7 +20,7 @@ import EditorReducerMaker from './editorReducer';
 import JSONDocument from 'base/jsonld/LdJsonDocument';
 import JSONToDraft from '../DraftConverters/cover/JSONToDraft';
 import { mkDoc, extractHeaderFromCover } from './docUtils';
-import { createNewLink } from '../utils/entitytools';
+import { createNewLink, editNewLink } from '../utils/entitytools';
 
 const
   defaultSourceForCoverTabJSONLD = {
@@ -111,6 +112,15 @@ export function coverDialogReducer(state = defaultState, action) {
         tab,
         tabs
       }
+    }
+    case COVER_EDIT_LINK: {
+      editNewLink(
+        action.title,
+        action.url,
+        action.desc,
+        action.linkEntityKey
+      );
+      return state
     }
     case COVEREDITOR_CREATE_DOCUMENT: {
       const newDoc = new JSONDocument([createArticleTemplate(action.author, '')]);

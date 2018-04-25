@@ -40,9 +40,10 @@ export const submitDialog = values => (dispatch, getState) => {
     type: LINK_DIALOG_SUBMIT,
     urlValue: values.url
   });
-  dispatch(
+
+  setTimeout(() => dispatch(
     linkEntityKey !== null
       ? actions.editLink(linkDialog.titleValue, values.url, linkDialog.descValue, linkEntityKey)
       : actions.createNewLink(linkDialog.titleValue, values.url, linkDialog.descValue)
-  )
+  ), 100);
 };
