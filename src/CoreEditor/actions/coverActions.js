@@ -33,8 +33,15 @@ export const createNewLink = function createNewLink(title, url, desc) {
 };
 
 export const editorChanged = function editorChanged(editorState) {
-    return {
-      type: COVEREDITOR_EDITOR_CHANGED,
-      editorState
-    }
+  return {
+    type: COVEREDITOR_EDITOR_CHANGED,
+    editorState
+  }
+};
+
+export const removeEntity = function removeEntity(key) {
+  return {
+    type: COVEREDITOR_REMOVE_ENTITY,
+    key
+  }
 };
