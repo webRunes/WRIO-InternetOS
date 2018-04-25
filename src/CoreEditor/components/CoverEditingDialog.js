@@ -11,11 +11,11 @@ type CoverDialogTypes = {
 };
 
 const CoverTabs = ({
-  children, tabs, onNewTab, activeTab, onCoverTabChange,
+  children, tabs, onNewTab, tab, onCoverTabChange,
 }) => (
 <Tab.Container
   id="tabcontainer"
-  activeKey={activeTab.key}
+  activeKey={tab.key}
   onSelect={key =>
     key === 'new'
       ? onNewTab()
@@ -52,7 +52,6 @@ const CoverTabs = ({
 </Tab.Container>);
 
 const CoverDialog = ({
-  editorState,
   imageUrl, imageUrlChange,
   showDialog,
   onSaveCover,
@@ -78,13 +77,13 @@ CoverDialogTypes) => {
       >
         <CoverTabs
           tabs={tabs}
-          activeTab={tab}
+          tab={tab}
           onNewTab={onNewCover}
           onCoverTabChange={onCoverTabChange}
         >
           <div className="cover-edit">
             <EditorComponent
-              editorState={editorState}
+              editorState={tab.editorState}
               editorName="COVEREDITOR_"
               editorChanged={editorChanged}
               openImageDialog={openImageDialog}
@@ -114,7 +113,7 @@ CoverDialogTypes) => {
                 <button className="btn btn-default" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-remove with_text" />Cancel
                 </button>
-                <button className="btn btn-primary" onClick={() => onSaveCover(editorState, imageUrl)}>
+                <button className="btn btn-primary" onClick={onSaveCover}>
                   <span className="glyphicon glyphicon-ok with_text" />Submit
                 </button>
               </div>

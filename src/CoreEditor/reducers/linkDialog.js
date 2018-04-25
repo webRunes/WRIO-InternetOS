@@ -3,7 +3,12 @@
  */
 
 import { combineReducers } from 'redux';
-import { LINK_DIALOG_URL_CHANGE, LINK_DIALOG_OPEN, LINK_DIALOG_CLOSE } from '../actions/linkdialog';
+import {
+  LINK_DIALOG_URL_CHANGE,
+  LINK_DIALOG_OPEN,
+  LINK_DIALOG_CLOSE,
+  LINK_DIALOG_SUBMIT
+} from '../actions/linkdialog';
 
 const defaultState = {
   titleValue: '',
@@ -15,24 +20,26 @@ const defaultState = {
 
 export function linkDialogReducer(state = defaultState, action) {
   switch (action.type) {
-    case LINK_DIALOG_OPEN: {
-      const {
-        titleValue, urlValue, descValue, linkEntityKey,
-      } = action;
-      const ns = {
+    case LINK_DIALOG_OPEN:
+      return {
         ...state,
         showDialog: true,
-        titleValue,
-        urlValue,
-        descValue,
-        linkEntityKey,
-      };
-      console.log('OPEN', ns);
-      return ns;
-    }
-
+        titleValue: action.titleValue,
+        urlValue: action.urlValue,
+        descValue: action.descValue,
+        linkEntityKey: action.linkEntityKey
+      }
     case LINK_DIALOG_CLOSE:
-      return { showDialog: false };
+      return {
+        ...state,
+        showDialog: false
+      }
+    case LINK_DIALOG_SUBMIT:
+      return {
+        ...state,
+        showDialog: false,
+        urlValue: action.urlValue
+      }
 
     default:
       return state;
