@@ -65,12 +65,10 @@ export function saveCovers() {
     const data = tabs.map(tab => ({
       // go through all tabs and extract image and contentState
       contentState: tab.editorState.getCurrentContent(),
-      image: tab.imageUrl,
+      contentUrl: tab.imageUrl,
     }));
 
     const html = exporter.coverDraftToHtml(data);
-    dispatch(replaceCovers(coverDocument));
     dispatch(publishCover(html));
-    dispatch(closeCoverDialog());
   };
 }
