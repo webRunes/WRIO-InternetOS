@@ -54,10 +54,8 @@ const CoverTabs = ({
 const CoverDialog = ({
   imageUrl, imageUrlChange,
   showDialog,
-  onSaveCover,
   onCloseDialog,
   editorChanged,
-  openImageDialog,
   openLinkDialog,
   tabs,
   tab,
@@ -86,7 +84,7 @@ CoverDialogTypes) => {
               editorState={tab.editorState}
               editorName="COVEREDITOR_"
               editorChanged={editorChanged}
-              openImageDialog={openImageDialog}
+              openImageDialog={()=> {}}
               openLinkDialog={openLinkDialog}
             />
           </div>
@@ -113,7 +111,7 @@ CoverDialogTypes) => {
                 <button className="btn btn-default" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-remove with_text" />Cancel
                 </button>
-                <button className="btn btn-primary" onClick={onSaveCover}>
+                <button className="btn btn-primary" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-ok with_text" />Submit
                 </button>
               </div>

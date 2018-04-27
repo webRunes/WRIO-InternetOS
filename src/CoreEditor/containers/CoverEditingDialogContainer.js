@@ -13,7 +13,6 @@ import {
 import CoverEditingDialog from '../components/CoverEditingDialog';
 
 import mkEditorActions from '../actions/indexActions';
-import { saveCovers } from '../actions/coverDialog';
 import { openImageDialog } from '../actions/imagedialog';
 import { openLinkDialog } from '../actions/linkdialog';
 
@@ -33,9 +32,7 @@ const mapDispatchToProps = (dispatch, getState) => {
   return {
     imageUrlChange: url => dispatch(coverDialogImageUrlChanged(url)),
     onCloseDialog: () => dispatch(closeCoverDialog()),
-    onSaveCover: (editorState, imageUrl) => dispatch(saveCovers(editorState, imageUrl)),
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
-    openImageDialog: (...args) => dispatch(openImageDialog(...args)),
     editorChanged: state => dispatch(editorChanged(state)),
     onCoverTabChange: (...args) => dispatch(coverTabChange(...args)),
     onCoverTabDelete: activeTabKey => dispatch(coverTabDelete(activeTabKey)),
