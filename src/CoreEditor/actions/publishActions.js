@@ -4,6 +4,7 @@ import { saveToS3, getWidgetID } from '../webrunesAPI.js';
 import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
 import ListExporter from '../ListExporter';
+import { saveCovers } from './coverDialog';
 
 export const fakeWidgetId = '875721502196465664';
 
@@ -160,6 +161,7 @@ export const publishWrapper = saveSource => (dispatch, getState) => {
   if (listEditor) {
     dispatch(publishList(saveSource));
   } else {
+    dispatch(saveCovers());
     dispatch(publishDocument(saveSource));
   }
 };
