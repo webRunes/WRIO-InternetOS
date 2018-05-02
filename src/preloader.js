@@ -9,7 +9,7 @@ const code = `<div id="preloader" class="preloader-wrapper loading" style="heigh
                         <div class="progress progress-striped active" style="height:6px;margin:20px 0">
                             <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="background-color: #0088cc !important; width: 100% !important;"> </div>
                         </div>
-                        <p style="font-family:sans-serif;color:#eee;font-size:11px;font-weight:bold;text-transform:uppercase">Loading... Please wait</p>
+                        <p style="font-family:'Roboto',sans-serif;color:#eee;font-size:11px;font-weight:bold;text-transform:uppercase">Loading... Please wait</p>
                     </div>
                 </div>
             </div>
