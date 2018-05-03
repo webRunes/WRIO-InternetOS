@@ -184,6 +184,7 @@ const CoverCarousel = ({
   onCoverPressed: Function,
   onCoverButtonPressed: Function,
 }) => {
+  const coverBgStyle ={textAlign: 'center'};
   const headerStyle =
     covers.length === 0
       ? { height: 'auto', minHeight: '110px', backgroundSize: 'auto' }
@@ -218,11 +219,14 @@ const CoverCarousel = ({
           })}
         </Carousel>
       ) : (
-        <div className="cover-bg" onClick={() => onCoverPressed()} >
+        <div
+          className="cover-bg"
+          onClick={onCoverPressed}
+          style={coverBgStyle}>
         {coverDialog.submit
           ? coverDialog.tabs.length === 1
-            ? 'There is 1 cover'
-            : 'There are ' + coverDialog.tabs.length + ' covers'
+            ? '1 cover'
+            : coverDialog.tabs.length + ' covers'
           : ''
         }
         </div>
