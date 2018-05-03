@@ -8,6 +8,8 @@ import { publishCover } from './publishActions';
 export const COVER_DIALOG_IMAGE_URL_CHANGED = 'COVER_DIALOG_IMAGE_URL_CHANGED';
 export const COVER_DIALOG_OPEN = 'COVER_DIALOG_OPEN';
 export const COVER_DIALOG_CLOSE = 'COVER_DIALOG_CLOSE';
+export const COVER_DIALOG_SUBMIT = 'COVER_DIALOG_SUBMIT';
+
 export const COVER_TAB_CHANGE = 'COVER_TAB_CHANGE';
 export const COVER_NEW_TAB = 'COVER_NEW_TAB';
 export const COVER_DELETE_TAB = 'COVER_DELETE_TAB';
@@ -49,6 +51,13 @@ export function closeCoverDialog() {
     type: COVER_DIALOG_CLOSE
   }
 }
+
+export function submitCoverDialog() {
+  return {
+    type: COVER_DIALOG_SUBMIT
+  }
+}
+
 
 const coverTemplate = {
   '@context': 'https://schema.org',
