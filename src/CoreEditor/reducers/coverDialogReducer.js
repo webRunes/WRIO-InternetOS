@@ -2,6 +2,7 @@ import {
   COVER_DIALOG_IMAGE_URL_CHANGED,
   COVER_DIALOG_OPEN,
   COVER_DIALOG_CLOSE,
+  COVER_DIALOG_SUBMIT,
   COVER_NEW_TAB,
   COVER_TAB_CHANGE,
   COVER_DELETE_TAB,
@@ -61,6 +62,13 @@ export function coverDialogReducer(state = defaultState, action) {
         showDialog: true,
       }
     }
+    case COVER_DIALOG_SUBMIT: {
+      return {
+        ...state,
+        showDialog: false,
+        submit: true
+      }
+    }
     case COVER_DIALOG_CLOSE: {
       return {
         ...state,
@@ -95,7 +103,8 @@ export function coverDialogReducer(state = defaultState, action) {
         ...state,
         tab: nextActiveTab,
         tabs: showDialog ? newTabs : [nextActiveTab],
-        showDialog: showDialog
+        showDialog: showDialog,
+        submit: state.submit && showDialog
       }
     }
     case COVER_CREATE_NEW_LINK: {

@@ -6,6 +6,7 @@ import * as coverDialogActions from 'CoreEditor/actions/coverDialog';
 
 function mapStateToProps(state) {
   return {
+    coverDialog: state.coverDialog,
     covers: state.header.covers,
     images: state.header.images,
     currentCover: state.header.selected,

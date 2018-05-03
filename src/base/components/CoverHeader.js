@@ -169,6 +169,7 @@ const Logo = () => (<div className="cover-left">
  */
 
 const CoverCarousel = ({
+  coverDialog,
   covers,
   images,
   currentCover,
@@ -217,7 +218,14 @@ const CoverCarousel = ({
           })}
         </Carousel>
       ) : (
-        <div className="cover-bg" onClick={() => onCoverPressed()} />
+        <div className="cover-bg" onClick={() => onCoverPressed()} >
+        {coverDialog.submit
+          ? coverDialog.tabs.length === 1
+            ? 'There is 1 cover'
+            : 'There are ' + coverDialog.tabs.length + ' covers'
+          : ''
+        }
+        </div>
       )}
     </div>
   );
