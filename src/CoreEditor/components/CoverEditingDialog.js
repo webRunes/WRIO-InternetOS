@@ -55,6 +55,7 @@ const CoverDialog = ({
   imageUrl, imageUrlChange,
   showDialog,
   onCloseDialog,
+  onSubmitDialog,
   editorChanged,
   openLinkDialog,
   tabs,
@@ -111,7 +112,7 @@ CoverDialogTypes) => {
                 <button className="btn btn-default" onClick={onCloseDialog}>
                   <span className="glyphicon glyphicon-remove with_text" />Cancel
                 </button>
-                <button className="btn btn-primary" onClick={onCloseDialog}>
+                <button className="btn btn-primary" onClick={onSubmitDialog}>
                   <span className="glyphicon glyphicon-ok with_text" />Submit
                 </button>
               </div>

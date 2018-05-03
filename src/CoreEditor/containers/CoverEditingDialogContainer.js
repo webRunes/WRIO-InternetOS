@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   closeCoverDialog,
+  submitCoverDialog,
   newCover,
   coverTabChange,
   coverTabDelete,
@@ -32,6 +33,7 @@ const mapDispatchToProps = (dispatch, getState) => {
   return {
     imageUrlChange: url => dispatch(coverDialogImageUrlChanged(url)),
     onCloseDialog: () => dispatch(closeCoverDialog()),
+    onSubmitDialog: () => dispatch(submitCoverDialog()),
     openLinkDialog: (...args) => dispatch(openLinkDialog(...args)),
     editorChanged: state => dispatch(editorChanged(state)),
     onCoverTabChange: (...args) => dispatch(coverTabChange(...args)),
