@@ -223,7 +223,7 @@ const CoverCarousel = ({
           className="cover-bg"
           onClick={onCoverPressed}
           style={coverBgStyle}>
-        {coverDialog.submit
+        {coverDialog && coverDialog.submit
           ? coverDialog.tabs.length === 1
             ? '1 cover'
             : coverDialog.tabs.length + ' covers'
