@@ -9,7 +9,7 @@ import * as pubAct from '../actions/publishActions';
 import PostSettings from '../components/PostSettings';
 
 function mapStateToProps(state) {
-  const { publish } = state;
+  const { publish, coverDialog } = state;
 
   return {
     createMode: publish.editParams.createMode,
@@ -21,6 +21,7 @@ function mapStateToProps(state) {
     author: publish.author,
     busy: publish.busy,
     commentsEnabled: publish.commentsEnabled,
+    coverSubmit: coverDialog.submit
   };
 }
 
