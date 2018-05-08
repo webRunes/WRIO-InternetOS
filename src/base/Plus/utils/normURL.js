@@ -1,11 +1,3 @@
-var cutZone = function(url) {
-  var separatorPosition = url.indexOf("//");
-  if (separatorPosition !== -1) {
-    url = url.substring(separatorPosition + 2, url.length);
-  }
-  return url;
-};
-
 var cutTail = function(url) {
   var separators = ["?", "#"];
   separators.forEach(function(separator) {
@@ -29,23 +21,21 @@ var cutLastSlash = function(url) {
   return url.replace(/\/+$/, "");
 };
 
+const rules = [
+  cutTail,
+  cutIndexHtml,
+  cutIndexHtm,
+  cutLastSlash
+];
+
 export default function normURL(url) {
-  if (typeof url === "string" && url.length > 0) {
-    [
-      cutZone,
-      cutTail,
-      cutIndexHtml,
-      cutIndexHtm,
-      cutLastSlash
-    ].forEach(function(rule) {
-      url = rule(url);
-    });
-  }
-  return url ? "//" + url : url;
+  return typeof url === "string" && url.length > 0
+    ? rules.reduce((acc, rule) => rule(acc), url)
+    : url
 }
 
 export function getPlusUrl(id) {
-  return "//wr.io/" + id + "/Plus-WRIO-App";
+  return "https://wr.io/" + id + "/Plus-WRIO-App";
 }
 
 export function isPlusUrl(url, id) {

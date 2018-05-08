@@ -10,7 +10,7 @@ const app = express();
 const proxyParams = {
   userResDecorator(proxyRes, proxyResData, userReq, userRes) {
     const data = proxyResData.toString('utf8');
-    return data.replaceAll('src="//wrioos.com/', 'src="//localhost:3033/');
+    return data.replaceAll('src="https://wrioos.com/', 'src="//localhost:3033/');
   },
 };
 

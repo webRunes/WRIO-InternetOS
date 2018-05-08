@@ -9,7 +9,7 @@ import * as pubAct from '../actions/publishActions';
 import PostSettings from '../components/PostSettings';
 
 function mapStateToProps(state) {
-  const { publish } = state;
+  const { publish, coverDialog } = state;
 
   return {
     createMode: publish.editParams.createMode,
@@ -21,6 +21,7 @@ function mapStateToProps(state) {
     author: publish.author,
     busy: publish.busy,
     commentsEnabled: publish.commentsEnabled,
+    coverSubmit: coverDialog.submit
   };
 }
 
@@ -28,7 +29,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onEditText: text => dispatch(pubAct.filenameChanged(text)),
     onEditDescription: text => dispatch(pubAct.descChanged(text)),
-    onPublish: doc => dispatch(pubAct.publishWrapper(doc)),
+    onPublish: () => dispatch(pubAct.publishWrapper()),
+    onPublishSaveAsCover: () => dispatch(pubAct.publishWrapperSaveAsCover()),
+    onPublishSaveAsArticle: () => dispatch(pubAct.publishWrapperSaveAsArticle()),
     onDelete: () => dispatch(pubAct.deleteDocument()),
     onEnableComments: v => dispatch(pubAct.enableComments(v)),
     onPickSaveSource: v => dispatch(pubAct.pickSaveSource(v)),
