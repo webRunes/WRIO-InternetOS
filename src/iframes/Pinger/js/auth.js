@@ -7,7 +7,7 @@ import { getServiceUrl } from "base/servicelocator";
 
 export function openAuthPopup() {
   var loginUrl = getServiceUrl("login");
-  var callbackurl = "//" + window.location.host + "/callback";
+  var callbackurl = "https://" + window.location.host + "/callback";
   window.open(
     loginUrl + "/authapi?callback=" + encodeURIComponent(callbackurl),
     "Login",

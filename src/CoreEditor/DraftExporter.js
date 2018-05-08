@@ -94,37 +94,40 @@ export default class DraftExporter {
     coverPath: string,
     externals: Array<LdJsonDocument>,
   ): LdJsonDocument {
-    const article = ArticleDraftToJSON(contentState, this.doc);
+    const
+      article = ArticleDraftToJSON(contentState, this.doc),
+      elements = [];
     article.comment = commentID;
     article.author = author;
     this.doc.setElementOfType('Article', article);
 
-    if (coverPath || externals) {
-      let elements = [];
-      if (coverPath) {
+    if (coverPath) {
+      elements.push({
+        '@type': 'ItemList',
+        name: 'Cover',
+        description: 'Cover',
+        image: 'https://default.wrioos.com/img/no-photo-200x200.png',
+        url: coverPath
+      })
+    }
+    if (externals && externals.length > 0) {
+      externals.map(url =>
         elements.push({
-          '@type': 'ItemList',
-          name: 'Cover',
-          description: 'Cover',
-          image: 'https://default.wrioos.com/img/no-photo-200x200.png',
-          url: coverPath,
-        });
-      }
-      if (externals && externals.length > 0) {
-        elements = [...elements, ...externals.map(url => ({
           '@type': 'ItemList',
           name: 'External',
           description: 'External link',
           image: 'https://default.wrioos.com/img/no-photo-200x200.png',
-          url,
-        }))];
-      }
+          url
+        })
+      )
+    }
+    if (elements.length > 0) {
       this.doc.setElementOfType('ItemList', {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: 'webRunes cover list',
         itemListElement: elements,
-      });
+      })
     }
 
     return this.toHtml(

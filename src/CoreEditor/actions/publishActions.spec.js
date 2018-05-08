@@ -6,7 +6,6 @@ import expect from 'expect'; // You can use any testing library
 import DraftExporter, { makeArticle } from '../DraftExporter';
 import LdJsonDocument from 'base/jsonld/LdJsonDocument';
 import { mkDoc } from '../reducers/docUtils';
-import { fakeWidgetId } from './publishActions.js';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -30,11 +29,9 @@ describe('async actions', () => {
       .times(2) // save main and cover!
       .reply(200, { result: 'success' });
 
-    const expectedActions = [{ type: 'PUBLISH_DOCUMENT' }, { type: 'PUBLISH_FINISH', json: [] }];
-
     const store = mockStore(mockState);
 
-    return store.dispatch(actions.publishDocument('S3')).then(() => {
+    return store.dispatch(actions.publishDocument()).then(() => {
       // return of async actions
       const resActions = store.getActions();
 
@@ -45,7 +42,6 @@ describe('async actions', () => {
       console.log(document);
       expect(document.getProperty('author')).toEqual('https://wr.io/558153389649/?wr.io=558153389649');
       expect(document.getProperty('about')).toEqual(ARTICLE_DESCRIPTION);
-      expect(document.getProperty('comment')).toEqual(fakeWidgetId);
     });
   });
 });

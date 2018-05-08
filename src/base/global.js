@@ -6,16 +6,16 @@ export var cssUrl;
 export var theme;
 
 if (process.env.NODE_ENV === "development") {
-  cssUrl = "//localhost:3033/";
+  cssUrl = "http://localhost:3033/";
   theme = "Default-WRIO-Theme";
 } else {
-  cssUrl = "//default.wrioos.com/";
+  cssUrl = "https://default.wrioos.com/";
   theme = "";
 }
 
 if (process.env.NODE_ENV === "dockerdev") {
   console.log("Docker production ENV detected");
-  importUrl = cssUrl = "//localhost:3033/";
+  importUrl = cssUrl = "http://localhost:3033/";
   theme = "Default-WRIO-Theme";
 }
 

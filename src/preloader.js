@@ -191,7 +191,9 @@ function loadScripts() {
     prefix = '//wrioos.com';
   }
   if (process.env.NODE_ENV === 'development') {
-    prefix = '//localhost:3033';
+    prefix = location.origin === 'file://'
+      ? 'http://localhost:3033'
+      : '//localhost:3033';
   }
 
   if (process.env.NODE_ENV === 'dockerdev') {
