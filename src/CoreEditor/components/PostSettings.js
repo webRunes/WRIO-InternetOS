@@ -79,7 +79,7 @@ export default class PostSettings extends React.Component {
                 <span className="glyphicon glyphicon-remove with_text" />Cancel
               </button>
               <ButtonGroup>
-                <Button onClick={() => this.props.onPublish('S3')} bsStyle="success">
+                <Button onClick={this.props.onPublish} bsStyle="success">
                   {' '}
                   {this.props.busy ? loading : <span className="glyphicon glyphicon-open with_text" />}
                   Publish
@@ -90,7 +90,8 @@ export default class PostSettings extends React.Component {
                     title=""
                     id="bg-vertical-dropdown-1"
                   >
-                    <MenuItem eventKey="1"  onClick={() => this.props.onPublish('saveas')}>Save as..</MenuItem>
+                    <MenuItem eventKey="1"  onClick={() => this.props.onPublishSaveAsCover()}>Save as.. [Cover]</MenuItem>
+                    <MenuItem eventKey="2"  onClick={() => this.props.onPublishSaveAsArticle()}>Save as.. [Article]</MenuItem>
                   </DropdownButton>
                 }
               </ButtonGroup>
@@ -109,6 +110,8 @@ PostSettings.propTypes = {
   saveUrl: PropTypes.string,
   description: PropTypes.string,
   onPublish: PropTypes.func,
+  onPublishSaveAsCover: PropTypes.func,
+  onPublishSaveAsArticle: PropTypes.func,
   onDelete: PropTypes.func,
   commentID: PropTypes.string,
   author: PropTypes.string,
