@@ -43,11 +43,9 @@ const UrlMixin = {
     return window.location.protocol;
   },
 
-fixUrlProtocol(url) {
+  fixUrlProtocol(url) {
     if (!url) {
       return;
-    } else if (location.origin === 'file://') {
-      return url;
     }
     var separatorPosition = url.indexOf("//");
     if (separatorPosition !== -1) {
