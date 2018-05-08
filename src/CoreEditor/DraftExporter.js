@@ -121,7 +121,7 @@ export default class DraftExporter {
         })
       )
     }
-    if (externals.length > 0) {
+    if (elements.length > 0) {
       this.doc.setElementOfType('ItemList', {
         '@context': 'https://schema.org',
         '@type': 'ItemList',

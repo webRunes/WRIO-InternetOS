@@ -73,7 +73,10 @@ class LdJsonDocument {
 
   getProperty(field: string): ?string {
     return this.blocks.reduce(
-      (acc, section: LdJsonObject) => section.data[field] || acc,
+      (acc, section: LdJsonObject) =>
+        section.data[field] === undefined
+          ? acc
+          : section.data[field],
       null
     )
   }
