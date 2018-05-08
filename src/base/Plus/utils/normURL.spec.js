@@ -10,9 +10,9 @@ describe("URL normalizer test", () => {
   it("Should normalize URLs correctly", () => {
     var url = "https://wrioos.com/index.htm";
     var normalized = normURL(url);
-    should(normalized).equal("https://wrioos.com");
-    should(normURL("https://wr.io/474365383130/Untitled")).equal(
-      "https://wr.io/474365383130/Untitled"
+    should(normalized).equal("//wrioos.com");
+    should(normURL("//wr.io/474365383130/Untitled")).equal(
+      "//wr.io/474365383130/Untitled"
     );
   });
 
