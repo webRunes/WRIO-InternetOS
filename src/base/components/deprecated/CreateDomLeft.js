@@ -191,7 +191,7 @@ class CreateDomLeft extends React.Component {
           data-placement="right"
           data-toggle="tooltip"
           className="navbar-brand"
-          href="//wrioos.com"
+          href="https://wrioos.com"
           data-original-title="WRIO Internet OS"
         >
           {" "}
