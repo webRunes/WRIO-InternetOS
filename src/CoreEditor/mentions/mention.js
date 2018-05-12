@@ -16,6 +16,8 @@ class Mention {
 const fixUrlProtocol = url => {
   if (!url) {
     return;
+  } else if (location.origin === 'file://') {
+     return url;
   }
   var separatorPosition = url.indexOf("//");
   if (separatorPosition !== -1) {
