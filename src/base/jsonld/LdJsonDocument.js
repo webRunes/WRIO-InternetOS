@@ -72,14 +72,13 @@ class LdJsonDocument {
   }
 
   getProperty(field: string): ?string {
-    let ret = null;
-    this.blocks.forEach((section: LdJsonObject) => {
-      const data = section.data[field];
-      if (data !== undefined) {
-        ret = data;
-      }
-    });
-    return ret;
+    return this.blocks.reduce(
+      (acc, section: LdJsonObject) =>
+        section.data[field] === undefined
+          ? acc
+          : section.data[field],
+      null
+    )
   }
 
   getAuthorWrioId() {

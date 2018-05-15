@@ -52,11 +52,10 @@ const CONTROLS_TYPES_COVER = [
     label: 'OL',
     style: 'ordered-list-item'
   },
-  */
   {
     label: 'Link',
     style: 'link',
-  }/*,
+  },
   {
     label: 'Embed Image or Social Media',
     style: 'image',

@@ -124,7 +124,7 @@ export default class LdJsonObject {
       });
     }
 
-    let mentions = this.mentions;
+    let mentions = this.mentions || this.data && this.data.itemListElement && this.data.itemListElement[0] && this.data.itemListElement[0].mentions;
 
     if (mentions) {
       mentions = this.sortMentions(mentions);

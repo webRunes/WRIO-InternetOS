@@ -33,11 +33,52 @@ export function gotUrlParams(createMode: boolean, editURL: ?string, editPath: ?s
   };
 }
 
-/**
- * Publish logic
- * requests commentID from the server, if not supplied
- */
 export function publishDocument(saveSource: string) {
+  return async (dispatch: Function, getState: Function) => {
+    dispatch({ type: PUBLISH_DOCUMENT });
+    try {
+      const state: Object = getState();
+      const { document, editorState } = state.editorDocument;
+      const exporter = new DraftExporter(document);
+      const {
+        commentsEnabled,
+        savePath,
+        saveUrl,
+        wrioID,
+        coverSavePath,
+        description,
+        coverHtml,
+        coverFileName,
+      } = state.publish;
+
+      document.setAbout(description);
+
+      const html = exporter.articleDraftToHtml(
+        editorState.getCurrentContent(),
+        formatAuthor(wrioID),
+        '',
+        coverHtml ? coverSavePath : undefined,
+        state.externalsEditor,
+      );
+      const saveRes = await saveToS3(savePath, html);
+      console.log('SAVER RESULT', saveRes.body);
+      if (coverHtml) {
+        const coverSaveRes = await saveToS3(coverFileName, coverHtml);
+        console.log('COVER SAVE RESULT', coverSaveRes.body);
+      }
+
+      window.location = saveUrl; // let's transition to the new URL
+
+      dispatch({ type: PUBLISH_FINISH, document });
+    } catch (err) {
+      console.error('Caught error during publish', err);
+      dispatch({ type: GOT_ERROR });
+      alert('Publish failed');
+    }
+  };
+}
+
+export function publishDocumentSaveAsCover() {
   return async (dispatch: Function, getState: Function) => {
     dispatch({ type: PUBLISH_DOCUMENT });
     try {
@@ -56,36 +97,60 @@ export function publishDocument(saveSource: string) {
         coverFileName,
       } = state.publish;
 
-      commentId = commentsEnabled
-        ? commentId === ''
-          ? fakeWidgetId
-          : commentId
-        : '';
-
-      document.setCommentID(commentId);
       document.setAbout(description);
 
       const html = exporter.articleDraftToHtml(
         editorState.getCurrentContent(),
         formatAuthor(wrioID),
-        commentId,
+        '',
         coverHtml ? coverSavePath : undefined,
         state.externalsEditor,
       );
-      if (saveSource === 'S3') {
-        const saveRes = await saveToS3(savePath, html);
-        console.log('SAVER RESULT', saveRes.body);
-        if (coverHtml) {
-          const coverSaveRes = await saveToS3(coverFileName, coverHtml);
-          console.log('COVER SAVE RESULT', coverSaveRes.body);
-        }
 
-        window.location = saveUrl; // let's transition to the new URL
-      } else {
-        const name = document && document.getProperty('name');
-        const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
-        saveAs(fileName, html);
-      }
+      const name = document && document.getProperty('name');
+      const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
+      saveAs(fileName, html);
+
+      dispatch({ type: PUBLISH_FINISH, document });
+    } catch (err) {
+      console.error('Caught error during publish', err);
+      dispatch({ type: GOT_ERROR });
+      alert('Publish failed');
+    }
+  };
+}
+
+export function publishDocumentSaveAsArticle() {
+  return async (dispatch: Function, getState: Function) => {
+    dispatch({ type: PUBLISH_DOCUMENT });
+    try {
+      const state: Object = getState();
+      const { document, editorState } = state.editorDocument;
+      const exporter = new DraftExporter(document);
+      const {
+        commentsEnabled,
+        savePath,
+        saveUrl,
+        wrioID,
+        coverSavePath,
+        description,
+        coverHtml,
+        coverFileName,
+      } = state.publish;
+
+      document.setAbout(description);
+
+      const html = exporter.articleDraftToHtml(
+        editorState.getCurrentContent(),
+        formatAuthor(wrioID),
+        '',
+        coverHtml ? coverSavePath : undefined,
+        state.externalsEditor,
+      );
+
+      const name = document && document.getProperty('name');
+      const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
+      saveAs(fileName, html);
 
       dispatch({ type: PUBLISH_FINISH, document });
     } catch (err) {
@@ -162,8 +227,17 @@ export const publishWrapper = saveSource => (dispatch, getState) => {
     dispatch(publishList(saveSource));
   } else {
     dispatch(saveCovers());
-    dispatch(publishDocument(saveSource));
+    dispatch(publishDocument());
   }
+};
+
+export const publishWrapperSaveAsCover = () => (dispatch, getState) => {
+  dispatch(saveCovers());
+  dispatch(publishDocumentSaveAsCover());
+};
+
+export const publishWrapperSaveAsArticle = () => (dispatch, getState) => {
+  dispatch(publishDocumentSaveAsArticle());
 };
 
 export function pickSaveSource(source: string) {
