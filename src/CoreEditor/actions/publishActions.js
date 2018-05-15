@@ -69,7 +69,7 @@ export function publishDocument(saveSource: string) {
 
       window.location = saveUrl; // let's transition to the new URL
 
-      dispatch({ type: PUBLISH_FINISH, document });
+      dispatch({ type: PUBLISH_FINISH});
     } catch (err) {
       console.error('Caught error during publish', err);
       dispatch({ type: GOT_ERROR });
@@ -85,7 +85,6 @@ export function publishDocumentSaveAsCover() {
       const state: Object = getState();
       const { document, editorState } = state.editorDocument;
       const exporter = new DraftExporter(document);
-      let commentId: string = document.getCommentID();
       const {
         commentsEnabled,
         savePath,
@@ -93,25 +92,18 @@ export function publishDocumentSaveAsCover() {
         wrioID,
         coverSavePath,
         description,
-        coverHtml,
-        coverFileName,
+        coverHtml
       } = state.publish;
 
-      document.setAbout(description);
+      const documentName = document && document.getProperty('name');
+      const documentFileName = name
+        ? name.split(' ').join('_')
+        : 'untitled';
+      const fileName = documentFileName + '_cover.html';
 
-      const html = exporter.articleDraftToHtml(
-        editorState.getCurrentContent(),
-        formatAuthor(wrioID),
-        '',
-        coverHtml ? coverSavePath : undefined,
-        state.externalsEditor,
-      );
+      saveAs(fileName, coverHtml);
 
-      const name = document && document.getProperty('name');
-      const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
-      saveAs(fileName, html);
-
-      dispatch({ type: PUBLISH_FINISH, document });
+      dispatch({ type: PUBLISH_FINISH});
     } catch (err) {
       console.error('Caught error during publish', err);
       dispatch({ type: GOT_ERROR });
@@ -152,7 +144,7 @@ export function publishDocumentSaveAsArticle() {
       const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
       saveAs(fileName, html);
 
-      dispatch({ type: PUBLISH_FINISH, document });
+      dispatch({ type: PUBLISH_FINISH});
     } catch (err) {
       console.error('Caught error during publish', err);
       dispatch({ type: GOT_ERROR });
@@ -164,16 +156,6 @@ export function publishDocumentSaveAsArticle() {
 export function publishCover(html) {
   return async (dispatch: Function, getState: Function) => {
     dispatch({ type: PUBLISH_COVER, html });
-    //    const state = getState();
-    //  const { savePath } = state.publish;
-
-    // const saveRes = await saveToS3(savePath, html);
-
-    // dispatch({ type: PUBLISH_FINISH, savePath });
-    //    } catch (err) {
-    //      console.error('Caught error during publish', err);
-    //      dispatch({ type: 'GOT_ERROR' });
-    //    }
   };
 }
 
