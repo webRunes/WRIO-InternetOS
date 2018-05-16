@@ -51,7 +51,7 @@ const RightNav = ({ onCloseTab }) => {
   );
 };
 
-const LoginBar = ({ profile, readItLater, myList }) => {
+const LoginBar = ({ profile, readItLater }) => {
   return (
     <div className="profile">{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
   );
