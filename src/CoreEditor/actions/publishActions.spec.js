@@ -37,11 +37,6 @@ describe('async actions', () => {
 
       expect(resActions[0].type).toEqual('PUBLISH_DOCUMENT');
       expect(resActions[1].type).toEqual('PUBLISH_FINISH');
-
-      const { document } = resActions[1];
-      console.log(document);
-      expect(document.getProperty('author')).toEqual('https://wr.io/558153389649/?wr.io=558153389649');
-      expect(document.getProperty('about')).toEqual(ARTICLE_DESCRIPTION);
     });
   });
 });
