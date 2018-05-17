@@ -22,10 +22,11 @@ const CommentEnabler = ({ isChecked, onCheck }) => {
             type="checkbox"
             checked={isChecked}
             onChange={handleInputChange}
+            disabled
           />
           <span className="toggle" />
           <div className="toggle-label">
-            {isChecked ? 'Comments enabled' : 'Comments disabled'}
+            {isChecked ? 'Comments enabled' : 'Comments disabled (coming soon)'}
           </div>
         </label>
       </div>

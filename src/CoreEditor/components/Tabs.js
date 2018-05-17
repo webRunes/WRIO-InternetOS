@@ -12,6 +12,7 @@ import {
 } from './utils/domutils';
 import { findDOMNode } from 'react-dom';
 import EditExternal from 'CoreEditor/containers/EditExternal';
+const isProfileUrl = require('./utils/is_profile_url');
 const changeUrlsToUrlsForEdit = require('./utils/change_urls_to_urls_for_edit');
 
 const HEADER_PADDING = 15; // variable set in CSS
@@ -72,7 +73,10 @@ class ArticleTabs extends StayOnTopElement {
                       {
                         myList.map((o, index) =>
                           <MenuItem href={o.url} key={index}>
-                            <i className="material-icons dp_small with_text">bookmark</i>{o.name}
+                            <i className="material-icons dp_small with_text">bookmark</i>{isProfileUrl(o.url)
+                              ? Profile
+                              : o.name
+                            }
                           </MenuItem>
                         )
                       }
