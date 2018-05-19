@@ -68,7 +68,9 @@ const coverTemplate = {
 
 export function saveCovers() {
   return (dispatch, getState) => {
-    const { tabs } = getState().coverDialog;
+    const { coverDialog } = getState();
+    const { tabs, submit } = coverDialog;
+    const deleteCover = !submit;
     const coverDocument = new LdJsonDocument([coverTemplate]);
     const exporter = new DraftExporter(coverDocument);
     const data = tabs.map(tab => ({
@@ -78,6 +80,6 @@ export function saveCovers() {
     }));
 
     const html = exporter.coverDraftToHtml(data);
-    dispatch(publishCover(html));
+    dispatch(publishCover(html, deleteCover));
   };
 }

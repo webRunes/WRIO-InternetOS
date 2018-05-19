@@ -121,7 +121,7 @@ export function publishReducer(state = defaultState, action) {
     case PICK_SAVE_SOURCE:
       return { ...state, saveSource: action.source };
     case PUBLISH_COVER:
-      return { ...state, coverHtml: action.html };
+      return { ...state, coverHtml: action.html, deleteCover: action.deleteCover };
     case MY_LIST_READY:
       return { ...state, myList: action.myList };
     default:
