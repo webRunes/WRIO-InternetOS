@@ -172,15 +172,35 @@ export function coverDialogReducer(state = defaultState, action) {
       }
     }
     case ADD_COVER: {
-      const
-        length = state.tabs.length,
-        lastKey = state.tabs[length - 1].key,
-        newTab = makeCoverTabFromJSONLD(action.coverDoc, lastKey + 1);
-      return {
-        ...state,
-        tab: newTab,
-        tabs: [...state.tabs, newTab]
-      }
+      if (!action.coverDoc.data
+        || !action.coverDoc.data[0]
+        || typeof action.coverDoc.data[0] !== 'object'
+        || action.coverDoc.data[0].length === 0
+      ) return state;
+
+      return action.coverDoc.data[0].itemListElement.reduce(
+        (state, jsonld) => {
+          const
+            length = state.tabs.length,
+            lastKey = length
+              ? state.tabs[length - 1].key
+              : -1,
+            newTab = makeCoverTabFromJSONLD(jsonld, lastKey + 1);
+
+          return {
+            ...state,
+            submit: true,
+            tab: newTab,
+            tabs: [...state.tabs, newTab]
+          }
+        },
+        state.submit
+          ? state
+          : {
+              ...state,
+              tabs: []
+            }
+      )
     }
     default: {
       return state

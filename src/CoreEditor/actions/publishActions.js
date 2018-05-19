@@ -1,6 +1,6 @@
 // @flow
 import { Entity } from 'draft-js';
-import { saveToS3, getWidgetID } from '../webrunesAPI.js';
+import { saveToS3, deleteFromS3, getWidgetID } from '../webrunesAPI.js';
 import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
 import ListExporter from '../ListExporter';
@@ -49,6 +49,7 @@ export function publishDocument(saveSource: string) {
         description,
         coverHtml,
         coverFileName,
+        deleteCover
       } = state.publish;
 
       document.setAbout(description);
@@ -62,7 +63,10 @@ export function publishDocument(saveSource: string) {
       );
       const saveRes = await saveToS3(savePath, html);
       console.log('SAVER RESULT', saveRes.body);
-      if (coverHtml) {
+      if (deleteCover) {
+        const coverDeleteRes = await deleteFromS3(coverFileName);
+        console.log('COVER DELETE RESULT', coverDeleteRes.body);
+      } else if (coverHtml) {
         const coverSaveRes = await saveToS3(coverFileName, coverHtml);
         console.log('COVER SAVE RESULT', coverSaveRes.body);
       }
@@ -153,9 +157,9 @@ export function publishDocumentSaveAsArticle() {
   };
 }
 
-export function publishCover(html) {
+export function publishCover(html, deleteCover) {
   return async (dispatch: Function, getState: Function) => {
-    dispatch({ type: PUBLISH_COVER, html });
+    dispatch({ type: PUBLISH_COVER, html, deleteCover });
   };
 }
 
