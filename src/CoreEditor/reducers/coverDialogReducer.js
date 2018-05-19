@@ -7,6 +7,7 @@ import {
   COVER_TAB_CHANGE,
   COVER_DELETE_TAB,
 } from '../actions/coverDialog';
+import {ADD_COVER} from '../../base/actions/actions.js';
 import {
   COVER_CREATE_NEW_LINK,
   COVER_EDIT_LINK,
@@ -169,6 +170,37 @@ export function coverDialogReducer(state = defaultState, action) {
         tab,
         tabs
       }
+    }
+    case ADD_COVER: {
+      if (!action.coverDoc.data
+        || !action.coverDoc.data[0]
+        || typeof action.coverDoc.data[0] !== 'object'
+        || action.coverDoc.data[0].length === 0
+      ) return state;
+
+      return action.coverDoc.data[0].itemListElement.reduce(
+        (state, jsonld) => {
+          const
+            length = state.tabs.length,
+            lastKey = length
+              ? state.tabs[length - 1].key
+              : -1,
+            newTab = makeCoverTabFromJSONLD(jsonld, lastKey + 1);
+
+          return {
+            ...state,
+            submit: true,
+            tab: newTab,
+            tabs: [...state.tabs, newTab]
+          }
+        },
+        state.submit
+          ? state
+          : {
+              ...state,
+              tabs: []
+            }
+      )
     }
     default: {
       return state

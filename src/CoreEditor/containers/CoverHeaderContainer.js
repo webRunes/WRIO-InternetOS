@@ -1,25 +1,16 @@
 import { connect } from 'react-redux';
-import CoverHeader from 'base/components/CoverHeader';
-import * as actions from 'base/actions/actions';
-import * as coverActions from 'CoreEditor/actions/coverActions';
+import CoverHeader from '../components/CoverHeader';
 import * as coverDialogActions from 'CoreEditor/actions/coverDialog';
 
 function mapStateToProps(state) {
   return {
-    coverDialog: state.coverDialog,
-    covers: state.header.covers,
-    images: state.header.images,
-    currentCover: state.header.selected,
+    coverDialog: state.coverDialog
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onCoverChanged: (current) => {
-      dispatch(actions.selectCover(current));
-    },
-    onCoverPressed: () => dispatch(coverDialogActions.openCoverDialog()),
-    onCoverButtonPressed: cover => dispatch(actions.pressCoverButton(cover)),
+    onCoverPressed: () => dispatch(coverDialogActions.openCoverDialog())
   };
 }
 

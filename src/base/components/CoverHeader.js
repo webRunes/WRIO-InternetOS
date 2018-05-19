@@ -4,7 +4,6 @@
  * Created by michbil on 17.06.17.
  */
 // $FlowFixMe
-import Reflux from 'reflux';
 import React from 'react';
 import ItemList from '../jsonld/entities/ItemList';
 import ImageObject from '../jsonld/entities/ImageObject';
@@ -169,19 +168,16 @@ const Logo = () => (<div className="cover-left">
  */
 
 const CoverCarousel = ({
-  coverDialog,
   covers,
   images,
   currentCover,
   onCoverChanged,
-  onCoverPressed,
   onCoverButtonPressed,
 }: {
   covers: Array<ItemList>,
   images: Array<ImageObject>,
   currentCover: number,
   onCoverChanged: Function,
-  onCoverPressed: Function,
   onCoverButtonPressed: Function,
 }) => {
   const coverBgStyle ={textAlign: 'center'};
@@ -221,14 +217,7 @@ const CoverCarousel = ({
       ) : (
         <div
           className="cover-bg"
-          onClick={onCoverPressed}
           style={coverBgStyle}>
-        {coverDialog && coverDialog.submit
-          ? coverDialog.tabs.length === 1
-            ? '1 cover'
-            : coverDialog.tabs.length + ' covers'
-          : ''
-        }
         </div>
       )}
     </div>
