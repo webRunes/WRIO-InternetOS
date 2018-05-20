@@ -16,6 +16,7 @@
     "bower": "^1.8.0",
     "classnames": "^2.1.2",
     "cross-storage": "^0.8.1",
+    "detect-browser": "^2.4.0",
     "domready": "^1.0.8",
     "draft-js": "^0.8.0",
     "es6-symbol": "3.1.0",
@@ -58,6 +59,7 @@
     "reselect": "^3.0.1",
     "rxjs": "^5.4.3",
     "superagent": "3.5.2",
+    "truffle-contract": "^3.0.5",
     "vhost": "^3.0.2",
     "yargs": "^3.23.0"
   },
@@ -90,6 +92,7 @@
     "gulp-uglify": "^1.5.1",
     "jest": "^20.0.4",
     "jsdom": "^11.0.0",
+    "json-loader": "^0.5.4",
     "merge-stream": "^1.0.0",
     "nock": "^9.0.14",
     "node-gyp": "^3.6.1",
@@ -128,7 +131,7 @@
   },
   "scripts": {
     "build": "gulp && sh compress.sh",
-    "start": "npm run build",
+    "start": "npm run devserver",
     "devserver": "node --max_old_space_size=8000 ./src/devserver/index.js",
     "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
     "test": "export NODE_PATH=./src/ && jest ",
