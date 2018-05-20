@@ -78,9 +78,11 @@ export const getUserEthereumId = wrioID =>
     },
   });
 
-export const freeWrgRequest = () =>
+export const freeWrgRequest = () => {
+  const address = web3.eth.defaultAddress;
+
   $.ajax({
-    url: `${getServiceUrl('webgold')}/api/webgold/free_wrg?amount=100`,
+    url: `${getServiceUrl('webgold')}/api/webgold/free_wrg?amount=100&address=${address}`,
     type: 'GET',
     xhrFields: {
       withCredentials: true,
@@ -89,6 +91,7 @@ export const freeWrgRequest = () =>
       'X-Requested-With': 'XMLHttpRequest',
     },
   });
+}
 
 export const txStatusRequest = hash =>
   $.ajax({
