@@ -10,10 +10,17 @@ import DonationForm from "./DonationForm.js";
 import FileEntry from "./FileEntry";
 import { getServiceUrl } from "base/servicelocator";
 
+const waiting_balance_popup = require('../../../../metamask/waiting_balance_popup');
+
 const FreeWRGBlock = ({ haveWallet, msg, busy, minutesLeft }) => {
   const callback = haveWallet
-    ? FormActions.requestFreeTHX
-    : () =>
+    ?
+      () => {
+        FormActions.requestFreeTHX();
+        waiting_balance_popup()
+      }
+    :
+      () =>
         window.open(
           getServiceUrl("webgold") + "/create_wallet",
           "name",
