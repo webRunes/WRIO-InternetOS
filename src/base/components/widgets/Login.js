@@ -46,9 +46,9 @@ const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
         <i className="material-icons dp_small with_text">create</i>Create new article
       </MenuItem>
       {/*
-      <MenuItem eventKey="1" href="https://core.wrioos.com/create_list">
+        <MenuItem eventKey="1" href="https://core.wrioos.com/create_list">
         <i className="material-icons dp_small with_text">create</i>Create new list
-      </MenuItem>
+        </MenuItem>
       */}
       <MenuItem eventKey="1" href={profile.url}>
         <i className="material-icons dp_small with_text">perm_identity</i>Profile
@@ -59,8 +59,8 @@ const Login = ({ profile, readItLater = [], onLogout, onLogin }) => (
           <i className="material-icons dp_small with_text">exit_to_app</i>Logout
         </MenuItem>
       ) : (
-        <MenuItem eventKey="2" onClick={performLogin}>
-          <i className="material-icons dp_small with_text">exit_to_app</i>Login
+        <MenuItem eventKey="2" onClick={performLogin} disabled>
+          <i className="material-icons dp_small with_text">exit_to_app</i>Login (coming)
         </MenuItem>
       )}
     </Dropdown.Menu>
