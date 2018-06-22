@@ -11,6 +11,10 @@ import { performLogin } from "./Login.js";
 import TwitterTimelineWidget from "./TwitterTimeline.js";
 import LdJsonDocument from "../../jsonld/LdJsonDocument";
 import Loading from 'base/components/misc/Loading';
+import CreateAccountAndWalletButton from '../../../metamask/create_account_and_wallet_button';
+import DownloadMetaMask from '../../../metamask/download_metamask';
+
+const isMetaMaskInstalled = require('../../../metamask/is_metamask_installed');
 
 var domain = getDomain();
 
@@ -175,14 +179,20 @@ class LoginAndComment extends React.Component {
           Please, login with your Twitter account to comment via tweets and to give Credits. Looking forward to hearing from you!
         </p>
         <br />
-        <a
-          className="btn btn-sm btn-success"
-          href="#"
-          role="button"
-          onClick={performLogin}
-        >
-          <span className="glyphicon glyphicon-comment" />Join the conversation
-        </a>
+        {false && (
+          <a
+            className="btn btn-sm btn-success"
+            href="#"
+            role="button"
+            onClick={performLogin}
+          >
+            <span className="glyphicon glyphicon-comment" />Join the conversation
+          </a>
+        )}
+        {isMetaMaskInstalled()
+          ? (<CreateAccountAndWalletButton wrioID={this.props.wrioID} />)
+          : (<DownloadMetaMask/>)
+        }
       </div>
     );
   }

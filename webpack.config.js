@@ -61,6 +61,11 @@ const e = {
   module: {
     loaders: [
       {
+        test: /\.json$/,
+        loader: 'json-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /.js?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
