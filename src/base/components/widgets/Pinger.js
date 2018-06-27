@@ -180,8 +180,9 @@ class LoginAndComment extends React.Component {
           href="#"
           role="button"
           onClick={performLogin}
+          disabled
         >
-          <span className="glyphicon glyphicon-comment" />Join the conversation
+          <span className="glyphicon glyphicon-comment" />Join the conversation (coming)
         </a>
       </div>
     );
