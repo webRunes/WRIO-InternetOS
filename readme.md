@@ -3,6 +3,7 @@
 # WRIO Internet OS
 
 WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
+
 [Landing](https://wr.io)
 
 ![WRIOInternetOS Mission](https://wrioos.com/img/mission.jpg)
