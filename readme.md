@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
 
 # WRIO Internet OS
+Note: The development has reached the MVP stage and paused. We'll continue our work after token sale.
 
 WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
 
