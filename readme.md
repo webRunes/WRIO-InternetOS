@@ -16,7 +16,6 @@ WRIO Internet OS is a platform for developing a machine-readable web featuring a
 ### Multilingual support
 
 Esperanto and English are primary languages. Yet, since the project is developed by natives of the former USSR, the third language is Russian. To write issues you can choose any of them.
-https://
 [more coming soon]
 
 # Description
