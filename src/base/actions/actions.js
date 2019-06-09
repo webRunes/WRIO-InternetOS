@@ -13,6 +13,7 @@ export const PRESS_COVER_BUTTON = 'PRESS_COVER_BUTTON';
 export const GOT_JSON_LD_DOCUMENT = 'GOT_JSON_LD_DOCUMENT';
 export const DOWNLOADED_EXTERNAL = 'DOWNLOADED_EXTERNAL';
 export const GOT_EXTERNAL = 'GOT_EXTERNAL';
+export const GOT_FEED = 'GOT_FEED';
 export const LOGIN_MESSAGE = 'LOGIN_MESSAGE';
 export const MY_LIST_READY = 'MY_LIST_READY';
 export const TAB_CLICK = 'TAB_CLICK';
@@ -68,6 +69,17 @@ export function gotExternal(index: number, url, lists: LdJsonDocument) {
     index,
   };
 }
+
+export function gotFeed(url, feed: LdJsonDocument) {
+  return {
+    type: GOT_FEED,
+    payload: {
+    feed,
+    url
+    },
+  };
+}
+
 export function gotJSON_LD_Document(data: LdJsonDocument, url: string, toc: TableOfContents) {
   return (dispatch) => {
     dispatch({
@@ -110,6 +122,17 @@ export const loadExternal = (index: number, url: string) => async (dispatch: Fun
       dispatch(gotExternal(index, url, doc));
     } catch (err) {
       console.log('Unable to download external $(url}');
+    }
+  }
+};
+
+export const loadFeed = (url: string) => async (dispatch: Function) => {
+  if (url) {
+    try {
+      const doc: LdJsonDocument = await getHttp(url);
+      dispatch(gotFeed(url, doc));
+    } catch (err) {
+      console.log('Unable to download feed $(url}');
     }
   }
 };
