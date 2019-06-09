@@ -5,6 +5,7 @@
 import React from 'react';
 import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
 import Externals from './Externals';
+import FeedList from './FeedList';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
 import {
@@ -17,10 +18,20 @@ import {
 import { findDOMNode } from 'react-dom';
 import EditExternal from 'CoreEditor/containers/EditExternal';
 const changeUrlToUrlForEdit = require('./utils/change_url_to_url_for_edit');
+import { connect } from 'react-redux';
+import { loadFeed } from '../../base/actions/actions';
+
+const feedURL  = 'https://muhammadumair0.github.io/feed/';
 
 const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
+  
+  
+  loadFeedIIFE = (() => {
+    this.props.loadFeed(feedURL)
+  })();
+
   handleScroll() {
     const elem = this.refs.subcontainer;
     const container = findDOMNode(this.refs.container); // THIS IS WRONG! figure out how to use ref instead
@@ -47,6 +58,7 @@ class ArticleTabs extends StayOnTopElement {
     const center = this.props.center,
       externals = this.props.externals,
       editAllowed = this.props.editAllowed,
+      feed = this.props.feed.dataFeedElement || [],
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
 
@@ -85,6 +97,17 @@ class ArticleTabs extends StayOnTopElement {
 
                   {externalsEnabled && (
                     <NavItem
+                      eventKey="feed"
+                      disabled={!externalsEnabled}
+                      className={!externalsEnabled ? "disabled" : ""}
+                    >
+                      Feed
+                      <div className="ripple-container" />
+                    </NavItem>
+                  )}
+
+                  {externalsEnabled && (
+                    <NavItem
                       eventKey="collection"
                       disabled={!externalsEnabled}
                       className={!externalsEnabled ? 'disabled' : ''}
@@ -115,6 +138,13 @@ class ArticleTabs extends StayOnTopElement {
                 {externals.map(data => <Externals data={data.blocks} />)}
               </Tab.Pane>
             }
+            {
+              <Tab.Pane eventKey="feed">
+                {
+                  <FeedList feed={feed}/>                
+                }
+              </Tab.Pane>
+            }
             {/*
               RIL &&
               RIL.length > 0 && (
@@ -130,4 +160,12 @@ class ArticleTabs extends StayOnTopElement {
   }
 }
 
-export default ArticleTabs;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadFeed: (url) => {
+      dispatch(loadFeed(url))
+    }
+  }
+} 
+
+export default connect(null, mapDispatchToProps)(ArticleTabs);
