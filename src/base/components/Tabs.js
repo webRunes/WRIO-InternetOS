@@ -23,7 +23,6 @@ import { loadFeed } from '../../base/actions/actions';
 
 const feedURL  = 'https://muhammadumair0.github.io/feed/';
 
-const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
   
