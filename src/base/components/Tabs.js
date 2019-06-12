@@ -21,16 +21,9 @@ const changeUrlToUrlForEdit = require('./utils/change_url_to_url_for_edit');
 import { connect } from 'react-redux';
 import { loadFeed } from '../../base/actions/actions';
 
-const feedURL  = 'https://muhammadumair0.github.io/feed/';
-
 const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
-  
-  
-  loadFeedIIFE = (() => {
-    this.props.loadFeed(feedURL)
-  })();
 
   handleScroll() {
     const elem = this.refs.subcontainer;
