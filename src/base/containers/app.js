@@ -103,7 +103,8 @@ class Main extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.props.readItLater}
             tabKey={this.props.tabKey}
-            tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
+            tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}           
+            feed={this.props.feed}
           />
         </div>
       </div>
@@ -183,6 +184,7 @@ const mapStateToProps = state => ({
   readItLater: state.plusReducer.readItLater,
   tabKey: state.document.tabKey,
   externals: state.header.externals,
+  feed: state.document.feed,
 });
 
 const MainMapped = connect(mapStateToProps)(Main);
