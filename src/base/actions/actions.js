@@ -154,14 +154,9 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    toc.external.map(async (externalDoc: Object, i: number) => {
-      if(externalDoc.name == 'Vacancies') {
-      dispatch(loadExternal(i, externalDoc.url));
-      console.log(externalDoc);
-      } else if(externalDoc.name == 'Feed') {
-        dispatch(loadFeed(externalDoc.url));
-      }
-    });
+
+    dispatch(loadExternal(0,toc.external[0].url));
+    dispatch(loadFeed(toc.external[1].url));
   };
 }
 
