@@ -88,7 +88,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  { (
                     <NavItem
                       eventKey="feed"
                       disabled={!externalsEnabled}
@@ -99,7 +99,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  { (
                     <NavItem
                       eventKey="collection"
                       disabled={!externalsEnabled}
