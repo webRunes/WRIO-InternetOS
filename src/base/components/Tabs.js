@@ -56,7 +56,7 @@ class ArticleTabs extends StayOnTopElement {
       tabKey = this.props.tabKey;
 
     const handleSelect = e => console.log(e);
-    const externalsEnabled = this.props.forceExternals || externals.length > 0;
+    const externalsEnabled = this.props.feed != undefined && externals.length ? true : false;
     return (
       <Tab.Container
         ref="container"
