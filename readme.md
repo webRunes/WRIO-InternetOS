@@ -1,8 +1,11 @@
 [![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
 
 # WRIO Internet OS
+Note: The development has reached the MVP stage and paused. We'll continue our work after funding.
 
 WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
+
+[Landing](https://wr.io)
 
 ![WRIOInternetOS Mission](https://wrioos.com/img/mission.jpg)
 
@@ -13,7 +16,6 @@ WRIO Internet OS is a platform for developing a machine-readable web featuring a
 ### Multilingual support
 
 Esperanto and English are primary languages. Yet, since the project is developed by natives of the former USSR, the third language is Russian. To write issues you can choose any of them.
-https://
 [more coming soon]
 
 # Description

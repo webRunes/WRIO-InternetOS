@@ -1,4 +1,4 @@
-This dockerfile contains base image for the Wrio-InternetOS backend services
+This dockerfile contains base image for the WRIO Internet OS backend services
 All backend service images should be inherited from this image.
 
 This image have automatic build setup at https://hub.docker.com/r/webrunes/wriobase/builds/

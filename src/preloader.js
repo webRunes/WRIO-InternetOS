@@ -21,7 +21,7 @@ const css = [
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
   'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
   /* getResourcePath('/css/bootstrap-material-design.min.css'),
-    getResourcePath('/css/webrunes.css'), */
+    getResourcePath('/css/webrunes.css'), Need to clear below as well */
   getResourcePath('/css/material-kit.min.css'),
   getResourcePath('/css/ripples.min.css'),
   getResourcePath('/css/vertical-nav.css'),
