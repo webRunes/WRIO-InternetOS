@@ -154,14 +154,10 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    toc.external.map((item, index) => {
-       if(item.url == 'https://webrunes.com/vacancies/') {
-        dispatch(loadExternal(index,item.url));
-       } else if (item.url == 'https://muhammadumair0.github.io/feed/') {         
-         dispatch(loadFeed(item.url));
-       }
-    })
-
+    if(toc.external.length >= 2) {
+    dispatch(loadExternal(0,toc.external[0].url));
+    dispatch(loadFeed(toc.external[1].url));
+    }
   };
 }
 
