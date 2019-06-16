@@ -56,7 +56,6 @@ class ArticleTabs extends StayOnTopElement {
       tabKey = this.props.tabKey;
 
     const handleSelect = e => console.log(e);
-    console.log('externals ===>>>', externals);
     const externalsEnabled = externals.length > 0 ? true : false;
     return (
       <Tab.Container
@@ -89,7 +88,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  {(externalsEnabled && feed.length > 0) && (
                     <NavItem
                       eventKey="feed"
                       disabled={!externalsEnabled}
