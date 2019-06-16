@@ -154,12 +154,8 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    toc.external.forEach((item,index) => {
-        if(index == 0) {
-          dispatch(loadExternal(index,item.url));  
-        } else if(index == 1) {                   
-          dispatch(loadFeed(item.url));
-        }
+    toc.external.map(async (externalDoc: Object, i: number) => { 
+      dispatch(loadExternal(i, externalDoc.url));
     })
   };
 }
