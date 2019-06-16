@@ -56,7 +56,7 @@ class ArticleTabs extends StayOnTopElement {
       tabKey = this.props.tabKey;
 
     const handleSelect = e => console.log(e);
-    const externalsEnabled = this.props.feed != undefined && externals.length ? true : false;
+    const externalsEnabled = externals.length > 0;
     return (
       <Tab.Container
         ref="container"
@@ -88,7 +88,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  { (
+                  {externalsEnabled && (
                     <NavItem
                       eventKey="feed"
                       disabled={!externalsEnabled}
@@ -99,7 +99,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  { (
+                  {externalsEnabled && (
                     <NavItem
                       eventKey="collection"
                       disabled={!externalsEnabled}
