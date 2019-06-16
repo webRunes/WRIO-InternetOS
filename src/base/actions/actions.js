@@ -154,10 +154,13 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    if(toc.external.length >= 2) {
-    dispatch(loadExternal(0,toc.external[0].url));
-    dispatch(loadFeed(toc.external[1].url));
-    }
+    toc.external.forEach((item,index) => {
+        if(index == 0) {
+          dispatch(loadExternal(index,item.url));  
+        } else if(index == 1) {                   
+          dispatch(loadFeed(item.url));
+        }
+    })
   };
 }
 
