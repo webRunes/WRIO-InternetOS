@@ -61,7 +61,7 @@ export default class Dashboard extends React.Component {
       <td><span class="glyphicon glyphicon-ok icon-success" style={{color:'green'}}></span></td>
       <td>2 mins ago</td>
       <td>    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-35 to -30 °C
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-35 &#8451;
           <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
@@ -90,7 +90,7 @@ export default class Dashboard extends React.Component {
       <td><span class="glyphicon glyphicon-ok icon-success" style={{color:'green'}}></span></td>
       <td>12 mins ago</td>
       <td>    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-25 to -30 °C
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-25 &#8451;
           <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
@@ -119,7 +119,7 @@ export default class Dashboard extends React.Component {
       <td><span class="glyphicon glyphicon-ok icon-success" style={{color:'green'}}></span></td>
       <td>40 mins ago</td>
       <td>    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-15 to -25 °C
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-15 &#8451;
           <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
@@ -148,7 +148,7 @@ export default class Dashboard extends React.Component {
       <td><span class="glyphicon glyphicon-ok icon-success"></span></td>
       <td>30 mins ago</td>
       <td>    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-05 to -10 °C
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-05 &#8451;
           <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
@@ -177,7 +177,7 @@ export default class Dashboard extends React.Component {
       <td><span class="glyphicon glyphicon-ok icon-success"></span></td>
       <td>18 mins ago</td>
       <td>    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-05 to 0.0 °C
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">-05 &#8451;
           <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
