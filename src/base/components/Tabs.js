@@ -6,6 +6,7 @@ import React from 'react';
 import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
 import Externals from './Externals';
 import FeedList from './FeedList';
+import Dashboard from './Dashboard';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
 import {
@@ -88,7 +89,18 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {(externalsEnabled && feed.length > 0) && (
+                  {externalsEnabled && (
+                    <NavItem
+                      eventKey="dashboard"
+                      disabled={!externalsEnabled}
+                      className={!externalsEnabled ? "disabled" : ""}
+                    >
+                      Dashboard
+                      <div className="ripple-container" />
+                    </NavItem>
+                  )}
+
+                  {(externalsEnabled && feed.length > 0 && false) && (
                     <NavItem
                       eventKey="feed"
                       disabled={!externalsEnabled}
@@ -129,6 +141,13 @@ class ArticleTabs extends StayOnTopElement {
               <Tab.Pane eventKey="collection">
                 {this.props.editMode && <EditExternal />}
                 {externals.map(data => <Externals data={data.blocks} />)}
+              </Tab.Pane>
+            }
+            {
+              <Tab.Pane eventKey="dashboard">
+                {
+                  <Dashboard/>                
+                }
               </Tab.Pane>
             }
             {
