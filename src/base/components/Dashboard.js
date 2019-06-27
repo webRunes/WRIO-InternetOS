@@ -5,21 +5,15 @@ class DashboardPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      sensorData: []
-    }
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ sensorData: this.props.sensorData })
-    }, 3000);
     document.getElementsByClassName('main')[0].style.width = "1300px";
     document.getElementsByClassName('main')[0].style.maxWidth = "1300px";
   }
 
   render() {
-    let sensorData = this.state.sensorData;
+    let sensorData = this.props.sensorData;
     let fetchedData = sensorData.length ? sensorData.map(item => item.payload).map(item => item.dataFeedElement) : [];
 
     return (<div>
