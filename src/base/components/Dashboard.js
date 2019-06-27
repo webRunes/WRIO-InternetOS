@@ -7,11 +7,6 @@ class DashboardPage extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    document.getElementsByClassName('main')[0].style.width = "1300px";
-    document.getElementsByClassName('main')[0].style.maxWidth = "1300px";
-  }
-
   render() {
     let sensorData = this.props.sensorData;
     let fetchedData = sensorData.length ? sensorData.map(item => item.payload).map(item => item.dataFeedElement) : [];
