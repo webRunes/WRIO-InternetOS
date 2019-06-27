@@ -44,7 +44,7 @@ class DashboardPage extends React.Component {
             <th>State </th>
             <th>Last seen</th>
             <th>Last measurement</th>
-            <th>Device battery measurement</th>
+            <th>Device battery</th>
           </tr>
         </thead>
         <tbody>
