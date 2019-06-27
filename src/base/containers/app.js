@@ -105,6 +105,7 @@ class Main extends React.Component {
             tabKey={this.props.tabKey}
             tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}           
             feed={this.props.feed}
+            sensorData={this.props.sensorData}
           />
         </div>
       </div>
@@ -185,6 +186,7 @@ const mapStateToProps = state => ({
   tabKey: state.document.tabKey,
   externals: state.header.externals,
   feed: state.document.feed,
+  sensorData: state.document.sensorData
 });
 
 const MainMapped = connect(mapStateToProps)(Main);

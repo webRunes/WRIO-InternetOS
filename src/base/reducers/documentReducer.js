@@ -33,7 +33,8 @@ type DocumentState = {
   url: string,
   wrioID: ?string, // current logged in user WRIO-ID
   profile: ?Object,
-  feed: Array<any>
+  feed: Array<any>,
+  sensorData: Array<any>
 };
 
 const defaultState: DocumentState = {
@@ -50,6 +51,7 @@ const defaultState: DocumentState = {
     external: [],
   },  
   feed: [],
+  sensorData:[]
 };
 
 function DocumentReducer(state: DocumentState = defaultState, action: Object) {
@@ -97,6 +99,15 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
       return {
         ...state,
         feed: action.payload.feed.data[0]
+       }
+
+    case actions.GOT_SENSOR_FEED:
+      return {
+        ...state,
+        sensorData: [...state.sensorData,{ 
+          payload: action.payload.sensorData.data[0], 
+          url: action.payload.url 
+        }]
        }
 
     default:
