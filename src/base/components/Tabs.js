@@ -53,9 +53,9 @@ class ArticleTabs extends StayOnTopElement {
       externals = this.props.externals,
       editAllowed = this.props.editAllowed,
       feed = this.props.feed.dataFeedElement || [],
+      sensorData = this.props.sensorData,
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
-
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
     return (
@@ -89,11 +89,11 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  {(sensorData.length > 0) && (
                     <NavItem
                       eventKey="dashboard"
-                      disabled={!externalsEnabled}
-                      className={!externalsEnabled ? "disabled" : ""}
+                      disabled={!sensorData.length > 0}
+                      className={""}
                     >
                       Dashboard
                       <div className="ripple-container" />
@@ -111,7 +111,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {externalsEnabled && (
+                  {(externalsEnabled && externals.length > 0) && (
                     <NavItem
                       eventKey="collection"
                       disabled={!externalsEnabled}
