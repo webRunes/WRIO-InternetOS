@@ -176,10 +176,11 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       }
     });
 
-    toc.external.map(async (externalDoc: Object, i: number) => { 
-      if(externalDoc.name.toLowerCase().includes('feed')) {
-        dispatch(loadFeed(externalDoc.url))
-      } else if(externalDoc.data.description != undefined) {
+    toc.external.map(async (externalDoc: Object, i: number) => {
+      // if(externalDoc.name.toLowerCase().includes('feed')) {
+      //   dispatch(loadFeed(externalDoc.url))
+      // } else
+       if(externalDoc.data.description != undefined && externalDoc.data.description.toLowerCase().includes('sensor')) {
          dispatch(loadSensorFeed(externalDoc.url));
       } else {
         dispatch(loadExternal(i, externalDoc.url));
