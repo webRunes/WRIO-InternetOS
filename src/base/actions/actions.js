@@ -180,11 +180,12 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       // if(externalDoc.name.toLowerCase().includes('feed')) {
       //   dispatch(loadFeed(externalDoc.url))
       // } else
-       if(externalDoc.name.toLowerCase().includes('dashboard')) {
+      console.log('externalDoc.name.toLowerCase()',externalDoc);
+      //  if(externalDoc.name.toLowerCase().includes('dashboard')) {
          dispatch(loadSensorFeed(externalDoc.url));
-      } else {
-        dispatch(loadExternal(i, externalDoc.url));
-      }
+      // } else {
+      //   dispatch(loadExternal(i, externalDoc.url));
+      // }
     })
   };
 }
