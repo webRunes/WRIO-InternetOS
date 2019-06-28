@@ -47,7 +47,8 @@ class DashboardPage extends React.Component {
             fetchedData != undefined ?
               fetchedData.map(sensors => {
 
-                return (<tr>
+                return (
+                sensors.length && <tr>
                   <th scope="row">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="tableDefaultCheck4" />
