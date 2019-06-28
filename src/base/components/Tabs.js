@@ -56,6 +56,7 @@ class ArticleTabs extends StayOnTopElement {
       sensorData = this.props.sensorData,
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
+      console.label('this props externals !!!', externals);
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
     return (
