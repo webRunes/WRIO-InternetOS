@@ -180,7 +180,7 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       // if(externalDoc.name.toLowerCase().includes('feed')) {
       //   dispatch(loadFeed(externalDoc.url))
       // } else
-       if(externalDoc.data.description != undefined && externalDoc.data.description.toLowerCase().includes('sensor')) {
+       if(externalDoc.name.toLowerCase().includes('dashboard')) {
          dispatch(loadSensorFeed(externalDoc.url));
       } else {
         dispatch(loadExternal(i, externalDoc.url));
