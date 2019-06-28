@@ -179,13 +179,13 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
     toc.external.map(async (externalDoc: Object, i: number) => {
       // if(externalDoc.name.toLowerCase().includes('feed')) {
       //   dispatch(loadFeed(externalDoc.url))
-      // } else
-      console.log('externalDoc.name.toLowerCase()',externalDoc);
-      //  if(externalDoc.name.toLowerCase().includes('dashboard')) {
-         dispatch(loadSensorFeed(externalDoc.url));
-      // } else {
-      //   dispatch(loadExternal(i, externalDoc.url));
-      // }
+      // } 
+      console.log('EXTERNAL DOC === ', externalDoc)
+      if(externalDoc.name.toLowerCase().includes('dashboard')) {
+        dispatch(loadSensorFeed(externalDoc.url));
+      } else {
+        dispatch(loadExternal(i, externalDoc.url));
+      }
     })
   };
 }
