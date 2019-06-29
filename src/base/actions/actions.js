@@ -152,7 +152,15 @@ export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
   if (url) {
     try {
       const doc: LdJsonDocument = await getHttp(url);
-      dispatch(gotSensorFeed(url, doc));
+      if(doc) {
+         doc.data[0].itemListElement.map(async item => {
+          const itemDoc: LdJsonDocument = await getHttp(item.url);
+          if(itemDoc) {
+            const feedItemDoc: LdJsonDocument = await getHttp(itemDoc.data[1].itemListElement[0].url);
+            dispatch(gotSensorFeed(feedItemDoc.url, feedItemDoc));
+          }
+        })
+      }
     } catch (err) {
       console.log('Unable to download feed $(url}');
     }
@@ -180,8 +188,8 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
       // if(externalDoc.name.toLowerCase().includes('feed')) {
       //   dispatch(loadFeed(externalDoc.url))
       // } 
-      console.log('EXTERNAL DOC === ', externalDoc)
       if(externalDoc.name.toLowerCase().includes('dashboard')) {
+        console.log('EXTERNAL DOC URL === https://imec.wr.io/testbed/?dashboard, Log ==',externalDoc.url);
         dispatch(loadSensorFeed(externalDoc.url));
       } else {
         dispatch(loadExternal(i, externalDoc.url));
