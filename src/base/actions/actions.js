@@ -185,10 +185,10 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
     });
 
     toc.external.map(async (externalDoc: Object, i: number) => {
-      // if(externalDoc.name.toLowerCase().includes('feed')) {
-      //   dispatch(loadFeed(externalDoc.url))
-      // } 
-      if(externalDoc.name.toLowerCase().includes('dashboard')) {
+      if(externalDoc.name.toLowerCase().includes('feed')) {
+        dispatch(loadFeed(externalDoc.url))
+      } 
+      else if(externalDoc.name.toLowerCase().includes('dashboard')) {
         console.log('EXTERNAL DOC URL === https://imec.wr.io/testbed/?dashboard, Log ==',externalDoc.url);
         dispatch(loadSensorFeed(externalDoc.url));
       } else {
