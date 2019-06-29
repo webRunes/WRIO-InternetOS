@@ -101,7 +101,7 @@ class ArticleTabs extends StayOnTopElement {
                     </NavItem>
                   )}
 
-                  {(externalsEnabled && feed.length > 0 && false) && (
+                  {(externalsEnabled && feed.length > 0) && (
                     <NavItem
                       eventKey="feed"
                       disabled={!externalsEnabled}
