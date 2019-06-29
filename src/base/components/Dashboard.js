@@ -54,8 +54,8 @@ class DashboardPage extends React.Component {
                       <input type="checkbox" class="custom-control-input" id="tableDefaultCheck4" />
                     </div>
                   </th>
-                  <td>{sensors[0].item.variableMeasured.value}</td>
-                  <td><a>{sensors[1].item.variableMeasured.value}</a></td>
+                  <td><div className="dashboard-sensor-id">{sensors[0].item.variableMeasured.value}</div></td>
+                  <td><a href={`https://imec.wr.io/testbed/${sensors[0].item.variableMeasured.value}/`}>{sensors[1].item.variableMeasured.value}</a></td>
                   <td>{sensors[2].item.variableMeasured.value}</td>
                   <td>{sensors[3].item.variableMeasured.value}</td>
                   <td>{sensors[4].item.variableMeasured.value}</td>
