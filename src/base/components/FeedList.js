@@ -12,7 +12,7 @@ const FeedList = ({ feed }) => {
               return (
                 <p>
                   {filterdData.dateCreated.slice(12)} &nbsp;{" "}
-                  {filterdData.item.variableMeasured.value}&deg;{"C"}
+              {filterdData.item.variableMeasured.name == 'last-measurement'? filterdData.item.variableMeasured.value.map(item => <span>{item}&deg;{"C"} </span>):filterdData.item.variableMeasured.value}{(filterdData.item.variableMeasured.unitText == 'celsius' && filterdData.item.variableMeasured.name != 'last-measurement')? <span>&deg;{"C"}</span> :null}
                 </p>
               );
             })}
