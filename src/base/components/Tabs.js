@@ -104,8 +104,8 @@ class ArticleTabs extends StayOnTopElement {
                   {(feed.length > 0) && (
                     <NavItem
                       eventKey="feed"
-                      disabled={!externalsEnabled}
-                      className={!externalsEnabled ? "disabled" : ""}
+                      disabled={!feed.length > 0}
+                      className={""}
                     >
                       Feed
                       <div className="ripple-container" />
