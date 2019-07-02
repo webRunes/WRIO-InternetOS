@@ -81,11 +81,12 @@ export function gotFeed(url, feed: LdJsonDocument) {
   };
 }
 
-export function gotSensorFeed(url, sensorData: LdJsonDocument) {
+export function gotSensorFeed(url, sensorData: LdJsonDocument, sensorProductData) {
   return {
     type: GOT_SENSOR_FEED,
     payload: {
     sensorData,
+    sensorProductData,
     url
     },
   };
@@ -151,15 +152,24 @@ export const loadFeed = (url: string) => async (dispatch: Function) => {
 export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
   if (url) {
     try {
-      const doc: LdJsonDocument = await getHttp(url);
-      if(doc) {
-         doc.data[0].itemListElement.map(async item => {
-          const itemDoc: LdJsonDocument = await getHttp(item.url);
+      const doc = await getHttp(url);
+      let dashboardItem = doc.data.find(item => item.name.toLowerCase() == 'dashboard');
+      let dashboardURL = dashboardItem.itemListElement[0].url;
+      if(dashboardURL) {
+          const itemDoc = await getHttp(dashboardURL);
           if(itemDoc) {
-            const feedItemDoc: LdJsonDocument = await getHttp(itemDoc.data[1].itemListElement[0].url);
-            dispatch(gotSensorFeed(feedItemDoc.url, feedItemDoc));
+            await Promise.all(itemDoc.data[0].itemListElement.map(async sensor => {
+              const feedItemDoc = await getHttp(sensor.url);
+              const feedItemList = feedItemDoc.data.find(item => item['@type'].toLowerCase() == 'itemlist');
+              const feedItemProductData = feedItemDoc.data.find(item => item['@type'].toLowerCase() == 'product');
+              if(feedItemList) {
+              await Promise.all(feedItemList.itemListElement.map(async listItem=> {
+                const feedItemListDoc = await getHttp(listItem.url);
+               dispatch(gotSensorFeed(listItem.url, feedItemListDoc, feedItemProductData));
+              }))
+            }
+            }))
           }
-        })
       }
     } catch (err) {
       console.log('Unable to download feed $(url}');

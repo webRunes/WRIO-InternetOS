@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 
-class DashboardPage extends React.Component {
+export class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -9,8 +9,6 @@ class DashboardPage extends React.Component {
 
   render() {
     let sensorData = this.props.sensorData;
-    let fetchedData = sensorData.length ? sensorData.map(item => item.payload).map(item => item.dataFeedElement) : [];
-
     return (<div>
       <span class="tool-tip" data-toggle="tooltip" data-placement="top" title="Coming">
         <button disabled="disabled" class="btn btn-default">Add New Device</button>
@@ -30,12 +28,6 @@ class DashboardPage extends React.Component {
             </th>
             <th>ID </th>
             <th>Name </th>
-            <th>Location </th>
-            <th>Access </th>
-            <th>Cost </th>
-            <th>Protocol </th>
-            <th>Role </th>
-            <th>Alerts </th>
             <th>State </th>
             <th>Last seen</th>
             <th>Last measurement</th>
@@ -44,42 +36,23 @@ class DashboardPage extends React.Component {
         </thead>
         <tbody>
           {
-            fetchedData != undefined ?
-              fetchedData.map(sensors => {
-
-                return (
-                (sensors != undefined && sensors.length) && <tr>
+            sensorData.length > 0 ?
+              sensorData.map((sensor, index) => {
+                let sensorPayload = sensor.payload;
+                let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
+                let sensorProductData = sensor.productData;
+                return (<tr>
                   <th scope="row">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="tableDefaultCheck4" />
                     </div>
                   </th>
-                  <td><div className="dashboard-sensor-id">{sensors[0].item.variableMeasured.value}</div></td>
-                  <td><a href={`https://imec.wr.io/testbed/${sensors[0].item.variableMeasured.value}/`}>{sensors[1].item.variableMeasured.value}</a></td>
-                  <td>{sensors[2].item.variableMeasured.value}</td>
-                  <td>{sensors[3].item.variableMeasured.value}</td>
-                  <td>{sensors[4].item.variableMeasured.value}</td>
-                  <td>{sensors[5].item.variableMeasured.value}</td>
-                  <td>{sensors[6].item.variableMeasured.value}</td>
-                  <td>{sensors[7].item.variableMeasured.value}</td>
-                  <td>{sensors[8].item.variableMeasured.value == true ? <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'green' }}></span> : <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'black' }}></span>}</td>
-                  <td>{sensors[9].item.variableMeasured.value}</td>
-                  <td>
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{sensors[10].item.variableMeasured.value.slice(-1)[0]} &#8451;
-                         <span class="caret"></span></button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        {sensors[10].item.variableMeasured.value.map(record => {
-                          return (
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{record}</a></li>
-                          )
-                        })}
-                      </ul>
-                    </div>
-
-                  </td>
-                  <td>{sensors[11].item.variableMeasured.value}</td>
-
+                  <td><div className="dashboard-sensor-id">{sensorProductData.productID}</div></td>
+                  <td><a href={`https://imec.wr.io/testbed/${sensorProductData.productID}/`}>{sensorProductData.name}</a></td>
+                  <td>{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'green' }}></span> : <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'black' }}></span>}</td>
+                  <td>{sensorPayload.dateModified}</td>                   
+                  <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
+                  <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
                 </tr>)
 
               }) : null
@@ -92,8 +65,3 @@ class DashboardPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  sensorData: state.document.sensorData
-});
-
-export const Dashboard = connect(mapStateToProps)(DashboardPage);

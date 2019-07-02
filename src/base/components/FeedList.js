@@ -1,21 +1,18 @@
 import React from "react";
 
 const FeedList = ({ feed }) => {
-  return [...new Set(feed.map(item => item.dateCreated.slice(0, 10)))].map(
+  let feedDates = [...new Set(feed.map(item => item.dateCreated))];
+  return feedDates.map(
     date => {
+      let filterFeed = feed.filter(item => {
+        return item.dateCreated == date;
+      })
       return (
         <div>
-          <h2>{date}</h2>
-          {feed
-            .filter(data => data.dateCreated.slice(0, 10) === date)
-            .map(filterdData => {
-              return (
-                <p>
-                  {filterdData.dateCreated.slice(12)} &nbsp;{" "}
-                  {filterdData.item.variableMeasured.value}&deg;{"C"}
-                </p>
-              );
-            })}
+          <h1>{filterFeed[0].dateCreated.slice(12,20)}</h1>
+          <p>State: {filterFeed[0].item.variableMeasured.value}</p>
+          <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
+          <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
         </div>
       );
     }

@@ -56,7 +56,6 @@ class ArticleTabs extends StayOnTopElement {
       sensorData = this.props.sensorData,
       //RIL = this.props.RIL,
       tabKey = this.props.tabKey;
-      console.log('this props feed !!!', feed);
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
     return (
@@ -147,7 +146,7 @@ class ArticleTabs extends StayOnTopElement {
             {
               <Tab.Pane eventKey="dashboard">
                 {
-                  <Dashboard/>                
+                  <Dashboard sensorData={sensorData}/>                
                 }
               </Tab.Pane>
             }
