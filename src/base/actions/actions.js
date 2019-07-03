@@ -152,11 +152,7 @@ export const loadFeed = (url: string) => async (dispatch: Function) => {
 export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
   if (url) {
     try {
-      const doc = await getHttp(url);
-      let dashboardItem = doc.data.find(item => item.name.toLowerCase() == 'dashboard');
-      let dashboardURL = dashboardItem.itemListElement[0].url;
-      if(dashboardURL) {
-          const itemDoc = await getHttp(dashboardURL);
+          const itemDoc = await getHttp(url);
           if(itemDoc) {
             await Promise.all(itemDoc.data[0].itemListElement.map(async sensor => {
               const feedItemDoc = await getHttp(sensor.url);
@@ -170,7 +166,6 @@ export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
             }
             }))
           }
-      }
     } catch (err) {
       console.log('Unable to download feed $(url}');
     }
