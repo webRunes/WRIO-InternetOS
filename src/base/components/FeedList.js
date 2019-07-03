@@ -13,6 +13,15 @@ class FeedListPage extends React.Component {
     <div>
       <h2>Product ID: {productData ? productData.productID: ''}</h2>
       <h2>Name: {productData? productData.name: ''}</h2>
+      <h2>Description: {productData? productData.description: ''}</h2>
+      <h2>Brand: {productData? productData.brand: ''}</h2>
+      <h2>Manufacturer: {productData? productData.manufacturer: ''}</h2>
+      <h2>Production Date: {productData? productData.productionDate: ''}</h2>
+      <h2>Purchase Date: {productData? productData.purchaseDate: ''}</h2>
+      <h2>Release Date: {productData? productData.releaseDate: ''}</h2>
+      <h2>Height: {productData? productData.height: ''}</h2>
+      <h2>Weight: {productData? productData.weight: ''}</h2>
+      <h2>width: {productData? productData.width: ''}</h2>
       </div>
     {
     feedDates.map(
