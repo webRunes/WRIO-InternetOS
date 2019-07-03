@@ -105,7 +105,8 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
       return {
         ...state,
         sensorData: [...state.sensorData,{ 
-          payload: action.payload.sensorData.data[0], 
+          payload: action.payload.sensorData.data[0],
+          productData:action.payload.sensorProductData,
           url: action.payload.url 
         }]
        }
