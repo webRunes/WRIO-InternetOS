@@ -5,7 +5,7 @@
 import React from 'react';
 import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
 import Externals from './Externals';
-import FeedList from './FeedList';
+import {FeedList} from './FeedList';
 import {Dashboard} from './Dashboard';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';

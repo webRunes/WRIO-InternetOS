@@ -1,8 +1,21 @@
 import React from "react";
-
-const FeedList = ({ feed }) => {
-  let feedDates = [...new Set(feed.map(item => item.dateCreated))];
-  return feedDates.map(
+import { connect } from 'react-redux';
+class FeedListPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+  let feedData = this.props.feed;
+  let feed = feedData.dataFeedElement;
+  let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
+  let productData = this.props.sensorProductData.map(item => item.productData).find(item => item.productID == feedData['@id']);
+    return (feedDates.length > 0 ? <div>
+    <div>
+      <h2>Product ID: {productData ? productData.productID: ''}</h2>
+      <h2>Name: {productData? productData.name: ''}</h2>
+      </div>
+    {
+    feedDates.map(
     date => {
       let filterFeed = feed.filter(item => {
         return item.dateCreated == date;
@@ -16,7 +29,15 @@ const FeedList = ({ feed }) => {
         </div>
       );
     }
-  );
-};
+  )
+    }
+  </div>:null);
+  }
+}
 
-export default FeedList;
+const mapStateToProps = state => ({
+  feed: state.document.feed,
+  sensorProductData: state.document.sensorData
+});
+
+export const FeedList = connect(mapStateToProps)(FeedListPage);
