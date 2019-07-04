@@ -10,8 +10,6 @@ import classNames from 'classnames';
 import UrlMixin from '../mixins/UrlMixin';
 import CreateTransactions from '../components/widgets/Transactions.js';
 import CreatePresale from '../components/widgets/Presale.js';
-import {CreateFeed} from '../components/widgets/FeedCenter.js';
-
 import CommentsDisabled from '../components/misc/CommentsDisabled.js';
 import LdJsonDocument from '../jsonld/LdJsonDocument';
 
@@ -110,12 +108,6 @@ export class ChessCenter extends CreateDomCenter {
   render() {
     const urlParams = UrlMixin.searchToObject(this.props.url);
     return this.generateCenterWithContents(<Chess uuid={urlParams.start} />);
-  }
-}
-
-export class FeedCenter extends CreateDomCenter {
-  render() {
-    return this.generateCenterWithContents(<CreateFeed />);
   }
 }
 
