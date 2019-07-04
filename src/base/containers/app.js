@@ -6,7 +6,8 @@ import {
   TransactionsCenter,
   PresaleCenter,
   ChessCenter,
-  WebGoldCenter
+  WebGoldCenter,
+  FeedCenter
 } from "./CreateDomCenter";
 import {
   VerticalNav,
@@ -115,7 +116,9 @@ class Main extends React.Component {
   render() {
     const url: string = this.props.url;
     const urlDecoded = UrlMixin.searchToObject(url);
-
+    if(url.includes('imec.wr.io')) {
+      <FeedCenter />
+    }
     if (urlDecoded.start && window.location.origin === getServiceUrl("chess")) {
       return this.renderWithCenter(
         <ChessCenter
