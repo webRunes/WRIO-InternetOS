@@ -98,7 +98,8 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
     case actions.GOT_FEED:
       return {
         ...state,
-        feed: action.payload.feed.data[0]
+        feed: action.payload.feed.data[0],
+        feedProductData: action.payload.feed.data[1]
        }
 
     case actions.GOT_SENSOR_FEED:
