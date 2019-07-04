@@ -81,12 +81,11 @@ export function gotFeed(url, feed: LdJsonDocument) {
   };
 }
 
-export function gotSensorFeed(url, sensorData: LdJsonDocument, sensorProductData) {
+export function gotSensorFeed(url, sensorData: LdJsonDocument) {
   return {
     type: GOT_SENSOR_FEED,
     payload: {
     sensorData,
-    sensorProductData,
     url
     },
   };
@@ -157,11 +156,10 @@ export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
             await Promise.all(itemDoc.data[0].itemListElement.map(async sensor => {
               const feedItemDoc = await getHttp(sensor.url);
               const feedItemList = feedItemDoc.data.find(item => item['@type'].toLowerCase() == 'itemlist');
-              const feedItemProductData = feedItemDoc.data.find(item => item['@type'].toLowerCase() == 'product');
               if(feedItemList) {
               await Promise.all(feedItemList.itemListElement.map(async listItem=> {
                 const feedItemListDoc = await getHttp(listItem.url);
-               dispatch(gotSensorFeed(listItem.url, feedItemListDoc, feedItemProductData));
+               dispatch(gotSensorFeed(listItem.url, feedItemListDoc));
               }))
             }
             }))
