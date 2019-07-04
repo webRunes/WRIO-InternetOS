@@ -9,6 +9,8 @@ class FeedListPage extends React.Component {
   let feed = feedData.dataFeedElement;
   let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
   let productData = this.props.sensorProductData.map(item => item.productData).find(item => item.productID == feedData['@id']);
+  console.log('Feed DATA ', feedData);
+  console.log('PROPS ===> ',this.props.sensorProductData);
     return (feedDates.length > 0 ? <div>
     <div>
     <div class="paragraph"><div className="col-xs-12"> <div>Product ID: {productData ? productData.productID: ''}</div></div></div>
