@@ -8,7 +8,7 @@ class FeedListPage extends React.Component {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
   let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
-  let productData = this.props.sensorProductData || undefined;
+  let productData = this.props.sensorProductData ? this.props.sensorProductData.map(item => item.productData).find(item => item.productID == feedData['@id']): undefined;
     return (feedDates.length > 0 ? <div>
     <div>
     <div class="paragraph"><div className="col-xs-12"> <div>Product ID: {productData ? productData.productID: ''}</div></div></div>
@@ -46,7 +46,7 @@ class FeedListPage extends React.Component {
 
 const mapStateToProps = state => ({
   feed: state.document.feed,
-  sensorProductData: state.document.feedProductData
+  sensorProductData: state.document.sensorData
 });
 
 export const FeedList = connect(mapStateToProps)(FeedListPage);
