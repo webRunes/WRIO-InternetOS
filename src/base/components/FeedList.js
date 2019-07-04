@@ -8,21 +8,7 @@ class FeedListPage extends React.Component {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
   let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
-  let productData = this.props.sensorProductData;
     return (feedDates.length > 0 ? <div>
-    <div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Product ID: {productData ? productData.productID: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Name: {productData? productData.name: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Description: {productData? productData.description: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Brand: {productData? productData.brand: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Manufacturer: {productData? productData.manufacturer: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Production Date: {productData? productData.productionDate: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Purchase Date: {productData? productData.purchaseDate: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Release Date: {productData? productData.releaseDate: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Height: {productData? productData.height: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>Weight: {productData? productData.weight: ''}</div></div></div>
-    <div class="paragraph"><div className="col-xs-12"> <div>width: {productData? productData.width: ''}</div></div></div>
-      </div>
     {
     feedDates.map(
     date => {
@@ -46,7 +32,6 @@ class FeedListPage extends React.Component {
 
 const mapStateToProps = state => ({
   feed: state.document.feed,
-  sensorProductData: state.document.feedProductData
 });
 
 export const FeedList = connect(mapStateToProps)(FeedListPage);

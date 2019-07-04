@@ -6,6 +6,7 @@ import React from 'react';
 import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from 'react-bootstrap';
 import Externals from './Externals';
 import {FeedList} from './FeedList';
+import {DeviceProfile} from './DeviceProfile';
 import {Dashboard} from './Dashboard';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
@@ -102,6 +103,17 @@ class ArticleTabs extends StayOnTopElement {
 
                   {(feed.length > 0) && (
                     <NavItem
+                      eventKey="deviceProfile"
+                      disabled={!feed.length > 0}
+                      className={""}
+                    >
+                      Device Profile
+                      <div className="ripple-container" />
+                    </NavItem>
+                  )}  
+
+                  {(feed.length > 0) && (
+                    <NavItem
                       eventKey="feed"
                       disabled={!feed.length > 0}
                       className={""}
@@ -154,6 +166,13 @@ class ArticleTabs extends StayOnTopElement {
               <Tab.Pane eventKey="feed">
                 {
                   <FeedList feed={feed}/>                
+                }
+              </Tab.Pane>
+            }
+                        {
+              <Tab.Pane eventKey="deviceProfile">
+                {
+                  <DeviceProfile />                
                 }
               </Tab.Pane>
             }
