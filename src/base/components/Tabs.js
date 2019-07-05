@@ -22,7 +22,7 @@ import EditExternal from 'CoreEditor/containers/EditExternal';
 const changeUrlToUrlForEdit = require('./utils/change_url_to_url_for_edit');
 import { connect } from 'react-redux';
 import { loadFeed } from '../../base/actions/actions';
-
+import ProvideLink from '../components/BackToTheProvidersPageButton.js';
 const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
@@ -56,6 +56,7 @@ class ArticleTabs extends StayOnTopElement {
       feed = this.props.feed.dataFeedElement || [],
       sensorData = this.props.sensorData,
       //RIL = this.props.RIL,
+      providerLink = this.props.feedDataProvider,
       tabKey = this.props.tabKey;
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
@@ -148,7 +149,7 @@ class ArticleTabs extends StayOnTopElement {
 
           <Tab.Content animation className="card-content">
             <div ref="placeholder" style={{ height: '30px' }} />
-            <Tab.Pane eventKey="home">{center}</Tab.Pane>
+            <Tab.Pane eventKey="home">{providerLink != undefined ? <ProvideLink providerLink={providerLink}/>:null}{center}</Tab.Pane>
             {
               <Tab.Pane eventKey="collection">
                 {this.props.editMode && <EditExternal />}
@@ -199,4 +200,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 } 
 
-export default connect(null, mapDispatchToProps)(ArticleTabs);
+const mapStateToProps = state => ({
+  feedDataProvider: state.document.feed.provider,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleTabs);
