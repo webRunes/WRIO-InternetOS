@@ -18,7 +18,7 @@ export class Dashboard extends React.Component {
           <button disabled="disabled" class="btn btn-default">Group Management</button>
         </span>
       </div>
-      <table class="table table-bordered">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th>
@@ -50,7 +50,7 @@ export class Dashboard extends React.Component {
                   <td><div className="dashboard-sensor-id">{sensorProductData.productID}</div></td>
                   <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
                   <td>{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'green' }}></span> : <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'black' }}></span>}</td>
-                  <td>{sensorPayload.dateModified}</td>                   
+                  <td>{sensorPayload.dateModified}</td>
                   <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
                   <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
                 </tr>)
@@ -64,4 +64,3 @@ export class Dashboard extends React.Component {
     </div>)
   }
 }
-
