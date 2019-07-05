@@ -8,9 +8,18 @@ class DeviveProfileTab extends React.Component {
 
 
     render() {
+        let feedData = this.props.feed;
         let productData = this.props.sensorProductData;
+        let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
         return (
            productData !=undefined ? <div className="container">
+            {
+             providerLink !=undefined ? <div>
+              <a href={providerLink}>
+               <button class="btn btn-default">Back to the provider's page</button>
+               </a>
+             </div> :null
+            }    
             <div class="paragraph">
             <div className="col-xs-12"> <div>Product ID: {productData ? productData.productID: ''}</div></div>
             <div className="col-xs-12"> <div>Name: {productData? productData.name: ''}</div></div>
@@ -32,6 +41,7 @@ class DeviveProfileTab extends React.Component {
 
 
 const mapStateToProps = state => ({
+    feed: state.document.feed,
     sensorProductData: state.document.feedProductData
   });
   
