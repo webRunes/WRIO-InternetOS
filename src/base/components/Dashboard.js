@@ -21,8 +21,8 @@ export class Dashboard extends React.Component {
               <th>Name </th>
               <th>State </th>
               <th>Last seen</th>
-              <th>Last measurement</th>
-              <th>Device battery</th>
+              <th>Last readings</th>
+              <th>Battery</th>
             </tr>
           </thead>
           <tbody>
