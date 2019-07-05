@@ -20,6 +20,7 @@ export class Dashboard extends React.Component {
               <th>ID </th>
               <th>Name </th>
               <th>State </th>
+              <th>Access</th>
               <th>Last seen</th>
               <th>Last readings</th>
               <th>Battery</th>
@@ -36,6 +37,7 @@ export class Dashboard extends React.Component {
                     <td><div className="dashboard-sensor-id">{sensorProductData.productID}</div></td>
                     <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
                     <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span class="glyphicon glyphicon-ok-sign icon-success"></span> : <span class="glyphicon glyphicon-remove-sign"></span>}</td>
+                    <td>Read</td>
                     <td>{sensorPayload.dateModified}</td>
                     <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
                     <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
