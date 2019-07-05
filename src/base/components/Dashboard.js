@@ -44,12 +44,12 @@ export class Dashboard extends React.Component {
                 return (<tr>
                   <th scope="row">
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="tableDefaultCheck4" />
+                      <input type="checkbox" class="custom-control-input" />
                     </div>
                   </th>
                   <td><div className="dashboard-sensor-id">{sensorProductData.productID}</div></td>
                   <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
-                  <td>{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'green' }}></span> : <span class="glyphicon glyphicon-ok icon-success" style={{ color: 'black' }}></span>}</td>
+                  <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span class="glyphicon glyphicon-ok-sign icon-success"></span> : <span class="glyphicon glyphicon-remove-sign"></span>}</td>
                   <td>{sensorPayload.dateModified}</td>
                   <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
                   <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
