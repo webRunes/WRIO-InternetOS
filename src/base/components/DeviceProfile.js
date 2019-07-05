@@ -15,7 +15,7 @@ class DeviveProfileTab extends React.Component {
             {
              providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }
-              <div class="paragraph">
+              <div className="paragraph">
                 <div className="col-xs-12">
                   <div>Product ID: {productData ? productData.productID: ''}</div>
                   <div>Name: {productData? productData.name: ''}</div>
