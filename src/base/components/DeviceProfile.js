@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import ProviderLink from './BackToTheProvidersPageButton.js';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -14,11 +14,7 @@ class DeviveProfileTab extends React.Component {
         return (
            productData !=undefined ? <div className="container">
             {
-             providerLink !=undefined ? <div>
-              <a href={providerLink}>
-               <button class="btn btn-default">Back to the provider's page</button>
-               </a>
-             </div> :null
+             providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }    
             <div class="paragraph">
             <div className="col-xs-12"> <div>Product ID: {productData ? productData.productID: ''}</div></div>
