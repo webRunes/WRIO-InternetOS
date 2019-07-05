@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
+import ProvideLink from './BackToTheProvidersPageButton.js'
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -11,11 +12,7 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   return (feedDates.length > 0 ? <div>
     {
-    providerLink !=undefined ? <div>
-      <a href={providerLink}>
-      <button class="btn btn-default">Back to the provider's page</button>
-      </a>
-    </div> :null
+    providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null
    }
     {
     feedDates.map(
