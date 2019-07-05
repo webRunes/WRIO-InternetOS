@@ -8,7 +8,15 @@ class FeedListPage extends React.Component {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
   let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
-    return (feedDates.length > 0 ? <div>
+  let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
+  return (feedDates.length > 0 ? <div>
+    {
+    providerLink !=undefined ? <div>
+      <a href={providerLink}>
+      <button class="btn btn-default">Back to the provider's page</button>
+      </a>
+    </div> :null
+   }
     {
     feedDates.map(
     date => {
