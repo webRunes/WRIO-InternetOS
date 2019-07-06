@@ -17,9 +17,9 @@ export class Dashboard extends React.Component {
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>ID </th>
-              <th>Name </th>
-              <th>State </th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>State</th>
               <th>Access</th>
               <th>Last seen</th>
               <th>Last readings</th>
