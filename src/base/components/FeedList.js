@@ -7,64 +7,125 @@ class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  static range = function(start, end, step) {
+    var range = [];
+    var typeofStart = typeof start;
+    var typeofEnd = typeof end;
+
+    if (step === 0) {
+        throw TypeError("Step cannot be zero.");
+    }
+
+    if (typeofStart == "undefined" || typeofEnd == "undefined") {
+        throw TypeError("Must pass start and end arguments.");
+    } else if (typeofStart != typeofEnd) {
+        throw TypeError("Start and end arguments must be of same type.");
+    }
+
+    typeof step == "undefined" && (step = 1);
+
+    if (end < start) {
+        step = -step;
+    }
+
+    if (typeofStart == "number") {
+
+        while (step > 0 ? end >= start : end <= start) {
+            range.push(start);
+            start += step;
+        }
+
+    } else if (typeofStart == "string") {
+
+        if (start.length != 1 || end.length != 1) {
+            throw TypeError("Only strings with one character are supported.");
+        }
+
+        start = start.charCodeAt(0);
+        end = end.charCodeAt(0);
+
+        while (step > 0 ? end >= start : end <= start) {
+            range.push(String.fromCharCode(start));
+            start += step;
+        }
+
+    } else {
+        throw TypeError("Only string and number types are supported");
+    }
+
+    return range;
+
+}
+  
   render() {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
   let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))]: [];
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
-  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity').map(temperatureItem => {
-    return { dateRecorded: temperatureItem.dateCreated,  ["temperature (celsius)"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
+  let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
+  let sensorDataList = [...new Set(sensorData)];
+  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity' || item.item.variableMeasured.name == 'temperature').map(temperatureItem => {
+    return { dateRecorded: temperatureItem.dateCreated,  ["Temperature:"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
   }): [];
+  
+ let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature:"]))].sort();
+
+ temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
   return (feedDates.length > 0 ? <div>
-    <label class="feed-dropdown">
-  <div class="feed-dropdown-button">
+    <label className="feed-dropdown">
+  <div className="feed-dropdown-button">
     Select Feed
   </div>
 
-  <input type="checkbox" class="feed-dropdown-input" id="test" />
+  <input type="checkbox" className="feed-dropdown-input" id="test" />
 
-  <ul class="feed-dropdown-menu">
-    <li>Temperature</li>
-    <li>Humidity</li>
-    <li>Dew Point</li>
-    <li>Wet Bulb Temperature</li>
-    <li>Dry Bulb Temperature</li>
-  </ul>
+  <ul className="feed-dropdown-menu">
+    {
+      sensorDataList.map(data => {
+        return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+      })
+    }
+</ul>
 </label>
 <div>
-<a class="btn btn-primary" href="#" role="button">24 Hours</a>
-<a class="btn btn-primary" href="#" role="button" disabled>One Week</a>
-<a class="btn btn-primary" href="#" role="button" disabled>One Month</a>
-<a class="btn btn-primary" href="#" role="button" disabled>One Year</a>
-<a class="btn btn-primary" href="#" role="button" disabled>ALL</a>
+<a className="btn btn-primary" href="#" role="button">24 H</a>
+&middot;
+<a className="btn btn-primary" href="#" role="button" disabled>1w </a>
+&middot;
+<a className="btn btn-primary" href="#" role="button" disabled>1m</a>
+&middot;
+<a className="btn btn-primary" href="#" role="button" disabled>1y</a>
+&middot;
+<a className="btn btn-primary" href="#" role="button" disabled>ALL</a>
 
   </div>
-    {/* TODO:move styles to css file */}
-    <div style={{height:'500px', width:'900px'}}>
+    <div className="feed-chart-main-div">
     <ResponsiveContainer
         width="100%"
       >
         <LineChart
             data={filteredTemperatures}
-            margin={{top: 5, right: 0, left: 0, bottom: 50}}>
+            margin={{top: 5, right: 0, left: 12, bottom: 50}}>
           <XAxis 
             dataKey="hour"
             fontFamily="sans-serif"
             tickSize
             dy='26'
-            label={'('+filteredTemperatures[0].dateRecorded.slice(0,10)+')'}
-            tickMargin="30"
-/>
+            label='HOURS'
+            tickMargin="30"/>
           <YAxis
             domain={['dataMin', 'dataMax']}
-            ticks={[10, 15, 20, 25, 30, 35, 40, 45, 50]}
+            ticks={temperatureList}
+            label={{ value: 'Temperature, °C', angle: -90, position: 'insideLeft' }}
           />
           <CartesianGrid 
             vertical={false}
+            horizontal={false}
             stroke="#ebf3f0"
           />
           <Tooltip />
-          <Line dataKey="temperature (celsius)" dot={false}/>
+          <Line dataKey="Temperature:" dot={true}/>
         </LineChart>
       </ResponsiveContainer>
       </div>
