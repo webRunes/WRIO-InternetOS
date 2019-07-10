@@ -76,6 +76,13 @@ class FeedListPage extends React.Component {
 
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
+      <ol class="breadcrumb dots">
+        <li><a href="#">Last 24 Hours</a></li>
+        <li class="disabled"><a href="#">1 Week</a></li>
+        <li class="disabled"><a href="#">1 Month</a></li>
+        <li class="disabled"><a href="#">1 Year</a></li>
+        <li class="disabled"><a href="#">Full History</a></li>
+      </ol>
     <label className="feed-dropdown pull-right">
       <div className="feed-dropdown-button">Select Feed</div>
       <input type="checkbox" className="feed-dropdown-input" id="test" />
@@ -87,13 +94,6 @@ class FeedListPage extends React.Component {
         }
       </ul>
   </label>
-    <ol class="breadcrumb dots">
-      <li><a href="#">Last 24 Hours</a></li>
-      <li class="disabled"><a href="#">1 Week</a></li>
-      <li class="disabled"><a href="#">1 Month</a></li>
-      <li class="disabled"><a href="#">1 Year</a></li>
-      <li class="disabled"><a href="#">Full History</a></li>
-    </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
           width="100%"
