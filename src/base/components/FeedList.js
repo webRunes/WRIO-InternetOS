@@ -89,10 +89,10 @@ class FeedListPage extends React.Component {
   </label>
     <ol class="breadcrumb dots">
       <li><a href="#">Last 24 Hours</a></li>
-      <li class="active"><a href="#">1 Week</a></li>
-      <li class="active"><a href="#">1 Month</a></li>
-      <li class="active"><a href="#">1 Year</a></li>
-      <li class="active"><a href="#">Full History</a></li>
+      <li class="disabled"><a href="#">1 Week</a></li>
+      <li class="disabled"><a href="#">1 Month</a></li>
+      <li class="disabled"><a href="#">1 Year</a></li>
+      <li class="disabled"><a href="#">Full History</a></li>
     </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -122,6 +122,7 @@ class FeedListPage extends React.Component {
             <Line dataKey="Temperature" dot={true}/>
           </LineChart>
         </ResponsiveContainer>
+        <h2>Details</h2>
       </div>
     {
     feedDates.map(
