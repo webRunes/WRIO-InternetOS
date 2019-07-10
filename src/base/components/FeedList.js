@@ -57,7 +57,7 @@ class FeedListPage extends React.Component {
     return range;
 
 }
-  
+
   render() {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
@@ -68,70 +68,61 @@ class FeedListPage extends React.Component {
   let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity' || item.item.variableMeasured.name == 'temperature').map(temperatureItem => {
     return { dateRecorded: temperatureItem.dateCreated,  ["Temperature:"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
   }): [];
-  
+
  let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature:"]))].sort();
 
  temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
   return (feedDates.length > 0 ? <div>
-    <label className="feed-dropdown">
-  <div className="feed-dropdown-button">
-    Select Feed
-  </div>
 
-  <input type="checkbox" className="feed-dropdown-input" id="test" />
+    {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
-  <ul className="feed-dropdown-menu">
-    {
-      sensorDataList.map(data => {
-        return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
-      })
-    }
-</ul>
-</label>
-<div>
-<a className="btn btn-primary" href="#" role="button">24 H</a>
-&middot;
-<a className="btn btn-primary" href="#" role="button" disabled>1w </a>
-&middot;
-<a className="btn btn-primary" href="#" role="button" disabled>1m</a>
-&middot;
-<a className="btn btn-primary" href="#" role="button" disabled>1y</a>
-&middot;
-<a className="btn btn-primary" href="#" role="button" disabled>ALL</a>
-
-  </div>
+    <label className="feed-dropdown pull-right">
+      <div className="feed-dropdown-button">Select Feed</div>
+      <input type="checkbox" className="feed-dropdown-input" id="test" />
+      <ul className="feed-dropdown-menu">
+        {
+          sensorDataList.map(data => {
+            return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+          })
+        }
+      </ul>
+  </label>
+    <ol class="breadcrumb dots">
+      <li><a href="#">Last 24 Hours</a></li>
+      <li class="active"><a href="#">1 Week</a></li>
+      <li class="active"><a href="#">1 Month</a></li>
+      <li class="active"><a href="#">1 Year</a></li>
+      <li class="active"><a href="#">Full History</a></li>
+    </ol>
     <div className="feed-chart-main-div">
-    <ResponsiveContainer
-        width="100%"
-      >
-        <LineChart
-            data={filteredTemperatures}
-            margin={{top: 5, right: 0, left: 12, bottom: 50}}>
-          <XAxis 
-            dataKey="hour"
-            fontFamily="sans-serif"
-            tickSize
-            dy='26'
-            label='HOURS'
-            tickMargin="30"/>
-          <YAxis
-            domain={['dataMin', 'dataMax']}
-            ticks={temperatureList}
-            label={{ value: 'Temperature, °C', angle: -90, position: 'insideLeft' }}
-          />
-          <CartesianGrid 
-            vertical={false}
-            horizontal={false}
-            stroke="#ebf3f0"
-          />
-          <Tooltip />
-          <Line dataKey="Temperature:" dot={true}/>
-        </LineChart>
-      </ResponsiveContainer>
+      <ResponsiveContainer
+          width="100%"
+        >
+          <LineChart
+              data={filteredTemperatures}
+              margin={{top: 5, right: 0, left: 12, bottom: 50}}>
+            <XAxis
+              dataKey="hour"
+              fontFamily="sans-serif"
+              tickSize
+              dy='26'
+              label='HOURS'
+              tickMargin="30"/>
+            <YAxis
+              domain={['dataMin', 'dataMax']}
+              ticks={temperatureList}
+              label={{ value: 'Temperature, °C', angle: -90, position: 'insideLeft' }}
+            />
+            <CartesianGrid
+              vertical={false}
+              horizontal={false}
+              stroke="#ebf3f0"
+            />
+            <Tooltip />
+            <Line dataKey="Temperature" dot={true}/>
+          </LineChart>
+        </ResponsiveContainer>
       </div>
-    {
-    providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null
-   }
     {
     feedDates.map(
     date => {
