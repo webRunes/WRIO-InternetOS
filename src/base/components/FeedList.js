@@ -102,11 +102,11 @@ class FeedListPage extends React.Component {
               data={filteredTemperatures}
               margin={{top: 5, right: 0, left: 12, bottom: 50}}>
             <XAxis
-              dataKey="hour"
+              dataKey="Hour"
               fontFamily="sans-serif"
               tickSize
               dy='26'
-              label='HOURS'
+              label='Hours'
               tickMargin="30"/>
             <YAxis
               domain={['dataMin', 'dataMax']}
