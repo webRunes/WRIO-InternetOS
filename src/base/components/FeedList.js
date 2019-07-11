@@ -90,10 +90,10 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><a href="#">1 Week</a></li>
-        <li class="disabled"><a href="#">1 Month</a></li>
-        <li class="disabled"><a href="#">1 Year</a></li>
-        <li class="disabled"><a href="#">Full History</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Week</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Month</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Year</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Full History</a></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
