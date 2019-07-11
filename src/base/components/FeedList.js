@@ -121,23 +121,29 @@ class FeedListPage extends React.Component {
         >
           <LineChart
               data={filteredTemperatures}
-              margin={{top: 5, right: 0, left: 12, bottom: 50}}>
+              margin={{top: 5, right: 0, left: 12, bottom: 30}}>
             <XAxis
-              dataKey="hour"
+              // dataKey="hour"
               fontFamily="sans-serif"
-              tickSize
               dy='26'
               label='Hours'
-              tickMargin="30"/>
+              tickMargin="30"
+              tickSize={8}
+              domain={['dataMin', 'dataMax']}
+              ticks={[0,2,4,6,8,10,12,14,16,18,20,22,24]}
+              />
             <YAxis
               domain={['dataMin', 'dataMax']}
               ticks={temperatureList}
-              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : 'Temperature, °C', angle: -90, position: 'insideLeft' }}
-            />
+              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : 'Temperature, °C', angle: -90, position:'insideBottomLeft' }}
+              tickSize={8} 
+             />
             <CartesianGrid
-              vertical={false}
-              horizontal={false}
+              vertical={true}
+              horizontal={true}
               stroke="#ebf3f0"
+              strokeDasharray="2"
+              strokeWidth={1}
             />
             <Tooltip />
             <Line dataKey={selectedOptionCondition} dot={true}/>
