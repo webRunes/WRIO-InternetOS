@@ -60,7 +60,7 @@ closeModal() {
           </div>
           <div className="col-md-6">
             <div className="input-group col-md-12 search">
-              <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">
+              <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
             </div>
           </div>
         </div>
