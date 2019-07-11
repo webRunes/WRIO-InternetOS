@@ -44,6 +44,7 @@ closeModal() {
                           <button type="button" class="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
                           <button type="submit" disabled="disabled" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only."><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
                         </div>
+                      </form>
                     </div>
                 </Modal>
                 </section>
