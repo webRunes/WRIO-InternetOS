@@ -32,8 +32,8 @@ closeModal() {
                     <div className="dashboard-modal-div">
                         <h4>The functionality is available to Alpha testers only.</h4>
                         <p >Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
-                        <p >IPv6 [2001:0db8:85a3:0000:0000:****:****:****]</p>
-                        <p >AES key [**********************************]</p>
+                        <p >IPv6 &nbsp; &nbsp; &nbsp;&nbsp;<input type="text"  size="35"/></p>
+                        <p >AES key <input type="text" size="35"/></p>
                         <a className="btn btn-default dashboard-modal-div-a1" href="javascript:void(0);" onClick={() => this.closeModal()}>Cancel</a>
                         <a data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only." className="btn btn-success dashboard-modal-div-a2">Submit</a>
                     </div>
