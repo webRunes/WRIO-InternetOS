@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
 import Modal from 'react-awesome-modal';
-import Tooltip from 'react-tooltip-lite';
 
 export class Dashboard extends React.Component {
 
