@@ -6,6 +6,9 @@ import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, Cartesi
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectedOption: 'battery'
+    }
   }
 
   static range = function(start, end, step) {
@@ -58,6 +61,22 @@ class FeedListPage extends React.Component {
 
 }
 
+    onDropDownSelect(value) {
+    switch(value) {
+      case 'temperature':
+        this.setState({selectedOption: value})
+        break;
+      case 'humidity' :
+        this.setState({selectedOption: value})
+        break;
+      case 'battery': 
+      this.setState({selectedOption: value})
+      break;
+      default:
+        console.log('State is not selectable');
+    }
+    }
+
   render() {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
@@ -65,7 +84,7 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
-  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity' || item.item.variableMeasured.name == 'temperature').map(temperatureItem => {
+  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption).map(temperatureItem => {
     return { dateRecorded: temperatureItem.dateCreated,  ["Temperature"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
   }): [];
 
@@ -83,7 +102,7 @@ class FeedListPage extends React.Component {
     <ul className="feed-dropdown-menu">
       {
         sensorDataList.map(data => {
-          return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+          return (<li onClick={e => this.onDropDownSelect(data)}>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
         })
       }
     </ul>
