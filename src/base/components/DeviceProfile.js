@@ -11,10 +11,12 @@ class DeviveProfileTab extends React.Component {
         let productData = this.props.sensorProductData;
         let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
         return (
-           productData !=undefined ? <div>
+            <div>
             {
              providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }
+            {
+             productData !=undefined && productData.productID != undefined ? <div>
               <div>Product ID: {productData ? productData.productID: ''}</div>
               <div>Name: {productData? productData.name: ''}</div>
               <div>Description: {productData? productData.description: ''}</div>
@@ -26,7 +28,9 @@ class DeviveProfileTab extends React.Component {
               <div>Height: {productData? productData.height: ''}</div>
               <div>Weight: {productData? productData.weight: ''}</div>
               <div>width: {productData? productData.width: ''}</div>
-            </div>: null
+            </div>: <img src={productData.image ? productData.image: 'http://bit.do/not-found'} width="640" height="350"/>
+            }
+            </div>
         );
     }
 }
