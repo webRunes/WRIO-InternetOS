@@ -66,34 +66,34 @@ class FeedListPage extends React.Component {
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
   let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity' || item.item.variableMeasured.name == 'temperature').map(temperatureItem => {
-    return { dateRecorded: temperatureItem.dateCreated,  ["Temperature:"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
+    return { dateRecorded: temperatureItem.dateCreated,  ["Temperature"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
   }): [];
 
- let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature:"]))].sort();
+ let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature"]))].sort();
 
  temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
   return (feedDates.length > 0 ? <div>
 
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
-      <ol class="breadcrumb dots">
-        <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><a href="#">1 Week</a></li>
-        <li class="disabled"><a href="#">1 Month</a></li>
-        <li class="disabled"><a href="#">1 Year</a></li>
-        <li class="disabled"><a href="#">Full History</a></li>
-      </ol>
     <label className="feed-dropdown pull-right">
-      <div className="feed-dropdown-button">Select Feed</div>
-      <input type="checkbox" className="feed-dropdown-input" id="test" />
-      <ul className="feed-dropdown-menu">
-        {
-          sensorDataList.map(data => {
-            return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
-          })
-        }
-      </ul>
-  </label>
+    <div className="feed-dropdown-button">Select Feed</div>
+    <input type="checkbox" className="feed-dropdown-input" id="test" />
+    <ul className="feed-dropdown-menu">
+      {
+        sensorDataList.map(data => {
+          return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+        })
+      }
+    </ul>
+    </label>
+      <ol class="breadcrumb chart_timeframe">
+        <li><a href="#">Last 24 Hours</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Week</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Month</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Year</a></li>
+        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">Full History</a></li>
+      </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
           width="100%"
