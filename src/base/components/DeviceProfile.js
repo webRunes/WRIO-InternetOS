@@ -28,7 +28,7 @@ class DeviveProfileTab extends React.Component {
               <div>Height: {productData? productData.height: ''}</div>
               <div>Weight: {productData? productData.weight: ''}</div>
               <div>width: {productData? productData.width: ''}</div>
-            </div>: <img src={productData.image ? productData.image: 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
+            </div>: <img src={productData ? productData.image: 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
             }
             </div>
         );
