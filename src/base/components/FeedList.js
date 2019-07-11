@@ -91,7 +91,7 @@ class FeedListPage extends React.Component {
 
  let temperatureList =  [...new Set(filteredTemperatures.map(item => +item[selectedOptionCondition]))].sort();
 
- temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
+ temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,4): [];
   return (
     feedDates.length > 0 ? <div>
 
