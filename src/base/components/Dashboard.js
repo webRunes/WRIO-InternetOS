@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import Modal from 'react-awesome-modal';
-
+import { Field, reduxForm } from 'redux-form';
 export class Dashboard extends React.Component {
 
   constructor(props) {
@@ -27,18 +27,20 @@ closeModal() {
     let sensorData = this.props.sensorData;
     return (<div>
             <section>
-                <Modal visible={this.state.visible} width="600" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div className="dashboard-modal-div">
                       <form>
                         <div className="callout warning col-xs-12"><h5>The functionality is available to Alpha testers only.</h5></div>
                         <p>Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
                         <div className="form-group">
                           <label htmlFor="IPv6_address">IPv6 address:</label>
-                          <Field name="IPv6_address" type="text" className="form-control" component="input" />
+                          <input name="IPv6_address" type="text" className="form-control"/>
+                          {/* <Field name="IPv6_address" type="text" className="form-control" component="input" /> */}
                         </div>
                         <div className="form-group">
                           <label htmlFor="AES_key">AES key:</label>
-                          <Field name="AES_key" type="text" className="form-control" component="input" />
+                          <input name="AES_key" type="text" className="form-control"/>
+                          {/* <Field name="AES_key" type="text" className="form-control" component="input" /> */}
                         </div>
                         <div class="form-group pull-right">
                           <button type="button" class="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
