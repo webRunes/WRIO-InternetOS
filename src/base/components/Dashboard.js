@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import Modal from 'react-awesome-modal';
+import Tooltip from 'react-tooltip-lite';
 
 export class Dashboard extends React.Component {
 
@@ -34,8 +35,7 @@ closeModal() {
                         <p >IPv6 [2001:0db8:85a3:0000:0000:****:****:****]</p>
                         <p >AES key [**********************************]</p>
                         <a className="btn btn-default dashboard-modal-div-a1" href="javascript:void(0);" onClick={() => this.closeModal()}>Cancel</a>
-                        <a className="btn btn-success dashboard-modal-div-a2 ht"><span class="tooltip">this is the tooltip alshdgwh gahfguo 
-wfhg fghwoug wugw hgrwuog hwaur guoarwhg rwu</span>Submit</a>
+                        <a data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only." className="btn btn-success dashboard-modal-div-a2">Submit</a>
                     </div>
                 </Modal>
                 </section>
@@ -63,9 +63,9 @@ wfhg fghwoug wugw hgrwuog hwaur guoarwhg rwu</span>Submit</a>
                   let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
                   let sensorProductData = sensor.productData;
                   return (<tr>
-                    <td><div className="dashboard-sensor-id">{sensorProductData.productID}</div></td>
+                    <td><div className="dashboard-sensor-id" data-toggle="tooltip" data-placement="top" title={sensorProductData.productID}>{sensorProductData.productID}</div></td>
                     <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
-                    <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span className="glyphicon glyphicon-ok-sign icon-success"></span> : <span className="glyphicon glyphicon-remove-sign"></span>}</td>
+                    <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span className="glyphicon glyphicon-ok-sign icon-success" data-toggle="tooltip" data-placement="top" title="Enabled"></span> : <span className="glyphicon glyphicon-remove-sign" data-toggle="tooltip" data-placement="top" title="Disabled"></span>}</td>
                     <td>Read</td>
                     <td>{sensorPayload.dateModified}</td>
                     <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
