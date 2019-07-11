@@ -72,7 +72,8 @@ class FeedListPage extends React.Component {
  let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature"]))].sort();
 
  temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
-  return (feedDates.length > 0 ? <div>
+  return (
+    feedDates.length > 0 ? <div>
 
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
@@ -121,7 +122,7 @@ class FeedListPage extends React.Component {
             <Tooltip />
             <Line dataKey="Temperature" dot={true}/>
           </LineChart>
-        </ResponsiveContainer
+        </ResponsiveContainer>
 
         <div class="main_page_content">
           <div>
@@ -142,7 +143,7 @@ class FeedListPage extends React.Component {
         <div className="paragraph">
           <div className="col-xs-12">
             <div>
-              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h1>
+              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
               <p>State: {filterFeed[0].item.variableMeasured.value}</p>
               <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
               <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
@@ -153,6 +154,7 @@ class FeedListPage extends React.Component {
     }
   )
     }
+  </div>
   </div>:null);
   }
 }
