@@ -41,9 +41,9 @@ closeModal() {
                         <input name="AES_key" type="text" className="form-control"/>
                         {/* <Field name="AES_key" type="text" className="form-control" component="input" /> */}
                       </div>
-                      <div class="form-group pull-right">
-                        <button type="button" class="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
-                        <button type="submit" disabled="disabled" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only."><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                      <div className="form-group pull-right">
+                        <button type="button" className="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
+                        <button type="submit" disabled="disabled" className="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only."><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
                       </div>
                     </form>
                   </div>
@@ -51,7 +51,20 @@ closeModal() {
         <div className="callout warning col-xs-12">
           <h5>Dasboard is under development and the functionality is limited. Premium features are available to alpha-testers only.</h5>
         </div>
-        <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="input-group">
+              <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="input-group col-md-12 search">
+              <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">
+            </div>
+          </div>
+        </div>
+
         <table className="table table-striped">
           <thead>
             <tr>
