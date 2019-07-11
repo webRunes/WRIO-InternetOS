@@ -124,10 +124,17 @@ class FeedListPage extends React.Component {
           </LineChart>
         </ResponsiveContainer>
 
-        <div class="main_page_content">
+        <div className="main_page_content">
           <div>
             <section>
-              <div class="col-xs-12">
+              <div className="col-xs-12">
+                <div className="btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
+                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Copy</button>
+                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">CSV</button>
+                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Excel</button>
+                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">PDF</button>
+                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Print</button>
+                </div>
                 <h1>Details</h1>
               </div>
             </section>
