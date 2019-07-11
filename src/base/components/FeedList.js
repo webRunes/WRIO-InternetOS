@@ -6,6 +6,9 @@ import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, Cartesi
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectedOption: 'battery'
+    }
   }
 
   static range = function(start, end, step) {
@@ -58,6 +61,22 @@ class FeedListPage extends React.Component {
 
 }
 
+    onDropDownSelect(value) {
+    switch(value) {
+      case 'temperature':
+        this.setState({selectedOption: value})
+        break;
+      case 'humidity' :
+        this.setState({selectedOption: value})
+        break;
+      case 'battery': 
+      this.setState({selectedOption: value})
+      break;
+      default:
+        console.log('State is not selectable');
+    }
+    }
+
   render() {
   let feedData = this.props.feed;
   let feed = feedData.dataFeedElement;
@@ -65,25 +84,26 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
-  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == 'humidity' || item.item.variableMeasured.name == 'temperature').map(temperatureItem => {
-    return { dateRecorded: temperatureItem.dateCreated,  ["Temperature"]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
+  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': 'Temperature';
+  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption).map(temperatureItem => {
+    return { dateRecorded: temperatureItem.dateCreated,  [selectedOptionCondition]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
   }): [];
 
- let temperatureList =  [...new Set(filteredTemperatures.map(item => +item["Temperature"]))].sort();
+ let temperatureList =  [...new Set(filteredTemperatures.map(item => +item[selectedOptionCondition]))].sort();
 
- temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,5): [];
+ temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,4): [];
   return (
     feedDates.length > 0 ? <div>
 
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
     <label className="feed-dropdown pull-right">
-    <div className="feed-dropdown-button">Select Feed</div>
+    <div className="feed-dropdown-button">{this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)}</div>
     <input type="checkbox" className="feed-dropdown-input" id="test" />
     <ul className="feed-dropdown-menu">
       {
         sensorDataList.map(data => {
-          return (<li>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+          return (<li onClick={e => this.onDropDownSelect(data)}>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
         })
       }
     </ul>
@@ -101,26 +121,32 @@ class FeedListPage extends React.Component {
         >
           <LineChart
               data={filteredTemperatures}
-              margin={{top: 5, right: 0, left: 12, bottom: 50}}>
+              margin={{top: 5, right: 0, left: 12, bottom: 30}}>
             <XAxis
-              dataKey="hour"
+              // dataKey="hour"
               fontFamily="sans-serif"
-              tickSize
               dy='26'
               label='Hours'
-              tickMargin="30"/>
+              tickMargin="30"
+              tickSize={8}
+              domain={['dataMin', 'dataMax']}
+              ticks={[0,2,4,6,8,10,12,14,16,18,20,22,24]}
+              />
             <YAxis
               domain={['dataMin', 'dataMax']}
               ticks={temperatureList}
-              label={{ value: 'Temperature, °C', angle: -90, position: 'insideLeft' }}
-            />
+              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : 'Temperature, °C', angle: -90, position:'insideBottomLeft' }}
+              tickSize={8} 
+             />
             <CartesianGrid
-              vertical={false}
-              horizontal={false}
+              vertical={true}
+              horizontal={true}
               stroke="#ebf3f0"
+              strokeDasharray="2"
+              strokeWidth={1}
             />
             <Tooltip />
-            <Line dataKey="Temperature" dot={true}/>
+            <Line dataKey={selectedOptionCondition} dot={true}/>
           </LineChart>
         </ResponsiveContainer>
 
