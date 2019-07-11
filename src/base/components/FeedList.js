@@ -89,10 +89,10 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Week</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Month</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">1 Year</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Available for Premium users only">Full History</a></li>
+        <li class="disabled"><a href="#">1 Week</a></li>
+        <li class="disabled"><a href="#">1 Month</a></li>
+        <li class="disabled"><a href="#">1 Year</a></li>
+        <li class="disabled"><a href="#">Full History</a></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -121,9 +121,17 @@ class FeedListPage extends React.Component {
             <Tooltip />
             <Line dataKey="Temperature" dot={true}/>
           </LineChart>
-        </ResponsiveContainer>
-        <h2>Details</h2>
-      </div>
+        </ResponsiveContainer
+
+        <div class="main_page_content">
+          <div>
+            <section>
+              <div class="col-xs-12">
+                <h1>Details</h1>
+              </div>
+            </section>
+          </div>
+        </div>
     {
     feedDates.map(
     date => {
@@ -131,11 +139,15 @@ class FeedListPage extends React.Component {
         return item.dateCreated == date;
       })
       return (
-        <div>
-          <h1>{filterFeed[0].dateCreated.slice(12,20)}</h1>
-          <p>State: {filterFeed[0].item.variableMeasured.value}</p>
-          <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
-          <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
+        <div className="paragraph">
+          <div className="col-xs-12">
+            <div>
+              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h1>
+              <p>State: {filterFeed[0].item.variableMeasured.value}</p>
+              <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
+              <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
+            </div>
+          </div>
         </div>
       );
     }

@@ -29,12 +29,22 @@ closeModal() {
             <section>
                 <Modal visible={this.state.visible} width="600" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div className="dashboard-modal-div">
-                        <h4>The functionality is available to Alpha testers only.</h4>
-                        <p >Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
-                        <p >IPv6 &nbsp; &nbsp; &nbsp;&nbsp;<input type="text"  size="35"/></p>
-                        <p >AES key <input type="text" size="35"/></p>
-                        <a className="btn btn-default dashboard-modal-div-a1" href="javascript:void(0);" onClick={() => this.closeModal()}>Cancel</a>
-                        <a data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only." className="btn btn-success dashboard-modal-div-a2">Submit</a>
+                      <form>
+                        <div className="callout warning col-xs-12"><h5>The functionality is available to Alpha testers only.</h5></div>
+                        <p>Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
+                        <div className="form-group">
+                          <label htmlFor="IPv6_address">IPv6 address:</label>
+                          <Field name="IPv6_address" type="text" className="form-control" component="input" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="AES_key">AES key:</label>
+                          <Field name="AES_key" type="text" className="form-control" component="input" />
+                        </div>
+                        <div class="form-group pull-right">
+                          <button type="button" class="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
+                          <button type="submit" disabled="disabled" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only."><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                        </div>
+                      </form>
                     </div>
                 </Modal>
                 </section>
