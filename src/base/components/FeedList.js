@@ -72,8 +72,10 @@ class FeedListPage extends React.Component {
       case 'battery': 
       this.setState({selectedOption: value})
       break;
+      case 'state': 
+      this.setState({selectedOption: value})
+      break;
       default:
-        console.log('State is not selectable');
     }
     }
 
@@ -84,12 +86,15 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
-  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': 'Temperature';
-  let filteredTemperatures = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption).map(temperatureItem => {
+  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': this.state.selectedOption == ('humidity' || 'temperature') ? 'Temperature': 'Status';
+  let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
+  let filteredSelectedOption = this.state.selectedOption != 'state' ?  filteredSelectedOptionObj.map(temperatureItem => {
     return { dateRecorded: temperatureItem.dateCreated,  [selectedOptionCondition]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
-  }): [];
+  }): filteredSelectedOptionObj.map(item => {
+    return { dateRecorded: item.dateCreated,  [selectedOptionCondition]: item.item.variableMeasured.value, hour: item.dateCreated.slice(12,14) }
+  }) ;
 
- let temperatureList =  [...new Set(filteredTemperatures.map(item => +item[selectedOptionCondition]))].sort();
+ let temperatureList =  [...new Set(filteredSelectedOption.map(item => +item[selectedOptionCondition]))].sort();
 
  temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,4): [];
   return (
@@ -103,9 +108,9 @@ class FeedListPage extends React.Component {
     <ul className="feed-dropdown-menu">
       {
         sensorDataList.map(data => {
-          if(data != 'state') {
+          // if(data != 'state') {
           return (<li onClick={e => this.onDropDownSelect(data)}>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
-          }
+          // }
         })
       }
     </ul>
@@ -122,7 +127,7 @@ class FeedListPage extends React.Component {
           width="100%"
         >
           <LineChart
-              data={filteredTemperatures}
+              data={filteredSelectedOption}
               margin={{top: 5, right: 0, left: 12, bottom: 30}}>
             <XAxis
               // dataKey="hour"
@@ -136,9 +141,10 @@ class FeedListPage extends React.Component {
               />
             <YAxis
               domain={['dataMin', 'dataMax']}
-              ticks={temperatureList}
-              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : 'Temperature, °C', angle: -90, position:'insideBottomLeft' }}
+              ticks={this.state.selectedOption != 'state'? temperatureList: ['Enabled', 'Disabled']}
+              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption != 'state' ?'Temperature, °C': 'Sensor status'), angle: -90, position:'insideBottomLeft' }}
               tickSize={8} 
+              type={this.state.selectedOption != 'state'?  "number": "category"} 
              />
             <CartesianGrid
               vertical={true}
