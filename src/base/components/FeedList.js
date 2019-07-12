@@ -103,7 +103,9 @@ class FeedListPage extends React.Component {
     <ul className="feed-dropdown-menu">
       {
         sensorDataList.map(data => {
+          if(data != 'state') {
           return (<li onClick={e => this.onDropDownSelect(data)}>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+          }
         })
       }
     </ul>
