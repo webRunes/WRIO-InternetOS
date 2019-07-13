@@ -53,10 +53,25 @@ closeModal() {
         </div>
 
         <div className="row">
-          <div class="col-xs-6">
+          <div className="col-sm-12">
+            <div className="control-alerts control-panel col-sm-6">
+              <h1><span className="glyphicon glyphicon-alert with_text"></span>Alerts</h2>
+              <p>0</p>
+              <button className="btn btn-link disabled" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Set threshold</button>
+            </div>
+            <div className="control-last-readings control-panel col-sm-6">
+              <h1><span className="glyphicon glyphicon-repeat with_text"></span>Last readings</h4>
+              <p>The device is offline</p>
+              <button className="btn btn-link disabled" data-toggle="tooltip" data-placement="top" title="The device is offline">Refresh</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
           </div>
-          <div class="col-xs-6 search">
+          <div className="col-xs-6 search">
             <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
           </div>
         </div>
@@ -108,7 +123,7 @@ closeModal() {
                   <li className="page-item active">
                     <a className="page-link" href="#">1 <span className="sr-only">(current)</span></a>
                   </li>
-                  <li className="page-item">
+                  <li className="page-item disabled">
                     <a className="page-link" href="#">Next</a>
                   </li>
                 </ul>
