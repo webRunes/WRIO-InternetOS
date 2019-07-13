@@ -97,9 +97,7 @@ closeModal() {
 
           <div className="row">
             <div className="col-sm-6">
-              <span className="data_entries" role="status" aria-live="polite">
-                Showing 1 to 4 of 4 entries
-              </span>
+              <span className="data_entries" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</span>
             </div>
             <div className="col-sm-6">
               <nav aria-label="Pagination">
