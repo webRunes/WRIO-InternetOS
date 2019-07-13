@@ -53,21 +53,6 @@ closeModal() {
         </div>
 
         <div className="row">
-          <div className="col-sm-12">
-            <div className="control-alerts control-panel col-sm-6">
-              <h1><span className="glyphicon glyphicon-alert with_text"></span>Alerts</h1>
-              <p>0</p>
-              <button className="btn btn-link disabled" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Set threshold</button>
-            </div>
-            <div className="control-last-readings control-panel col-sm-6">
-              <h1><span className="glyphicon glyphicon-repeat with_text"></span>Last readings</h1>
-              <p>The device is offline</p>
-              <button className="btn btn-link disabled" data-toggle="tooltip" data-placement="top" title="The device is offline">Refresh</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
           </div>
