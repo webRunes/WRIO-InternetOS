@@ -49,55 +49,74 @@ closeModal() {
                   </div>
               </Modal>
         <div className="callout warning col-xs-12">
-          <h5>Dasboard is under development and the functionality is limited. Premium features are available to alpha-testers only.</h5>
+          <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
         </div>
 
         <div className="row">
-          <div className="col-md-6">
-            <div className="input-group">
-              <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
-            </div>
+          <div class="col-xs-6">
+            <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
           </div>
-          <div className="col-md-6">
-            <div className="input-group col-md-12 search">
-              <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
-            </div>
+          <div class="col-xs-6 search">
+            <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
           </div>
         </div>
 
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>State</th>
-              <th>Access</th>
-              <th>Last seen</th>
-              <th>Last readings</th>
-              <th>Battery</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              sensorData.length > 0 ?
-                sensorData.map((sensor, index) => {
-                  let sensorPayload = sensor.payload;
-                  let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
-                  let sensorProductData = sensor.productData;
-                  return (<tr>
-                    <td><div className="dashboard-sensor-id" data-toggle="tooltip" data-placement="top" title={sensorProductData.productID}>{sensorProductData.productID}</div></td>
-                    <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
-                    <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span className="glyphicon glyphicon-ok-sign icon-success" data-toggle="tooltip" data-placement="top" title="Enabled"></span> : <span className="glyphicon glyphicon-remove-sign" data-toggle="tooltip" data-placement="top" title="Disabled"></span>}</td>
-                    <td>Read</td>
-                    <td>{sensorPayload.dateModified}</td>
-                    <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
-                    <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
-                  </tr>)
+        <div className="dashboard-table">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>State</th>
+                <th>Access</th>
+                <th>Last seen</th>
+                <th>Last readings</th>
+                <th>Battery</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                sensorData.length > 0 ?
+                  sensorData.map((sensor, index) => {
+                    let sensorPayload = sensor.payload;
+                    let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
+                    let sensorProductData = sensor.productData;
+                    return (<tr>
+                      <td><div className="dashboard-sensor-id" data-toggle="tooltip" data-placement="top" title={sensorProductData.productID}>{sensorProductData.productID}</div></td>
+                      <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
+                      <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span className="glyphicon glyphicon-ok-sign icon-success" data-toggle="tooltip" data-placement="top" title="Enabled"></span> : <span className="glyphicon glyphicon-remove-sign" data-toggle="tooltip" data-placement="top" title="Disabled"></span>}</td>
+                      <td>Read</td>
+                      <td>{sensorPayload.dateModified}</td>
+                      <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
+                      <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
+                    </tr>)
+                  }) : null
+              }
+            </tbody>
+          </table>
 
-                }) : null
-            }
-          </tbody>
-        </table>
+          <div className="row">
+            <div className="col-sm-6">
+              <span className="data_entries" role="status" aria-live="polite">
+                Showing 1 to 4 of 4 entries
+              </span>
+            </div>
+            <div className="col-sm-6">
+              <nav aria-label="Pagination">
+                <ul className="pagination pull-right">
+                  <li className="page-item disabled">
+                    <a className="page-link" href="#" tabindex="-1">Previous</a>
+                  </li>
+                  <li className="page-item active">
+                    <a className="page-link" href="#">1 <span className="sr-only">(current)</span></a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav
+            </div>
+        </div>
     </div>)
   }
 }
