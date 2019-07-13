@@ -114,7 +114,7 @@ closeModal() {
                     <a className="page-link" href="#">Next</a>
                   </li>
                 </ul>
-              </nav
+              </nav>
             </div>
         </div>
     </div>)
