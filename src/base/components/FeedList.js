@@ -66,13 +66,13 @@ class FeedListPage extends React.Component {
       case 'temperature':
         this.setState({selectedOption: value})
         break;
-      case 'humidity' :
+      case 'humidity':
         this.setState({selectedOption: value})
         break;
-      case 'battery': 
+      case 'battery':
       this.setState({selectedOption: value})
       break;
-      case 'state': 
+      case 'state':
       this.setState({selectedOption: value})
       break;
       default:
@@ -143,8 +143,8 @@ class FeedListPage extends React.Component {
               domain={['dataMin', 'dataMax']}
               ticks={this.state.selectedOption != 'state'? temperatureList: ['Enabled', 'Disabled']}
               label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption != 'state' ?'Temperature, °C': 'Sensor status'), angle: -90, position:'insideBottomLeft' }}
-              tickSize={8} 
-              type={this.state.selectedOption != 'state'?  "number": "category"} 
+              tickSize={8}
+              type={this.state.selectedOption != 'state'?  "number": "category"}
              />
             <CartesianGrid
               vertical={true}
@@ -158,20 +158,16 @@ class FeedListPage extends React.Component {
           </LineChart>
         </ResponsiveContainer>
 
-        <div className="main_page_content">
-          <div>
-            <section>
-              <div className="col-xs-12">
-                <div className="btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
-                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Copy</button>
-                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">CSV</button>
-                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Excel</button>
-                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">PDF</button>
-                  <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Print</button>
-                </div>
-                <h1>Details</h1>
-              </div>
-            </section>
+        <div className="feedPage">
+          <div className="col-xs-12">
+            <div className="data_export btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
+              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Copy</button>
+              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">CSV</button>
+              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Excel</button>
+              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">PDF</button>
+              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Print</button>
+            </div>
+            <h1>Details</h1>
           </div>
         </div>
     {

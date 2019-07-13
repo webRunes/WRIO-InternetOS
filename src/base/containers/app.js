@@ -27,24 +27,14 @@ import { postUpdateHook } from "base/actions/hashUpdateHook";
 
 const RightNav = ({ onCloseTab }) => {
   return (
-    <div className="right-nav">
-      <a
-        href="#"
-        onClick={onCloseTab}
-        className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right"
-      >
+    <div className="right-nav hidden"> /* temp hidden */
+      <a href="#" onClick={onCloseTab} className="btn btn-just-icon btn-simple btn-default btn-sm btn-flat pull-right">
         <i className="material-icons dp_big">highlight_off</i>
       </a>
-      <a
-        href="#"
-        className="hidden btn btn-just-icon btn-simple btn-default btn-lg"
-      >
+      <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg">
         <i className="material-icons dp_big">bookmark</i>
       </a>
-      <a
-        href="#"
-        className="hidden btn btn-just-icon btn-simple btn-default btn-lg"
-      >
+      <a href="#" className="hidden btn btn-just-icon btn-simple btn-default btn-lg">
         <i className="material-icons dp_big">share</i>
       </a>
     </div>
@@ -103,7 +93,7 @@ class Main extends React.Component {
             editAllowed={this.props.editAllowed}
             //RIL={this.props.readItLater}
             tabKey={this.props.tabKey}
-            tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}           
+            tabClick={tab => this.props.dispatch(Actions.tabClick(tab))}
             feed={this.props.feed}
             sensorData={this.props.sensorData}
           />

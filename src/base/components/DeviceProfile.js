@@ -16,7 +16,7 @@ class DeviveProfileTab extends React.Component {
              providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }
             {
-             <img src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
+             <img className="product_img" src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
             }
             {
              productData !=undefined && productData.productID != undefined ? <div>
