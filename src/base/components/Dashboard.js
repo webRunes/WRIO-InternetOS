@@ -57,7 +57,7 @@ closeModal() {
         </div>
 
         <div class="row"><div class="col-xs-12">
-            <ul class="nav nav-pills tab-networks">
+            <ul class="nav nav-pills tab_networks">
               <li role="presentation" class="active"><a href="#">Testbed network</a></li>
               <li role="presentation"><a href="#">Private network</a></li>
               <li role="presentation"><a href="#"><i class="material-icons">add</i></a></li>
