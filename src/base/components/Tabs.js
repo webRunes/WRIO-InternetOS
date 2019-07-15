@@ -23,6 +23,7 @@ const changeUrlToUrlForEdit = require('./utils/change_url_to_url_for_edit');
 import { connect } from 'react-redux';
 import { loadFeed } from '../../base/actions/actions';
 import ProvideLink from '../components/BackToTheProvidersPageButton.js';
+import linkBuilder from './utils/linkBuilder/linkCreator.js';
 const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
@@ -73,7 +74,7 @@ class ArticleTabs extends StayOnTopElement {
             <div className="nav-tabs-navigation">
               <div className="nav-tabs-wrapper">
                 <Nav bsStyle="tabs">
-                  <NavItem eventKey="home">
+                  <NavItem eventKey="home" onClick={e => linkBuilder({},'home', '?home')}>
                     Home
                     <div className="ripple-container" />
                   </NavItem>
@@ -92,7 +93,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(sensorData.length > 0) && (
-                    <NavItem
+                    <NavItem onClick={e => linkBuilder(sensorData,'dashboard', '?dashboard')}
                       eventKey="dashboard"
                       disabled={!sensorData.length > 0}
                       className={""}
@@ -103,7 +104,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(feed.length > 0) && (
-                    <NavItem
+                    <NavItem onClick={e => linkBuilder(feed, 'device-profile', '?device-profile')}
                       eventKey="deviceProfile"
                       disabled={!feed.length > 0}
                       className={""}
@@ -114,7 +115,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}  
 
                   {(feed.length > 0) && (
-                    <NavItem
+                    <NavItem onClick={e => linkBuilder(feed,'feed', '?feed')}
                       eventKey="feed"
                       disabled={!feed.length > 0}
                       className={""}
@@ -125,7 +126,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(externalsEnabled && externals.length > 0) && (
-                    <NavItem
+                    <NavItem onClick={e => linkBuilder(externals, 'collection', '?collection')}
                       eventKey="collection"
                       disabled={!externalsEnabled}
                       className={!externalsEnabled ? 'disabled' : ''}
