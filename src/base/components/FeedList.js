@@ -134,10 +134,11 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Week</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Month</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Year</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Full History</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Week</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Month</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Year</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">All</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Custom</a></ToolTipLite></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -178,11 +179,11 @@ class FeedListPage extends React.Component {
         <div className="feedPage">
           <div className="col-xs-12">
             <div className="data_export btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
-              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Copy</button>
-              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">CSV</button>
-              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Excel</button>
-              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">PDF</button>
-              <button type="button" disabled className="btn btn-default" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Print</button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Copy</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">CSV</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Excel</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">PDF</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Print</ToolTipLite></button>
             </div>
             <h1>Details</h1>
           </div>
