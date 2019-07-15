@@ -28,32 +28,45 @@ closeModal() {
   render() {
     let sensorData = this.props.sensorData;
     return (<div>
-              <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                  <div className="dashboard-modal-div">
-                    <form>
-                      <div className="callout warning col-xs-12"><h5>The functionality is available to Alpha testers only.</h5></div>
-                      <p>Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
-                      <div className="form-group">
-                        <label htmlFor="IPv6_address">IPv6 address:</label>
-                        <input name="IPv6_address" type="text" className="form-control"/>
-                        {/* <Field name="IPv6_address" type="text" className="form-control" component="input" /> */}
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="AES_key">AES key:</label>
-                        <input name="AES_key" type="text" className="form-control"/>
-                        {/* <Field name="AES_key" type="text" className="form-control" component="input" /> */}
-                      </div>
-                      <div className="form-group pull-right">
-                        <button type="button" className="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
-                        <Tooltip content="Available to Alpha testers only">
-                          <button type="submit" disabled="disabled" className="btn btn-primary btn-sm"><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
-                        </Tooltip>
-                      </div>
-                    </form>
-                  </div>
-              </Modal>
+        <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+            <div className="dashboard-modal-div">
+              <form>
+                <div className="callout warning col-xs-12"><h5>The functionality is available to Alpha testers only.</h5></div>
+                <p>Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
+                <div className="form-group">
+                  <label htmlFor="IPv6_address">IPv6 address:</label>
+                  <input name="IPv6_address" type="text" className="form-control"/>
+                  {/* <Field name="IPv6_address" type="text" className="form-control" component="input" /> */}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="AES_key">AES key:</label>
+                  <input name="AES_key" type="text" className="form-control"/>
+                  {/* <Field name="AES_key" type="text" className="form-control" component="input" /> */}
+                </div>
+                <div className="form-group pull-right">
+                  <button type="button" className="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
+                  <Tooltip content="Available to Alpha testers only">
+                    <button type="submit" disabled="disabled" className="btn btn-primary btn-sm"><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                  </Tooltip>
+                </div>
+              </form>
+            </div>
+        </Modal>
         <div className="callout warning col-xs-12">
           <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
+        </div>
+
+        <div className="row">
+          <div className="control-alerts control-panel col-sm-6">
+            <h1><i className="material-icons">group</i>Followers</h1>
+            <p>8<sup>+2<span className="glyphicon-class">glyphicon glyphicon-arrow-up</span></sup></p>
+            <button className="btn btn-sm disabled">Follow</button>
+          </div>
+          <div className="control-last-readings control-panel col-sm-6">
+            <h1><i className="material-icons">bar_chart</i>Analytics</h1>
+            <p>Total devices: 4</p>
+            <button className="btn btn-sm disabled">Details</button>
+          </div>
         </div>
 
         <div className="row"><div className="col-xs-12">
