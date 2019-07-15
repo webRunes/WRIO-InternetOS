@@ -45,8 +45,8 @@ closeModal() {
                       </div>
                       <div className="form-group pull-right">
                         <button type="button" className="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
-                        <Tooltip content="Available to Alpha testers only.">
-                        <button type="submit" disabled="disabled" className="btn btn-primary btn-sm"><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                        <Tooltip content="Available to Alpha testers only">
+                          <button type="submit" disabled="disabled" className="btn btn-primary btn-sm"><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
                         </Tooltip>
                       </div>
                     </form>
@@ -54,6 +54,15 @@ closeModal() {
               </Modal>
         <div className="callout warning col-xs-12">
           <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
+        </div>
+
+        <div class="row"><div class="col-xs-12">
+            <ul class="nav nav-pills tab-networks">
+              <li role="presentation" class="active"><a href="#">Testbed network</a></li>
+              <li role="presentation"><a href="#">Private network</a></li>
+              <li role="presentation"><a href="#"><i class="material-icons">add</i></a></li>
+            </ul>
+          </div>
         </div>
 
         <div className="row">

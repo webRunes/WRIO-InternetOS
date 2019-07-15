@@ -15,24 +15,47 @@ class DeviveProfileTab extends React.Component {
             {
              providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }
-            {
-             <img className="product_img" src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
-            }
-            {
-             productData !=undefined && productData.productID != undefined ? <div>
-              <div>Product ID: {productData ? productData.productID: ''}</div>
-              <div>Name: {productData? productData.name: ''}</div>
-              <div>Description: {productData? productData.description: ''}</div>
-              <div>Brand: {productData? productData.brand: ''}</div>
-              <div>Manufacturer: {productData? productData.manufacturer: ''}</div>
-              <div>Production Date: {productData? productData.productionDate: ''}</div>
-              <div>Purchase Date: {productData? productData.purchaseDate: ''}</div>
-              <div>Release Date: {productData? productData.releaseDate: ''}</div>
-              <div>Height: {productData? productData.height: ''}</div>
-              <div>Weight: {productData? productData.weight: ''}</div>
-              <div>width: {productData? productData.width: ''}</div>
-            </div>: null
-            }
+
+            <div class="row">
+              <div class="col-sm-6">
+                {
+                 <img className="product_img" src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
+                }
+              </div>
+              <div class="col-sm-6">
+                {
+                 productData !=undefined && productData.productID != undefined ? <div>
+                  <div>Product ID: {productData ? productData.productID: ''}</div>
+                  <div>Name: {productData? productData.name: ''}</div>
+                  <div>Description: {productData? productData.description: ''}</div>
+                  <div>Brand: {productData? productData.brand: ''}</div>
+                  <div>Manufacturer: {productData? productData.manufacturer: ''}</div>
+                  <div>Production Date: {productData? productData.productionDate: ''}</div>
+                  <div>Purchase Date: {productData? productData.purchaseDate: ''}</div>
+                  <div>Release Date: {productData? productData.releaseDate: ''}</div>
+                  <div>Height: {productData? productData.height: ''}</div>
+                  <div>Weight: {productData? productData.weight: ''}</div>
+                  <div>width: {productData? productData.width: ''}</div>
+                </div>: null
+                }
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-6">
+                <img src="https://default.wrioos.com/img/no-photo-200x200.png'}" width="200" height="200">
+              </div>
+              <div className="col-sm-6">
+                <h1>imec Ghent</h1>
+                <p><a href="mailto:info@imec.be">info@imec.be</a></p>
+                <p>+32 9 248 55 55</p>
+                <p>De Krook</p>
+                <p>Miriam Makebaplein 1</p>
+                <p>9000 Ghent</p>
+                <p>Belgium</p>
+              </div>
+            </div>
+
             </div>
         );
     }
