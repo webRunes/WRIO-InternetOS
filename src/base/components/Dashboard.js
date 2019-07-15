@@ -56,11 +56,11 @@ closeModal() {
           <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
         </div>
 
-        <div class="row"><div class="col-xs-12">
-            <ul class="nav nav-pills tab_networks">
-              <li role="presentation" class="active"><a href="#">Testbed network</a></li>
-              <li role="presentation"><a href="#">Private network</a></li>
-              <li role="presentation"><a href="#"><i class="material-icons">add</i></a></li>
+        <div className="row"><div className="col-xs-12">
+            <ul className="nav nav-pills tab_networks">
+              <li role="presentation" className="active"><a href="#">Testbed network</a></li>
+              <li role="presentation"><a href="#">Private test network</a></li>
+              <li role="presentation"><a href="#" className="add_icon"><i className="material-icons">add</i></a></li>
             </ul>
           </div>
         </div>
