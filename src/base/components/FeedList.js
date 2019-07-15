@@ -108,7 +108,7 @@ class FeedListPage extends React.Component {
         <p>0</p>
         <Tooltip content="Premium feature, available to Alpha testers only">
           <button className="btn btn-sm disabled">Set threshold</button>
-      </Tooltip>
+        </Tooltip>
       </div>
       <div className="control-last-readings control-panel col-sm-6">
         <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
