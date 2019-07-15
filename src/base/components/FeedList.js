@@ -103,12 +103,12 @@ class FeedListPage extends React.Component {
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
     <div className="row">
-      <div className="control-alerts control-panel col-sm-6">
+      <div className="control-left control-panel col-sm-6">
         <h1><i className="material-icons">notifications_active</i>Alerts</h1>
         <p>0</p>
         <button className="btn btn-sm disabled">Set threshold</button>
       </div>
-      <div className="control-last-readings control-panel col-sm-6">
+      <div className="control-right control-panel col-sm-6">
         <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
         <p>The device is offline</p>
         <button className="btn btn-sm disabled">Refresh</button>
