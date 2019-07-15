@@ -103,17 +103,19 @@ class FeedListPage extends React.Component {
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
     <div className="row">
-      <div className="col-sm-12">
-        <div className="control-alerts control-panel col-sm-6">
-          <h1><i className="material-icons">notifications_active</i>Alerts</h1>
-          <p>0</p>
-          <button className="btn btn-sm disabled" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Set threshold</button>
-        </div>
-        <div className="control-last-readings control-panel col-sm-6">
-          <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
-          <p>The device is offline</p>
-          <button className="btn btn-sm disabled" data-toggle="tooltip" data-placement="top" title="The device is offline">Refresh</button>
-        </div>
+      <div className="control-alerts control-panel col-sm-6">
+        <h1><i className="material-icons">notifications_active</i>Alerts</h1>
+        <p>0</p>
+        <Tooltip content="Premium feature, available to Alpha testers only">
+          <button className="btn btn-sm disabled">Set threshold</button>
+      </Tooltip>
+      </div>
+      <div className="control-last-readings control-panel col-sm-6">
+        <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
+        <p>The device is offline</p>
+        <Tooltip content="The device is offline">
+          <button className="btn btn-sm disabled">Refresh</button>
+        </Tooltip>
       </div>
     </div>
 
