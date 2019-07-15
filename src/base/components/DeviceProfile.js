@@ -19,7 +19,7 @@ class DeviveProfileTab extends React.Component {
             <div className="row">
               <div className="col-sm-6">
                 {
-                 <img className="product_img" src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
+                 <img src={productData ? (productData.image?productData.image:'https://default.wrioos.com/img/no-photo-200x200.png'): 'https://default.wrioos.com/img/no-photo-200x200.png'} width="200" height="200"/>
                 }
               </div>
               <div className="col-sm-6">
@@ -47,13 +47,14 @@ class DeviveProfileTab extends React.Component {
                 <img src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
               </div>
               <div className="col-sm-6">
-                <h2>imec Ghent</h2>
-                <p><a href="mailto:info@imec.be">info@imec.be</a></p>
-                <p>+32 9 248 55 55</p>
-                <p>De Krook</p>
-                <p>Miriam Makebaplein 1</p>
-                <p>9000 Ghent</p>
-                <p>Belgium</p>
+                <h2>Location</h2>
+                <div>imec Ghent</div>
+                <div><a href="mailto:info@imec.be">info@imec.be</a></div>
+                <div>+32 9 248 55 55</div>
+                <div>De Krook</div>
+                <div>Miriam Makebaplein 1</div>
+                <div>9000 Ghent</div>
+                <div>Belgium</div>
               </div>
             </div>
 
