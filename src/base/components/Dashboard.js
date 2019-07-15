@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 import Modal from 'react-awesome-modal';
 import { Field, reduxForm } from 'redux-form';
+import Tooltip from 'react-tooltip-lite';
+
 export class Dashboard extends React.Component {
 
   constructor(props) {
@@ -43,7 +45,9 @@ closeModal() {
                       </div>
                       <div className="form-group pull-right">
                         <button type="button" className="btn btn-default btn-sm" onClick={() => this.closeModal()}><span className="glyphicon glyphicon-remove with_text"></span>Cancel</button>
-                        <button type="submit" disabled="disabled" className="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only."><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                        <Tooltip content="Available to Alpha testers only.">
+                        <button type="submit" disabled="disabled" className="btn btn-primary btn-sm"><span className="glyphicon glyphicon-ok with_text"></span>Submit</button>
+                        </Tooltip>
                       </div>
                     </form>
                   </div>
@@ -82,9 +86,11 @@ closeModal() {
                     let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
                     let sensorProductData = sensor.productData;
                     return (<tr>
-                      <td><div className="dashboard-sensor-id" data-toggle="tooltip" data-placement="top" title={sensorProductData.productID}>{sensorProductData.productID}</div></td>
+                      <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
                       <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
-                      <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ? <span className="glyphicon glyphicon-ok-sign icon-success" data-toggle="tooltip" data-placement="top" title="Enabled"></span> : <span className="glyphicon glyphicon-remove-sign" data-toggle="tooltip" data-placement="top" title="Disabled"></span>}</td>
+                      <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
+                      <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
+                      <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
                       <td>Read</td>
                       <td>{sensorPayload.dateModified}</td>
                       <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
