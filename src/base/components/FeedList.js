@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import ProvideLink from './BackToTheProvidersPageButton.js';
 import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
-
+import ToolTipLite from 'react-tooltip-lite';
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -86,7 +86,7 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
-  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': this.state.selectedOption == ('humidity' || 'temperature') ? 'Temperature': 'Status';
+  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': (this.state.selectedOption == 'temperature' ? 'Temperature': (this.state.selectedOption == 'humidity' ? 'Humidity':'State'));
   let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
   let filteredSelectedOption = this.state.selectedOption != 'state' ?  filteredSelectedOptionObj.map(temperatureItem => {
     return { dateRecorded: temperatureItem.dateCreated,  [selectedOptionCondition]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
@@ -132,10 +132,10 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Week</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Month</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">1 Year</a></li>
-        <li class="disabled"><a href="#" data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only">Full History</a></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Week</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Month</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">1 Year</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Full History</a></ToolTipLite></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -157,7 +157,7 @@ class FeedListPage extends React.Component {
             <YAxis
               domain={['dataMin', 'dataMax']}
               ticks={this.state.selectedOption != 'state'? temperatureList: ['Enabled', 'Disabled']}
-              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption != 'state' ?'Temperature, °C': 'Sensor status'), angle: -90, position:'insideBottomLeft' }}
+              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption == 'temperature' ?'Temperature, °C': this.state.selectedOption == 'humidity' ? 'Humidity, °C':'Sensor state'), angle: -90, position:'insideBottomLeft' }}
               tickSize={8}
               type={this.state.selectedOption != 'state'?  "number": "category"}
              />

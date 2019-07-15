@@ -48,6 +48,7 @@
     "react-prop-types": "0.4.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
+    "react-tooltip-lite": "^1.9.5",
     "recharts": "^1.6.2",
     "redbox-react": "^1.4.2",
     "redux": "^3.7.2",
