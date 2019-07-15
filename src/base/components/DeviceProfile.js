@@ -41,7 +41,7 @@ class DeviveProfileTab extends React.Component {
                   }
               </div>
             </div>
-            <br>
+            <br/>
             <div className="row">
               <div className="col-sm-6">
                 <img src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
