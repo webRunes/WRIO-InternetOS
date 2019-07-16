@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProviderLink from './BackToTheProvidersPageButton.js';
+import MapBoxGL from '../../base/components/mapbox/index.js';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -57,7 +58,7 @@ class DeviveProfileTab extends React.Component {
                 <div>Belgium</div>
               </div>
             </div>
-
+            <MapBoxGL />
             </div>
         );
     }
