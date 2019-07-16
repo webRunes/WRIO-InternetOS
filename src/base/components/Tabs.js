@@ -28,6 +28,31 @@ const HEADER_PADDING = 15; // variable set in CSS
 
 class ArticleTabs extends StayOnTopElement {
 
+  constructor() {
+    super();
+    this.state = {
+      activeKey: 'home'
+    }
+  }
+
+  componentDidMount() {
+    if (this.checkURLHash('#dashboard')) {
+      this.setState({ activeKey: 'dashboard' })
+    } else if (this.checkURLHash('#collection')) {
+      this.setState({ activeKey: 'collection' })
+    } else if (this.checkURLHash('#feed')) {
+      this.setState({ activeKey: 'feed' })
+    } else if (this.checkURLHash('#deviceProfile')) {
+      this.setState({ activeKey: 'deviceProfile' })
+    } else {
+      this.setState({ activeKey: 'home' })
+    }
+  }
+
+  checkURLHash(hash) {
+     return window.location.href.includes(hash);
+  }
+
   handleScroll() {
     const elem = this.refs.subcontainer;
     const container = findDOMNode(this.refs.container); // THIS IS WRONG! figure out how to use ref instead
@@ -50,6 +75,13 @@ class ArticleTabs extends StayOnTopElement {
     }
   }
 
+  tabNavigation(data, keyName, URL) {
+   if(this.state.activeKey != keyName) {
+   this.setState({ activeKey: keyName });
+   }
+   linkBuilder(data, keyName, URL);
+  }
+
   render() {
     const center = this.props.center,
       externals = this.props.externals,
@@ -65,8 +97,8 @@ class ArticleTabs extends StayOnTopElement {
       <Tab.Container
         ref="container"
         id="container"
-        defaultActiveKey="home"
-        activeKey={tabKey}
+        // defaultActiveKey="dashboard"
+        activeKey={this.state.activeKey}
         onSelect={key => this.props.tabClick(key)}
       >
         <Row className="card card-nav-tabs">
@@ -74,13 +106,13 @@ class ArticleTabs extends StayOnTopElement {
             <div className="nav-tabs-navigation">
               <div className="nav-tabs-wrapper">
                 <Nav bsStyle="tabs">
-                  <NavItem eventKey="home" onClick={e => linkBuilder({},'home', '?home')}>
+                  <NavItem eventKey="home" onClick={e => this.tabNavigation({}, 'home', '#home')}>
                     Home
                     <div className="ripple-container" />
                   </NavItem>
 
                   {editAllowed && (
-                    <NavItem
+                    <NavItem onClick={e =>this.tabNavigation({}, 'edit', '#edit')}
                       eventKey="edit"
                       onClick={() => {
                         // go to standalone editor URL
@@ -93,7 +125,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(sensorData.length > 0) && (
-                    <NavItem onClick={e => linkBuilder(sensorData,'dashboard', '?dashboard')}
+                    <NavItem onClick={e =>this.tabNavigation({}, 'dashboard', '#dashboard')}
                       eventKey="dashboard"
                       disabled={!sensorData.length > 0}
                       className={""}
@@ -104,7 +136,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(feed.length > 0) && (
-                    <NavItem onClick={e => linkBuilder(feed, 'device-profile', '?device-profile')}
+                    <NavItem onClick={e =>this.tabNavigation({}, 'deviceProfile', '#deviceProfile')}
                       eventKey="deviceProfile"
                       disabled={!feed.length > 0}
                       className={""}
@@ -115,7 +147,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}  
 
                   {(feed.length > 0) && (
-                    <NavItem onClick={e => linkBuilder(feed,'feed', '?feed')}
+                    <NavItem onClick={e =>this.tabNavigation({}, 'feed', '#feed')}
                       eventKey="feed"
                       disabled={!feed.length > 0}
                       className={""}
@@ -126,7 +158,7 @@ class ArticleTabs extends StayOnTopElement {
                   )}
 
                   {(externalsEnabled && externals.length > 0) && (
-                    <NavItem onClick={e => linkBuilder(externals, 'collection', '?collection')}
+                    <NavItem onClick={e =>this.tabNavigation({}, 'collection', '#collection')}
                       eventKey="collection"
                       disabled={!externalsEnabled}
                       className={!externalsEnabled ? 'disabled' : ''}

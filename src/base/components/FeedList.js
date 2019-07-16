@@ -181,30 +181,30 @@ class FeedListPage extends React.Component {
               <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">PDF</ToolTipLite></button>
               <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Print</ToolTipLite></button>
             </div>
-            <h1>Details</h1>
+            <h1>Timeline</h1>
           </div>
         </div>
-    {
-    feedDates.map(
-    date => {
-      let filterFeed = feed.filter(item => {
-        return item.dateCreated == date;
-      })
-      return (
-        <div className="paragraph">
-          <div className="col-xs-12">
-            <div>
+    <div className="timeline">
+      {
+      feedDates.map(
+      date => {
+        let filterFeed = feed.filter(item => {
+          return item.dateCreated == date;
+        })
+        return (
+          <div className="paragraph">
+            <div className="col-xs-12">
               <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
               <p>State: {filterFeed[0].item.variableMeasured.value}</p>
               <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
               <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
             </div>
           </div>
-        </div>
-      );
-    }
-  )
-    }
+            );
+          }
+        )
+      }
+    </div>
   </div>
   </div>:null);
   }
