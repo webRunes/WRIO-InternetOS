@@ -103,19 +103,15 @@ class FeedListPage extends React.Component {
     {providerLink !=undefined ? <ProvideLink providerLink={providerLink} /> :null}
 
     <div className="row">
-      <div className="control-alerts control-panel col-sm-6">
+      <div className="control-left control-panel col-sm-6">
         <h1><i className="material-icons">notifications_active</i>Alerts</h1>
         <p>0</p>
-        <Tooltip content="Premium feature, available to Alpha testers only">
-          <button className="btn btn-sm disabled">Set threshold</button>
-        </Tooltip>
+        <button className="btn btn-sm disabled">Set threshold</button>
       </div>
-      <div className="control-last-readings control-panel col-sm-6">
+      <div className="control-right control-panel col-sm-6">
         <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
         <p>The device is offline</p>
-        <Tooltip content="The device is offline">
-          <button className="btn btn-sm disabled">Refresh</button>
-        </Tooltip>
+        <button className="btn btn-sm disabled">Refresh</button>
       </div>
     </div>
 
@@ -134,11 +130,11 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Week</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Month</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Year</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">All</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Custom</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Week</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Month</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Year</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">All</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Custom</a></ToolTipLite></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -179,11 +175,11 @@ class FeedListPage extends React.Component {
         <div className="feedPage">
           <div className="col-xs-12">
             <div className="data_export btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Copy</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">CSV</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Excel</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">PDF</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only">Print</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Copy</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">CSV</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Excel</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">PDF</ToolTipLite></button>
+              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Print</ToolTipLite></button>
             </div>
             <h1>Details</h1>
           </div>
