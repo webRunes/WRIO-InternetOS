@@ -194,10 +194,13 @@ class FeedListPage extends React.Component {
         return (
           <div className="paragraph">
             <div className="col-xs-12">
-              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
-              <p>State: {filterFeed[0].item.variableMeasured.value}</p>
-              <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
-              <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
+              <span class="timeline-step badge-success"><i class="material-icons">schedule</i></span>
+              <div className="timeline-content">
+                <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
+                <p>State: {filterFeed[0].item.variableMeasured.value}</p>
+                <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
+                <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
+              </div>
             </div>
           </div>
             );
