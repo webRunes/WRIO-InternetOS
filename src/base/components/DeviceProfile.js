@@ -44,7 +44,7 @@ class DeviveProfileTab extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-6">
-              <div className="deviceProfile-mapboxgl"><MapBoxGL/></div>
+              <MapBoxGL/>
               </div>
               <div className="col-sm-6">
                 <h2>Location</h2>

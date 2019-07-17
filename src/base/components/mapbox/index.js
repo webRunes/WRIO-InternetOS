@@ -134,7 +134,12 @@ class MapBoxGL extends React.Component {
         this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
         this.state.mapCenter = this.props.geoCoordinates;
         const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
-        return (React.createElement(Container, null,
+        return (<div className="deviceProfile-mapboxgl-main">
+            {
+            this.props.geoCoordinates && this.props.geoCoordinates.length ?
+            <div className="deviceProfile-mapboxgl"> 
+                {
+            React.createElement(Container, null,
             React.createElement(Map, { style: styles[styleKey], containerStyle: mapStyle, center: mapCenter, onStyleLoad: this.onStyleLoad },
                 renderLayer ? (React.createElement("div", null,
                     React.createElement(Source, { id: "example_id", geoJsonSource: GEOJSON_SOURCE_OPTIONS }),
@@ -150,7 +155,11 @@ class MapBoxGL extends React.Component {
             React.createElement(BottomBar, null,
                 React.createElement(Button, { onClick: this.nextStyle }, "Change style"),
                 React.createElement(Button, { onClick: this.toggleLayer }, "Toggle layer"),
-                React.createElement(Indicator, null, `Using style: ${styleKey}`))));
+                React.createElement(Indicator, null, `Using style: ${styleKey}`)))
+            }
+              </div>: <img src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
+            }
+          </div>);
     }
 }
 
