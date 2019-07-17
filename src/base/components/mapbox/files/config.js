@@ -1,5 +1,5 @@
 export default {
-    "token": "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA",
+    "token": "pk.eyJ1Ijoid2VicnVuZXMiLCJhIjoiY2p5NGY5Nm93MTVlNDNpbzg1N3czdmd5cCJ9.CptajnA9N30WwXNK1EygyA",
     "styles": {
       "londonCycle": "mapbox://styles/mapbox/light-v9",
       "light": "mapbox://styles/mapbox/light-v9",
