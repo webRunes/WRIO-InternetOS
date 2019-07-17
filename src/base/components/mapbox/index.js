@@ -140,12 +140,13 @@ class MapBoxGL extends React.Component {
                     React.createElement(Source, { id: "example_id", geoJsonSource: GEOJSON_SOURCE_OPTIONS }),
                     React.createElement(Layer, { type: "circle", id: "example_id_marker", paint: POSITION_CIRCLE_PAINT, sourceId: 'example_id' }))) : (undefined),
                 React.createElement(Layer, { type: "circle", id: "position-marker", paint: POSITION_CIRCLE_PAINT }, featuresPostion.map((loc, index) => (React.createElement(Feature, { key: index, coordinates: loc, draggable: index === 0, onDragEnd: evt => this.onDragEnd(evt, index), onDragStart: this.onDragStart, onDrag: this.onDrag })))),
-                React.createElement(GeoJSONLayer, { data: geojson, circleLayout: { visibility: 'visible' }, symbolLayout: {
-                        'text-field': '{place}',
-                        'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-                        'text-offset': [0, 0.6],
-                        'text-anchor': 'top'
-                    } })),
+                // React.createElement(GeoJSONLayer, { data: geojson, circleLayout: { visibility: 'visible' }, symbolLayout: {
+                //         'text-field': '{place}',
+                //         'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+                //         'text-offset': [0, 0.6],
+                //         'text-anchor': 'top'
+                //     } })
+                    ),
             React.createElement(BottomBar, null,
                 React.createElement(Button, { onClick: this.nextStyle }, "Change style"),
                 React.createElement(Button, { onClick: this.toggleLayer }, "Toggle layer"),
