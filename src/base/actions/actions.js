@@ -192,7 +192,6 @@ export function loadDocumentWithData(data: LdJsonDocument, url: string) {
         dispatch(loadFeed(externalDoc.url))
       } 
       else if(externalDoc.name.toLowerCase().includes('dashboard')) {
-        console.log('EXTERNAL DOC URL === https://imec.wr.io/testbed/?dashboard, Log ==',externalDoc.url);
         dispatch(loadSensorFeed(externalDoc.url));
       } else {
         dispatch(loadExternal(i, externalDoc.url));

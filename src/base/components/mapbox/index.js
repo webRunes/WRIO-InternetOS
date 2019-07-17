@@ -2,9 +2,10 @@ import * as React from 'react';
 import ReactMapboxGl, { Layer, Source, Feature, GeoJSONLayer } from 'react-mapbox-gl';
 import styled from 'styled-components';
 import Config from './files/config.js';
-const { token, styles } = Config;
-// const geojson = require('./geojson.json');
 import geojson from './files/geojson.js';
+import { connect } from 'react-redux';
+
+const { token, styles } = Config;
 const Map = ReactMapboxGl({ accessToken: token });
 const Container = styled.div `
   position: relative;
@@ -40,8 +41,9 @@ const BottomBar = styled.div `
   align-items: center;
 `;
 const mapStyle = {
-    height: '100vh',
-    width: '100%'
+    height: '100%',
+    width: '100%',
+    minWidth: '100%'
 };
 const GEOJSON_SOURCE_OPTIONS = {
     type: 'geojson',
@@ -55,7 +57,8 @@ const GEOJSON_SOURCE_OPTIONS = {
             title: 'Mapbox DC',
             'marker-symbol': 'monument'
         }
-    }
+    },
+    myLocation: false
 };
 const POSITION_CIRCLE_PAINT = {
     'circle-stroke-width': 4,
@@ -66,15 +69,17 @@ const POSITION_CIRCLE_PAINT = {
 };
 const selectedStyles = ['basic', 'dark', 'light'];
 const switchStyles = Object.keys(styles).filter(k => selectedStyles.includes(k));
-const InitialUserPostion = [3.728149465869137, 51.04842478723869];
-class StyleUpdate extends React.Component {
-    constructor() {
-        super(...arguments);
+// const InitialUserPostion = [3.728149465869137, 51.04842478723869];
+
+class MapBoxGL extends React.Component {
+    constructor(props) {
+        super(...arguments, props);
+        this.InitialUserPostion = [7.728149465869137, 51.04842478723869];
         this.state = {
             styleKey: 'basic',
-            featuresPostion: [InitialUserPostion, InitialUserPostion],
+            featuresPostion: [this.InitialUserPostion, this.InitialUserPostion],
             // userPosition: InitialUserPostion,
-            mapCenter: InitialUserPostion,
+            mapCenter: this.InitialUserPostion,
             renderLayer: true
         };
         this.nextStyle = () => {
@@ -112,17 +117,22 @@ class StyleUpdate extends React.Component {
         };
     }
     componentWillMount() {
+        if(this.state.myLocation) {
         navigator.geolocation.getCurrentPosition(({ coords }) => {
             const { latitude, longitude } = coords;
             this.setState({
-                featuresPostion: [[longitude, latitude], InitialUserPostion],
+                featuresPostion: [[longitude, latitude], this.InitialUserPostion],
                 mapCenter: [longitude, latitude]
             });
         }, err => {
             console.error('Cannot retrieve your current position', err);
         });
+     }
     }
+
     render() {
+        this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
+        this.state.mapCenter = this.props.geoCoordinates;
         const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
         return (React.createElement(Container, null,
             React.createElement(Map, { style: styles[styleKey], containerStyle: mapStyle, center: mapCenter, onStyleLoad: this.onStyleLoad },
@@ -142,4 +152,9 @@ class StyleUpdate extends React.Component {
                 React.createElement(Indicator, null, `Using style: ${styleKey}`))));
     }
 }
-export default StyleUpdate;
+
+const mapStateToProps = state => ({
+    geoCoordinates: state.document.geoCoordinates
+  });
+
+export default connect(mapStateToProps)(MapBoxGL);

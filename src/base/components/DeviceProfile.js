@@ -58,7 +58,7 @@ class DeviveProfileTab extends React.Component {
                 <div>Belgium</div>
               </div>
             </div>
-            <MapBoxGL />
+            <div className="deviceProfile-mapboxgl"><MapBoxGL/></div>
             </div>
         );
     }
@@ -68,7 +68,8 @@ class DeviveProfileTab extends React.Component {
 
 const mapStateToProps = state => ({
     feed: state.document.feed,
-    sensorProductData: state.document.feedProductData
+    sensorProductData: state.document.feedProductData,
+    geoCoordinates: state.document.geoCoordinates
   });
 
   export const DeviceProfile = connect(mapStateToProps)(DeviveProfileTab);

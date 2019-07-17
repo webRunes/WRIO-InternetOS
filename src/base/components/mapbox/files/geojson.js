@@ -4,7 +4,7 @@ export default {
       {
         "type":"Feature",
         "properties":{
-          "place":"The coffee bar",
+          "place":"Umair's House",
           "login":"espresso",
           "lat":"38.91427",
           "lon":"-77.02827"
