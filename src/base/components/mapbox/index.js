@@ -73,6 +73,7 @@ const switchStyles = Object.keys(styles).filter(k => selectedStyles.includes(k))
 class MapBoxGL extends React.Component {
     constructor(props) {
         super(...arguments, props);
+        try{
         this.InitialUserPostion = [7.728149465869137, 51.04842478723869];
         this.state = {
             styleKey: 'basic',
@@ -113,8 +114,12 @@ class MapBoxGL extends React.Component {
         };
         this.onStyleLoad = (map) => {
             const { onStyleLoad } = this.props;
+            map.resize();
             return onStyleLoad && onStyleLoad(map);
         };
+    } catch(e) {
+        console.log('ERROR ====== >>>>', e);
+    }
     }
     componentWillMount() {
         if(this.state.myLocation) {
@@ -131,7 +136,7 @@ class MapBoxGL extends React.Component {
     }
 
     render() {
-        console.log('geoCoordinates PROPS ======>>>>>', this.props.geoCoordinates);
+        console.log('BUILD NO. 4', this.props.geoCoordinates);
         this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
         this.state.mapCenter = this.props.geoCoordinates;
         const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
