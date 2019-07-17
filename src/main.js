@@ -1,5 +1,6 @@
 require("babel-polyfill");
 require("es6-symbol/implement"); // FOR IE support for of iterators
+require('react-mapbox-gl');
 
 import React from "react";
 import ReactDOM from "react-dom";

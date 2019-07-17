@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProviderLink from './BackToTheProvidersPageButton.js';
+import MapBoxGL from '../../base/components/mapbox/index.js';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -56,7 +57,7 @@ class DeviveProfileTab extends React.Component {
                 <div>Belgium</div>
               </div>
             </div>
-
+            <div className="deviceProfile-mapboxgl"><MapBoxGL/></div>
             </div>
         );
     }
@@ -66,7 +67,8 @@ class DeviveProfileTab extends React.Component {
 
 const mapStateToProps = state => ({
     feed: state.document.feed,
-    sensorProductData: state.document.feedProductData
+    sensorProductData: state.document.feedProductData,
+    geoCoordinates: state.document.geoCoordinates
   });
 
   export const DeviceProfile = connect(mapStateToProps)(DeviveProfileTab);
