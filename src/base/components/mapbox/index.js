@@ -68,17 +68,17 @@ const POSITION_CIRCLE_PAINT = {
 };
 const selectedStyles = ['basic', 'dark', 'light'];
 const switchStyles = Object.keys(styles).filter(k => selectedStyles.includes(k));
-// const InitialUserPostion = [3.728149465869137, 51.04842478723869];
+const InitialUserPostion = [3.728149465869137, 51.04842478723869];
 
 class MapBoxGL extends React.Component {
     constructor(props) {
         super(...arguments, props);
-        this.InitialUserPostion = [7.728149465869137, 51.04842478723869];
+        // this.InitialUserPostion = [7.728149465869137, 51.04842478723869];
         this.state = {
             styleKey: 'basic',
-            featuresPostion: [this.InitialUserPostion, this.InitialUserPostion],
+            featuresPostion: [InitialUserPostion, InitialUserPostion],
             // userPosition: InitialUserPostion,
-            mapCenter: this.InitialUserPostion,
+            mapCenter: InitialUserPostion,
             renderLayer: true,
             myLocation: false
         };
@@ -121,7 +121,7 @@ class MapBoxGL extends React.Component {
         navigator.geolocation.getCurrentPosition(({ coords }) => {
             const { latitude, longitude } = coords;
             this.setState({
-                featuresPostion: [[longitude, latitude], this.InitialUserPostion],
+                featuresPostion: [[longitude, latitude], InitialUserPostion],
                 mapCenter: [longitude, latitude]
             });
         }, err => {
@@ -131,14 +131,10 @@ class MapBoxGL extends React.Component {
     }
 
     render() {
-        console.log('geoCoordinates PROPS ======>>>>>', this.props.geoCoordinates);
-        this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
-        this.state.mapCenter = this.props.geoCoordinates;
-        let featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
-        let mapCenter = this.props.geoCoordinates;
-        const { styleKey,
-            //  featuresPostion, mapCenter,
-              renderLayer } = this.state;
+        console.log('geoCoordinates PROPS ======>>>>> TEST 3', this.props.geoCoordinates);
+        // this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
+        // this.state.mapCenter = this.props.geoCoordinates;
+        const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
         return (<div className="deviceProfile-mapboxgl-main">
             {
             this.props.geoCoordinates && this.props.geoCoordinates.length ?
