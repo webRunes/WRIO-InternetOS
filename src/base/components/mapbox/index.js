@@ -57,8 +57,7 @@ const GEOJSON_SOURCE_OPTIONS = {
             title: 'Mapbox DC',
             'marker-symbol': 'monument'
         }
-    },
-    myLocation: false
+    }
 };
 const POSITION_CIRCLE_PAINT = {
     'circle-stroke-width': 4,
@@ -80,7 +79,8 @@ class MapBoxGL extends React.Component {
             featuresPostion: [this.InitialUserPostion, this.InitialUserPostion],
             // userPosition: InitialUserPostion,
             mapCenter: this.InitialUserPostion,
-            renderLayer: true
+            renderLayer: true,
+            myLocation: false
         };
         this.nextStyle = () => {
             const { styleKey } = this.state;
@@ -131,6 +131,7 @@ class MapBoxGL extends React.Component {
     }
 
     render() {
+        console.log('geoCoordinates PROPS ======>>>>>', this.props.geoCoordinates);
         this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
         this.state.mapCenter = this.props.geoCoordinates;
         const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
@@ -154,7 +155,7 @@ class MapBoxGL extends React.Component {
                     ),
             React.createElement(BottomBar, null,
                 React.createElement(Button, { onClick: this.nextStyle }, "Change style"),
-                React.createElement(Button, { onClick: this.toggleLayer }, "Toggle layer"),
+                // React.createElement(Button, { onClick: this.toggleLayer }, "Toggle layer"),
                 React.createElement(Indicator, null, `Using style: ${styleKey}`)))
             }
               </div>: <img src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
