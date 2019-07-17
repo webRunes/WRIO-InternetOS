@@ -134,7 +134,11 @@ class MapBoxGL extends React.Component {
         console.log('geoCoordinates PROPS ======>>>>>', this.props.geoCoordinates);
         this.state.featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
         this.state.mapCenter = this.props.geoCoordinates;
-        const { styleKey, featuresPostion, mapCenter, renderLayer } = this.state;
+        let featuresPostion = [this.props.geoCoordinates, this.props.geoCoordinates];
+        let mapCenter = this.props.geoCoordinates;
+        const { styleKey,
+            //  featuresPostion, mapCenter,
+              renderLayer } = this.state;
         return (<div className="deviceProfile-mapboxgl-main">
             {
             this.props.geoCoordinates && this.props.geoCoordinates.length ?
