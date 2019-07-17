@@ -44,7 +44,7 @@ class DeviveProfileTab extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-6">
-                <img src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
+              <div className="deviceProfile-mapboxgl"><MapBoxGL/></div>
               </div>
               <div className="col-sm-6">
                 <h2>Location</h2>
@@ -57,7 +57,6 @@ class DeviveProfileTab extends React.Component {
                 <div>Belgium</div>
               </div>
             </div>
-            <div className="deviceProfile-mapboxgl"><MapBoxGL/></div>
             </div>
         );
     }
