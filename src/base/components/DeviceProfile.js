@@ -98,8 +98,11 @@ const mapStateToProps = state => ({
         container: this.map,
         style: 'mapbox://styles/mapbox/streets-v11',
         center: this.props.geoCoordinates && this.props.geoCoordinates.lenght > 0 ? this.props.geoCoordinates: [3.728149465869137, 51.04842478723869],
-        zoom: 9
-      })
+        zoom: 12
+      })      
+      new mapboxgl.Marker()
+      .setLngLat(this.props.geoCoordinates && this.props.geoCoordinates.lenght > 0 ? this.props.geoCoordinates: [3.728149465869137, 51.04842478723869])
+      .addTo(this.map);
     }
     render(){
       return (
