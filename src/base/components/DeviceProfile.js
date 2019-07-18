@@ -80,18 +80,8 @@ const mapStateToProps = state => ({
         map: null
       }
       this.map;
-
-      this.addDynamicTags();
     }
-
-    addDynamicTags() {
-      let mapBoxScript = document.createElement('script');
-      mapBoxScript.setAttribute('src','https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js');
-      document.head.appendChild(mapBoxScript);
-      document.head.innerHTML += "<link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />"
-    }
-    
-
+  
     componentDidUpdate() {
       let mapBoxGL = window.mapboxgl || undefined;
       if(mapBoxGL) {
@@ -109,7 +99,7 @@ const mapStateToProps = state => ({
     }
     render(){
       let geoCoordinates = this.props.geoCoordinates || undefined;
-      return ((geoCoordinates && window.mapboxgl != undefined) ?
+      return (geoCoordinates && window.mapboxgl != undefined ?
         <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
         </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
       )
