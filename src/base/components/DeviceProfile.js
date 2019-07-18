@@ -73,6 +73,7 @@ const mapStateToProps = state => ({
   export const DeviceProfile = connect(mapStateToProps)(DeviveProfileTab);
 
 
+  const Token = "pk.eyJ1Ijoid2VicnVuZXMiLCJhIjoiY2p5NGY5Nm93MTVlNDNpbzg1N3czdmd5cCJ9.CptajnA9N30WwXNK1EygyA";
   class MapBox extends React.Component {
     constructor(props) {
       super(props)
@@ -85,7 +86,7 @@ const mapStateToProps = state => ({
     componentDidUpdate() {
       let mapBoxGL = window.mapboxgl || undefined;
       if(mapBoxGL) {
-      mapboxgl.accessToken = 'pk.eyJ1Ijoic2hvcnRkaXYiLCJhIjoiY2l3OGc5YmE5MDJzZjJ5bWhkdDZieGdzcSJ9.1z-swTWtcCHYI_RawDJCEw'
+      mapboxgl.accessToken = Token;
       this.map = new mapboxgl.Map({
         container: this.map || 'hidden-map',
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -98,7 +99,7 @@ const mapStateToProps = state => ({
       }
     }
     render(){
-      let geoCoordinates = this.props.geoCoordinates || undefined;
+      let geoCoordinates = (this.props.geoCoordinates && this.props.geoCoordinates.length > 0) ? this.props.geoCoordinates: undefined;
       return ((geoCoordinates && window.mapboxgl != undefined) ?
         <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
         </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
