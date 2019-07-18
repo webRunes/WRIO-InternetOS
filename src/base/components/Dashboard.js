@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Modal from 'react-awesome-modal';
 import { Field, reduxForm } from 'redux-form';
 import Tooltip from 'react-tooltip-lite';
-
+import { MapBoxGl } from './mapbox/mapboxV2.js';
 export class Dashboard extends React.Component {
 
   constructor(props) {
@@ -27,7 +27,7 @@ closeModal() {
 
   render() {
     let sensorData = this.props.sensorData;
-    return (<div>
+    return (<div className="dashboard-main">
         <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
             <div className="dashboard-modal-div">
               <form>
@@ -143,6 +143,7 @@ closeModal() {
               </nav>
             </div>
         </div>
+        <MapBoxGl />
     </div>)
   }
 }

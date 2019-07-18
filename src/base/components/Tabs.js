@@ -181,7 +181,6 @@ class ArticleTabs extends StayOnTopElement {
           </div>
 
           <Tab.Content animation className="card-content">
-            <div ref="placeholder" style={{ height: '30px' }} />
             <Tab.Pane eventKey="home">{providerLink != undefined ? <ProvideLink providerLink={providerLink}/>:null}{center}</Tab.Pane>
             {
               <Tab.Pane eventKey="collection">
