@@ -71,13 +71,23 @@ closeModal() {
 
         <div className="row"><div className="col-xs-12">
             <ul className="nav nav-pills tab_networks">
-              <li role="presentation" className="active"><a href="#">Testbed network</a></li>
-              <li role="presentation"><a href="#">Private test network</a></li>
-              <li role="presentation"><a href="#" className="add_icon"><i className="material-icons">add</i></a></li>
+              <li role="presentation" className="active"><a href="#1a" data-toggle="tab">Testbed network</a></li>
+              <li role="presentation"><a href="#1b" data-toggle="tab">Private test network</a></li>
+              <li role="presentation"><a href="#1c" data-toggle="tab" className="add_icon"><i className="material-icons">add</i></a></li>
             </ul>
           </div>
         </div>
-
+        <div class="tab-content clearfix">
+			  <div class="tab-pane active" id="1a">
+          <h3>Testbed Network text here</h3>
+				</div>
+				<div class="tab-pane" id="1b">
+          <h3>Private test network text here</h3>
+				</div>
+        <div class="tab-pane" id="1c">
+          <h3>+ text here</h3>
+				</div>
+			</div>
         <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
