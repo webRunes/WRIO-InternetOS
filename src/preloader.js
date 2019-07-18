@@ -18,7 +18,7 @@ const head = document.getElementsByTagName('head')[0];
 let notSupportedBrowsers = ['MSIE', 'MSIE11'];
 
 const css = [
-  'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
+  'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
   'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
   /* getResourcePath('/css/bootstrap-material-design.min.css'),
     getResourcePath('/css/webrunes.css'), Need to clear below as well */
@@ -65,6 +65,12 @@ class BrowserDetection {
     let mapBoxScript = document.createElement('script');
     mapBoxScript.setAttribute('src','https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js');
     document.head.appendChild(mapBoxScript);
+    let bootstrapJS = document.createElement('script');
+    bootstrapJS.setAttribute('src',"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+    document.head.appendChild(bootstrapJS);
+    let bootstrapQ = document.createElement('script');
+    bootstrapQ.setAttribute('src',"https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js");
+    document.head.appendChild(bootstrapQ);
     document.head.innerHTML += "<link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />"
   }
   init() {
