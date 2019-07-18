@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProviderLink from './BackToTheProvidersPageButton.js';
-/* import MapBoxGL from '../../base/components/mapbox/index.js'; */
+import { MapBoxGl } from './mapbox/mapboxV2.js';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -71,44 +71,3 @@ const mapStateToProps = state => ({
   });
 
   export const DeviceProfile = connect(mapStateToProps)(DeviveProfileTab);
-
-
-  const Token = "pk.eyJ1Ijoid2VicnVuZXMiLCJhIjoiY2p5NGY5Nm93MTVlNDNpbzg1N3czdmd5cCJ9.CptajnA9N30WwXNK1EygyA";
-  class MapBox extends React.Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        map: null
-      }
-      this.map;
-    }
-  
-    componentDidUpdate() {
-      let mapBoxGL = window.mapboxgl || undefined;
-      if(mapBoxGL) {
-      mapboxgl.accessToken = Token;
-      this.map = new mapboxgl.Map({
-        container: this.map || 'hidden-map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: this.props.geoCoordinates,
-        zoom: 12
-      })      
-      new mapboxgl.Marker()
-      .setLngLat(this.props.geoCoordinates)
-      .addTo(this.map);
-      }
-    }
-    render(){
-      let geoCoordinates = (this.props.geoCoordinates && this.props.geoCoordinates.length > 0) ? this.props.geoCoordinates: undefined;
-      return ((geoCoordinates && window.mapboxgl != undefined) ?
-        <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
-        </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
-      )
-    }
-};
-
-const mapStateToPropsMapBox = state => ({
-    geoCoordinates: state.document.geoCoordinates
-});
-
-const MapBoxGl = connect(mapStateToPropsMapBox)(MapBox);
