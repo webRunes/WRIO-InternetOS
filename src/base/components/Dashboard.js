@@ -4,7 +4,7 @@ import Modal from 'react-awesome-modal';
 import { Field, reduxForm } from 'redux-form';
 import Tooltip from 'react-tooltip-lite';
 import { MapBoxGl } from './mapbox/mapboxV2.js';
-export class Dashboard extends React.Component {
+class DashboardPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -143,7 +143,13 @@ closeModal() {
               </nav>
             </div>
         </div>
-        <MapBoxGl />
+        <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
     </div>)
   }
 }
+
+const mapStateToPropsMapBox = state => ({
+  geoCoordinates: state.document.geoCoordinates
+});
+
+export const Dashboard = connect(mapStateToPropsMapBox)(DashboardPage);
