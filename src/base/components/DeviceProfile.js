@@ -95,19 +95,20 @@ const mapStateToProps = state => ({
     componentDidUpdate() {
       mapboxgl.accessToken = 'pk.eyJ1Ijoic2hvcnRkaXYiLCJhIjoiY2l3OGc5YmE5MDJzZjJ5bWhkdDZieGdzcSJ9.1z-swTWtcCHYI_RawDJCEw'
       this.map = new mapboxgl.Map({
-        container: this.map,
+        container: this.map || 'hidden-map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: this.props.geoCoordinates && this.props.geoCoordinates.lenght > 0 ? this.props.geoCoordinates: [3.728149465869137, 51.04842478723869],
+        center: this.props.geoCoordinates,
         zoom: 12
       })      
       new mapboxgl.Marker()
-      .setLngLat(this.props.geoCoordinates && this.props.geoCoordinates.lenght > 0 ? this.props.geoCoordinates: [3.728149465869137, 51.04842478723869])
+      .setLngLat(this.props.geoCoordinates)
       .addTo(this.map);
     }
     render(){
-      return (
+      let geoCoordinates = this.props.geoCoordinates || undefined;
+      return (geoCoordinates ?
         <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
-        </div>
+        </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
       )
     }
 };
