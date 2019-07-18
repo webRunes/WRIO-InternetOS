@@ -130,11 +130,11 @@ class FeedListPage extends React.Component {
     </label>
       <ol class="breadcrumb chart_timeframe">
         <li><a href="#">Last 24 Hours</a></li>
-        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Week</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Month</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Year</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">All</a></ToolTipLite></li>
-        <li class="disabled"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only"><a href="#">Custom</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Week</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Month</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Year</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">All</a></ToolTipLite></li>
+        <li class="disabled"><ToolTipLite className="feedlist-tooltip-a" content="Premium feature, available to Alpha testers only"><a href="#">Custom</a></ToolTipLite></li>
       </ol>
     <div className="feed-chart-main-div">
       <ResponsiveContainer
@@ -175,11 +175,11 @@ class FeedListPage extends React.Component {
         <div className="feedPage">
           <div className="col-xs-12">
             <div className="data_export btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Copy</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">CSV</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Excel</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">PDF</ToolTipLite></button>
-              <button type="button" disabled className="btn btn-default"><ToolTipLite className="tooltip" content="Premium feature, available to Alpha testers only">Print</ToolTipLite></button>
+            <ToolTipLite className="feedlist-tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Copy</button></ToolTipLite>
+            <ToolTipLite className="feedlist-tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">CSV</button></ToolTipLite> 
+            <ToolTipLite className="feedlist-tooltip-b" content="Premium feature, available to Alpha testers only"> <button disabled="disabled" type="button" className="btn btn-default">Excel</button></ToolTipLite>
+            <ToolTipLite className="feedlist-tooltip-b" content="Premium feature, available to Alpha testers only"> <button disabled="disabled" type="button" className="btn btn-default">PDF</button></ToolTipLite>
+            <ToolTipLite className="feedlist-tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Print</button></ToolTipLite>
             </div>
             <h1>Details</h1>
           </div>
