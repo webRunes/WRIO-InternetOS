@@ -44,7 +44,7 @@ class DeviveProfileTab extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-6">
-              <MapBoxGL/>
+              <MapBoxGl/>
               </div>
               <div className="col-sm-6">
                 <h2>Location</h2>
@@ -71,3 +71,36 @@ const mapStateToProps = state => ({
   });
 
   export const DeviceProfile = connect(mapStateToProps)(DeviveProfileTab);
+
+
+  class MapBox extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        map: null
+      }
+      this.map;
+    }
+
+    componentDidUpdate() {
+      mapboxgl.accessToken = 'pk.eyJ1Ijoic2hvcnRkaXYiLCJhIjoiY2l3OGc5YmE5MDJzZjJ5bWhkdDZieGdzcSJ9.1z-swTWtcCHYI_RawDJCEw'
+      this.map = new mapboxgl.Map({
+        container: this.map,
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: this.props.geoCoordinates && this.props.geoCoordinates.lenght > 0 ? this.props.geoCoordinates: [3.728149465869137, 51.04842478723869],
+        zoom: 9
+      })
+    }
+    render(){
+      return (
+        <div style={{width:'340px', height:'300px'}} id='map' ref={(x) => this.map = x}>
+        </div>
+      )
+    }
+};
+
+const mapStateToPropsMapBox = state => ({
+    geoCoordinates: state.document.geoCoordinates
+});
+
+const MapBoxGl = connect(mapStateToPropsMapBox)(MapBox);
