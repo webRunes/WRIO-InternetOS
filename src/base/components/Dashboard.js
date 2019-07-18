@@ -64,7 +64,7 @@ closeModal() {
           </div>
           <div className="control-right control-panel col-sm-6">
             <h1><i className="material-icons">bar_chart</i>Analytics</h1>
-            <p>Total devices: 4</p>
+            <p>Total devices: 17</p>
             <button className="btn btn-sm disabled">Details</button>
           </div>
         </div>
