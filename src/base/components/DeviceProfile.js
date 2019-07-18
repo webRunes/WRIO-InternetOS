@@ -99,7 +99,7 @@ const mapStateToProps = state => ({
     }
     render(){
       let geoCoordinates = this.props.geoCoordinates || undefined;
-      return (geoCoordinates && window.mapboxgl != undefined ?
+      return ((geoCoordinates && window.mapboxgl != undefined) ?
         <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
         </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
       )
