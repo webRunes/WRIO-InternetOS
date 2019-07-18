@@ -80,18 +80,8 @@ const mapStateToProps = state => ({
         map: null
       }
       this.map;
-
-      this.addDynamicTags();
     }
-
-    addDynamicTags() {
-      let mapBoxScript = document.createElement('script');
-      mapBoxScript.setAttribute('src','https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js');
-      document.head.appendChild(mapBoxScript);
-      document.head.innerHTML += "<link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />"
-    }
-    
-
+  
     componentDidUpdate() {
       let mapBoxGL = window.mapboxgl || undefined;
       if(mapBoxGL) {

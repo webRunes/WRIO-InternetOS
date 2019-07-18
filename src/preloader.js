@@ -58,6 +58,14 @@ class BrowserDetection {
       { os: 'Any', browser: 'MSIE', version: 8 },
       { os: 'Any', browser: 'MSIE', version: 9 },
     ];
+    this.addDynamicTags();
+  }
+
+  addDynamicTags() {
+    let mapBoxScript = document.createElement('script');
+    mapBoxScript.setAttribute('src','https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js');
+    document.head.appendChild(mapBoxScript);
+    document.head.innerHTML += "<link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />"
   }
   init() {
     if (notSupportedBrowsers == null || notSupportedBrowsers.length < 1) {
