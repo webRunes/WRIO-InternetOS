@@ -79,15 +79,6 @@ closeModal() {
         </div>
         <div class="tab-content clearfix">
 			  <div class="tab-pane active" id="1a">
-          <h3>Testbed Network text here</h3>
-				</div>
-				<div class="tab-pane" id="1b">
-          <h3>Private test network text here</h3>
-				</div>
-        <div class="tab-pane" id="1c">
-          <h3>+ text here</h3>
-				</div>
-			</div>
         <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
@@ -132,7 +123,7 @@ closeModal() {
               }
             </tbody>
           </table>
-</div>
+        </div>
           <div className="row">
             <div className="col-sm-6">
               <span className="data_entries" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</span>
@@ -153,6 +144,14 @@ closeModal() {
               </nav>
             </div>
         </div>
+				</div>
+				<div class="tab-pane" id="1b">
+          <h3>Private test network text here</h3>
+				</div>
+        <div class="tab-pane" id="1c">
+          <h3>+ text here</h3>
+				</div>
+			</div>
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
     </div>)
   }
