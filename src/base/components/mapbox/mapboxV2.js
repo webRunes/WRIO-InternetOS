@@ -18,7 +18,7 @@ class MapBox extends React.Component {
     mapboxgl.accessToken = Token;
     this.map = new mapboxgl.Map({
       container: this.map || 'hidden-map',
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/light-v10',
       center: this.props.geoCoordinates,
       zoom: 12
     })      
@@ -26,6 +26,7 @@ class MapBox extends React.Component {
     .setLngLat(this.props.geoCoordinates)
     .addTo(this.map);
     }
+    this.map.addControl(new mapboxgl.NavigationControl());
   }
   render(){
     let geoCoordinates = (this.props.geoCoordinates && this.props.geoCoordinates.length > 0) ? this.props.geoCoordinates: undefined;
