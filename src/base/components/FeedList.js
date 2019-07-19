@@ -196,10 +196,15 @@ class FeedListPage extends React.Component {
             <div className="col-xs-12">
               <span class="timeline-step"><i class="material-icons">schedule</i></span>
               <div className="timeline-content">
-                <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
-                <p>State: {filterFeed[0].item.variableMeasured.value}</p>
-                <p>{sensorDataList.includes('temperature') ? 'Temperature:': 'Humidity' }  {filterFeed[1].item.variableMeasured.value} {sensorDataList.includes('temperature') ? <span>&deg; {"C"}</span> :'RH'} </p>
-                <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
+              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2> 
+                {
+                  filterFeed.map(obj => {
+                    return (<div>
+                    <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa':null))}</p>
+                    </div>)
+                 
+                  })
+                }
               </div>
             </div>
           </div>
