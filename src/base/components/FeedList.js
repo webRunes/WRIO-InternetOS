@@ -198,7 +198,7 @@ class FeedListPage extends React.Component {
               <div className="timeline-content">
                 <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
                 <p>State: {filterFeed[0].item.variableMeasured.value}</p>
-                <p>Temperature: {filterFeed[1].item.variableMeasured.value} &deg;{"C"}</p>
+                <p>{sensorDataList.includes('temperature') ? 'Temperature:': 'Humidity' }  {filterFeed[1].item.variableMeasured.value} {sensorDataList.includes('temperature') ? <span>&deg; {"C"}</span> :'RH'} </p>
                 <p>Battery: {filterFeed[2].item.variableMeasured.value}</p>
               </div>
             </div>
