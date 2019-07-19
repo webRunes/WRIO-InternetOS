@@ -71,9 +71,9 @@ closeModal() {
 
         <div className="row"><div className="col-xs-12">
             <ul className="nav nav-pills tab_networks">
-              <li role="presentation" className="active"><a href="#1a" data-toggle="tab">Testbed network</a></li>
-              <li role="presentation"><a href="#1b" data-toggle="tab">Private test network</a></li>
-              <li role="presentation"><a href="#1c" data-toggle="tab" className="add_icon"><i className="material-icons">add</i></a></li>
+              <li role="presentation" className="active"><a href="#1a" onClick={e => e.stopPropagation()} data-toggle="tab">Testbed network</a></li>
+              <li role="presentation"><a href="#1b" data-toggle="tab" onClick={e => e.stopPropagation()}>Private test network</a></li>
+              <li role="presentation"><a href="#1c" data-toggle="tab" className="add_icon" onClick={e => e.stopPropagation()}><i className="material-icons">add</i></a></li>
             </ul>
           </div>
         </div>
@@ -144,6 +144,7 @@ closeModal() {
               </nav>
             </div>
         </div>
+        <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
 				<div class="tab-pane" id="1b">
           <h3>Private test network text here</h3>
@@ -152,7 +153,6 @@ closeModal() {
           <h3>+ text here</h3>
 				</div>
 			</div>
-        <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
     </div>)
   }
 }
