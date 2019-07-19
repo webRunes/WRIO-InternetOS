@@ -106,12 +106,12 @@ class FeedListPage extends React.Component {
       <div className="control-left control-panel col-sm-6">
         <h1><i className="material-icons">notifications_active</i>Alerts</h1>
         <p>0</p>
-        <button className="btn btn-sm disabled">Set threshold</button>
+        <ToolTipLite className="tooltip-b" content="The device is offline"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
       </div>
       <div className="control-right control-panel col-sm-6">
         <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
         <p>The device is offline</p>
-        <button className="btn btn-sm disabled">Refresh</button>
+        <ToolTipLite className="tooltip-b" content="The device is offline"><button className="btn btn-sm disabled">Refresh</button></ToolTipLite>
       </div>
     </div>
 
