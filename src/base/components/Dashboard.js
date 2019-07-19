@@ -144,6 +144,7 @@ closeModal() {
               </nav>
             </div>
         </div>
+        <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
 				<div class="tab-pane" id="1b">
           <h3>Private test network text here</h3>
@@ -152,7 +153,6 @@ closeModal() {
           <h3>+ text here</h3>
 				</div>
 			</div>
-        <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
     </div>)
   }
 }
