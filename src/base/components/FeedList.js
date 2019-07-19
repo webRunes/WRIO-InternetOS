@@ -200,7 +200,7 @@ class FeedListPage extends React.Component {
                 {
                   filterFeed.map(obj => {
                     return (<div>
-                    <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'aPa':null))}</p>
+                    <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa':null))}</p>
                     </div>)
                  
                   })
