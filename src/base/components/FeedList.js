@@ -156,7 +156,7 @@ class FeedListPage extends React.Component {
             <YAxis
               domain={['dataMin', 'dataMax']}
               ticks={this.state.selectedOption != 'state'? temperatureList: ['Enabled', 'Disabled']}
-              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption == 'temperature' ?'Temperature, °C': this.state.selectedOption == 'humidity' ? 'Humidity, °C':'Sensor state'), angle: -90, position:'insideBottomLeft' }}
+              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption == 'temperature' ?'Temperature, °C': this.state.selectedOption == 'humidity' ? 'Humidity, RH':'Sensor state'), angle: -90, position:'insideBottomLeft' }}
               tickSize={8}
               type={this.state.selectedOption != 'state'?  "number": "category"}
              />
