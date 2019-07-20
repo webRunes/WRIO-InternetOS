@@ -60,12 +60,12 @@ closeModal() {
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
             <p>8<sup>+2<span className="glyphicon glyphicon-arrow-up"></span></sup></p>
-            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Follow</button></ToolTipLite>
+            <Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Follow</button></Tooltip>
           </div>
           <div className="control-right control-panel col-sm-6">
             <h1><i className="material-icons">bar_chart</i>Analytics</h1>
             <p>Total devices: 17</p>
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></ToolTipLite>
+            <Tooltip className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></Tooltip>
           </div>
         </div>
 
@@ -77,16 +77,16 @@ closeModal() {
             </ul>
           </div>
         </div>
-        <div class="tab-content clearfix">
-			  <div class="tab-pane active" id="1a">
-        <div className="row">
-          <div className="col-xs-6">
-            <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
+        <div className="tab-content clearfix">
+			  <div className="tab-pane active" id="1a">
+          <div className="row">
+            <div className="col-xs-6">
+              <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
+            </div>
+            <div className="col-xs-6 search">
+              <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
+            </div>
           </div>
-          <div className="col-xs-6 search">
-            <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
-          </div>
-        </div>
 
         <div className="dashboard-table">
           <table className="table table-striped">
@@ -146,24 +146,24 @@ closeModal() {
         </div>
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
-				<div class="tab-pane" id="1b">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="jumbotron">
+				<div className="tab-pane" id="1b">
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
                 <h1>A private network</h1>
                 <p>This is a private IoT network. To get access you need to request the network provider permission.</p>
-                <p><ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Get access</button></ToolTipLite></p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Get access</button></Tooltip></p>
               </div>
     				</div>
           </div>
         </div>
-        <div class="tab-pane" id="1c">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="jumbotron">
+        <div className="tab-pane" id="1c">
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
                 <h1>Create a new network</h1>
                 <p>You are not a member of the provider's network. To get access you have to join the network.</p>
-                <p><ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Join the network</button></ToolTipLite></p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Join the network</button></Tooltip></p>
               </div>
             </div>
           </div>
