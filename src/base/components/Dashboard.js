@@ -151,7 +151,7 @@ closeModal() {
             <div className="col-sm-12">
               <div className="jumbotron">
                 <h2>A private network</h2>
-                <p>This is a private IoT network. To get access you need to request the network provider permission.</p>
+                <p>This is a private IoT network. You need to gain access rights from the network provider.</p>
                 <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Get access</button></Tooltip></p>
               </div>
     				</div>
@@ -162,7 +162,7 @@ closeModal() {
             <div className="col-sm-12">
               <div className="jumbotron">
                 <h2>Create a new network</h2>
-                <p>You are not a member of the provider's network. To get access you have to join the network.</p>
+                <p>You are not a member of the provider's network. To get access you need to join the network.</p>
                 <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Join the network</button></Tooltip></p>
               </div>
             </div>

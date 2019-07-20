@@ -11,6 +11,14 @@ class FeedListPage extends React.Component {
     }
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      let YAxisLable = document.getElementsByClassName('feedlist-chart-yaxis-label')[0];
+      let tspan = YAxisLable.childNodes[0];
+      tspan.setAttribute('x', 90);
+    }, 3000)
+  }
+
   static range = function(start, end, step) {
     var range = [];
     var typeofStart = typeof start;
@@ -75,6 +83,9 @@ class FeedListPage extends React.Component {
       case 'state':
       this.setState({selectedOption: value})
       break;
+      case 'pressure':
+      this.setState({selectedOption: value})
+      break;
       default:
     }
     }
@@ -86,7 +97,7 @@ class FeedListPage extends React.Component {
   let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
   let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
   let sensorDataList = [...new Set(sensorData)];
-  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': (this.state.selectedOption == 'temperature' ? 'Temperature': (this.state.selectedOption == 'humidity' ? 'Humidity':'State'));
+  let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage': (this.state.selectedOption == 'temperature' ? 'Temperature': (this.state.selectedOption == 'humidity' ? 'Humidity':(this.state.selectedOption == 'pressure' ? 'Pressure': 'State')));
   let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
   let filteredSelectedOption = this.state.selectedOption != 'state' ?  filteredSelectedOptionObj.map(temperatureItem => {
     return { dateRecorded: temperatureItem.dateCreated,  [selectedOptionCondition]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12,14)}
@@ -156,7 +167,7 @@ class FeedListPage extends React.Component {
             <YAxis
               domain={['dataMin', 'dataMax']}
               ticks={this.state.selectedOption != 'state'? temperatureList: ['Enabled', 'Disabled']}
-              label={{ value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption == 'temperature' ?'Temperature, °C': this.state.selectedOption == 'humidity' ? 'Humidity, RH':'Sensor state'), angle: -90, position:'insideBottomLeft' }}
+              label={{value: this.state.selectedOption == 'battery'? 'Percentage, %' : (this.state.selectedOption == 'temperature' ?'Temperature, °C': (this.state.selectedOption == 'humidity' ? 'Humidity, RH':(this.state.selectedOption == 'pressure' ? 'Pressure, hPa': 'Sensor state'))), angle: -90, position:'insideBottomLeft', className:'feedlist-chart-yaxis-label' }}
               tickSize={8}
               type={this.state.selectedOption != 'state'?  "number": "category"}
              />
