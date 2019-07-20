@@ -116,7 +116,7 @@ closeModal() {
                       <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
                       <td>Read</td>
                       <td>{sensorPayload.dateModified}</td>
-                      <td>{sensorDataFeed[1].item.variableMeasured.value} &#8451;</td>
+                      <td>{sensorDataFeed[1].item.variableMeasured.name == 'temperature'? <span>{sensorDataFeed[1].item.variableMeasured.value}  &#8451;</span>:  (sensorDataFeed[1].item.variableMeasured.name == 'pressure'? <span>{sensorDataFeed[1].item.variableMeasured.value}  {'hPa'}</span>:<span>{sensorDataFeed[1].item.variableMeasured.value}</span>) }</td>
                       <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
                     </tr>)
                   }) : null
