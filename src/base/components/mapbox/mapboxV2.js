@@ -30,6 +30,8 @@ class MapBox extends React.Component {
   }
   render(){
     let geoCoordinates = (this.props.geoCoordinates && this.props.geoCoordinates.length > 0) ? this.props.geoCoordinates: undefined;
+    console.log('geoCoordinates 1 === ', geoCoordinates);
+    console.log('window mapbox 1', window.mapboxgl);
     return ((geoCoordinates && window.mapboxgl != undefined) ?
       <div className="mapbox-main-div" id='map' ref={(x) => this.map = x}>
       </div>: <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" width="200" height="200"/>
