@@ -81,7 +81,7 @@ closeModal() {
           </div>
         </div>
         <div className="tab-content clearfix">
-			  <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
+  	<div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
         <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
@@ -89,6 +89,7 @@ closeModal() {
           <div className="col-xs-6 search">
             <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
           </div>
+	</div>
 
         <div className="dashboard-table">
           <table className="table table-striped">
