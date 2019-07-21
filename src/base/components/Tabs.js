@@ -7,7 +7,7 @@ import { Tab, Tabs, Row, Col, Nav, NavItem, Button, NavDropdown, MenuItem } from
 import Externals from './Externals';
 import {FeedList} from './FeedList';
 import {DeviceProfile} from './DeviceProfile';
-import {Dashboard} from './Dashboard';
+import Dashboard from './Dashboard';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
 import {
@@ -91,6 +91,7 @@ class ArticleTabs extends StayOnTopElement {
       //RIL = this.props.RIL,
       providerLink = this.props.feedDataProvider,
       tabKey = this.props.tabKey;
+      console.log('IN TAB JS GEO COOR', this.props.geoCoordinates);
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
     return (
@@ -191,7 +192,7 @@ class ArticleTabs extends StayOnTopElement {
             {
               <Tab.Pane eventKey="dashboard">
                 {
-                  <Dashboard sensorData={sensorData}/>                
+                  <Dashboard geoCoordinates={this.props.geoCoordinates} sensorData={sensorData}/>                
                 }
               </Tab.Pane>
             }
@@ -234,6 +235,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = state => ({
   feedDataProvider: state.document.feed.provider,
+  geoCoordinates: state.document.geoCoordinates
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleTabs);

@@ -14,8 +14,10 @@ class FeedListPage extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       let YAxisLable = document.getElementsByClassName('feedlist-chart-yaxis-label')[0];
+      if(YAxisLable) {
       let tspan = YAxisLable.childNodes[0];
       tspan.setAttribute('x', 90);
+      }
     }, 3000)
   }
 
