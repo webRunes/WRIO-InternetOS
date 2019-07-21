@@ -63,20 +63,35 @@ closeModal() {
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
             <p>8<sup>+2<span className="glyphicon glyphicon-arrow-up"></span></sup></p>
-            <Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Follow</button></Tooltip>
+            <button className="btn btn-sm disabled">Follow</button>
           </div>
           <div className="control-right control-panel col-sm-6">
             <h1><i className="material-icons">bar_chart</i>Analytics</h1>
             <p>Total devices: 17</p>
-            <Tooltip className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></Tooltip>
+            <button className="btn btn-sm disabled">Details</button>
           </div>
         </div>
 
         <div className="row"><div className="col-xs-12">
             <ul className="nav nav-pills tab_networks">
-              <li role="presentation" className="active"><a href="" data-toggle="tab" onClick={e => this.setState({isActiveOne:true, isActiveTwo: false, isActiveThree: false})}>Testbed network</a></li>
-              <li role="presentation"><a href="" data-toggle="tab" onClick={e => this.setState({isActiveOne:false, isActiveTwo: true, isActiveThree: false})}>Private test network</a></li>
-              <li role="presentation"><a href="" data-toggle="tab" className="add_icon" onClick={e => this.setState({isActiveOne:false, isActiveTwo: false, isActiveThree: true})}><i className="material-icons">add</i></a></li>
+              <li role="presentation" className="active"><a href="" data-toggle="tab" onClick={e => {
+              e.preventDefault();
+              this.setState({isActiveOne:true, isActiveTwo: false, isActiveThree: false})
+              return false;
+              }
+              }>Testbed network</a></li>
+              <li role="presentation"><a href="" data-toggle="tab" onClick={e => {
+              e.preventDefault();
+              this.setState({isActiveOne:false, isActiveTwo: true, isActiveThree: false})
+              return false;
+              }
+              }>Private test network</a></li>
+              <li role="presentation"><a href="" data-toggle="tab" className="add_icon" onClick={e => {
+              e.preventDefault();
+              this.setState({isActiveOne:false, isActiveTwo: false, isActiveThree: true})
+              return false;          
+              }
+              }><i className="material-icons">add</i></a></li>
             </ul>
           </div>
         </div>
@@ -150,26 +165,10 @@ closeModal() {
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
 				<div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="jumbotron">
-                <h2>A private network</h2>
-                <p>This is a private IoT network. You need to gain access rights from the network provider.</p>
-                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Get access</button></Tooltip></p>
-              </div>
-    				</div>
-          </div>
-        </div>
+          <h3>Private test network text here</h3>
+				</div>
         <div className={this.state.isActiveThree ? "tab-pane active": "tab-pane"} id="">
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="jumbotron">
-                <h2>Create a new network</h2>
-                <p>You are not a member of the provider's network. To get access you need to join the network.</p>
-                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Join the network</button></Tooltip></p>
-              </div>
-            </div>
-          </div>
+          <h3>+ text here</h3>
 				</div>
 			</div>
     </div>)
