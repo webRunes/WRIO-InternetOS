@@ -99,11 +99,7 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
       return {
         ...state,
         feed: action.payload.feed.data[0],
-        feedProductData: action.payload.feed.data[1],
-        geoCoordinates: [
-          +action.payload.feed.data[2].longitude,         
-          +action.payload.feed.data[2].latitude,
-        ]
+        feedProductData: action.payload.feed.data[1]
        }
 
     case actions.GOT_SENSOR_FEED:
@@ -112,8 +108,12 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
         sensorData: [...state.sensorData,{ 
           payload: action.payload.sensorData.data[0],
           productData:action.payload.sensorData.data[1],
-          url: action.payload.url 
-        }]
+          url: action.payload.url
+        }],
+          geoCoordinates: [
+            +action.payload.sensorData.data[2].longitude,         
+            +action.payload.sensorData.data[2].latitude,
+          ]
        }
 
     default:
