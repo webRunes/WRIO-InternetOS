@@ -63,12 +63,12 @@ closeModal() {
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
             <p>8<sup>+2<span className="glyphicon glyphicon-arrow-up"></span></sup></p>
-            <button className="btn btn-sm disabled">Follow</button>
+            <Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Follow</button></Tooltip>
           </div>
           <div className="control-right control-panel col-sm-6">
             <h1><i className="material-icons">bar_chart</i>Analytics</h1>
             <p>Total devices: 17</p>
-            <button className="btn btn-sm disabled">Details</button>
+            <Tooltip className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></Tooltip>
           </div>
         </div>
 
@@ -89,7 +89,6 @@ closeModal() {
           <div className="col-xs-6 search">
             <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
           </div>
-        </div>
 
         <div className="dashboard-table">
           <table className="table table-striped">
@@ -150,10 +149,26 @@ closeModal() {
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
 				<div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
-          <h3>Private test network text here</h3>
-				</div>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
+                <h2>A private network</h2>
+                <p>This is a private IoT network. You need to gain access rights from the network provider.</p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Get access</button></Tooltip></p>
+              </div>
+    				</div>
+          </div>
+        </div>
         <div className={this.state.isActiveThree ? "tab-pane active": "tab-pane"} id="">
-          <h3>+ text here</h3>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
+                <h2>Create a new network</h2>
+                <p>You are not a member of the provider's network. To get access you need to join the network.</p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Join the network</button></Tooltip></p>
+              </div>
+            </div>
+          </div>
 				</div>
 			</div>
     </div>)

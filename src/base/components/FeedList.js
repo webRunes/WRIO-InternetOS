@@ -119,7 +119,7 @@ class FeedListPage extends React.Component {
       <div className="control-left control-panel col-sm-6">
         <h1><i className="material-icons">notifications_active</i>Alerts</h1>
         <p>0</p>
-        <ToolTipLite className="tooltip-b" content="The device is offline"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
+        <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
       </div>
       <div className="control-right control-panel col-sm-6">
         <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
@@ -188,11 +188,11 @@ class FeedListPage extends React.Component {
         <div className="feedPage">
           <div className="col-xs-12">
             <div className="data_export btn-group btn-group-xs pull-right" role="group" aria-label="Data Export">
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Copy</button></ToolTipLite>
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">CSV</button></ToolTipLite> 
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"> <button disabled="disabled" type="button" className="btn btn-default">Excel</button></ToolTipLite>
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"> <button disabled="disabled" type="button" className="btn btn-default">PDF</button></ToolTipLite>
-            <ToolTipLite className="tooltip-b" content="Premium feature, available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Print</button></ToolTipLite>
+            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Copy</button></ToolTipLite>
+            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">CSV</button></ToolTipLite>
+            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Excel</button></ToolTipLite>
+            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">PDF</button></ToolTipLite>
+            <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button disabled="disabled" type="button" className="btn btn-default">Print</button></ToolTipLite>
             </div>
             <h1>Timeline</h1>
           </div>
@@ -209,13 +209,13 @@ class FeedListPage extends React.Component {
             <div className="col-xs-12">
               <span class="timeline-step"><i class="material-icons">schedule</i></span>
               <div className="timeline-content">
-              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2> 
+              <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
                 {
                   filterFeed.map(obj => {
                     return (<div>
                     <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa':null))}</p>
                     </div>)
-                 
+
                   })
                 }
               </div>
