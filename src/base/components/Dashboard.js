@@ -165,10 +165,26 @@ closeModal() {
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
 				</div>
 				<div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
-          <h3>Private test network text here</h3>
-				</div>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
+                <h2>A private network</h2>
+                <p>This is a private IoT network. You need to gain access rights from the network provider.</p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Get access</button></Tooltip></p>
+              </div>
+    				</div>
+          </div>
+        </div>
         <div className={this.state.isActiveThree ? "tab-pane active": "tab-pane"} id="">
-          <h3>+ text here</h3>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="jumbotron">
+                <h2>Create a new network</h2>
+                <p>You are not a member of the provider's network. To get access you need to join the network.</p>
+                <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Join the network</button></Tooltip></p>
+              </div>
+            </div>
+          </div>
 				</div>
 			</div>
     </div>)
