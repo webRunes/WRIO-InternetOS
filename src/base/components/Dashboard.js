@@ -74,19 +74,19 @@ closeModal() {
 
         <div className="row"><div className="col-xs-12">
             <ul className="nav nav-pills tab_networks">
-              <li role="presentation" className="active"><a href="" data-toggle="tab" onClick={e => {
+              <li role="presentation" className={this.state.isActiveOne ? "active": ""}><a href="" data-toggle="tab" onClick={e => {
               e.preventDefault();
               this.setState({isActiveOne:true, isActiveTwo: false, isActiveThree: false})
               return false;
               }
               }>Testbed network</a></li>
-              <li role="presentation"><a href="" data-toggle="tab" onClick={e => {
+              <li role="presentation" className={this.state.isActiveTwo ? "active": ""}><a href="" data-toggle="tab" onClick={e => {
               e.preventDefault();
               this.setState({isActiveOne:false, isActiveTwo: true, isActiveThree: false})
               return false;
               }
               }>Private test network</a></li>
-              <li role="presentation"><a href="" data-toggle="tab" className="add_icon" onClick={e => {
+              <li role="presentation" className={this.state.isActiveThree ? "active": ""}><a href="" data-toggle="tab" className="add_icon" onClick={e => {
               e.preventDefault();
               this.setState({isActiveOne:false, isActiveTwo: false, isActiveThree: true})
               return false;          
@@ -96,7 +96,7 @@ closeModal() {
           </div>
         </div>
         <div className="tab-content clearfix">
-  	<div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
+			  <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
         <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
@@ -104,7 +104,7 @@ closeModal() {
           <div className="col-xs-6 search">
             <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
           </div>
-	</div>
+        </div>
 
         <div className="dashboard-table">
           <table className="table table-striped">
