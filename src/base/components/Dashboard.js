@@ -128,7 +128,7 @@ closeModal() {
                     let sensorProductData = sensor.productData;
                     return (<tr>
                       <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
-                      <td><a href={sensor.url.slice(0, sensor.url.length-10)}>{sensorProductData.name}</a></td>
+                      <td><a href={sensor.url}>{sensorProductData.name}</a></td>
                       <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
                       <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
                       <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
