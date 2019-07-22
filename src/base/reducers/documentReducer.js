@@ -115,8 +115,12 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
           url: action.payload.url
         }],
           geoCoordinates: [
-            +action.payload.sensorData.data[2].longitude,         
-            +action.payload.sensorData.data[2].latitude,
+            {
+              feedUrl: action.payload.url,
+              longitude:+action.payload.sensorData.data[2].longitude,         
+              latitude:+action.payload.sensorData.data[2].latitude,
+            },
+            ...state.geoCoordinates
           ]
        }
 
