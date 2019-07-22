@@ -107,7 +107,7 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
        }
 
     case actions.GOT_SENSOR_FEED:
-      console.log('********************sensor-data*******************', action.payload);
+      console.log('state ========== sensor feed', state);
       return {
         ...state,
         sensorData: [...state.sensorData,{ 
@@ -116,8 +116,12 @@ function DocumentReducer(state: DocumentState = defaultState, action: Object) {
           url: action.payload.url
         }],
           geoCoordinates: [
-            +action.payload.sensorData.data[2].longitude,         
-            +action.payload.sensorData.data[2].latitude,
+            ...state.geoCoordinates,
+            {
+              feedUrl: action.payload.url,
+              longitude:+action.payload.sensorData.data[2].longitude,         
+              latitude:+action.payload.sensorData.data[2].latitude,
+            },
           ]
        }
 
