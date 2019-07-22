@@ -34,7 +34,8 @@ type DocumentState = {
   wrioID: ?string, // current logged in user WRIO-ID
   profile: ?Object,
   feed: Array<any>,
-  sensorData: Array<any>
+  sensorData: Array<any>,
+  geoCoordinates: Array<any>
 };
 
 const defaultState: DocumentState = {
@@ -51,7 +52,8 @@ const defaultState: DocumentState = {
     external: [],
   },  
   feed: [],
-  sensorData:[]
+  sensorData:[],
+  geoCoordinates: []
 };
 
 function DocumentReducer(state: DocumentState = defaultState, action: Object) {
