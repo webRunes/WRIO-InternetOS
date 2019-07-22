@@ -20,7 +20,7 @@ class MapBox extends React.Component {
     this.map = new mapboxgl.Map({
       container: this.map || 'hidden-map',
       style: 'mapbox://styles/mapbox/light-v10',
-      center: filteredGeoCoordinates[0] || [3.728149465869137, 51.04842478723869],
+      center: filteredGeoCoordinates[0] || this.props.geoCoordinates,
       zoom: 12
     })
    
@@ -30,6 +30,10 @@ class MapBox extends React.Component {
        .setLngLat(geoCoord)
        .addTo(this.map);     
       })  
+     } else {
+      new mapboxgl.Marker()
+      .setLngLat(this.props.geoCoordinates)
+      .addTo(this.map);   
      }
   }
     
