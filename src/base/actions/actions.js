@@ -159,7 +159,7 @@ export const loadSensorFeed = (url: string) => async (dispatch: Function) => {
               if(feedItemList) {
               await Promise.all(feedItemList.itemListElement.map(async listItem=> {
                 const feedItemListDoc = await getHttp(listItem.url);
-               dispatch(gotSensorFeed(listItem.url, feedItemListDoc));
+               dispatch(gotSensorFeed(sensor.url, feedItemListDoc));
               }))
             }
             }))
