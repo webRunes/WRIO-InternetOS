@@ -13,21 +13,29 @@ class MapBox extends React.Component {
   }
 
   componentDidUpdate() {
+    let filteredGeoCoordinates = this.props.geoCoordinates.filter(item => item.feedUrl).map(item => [item.longitude, item.latitude]);
     let mapBoxGL = window.mapboxgl || undefined;
     if(mapBoxGL) {
     mapboxgl.accessToken = Token;
     this.map = new mapboxgl.Map({
       container: this.map || 'hidden-map',
       style: 'mapbox://styles/mapbox/light-v10',
-      center: this.props.geoCoordinates,
+      center: filteredGeoCoordinates[0] || [3.728149465869137, 51.04842478723869],
       zoom: 12
-    })      
-    new mapboxgl.Marker()
-    .setLngLat(this.props.geoCoordinates)
-    .addTo(this.map);
-    }
+    })
+   
+    if(filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
+      filteredGeoCoordinates.map(geoCoord => {
+       new mapboxgl.Marker()
+       .setLngLat(geoCoord)
+       .addTo(this.map);     
+      })  
+     }
+  }
+    
     this.map.addControl(new mapboxgl.NavigationControl());
   }
+
   render(){
     let geoCoordinates = (this.props.geoCoordinates && this.props.geoCoordinates.length > 0) ? this.props.geoCoordinates: undefined;
     console.log('geoCoordinates 1 === ', geoCoordinates);
