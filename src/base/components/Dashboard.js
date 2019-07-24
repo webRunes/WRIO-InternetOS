@@ -63,13 +63,11 @@ closeModal() {
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
             <p>8<sup>+2<span className="glyphicon glyphicon-arrow-up"></span></sup></p>
-            <button className="btn btn-sm disabled">Follow</button>
-          </div>
+            <Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Follow</button></Tooltip>          </div>
           <div className="control-right control-panel col-sm-6">
             <h1><i className="material-icons">bar_chart</i>Analytics</h1>
             <p>Total devices: 17</p>
-            <button className="btn btn-sm disabled">Details</button>
-          </div>
+            <Tooltip className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></Tooltip>          </div>
         </div>
 
         <div className="row"><div className="col-xs-12">
