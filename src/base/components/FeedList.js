@@ -210,12 +210,16 @@ class FeedListPage extends React.Component {
               <span class="timeline-step"><i class="material-icons">schedule</i></span>
               <div className="timeline-content">
               <h2>{filterFeed[0].dateCreated.slice(12,20)}</h2>
-                {
-                  filterFeed.map(obj => {
+                {                
+                filterFeed.map((obj, index) => {
+                  let stateStatus = filterFeed.filter(item => item.item.variableMeasured.value.toLowerCase() == 'disabled');
                     return (<div>
-                    <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa':null))}</p>
+                      {
+                        stateStatus.length == 0 ?
+                        <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span>: (obj.item.variableMeasured.name.toLowerCase() == 'humidity'? 'RH': (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa':null))}</p>
+                        : index == 0 ? <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value}</p>: null
+                      }
                     </div>)
-
                   })
                 }
               </div>

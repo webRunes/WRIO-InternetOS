@@ -30,6 +30,16 @@ closeModal() {
 
   render() {
     let sensorData = this.props.sensorData;
+    sensorData.sort((obj1, obj2) => {
+      if ( obj1.productData.name < obj2.productData.name ){
+        return -1;
+      }
+      if ( obj1.productData.name > obj2.productData.name ){
+        return 1;
+      }
+      return 0;
+    })
+    
     return (<div className="dashboard-main">
         <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
             <div className="dashboard-modal-div">
