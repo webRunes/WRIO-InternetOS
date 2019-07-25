@@ -132,18 +132,22 @@ closeModal() {
                 sensorData.length > 0 ?
                   sensorData.map((sensor, index) => {
                     let sensorPayload = sensor.payload;
-                    let sensorDataFeed = sensor.payload.dataFeedElement.slice(Math.max(sensor.payload.dataFeedElement.length - 3, 1));
                     let sensorProductData = sensor.productData;
+                    let enabledSensorDataFeed = sensor.payload.dataFeedElement.filter(item => {
+                      return item.item.variableMeasured.value.toLowerCase() == 'enabled'
+                    }).map(item => item.dateCreated);
+                    let sensorDataFeed = sensor.payload.dataFeedElement.filter(item =>  enabledSensorDataFeed.includes(String(item.dateCreated)));
+                    sensorDataFeed = sensorDataFeed.slice(Math.max(sensorDataFeed.length - 4, 1));
                     return (<tr>
                       <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
                       <td><a href={sensor.url}>{sensorProductData.name}</a></td>
-                      <td className="center">{sensorDataFeed[0].item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
+                      <td className="center">{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'state').item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
                       <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
                       <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
                       <td>Read</td>
                       <td>{sensorPayload.dateModified}</td>
-                      <td>{sensorDataFeed[1].item.variableMeasured.name == 'temperature'? <span>{sensorDataFeed[1].item.variableMeasured.value}  &#8451;</span>:  (sensorDataFeed[1].item.variableMeasured.name == 'pressure'? <span>{sensorDataFeed[1].item.variableMeasured.value}  {'hPa'}</span>:<span>{sensorDataFeed[1].item.variableMeasured.value}</span>) }</td>
-                      <td>{sensorDataFeed[2].item.variableMeasured.value} &#37;</td>
+                      <td>{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'temperature').item.variableMeasured.value}  &#8451;</td>
+                      <td>{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'battery').item.variableMeasured.value} &#37;</td>
                     </tr>)
                   }) : null
               }
