@@ -13,7 +13,6 @@ class MapBox extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('======================== this.props.geoCoordinates==================', this.props.geoCoordinates);
     let filteredGeoCoordinates = this.props.geoCoordinates.filter(item => item.feedUrl).map(item => [item.longitude, item.latitude]);
     let mapBoxGL = window.mapboxgl || undefined;
     if(mapBoxGL) {
