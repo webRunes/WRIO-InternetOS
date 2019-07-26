@@ -106,8 +106,11 @@ class FeedListPage extends React.Component {
   }): filteredSelectedOptionObj.map(item => {
     return { dateRecorded: item.dateCreated,  [selectedOptionCondition]: item.item.variableMeasured.value, hour: item.dateCreated.slice(12,14) }
   }) ;
+ filteredSelectedOption = filteredSelectedOption.map(item => {
+   return !Object.values(item).includes("") ? item: undefined
+  })
 
- let temperatureList =  [...new Set(filteredSelectedOption.map(item => +item[selectedOptionCondition]))].sort();
+ let temperatureList =  [...new Set(filteredSelectedOption.map(item => item != undefined ? +item[selectedOptionCondition]: undefined))].sort();
 
  temperatureList = temperatureList.length >0 ? FeedListPage.range(temperatureList[0], temperatureList[temperatureList.length - 1] ? temperatureList[temperatureList.length - 1]: 50,4): [];
   return (
