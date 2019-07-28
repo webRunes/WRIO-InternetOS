@@ -136,9 +136,19 @@ closeModal() {
                     let enabledSensorDataFeed = sensor.payload.dataFeedElement.filter(item => {
                       return item.item.variableMeasured.value.toLowerCase() == 'enabled'
                     }).map(item => item.dateCreated);
+
+                    let currentState = sensor.payload.dataFeedElement.map(item => item.dateCreated);
+                    let currentStatePicker = sensor.payload.dataFeedElement.filter(item =>  currentState.includes(String(item.dateCreated)));
+                    currentStatePicker = currentStatePicker.slice(Math.max(currentStatePicker.length - 4, 1)).find(item => item.item.variableMeasured.name.toLowerCase() == 'state');
+
                     let sensorDataFeed = sensor.payload.dataFeedElement.filter(item =>  enabledSensorDataFeed.includes(String(item.dateCreated)));
                     sensorDataFeed = sensorDataFeed.slice(Math.max(sensorDataFeed.length - 4, 1));
-                    return (<tr>
+                    sensorDataFeed.map(item => {
+                     if(item.item.variableMeasured.name.toLowerCase() == 'state') {
+                         item.item.variableMeasured.value = currentStatePicker.item.variableMeasured.value;
+                     }
+                   })
+                   return (<tr>
                       <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
                       <td><a href={sensor.url}>{sensorProductData.name}</a></td>
                       <td className="center">{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'state').item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
