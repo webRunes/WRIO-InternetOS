@@ -28,11 +28,6 @@ closeModal() {
     });
 }
 
-setStyles() {
-  let sideNav = document.getElementsByClassName('navbar-fixed-top')[0];
-  sideNav.style.zIndex = 1;
-}
-
   render() {
     let sensorData = this.props.sensorData;
     sensorData.sort((obj1, obj2) => {
@@ -112,10 +107,7 @@ setStyles() {
 			  <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
         <div className="row">
           <div className="col-xs-6">
-            <button type="button" className="btn btn-success" onClick={() => {
-              this.openModal();
-              this.setStyles();
-              }}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
+            <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
           </div>
           <div className="col-xs-6 search">
             <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
