@@ -38,6 +38,7 @@ class MapBox extends React.Component {
   }
     
     this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.resize();
   }
 
   render(){
