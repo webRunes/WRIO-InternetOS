@@ -39,7 +39,7 @@ closeModal() {
       }
       return 0;
     })
-    
+
     return (<div className="dashboard-main">
         <Modal visible={this.state.visible} width="600" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
             <div className="dashboard-modal-div">
@@ -97,7 +97,7 @@ closeModal() {
               <li role="presentation" className={this.state.isActiveThree ? "active": ""}><a href="" data-toggle="tab" className="add_icon" onClick={e => {
               e.preventDefault();
               this.setState({isActiveOne:false, isActiveTwo: false, isActiveThree: true})
-              return false;          
+              return false;
               }
               }><i className="material-icons">add</i></a></li>
             </ul>
@@ -110,7 +110,7 @@ closeModal() {
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
           </div>
           <div className="col-xs-6 search">
-            <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Premium feature, available to Alpha testers only"/>
+            <input type="text" disabled className="form-control" placeholder="Search..." data-toggle="tooltip" data-placement="top" title="Available to Alpha testers only"/>
           </div>
         </div>
 
