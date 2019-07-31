@@ -80,6 +80,9 @@ class ArticleTabs extends StayOnTopElement {
    this.setState({ activeKey: keyName });
    }
    linkBuilder(data, keyName, URL);
+   if(keyName.toLowerCase() == 'dashboard') {
+     window.location.reload();
+   }
   }
 
   render() {
