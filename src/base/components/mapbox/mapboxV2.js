@@ -42,7 +42,7 @@ class MapBox extends React.Component {
       this.map.on('load', function() {
           setInterval(() => {
             that.map.resize();
-          },5000)
+          },4000)
       });
   }
 
