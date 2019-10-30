@@ -109,7 +109,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.3.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^2.7.1"
   },
   "optional": {
