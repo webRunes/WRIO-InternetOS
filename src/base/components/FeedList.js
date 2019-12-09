@@ -108,8 +108,7 @@ class FeedListPage extends React.Component {
     });
     filteredSelectedOption = filteredSelectedOption.map(item => {
       return !Object.values(item).includes("") ? item : undefined
-    })
-
+    })    
     let temperatureList = [...new Set(filteredSelectedOption.map(item => item != undefined ? +item[selectedOptionCondition] : undefined))].sort();
     let newTemperatureList = [];
     temperatureList.map((item, index) => {
@@ -131,7 +130,7 @@ class FeedListPage extends React.Component {
             <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
           </div>
           <div className="control-right control-panel col-sm-6">
-            <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
+            <h1><i className="material-icons">settings_input_antenna</i>Last readings123</h1><h1>Wellcome</h1>
             <p>The device is offline</p>
             <ToolTipLite className="tooltip-b" content="The device is offline"><button className="btn btn-sm disabled">Refresh</button></ToolTipLite>
           </div>
