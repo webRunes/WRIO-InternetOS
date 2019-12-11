@@ -12,6 +12,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "gulp": "^4.0.2"
   },
   "optional": {
     "fsevents": "^1.1.2"
