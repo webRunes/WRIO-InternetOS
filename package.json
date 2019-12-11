@@ -126,6 +126,11 @@
     }
   },
   "jest": {
+    "collectCoverage": true,
+    "coverageFormats": [
+      "json",
+      "html"
+    ]
   },
   "scripts": {
     "build": "gulp && sh compress.sh",
