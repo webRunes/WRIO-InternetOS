@@ -133,7 +133,7 @@
     ]
   },
   "scripts": {
-    "build": "gulp",
+    "build": "gulp && sh compress.sh",
     "start": "npm run build",
     "devserver": "node --max_old_space_size=8000 ./src/devserver/index.js",
     "dockerserver": "export DOCKER_DEV=true; node ./src/devserver/index.js",
