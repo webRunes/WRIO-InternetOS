@@ -7,17 +7,20 @@ class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: 'battery'
+      selectedOption: 'battery',
+      devicestatus: "off",
+      temperature: "0"
     }
   }
 
   componentDidMount() {
+    this.getSensorData();
     setTimeout(() => {
       let YAxisLable = document.getElementsByClassName('feedlist-chart-yaxis-label')[0];
       if (YAxisLable) {
         let tspan = YAxisLable.childNodes[0];
         tspan.setAttribute('x', 90);
-      }
+      }      
     }, 3000)
   }
 
@@ -92,6 +95,64 @@ class FeedListPage extends React.Component {
     }
   }
 
+  setConfig = () => {
+    var setval={dev:"Mote",opr:this.state.devicestatus};    
+    //console.log("Here object is "+JSON.stringify(object));
+    fetch("https://localhost:44348/api/Device", {
+      method: "POST",
+      dataType: "JSON",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(setval)
+    })
+    .then((resp) => {
+      return resp.json()
+    }) 
+    .then((data) => {
+      console.log("result data "+ JSON.stringify(data))
+      if(this.state.devicestatus === "on")
+        this.setState({ devicestatus: "off"});                    
+      else
+      this.setState({ devicestatus: "on"});
+    })
+    .catch((error) => {
+      console.log(error, "catch the hoop")
+    })
+  }
+  getSensorData() {
+    //var setval={dev:"Mote",opr:this.state.devicestatus};    
+    //console.log("Here object is "+JSON.stringify(object));
+    fetch("https://localhost:44348/api/Device/GetSensorValue", {
+      method: "GET",
+      dataType: "JSON",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      //body: JSON.stringify(setval)
+    })
+    .then((resp) => {
+      return resp.json()
+    }) 
+    .then((data) => {
+      console.log("result sensor data "+ data);
+      //var sensordata = JSON.parse(data);
+      this.setState({ temperature: (parseFloat(data.temperature)/1000)});
+      setTimeout(function () {
+        // Do Something Here
+        // Then recall the parent function to
+        // create a recursive loop.
+        this.getSensorData();
+    }, 1000);
+    })
+    .catch((error) => {
+      console.log(error, "catch the hoop")
+    })
+  }
   render() {
     let feedData = this.props.feed;
     let feed = feedData.dataFeedElement;
@@ -108,8 +169,7 @@ class FeedListPage extends React.Component {
     });
     filteredSelectedOption = filteredSelectedOption.map(item => {
       return !Object.values(item).includes("") ? item : undefined
-    })
-
+    })    
     let temperatureList = [...new Set(filteredSelectedOption.map(item => item != undefined ? +item[selectedOptionCondition] : undefined))].sort();
     let newTemperatureList = [];
     temperatureList.map((item, index) => {
@@ -123,7 +183,6 @@ class FeedListPage extends React.Component {
       feedDates.length > 0 ? <div>
 
         {providerLink != undefined ? <ProvideLink providerLink={providerLink} /> : null}
-
         <div className="row">
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">notifications_active</i>Alerts</h1>
@@ -131,9 +190,9 @@ class FeedListPage extends React.Component {
             <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
           </div>
           <div className="control-right control-panel col-sm-6">
-            <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
-            <p>The device is offline</p>
-            <ToolTipLite className="tooltip-b" content="The device is offline"><button className="btn btn-sm disabled">Refresh</button></ToolTipLite>
+            <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1><h1>Temp: {this.state.temperature} c</h1>
+            <p>The device is {this.state.devicestatus=== "off" ?  "online" : "offline"}</p>
+            <ToolTipLite className="tooltip-b" content={this.state.devicestatus=== "off" ?  "The device is online" : "The device is offline"}><button className="btn btn-sm disabled">Refresh</button><button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button></ToolTipLite>
           </div>
         </div>
 
