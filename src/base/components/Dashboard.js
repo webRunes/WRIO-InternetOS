@@ -45,7 +45,7 @@ closeModal() {
             <div className="dashboard-modal-div">
               <form>
                 <div className="callout warning col-xs-12"><h5>The functionality is available to Alpha testers only.</h5></div>
-                <p>Press "Connect" on WRIO IoT Gateway to connect a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
+                <p>Press "Connect" on the WRIO IoT Gateway to register a new device, or enter the IPv6 address and AES key manually. For more information check manual inside the box.</p>
                 <div className="form-group">
                   <label htmlFor="IPv6_address">IPv6 address:</label>
                   <input name="IPv6_address" type="text" className="form-control"/>
