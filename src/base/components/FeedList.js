@@ -122,7 +122,7 @@ class FeedListPage extends React.Component {
       console.log(error, "catch the hoop")
     })
   }
-  getSensorData() {
+  getSensorData = () => {
     //var setval={dev:"Mote",opr:this.state.devicestatus};    
     //console.log("Here object is "+JSON.stringify(object));
     fetch("https://immense-temple-14028.herokuapp.com/api/Device/GetSensorValue", {
@@ -138,10 +138,10 @@ class FeedListPage extends React.Component {
     .then((resp) => {
       return resp.json()
     }) 
-    .then((data) => {
-      console.log("result sensor data "+ data);
+    .then((dataval) => {
+      console.log("result sensor data "+ JSON.stringify(dataval));
       //var sensordata = JSON.parse(data);
-      this.setState({ temperature: (parseFloat(data.temperature)/1000)});      
+      this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});      
     })
     .catch((error) => {
       console.log(error, "catch the hoop")
