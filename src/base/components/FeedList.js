@@ -140,8 +140,19 @@ class FeedListPage extends React.Component {
     }) 
     .then((dataval) => {
       console.log("result sensor data "+ JSON.stringify(dataval));
-      //var sensordata = JSON.parse(data);
+      //var sensordata = JSON.parse(data)
+      if(dataval != null){
       this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});      
+      if(dataval.isEnabled){
+        this.setState({ devicestatus: "off"});
+      }
+      if(!dataval.isEnabled){
+        this.setState({ devicestatus: "on"});
+      }
+      }
+      else{
+        this.setState({ devicestatus: "on"});
+      }
     })
     .catch((error) => {
       console.log(error, "catch the hoop")
@@ -184,9 +195,9 @@ class FeedListPage extends React.Component {
             <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button className="btn btn-sm disabled">Set threshold</button></ToolTipLite>
           </div>
           <div className="control-right control-panel col-sm-6">
-          <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1> {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.temperature ? <h1>Temp: {this.state.temperature} c</h1> : <h1>Temp: 0 c</h1> } </React.Fragment> : null }
-            <p>The device is {this.state.devicestatus=== "off" ?  "online" : "offline"}</p>
-            <ToolTipLite className="tooltip-b" content={this.state.devicestatus=== "off" ?  "The device is online" : "The device is offline"}><button className="btn btn-sm" onClick={this.getSensorData}>Refresh</button><button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button></ToolTipLite>
+          <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
+            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>} 
+            <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
           </div>
         </div>
 
