@@ -196,7 +196,7 @@ class FeedListPage extends React.Component {
           </div>
           <div className="control-right control-panel col-sm-6">
           <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
-            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>} 
+            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>} 
             <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
           </div>
         </div>
