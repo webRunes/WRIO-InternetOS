@@ -1,8 +1,3 @@
-/* @flow */
-/**
- * Created by michbil on 09.01.16.
- */
-
 export function getServiceUrl(service: string): string {
   let protocol = 'https:';
   const domain = process.env.DOMAIN;

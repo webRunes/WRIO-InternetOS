@@ -18,6 +18,7 @@ export function saveToS3(path: string, html: string): Promise {
     });
 }
 
+
 export function deleteFromS3(path: string): Promise {
   return request
     .post(`${protocol()}//storage.${domain()}/api/delete`)
@@ -34,8 +35,8 @@ export function getWidgetID(url: string): Promise {
     .withCredentials();
 }
 
-export function getRegistredUser(): Promise {
-  return request
-    .get(`${protocol()}//login.${domain()}/api/get_profile`)
-    .withCredentials();
-}
+// export function getRegistredUser(): Promise {
+//   return request
+//     .get(`${protocol()}//login.${domain()}/api/get_profile`)
+//     .withCredentials();
+// }

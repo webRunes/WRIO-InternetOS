@@ -41,11 +41,11 @@ const RightNav = ({ onCloseTab }) => {
   );
 };
 
-const LoginBar = ({ profile, readItLater }) => {
-  return (
-    <div className="profile">{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
-  );
-};
+// const LoginBar = ({ profile, readItLater }) => {
+//   return (
+//     <div className="profile">{!!profile && <Login profile={profile} readItLater={readItLater} />}</div>
+//   );
+// };
 
 class Main extends React.Component {
   constructor(props) {
@@ -76,10 +76,10 @@ class Main extends React.Component {
     return (
       <div>
         <VerticalNav vertical={true} showUp={false} />
-        <LoginBar
+        {/* <LoginBar
           profile={this.props.profile}
           readItLater={this.props.readItLater}
-        />
+        /> */}
         <RightNav onCloseTab={() => {
           this.props.dispatch(PlusActions.onCloseTab())
         }}/>
@@ -167,8 +167,8 @@ class Main extends React.Component {
 
 const mapStateToProps = state => ({
   url: state.document.url,
-  profile: state.login.profile,
-  wrioID: state.login.wrioID,
+  //profile: state.login.profile,
+  wrioID: 'anonymous',
   editAllowed: state.document.editAllowed,
   toc: state.document.toc,
   lists: state.document.lists,

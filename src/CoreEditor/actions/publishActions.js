@@ -5,7 +5,6 @@ import { formatAuthor } from '../utils/url.js';
 import DraftExporter from '../DraftExporter';
 import ListExporter from '../ListExporter';
 import { saveCovers } from './coverDialog';
-
 export const fakeWidgetId = '875721502196465664';
 
 export const DESC_CHANGED = 'DESC_CHANGED';
@@ -23,6 +22,7 @@ export const GOT_ERROR = 'PUBLISH_GOT_ERROR';
 export const GOT_URLPARAMS = 'GOT_URLPARAMS';
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const PICK_SAVE_SOURCE = 'PICK_SAVE_SOURCE';
+
 
 export function gotUrlParams(createMode: boolean, editURL: ?string, editPath: ?string) {
   return {
@@ -136,6 +136,11 @@ export function publishDocumentSaveAsArticle() {
 
       document.setAbout(description);
 
+      const name = document && document.getProperty('name');
+
+      console.log("Here is the ID and the path")
+      console.log((wrioID));
+      console.log(savePath);
       const html = exporter.articleDraftToHtml(
         editorState.getCurrentContent(),
         formatAuthor(wrioID),
@@ -143,9 +148,8 @@ export function publishDocumentSaveAsArticle() {
         coverHtml ? coverSavePath : undefined,
         state.externalsEditor,
       );
-
-      const name = document && document.getProperty('name');
       const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
+
       saveAs(fileName, html);
 
       dispatch({ type: PUBLISH_FINISH});

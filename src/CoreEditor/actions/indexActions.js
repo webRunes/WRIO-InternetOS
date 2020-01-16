@@ -105,25 +105,25 @@ export default function createActionsForEditor(editorName) {
   };
 
   exports.fetchUserData = function fetchUserData() {
-    return dispatch =>
-      getRegistredUser()
-        .then((user) => {
-          const
-            profile = user.body,
-            wrioID = profile.id;
+    // return dispatch =>
+    //   getRegistredUser()
+    //     .then((user) => {
+    //       const
+    //         profile = user.body,
+    //         wrioID = profile.id;
 
-          dispatch(receiveUserData(profile));
+    //       dispatch(receiveUserData(profile));
 
-          getMyList(wrioID, (err, myList) =>
-            err
-              ? console.log(err)
-              : dispatch(exports.myListReady(myList))
-          );
-        })
-        .catch((e) => {
-          console.error('Error obtaining user data', e.stack);
-          dispatch(exports.gotError('User not registred'));
-        });
+    //       getMyList(wrioID, (err, myList) =>
+    //         err
+    //           ? console.log(err)
+    //           : dispatch(exports.myListReady(myList))
+    //       );
+    //     })
+    //     .catch((e) => {
+    //       console.error('Error obtaining user data', e.stack);
+    //       dispatch(exports.gotError('User not registred'));
+    //     });
   };
 
   exports.createNewDocument = function createNewDocument(author) {
