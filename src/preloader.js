@@ -219,12 +219,12 @@ function loadScripts() {
 
 const detector = new BrowserDetection();
 
-function createLoginIframe(headElement) {
-  const prePingerIframe = document.createElement('iframe');
-  prePingerIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
-  prePingerIframe.id = 'loginbuttoniframe';
-  headElement.appendChild(prePingerIframe);
-}
+// function createLoginIframe(headElement) {
+//   const prePingerIframe = document.createElement('iframe');
+//   prePingerIframe.src = `${getServiceUrl('login')}/buttons/twitter`;
+//   prePingerIframe.id = 'loginbuttoniframe';
+//   headElement.appendChild(prePingerIframe);
+// }
 
 if (!detector.init()) {
   for (let i = 0; i < css.length; i++) {
@@ -244,7 +244,7 @@ if (!detector.init()) {
   favicon.href = getResourcePath('/ico/favicon.ico');
   head.appendChild(favicon);
 
-  createLoginIframe(head);
+  //createLoginIframe(head);
 } else {
   document.getElementById('preloader').style.display = 'none';
 }
