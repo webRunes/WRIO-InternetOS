@@ -47,7 +47,7 @@ class EditorContainer extends React.Component {
     } else {
       dispatch(fetchDocument(EDIT_URL));
     }
-    dispatch(fetchUserData());
+//    dispatch(fetchUserData());
     document.getElementById('loadingInd').setAttribute('style', 'display:none;');
   }
 

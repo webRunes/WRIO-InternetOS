@@ -19,7 +19,7 @@ import {
 import FormActions from "../actions/formactions.js";
 import { COMMENT_LENGTH, TITLE_LENGTH } from "../constants.js";
 import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
-import { openAuthPopup } from "../auth.js";
+//import { openAuthPopup } from "../auth.js";
 import { getServiceUrl } from "base/servicelocator";
 
 const frame_params = {
@@ -237,10 +237,10 @@ export default Reflux.createStore({
     // activate button
     this.setState({ busy: false });
   },
-  onOpenAuthPopup() {
-    saveDraft(this.state.tags, this.state.title);
-    openAuthPopup();
-  },
+  // onOpenAuthPopup() {
+  //   saveDraft(this.state.tags, this.state.title);
+  //   openAuthPopup();
+  // },
 
   /**
      * Request api for ethereum id's of the receivers

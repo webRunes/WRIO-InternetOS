@@ -1,7 +1,7 @@
 /**
  * Created by michbil on 05.03.17.
  */
-
+/*
 import { getCookie } from "./utils.js";
 import { getServiceUrl } from "base/servicelocator";
 
@@ -29,3 +29,4 @@ export function checkLoggedIn() {
     console.log("Cookie exists, aborting");
   }
 }
+*/

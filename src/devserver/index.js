@@ -14,6 +14,7 @@ const proxyParams = {
   },
 };
 
+
 const pingerService = express();
 
 pingerService.get('/iframe', (request, response) => {
@@ -23,6 +24,10 @@ pingerService.use(express.static(path.join(__dirname, './pinger/')));
 pingerService.use(proxy('https://pinger.wrioos.com/'));
 
 const coreService = express();
+
+app.get('/create', (request, response) => {
+  response.sendFile(`${__dirname}/core/core.html`);
+});
 
 coreService.get('/create', (request, response) => {
   response.sendFile(`${__dirname}/core/core.html`);
@@ -35,6 +40,7 @@ coreService.get('/create_list', (request, response) => {
 coreService.get('/edit', (request, response) => {
   response.sendFile(`${__dirname}/core/core.html`);
 });
+
 
 coreService.use(express.static(path.join(__dirname, './core/')));
 
@@ -49,7 +55,7 @@ webgoldService.use(proxy('https://webgold.wrioos.com/', proxyParams));
 const server = require('http')
   .createServer(app)
   .listen(3033, (req, res) => {
-    // app.use((req,res,next) => { console.log(req.headers.host);next()});
+
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -59,7 +65,7 @@ const server = require('http')
     app.use(vhost('core_d.wrioos.com', coreService));
     app.use(vhost('webgold_d.wrioos.com', webgoldService));
     app.use('/', proxy('127.0.0.1:3034')); // proxy everything to devserver
-
+    
     setupDevServer();
     console.log('Application Started!');
   });
