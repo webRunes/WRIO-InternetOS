@@ -136,11 +136,6 @@ export function publishDocumentSaveAsArticle() {
 
       document.setAbout(description);
 
-      const name = document && document.getProperty('name');
-
-      console.log("Here is the ID and the path")
-      console.log((wrioID));
-      console.log(savePath);
       const html = exporter.articleDraftToHtml(
         editorState.getCurrentContent(),
         formatAuthor(wrioID),
@@ -148,6 +143,7 @@ export function publishDocumentSaveAsArticle() {
         coverHtml ? coverSavePath : undefined,
         state.externalsEditor,
       );
+      const name = document && document.getProperty('name');
       const fileName = `${name ? name.split(' ').join('_') : 'untitled'}.html`;
 
       saveAs(fileName, html);

@@ -35,8 +35,8 @@ export function getWidgetID(url: string): Promise {
     .withCredentials();
 }
 
-// export function getRegistredUser(): Promise {
-//   return request
-//     .get(`${protocol()}//login.${domain()}/api/get_profile`)
-//     .withCredentials();
-// }
+export function getRegistredUser(): Promise {
+  return request
+    .get(`${protocol()}//login.${domain()}/api/get_profile`)
+    .withCredentials();
+}
