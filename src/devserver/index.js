@@ -29,6 +29,10 @@ app.get('/create', (request, response) => {
   response.sendFile(`${__dirname}/core/core.html`);
 });
 
+coreService.get('/create', (request, response) => {
+  response.sendFile(`${__dirname}/core/core.html`);
+});
+
 coreService.get('/create_list', (request, response) => {
   response.sendFile(`${__dirname}/core/core.html`);
 });
