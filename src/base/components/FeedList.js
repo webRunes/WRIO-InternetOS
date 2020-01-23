@@ -20,7 +20,7 @@ class FeedListPage extends React.Component {
       if (YAxisLable) {
         let tspan = YAxisLable.childNodes[0];
         tspan.setAttribute('x', 90);
-      }      
+      }
     }, 3000)
   }
 
@@ -96,8 +96,8 @@ class FeedListPage extends React.Component {
   }
 
   setConfig = () => {
-    var setval={dev:"Mote",opr:this.state.devicestatus};    
-    //console.log("Here object is "+JSON.stringify(object));
+    var setval={dev:"Mote",opr:this.state.devicestatus};
+    console.log("Here object is "+JSON.stringify(object));
     fetch("https://immense-temple-14028.herokuapp.com/api/Device", {
       method: "POST",
       dataType: "JSON",
@@ -110,11 +110,10 @@ class FeedListPage extends React.Component {
     })
     .then((resp) => {
       return resp.json()
-    }) 
+    })
     .then((data) => {
-      console.log("result data "+ JSON.stringify(data))
       if(this.state.devicestatus === "on")
-        this.setState({ devicestatus: "off"});                    
+        this.setState({ devicestatus: "off"});
       else
       this.setState({ devicestatus: "on"});
     })
@@ -123,7 +122,7 @@ class FeedListPage extends React.Component {
     })
   }
   getSensorData = () => {
-    //var setval={dev:"Mote",opr:this.state.devicestatus};    
+    var setval={dev:"Mote",opr:this.state.devicestatus};
     //console.log("Here object is "+JSON.stringify(object));
     fetch("https://immense-temple-14028.herokuapp.com/api/Device/GetSensorValue", {
       method: "GET",
@@ -137,12 +136,11 @@ class FeedListPage extends React.Component {
     })
     .then((resp) => {
       return resp.json()
-    }) 
+    })
     .then((dataval) => {
-      console.log("result sensor data "+ JSON.stringify(dataval));
       //var sensordata = JSON.parse(data)
       if(dataval != null){
-      this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});      
+      this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});
       if(dataval.isEnabled){
         this.setState({ devicestatus: "off"});
       }
@@ -161,29 +159,49 @@ class FeedListPage extends React.Component {
   render() {
     let feedData = this.props.feed;
     let feed = feedData.dataFeedElement;
-    let feedDates = feed ? [...new Set(feed.map(item => item.dateCreated))] : [];
+    let FeedState,FeedTemprature,FeedBattery;
+    for (var key in feed) {
+      if(feed[key].item.variableMeasured.name == "state"){
+            FeedState = feed[key]}
+      if(feed[key].item.variableMeasured.name == "temperature"){
+            FeedTemprature = feed[key]
+          }
+      if(feed[key].item.variableMeasured.name == "battery"){
+            FeedBattery = feed[key]}
+      }
+    FeedState = feed ? FeedState : [];
+    FeedTemprature = feed ? FeedTemprature : [];
+    let feedDates_new = this.props.feed.dateModified;
+    let feedDates = new Set();
+    feedDates = feed ? feedDates_new :[];
+
     let providerLink = feedData.provider != undefined ? feedData.provider : undefined;
     let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
     let sensorDataList = [...new Set(sensorData)];
     let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage' : (this.state.selectedOption == 'temperature' ? 'Temperature' : (this.state.selectedOption == 'humidity' ? 'Humidity' : (this.state.selectedOption == 'pressure' ? 'Pressure' : 'State')));
     let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
-    let filteredSelectedOption = this.state.selectedOption != 'state' ? filteredSelectedOptionObj.map(temperatureItem => {
-      return { dateRecorded: temperatureItem.dateCreated, [selectedOptionCondition]: temperatureItem.item.variableMeasured.value, hour: temperatureItem.dateCreated.slice(12, 14) }
-    }) : filteredSelectedOptionObj.map(item => {
-      return { dateRecorded: item.dateCreated, [selectedOptionCondition]: item.item.variableMeasured.value, hour: item.dateCreated.slice(12, 14) }
+    let filter = feed ? filteredSelectedOptionObj[0].item.variableMeasured.value: [] ;
+    let filteredSelectedOption = feed != 'state' ?
+    filter.map((temperatureItem,index) => {
+      return { dateRecorded: feedDates ? feedDates[index] : undefined,
+        [selectedOptionCondition]: temperatureItem,
+         hour: feedDates ? feedDates[index].slice(12,14) : undefined}
+    }):filter.map((item,index) => {
+      return { dateRecorded: feedDates ? feedDates[index] : undefined,
+       [selectedOptionCondition]: item,
+        hour: feedDates ? feedDates[index].slice(12,14) : undefined }
     });
     filteredSelectedOption = filteredSelectedOption.map(item => {
       return !Object.values(item).includes("") ? item : undefined
-    })    
-    let temperatureList = [...new Set(filteredSelectedOption.map(item => item != undefined ? +item[selectedOptionCondition] : undefined))].sort();
+    })
+    let temperatureList = [...new Set(filteredSelectedOption.map(item => item != undefined
+     ? +item[selectedOptionCondition] : undefined))].sort();
     let newTemperatureList = [];
     temperatureList.map((item, index) => {
       if (item) {
         newTemperatureList.push(item);
       }
     })
-
-    temperatureList = newTemperatureList.length > 0 ? FeedListPage.range(newTemperatureList[0], newTemperatureList[newTemperatureList.length - 1] ? newTemperatureList[newTemperatureList.length - 1] : 50, (newTemperatureList[0] - newTemperatureList[newTemperatureList.length - 1]) / 2) : [];
     return (
       feedDates.length > 0 ? <div>
 
@@ -196,7 +214,7 @@ class FeedListPage extends React.Component {
           </div>
           <div className="control-right control-panel col-sm-6">
           <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
-            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>} 
+            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>}
             <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
           </div>
         </div>
@@ -272,29 +290,31 @@ class FeedListPage extends React.Component {
           </div>
           <div className="timeline col-xs-12">
             {
+
               feedDates.map(
-                date => {
-                  let filterFeed = feed.filter(item => {
-                    return item.dateCreated == date;
-                  })
+                (date, index) => {
+                  let Feedindex = index;
                   return (
                     <div className="paragraph">
                       <div className="col-xs-12">
                         <span class="timeline-step"><i class="material-icons">schedule</i></span>
                         <div className="timeline-content">
-                          <h2>{filterFeed[0].dateCreated.slice(12, 20)}</h2>
-                          {
-                            filterFeed.map((obj, index) => {
-                              let stateStatus = filterFeed.filter(item => item.item.variableMeasured.value.toLowerCase() == 'disabled');
-                              return (<div>
-                                {
-                                  stateStatus.length == 0 ?
-                                    <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value} {obj.item.variableMeasured.name.toLowerCase() == 'temperature' ? <span>&#8451;</span> : (obj.item.variableMeasured.name.toLowerCase() == 'humidity' ? 'RH' : (obj.item.variableMeasured.name.toLowerCase() == 'pressure' ? 'hPa' : null))}</p>
-                                    : index == 0 ? <p>{obj.item.variableMeasured.name.charAt(0).toUpperCase() + obj.item.variableMeasured.name.slice(1) + ': '} {obj.item.variableMeasured.value}</p> : null
-                                }
-                              </div>)
-                            })
-                          }
+
+                          <h2>{feedDates[index].slice(12, 20)}</h2>
+
+                          <p>{FeedBattery.item.variableMeasured.name.charAt(0).toUpperCase() +
+                              FeedBattery.item.variableMeasured.name.slice(1) + ': '}
+                            {FeedBattery.item.variableMeasured.value[index]}</p>
+
+                          <p>{FeedTemprature.item.variableMeasured.name.charAt(0).toUpperCase() +
+                              FeedTemprature.item.variableMeasured.name.slice(1) + ': '}
+                            {FeedTemprature.item.variableMeasured.value[index]}</p>
+
+                          <p>{FeedState.item.variableMeasured.name.charAt(0).toUpperCase() +
+                              FeedState.item.variableMeasured.name.slice(1) + ': '}
+                            {FeedState.item.variableMeasured.value[index]}</p>
+
+
                         </div>
                       </div>
                     </div>
