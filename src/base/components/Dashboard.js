@@ -30,6 +30,8 @@ closeModal() {
 
   render() {
     let sensorData = this.props.sensorData;
+    console.log(sensorData);
+    console.log("sensorData");
     sensorData.sort((obj1, obj2) => {
       if ( obj1.productData.name < obj2.productData.name ){
         return -1;
@@ -65,8 +67,8 @@ closeModal() {
               </form>
             </div>
         </Modal>
-        <div className="callout warning col-xs-12">
-          <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
+        <div className="callout">
+          <h5>The device is a part of an IoT network.<a href="https://imec.wr.io/#dashboard">Back to the network provider's dashboard</a></h5>
         </div>
 
         <div className="row">
@@ -104,7 +106,7 @@ closeModal() {
           </div>
         </div>
         <div className="tab-content clearfix">
-			  <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
+        <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
         <div className="row">
           <div className="col-xs-6">
             <button type="button" className="btn btn-success" onClick={() => this.openModal()}><span className="glyphicon glyphicon-plus with_text"></span>Add New Device</button>
@@ -133,32 +135,34 @@ closeModal() {
                   sensorData.map((sensor, index) => {
                     let sensorPayload = sensor.payload;
                     let sensorProductData = sensor.productData;
-                    let enabledSensorDataFeed = sensor.payload.dataFeedElement.filter(item => {
-                      return item.item.variableMeasured.value.toLowerCase() == 'enabled'
-                    }).map(item => item.dateCreated);
+                    let sensorDateModified = sensor.payload.dateModified;
+                    let temperatureData    = sensor.payload.dataFeedElement.find(item => item.item.variableMeasured
+                          .name.toLowerCase() == 'temperature');
+                    let batteryData        =    sensor.payload.dataFeedElement.find(item => item.item.variableMeasured
+                          .name.toLowerCase() == 'battery')   
 
-                    let currentState = sensor.payload.dataFeedElement.map(item => item.dateCreated);
-                    let currentStatePicker = sensor.payload.dataFeedElement.filter(item =>  currentState.includes(String(item.dateCreated)));
-                    currentStatePicker = currentStatePicker.slice(Math.max(currentStatePicker.length - 4, 1)).find(item => item.item.variableMeasured.name.toLowerCase() == 'state');
+                    let stateData = sensor.payload.dataFeedElement.find(item => item.item.variableMeasured
+                        .name.toLowerCase() == 'state')
+                    let lastIndex = sensorDateModified.length - 1;
+                    
+                   return (
+                        <tr>
+                        <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
+                        <td><a href={sensor.url}>{sensorProductData.name}</a></td>
+                        <td className="center">{stateData.item.variableMeasured.value[lastIndex].toLowerCase() == 'enable' ?  <Tooltip content="Enabled">
+                        <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
+                        <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
+                        <td>Read</td>
+                        <td>{sensorDateModified[lastIndex]}</td>
+                        <td>{temperatureData.item.variableMeasured.value[lastIndex]}  &#8451;</td>
+                       
+                        <td>{batteryData.item.variableMeasured.value[lastIndex]} &#37;</td>
+                      </tr>
 
-                    let sensorDataFeed = sensor.payload.dataFeedElement.filter(item =>  enabledSensorDataFeed.includes(String(item.dateCreated)));
-                    sensorDataFeed = sensorDataFeed.slice(Math.max(sensorDataFeed.length - 4, 1));
-                    sensorDataFeed.map(item => {
-                     if(item.item.variableMeasured.name.toLowerCase() == 'state') {
-                         item.item.variableMeasured.value = currentStatePicker.item.variableMeasured.value;
-                     }
-                   })
-                   return (<tr>
-                      <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
-                      <td><a href={sensor.url}>{sensorProductData.name}</a></td>
-                      <td className="center">{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'state').item.variableMeasured.value.toLowerCase() == 'enabled' ?  <Tooltip content="Enabled">
-                      <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
-                      <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
-                      <td>Read</td>
-                      <td>{sensorPayload.dateModified}</td>
-                      <td>{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'temperature').item.variableMeasured.value}  &#8451;</td>
-                      <td>{sensorDataFeed.find(item => item.item.variableMeasured.name.toLowerCase() == 'battery').item.variableMeasured.value} &#37;</td>
-                    </tr>)
+                    )
+                    
+
+
                   }) : null
               }
             </tbody>
@@ -185,8 +189,8 @@ closeModal() {
             </div>
         </div>
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
-				</div>
-				<div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
+        </div>
+        <div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
           <div className="row">
             <div className="col-sm-12">
               <div className="jumbotron">
@@ -194,7 +198,7 @@ closeModal() {
                 <p>This is a private IoT network. You need to gain access rights from the network provider.</p>
                 <p><Tooltip className="tooltip-b" content="Available to Alpha testers only"><button className="btn disabled">Get access</button></Tooltip></p>
               </div>
-    				</div>
+            </div>
           </div>
         </div>
         <div className={this.state.isActiveThree ? "tab-pane active": "tab-pane"} id="">
@@ -207,8 +211,8 @@ closeModal() {
               </div>
             </div>
           </div>
-				</div>
-			</div>
+        </div>
+      </div>
     </div>)
   }
 }
