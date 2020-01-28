@@ -67,10 +67,9 @@ closeModal() {
               </form>
             </div>
         </Modal>
-        <div className="callout">
-          <h5>The device is a part of an IoT network.<a href="https://imec.wr.io/#dashboard">Back to the network provider's dashboard</a></h5>
-        </div>
-
+          <div className="callout warning col-xs-12">	        
+            <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
+          </div>
         <div className="row">
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
