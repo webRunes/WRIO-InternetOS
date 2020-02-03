@@ -96,8 +96,7 @@ class FeedListPage extends React.Component {
   }
 
   setConfig = () => {
-    var setval={dev:"Mote",opr:this.state.devicestatus};
-    console.log("Here object is "+JSON.stringify(object));
+    var setval={dev:"Mote",opr:this.state.devicestatus};    
     fetch("https://immense-temple-14028.herokuapp.com/api/Device", {
       method: "POST",
       dataType: "JSON",
