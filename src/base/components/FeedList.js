@@ -303,11 +303,11 @@ class FeedListPage extends React.Component {
 
                           <p>{FeedBattery.item.variableMeasured.name.charAt(0).toUpperCase() +
                               FeedBattery.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedBattery.item.variableMeasured.value[index]}</p>
+                            {FeedBattery.item.variableMeasured.value[index]} &#37;</p>
 
                           <p>{FeedTemprature.item.variableMeasured.name.charAt(0).toUpperCase() +
                               FeedTemprature.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedTemprature.item.variableMeasured.value[index]}</p>
+                            {FeedTemprature.item.variableMeasured.value[index]} &#8451;</p>
 
                           <p>{FeedState.item.variableMeasured.name.charAt(0).toUpperCase() +
                               FeedState.item.variableMeasured.name.slice(1) + ': '}
