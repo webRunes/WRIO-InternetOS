@@ -4,6 +4,9 @@ import Modal from 'react-awesome-modal';
 import { Field, reduxForm } from 'redux-form';
 import Tooltip from 'react-tooltip-lite';
 import { MapBoxGl } from './mapbox/mapboxV2.js';
+import { Dropdown,DropdownButton,ButtonToolbar, MenuItem, Glyphicon } from 'react-bootstrap';
+
+
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -27,6 +30,10 @@ closeModal() {
         visible : false
     });
 }
+
+
+
+
 
   render() {
     let sensorData = this.props.sensorData;
@@ -67,9 +74,10 @@ closeModal() {
               </form>
             </div>
         </Modal>
-          <div className="callout warning col-xs-12">	        
+        <div className="callout warning col-xs-12">         
             <h5>Dasboard is under development and the functionality is limited. Premium features are available to Alpha testers only.</h5>
           </div>
+
         <div className="row">
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">group</i>Followers</h1>
@@ -81,29 +89,29 @@ closeModal() {
             <Tooltip className="tooltip-b" content="Premium feature, available to Alpha testers only"><button className="btn btn-sm disabled">Details</button></Tooltip>          </div>
         </div>
 
-        <div className="row"><div className="col-xs-12">
-            <ul className="nav nav-pills tab_networks">
-              <li role="presentation" className={this.state.isActiveOne ? "active": ""}><a href="" data-toggle="tab" onClick={e => {
-              e.preventDefault();
-              this.setState({isActiveOne:true, isActiveTwo: false, isActiveThree: false})
-              return false;
-              }
-              }>Testbed network</a></li>
-              <li role="presentation" className={this.state.isActiveTwo ? "active": ""}><a href="" data-toggle="tab" onClick={e => {
-              e.preventDefault();
-              this.setState({isActiveOne:false, isActiveTwo: true, isActiveThree: false})
-              return false;
-              }
-              }>Private test network</a></li>
-              <li role="presentation" className={this.state.isActiveThree ? "active": ""}><a href="" data-toggle="tab" className="add_icon" onClick={e => {
-              e.preventDefault();
-              this.setState({isActiveOne:false, isActiveTwo: false, isActiveThree: true})
-              return false;
-              }
-              }><i className="material-icons">add</i></a></li>
-            </ul>
-          </div>
-        </div>
+      <div className="row"><div className="col-xs-12">
+        <ul className="nav nav-pills tab_networks">
+          <li role="presentation" className={this.state.isActiveOne ? "active" : ""}><a href="" data-toggle="tab" onClick={e => {
+            e.preventDefault();
+            this.setState({ isActiveOne: true, isActiveTwo: false, isActiveThree: false })
+            return false;
+          }
+          }>Testbed network</a></li>
+          <li role="presentation" className={this.state.isActiveTwo ? "active" : ""}><a href="" data-toggle="tab" onClick={e => {
+            e.preventDefault();
+            this.setState({ isActiveOne: false, isActiveTwo: true, isActiveThree: false })
+            return false;
+          }
+          }>Private test network</a></li>
+          <li role="presentation" className={this.state.isActiveThree ? "active" : ""}><a href="" data-toggle="tab" className="add_icon" onClick={e => {
+            e.preventDefault();
+            this.setState({ isActiveOne: false, isActiveTwo: false, isActiveThree: true })
+            return false;
+          }
+          }><i className="material-icons">add</i></a></li>
+        </ul>
+      </div>
+      </div>
         <div className="tab-content clearfix">
         <div className={this.state.isActiveOne ? "tab-pane active": "tab-pane"} id="">
         <div className="row">
@@ -120,11 +128,11 @@ closeModal() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Node name</th>
                 <th>State</th>
                 <th>Access</th>
                 <th>Last seen</th>
-                <th>Last readings</th>
+                <th>Sensors</th>
                 <th>Battery</th>
               </tr>
             </thead>
@@ -139,29 +147,44 @@ closeModal() {
                           .name.toLowerCase() == 'temperature');
                     let batteryData        =    sensor.payload.dataFeedElement.find(item => item.item.variableMeasured
                           .name.toLowerCase() == 'battery')   
-
                     let stateData = sensor.payload.dataFeedElement.find(item => item.item.variableMeasured
                         .name.toLowerCase() == 'state')
                     let lastIndex = sensorDateModified.length - 1;
-                    
+                    let dropDownItems = sensor.payload.dataFeedElement.filter(item => (item.item.variableMeasured
+                          .name.toLowerCase() != 'battery') && (item.item.variableMeasured
+                          .name.toLowerCase() != 'state'));
+                    let datadesc = dropDownItems ? dropDownItems.map((item,index)=>
+                          item.item.variableMeasured.name=='temperature'?item.item.variableMeasured.name[0].toUpperCase() + item.item.variableMeasured.name.slice(1)+": "
+                          +item.item.variableMeasured.value[lastIndex] + "°C":
+                          item.item.variableMeasured.name[0].toUpperCase() + item.item.variableMeasured.name.slice(1)+": "
+                          +item.item.variableMeasured.value[lastIndex]):
+                          temperatureData.item.variableMeasured.value[lastIndex];
+                    let datadesclist = datadesc.toString().split(",").join("  \n ");
+                    let checkEnable  = stateData.item.variableMeasured.value[lastIndex].toLowerCase();
+                    let sensorProductName = sensorProductData.name;    
                    return (
-                        <tr>
+                        <tr  onClick={() => MapBoxGl.mapOnClick(this.props.geoCoordinates,datadesc,sensorProductName,checkEnable)}>
                         <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
                         <td><a href={sensor.url}>{sensorProductData.name}</a></td>
-                        <td className="center">{stateData.item.variableMeasured.value[lastIndex].toLowerCase() == 'enable' ?  <Tooltip content="Enabled">
-                        <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
-                        <span className="glyphicon glyphicon-remove-sign"></span></Tooltip>}</td>
+                        <td className="center">
+                        {stateData.item.variableMeasured.value[lastIndex].toLowerCase() == 'enable' ?  <Tooltip content="Enabled">
+                          <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
+                          <span className="glyphicon glyphicon-remove-sign"></span></Tooltip> }
+                        </td>
                         <td>Read</td>
                         <td>{sensorDateModified[lastIndex]}</td>
-                        <td>{temperatureData.item.variableMeasured.value[lastIndex]}  &#8451;</td>
-                       
+                        { dropDownItems.length>1 ?
+                          <td>
+                            { dropDownItems.length } <a href={sensor.url}>
+                              <Tooltip className="tooltip-b"   direction="up-start" 
+                              content= {(<div style={{whiteSpace: 'pre-line'}}><b>Last Readings</b><br /><hr></hr>{datadesclist}</div>)}>
+                             <span className="glyphicon glyphicon-stats"></span></Tooltip></a>
+                          </td>
+                          : <td>{ temperatureData.item.variableMeasured.value[lastIndex] } &#8451; </td> 
+                        }
                         <td>{batteryData.item.variableMeasured.value[lastIndex]} &#37;</td>
                       </tr>
-
                     )
-                    
-
-
                   }) : null
               }
             </tbody>
@@ -189,6 +212,7 @@ closeModal() {
         </div>
         <MapBoxGl geoCoordinates={this.props.geoCoordinates}/>
         </div>
+        
         <div className={this.state.isActiveTwo ? "tab-pane active": "tab-pane"} id="">
           <div className="row">
             <div className="col-sm-12">
