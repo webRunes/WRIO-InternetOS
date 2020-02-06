@@ -17,6 +17,7 @@ class MapBox extends React.Component {
     const filteredGeoCoordinates = this.props.geoCoordinates
       .filter(item => item.feedUrl)
       .map(item => [item.longitude, item.latitude]);
+
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
@@ -29,6 +30,8 @@ class MapBox extends React.Component {
 
       if (filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
         filteredGeoCoordinates.map(geoCoord => {
+          console.log("geoCoord before=====>");
+          console.log(geoCoord);
           new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
         });
       } else {
@@ -67,21 +70,19 @@ class MapBox extends React.Component {
     let text;
     if (checkEnable == "enable") {
       text =
-        `${'<div>' + '<h4>'}${ProductName}</h4>` +
+        `${'<div>' + '<h4 id="active">'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude: ${longitude}</p>` +
         `<p>Longitude: ${latitude}</p>` +
         '</div>';
     } else {
       text =
-        `${'<div>' + '<p>'}${ProductName}<p>` +
+        `${'<div>' + '<h4 id="inactive">'}${ProductName}<h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude: ${longitude}</p>` +
         `<p>Longitude: ${latitude}</p>` +
         '</div>';
     }
-
-
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
