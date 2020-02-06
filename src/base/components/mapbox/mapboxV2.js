@@ -47,8 +47,12 @@ class MapBox extends React.Component {
     });
   }
 
-  static mapOnClick(cordinates, description, sensorProductName, checkEnable) {
+  static mapOnClick(allcordinates,cordinates, description, sensorProductName, checkEnable) {
     // for popup
+    let allcord = allcordinates
+      .filter(item => item.feedUrl)
+      .map(item => [item.longitude, item.latitude])
+
     const filteredGeoCoordinates = [
       cordinates[0].longitude,
       cordinates[0].latitude
@@ -65,17 +69,19 @@ class MapBox extends React.Component {
       text =
         `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
-        `<p>Latitude:${longitude}</p>` +
-        `<p>Longitude:${latitude}</p>` +
+        `<p>Latitude: ${longitude}</p>` +
+        `<p>Longitude: ${latitude}</p>` +
         '</div>';
     } else {
       text =
-        `${'<div>' + '<h4>'}${ProductName}</h4>` +
+        `${'<div>' + '<p>'}${ProductName}<p>` +
         `<p>${Description}</p>` +
         `<p>Latitude:${longitude}</p>` +
         `<p>Longitude:${latitude}</p>` +
         '</div>';
     }
+
+
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
@@ -85,19 +91,28 @@ class MapBox extends React.Component {
         center: filteredGeoCoordinates,
         zoom: 18
       });
-
-      if (filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
-        new mapboxgl.Marker().setLngLat(filteredGeoCoordinates).addTo(this.map);
-      } else {
+        if (allcord && allcord.length > 0) {
+        allcord.map(geoCoord => {
+          new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
+        });
+        } else {
         new mapboxgl.Marker()
-          .setLngLat(this.props.geoCoordinates)
+          .setLngLat(filteredGeoCoordinates)
           .addTo(this.map);
-      }
-
-      new mapboxgl.Popup({ offset: 25 })
+        }
+        
+        new mapboxgl.Popup({ offset: 25 })
         .setLngLat(filteredGeoCoordinates)
         .setHTML(text)
         .addTo(this.map);
+
+        this.map ? this.map.addControl(new mapboxgl.NavigationControl()) : "";
+        const that = this;
+        this.map.on("load", () => {
+        setInterval(() => {
+        that.map.resize();
+         }, 4000);
+        });
     }
   }
 

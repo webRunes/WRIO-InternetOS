@@ -164,7 +164,7 @@ closeModal() {
                     let currentCordinate = this.props.geoCoordinates.filter(item => item.feedUrl == sensor.url);
                     let sensorProductName = sensorProductData.name;    
                    return (
-                        <tr  onClick={() => MapBoxGl.mapOnClick(currentCordinate,datadesc,sensorProductName,checkEnable)}>
+                        <tr  onClick={() => MapBoxGl.mapOnClick(this.props.geoCoordinates,currentCordinate,datadesc,sensorProductName,checkEnable)}>
                         <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
                         <td><a href={sensor.url.substring(0, sensor.url.length - 5)}>{sensorProductData.name}</a></td>
                         <td className="center">
