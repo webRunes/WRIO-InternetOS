@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
 const Token =
-  'pk.eyJ1Ijoid2VicnVuZXMiLCJhIjoiY2p5NGY5Nm93MTVlNDNpbzg1N3czdmd5cCJ9.CptajnA9N30WwXNK1EygyA';
+  "pk.eyJ1Ijoid2VicnVuZXMiLCJhIjoiY2p5NGY5Nm93MTVlNDNpbzg1N3czdmd5cCJ9.CptajnA9N30WwXNK1EygyA";
 
 class MapBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      map: null,
+      map: null
     };
     this.map;
   }
@@ -21,24 +21,26 @@ class MapBox extends React.Component {
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
       this.map = new mapboxgl.Map({
-        container: this.map || 'hidden-map',
-        style: 'mapbox://styles/mapbox/light-v10',
+        container: this.map || "hidden-map",
+        style: "mapbox://styles/mapbox/light-v10",
         center: filteredGeoCoordinates[0] || this.props.geoCoordinates,
-        zoom: 12,
+        zoom: 12
       });
 
       if (filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
-        filteredGeoCoordinates.map((geoCoord) => {
+        filteredGeoCoordinates.map(geoCoord => {
           new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
         });
       } else {
-        new mapboxgl.Marker().setLngLat(this.props.geoCoordinates).addTo(this.map);
+        new mapboxgl.Marker()
+          .setLngLat(this.props.geoCoordinates)
+          .addTo(this.map);
       }
     }
 
-    this.map ? this.map.addControl(new mapboxgl.NavigationControl()) : '';
+    this.map ? this.map.addControl(new mapboxgl.NavigationControl()) : "";
     const that = this;
-    this.map.on('load', () => {
+    this.map.on("load", () => {
       setInterval(() => {
         that.map.resize();
       }, 4000);
@@ -47,16 +49,19 @@ class MapBox extends React.Component {
 
   static mapOnClick(cordinates, description, sensorProductName, checkEnable) {
     // for popup
-    const filteredGeoCoordinates = [cordinates[0].longitude, cordinates[0].latitude];
+    const filteredGeoCoordinates = [
+      cordinates[0].longitude,
+      cordinates[0].latitude
+    ];
     let Description = description;
     const ProductName = sensorProductName;
     const longitude = cordinates[0].longitude;
     const latitude = cordinates[0].latitude;
     Description = Description.toString()
-      .split(',')
-      .join(' <br /> ');
+      .split(",")
+      .join(" <br /> ");
     let text;
-    if (checkEnable == 'enable') {
+    if (checkEnable == "enable") {
       text =
         `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
@@ -75,16 +80,18 @@ class MapBox extends React.Component {
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
       this.map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/light-v10',
+        container: "map",
+        style: "mapbox://styles/mapbox/light-v10",
         center: filteredGeoCoordinates,
-        zoom: 18,
+        zoom: 18
       });
 
       if (filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
         new mapboxgl.Marker().setLngLat(filteredGeoCoordinates).addTo(this.map);
       } else {
-        new mapboxgl.Marker().setLngLat(this.props.geoCoordinates).addTo(this.map);
+        new mapboxgl.Marker()
+          .setLngLat(this.props.geoCoordinates)
+          .addTo(this.map);
       }
 
       new mapboxgl.Popup({ offset: 25 })
@@ -99,18 +106,21 @@ class MapBox extends React.Component {
       this.props.geoCoordinates && this.props.geoCoordinates.length > 0
         ? this.props.geoCoordinates
         : undefined;
-    console.log('geoCoordinates 1 === ', geoCoordinates);
-    console.log('window mapbox 1', window.mapboxgl);
+    console.log("geoCoordinates 1 === ", geoCoordinates);
+    console.log("window mapbox 1", window.mapboxgl);
     return geoCoordinates && window.mapboxgl != undefined ? (
       <div className="mapbox-main-div" id="map" ref={x => (this.map = x)} />
     ) : (
-      <img id="hidden-map" src="https://default.wrioos.com/img/no-photo-200x200.png" />
+      <img
+        id="hidden-map"
+        src="https://default.wrioos.com/img/no-photo-200x200.png"
+      />
     );
   }
 }
 
 const mapStateToPropsMapBox = state => ({
-  geoCoordinates: state.document.geoCoordinates,
+  geoCoordinates: state.document.geoCoordinates
 });
 
 export const MapBoxGl = connect(mapStateToPropsMapBox)(MapBox);
