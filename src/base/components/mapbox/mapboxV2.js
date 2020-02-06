@@ -65,7 +65,7 @@ class MapBox extends React.Component {
         '</div>';
     } else {
       text =
-        `${"<div id='para1'>" + '<h4>'}${ProductName}</h4>` +
+        `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude:${longitude}</p>` +
         `<p>Longitude:${latitude}</p>` +
