@@ -76,8 +76,8 @@ class MapBox extends React.Component {
       text =
         `${'<div>' + '<p>'}${ProductName}<p>` +
         `<p>${Description}</p>` +
-        `<p>Latitude:${longitude}</p>` +
-        `<p>Longitude:${latitude}</p>` +
+        `<p>Latitude: ${longitude}</p>` +
+        `<p>Longitude: ${latitude}</p>` +
         '</div>';
     }
 
