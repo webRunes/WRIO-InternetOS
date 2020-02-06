@@ -30,8 +30,6 @@ class MapBox extends React.Component {
 
       if (filteredGeoCoordinates && filteredGeoCoordinates.length > 0) {
         filteredGeoCoordinates.map(geoCoord => {
-          console.log("geoCoord before=====>");
-          console.log(geoCoord);
           new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
         });
       } else {
