@@ -155,17 +155,18 @@ closeModal() {
                           .name.toLowerCase() != 'state'));
                     let datadesc = dropDownItems ? dropDownItems.map((item,index)=>
                           item.item.variableMeasured.name=='temperature'?item.item.variableMeasured.name[0].toUpperCase() + item.item.variableMeasured.name.slice(1)+": "
-                          +item.item.variableMeasured.value[lastIndex] + "°C":
+                          +item.item.variableMeasured.value[lastIndex] + " °C":
                           item.item.variableMeasured.name[0].toUpperCase() + item.item.variableMeasured.name.slice(1)+": "
                           +item.item.variableMeasured.value[lastIndex]):
                           temperatureData.item.variableMeasured.value[lastIndex];
                     let datadesclist = datadesc.toString().split(",").join("  \n ");
                     let checkEnable  = stateData.item.variableMeasured.value[lastIndex].toLowerCase();
+                    let currentCordinate = this.props.geoCoordinates.filter(item => item.feedUrl == sensor.url);
                     let sensorProductName = sensorProductData.name;    
                    return (
-                        <tr  onClick={() => MapBoxGl.mapOnClick(this.props.geoCoordinates,datadesc,sensorProductName,checkEnable)}>
+                        <tr  onClick={() => MapBoxGl.mapOnClick(currentCordinate,datadesc,sensorProductName,checkEnable)}>
                         <td> <Tooltip content={sensorProductData.productID}><div className="dashboard-sensor-id">{sensorProductData.productID}</div></Tooltip></td>
-                        <td><a href={sensor.url}>{sensorProductData.name}</a></td>
+                        <td><a href={sensor.url.substring(0, sensor.url.length - 5)}>{sensorProductData.name}</a></td>
                         <td className="center">
                         {stateData.item.variableMeasured.value[lastIndex].toLowerCase() == 'enable' ?  <Tooltip content="Enabled">
                           <span className="glyphicon glyphicon-ok-sign icon-success"></span></Tooltip> : <Tooltip content="Disabled">
@@ -173,15 +174,24 @@ closeModal() {
                         </td>
                         <td>Read</td>
                         <td>{sensorDateModified[lastIndex]}</td>
-                        { dropDownItems.length>1 ?
-                          <td>
-                            { dropDownItems.length } <a href={sensor.url}>
-                              <Tooltip className="tooltip-b"   direction="up-start" 
-                              content= {(<div style={{whiteSpace: 'pre-line'}}><b>Last Readings</b><br /><hr></hr>{datadesclist}</div>)}>
-                             <span className="glyphicon glyphicon-stats"></span></Tooltip></a>
-                          </td>
-                          : <td>{ temperatureData.item.variableMeasured.value[lastIndex] } &#8451; </td> 
-                        }
+                        {dropDownItems.length > 1 ? (
+                            <td>{dropDownItems.length}
+                              <a href={sensor.url}>
+                                <Tooltip className="tooltip-b" direction="up-start" content={<div style={{ whiteSpace: 'pre-line' }}>
+                                  <b>Last Readings</b><br /><hr />{datadesclist}</div> }><span className="glyphicon glyphicon-stats" />
+                                </Tooltip>
+                              </a>
+                            </td>
+                          ) : (
+                              <td>
+                                {dropDownItems.length}
+                                <a href={sensor.url}>
+                                  <Tooltip className="tooltip-b" direction="up-start" content={ <div>
+                                        <b>Last Readings</b> <br /> <hr />{datadesc}</div> }><span className="glyphicon glyphicon-stats" />
+                                  </Tooltip>
+                                </a>
+                              </td>
+                            )}
                         <td>{batteryData.item.variableMeasured.value[lastIndex]} &#37;</td>
                       </tr>
                     )

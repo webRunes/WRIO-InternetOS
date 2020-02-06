@@ -55,22 +55,26 @@ class MapBox extends React.Component {
     ];
     let Description = description;
     const ProductName = sensorProductName;
-    const el = document.createElement("tr");
-    el.id = "marker";
+    const longitude = cordinates[0].longitude;
+    const latitude = cordinates[0].latitude;
     Description = Description.toString()
       .split(",")
       .join(" <br /> ");
     let text;
     if (checkEnable == "enable") {
       text =
-        `${"<div>" + "<p>"}${ProductName}</p>` +
+        `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
-        `<p>${filteredGeoCoordinates}</p>+</div>`;
+        `<p>Latitude:${longitude}</p>` +
+        `<p>Longitude:${latitude}</p>` +
+        '</div>';
     } else {
       text =
-        `${"<div id='para1'>" + "<p>"}${ProductName}</p>` +
+        `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
-        `<p>${filteredGeoCoordinates}</p>+</div>`;
+        `<p>Latitude:${longitude}</p>` +
+        `<p>Longitude:${latitude}</p>` +
+        '</div>';
     }
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
