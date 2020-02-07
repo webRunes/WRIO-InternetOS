@@ -226,7 +226,7 @@ class DeviveProfileTab extends React.Component {
             <div className="row">
             <div className="control-left control-panel col-sm-6">
               <h2></h2>              
-              <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button></ToolTipLite>
+              <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
               <h2></h2>
             </div>
             <div className="control-right control-panel col-sm-6 ">
