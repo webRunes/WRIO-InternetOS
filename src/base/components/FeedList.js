@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import ProvideLink from './BackToTheProvidersPageButton.js';
 import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import ToolTipLite from 'react-tooltip-lite';
+import gconfig from '../../Config';
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedOption: 'battery',
       devicestatus: "off",
-      temperature: "0"
+      temperature: "0",
+      battery: "0",
+      showLastReadingItem: "Temperature"
     }
   }
 
@@ -97,7 +100,7 @@ class FeedListPage extends React.Component {
 
   setConfig = () => {
     var setval={dev:"Mote",opr:this.state.devicestatus};    
-    fetch("https://immense-temple-14028.herokuapp.com/api/Device", {
+    fetch(gconfig.gatewaysServiceUrl+"/api/Device", {
       method: "POST",
       dataType: "JSON",
       headers: {
@@ -120,10 +123,9 @@ class FeedListPage extends React.Component {
       console.log(error, "catch the hoop")
     })
   }
-  getSensorData = () => {
-    var setval={dev:"Mote",opr:this.state.devicestatus};
+  getSensorData = () => {   
     //console.log("Here object is "+JSON.stringify(object));
-    fetch("https://immense-temple-14028.herokuapp.com/api/Device/GetSensorValue", {
+    fetch(gconfig.gatewaysServiceUrl+"/api/Device/GetSensorValue", {
       method: "GET",
       dataType: "JSON",
       headers: {
@@ -136,10 +138,11 @@ class FeedListPage extends React.Component {
     .then((resp) => {
       return resp.json()
     })
-    .then((dataval) => {
-      //var sensordata = JSON.parse(data)
+    .then((dataval) => {           
       if(dataval != null){
       this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});
+      this.setState({ battery: (parseFloat(dataval.batteryVal)/1000)});
+      
       if(dataval.isEnabled){
         this.setState({ devicestatus: "off"});
       }
@@ -154,6 +157,10 @@ class FeedListPage extends React.Component {
     .catch((error) => {
       console.log(error, "catch the hoop")
     })
+  }
+  lastReadingSelected = (event) => {      
+
+    this.setState({ showLastReadingItem: event.target.value });    
   }
   render() {
     let feedData = this.props.feed;
@@ -213,7 +220,21 @@ class FeedListPage extends React.Component {
           </div>
           <div className="control-right control-panel col-sm-6">
           <h1><i className="material-icons">settings_input_antenna</i>Last readings</h1>
-            {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> <p>Temp: {this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></p> </React.Fragment>}
+          
+    {this.state.devicestatus=== "on" ? <React.Fragment> <p>The device is offline</p> </React.Fragment> : <React.Fragment> 
+    <br />
+      <div class="col-sm-6">
+      <select class="form-control" onChange={this.lastReadingSelected} >
+                <option value="Temperature">Temperature</option>
+                <option value="Battery">Battery</option>                
+          </select> 
+          </div>
+          {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> : <label class="pull-left">{this.state.battery}V <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> } 
+          
+          
+          <br />
+          <br />                   
+          </React.Fragment>}          
             <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
           </div>
         </div>
