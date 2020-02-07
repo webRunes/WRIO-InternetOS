@@ -68,14 +68,14 @@ class MapBox extends React.Component {
     let text;
     if (checkEnable == "enable") {
       text =
-        `${'<div>' + '<h4 id="active">'}${ProductName}</h4>` +
+        `${'<div>' + '<h4>'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude: ${longitude}</p>` +
         `<p>Longitude: ${latitude}</p>` +
         '</div>';
     } else {
       text =
-        `${'<div>' + '<h4 id="inactive">'}${ProductName}<h4>` +
+        `${'<div>' + '<h4 class="inactive">'}${ProductName}<h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude: ${longitude}</p>` +
         `<p>Longitude: ${latitude}</p>` +
