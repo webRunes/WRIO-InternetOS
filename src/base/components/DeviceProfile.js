@@ -197,74 +197,7 @@ class DeviveProfileTab extends React.Component {
              providerLink !=undefined ?<ProviderLink providerLink={providerLink}/>:null
             }
 
-          <div className="row">
-            <div className="control-left control-panel col-sm-6">
-              <h1></h1>              
-              <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button></ToolTipLite>
-            </div>
-            <div className="control-right control-panel col-sm-6">
-            <h1>Product details</h1>
-                            
-
-            <div class=" row">
-            <ToolTipLite className="tooltip-b" content="Transmission power in dBm">
-              <label for="colFormLabelSm" class="col-sm-8 ">TXLevel:</label>
-              
-              <select class="col-sm-4" onChange={this.setTxConfig} value={this.state.tx_level}>
-                  {txoptionItems}
-              </select>
-              </ToolTipLite>
-            </div>
-
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Radio communication channel">
-              <label for="colFormLabelSm" class="col-sm-8 ">Channel:</label>
-              
-              <select class="col-sm-4" onChange={this.setChConfig} value={this.state.cha}>
-                 {choptionItems}
-              </select>
-              </ToolTipLite>
-            </div>
-
-            <div class="row">
-              <ToolTipLite className="tooltip-b" content="Radio communication channel">
-              <label class="col-sm-8"><i className="material-icons">info</i>Network ID:</label>
-              <label class="col-sm-4">{this.state.testbed_network}</label>
-              </ToolTipLite>
-            </div>
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Node unique identificator">
-              <label class="col-sm-8 "><i className="material-icons">info</i>Node uID:</label>
-              <label class="col-sm-4">{this.state.nodeid}</label>
-              </ToolTipLite>
-            </div>
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Received signal strength indicator in dBm">
-              <label class="col-sm-8 "><i className="material-icons">info</i>RSSI, dBm:</label>
-              <label class="col-sm-4">{this.state.rssi}</label>
-              </ToolTipLite>
-            </div>
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Link quality indicator">
-              <label class="col-sm-8 "><i className="material-icons">info</i>LQI:</label>
-              <label class="col-sm-4">{this.state.lqi}</label>
-              </ToolTipLite>
-            </div>
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Radio receiver mode">
-              <label class="col-sm-8 "><i className="material-icons">info</i>RX Mode:</label>
-              <label class="col-sm-4">{this.state.rx_mode}</label>
-              </ToolTipLite>
-            </div>
-            <div class="row">
-            <ToolTipLite className="tooltip-b" content="Radio transmission mode">
-              <label class="col-sm-8 "><i className="material-icons">info</i>TX Mode:</label>
-              <label class="col-sm-4">{this.state.tx_mode}</label>
-              </ToolTipLite>
-            </div>
-              
-            </div>
-          </div>
+          
             <div className="row">
               <div className="col-sm-6">
                 {
@@ -290,6 +223,67 @@ class DeviveProfileTab extends React.Component {
                   }
               </div>
             </div>
+            <div className="row">
+            <div className="control-left control-panel col-sm-6">
+              <h2></h2>              
+              <ToolTipLite className="tooltip-b" content="Available to Alpha testers only"><button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button></ToolTipLite>
+              <h2></h2>
+            </div>
+            <div className="control-right control-panel col-sm-6 ">
+            <h2 class="text-left">Radio parameters</h2>
+                          
+            <ToolTipLite className="tooltip-b" content="Transmission power in dBm">
+            <div class="text-left">TXLevel: <select  onChange={this.setTxConfig} value={this.state.tx_level}>
+                  {txoptionItems}
+              </select></div>               
+              </ToolTipLite>
+            
+
+            
+            <ToolTipLite className="tooltip-b" content="Radio communication channel">
+            <div class="text-left">Channel: <select  onChange={this.setChConfig} value={this.state.cha}>
+                 {choptionItems}
+              </select></div> 
+              
+              
+              
+              </ToolTipLite>
+           
+
+            
+              <ToolTipLite className="tooltip-b" content="Radio communication channel">
+              <div class="text-left">Network ID: {this.state.testbed_network}</div>              
+              </ToolTipLite>
+            
+            
+            <ToolTipLite className="tooltip-b" content="Node unique identificator">
+              <div class="text-left">Node uID: {this.state.nodeid}</div>              
+              </ToolTipLite>
+            
+            
+            <ToolTipLite className="tooltip-b" content="Received signal strength indicator in dBm">
+            <div class="text-left">RSSI, dBm: {this.state.rssi}</div>              
+              </ToolTipLite>
+            
+            
+            <ToolTipLite className="tooltip-b" content="Link quality indicator">
+            <div class="text-left">LQI: {this.state.lqi}</div>              
+              </ToolTipLite>
+            
+            
+            <ToolTipLite className="tooltip-b" content="Radio receiver mode">
+            <div class="text-left">RX Mode: {this.state.rx_mode}</div>              
+              </ToolTipLite>
+            
+            
+            <ToolTipLite className="tooltip-b" content="Radio transmission mode">
+            <div class="text-left">TX Mode: {this.state.tx_mode}</div>              
+              </ToolTipLite>
+            
+              
+            </div>
+          </div>
+
             <div className="row">
               <div className="col-sm-6">
               <MapBoxGl/>

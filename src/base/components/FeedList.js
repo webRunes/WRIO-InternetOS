@@ -280,7 +280,7 @@ class FeedListPage extends React.Component {
               <YAxis
                 domain={['dataMin', 'dataMax']}
                 ticks={this.state.selectedOption != 'state' ? temperatureList : ['Enabled', 'Disabled']}
-                label={{ value: this.state.selectedOption == 'battery' ? 'Percentage, %' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
+                label={{ value: this.state.selectedOption == 'battery' ? 'Volts, V' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
                 tickSize={8}
                 type={this.state.selectedOption != 'state' ? "number" : "category"}
               />
@@ -324,7 +324,7 @@ class FeedListPage extends React.Component {
 
                           <p>{FeedBattery.item.variableMeasured.name.charAt(0).toUpperCase() +
                               FeedBattery.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedBattery.item.variableMeasured.value[index]} &#37;</p>
+                            {FeedBattery.item.variableMeasured.value[index]} V</p>
 
                           <p>{FeedTemprature.item.variableMeasured.name.charAt(0).toUpperCase() +
                               FeedTemprature.item.variableMeasured.name.slice(1) + ': '}
