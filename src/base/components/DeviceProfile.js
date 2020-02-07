@@ -245,7 +245,7 @@ class DeviveProfileTab extends React.Component {
               </ToolTipLite>
             </div>
             <div class="row">
-            <ToolTipLite className="tooltip-b" content="Link quality indicator in dBm">
+            <ToolTipLite className="tooltip-b" content="Link quality indicator">
               <label class="col-sm-8 "><i className="material-icons">info</i>LQI:</label>
               <label class="col-sm-4">{this.state.lqi}</label>
               </ToolTipLite>
