@@ -75,7 +75,7 @@ class MapBox extends React.Component {
         '</div>';
     } else {
       text =
-        `${'<div>' + '<h4 class="inactive">'}${ProductName}<h4>` +
+        `${'<div>' + '<h4 class="mapboxgl-popup-content inactive">'}${ProductName}</h4>` +
         `<p>${Description}</p>` +
         `<p>Latitude: ${longitude}</p>` +
         `<p>Longitude: ${latitude}</p>` +
