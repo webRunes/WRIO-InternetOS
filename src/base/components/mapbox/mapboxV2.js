@@ -67,20 +67,11 @@ class MapBox extends React.Component {
       .join(" <br /> ");
     let text;
     if (checkEnable == "enable") {
-      text =
-        `${'<div>' + '<h4>'}${ProductName}</h4>` +
-        `<p>${Description}</p>` +
-        `<p>Latitude: ${longitude}</p>` +
-        `<p>Longitude: ${latitude}</p>` +
-        '</div>';
+      text =`${'<div>' + '<h4>'}${ProductName}</h4>`
     } else {
-      text =
-        `${'<div>' + '<h4 class="mapboxgl-popup-content inactive">'}${ProductName}</h4>` +
-        `<p>${Description}</p>` +
-        `<p>Latitude: ${longitude}</p>` +
-        `<p>Longitude: ${latitude}</p>` +
-        '</div>';
-    }
+      text =`${'<div>' + '<h4 class="mapboxgl-popup-content inactive">'}${ProductName}</h4>`
+    } 
+    text = text + `<p>${Description}</p>` + `<p>Latitude: ${longitude}</p>` + `<p>Longitude: ${latitude}</p>` + '</div>';
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
       mapboxgl.accessToken = Token;
