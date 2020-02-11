@@ -192,7 +192,7 @@ closeModal() {
                                 </a>
                               </td>
                             )}
-                        <td>{batteryData.item.variableMeasured.value[lastIndex]} &#37;</td>
+                        <td>{batteryData.item.variableMeasured.value[lastIndex]} V</td>
                       </tr>
                     )
                   }) : null
