@@ -74,35 +74,44 @@ class MapBox extends React.Component {
     text = text + `<p>${Description}</p>` + `<p>Latitude: ${longitude}</p>` + `<p>Longitude: ${latitude}</p>` + '</div>';
     const mapBoxGL = window.mapboxgl || undefined;
     if (mapBoxGL) {
-      mapboxgl.accessToken = Token;
-      this.map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/mapbox/light-v10",
-        center: filteredGeoCoordinates,
-        zoom: 18
-      });
-        if (allcord && allcord.length > 0) {
-        allcord.map(geoCoord => {
-          new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
-        });
-        } else {
-        new mapboxgl.Marker()
-          .setLngLat(filteredGeoCoordinates)
-          .addTo(this.map);
-        }
-        
+      if(!this.map){
+          mapboxgl.accessToken = Token;
+          this.map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/light-v10",
+            center: filteredGeoCoordinates,
+            zoom: 18
+            });
+            if (allcord && allcord.length > 0) {
+            allcord.map(geoCoord => {
+              new mapboxgl.Marker().setLngLat(geoCoord).addTo(this.map);
+            });
+            } else {
+            new mapboxgl.Marker()
+              .setLngLat(filteredGeoCoordinates)
+              .addTo(this.map);
+            }
+          this.map.addControl(new mapboxgl.NavigationControl());
+          const that = this;
+          this.map.on("load", () => {
+          setInterval(() => {
+          that.map.resize();
+           }, 4000);
+          });
+        }  
+        this.map.flyTo({//make smooth movment
+            center: filteredGeoCoordinates,
+            essential: true ,
+            speed: 0.35,
+            zoom: 18
+          });
+        let popUps = document.getElementsByClassName('mapboxgl-popup-content');
+        if(popUps[0]){popUps[0].remove()};        
         new mapboxgl.Popup({ offset: 25 })
         .setLngLat(filteredGeoCoordinates)
         .setHTML(text)
         .addTo(this.map);
 
-        this.map ? this.map.addControl(new mapboxgl.NavigationControl()) : "";
-        const that = this;
-        this.map.on("load", () => {
-        setInterval(() => {
-        that.map.resize();
-         }, 4000);
-        });
     }
   }
 
