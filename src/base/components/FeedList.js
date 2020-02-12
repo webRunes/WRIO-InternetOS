@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ProvideLink from './BackToTheProvidersPageButton.js';
 import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import ToolTipLite from 'react-tooltip-lite';
-import gconfig from '../../Config';
+import gconfig from '../../config';
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
