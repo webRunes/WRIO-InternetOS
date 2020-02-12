@@ -1,4 +1,4 @@
 var config = {};
 
-config.gatewaysServiceUrl = "https://immense-temple-14028.herokuapp.com";
+config.gatewaysServiceUrl = "https://imec.herokuapp.com";
 module.exports = config;
