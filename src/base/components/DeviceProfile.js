@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ProviderLink from './BackToTheProvidersPageButton.js';
 import { MapBoxGl } from './mapbox/mapboxV2.js';
 import ToolTipLite from 'react-tooltip-lite';
-import gconfig from '../../Config';
+import gconfig from '../../config';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
