@@ -69,7 +69,7 @@ class MapBox extends React.Component {
     if (checkEnable == "enable") {
       text =`${'<div>' + '<h4>'}${ProductName}</h4>`
     } else {
-      text =`${'<div>' + '<h4 class="mapboxgl-popup-content inactive">'}${ProductName}</h4>`
+      text =`${'<div>' + '<h4 class="inactive">'}${ProductName}</h4>`
     } 
     text = text + `<p>${Description}</p>` + `<p>Latitude: ${longitude}</p>` + `<p>Longitude: ${latitude}</p>` + '</div>';
     const mapBoxGL = window.mapboxgl || undefined;
@@ -107,7 +107,7 @@ class MapBox extends React.Component {
           });
         let popUps = document.getElementsByClassName('mapboxgl-popup');
         if(popUps[0]){popUps[0].remove()};        
-        new mapboxgl.Popup({ offset: 25 })
+        new mapboxgl.Popup({ offset: 25 ,closeButton:true})
         .setLngLat(filteredGeoCoordinates)
         .setHTML(text)
         .addTo(this.map);
