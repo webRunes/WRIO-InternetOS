@@ -41,11 +41,11 @@ class MapBox extends React.Component {
 
     this.map ? this.map.addControl(new mapboxgl.NavigationControl()) : "";
     const that = this;
-    this.map.on("load", () => {
+    this.map ? this.map.on("load", () => {
       setInterval(() => {
         that.map.resize();
       }, 4000);
-    });
+    }):"";
   }
 
   static mapOnClick(allcordinates,cordinates, description, sensorProductName, checkEnable) {
@@ -105,7 +105,7 @@ class MapBox extends React.Component {
             speed: 0.35,
             zoom: 18
           });
-        let popUps = document.getElementsByClassName('mapboxgl-popup-content');
+        let popUps = document.getElementsByClassName('mapboxgl-popup');
         if(popUps[0]){popUps[0].remove()};        
         new mapboxgl.Popup({ offset: 25 })
         .setLngLat(filteredGeoCoordinates)
