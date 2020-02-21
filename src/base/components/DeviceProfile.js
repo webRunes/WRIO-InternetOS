@@ -4,6 +4,11 @@ import ProviderLink from './BackToTheProvidersPageButton.js';
 import { MapBoxGl } from './mapbox/mapboxV2.js';
 import ToolTipLite from 'react-tooltip-lite';
 import gconfig from '../../config';
+import {NormailizeJSON} from "./utils/string"
+const signalR = require("@aspnet/signalr");
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -23,8 +28,62 @@ class DeviveProfileTab extends React.Component {
         }
     }
     componentDidMount() {
+      toast.configure();
       this.getDropdownData();
-      this.getSensorData();      
+      this.getSensorData();
+      
+      let connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Debug)
+  .withUrl(gconfig.gatewaysServiceUrl+'/devHub')
+  .build();
+      
+    connection.on("ReceiveMessage", (topic ,jdata) => {
+          console.log("ReceiveMessage:["+topic+"] "+ jdata);          
+          if(topic == "/iot/sensor/data" ){
+            jdata =  NormailizeJSON(jdata);
+            var data = JSON.parse(jdata);
+            this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
+            this.setState({ testbed_network: data.PanIdVal});
+            this.setState({ tx_level: data.TXLevel});
+            this.setState({ cha: data.ChaVal});
+            this.setState({ tx_mode: data.TxModeVal});
+            this.setState({ rx_mode: data.RxModeVal});
+            this.setState({ rssi: data.RssiVal});
+            this.setState({ lqi: data.LqiVal});
+            this.setState({ nodeid: data.NodeId});
+            this.setState({ devicestatus: "off"});
+          }
+          else if(topic == "/iot/sensor/error"){
+            if(jdata.includes("SERIALACCESSERROR")){           
+              this.setState({ devicestatus: "on"});
+            }            
+            if(jdata.includes("SERIALREADWRITEERROR")){              
+              this.setState({ devicestatus: "on"});
+            }
+          }
+      });
+      connection.on("send", data => {
+          console.log(data);
+      });
+      
+      connection.start().then(function () {
+        console.log('Connected!');                
+    }).catch(function (err) {
+        return console.error("signalr error: "+err.toString());
+    })
+
+    try {
+      this.interval = setInterval(async () => {
+        const res = await fetch(gconfig.gatewaysServiceUrl+"/api/Device/IsDeviceConnected");
+        const devstatus = await res.json();
+        if(devstatus!= null && devstatus.status == false)
+          this.setState({ devicestatus: "on"});                
+        console.log(devstatus);
+      }, 50000);
+    } catch(e) {
+      console.log(e);
+    }
+
     }
 
     setConfig = () => {
@@ -43,10 +102,16 @@ class DeviveProfileTab extends React.Component {
         return resp.json()
       })
       .then((data) => {
-        if(this.state.devicestatus === "on")
-          this.setState({ devicestatus: "off"});
-        else
-        this.setState({ devicestatus: "on"});
+        if(data.status){
+          if(this.state.devicestatus === "on" )
+            this.setState({ devicestatus: "off"});
+          else
+          this.setState({ devicestatus: "on"});
+        }
+        else{
+          this.setState({ devicestatus: "on"});
+          toast.error("Device seems offline, Please start Experiment!!!");
+        }
       })
       .catch((error) => {
         console.log(error, "catch the hoop")
@@ -233,17 +298,17 @@ class DeviveProfileTab extends React.Component {
             <h2 class="text-left">Radio parameters</h2>
                           
             <ToolTipLite className="tooltip-b" content="Transmission power in dBm">
-            <div class="text-left">TXLevel: <select  onChange={this.setTxConfig} value={this.state.tx_level}>
+            <div class="text-left">TXLevel: {this.state.devicestatus=== "off" ? <React.Fragment> <select  onChange={this.setTxConfig} value={this.state.tx_level}>
                   {txoptionItems}
-              </select></div>               
+              </select></React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>               
               </ToolTipLite>
             
 
             
             <ToolTipLite className="tooltip-b" content="Radio communication channel">
-            <div class="text-left">Channel: <select  onChange={this.setChConfig} value={this.state.cha}>
+            <div class="text-left">Channel: {this.state.devicestatus=== "off" ? <React.Fragment> <select  onChange={this.setChConfig} value={this.state.cha}>
                  {choptionItems}
-              </select></div> 
+              </select></React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div> 
               
               
               
@@ -252,32 +317,32 @@ class DeviveProfileTab extends React.Component {
 
             
               <ToolTipLite className="tooltip-b" content="Radio communication channel">
-              <div class="text-left">Network ID: {this.state.testbed_network}</div>              
+                <div class="text-left">Network ID: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.testbed_network}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
             
             <ToolTipLite className="tooltip-b" content="Node unique identificator">
-              <div class="text-left">Node uID: {this.state.nodeid}</div>              
+              <div class="text-left">Node uID: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.nodeid}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
             
             <ToolTipLite className="tooltip-b" content="Received signal strength indicator in dBm">
-            <div class="text-left">RSSI, dBm: {this.state.rssi}</div>              
+            <div class="text-left">RSSI, dBm: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.rssi}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
             
             <ToolTipLite className="tooltip-b" content="Link quality indicator">
-            <div class="text-left">LQI: {this.state.lqi}</div>              
+            <div class="text-left">LQI: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.lqi}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
             
             <ToolTipLite className="tooltip-b" content="Radio receiver mode">
-            <div class="text-left">RX Mode: {this.state.rx_mode}</div>              
+            <div class="text-left">RX Mode: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.rx_mode}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
             
             <ToolTipLite className="tooltip-b" content="Radio transmission mode">
-            <div class="text-left">TX Mode: {this.state.tx_mode}</div>              
+            <div class="text-left">TX Mode: {this.state.devicestatus=== "off" ? <React.Fragment> {this.state.tx_mode}</React.Fragment> : <React.Fragment>Unknown</React.Fragment>}</div>              
               </ToolTipLite>
             
               
