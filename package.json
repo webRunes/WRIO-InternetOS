@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-http-proxy": "^1.0.3",
     "flow-bin": "^0.47.0",
+    "fs": "0.0.1-security",
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
@@ -40,6 +41,7 @@
     "mapbox-gl": "0.43.0",
     "material-ui": "^0.18.1",
     "moment": "^2.18.1",
+    "net": "^1.0.2",
     "node-http-proxy": "^0.2.3",
     "numeral": "^2.0.6",
     "nyc": "^11.0.2",
@@ -115,8 +117,8 @@
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": ">=3.3.2",
-    "webpack-dev-server": ">=3.1.11"
-  },
+    "webpack-dev-server": "^2.9.7"
+  },  
   "optional": {
     "fsevents": "^1.1.2"
   },
