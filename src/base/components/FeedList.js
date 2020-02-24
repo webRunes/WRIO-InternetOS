@@ -4,6 +4,11 @@ import ProvideLink from './BackToTheProvidersPageButton.js';
 import { Label, LineChart, LabelList, Line, XAxis, YAxis, CartesianAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import ToolTipLite from 'react-tooltip-lite';
 import gconfig from '../../config';
+import {NormailizeJSON} from "./utils/string"
+const signalR = require("@aspnet/signalr");
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +21,9 @@ class FeedListPage extends React.Component {
     }
   }
 
+  
   componentDidMount() {
+    toast.configure();        
     this.getSensorData();
     setTimeout(() => {
       let YAxisLable = document.getElementsByClassName('feedlist-chart-yaxis-label')[0];
@@ -25,8 +32,83 @@ class FeedListPage extends React.Component {
         tspan.setAttribute('x', 90);
       }
     }, 3000)
-  }
 
+    let connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Debug)
+  .withUrl(gconfig.gatewaysServiceUrl+'/devHub')
+  .build();
+      
+    connection.on("ReceiveMessage", (topic ,jdata) => {
+          console.log("ReceiveMessage:["+topic+"] "+ jdata);
+          
+          if(topic === "/iot/zolertia/replay"){
+            jdata =  NormailizeJSON(jdata);
+            var data = JSON.parse(jdata);
+            if(data.Command == "on" && data.Result == "Success"){
+              toast.success("The device has been successfully turned on");
+            }
+            else if(data.Command == "off" && data.Result == "Success"){
+              toast.success("The device has been successfully turned off");
+            }
+            else if(data.Command == "SetTX" && data.Result == "Success"){
+              toast.success("TX Level " + data.Value+" has been set");
+            }
+            else if (data.Command == "SetCh" && data.Result ==  "Success"){
+              toast.success("Channel " + data.Value+" has been set");
+            }
+            else if(data.Commnad == "SetTX" && data.Result == "Failed"){
+              toast.error("Something goes wrong. TX Level remains the same");
+            }
+            else if (data.Command == "SetCh" && data.Result ==  "Failed"){
+              toast.error("Something goes wrong. Channel remains the same");
+            }
+          }
+          else if(topic === "/iot/sensor/data" ){
+            jdata =  NormailizeJSON(jdata);
+            var data = JSON.parse(jdata);
+            this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
+            this.setState({ battery: (parseFloat(data.BatteryVal)/1000)});
+            this.setState({ devicestatus: "off"});
+          }
+          else if(topic === "/iot/sensor/boot" && jdata.includes("BOOTUP")){
+            toast.success("The device is online");
+          }
+          else if(topic === "/iot/sensor/error"){
+            if(jdata.includes("SERIALACCESSERROR")){
+              toast.error("The device can't be found");
+              this.setState({ devicestatus: "on"});
+            }            
+            if(jdata.includes("SERIALREADWRITEERROR")){
+              toast.error("Zolertia read write error FOUND!!!");
+              this.setState({ devicestatus: "on"});
+            }
+          }
+      });
+      connection.on("send", data => {
+          console.log(data);
+      });
+      
+      connection.start().then(function () {
+        console.log('Connected!');                
+    }).catch(function (err) {
+        return console.error("signalr error: "+err.toString());
+    })
+
+    try {
+      this.interval = setInterval(async () => {
+        const res = await fetch(gconfig.gatewaysServiceUrl+"/api/Device/IsDeviceConnected");
+        const devstatus = await res.json();
+        if(devstatus!= null && devstatus.status == false){
+          this.setState({ devicestatus: "on"});        
+          toast.error("Please re-start the experiment");
+        }        
+        console.log(devstatus);
+      }, 50000);
+    } catch(e) {
+      console.log(e);
+    }
+  }
+ 
   static range = function (start, end, step) {
     var range = [];
     var typeofStart = typeof start;
@@ -114,10 +196,16 @@ class FeedListPage extends React.Component {
       return resp.json()
     })
     .then((data) => {
-      if(this.state.devicestatus === "on")
-        this.setState({ devicestatus: "off"});
-      else
-      this.setState({ devicestatus: "on"});
+      if(data.status){
+        if(this.state.devicestatus === "on" )
+          this.setState({ devicestatus: "off"});
+        else
+        this.setState({ devicestatus: "on"});
+      }
+      else{
+        this.setState({ devicestatus: "on"});
+        toast.error("The device is offline. Please re-start the experiment");
+      }
     })
     .catch((error) => {
       console.log(error, "catch the hoop")
