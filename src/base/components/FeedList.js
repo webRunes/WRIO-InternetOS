@@ -45,22 +45,22 @@ class FeedListPage extends React.Component {
             jdata =  NormailizeJSON(jdata);
             var data = JSON.parse(jdata);
             if(data.Command == "on" && data.Result == "Success"){
-              toast.success("Zolertia Successfully Turned ON!!!");
+              toast.success("The device has been successfully turned on");
             }
             else if(data.Command == "off" && data.Result == "Success"){
-              toast.success("Zolertia Successfully Turned OFF!!!");
+              toast.success("The device has been successfully turned off");
             }
             else if(data.Command == "SetTX" && data.Result == "Success"){
-              toast.success("Successfully Set "+data.Value+" to TX Level!!!");
+              toast.success("TX Level " + data.Value+" has been set");
             }
             else if (data.Command == "SetCh" && data.Result ==  "Success"){
-              toast.success("Successfully Set "+data.Value+" Channel!!!");
+              toast.success("Channel " + data.Value+" has been set");
             }
             else if(data.Commnad == "SetTX" && data.Result == "Failed"){
-              toast.error("Failed to Set "+data.Value+" to TX Level!!!");
+              toast.error("Something goes wrong. TX Level remains the same");
             }
             else if (data.Command == "SetCh" && data.Result ==  "Failed"){
-              toast.error("Failed to Set "+data.Value+" Channel!!!");
+              toast.error("Something goes wrong. Channel remains the same");
             }
           }
           else if(topic === "/iot/sensor/data" ){
@@ -71,11 +71,11 @@ class FeedListPage extends React.Component {
             this.setState({ devicestatus: "off"});
           }
           else if(topic === "/iot/sensor/boot" && jdata.includes("BOOTUP")){
-            toast.success("Zolertia Sucessfully Bootup now!!!");
+            toast.success("The device is online");
           }
           else if(topic === "/iot/sensor/error"){
             if(jdata.includes("SERIALACCESSERROR")){
-              toast.error("Zolertia does not FOUND!!!");
+              toast.error("The device can't be found");
               this.setState({ devicestatus: "on"});
             }            
             if(jdata.includes("SERIALREADWRITEERROR")){
@@ -100,7 +100,7 @@ class FeedListPage extends React.Component {
         const devstatus = await res.json();
         if(devstatus!= null && devstatus.status == false){
           this.setState({ devicestatus: "on"});        
-          toast.error("Please start your Experiment, Thanks!!!");
+          toast.error("Please re-start the experiment");
         }        
         console.log(devstatus);
       }, 50000);
@@ -204,7 +204,7 @@ class FeedListPage extends React.Component {
       }
       else{
         this.setState({ devicestatus: "on"});
-        toast.error("Device seems offline, Please start Experiment!!!");
+        toast.error("The device is offline. Please re-start the experiment");
       }
     })
     .catch((error) => {
