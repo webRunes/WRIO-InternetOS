@@ -228,15 +228,20 @@ class FeedListPage extends React.Component {
     })
     .then((dataval) => {           
       if(dataval != null){
-      this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});
-      this.setState({ battery: (parseFloat(dataval.batteryVal)/1000)});
-      
-      if(dataval.isEnabled){
-        this.setState({ devicestatus: "off"});
-      }
-      if(!dataval.isEnabled){
+        if(dataval.status == true){
+          this.setState({ temperature: (parseFloat(dataval.data.temperature)/1000)});
+          this.setState({ battery: (parseFloat(dataval.data.batteryVal)/1000)});
+          
+          if(dataval.data.isEnabled){
+            this.setState({ devicestatus: "off"});
+          }
+          if(!dataval.data.isEnabled){
+            this.setState({ devicestatus: "on"});
+          }
+       }
+       else{
         this.setState({ devicestatus: "on"});
-      }
+       } 
       }
       else{
         this.setState({ devicestatus: "on"});

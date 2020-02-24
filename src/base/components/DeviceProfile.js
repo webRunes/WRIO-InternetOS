@@ -212,23 +212,27 @@ class DeviveProfileTab extends React.Component {
         //var sensordata = JSON.parse(data)
         console.log('here data '+dataval);
         if(dataval != null){
-        this.setState({ temperature: (parseFloat(dataval.temperature)/1000)});
-        this.setState({ testbed_network: dataval.panIdVal});
-        this.setState({ cha: dataval.chaVal});
-        this.setState({ rssi: dataval.rssiVal});
-        this.setState({ lqi: dataval.lqiVal});
-        this.setState({ nodeid: dataval.nodeId});
-        this.setState({ tx_mode: dataval.txModeVal});
-        this.setState({ rx_mode: dataval.rxModeVal});
-        this.setState({ tx_level: dataval.txLevel});
-        
-        if(dataval.isEnabled){
-          this.setState({ devicestatus: "off"});
-        }
-        if(!dataval.isEnabled){
-          this.setState({ devicestatus: "on"});
-        }
-        //this.setTxVal(dataval.txLevel);
+          if(dataval.status == true){
+            this.setState({ temperature: (parseFloat(dataval.data.temperature)/1000)});
+            this.setState({ testbed_network: dataval.data.panIdVal});
+            this.setState({ cha: dataval.data.chaVal});
+            this.setState({ rssi: dataval.data.rssiVal});
+            this.setState({ lqi: dataval.data.lqiVal});
+            this.setState({ nodeid: dataval.data.nodeId});
+            this.setState({ tx_mode: dataval.data.txModeVal});
+            this.setState({ rx_mode: dataval.data.rxModeVal});
+            this.setState({ tx_level: dataval.data.txLevel});
+            
+            if(dataval.data.isEnabled){
+              this.setState({ devicestatus: "off"});
+            }
+            if(!dataval.data.isEnabled){
+              this.setState({ devicestatus: "on"});
+            }
+          }
+          else{
+            this.setState({ devicestatus: "on"});
+          }        
         }
         else{
           this.setState({ devicestatus: "on"});
