@@ -6,9 +6,10 @@ import ToolTipLite from 'react-tooltip-lite';
 import gconfig from '../../config';
 import {NormailizeJSON} from "./utils/string"
 const signalR = require("@aspnet/signalr");
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Web3 from 'web3';
+
 class DeviveProfileTab extends React.Component {
     constructor(props) {
         super(props);
@@ -246,6 +247,21 @@ class DeviveProfileTab extends React.Component {
         let feedData = this.props.feed;
         let productData = this.props.sensorProductData;
         let providerLink = feedData.provider != undefined ? feedData.provider: undefined;
+        let abi =
+        [{"constant": true,"inputs": [],"name": "greet","outputs": [{ "name": "", "type": "string" }],"payable": false,"stateMutability": "view", "type": "function"},
+         { "constant": true, "inputs": [], "name": "greeting", "outputs": [{"name": "", "type": "string"}],"payable": false, "stateMutability": "view","type": "function"},
+         { "inputs":[{"name": "_greeting","type": "string"}],"payable": false,"stateMutability": "nonpayable", "type": "constructor"}];
+        let contractaddress = '0xf47fec7210b3683e228e3f0eebf74af92c5e1d43';
+        let tx = "0x1901509b50c3c566a4d238d3912f9eaeadcc34ae55afc8f60201e1bc3268e6d6";
+        let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/5781ce2cf70946faa41c5fd9e6cbf0f7"));
+        let myAbi = web3.eth.contract(abi);
+        let myfunction = myAbi.at(contractaddress);
+        let lastInsertedValue = myfunction.greet.call();
+        lastInsertedValue = lastInsertedValue.includes("imec") ? lastInsertedValue : "" ;
+        let block = web3.eth.getTransaction(tx).blockNumber;
+        let lastDate = new Date((web3.eth.getBlock(block).timestamp) *1000)
+        lastDate = lastDate.toUTCString(lastDate);
+        lastDate = lastDate.substring(5,16);
         let txoptions = this.state.txopt;
         let txoptionItems;
         if(txoptions != ""){
@@ -290,6 +306,24 @@ class DeviveProfileTab extends React.Component {
                     <div>Width: {productData? productData.width: ''}</div>
                   </div>: null
                   }
+              </div>
+            </div>
+            <div className="row">
+              <div className="control-left control-panel col-sm-6">
+                <h2></h2>
+                <a href="https://ropsten.etherscan.io/address/0xf47fec7210b3683e228e3f0eebf74af92c5e1d43" class="btn btn-success btn-sm" role="button">Open etherscan.io</a>
+                <h2></h2>
+              </div>
+              <div className="control-right control-panel col-sm-6">
+                <h2 class="text-left">Blockchain address</h2>
+                {
+                  lastInsertedValue != undefined ? <div>
+                    <div class="text-left">Owner: Test User</div>                
+                    <div class="text-left">Registration: 25 Feb 2020</div>
+                    <div class="text-left">Last update: {lastDate ? lastDate :''}</div>
+                    <div class="text-left">URL: {lastInsertedValue ? lastInsertedValue: ''}</div>
+                  </div> : null
+                }
               </div>
             </div>
             <div className="row">
