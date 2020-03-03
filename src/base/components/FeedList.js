@@ -75,7 +75,7 @@ class FeedListPage extends React.Component {
           }
           else if(topic === "/iot/sensor/error"){
             if(jdata.includes("SERIALACCESSERROR")){
-              toast.error("The device can't be found");
+              //toast.error("The device can't be found");
               this.setState({ devicestatus: "on"});
             }            
             if(jdata.includes("SERIALREADWRITEERROR")){
