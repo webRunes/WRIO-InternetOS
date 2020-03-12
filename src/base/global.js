@@ -35,3 +35,10 @@ export function getResourcePath(filename: string): string {
     return cssUrl + filename;
   }
 }
+
+export var tabKey = "";
+
+export function setValue(newValue: string) {
+  tabKey = newValue;
+  console.log("New value is " + tabKey);
+}

@@ -10,6 +10,7 @@ import {DeviceProfile} from './DeviceProfile';
 import Dashboard from './Dashboard';
 import ReadItLater from './ReadItLater';
 import { StayOnTopElement } from './utils/domutils';
+import * as global from "../global";
 import {
   pageEltHt,
   scrollTop,
@@ -88,9 +89,12 @@ class ArticleTabs extends StayOnTopElement {
       editAllowed = this.props.editAllowed,
       feed = this.props.feed.dataFeedElement || [],
       sensorData = this.props.sensorData,
+      
       //RIL = this.props.RIL,
       providerLink = this.props.feedDataProvider,
       tabKey = this.props.tabKey;
+      console.log(this.state.activeKey);
+      global.setValue(this.state.activeKey);
       console.log('IN TAB JS GEO COOR', this.props.geoCoordinates);
     const handleSelect = e => console.log(e);
     const externalsEnabled = externals.length > 0 ? true : false;
