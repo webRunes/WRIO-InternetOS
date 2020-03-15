@@ -17,7 +17,9 @@ class FeedListPage extends React.Component {
       devicestatus: "off",
       temperature: "0",
       battery: "0",
-      showLastReadingItem: "Temperature"
+      showLastReadingItem: "Temperature",
+      seconds: 0,
+      ignoreState: false
     }
   }
 
@@ -39,8 +41,7 @@ class FeedListPage extends React.Component {
   .build();
       
     connection.on("ReceiveMessage", (topic ,jdata) => {
-          console.log("ReceiveMessage:["+topic+"] "+ jdata);
-          
+          console.log("ReceiveMessage:["+topic+"] "+ jdata + " ignore state: "+ this.state.ignoreState);           
           if(topic === "/iot/zolertia/replay"){
             jdata =  NormailizeJSON(jdata);
             var data = JSON.parse(jdata);
@@ -68,7 +69,8 @@ class FeedListPage extends React.Component {
             var data = JSON.parse(jdata);
             this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
             this.setState({ battery: (parseFloat(data.BatteryVal)/1000)});
-            this.setState({ devicestatus: "off"});
+            if(this.state.ignoreState == false)
+              this.setState({ devicestatus: "off"});
           }
           else if(topic === "/iot/sensor/boot" && jdata.includes("BOOTUP")){
             toast.success("The device is online");
@@ -76,13 +78,15 @@ class FeedListPage extends React.Component {
           else if(topic === "/iot/sensor/error"){
             if(jdata.includes("SERIALACCESSERROR")){
               toast.error("The device can't be found");
-              this.setState({ devicestatus: "on"});
+              if(this.state.ignoreState == false)
+                this.setState({ devicestatus: "on"});
             }            
             if(jdata.includes("SERIALREADWRITEERROR")){
               toast.error("Zolertia read write error FOUND!!!");
-              this.setState({ devicestatus: "on"});
+              if(this.state.ignoreState == false)
+                this.setState({ devicestatus: "on"});
             }
-          }
+          }          
       });
       connection.on("send", data => {
           console.log(data);
@@ -109,6 +113,25 @@ class FeedListPage extends React.Component {
     }
   }
  
+  startTimer = () => {
+    this.setState({ seconds: 5, ignoreState : true});
+    clearInterval(this.iInterval);
+    this.iInterval = setInterval(() => {
+      const { seconds } = this.state
+
+      console.log("here sec: "+ this.state.seconds);
+      if (seconds > 0) {
+          this.setState(({ seconds }) => ({
+              seconds: seconds - 1
+          }))
+      }
+      if (seconds === 0) {            
+              clearInterval(this.iInterval)
+              this.setState({ ignoreState : false});
+              console.log("timesup now!!!!");            
+      } 
+  }, 1000)
+  }
   static range = function (start, end, step) {
     var range = [];
     var typeofStart = typeof start;
@@ -181,6 +204,7 @@ class FeedListPage extends React.Component {
   }
 
   setConfig = () => {
+    this.startTimer();
     var setval={dev:"Mote",opr:this.state.devicestatus};    
     fetch(gconfig.gatewaysServiceUrl+"/api/Device", {
       method: "POST",

@@ -27,7 +27,9 @@ class DeviveProfileTab extends React.Component {
           chopt : "",
           txopt: "",
           lastInsertedValue:"",
-          lastDate : ""
+          lastDate : "",
+          seconds: 0,
+          ignoreState: false
         }
     }
     componentDidMount() {
@@ -43,29 +45,31 @@ class DeviveProfileTab extends React.Component {
   .build();
       
     connection.on("ReceiveMessage", (topic ,jdata) => {
-          console.log("ReceiveMessage:["+topic+"] "+ jdata);          
-          if(topic == "/iot/sensor/data" ){
-            jdata =  NormailizeJSON(jdata);
-            var data = JSON.parse(jdata);
-            this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
-            this.setState({ testbed_network: data.PanIdVal});
-            this.setState({ tx_level: data.TXLevel});
-            this.setState({ cha: data.ChaVal});
-            this.setState({ tx_mode: data.TxModeVal});
-            this.setState({ rx_mode: data.RxModeVal});
-            this.setState({ rssi: data.RssiVal});
-            this.setState({ lqi: data.LqiVal});
-            this.setState({ nodeid: data.NodeId});
-            this.setState({ devicestatus: "off"});
-          }
-          else if(topic == "/iot/sensor/error"){
-            if(jdata.includes("SERIALACCESSERROR")){           
-              this.setState({ devicestatus: "on"});
-            }            
-            if(jdata.includes("SERIALREADWRITEERROR")){              
-              this.setState({ devicestatus: "on"});
+          console.log("ReceiveMessage:["+topic+"] "+ jdata + " ignore state: "+ this.state.ignoreState);
+          if(this.state.ignoreState == false){          
+            if(topic == "/iot/sensor/data" ){
+              jdata =  NormailizeJSON(jdata);
+              var data = JSON.parse(jdata);
+              this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
+              this.setState({ testbed_network: data.PanIdVal});
+              this.setState({ tx_level: data.TXLevel});
+              this.setState({ cha: data.ChaVal});
+              this.setState({ tx_mode: data.TxModeVal});
+              this.setState({ rx_mode: data.RxModeVal});
+              this.setState({ rssi: data.RssiVal});
+              this.setState({ lqi: data.LqiVal});
+              this.setState({ nodeid: data.NodeId});
+              this.setState({ devicestatus: "off"});
             }
-          }
+            else if(topic == "/iot/sensor/error"){
+              if(jdata.includes("SERIALACCESSERROR")){           
+                this.setState({ devicestatus: "on"});
+              }            
+              if(jdata.includes("SERIALREADWRITEERROR")){              
+                this.setState({ devicestatus: "on"});
+              }
+            }
+            }
       });
       connection.on("send", data => {
           console.log(data);
@@ -91,7 +95,28 @@ class DeviveProfileTab extends React.Component {
 
     }
 
+    startTimer = () => {
+      this.setState({ seconds: 5, ignoreState : true});
+      clearInterval(this.iInterval);
+      this.iInterval = setInterval(() => {
+        const { seconds } = this.state
+
+        console.log("here sec: "+ this.state.seconds);
+        if (seconds > 0) {
+            this.setState(({ seconds }) => ({
+                seconds: seconds - 1
+            }))
+        }
+        if (seconds === 0) {            
+                clearInterval(this.iInterval)
+                this.setState({ ignoreState : false});
+                console.log("timesup now!!!!");            
+        } 
+    }, 1000)
+    }
+
     setConfig = () => {
+      this.startTimer();
       var setval={dev:"Mote",opr:this.state.devicestatus};    
       fetch(gconfig.gatewaysServiceUrl+"/api/Device", {
         method: "POST",
@@ -122,7 +147,8 @@ class DeviveProfileTab extends React.Component {
         console.log(error, "catch the hoop")
       })
     }
-    setTxConfig = (event) => {      
+    setTxConfig = (event) => {
+      this.startTimer();      
       this.setState({tx_level: event.target.value});
       var setval={dev:"Mote",opr:"SETTX="+event.target.value+"\n"};
       
@@ -146,7 +172,8 @@ class DeviveProfileTab extends React.Component {
         console.log(error, "catch the hoop")
       })
     }
-    setChConfig = (event) => {      
+    setChConfig = (event) => {   
+      this.startTimer();   
       var setval={dev:"Mote",opr:"SETCH="+event.target.value+"\n"};
       this.setState({cha: event.target.value});      
       fetch(gconfig.gatewaysServiceUrl+"/api/Device", {
