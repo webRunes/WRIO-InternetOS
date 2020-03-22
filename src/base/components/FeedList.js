@@ -82,7 +82,7 @@ class FeedListPage extends React.Component {
                 this.setState({ devicestatus: "on"});
             }            
             if(jdata.includes("SERIALREADWRITEERROR")){
-              toast.error("Zolertia read write error FOUND!!!, Please restart Device!!!");
+              toast.error("I/O error. Please restart the device");
               if(this.state.ignoreState == false)
                 this.setState({ devicestatus: "on"});
             }
