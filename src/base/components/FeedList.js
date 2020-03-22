@@ -77,12 +77,12 @@ class FeedListPage extends React.Component {
           }
           else if(topic === "/iot/sensor/error"){
             if(jdata.includes("SERIALACCESSERROR")){
-              toast.error("The device can't be found");
+              toast.error("The device is turned off");
               if(this.state.ignoreState == false)
                 this.setState({ devicestatus: "on"});
             }            
             if(jdata.includes("SERIALREADWRITEERROR")){
-              toast.error("Zolertia read write error FOUND!!!");
+              toast.error("Zolertia read write error FOUND!!!, Please restart Device!!!");
               if(this.state.ignoreState == false)
                 this.setState({ devicestatus: "on"});
             }
