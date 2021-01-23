@@ -17,6 +17,7 @@ class FeedListPage extends React.Component {
       devicestatus: "off",
       temperature: "0",
       battery: "0",
+      soil: "0",
       showLastReadingItem: "Temperature",
       seconds: 0,
       ignoreState: false
@@ -67,8 +68,10 @@ class FeedListPage extends React.Component {
           else if(topic === "/iot/sensor/data" ){
             jdata =  NormailizeJSON(jdata);
             var data = JSON.parse(jdata);
-            this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
-            this.setState({ battery: (parseFloat(data.BatteryVal)/1000)});
+            //this.setState({ temperature: (parseFloat(data.Temperature)/1000)});
+            //this.setState({ battery: (parseFloat(data.BatteryVal)/1000)});
+            this.setState({ temperature: (parseFloat(data.Temperature))});
+            this.setState({ soil: (parseFloat(data.Soil))});
             if(this.state.ignoreState == false)
               this.setState({ devicestatus: "off"});
           }
@@ -343,10 +346,10 @@ class FeedListPage extends React.Component {
       <div class="col-sm-6">
       <select class="form-control" onChange={this.lastReadingSelected} >
                 <option value="Temperature">Temperature</option>
-                <option value="Battery">Battery</option>                
+                <option value="Soil">Soil</option>                
           </select> 
           </div>
-          {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> : <label class="pull-left">{this.state.battery}V <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> } 
+          {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> : <label class="pull-left">{this.state.soil} <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> } 
           
           
           <br />

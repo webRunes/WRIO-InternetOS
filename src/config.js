@@ -1,4 +1,4 @@
 var config = {};
 
-config.gatewaysServiceUrl = "https://imec.herokuapp.com";
+config.gatewaysServiceUrl = "http://54.89.128.49:5001";//"https://imec.herokuapp.com";
 module.exports = config;
