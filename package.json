@@ -50,6 +50,7 @@
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.12.0",
     "react-hot-loader": "3.0.0-beta.7",
+    "react-loading": "^2.0.3",
     "react-mapbox-gl": "^3.9.0",
     "react-modal": "^2.3.2",
     "react-prop-types": "0.4.0",

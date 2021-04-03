@@ -9,6 +9,7 @@ const signalR = require("@aspnet/signalr");
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactLoading from 'react-loading';
 class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,9 @@ class FeedListPage extends React.Component {
       soil: "0",
       showLastReadingItem: "Temperature",
       seconds: 0,
-      ignoreState: false
+      ignoreState: false,
+      lorafeeddata: [],
+      isLoading: true
     }
   }
 
@@ -240,6 +243,30 @@ class FeedListPage extends React.Component {
   }
   getSensorData = () => {   
     //console.log("Here object is "+JSON.stringify(object));
+    fetch(gconfig.gatewaysServiceUrl+"/api/DeviceData/", {
+      method: "GET",
+      dataType: "JSON",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      //body: JSON.stringify(setval)
+    })
+    .then((resp) => {
+      return resp.json()
+    })
+    .then((dataval) => {           
+      this.setState( {lorafeeddata : JSON.parse(dataval), isLoading: false});
+      console.log("Hello "+this.state.lorafeeddata);
+      this.render();
+    })
+    .catch((error) => {
+      console.log(error, "catch the hoop")
+    })
+  }
+  /*getSensorData = () => {   
+    //console.log("Here object is "+JSON.stringify(object));
     fetch(gconfig.gatewaysServiceUrl+"/api/Device/GetSensorValue", {
       method: "GET",
       dataType: "JSON",
@@ -277,7 +304,7 @@ class FeedListPage extends React.Component {
     .catch((error) => {
       console.log(error, "catch the hoop")
     })
-  }
+  }*/
   lastReadingSelected = (event) => {      
 
     this.setState({ showLastReadingItem: event.target.value });    
@@ -328,7 +355,31 @@ class FeedListPage extends React.Component {
         newTemperatureList.push(item);
       }
     })
+
+    console.log("Here Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption));
+    let xaxishours = [];
+    filteredSelectedOption = this.state.lorafeeddata.filter(i=> { let date = new Date(i.Updatedate);
+
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+      return minutes == 0
+      }).map(item => {
+        let date = new Date(item.Updatedate);
+        xaxishours.push(date.getHours());
+        return {dateRecorded: item.Updatedate, Percentage: item.SoilData, hour: date.getHours()};
+      
+    });
+    console.log("Here Result Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption ));
     return (
+      
+      
+        this.state.isLoading ? (
+        <div>
+          <ReactLoading type={"bars"} color={"grey"} />
+        </div> 
+        ) : (
+
       feedDates.length > 0 ? <div>
 
         {providerLink != undefined ? <ProvideLink providerLink={providerLink} /> : null}
@@ -360,7 +411,7 @@ class FeedListPage extends React.Component {
         </div>
 
         <label className="feed-dropdown pull-right">
-          <div className="feed-dropdown-button">{this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)}</div>
+          <div className="feed-dropdown-button">{/*this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)*/"Soil"}</div>
           <input type="checkbox" className="feed-dropdown-input" id="test" />
           <ul className="feed-dropdown-menu">
             {
@@ -390,7 +441,7 @@ class FeedListPage extends React.Component {
               <XAxis
                 // dataKey="hour"
                 fontFamily="sans-serif"
-                dy='26'
+                dy='0'
                 label='Hours'
                 tickMargin="30"
                 tickSize={8}
@@ -399,7 +450,7 @@ class FeedListPage extends React.Component {
               />
               <YAxis
                 domain={['dataMin', 'dataMax']}
-                ticks={this.state.selectedOption != 'state' ? temperatureList : ['Enabled', 'Disabled']}
+                ticks={[0,10,20,30,40,50,60,70,80,90,100]}//{this.state.selectedOption != 'state' ? temperatureList : ['Enabled', 'Disabled']}
                 label={{ value: this.state.selectedOption == 'battery' ? 'Volts, V' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
                 tickSize={8}
                 type={this.state.selectedOption != 'state' ? "number" : "category"}
@@ -431,7 +482,7 @@ class FeedListPage extends React.Component {
           <div className="timeline col-xs-12">
             {
 
-              feedDates.map(
+this.state.lorafeeddata.map(
                 (date, index) => {
                   let Feedindex = index;
                   return (
@@ -440,19 +491,15 @@ class FeedListPage extends React.Component {
                         <span class="timeline-step"><i class="material-icons">schedule</i></span>
                         <div className="timeline-content">
 
-                          <h2>{feedDates[index].slice(12, 20)}</h2>
+                          <h2>{date.Updatedate}</h2>
 
-                          <p>{FeedBattery.item.variableMeasured.name.charAt(0).toUpperCase() +
-                              FeedBattery.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedBattery.item.variableMeasured.value[index]} V</p>
+                          <p>{'Soil Data: '}
+                            {date.SoilData} %</p>
 
-                          <p>{FeedTemprature.item.variableMeasured.name.charAt(0).toUpperCase() +
-                              FeedTemprature.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedTemprature.item.variableMeasured.value[index]} &#8451;</p>
+                            <p>{'Temp Data: '}
+                            {date.TempData} C</p>
 
-                          <p>{FeedState.item.variableMeasured.name.charAt(0).toUpperCase() +
-                              FeedState.item.variableMeasured.name.slice(1) + ': '}
-                            {FeedState.item.variableMeasured.value[index]}</p>
+                          
 
 
                         </div>
@@ -464,7 +511,7 @@ class FeedListPage extends React.Component {
             }
           </div>
         </div>
-      </div> : null);
+      </div> : null));
   }
 }
 
