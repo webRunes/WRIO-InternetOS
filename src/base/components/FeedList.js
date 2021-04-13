@@ -14,7 +14,7 @@ class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: 'battery',
+      selectedOption: 'soil',
       devicestatus: "off",
       temperature: "0",
       battery: "0",
@@ -199,6 +199,9 @@ class FeedListPage extends React.Component {
       case 'battery':
         this.setState({ selectedOption: value })
         break;
+      case 'soil':
+        this.setState({ selectedOption: value })
+        break;
       case 'state':
         this.setState({ selectedOption: value })
         break;
@@ -311,6 +314,7 @@ class FeedListPage extends React.Component {
   }
   render() {
     let feedData = this.props.feed;
+    //console.log("Feed data: "+JSON.stringify(feedData));
     let feed = feedData.dataFeedElement;
     let FeedState,FeedTemprature,FeedBattery;
     for (var key in feed) {
@@ -328,12 +332,13 @@ class FeedListPage extends React.Component {
     let feedDates = new Set();
     feedDates = feed ? feedDates_new :[];
 
+
     let providerLink = feedData.provider != undefined ? feedData.provider : undefined;
     let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
-    let sensorDataList = [...new Set(sensorData)];
-    let selectedOptionCondition = this.state.selectedOption == 'battery' ? 'Percentage' : (this.state.selectedOption == 'temperature' ? 'Temperature' : (this.state.selectedOption == 'humidity' ? 'Humidity' : (this.state.selectedOption == 'pressure' ? 'Pressure' : 'State')));
+    let sensorDataList = ["soil", "temperature"];//[...new Set(sensorData)];
+    let selectedOptionCondition = this.state.selectedOption == 'soil' ? 'Percentage' : (this.state.selectedOption == 'temperature' ? 'Temperature' : (this.state.selectedOption == 'humidity' ? 'Humidity' : (this.state.selectedOption == 'pressure' ? 'Pressure' : 'State')));
     let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
-    let filter = feed ? filteredSelectedOptionObj[0].item.variableMeasured.value: [] ;
+    let filter = [];//feed ? filteredSelectedOptionObj[0].item.variableMeasured.value: [] ;
     let filteredSelectedOption = feed != 'state' ?
     filter.map((temperatureItem,index) => {
       return { dateRecorded: feedDates ? feedDates[index] : undefined,
@@ -347,6 +352,9 @@ class FeedListPage extends React.Component {
     filteredSelectedOption = filteredSelectedOption.map(item => {
       return !Object.values(item).includes("") ? item : undefined
     })
+
+    //////////////////////////////////////////
+    
     let temperatureList = [...new Set(filteredSelectedOption.map(item => item != undefined
      ? +item[selectedOptionCondition] : undefined))].sort();
     let newTemperatureList = [];
@@ -367,7 +375,7 @@ class FeedListPage extends React.Component {
       }).map(item => {
         let date = new Date(item.Updatedate);
         xaxishours.push(date.getHours());
-        return {dateRecorded: item.Updatedate, Percentage: item.SoilData, hour: date.getHours()};
+        return {dateRecorded: item.Updatedate, Temperature: item.TempData,Percentage: item.SoilData, hour: date.getHours()};
       
     });
     console.log("Here Result Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption ));
@@ -381,8 +389,9 @@ class FeedListPage extends React.Component {
         ) : (
 
       feedDates.length > 0 ? <div>
-
+      
         {providerLink != undefined ? <ProvideLink providerLink={providerLink} /> : null}
+        
         <div className="row">
           <div className="control-left control-panel col-sm-6">
             <h1><i className="material-icons">notifications_active</i>Alerts</h1>
@@ -411,7 +420,7 @@ class FeedListPage extends React.Component {
         </div>
 
         <label className="feed-dropdown pull-right">
-          <div className="feed-dropdown-button">{/*this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)*/"Soil"}</div>
+          <div className="feed-dropdown-button">{this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)}</div>
           <input type="checkbox" className="feed-dropdown-input" id="test" />
           <ul className="feed-dropdown-menu">
             {
@@ -446,12 +455,12 @@ class FeedListPage extends React.Component {
                 tickMargin="30"
                 tickSize={8}
                 domain={['dataMin', 'dataMax']}
-                ticks={[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]}
+                ticks={[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]/*xaxishours*/}
               />
               <YAxis
                 domain={['dataMin', 'dataMax']}
                 ticks={[0,10,20,30,40,50,60,70,80,90,100]}//{this.state.selectedOption != 'state' ? temperatureList : ['Enabled', 'Disabled']}
-                label={{ value: this.state.selectedOption == 'battery' ? 'Volts, V' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
+                label={{ value: this.state.selectedOption == 'soil' ? 'Percentage, %' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
                 tickSize={8}
                 type={this.state.selectedOption != 'state' ? "number" : "category"}
               />
@@ -494,10 +503,10 @@ this.state.lorafeeddata.map(
                           <h2>{date.Updatedate}</h2>
 
                           <p>{'Soil Data: '}
-                            {date.SoilData} %</p>
+                            {date.SoilData} &#37;</p>
 
                             <p>{'Temp Data: '}
-                            {date.TempData} C</p>
+                            {date.TempData} &#8451;</p>
 
                           
 
