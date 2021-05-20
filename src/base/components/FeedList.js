@@ -23,7 +23,8 @@ class FeedListPage extends React.Component {
       seconds: 0,
       ignoreState: false,
       lorafeeddata: [],
-      isLoading: true
+      isLoading: true,
+      stillNeedToGetDataFromServer: true
     }
   }
 
@@ -315,8 +316,12 @@ class FeedListPage extends React.Component {
   render() {
     let feedData = this.props.feed;
     //console.log("Feed data: "+JSON.stringify(feedData));
-    if(this.props.feed.deviceId != undefined){
-      console.log("here device id "+ this.props.feed.deviceId);
+    if(this.props.feed.deviceId != undefined && this.state.stillNeedToGetDataFromServer == true){
+      
+      this.setState({ stillNeedToGetDataFromServer: 'false'});
+      //this.setState( {isGettingServerCall: useState(true)});
+      
+      console.log("here device id is "+ this.props.feed.deviceId);
       this.getSensorData(this.props.feed.deviceId);
     }
     let feed = feedData.dataFeedElement;
