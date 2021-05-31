@@ -140,7 +140,7 @@ class DeviveProfileTab extends React.Component {
         }
         else{
           this.setState({ devicestatus: "on"});
-          toast.error("The device is offline. Please re-start the experiment");
+          //toast.error("The device is offline. Please re-start the experiment");
         }
       })
       .catch((error) => {

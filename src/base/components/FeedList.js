@@ -111,7 +111,7 @@ class FeedListPage extends React.Component {
         const devstatus = await res.json();
         if(devstatus!= null && devstatus.status == false){
           this.setState({ devicestatus: "on"});        
-          toast.error("Please re-start the experiment");
+          //toast.error("Please re-start the experiment");
         }        
         console.log(devstatus);
       }, 50000);
@@ -238,7 +238,7 @@ class FeedListPage extends React.Component {
       }
       else{
         this.setState({ devicestatus: "on"});
-        toast.error("The device is offline. Please re-start the experiment");
+        //toast.error("The device is offline. Please re-start the experiment");
       }
     })
     .catch((error) => {
@@ -384,7 +384,7 @@ class FeedListPage extends React.Component {
       }).map(item => {
         let date = new Date(item.Updatedate);
         xaxishours.push(date.getHours());
-        return {dateRecorded: item.Updatedate, Temperature: item.TempData,Percentage: item.SoilData, hour: date.getHours()};
+        return {dateRecorded: item.Updatedate, Temperature: item.TempData == "" ? null : item.TempData,Percentage: item.SoilData == "" ? null : item.SoilData, hour: date.getHours()};
       
     });
     console.log("Here Result Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption ));
@@ -424,7 +424,7 @@ class FeedListPage extends React.Component {
           <br />
           <br />                   
           </React.Fragment>}          
-            <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm" : "btn btn-success btn-sm"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
+            <button class={this.state.devicestatus=== "off" ?  "btn btn-danger btn-sm hidden" : "btn btn-success btn-sm hidden"} type="button" id="Mote" ref="Mote" value={this.state.devicestatus}  onClick={this.setConfig} data-loading-text="Loading ...">Turn {this.state.devicestatus} Zolertia</button>
           </div>
         </div>
 
