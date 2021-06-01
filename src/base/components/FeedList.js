@@ -14,7 +14,7 @@ class FeedListPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: 'soil',
+      selectedOption: 'moisture',
       devicestatus: "off",
       temperature: "0",
       battery: "0",
@@ -200,7 +200,7 @@ class FeedListPage extends React.Component {
       case 'battery':
         this.setState({ selectedOption: value })
         break;
-      case 'soil':
+      case 'moisture':
         this.setState({ selectedOption: value })
         break;
       case 'state':
@@ -345,8 +345,8 @@ class FeedListPage extends React.Component {
 
     let providerLink = feedData.provider != undefined ? feedData.provider : undefined;
     let sensorData = feed ? feed.map(item => item.item.variableMeasured.name) : undefined;
-    let sensorDataList = ["soil", "temperature"];//[...new Set(sensorData)];
-    let selectedOptionCondition = this.state.selectedOption == 'soil' ? 'Percentage' : (this.state.selectedOption == 'temperature' ? 'Temperature' : (this.state.selectedOption == 'humidity' ? 'Humidity' : (this.state.selectedOption == 'pressure' ? 'Pressure' : 'State')));
+    let sensorDataList = ["moisture", "temperature"];//[...new Set(sensorData)];
+    let selectedOptionCondition = this.state.selectedOption == 'moisture' ? 'Percentage' : (this.state.selectedOption == 'temperature' ? 'Temperature' : (this.state.selectedOption == 'humidity' ? 'Humidity' : (this.state.selectedOption == 'pressure' ? 'Pressure' : 'State')));
     let filteredSelectedOptionObj = feed ? feed.filter(item => item.item.variableMeasured.name == this.state.selectedOption) : [];
     let filter = [];//feed ? filteredSelectedOptionObj[0].item.variableMeasured.value: [] ;
     let filteredSelectedOption = feed != 'state' ?
@@ -470,7 +470,7 @@ class FeedListPage extends React.Component {
               <YAxis
                 domain={['dataMin', 'dataMax']}
                 ticks={[0,10,20,30,40,50,60,70,80,90,100]}//{this.state.selectedOption != 'state' ? temperatureList : ['Enabled', 'Disabled']}
-                label={{ value: this.state.selectedOption == 'soil' ? 'Percentage, %' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
+                label={{ value: this.state.selectedOption == 'moisture' ? 'Percentage, %' : (this.state.selectedOption == 'temperature' ? 'Temperature, °C' : (this.state.selectedOption == 'humidity' ? 'Humidity, RH' : (this.state.selectedOption == 'pressure' ? 'Pressure, hPa' : 'Sensor state'))), angle: -90, position: 'insideBottomLeft', className: 'feedlist-chart-yaxis-label' }}
                 tickSize={8}
                 type={this.state.selectedOption != 'state' ? "number" : "category"}
               />
