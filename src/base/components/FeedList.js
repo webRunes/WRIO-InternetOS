@@ -105,7 +105,7 @@ class FeedListPage extends React.Component {
         return console.error("signalr error: "+err.toString());
     })
 
-    try {
+    /*try {
       this.interval = setInterval(async () => {
         const res = await fetch(gconfig.gatewaysServiceUrl+"/api/Device/IsDeviceConnected");
         const devstatus = await res.json();
@@ -117,7 +117,7 @@ class FeedListPage extends React.Component {
       }, 50000);
     } catch(e) {
       console.log(e);
-    }
+    }*/
   }
  
   startTimer = () => {
@@ -213,7 +213,7 @@ class FeedListPage extends React.Component {
     }
   }
 
-  setConfig = () => {
+  /*setConfig = () => {
     this.startTimer();
     var setval={dev:"Mote",opr:this.state.devicestatus};    
     fetch(gconfig.gatewaysServiceUrl+"/api/Device", {
@@ -244,7 +244,7 @@ class FeedListPage extends React.Component {
     .catch((error) => {
       console.log(error, "catch the hoop")
     })
-  }
+  }*/
   getSensorData = (deviceid) => {   
     //console.log("Here object is "+JSON.stringify(object));
     fetch(gconfig.gatewaysServiceUrl+"/api/DeviceData/"+deviceid, {
@@ -262,6 +262,7 @@ class FeedListPage extends React.Component {
     })
     .then((dataval) => {           
       this.setState( {lorafeeddata : JSON.parse(dataval), isLoading: false});
+      this.setState({ devicestatus: "on"});
       console.log("Hello "+this.state.lorafeeddata);
       this.render();
     })
@@ -511,11 +512,12 @@ this.state.lorafeeddata.map(
 
                           <h2>{date.Updatedate}</h2>
 
-                          <p>{'Soil Data: '}
-                            {date.SoilData} &#37;</p>
+                          <p>{'Moisture: '}
+                          {date.SoilData == "" ? "Offline" :<React.Fragment>{date.SoilData} &#37;</React.Fragment>}</p>
 
                             <p>{'Temp Data: '}
-                            {date.TempData} &#8451;</p>
+                            {date.TempData == "" ? "Offline" :<React.Fragment>{date.TempData} &#8451;</React.Fragment>}</p>
+                            
 
                           
 
