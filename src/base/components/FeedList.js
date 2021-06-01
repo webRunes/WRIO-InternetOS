@@ -40,7 +40,7 @@ class FeedListPage extends React.Component {
       }
     }, 3000)
 
-    let connection = new signalR.HubConnectionBuilder()
+  /*  let connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Debug)
   .withUrl(gconfig.gatewaysServiceUrl+'/devHub')
   .build();
@@ -104,7 +104,7 @@ class FeedListPage extends React.Component {
     }).catch(function (err) {
         return console.error("signalr error: "+err.toString());
     })
-
+*/
     /*try {
       this.interval = setInterval(async () => {
         const res = await fetch(gconfig.gatewaysServiceUrl+"/api/Device/IsDeviceConnected");
@@ -416,7 +416,7 @@ class FeedListPage extends React.Component {
       <div class="col-sm-6">
       <select class="form-control" onChange={this.lastReadingSelected} >
                 <option value="Temperature">Temperature</option>
-                <option value="Soil">Soil</option>                
+                <option value="Soil">Moisture</option>                
           </select> 
           </div>
           {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> : <label class="pull-left">{this.state.soil} <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> } 
