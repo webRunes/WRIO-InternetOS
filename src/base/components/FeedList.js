@@ -515,7 +515,7 @@ this.state.lorafeeddata.map(
                           <p>{'Moisture: '}
                           {date.SoilData == "" ? "Offline" :<React.Fragment>{date.SoilData} &#37;</React.Fragment>}</p>
 
-                            <p>{'Temp Data: '}
+                            <p>{'Temperature: '}
                             {date.TempData == "" ? "Offline" :<React.Fragment>{date.TempData} &#8451;</React.Fragment>}</p>
                             
 
