@@ -507,7 +507,7 @@ this.state.lorafeeddata.map(
                   return (
                     <div className="paragraph">
                       <div className="col-xs-12">
-                        <span class="timeline-step"><i class="material-icons">schedule</i></span>
+                        <span class="timeline-step"></span>
                         <div className="timeline-content">
 
                           <h2>{date.Updatedate}</h2>
