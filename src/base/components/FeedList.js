@@ -24,7 +24,8 @@ class FeedListPage extends React.Component {
       ignoreState: false,
       lorafeeddata: [],
       isLoading: true,
-      stillNeedToGetDataFromServer: true
+      stillNeedToGetDataFromServer: true,
+      deviceId: null
     }
   }
 
@@ -38,7 +39,13 @@ class FeedListPage extends React.Component {
         let tspan = YAxisLable.childNodes[0];
         tspan.setAttribute('x', 90);
       }
-    }, 3000)
+      let XAxisLable = document.getElementsByClassName('feedlist-chart-xaxis-label')[0];
+      
+      if (XAxisLable) {
+        let tspan = XAxisLable.childNodes[0];
+        tspan.setAttribute('dy', 40);
+      }
+    }, 6000)
 
   /*  let connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Debug)
@@ -105,19 +112,13 @@ class FeedListPage extends React.Component {
         return console.error("signalr error: "+err.toString());
     })
 */
-    /*try {
+  try {
       this.interval = setInterval(async () => {
-        const res = await fetch(gconfig.gatewaysServiceUrl+"/api/Device/IsDeviceConnected");
-        const devstatus = await res.json();
-        if(devstatus!= null && devstatus.status == false){
-          this.setState({ devicestatus: "on"});        
-          //toast.error("Please re-start the experiment");
-        }        
-        console.log(devstatus);
-      }, 50000);
+        this.getSensorStatus(this.state.deviceId);
+      }, 60*1000);
     } catch(e) {
       console.log(e);
-    }*/
+    }
   }
  
   startTimer = () => {
@@ -262,17 +263,18 @@ class FeedListPage extends React.Component {
     })
     .then((dataval) => {           
       this.setState( {lorafeeddata : JSON.parse(dataval), isLoading: false});
-      this.setState({ devicestatus: "on"});
+      //this.setState({ devicestatus: "on"});
       console.log("Hello "+this.state.lorafeeddata);
       this.render();
+      //this.getSensorStatus(this.state.deviceId);
     })
     .catch((error) => {
       console.log(error, "catch the hoop")
     })
   }
-  /*getSensorData = () => {   
-    //console.log("Here object is "+JSON.stringify(object));
-    fetch(gconfig.gatewaysServiceUrl+"/api/Device/GetSensorValue", {
+  getSensorStatus = (deviceid) => {   
+    console.log("Here deviceid is "+JSON.stringify(deviceid));    
+    fetch(gconfig.gatewaysServiceUrl+"/api/DeviceData/GetLastData/"+deviceid, {
       method: "GET",
       dataType: "JSON",
       headers: {
@@ -285,18 +287,15 @@ class FeedListPage extends React.Component {
     .then((resp) => {
       return resp.json()
     })
-    .then((dataval) => {           
+    .then((dataval) => { 
+      console.log("here getSensorStatus:", dataval);          
       if(dataval != null){
-        if(dataval.status == true){
-          this.setState({ temperature: (parseFloat(dataval.data.temperature)/1000)});
-          this.setState({ battery: (parseFloat(dataval.data.batteryVal)/1000)});
+        if(dataval != ""){
+          var data = JSON.parse(dataval);
+          this.setState({ temperature: (data.TempData)});
+          this.setState({ soil: (data.SoilData)});
+          this.setState({ devicestatus: "off"});
           
-          if(dataval.data.isEnabled){
-            this.setState({ devicestatus: "off"});
-          }
-          if(!dataval.data.isEnabled){
-            this.setState({ devicestatus: "on"});
-          }
        }
        else{
         this.setState({ devicestatus: "on"});
@@ -309,7 +308,7 @@ class FeedListPage extends React.Component {
     .catch((error) => {
       console.log(error, "catch the hoop")
     })
-  }*/
+  }
   lastReadingSelected = (event) => {      
 
     this.setState({ showLastReadingItem: event.target.value });    
@@ -321,9 +320,10 @@ class FeedListPage extends React.Component {
       
       this.setState({ stillNeedToGetDataFromServer: 'false'});
       //this.setState( {isGettingServerCall: useState(true)});
-      
+      this.setState({deviceId: this.props.feed.deviceId});
       console.log("here device id is "+ this.props.feed.deviceId);
       this.getSensorData(this.props.feed.deviceId);
+      this.getSensorStatus(this.props.feed.deviceId);
     }
     let feed = feedData.dataFeedElement;
     let FeedState,FeedTemprature,FeedBattery;
@@ -375,20 +375,29 @@ class FeedListPage extends React.Component {
     })
 
     console.log("Here Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption));
-    let xaxishours = [];
-    filteredSelectedOption = this.state.lorafeeddata.filter(i=> { let date = new Date(i.Updatedate);
+    //let xaxishours = [];
+    
+let hourstr = ["0","0:15","0:30","0:45","1","1:15","1:30","1:45","2","2:15","2:30","2:45","3","3:15","3:30","3:45","4","4:15","4:30","4:45","5","5:15","5:30","5:45","6","6:15","6:30","6:45","7","7:15","7:30","7:45","8","8:15","8:30","8:45","9","9:15","9:30","9:45","10","10:15","10:30","10:45","11","11:15","11:30","11:45","12","12:15","12:30","12:45","13","13:15","13:30","13:45","14","14:15","14:30","14:45","15","15:15","15:30","15:45","16","16:15","16:30","16:45","17","17:15","17:30","17:45","18","18:15","18:30","18:45","19","19:15","19:30","19:45","20","20:15","20:30","20:45","21","21:15","21:30","21:45","22","22:15","22:30","22:45","23","23:15","23:30","23:45","24","24:15","24:30","24:45"];
+let xaxishours = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
+let count=0;
+    filteredSelectedOption = this.state.lorafeeddata/*.filter(i=> { let date = new Date(i.Updatedate);
 
       let hours = date.getHours();
       let minutes = date.getMinutes();
       let seconds = date.getSeconds();
+
+      
+
+
       return minutes == 0
-      }).map(item => {
+      })*/.map(item => {
         let date = new Date(item.Updatedate);
-        xaxishours.push(date.getHours());
-        return {dateRecorded: item.Updatedate, Temperature: item.TempData == "" ? null : item.TempData,Percentage: item.SoilData == "" ? null : item.SoilData, hour: date.getHours()};
+
+      
+        return {dateRecorded: hourstr[count++], Temperature: item.TempData == "" ? null : item.TempData,Percentage: item.SoilData == "" ? null : item.SoilData, hour: date.getHours()};
       
     });
-    console.log("Here Result Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption ));
+    console.log("Here Result Filter "+ JSON.stringify(temperatureList) + " and "+ JSON.stringify(filteredSelectedOption )+" hours="+JSON.stringify(xaxishours));
     return (
       
       
@@ -419,7 +428,7 @@ class FeedListPage extends React.Component {
                 <option value="Soil">Moisture</option>                
           </select> 
           </div>
-          {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> : <label class="pull-left">{this.state.soil} <button class="btn-link btn-refresh"><i class="material-icons" onClick={this.getSensorData}>refresh</i></button></label> } 
+          {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={() => this.getSensorStatus(this.state.deviceId)}>refresh</i></button></label> : <label class="pull-left">{this.state.soil} <button class="btn-link btn-refresh"><i class="material-icons" onClick={() => this.getSensorStatus(this.state.deviceId)}>refresh</i></button></label> } 
           
           
           <br />
@@ -461,11 +470,13 @@ class FeedListPage extends React.Component {
                 // dataKey="hour"
                 fontFamily="sans-serif"
                 dy='0'
-                label='Hours'
-                tickMargin="30"
-                tickSize={8}
+                label={{ value: 'Last 24 Hours', angle: 0, position: 'insideBottomCenter', className: 'feedlist-chart-xaxis-label' }}
+                //tickMargin="30"
+                //tickSize={8}
+                dataKey="dateRecorded"
+                //angle={30} 
                 domain={['dataMin', 'dataMax']}
-                ticks={[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]/*xaxishours*/}
+                ticks={/*["0","0.15","0.30","0.45","1","1.15",1.30,1.45,2,2.15,2.30,2.45,3,3.15,3.30,3.45, 4,4.15,4.30,4.45,5,5.15,5.30,5.45, 6,6.15,6.30,6.45,7,7.15,7.30,7.45, 8,8.15,8.30,8.45, 9,9.15,9.30,9.45,10,10.15,10.30,10.45, 11,11.15,11.30,11.45,12,12.15,12.30,12.45, 13,13.15,13.30,13.45,14,14.15,14.30,14.45, 15,15.15,15.30,15.45,16,16.15,16.30,16.45, 17,17.15,17.30,17.45,18,18.15,18.30,18.45,19,19.15,19.30,19.45 ,20,20.15,20.30,20.45, 21,21.15,21.30,21.45,22,22.15,22.30,22.45, 23,23.15,23.30,23.45,24,24.15,24.30,24.45]*/xaxishours}
               />
               <YAxis
                 domain={['dataMin', 'dataMax']}
