@@ -39,7 +39,7 @@ class DeviveProfileTab extends React.Component {
       this.getBlockChainData();
 
       
-      let connection = new signalR.HubConnectionBuilder()
+      /*let connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Debug)
   .withUrl(gconfig.gatewaysServiceUrl+'/devHub')
   .build();
@@ -91,7 +91,7 @@ class DeviveProfileTab extends React.Component {
       }, 50000);
     } catch(e) {
       console.log(e);
-    }
+    }*/
 
     }
 
