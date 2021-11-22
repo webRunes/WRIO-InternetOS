@@ -116,6 +116,7 @@ class FeedListPage extends React.Component {
       this.interval = setInterval(async () => {
         this.getSensorStatus(this.state.deviceId);
       }, 60*1000);
+      
     } catch(e) {
       console.log(e);
     }
