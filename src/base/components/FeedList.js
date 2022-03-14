@@ -426,7 +426,7 @@ let count=0;
       <div class="col-sm-6">
       <select class="form-control" onChange={this.lastReadingSelected} >
                 <option value="Temperature">Temperature</option>
-                <option value="Soil">Moisture</option>                
+                <option value="Soil">Level</option>                
           </select> 
           </div>
           {this.state.showLastReadingItem === "Temperature" ? <label class="pull-left">{this.state.temperature} °C <button class="btn-link btn-refresh"><i class="material-icons" onClick={() => this.getSensorStatus(this.state.deviceId)}>refresh</i></button></label> : <label class="pull-left">{this.state.soil} <button class="btn-link btn-refresh"><i class="material-icons" onClick={() => this.getSensorStatus(this.state.deviceId)}>refresh</i></button></label> } 
@@ -524,7 +524,7 @@ this.state.lorafeeddata.map(
 
                           <h2>{date.Updatedate}</h2>
 
-                          <p>{'Moisture: '}
+                          <p>{'Level: '}
                           {date.SoilData == "" ? "Offline" :<React.Fragment>{date.SoilData} &#37;</React.Fragment>}</p>
 
                             <p>{'Temperature: '}
