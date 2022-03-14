@@ -440,13 +440,13 @@ let count=0;
         </div>
 
         <label className="feed-dropdown pull-right">
-          <div className="feed-dropdown-button">{this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)}</div>
+          <div className="feed-dropdown-button">{this.state.selectedOption == "moisture" ? "Level" :this.state.selectedOption.charAt(0).toUpperCase() + this.state.selectedOption.slice(1)}</div>
           <input type="checkbox" className="feed-dropdown-input" id="test" />
           <ul className="feed-dropdown-menu">
             {
               sensorDataList.map(data => {
                 // if(data != 'state') {
-                return (<li onClick={e => this.onDropDownSelect(data)}>{data.charAt(0).toUpperCase() + data.slice(1)}</li>)
+                return (<li onClick={e => this.onDropDownSelect(data)}>{data == "moisture" ? "Level" : data.charAt(0).toUpperCase() + data.slice(1)}</li>)
                 // }
               })
             }
