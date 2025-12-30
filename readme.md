@@ -1,65 +1,147 @@
-[![Build Status](https://travis-ci.org/webRunes/WRIO-InternetOS.svg?branch=master)](https://travis-ci.org/webRunes/WRIO-InternetOS)
+# WRIO – Workflow Automation Platform
 
-# WRIO Internet OS
-Note: The development has reached the MVP stage and paused. We'll continue our work after funding.
+> **Status:** This is a DRAFT for updating `github.com/webRunes/WRIO-InternetOS/README.md`
+> **Goal:** Remove ICO/Crypto references, rebrand as "Workflow Automation Platform"
 
-WRIO Internet OS is a platform for developing a machine-readable web featuring automatic data processing. Automatic data processing will enable tuning up browsing experience based on the needs and interests of each separate user. This will pave the way for a user-centric Web 3.0 with its predictive services and search engines of new generation.
+---
 
-[Landing](https://wr.io)
+## 🚀 What is WRIO?
 
-![WRIOInternetOS Mission](https://wrioos.com/img/mission.jpg)
+WRIO is a **decentralized workflow automation platform** built on JSON-LD and Semantic Web technologies. 
 
-## Official Hub
+Think of it as **"Code-First Zapier"** – workflows are stored as machine-readable JSON, not locked in a proprietary database.
 
-[wrioos.com](https://wrioos.com)
+**Key Features:**
+- ✅ **JSON-LD Native:** Workflows stored as semantic data (portable, versionable, Git-friendly)
+- ✅ **Headless Execution:** Run workflows via API (no UI lock-in)
+- ✅ **AI-Optimized:** Content structured for Language Models (LMO)
+- ✅ **Open Source:** MIT licensed core components
 
-### Multilingual support
+---
 
-Esperanto and English are primary languages. Yet, since the project is developed by natives of the former USSR, the third language is Russian. To write issues you can choose any of them.
-[more coming soon]
+## 📦 Use Cases
 
-# Description
+1. **YouTube Comment Analysis**
+   - Analyze 10K+ comments for sentiment, Truth Gap, top questions
+   - [Try it live](https://wr.io/wrio/workflows/youtube-research)
 
-![WRIOInternetOS frontend diagram](https://docs.google.com/drawings/d/1LsmOHmHESih1y6L1x9030c4yGsmS2WnG8aCkNPX6xLk/pub?w=595&h=469)
+2. **Lead Generation & Follow-ups**
+   - Automate CRM workflows (Pipedrive, HubSpot)
+   - Example: [Feedback Collection Pack](https://wr.io/wrio/workflows/feedback)
 
-Main ReactJS front end repository, compiles main page script and iframe scripts.
+3. **SEO Automation**
+   - Competitor analysis, keyword research, meta generation
+   - [SEO Skill Pack](https://wr.io/wrio/workflows/competitor-analysis)
 
-Example html file, using start.js script:
+---
+
+## 🏗️ Architecture
 
 ```
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>webRunes example</title>
-        <script type="application/ld+json">....</script>
-        <script type="application/ld+json">....</script>
-        <script type="application/ld+json">....</script>
-    </head>
-    <body>
-        <script type="text/javascript" src="https://wrioos.com/start.js"></script>
-    </body>
-</html>
+┌─────────────────────────────────────────┐
+│   JSON-LD Workflow Definition           │
+│   (stored in R2, versionable via Git)   │
+└─────────────────┬───────────────────────┘
+                  │
+        ┌─────────▼──────────┐
+        │  Workflows API      │
+        │  (Cloudflare Worker)│
+        └─────────┬───────────┘
+                  │
+    ┌─────────────┴─────────────┐
+    │                           │
+┌───▼────┐               ┌──────▼─────┐
+│ Node   │               │ External   │
+│Executors│              │ APIs       │
+│(AI, Web)│              │(Pipedrive, │
+└────────┘               │ YouTube)   │
+                         └────────────┘
 ```
 
-start.js script link is located at the end of the .html file. It is responsible for loading JSON-LD description of the page from `<script type="application/ld+json">` section,
-for processing JSON-LD and dynamic generation of the page. Each .html file can contain up to 3 JSON-LD sections.
+**Tech Stack:**
+- **Runtime:** Cloudflare Workers (V8 Isolates)
+- **Storage:** Cloudflare R2 (S3-compatible)
+- **Database:** Cloudflare D1 (SQLite at Edge)
+- **Frontend:** SvelteKit + TypeScript
 
-start.js is a loader. It checks browsers for compatibility, runs preliminary tests, and then loads main.js containing the main code.
+---
 
-commons.js - is commons chunk, shared between main.js bundle and iframes, used to reduce individual JS file size.
+## 🛠️ Development
 
-pinger.js - Pinger iframe, responsible for commenting and donating
+### Quick Start
 
-core.js WYSWYG editor, used for editing and creating new LD+JSON based pages
+```bash
+# Clone the monorepo
+git clone https://github.com/webRunes/monorepo.git
+cd monorepo
 
-# Contributing
+# Install dependencies
+npm install
 
-Special thanks to everyone who contributed to getting the WRIO Internet OS to the current state.
+# Start local dev environment
+./start.sh
+```
 
-Useful links to start
+### Project Structure
 
-[Local development of WRIO-InternetOS front end](https://github.com/webRunes/WRIO-InternetOS/wiki/Deploy-on-localhost)  
-[How to setup development process on local machine](https://github.com/webRunes/WRIO-local-dev)  
-[WRIO OS Infrastructure](https://github.com/webRunes/WRIO-InternetOS/wiki/Infrastructure)
+```
+monorepo/
+├── apps/
+│   ├── workflows-api-wr-io/    # Workflow execution engine
+│   ├── storage-api-wr-io/      # R2 & D1 management
+│   ├── bizcom-wr-io/           # Frontend UI
+│   └── sonar-api-wr-io/        # Ping/Feedback workflows
+├── packages/
+│   └── workflows-ui/           # Reusable Svelte components
+└── docs/
+    ├── specs/                  # BDD specifications
+    └── strategies/             # SEO, LMO strategies
+```
 
-Powered by [Open Copyright](https://opencopyright.wrioos.com)
+---
+
+## 📚 Documentation
+
+- **Specifications:** [docs/specs/](https://github.com/webRunes/monorepo/tree/main/docs/specs)
+- **API Docs:** [wr.io/docs/api](https://wr.io/docs/api)
+- **Blog:** [wr.io/@webrunes/feed](https://wr.io/@webrunes/feed)
+
+---
+
+## 🤝 Contributing
+
+We follow **BDD (Behavior-Driven Development)** with Gherkin specs.
+
+1. Read the spec: `docs/specs/[FeatureName]_BDD.md`
+2. Write tests (Vitest)
+3. Implement feature
+4. Submit PR with tests passing
+
+---
+
+## 📄 License
+
+MIT License – see [LICENSE](LICENSE) for details.
+
+---
+
+## 🔗 Links
+
+- **Website:** [wr.io](https://wr.io)
+- **Twitter:** [@webRunes](https://twitter.com/webRunes)
+- **Support:** [t.me/webRunes](https://t.me/webRunes)
+
+---
+
+## ⚠️ Historical Note (Archive)
+
+**2018-2019:** This project was initially funded via a token sale (WGD/WRIO token). 
+The token is **no longer active**, and the project has pivoted to a SaaS model.
+
+All ICO-related content is archived for transparency but does not reflect the current project direction.
+
+For the current roadmap, see: [docs/ROADMAP.md](docs/ROADMAP.md)
+
+---
+
+**Built with ❤️ by [webRunes](https://wr.io/@webrunes)**
