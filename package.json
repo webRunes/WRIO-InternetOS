@@ -103,7 +103,7 @@
     "gulp-sourcemaps": "1.7.3",
     "gulp-uglify": "^1.5.1",
     "jest": "^20.0.4",
-    "jsdom": "^11.0.0",
+    "jsdom": "^16.5.0",
     "merge-stream": "^1.0.0",
     "nock": "^9.0.14",
     "node-gyp": "^3.6.1",
