@@ -31,7 +31,7 @@
     "flow-bin": "^0.47.0",
     "fs": "0.0.1-security",
     "immutable": "^3.8.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.4",
     "lodash.clonedeep": "^4.5.0",
     "lodash.keyby": "^4.6.0",
