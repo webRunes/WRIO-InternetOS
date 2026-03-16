@@ -113,7 +113,7 @@
     "react-test-renderer": "^16.0.0",
     "redux-mock-store": "^1.2.3",
     "should": "^8.1.1",
-    "supertest": "^1.1.0",
+    "supertest": "^6.3.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^3.6.0",
