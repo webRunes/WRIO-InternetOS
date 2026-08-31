@@ -9,13 +9,13 @@ import { getCookie, saveDraft, loadDraft, delay } from "../utils.js";
 import {
   sendCommentRequest,
   sendDonateRequest,
-  getBalanceRequest,
   getAddFundsDataRequest,
   getEthereumIdRequest,
   getUserEthereumId,
   freeWrgRequest,
   txStatusRequest
 } from "../requests.js";
+import { getCrdBalanceFromContract } from "../web3Balance.js";
 import FormActions from "../actions/formactions.js";
 import { COMMENT_LENGTH, TITLE_LENGTH } from "../constants.js";
 import { sanitizePostUrl, getParameterByName } from "../urlutils.js";
@@ -251,7 +251,10 @@ export default Reflux.createStore({
       try {
         const userId = await getEthereumIdRequest();
         console.log("GOT user ethereum id's", userId);
-        return true;
+        this.state.ethWallet = userId;
+        this.state.haveWallet = true;
+        this.trigger(this.state);
+        return userId;
       } catch (err) {
         if (err.responseText == "User don't have ethereum wallet yet") {
           this.state.haveWallet = false;
@@ -281,17 +284,37 @@ export default Reflux.createStore({
         return false;
       }
     };
-    return await Promise.all([getTargetId(), getUserId()]);
+    const [targetOk, userWallet] = await Promise.all([getTargetId(), getUserId()]);
+    if (userWallet) {
+      await this.onQueryBalance();
+    }
+    return [targetOk, userWallet];
   },
 
   async onQueryBalance() {
     try {
-      let data = await getBalanceRequest();
-      console.log(data);
-      this.state.balance = data.balance;
-      this.state.rtx = data.rtx;
-      this.state.haveWallet = true;
+      let wallet = this.state.ethWallet;
+      if (!wallet) {
+        try {
+          wallet = await getEthereumIdRequest();
+          this.state.ethWallet = wallet;
+          this.state.haveWallet = true;
+        } catch (e) {
+          if (e.responseText == "User don't have ethereum wallet yet") {
+            this.state.haveWallet = false;
+          }
+        }
+      }
+
+      if (wallet) {
+        let data = await getCrdBalanceFromContract(wallet);
+        console.log("Web3 CRD balance:", data);
+        this.state.balance = data.balance;
+        this.state.rtx = data.rtx || 0;
+        this.state.haveWallet = true;
+      }
     } catch (err) {
+      console.log("Error querying web3 balance:", err);
       this.state.haveWallet = false;
     }
     this.state.showBalance = true;
